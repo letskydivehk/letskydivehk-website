@@ -128,7 +128,7 @@ export function Hero() {
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 onClick={scrollToBooking}
-                className="hidden sm:block bg-accent-emerald backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-md hover:bg-accent-emerald/90 gentle-animation cursor-pointer"
+                className="hidden sm:block bg-accent-orange backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-md hover:bg-accent-orange/90 gentle-animation cursor-pointer"
               >
                 Book Your Jump
               </motion.button>
@@ -217,7 +217,7 @@ export function Hero() {
                 scrollToBooking()
                 setIsMobileMenuOpen(false)
               }}
-              className="bg-accent-emerald text-white font-semibold px-6 py-3 rounded-lg hover:bg-accent-emerald/90 active:bg-accent-emerald/80 gentle-animation mt-8 cursor-pointer"
+              className="bg-accent-orange text-white font-semibold px-6 py-3 rounded-lg hover:bg-accent-orange/90 active:bg-accent-orange/80 gentle-animation mt-8 cursor-pointer"
             >
               Book Your Jump
             </motion.button>
@@ -235,14 +235,14 @@ export function Hero() {
         >
           {/* Badge */}
           <div className="inline-flex items-center gap-2 mb-6 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20">
-            <span className="w-2 h-2 bg-accent-emerald rounded-full animate-pulse" />
+            <span className="w-2 h-2 bg-accent-orange rounded-full animate-pulse" />
             <span className="text-white/90 text-sm font-medium">Thailand & China Locations</span>
           </div>
 
           {/* Main Heading */}
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-6">
             <span className="block">EXPERIENCE THE</span>
-            <span className="block text-accent-emerald">ULTIMATE THRILL</span>
+            <span className="block text-accent-orange">ULTIMATE THRILL</span>
           </h1>
 
           {/* Subtitle */}
@@ -256,7 +256,7 @@ export function Hero() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               onClick={scrollToBooking}
-              className="bg-accent-emerald text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-accent-emerald/90 gentle-animation cursor-pointer w-full sm:w-auto"
+              className="bg-accent-orange text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-accent-orange/90 gentle-animation cursor-pointer w-full sm:w-auto"
             >
               Book Your Jump
             </motion.button>

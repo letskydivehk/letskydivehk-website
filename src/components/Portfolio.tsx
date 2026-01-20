@@ -10,7 +10,7 @@ export function Portfolio() {
         {/* Section Header */}
         <div className="text-center mb-20">
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-3 h-3 bg-accent-emerald rounded-full animate-pulse" />
+            <div className="w-3 h-3 bg-accent-orange rounded-full animate-pulse" />
             <span className="text-sm font-semibold text-muted-foreground">
               Featured Work
             </span>
@@ -54,7 +54,7 @@ export function Portfolio() {
             <div className="p-8 lg:p-12">
               <div className="flex-1">
                 <div className="flex items-center gap-4 mb-4">
-                  <span className="bg-accent-purple/10 text-accent-purple px-3 py-1 rounded-full text-sm font-medium">
+                  <span className="bg-accent-blue/10 text-accent-blue px-3 py-1 rounded-full text-sm font-medium">
                     Commercial
                   </span>
                   <span className="text-sm text-muted-foreground">

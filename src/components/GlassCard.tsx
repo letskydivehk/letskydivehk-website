@@ -20,11 +20,11 @@ const GlassCard = ({ title, description, className }: GlassCardProps) => {
         ></div>
         <div 
           className="w-3 h-3 rounded-full"
-          style={{ backgroundColor: 'var(--accent-emerald)' }}
+          style={{ backgroundColor: 'var(--accent-orange)' }}
         ></div>
         <div 
           className="w-3 h-3 rounded-full"
-          style={{ backgroundColor: 'var(--accent-purple)' }}
+          style={{ backgroundColor: 'var(--accent-blue)' }}
         ></div>
       </div>
     </div>

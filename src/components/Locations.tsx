@@ -31,7 +31,7 @@ export function Locations() {
             <span className="text-sm font-semibold text-muted-foreground">
               Our Dropzones
             </span>
-            <div className="w-3 h-3 bg-accent-purple rounded-full animate-pulse" />
+            <div className="w-3 h-3 bg-accent-orange rounded-full animate-pulse" />
           </div>
           
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground">
@@ -52,7 +52,7 @@ export function Locations() {
                 onClick={() => setActiveCountry(country)}
                 className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 cursor-pointer ${
                   activeCountry === country
-                    ? 'bg-accent-emerald text-white'
+                    ? 'bg-accent-orange text-white'
                     : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
@@ -85,7 +85,7 @@ export function Locations() {
         {/* Map Placeholder */}
         <div className="mt-16 max-w-4xl mx-auto">
           <div className="bg-card rounded-2xl clean-border overflow-hidden">
-            <div className="aspect-[16/9] bg-gradient-to-br from-accent-blue/10 to-accent-purple/10 flex items-center justify-center">
+            <div className="aspect-[16/9] bg-gradient-to-br from-accent-blue/10 to-accent-orange/10 flex items-center justify-center">
               <div className="text-center px-8">
                 <MapPin className="w-16 h-16 text-accent-blue mx-auto mb-4 opacity-50" />
                 <h3 className="text-xl font-bold text-foreground mb-2">Interactive Map Coming Soon</h3>
@@ -128,7 +128,7 @@ function LocationCard({ location, onBookClick }: LocationCardProps) {
         {/* Coming Soon Badge */}
         {location.comingSoon && (
           <div className="absolute top-4 right-4">
-            <span className="bg-accent-purple text-white text-xs font-bold px-3 py-1 rounded-full">
+            <span className="bg-accent-blue text-white text-xs font-bold px-3 py-1 rounded-full">
               COMING SOON
             </span>
           </div>
@@ -152,7 +152,7 @@ function LocationCard({ location, onBookClick }: LocationCardProps) {
 
         {/* Features */}
         <div className="flex flex-wrap gap-2 mb-6">
-          <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-emerald/10 text-accent-emerald px-3 py-1 rounded-full">
+          <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-orange/10 text-accent-orange px-3 py-1 rounded-full">
             <Users className="w-3 h-3" />
             Tandem
           </span>
@@ -163,7 +163,7 @@ function LocationCard({ location, onBookClick }: LocationCardProps) {
             </span>
           )}
           {location.hasGroupEvents && (
-            <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-purple/10 text-accent-purple px-3 py-1 rounded-full">
+            <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-blue/10 text-accent-blue px-3 py-1 rounded-full">
               <Users className="w-3 h-3" />
               Groups
             </span>
@@ -174,7 +174,7 @@ function LocationCard({ location, onBookClick }: LocationCardProps) {
         {!location.comingSoon ? (
           <button
             onClick={onBookClick}
-            className="w-full py-3 bg-accent-emerald text-white font-semibold rounded-lg hover:bg-accent-emerald/90 transition-colors cursor-pointer"
+            className="w-full py-3 bg-accent-orange text-white font-semibold rounded-lg hover:bg-accent-orange/90 transition-colors cursor-pointer"
           >
             Book at this location
           </button>

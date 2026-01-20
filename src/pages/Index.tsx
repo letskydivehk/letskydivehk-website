@@ -8,7 +8,7 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       {/* Hero Section */}
       <section className="relative h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/20 via-accent-purple/10 to-accent-emerald/20"></div>
+        <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/20 via-accent-orange/10 to-accent-blue/20"></div>
         
         <div className="relative z-10 text-center space-y-8 max-w-4xl mx-auto px-4">
           <h1 className="font-bagel text-6xl md:text-8xl text-shadow-strong">
@@ -36,8 +36,8 @@ const Index = () => {
 
         {/* Floating elements */}
         <div className="absolute top-20 left-20 w-4 h-4 bg-accent-blue rounded-full float-gentle opacity-60"></div>
-        <div className="absolute top-40 right-32 w-6 h-6 bg-accent-emerald rounded-full drift-left opacity-40"></div>
-        <div className="absolute bottom-32 left-1/4 w-5 h-5 bg-accent-purple rounded-full drift-right opacity-50"></div>
+        <div className="absolute top-40 right-32 w-6 h-6 bg-accent-orange rounded-full drift-left opacity-40"></div>
+        <div className="absolute bottom-32 left-1/4 w-5 h-5 bg-accent-blue rounded-full drift-right opacity-50"></div>
       </section>
 
       {/* Animation Showcase */}
@@ -51,7 +51,7 @@ const Index = () => {
       </section>
 
       {/* Glass Effects Section */}
-      <section className="py-20 px-4 bg-gradient-to-r from-accent-blue/5 via-accent-purple/5 to-accent-emerald/5">
+      <section className="py-20 px-4 bg-gradient-to-r from-accent-blue/5 via-accent-orange/5 to-accent-blue/5">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl font-bold text-center mb-16 font-bagel">
             Стеклянные Эффекты
@@ -114,19 +114,19 @@ const Index = () => {
             <Card className="p-8 text-center subtle-shadow gentle-animation hover:elevated-shadow">
               <div 
                 className="w-20 h-20 rounded-full mx-auto mb-4"
-                style={{ backgroundColor: 'var(--accent-emerald)' }}
+                style={{ backgroundColor: 'var(--accent-orange)' }}
               ></div>
-              <h3 className="text-xl font-semibold mb-2">Accent Emerald</h3>
-              <p className="text-muted-foreground">#059669</p>
+              <h3 className="text-xl font-semibold mb-2">Accent Orange</h3>
+              <p className="text-muted-foreground">hsl(24 95% 53%)</p>
             </Card>
             
             <Card className="p-8 text-center subtle-shadow gentle-animation hover:elevated-shadow">
               <div 
                 className="w-20 h-20 rounded-full mx-auto mb-4"
-                style={{ backgroundColor: 'var(--accent-purple)' }}
+                style={{ backgroundColor: 'var(--primary)' }}
               ></div>
-              <h3 className="text-xl font-semibold mb-2">Accent Purple</h3>
-              <p className="text-muted-foreground">#7c3aed</p>
+              <h3 className="text-xl font-semibold mb-2">Primary Orange</h3>
+              <p className="text-muted-foreground">hsl(24 95% 53%)</p>
             </Card>
           </div>
         </div>

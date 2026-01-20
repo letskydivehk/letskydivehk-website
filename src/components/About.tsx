@@ -41,11 +41,11 @@ export function About() {
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-3 h-3 bg-accent-purple rounded-full animate-pulse" />
+            <div className="w-3 h-3 bg-accent-blue rounded-full animate-pulse" />
             <span className="text-sm font-semibold text-muted-foreground">
               About Us
             </span>
-            <div className="w-3 h-3 bg-accent-emerald rounded-full animate-pulse" />
+            <div className="w-3 h-3 bg-accent-orange rounded-full animate-pulse" />
           </div>
           
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground">
@@ -68,7 +68,7 @@ export function About() {
               transition={{ delay: index * 0.1 }}
               className="text-center p-6 bg-card rounded-2xl clean-border"
             >
-              <div className="text-3xl lg:text-4xl font-black text-accent-emerald mb-2">
+              <div className="text-3xl lg:text-4xl font-black text-accent-orange mb-2">
                 {stat.number}
               </div>
               <div className="text-sm text-muted-foreground font-medium">
@@ -91,8 +91,8 @@ export function About() {
                 transition={{ delay: index * 0.1 }}
                 className="bg-card rounded-2xl p-8 clean-border hover:elevated-shadow transition-all duration-300"
               >
-                <div className="w-14 h-14 bg-accent-emerald/10 rounded-2xl flex items-center justify-center mb-6">
-                  <Icon className="w-7 h-7 text-accent-emerald" />
+                <div className="w-14 h-14 bg-accent-orange/10 rounded-2xl flex items-center justify-center mb-6">
+                  <Icon className="w-7 h-7 text-accent-orange" />
                 </div>
                 <h3 className="text-xl font-bold text-foreground mb-3">
                   {value.title}
@@ -107,7 +107,7 @@ export function About() {
 
         {/* Story Section */}
         <div className="mt-20 max-w-4xl mx-auto">
-          <div className="bg-gradient-to-br from-accent-emerald/5 to-accent-blue/5 rounded-3xl p-8 lg:p-12 clean-border">
+          <div className="bg-gradient-to-br from-accent-orange/5 to-accent-blue/5 rounded-3xl p-8 lg:p-12 clean-border">
             <h3 className="text-2xl lg:text-3xl font-bold text-foreground mb-6 text-center">
               Our Story
             </h3>
