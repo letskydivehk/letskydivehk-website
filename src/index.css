@@ -34,7 +34,6 @@
   /* Theme accent colors */
   --accent-blue: hsl(199 89% 48%);
   --accent-orange: hsl(24 95% 53%);
-  --accent-emerald: hsl(160 84% 39%);
   
   --radius: 0.75rem;
 }
@@ -88,7 +87,6 @@
   /* Theme accent colors */
   --color-accent-blue: var(--accent-blue);
   --color-accent-orange: var(--accent-orange);
-  --color-accent-emerald: var(--accent-emerald);
   
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);

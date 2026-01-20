@@ -20,7 +20,7 @@ const AnimationShowcase = () => {
         <div className="drift-left">
           <div 
             className="w-16 h-16 rounded-lg mx-auto mb-4"
-            style={{ backgroundColor: 'var(--accent-emerald)' }}
+            style={{ backgroundColor: 'var(--accent-orange)' }}
           ></div>
         </div>
         <h3 className="text-xl font-semibold text-center mb-2">Drift Left</h3>
@@ -32,7 +32,7 @@ const AnimationShowcase = () => {
         <div className="drift-right">
           <div 
             className="w-16 h-16 rounded-lg mx-auto mb-4"
-            style={{ backgroundColor: 'var(--accent-purple)' }}
+            style={{ backgroundColor: 'var(--accent-blue)' }}
           ></div>
         </div>
         <h3 className="text-xl font-semibold text-center mb-2">Drift Right</h3>
@@ -56,7 +56,7 @@ const AnimationShowcase = () => {
         <div className="pulse-glow">
           <div 
             className="w-16 h-16 rounded-full mx-auto mb-4"
-            style={{ backgroundColor: 'var(--accent-emerald)' }}
+            style={{ backgroundColor: 'var(--accent-orange)' }}
           ></div>
         </div>
         <h3 className="text-xl font-semibold text-center mb-2">Pulse Glow</h3>
@@ -65,10 +65,10 @@ const AnimationShowcase = () => {
 
       {/* Gentle Animation */}
       <Card className="p-6 subtle-shadow gentle-animation hover:elevated-shadow">
-        <div 
-          className="w-16 h-16 rounded-lg mx-auto mb-4"
-          style={{ backgroundColor: 'var(--accent-purple)' }}
-        ></div>
+          <div 
+            className="w-16 h-16 rounded-lg mx-auto mb-4"
+            style={{ backgroundColor: 'var(--accent-blue)' }}
+          ></div>
         <h3 className="text-xl font-semibold text-center mb-2">Gentle Hover</h3>
         <p className="text-muted-foreground text-center">Плавный переход при наведении</p>
       </Card>

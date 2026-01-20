@@ -26,7 +26,7 @@ export function Services() {
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-3 h-3 bg-accent-emerald rounded-full animate-pulse" />
+            <div className="w-3 h-3 bg-accent-orange rounded-full animate-pulse" />
             <span className="text-sm font-semibold text-muted-foreground">
               Choose Your Adventure
             </span>
@@ -59,12 +59,12 @@ export function Services() {
                 onMouseLeave={() => setHoveredService(null)}
                 className={`relative bg-card rounded-2xl p-8 clean-border transition-all duration-300 ${
                   isHovered ? 'elevated-shadow scale-[1.02]' : 'subtle-shadow'
-                } ${service.isPopular ? 'ring-2 ring-accent-emerald' : ''}`}
+                } ${service.isPopular ? 'ring-2 ring-accent-orange' : ''}`}
               >
                 {/* Popular Badge */}
                 {service.isPopular && (
                   <div className="absolute -top-3 left-1/2 -translate-x-1/2">
-                    <span className="bg-accent-emerald text-white text-xs font-bold px-4 py-1 rounded-full">
+                    <span className="bg-accent-orange text-white text-xs font-bold px-4 py-1 rounded-full">
                       MOST POPULAR
                     </span>
                   </div>
@@ -72,10 +72,10 @@ export function Services() {
 
                 {/* Icon */}
                 <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300 ${
-                  isHovered ? 'bg-accent-emerald' : 'bg-accent-emerald/10'
+                  isHovered ? 'bg-accent-orange' : 'bg-accent-orange/10'
                 }`}>
                   <IconComponent className={`w-8 h-8 transition-colors duration-300 ${
-                    isHovered ? 'text-white' : 'text-accent-emerald'
+                    isHovered ? 'text-white' : 'text-accent-orange'
                   }`} />
                 </div>
 
@@ -113,7 +113,7 @@ export function Services() {
                   <ul className="space-y-2">
                     {service.includes.slice(0, 4).map((item, index) => (
                       <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
-                        <Check className="w-4 h-4 text-accent-emerald mt-0.5 flex-shrink-0" />
+                        <Check className="w-4 h-4 text-accent-orange mt-0.5 flex-shrink-0" />
                         <span>{item}</span>
                       </li>
                     ))}
@@ -125,7 +125,7 @@ export function Services() {
                   onClick={() => scrollToSection(service.bookingType === 'direct' ? 'booking' : 'contact')}
                   className={`w-full py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
                     service.bookingType === 'direct'
-                      ? 'bg-accent-emerald text-white hover:bg-accent-emerald/90'
+                      ? 'bg-accent-orange text-white hover:bg-accent-orange/90'
                       : 'bg-foreground text-background hover:bg-foreground/90'
                   }`}
                 >
@@ -140,11 +140,11 @@ export function Services() {
         {/* Safety Note */}
         <div className="mt-16 text-center">
           <div className="inline-flex items-center gap-4 bg-card/50 rounded-2xl px-8 py-4 clean-border">
-            <div className="w-3 h-3 bg-accent-emerald rounded-full" />
+            <div className="w-3 h-3 bg-accent-orange rounded-full" />
             <p className="text-muted-foreground">
               <span className="font-semibold text-foreground">Safety First:</span> All jumps are conducted with certified instructors and modern equipment
             </p>
-            <div className="w-3 h-3 bg-accent-emerald rounded-full" />
+            <div className="w-3 h-3 bg-accent-orange rounded-full" />
           </div>
         </div>
       </div>

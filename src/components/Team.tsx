@@ -120,7 +120,7 @@ export function Team() {
         {/* Section Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-3 h-3 bg-accent-emerald rounded-full animate-pulse" />
+            <div className="w-3 h-3 bg-accent-orange rounded-full animate-pulse" />
             <span className="text-sm font-semibold text-muted-foreground">
               Meet the Outlaws
             </span>
