@@ -16,6 +16,7 @@ export type Database = {
     Tables: {
       locations: {
         Row: {
+          City: string | null
           coming_soon: boolean
           country: string
           created_at: string
@@ -25,11 +26,13 @@ export type Database = {
           has_group_events: boolean
           id: string
           image_url: string | null
+          is_active: boolean
           Name: string
           slug: string
           updated_at: string
         }
         Insert: {
+          City?: string | null
           coming_soon?: boolean
           country: string
           created_at?: string
@@ -39,11 +42,13 @@ export type Database = {
           has_group_events?: boolean
           id?: string
           image_url?: string | null
+          is_active?: boolean
           Name: string
           slug: string
           updated_at?: string
         }
         Update: {
+          City?: string | null
           coming_soon?: boolean
           country?: string
           created_at?: string
@@ -53,6 +58,7 @@ export type Database = {
           has_group_events?: boolean
           id?: string
           image_url?: string | null
+          is_active?: boolean
           Name?: string
           slug?: string
           updated_at?: string
