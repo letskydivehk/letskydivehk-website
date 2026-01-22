@@ -14,42 +14,6 @@ export type Database = {
   }
   public: {
     Tables: {
-      bookings: {
-        Row: {
-          booking_date: string
-          created_at: string
-          id: string
-          location: string
-          notes: string | null
-          participants: number
-          status: string
-          updated_at: string
-          user_id: string
-        }
-        Insert: {
-          booking_date: string
-          created_at?: string
-          id?: string
-          location: string
-          notes?: string | null
-          participants?: number
-          status?: string
-          updated_at?: string
-          user_id: string
-        }
-        Update: {
-          booking_date?: string
-          created_at?: string
-          id?: string
-          location?: string
-          notes?: string | null
-          participants?: number
-          status?: string
-          updated_at?: string
-          user_id?: string
-        }
-        Relationships: []
-      }
       profiles: {
         Row: {
           avatar_url: string | null
