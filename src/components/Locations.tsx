@@ -4,19 +4,22 @@ import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MapPin, Users, GraduationCap, Loader2 } from 'lucide-react'
 import { useLocations, type Location } from '@/hooks/useLocations'
+import { useBooking } from '@/contexts/BookingContext'
 
 type Country = 'Thailand' | 'China'
 
 export function Locations() {
   const [activeCountry, setActiveCountry] = useState<Country>('Thailand')
   const { data: locations, isLoading, error } = useLocations()
+  const { setPreselectedLocationId } = useBooking()
 
   const currentLocations = useMemo(() => {
     if (!locations) return []
     return locations.filter(loc => loc.country === activeCountry)
   }, [locations, activeCountry])
 
-  const scrollToBooking = () => {
+  const scrollToBookingWithLocation = (locationId: string) => {
+    setPreselectedLocationId(locationId)
     const bookingSection = document.getElementById('booking')
     bookingSection?.scrollIntoView({ behavior: 'smooth' })
   }
@@ -92,7 +95,7 @@ export function Locations() {
                 <LocationCard 
                   key={location.id} 
                   location={location} 
-                  onBookClick={scrollToBooking}
+                  onBookClick={() => scrollToBookingWithLocation(location.id)}
                 />
               ))}
               {currentLocations.length === 0 && (
@@ -125,7 +128,7 @@ export function Locations() {
 
 interface LocationCardProps {
   location: Location
-  onBookClick: () => void
+  onBookClick: (locationId: string) => void
 }
 
 function LocationCard({ location, onBookClick }: LocationCardProps) {
@@ -195,7 +198,7 @@ function LocationCard({ location, onBookClick }: LocationCardProps) {
         {/* CTA */}
         {!location.coming_soon ? (
           <button
-            onClick={onBookClick}
+            onClick={() => onBookClick(location.id)}
             className="w-full py-3 bg-accent-orange text-white font-semibold rounded-lg hover:bg-accent-orange/90 transition-colors cursor-pointer"
           >
             Book at this location

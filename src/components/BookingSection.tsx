@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar, MapPin, User, Mail, Phone, Check, ArrowRight, ArrowLeft, Plane, Loader2 } from 'lucide-react'
 import { useLocations, type Location } from '@/hooks/useLocations'
 import { useDirectBookingServices, type Service } from '@/hooks/useServices'
+import { useBooking } from '@/contexts/BookingContext'
 
 interface BookingFormData {
   location: string
@@ -38,6 +39,20 @@ export function BookingSection() {
 
   const { data: locations, isLoading: locationsLoading } = useLocations()
   const { data: services, isLoading: servicesLoading } = useDirectBookingServices()
+  const { preselectedLocationId, setPreselectedLocationId } = useBooking()
+
+  // Handle preselected location from Locations component
+  useEffect(() => {
+    if (preselectedLocationId && locations) {
+      const locationExists = locations.find(l => l.id === preselectedLocationId && !l.coming_soon)
+      if (locationExists) {
+        setFormData(prev => ({ ...prev, location: preselectedLocationId }))
+        setCurrentStep('service')
+        // Clear the preselection after using it
+        setPreselectedLocationId(null)
+      }
+    }
+  }, [preselectedLocationId, locations, setPreselectedLocationId])
 
   const selectedLocation = useMemo(() => 
     locations?.find(l => l.id === formData.location),
