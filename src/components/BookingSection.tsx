@@ -6,6 +6,26 @@ import { Calendar, MapPin, User, Mail, Phone, Check, ArrowRight, ArrowLeft, Plan
 import { useLocations, type Location } from '@/hooks/useLocations'
 import { useDirectBookingServices, type Service } from '@/hooks/useServices'
 import { useBooking } from '@/contexts/BookingContext'
+import { z } from 'zod'
+import { toast } from 'sonner'
+
+// Validation schema for booking form
+const bookingDetailsSchema = z.object({
+  firstName: z.string().trim().min(1, 'First name is required').max(50, 'First name must be less than 50 characters'),
+  lastName: z.string().trim().min(1, 'Last name is required').max(50, 'Last name must be less than 50 characters'),
+  email: z.string().trim().email('Please enter a valid email address').max(255, 'Email must be less than 255 characters'),
+  phone: z.string().trim().min(1, 'Phone number is required').max(20, 'Phone number must be less than 20 characters'),
+  date: z.string().min(1, 'Please select a date'),
+  participants: z.number().int().min(1, 'At least 1 participant required').max(10, 'Maximum 10 participants allowed'),
+  notes: z.string().max(500, 'Notes must be less than 500 characters').optional()
+})
+
+// Sanitize text input to prevent XSS
+const sanitizeText = (text: string): string => {
+  return text
+    .replace(/[<>]/g, '') // Remove angle brackets
+    .trim()
+}
 
 interface BookingFormData {
   location: string
@@ -36,6 +56,7 @@ export function BookingSection() {
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [isComplete, setIsComplete] = useState(false)
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({})
 
   const { data: locations, isLoading: locationsLoading } = useLocations()
   const { data: services, isLoading: servicesLoading } = useDirectBookingServices()
@@ -101,8 +122,35 @@ export function BookingSection() {
   }
 
   const handleSubmit = async () => {
+    // Validate form data before submission
+    const validationResult = bookingDetailsSchema.safeParse({
+      firstName: sanitizeText(formData.firstName),
+      lastName: sanitizeText(formData.lastName),
+      email: formData.email.trim(),
+      phone: sanitizeText(formData.phone),
+      date: formData.date,
+      participants: formData.participants,
+      notes: formData.notes ? sanitizeText(formData.notes) : undefined
+    })
+
+    if (!validationResult.success) {
+      const errors: Record<string, string> = {}
+      validationResult.error.errors.forEach(err => {
+        if (err.path[0]) {
+          errors[err.path[0] as string] = err.message
+        }
+      })
+      setValidationErrors(errors)
+      toast.error('Please fix the validation errors before submitting')
+      return
+    }
+
+    // Clear any previous validation errors
+    setValidationErrors({})
+    
     setIsSubmitting(true)
     // Simulate API call - will be replaced with actual submission
+    // When implementing: use validationResult.data for sanitized/validated data
     await new Promise(resolve => setTimeout(resolve, 2000))
     setIsSubmitting(false)
     setIsComplete(true)
@@ -122,6 +170,7 @@ export function BookingSection() {
     })
     setCurrentStep('location')
     setIsComplete(false)
+    setValidationErrors({})
   }
 
   // Get min date (tomorrow)
@@ -425,9 +474,15 @@ export function BookingSection() {
                           type="text"
                           value={formData.firstName}
                           onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:border-accent-emerald focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all"
+                          maxLength={50}
+                          className={`w-full px-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
+                            validationErrors.firstName ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-accent-emerald'
+                          }`}
                           placeholder="John"
                         />
+                        {validationErrors.firstName && (
+                          <p className="text-red-500 text-xs mt-1">{validationErrors.firstName}</p>
+                        )}
                       </div>
                       <div>
                         <label className="block text-sm font-medium text-foreground mb-2">Last Name</label>
@@ -435,9 +490,15 @@ export function BookingSection() {
                           type="text"
                           value={formData.lastName}
                           onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:border-accent-emerald focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all"
+                          maxLength={50}
+                          className={`w-full px-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
+                            validationErrors.lastName ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-accent-emerald'
+                          }`}
                           placeholder="Doe"
                         />
+                        {validationErrors.lastName && (
+                          <p className="text-red-500 text-xs mt-1">{validationErrors.lastName}</p>
+                        )}
                       </div>
                     </div>
 
@@ -450,10 +511,16 @@ export function BookingSection() {
                           type="email"
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          className="w-full pl-12 pr-4 py-3 rounded-xl border border-border bg-background text-foreground focus:border-accent-emerald focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all"
+                          maxLength={255}
+                          className={`w-full pl-12 pr-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
+                            validationErrors.email ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-accent-emerald'
+                          }`}
                           placeholder="john@example.com"
                         />
                       </div>
+                      {validationErrors.email && (
+                        <p className="text-red-500 text-xs mt-1">{validationErrors.email}</p>
+                      )}
                     </div>
 
                     {/* Phone */}
@@ -465,10 +532,16 @@ export function BookingSection() {
                           type="tel"
                           value={formData.phone}
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          className="w-full pl-12 pr-4 py-3 rounded-xl border border-border bg-background text-foreground focus:border-accent-emerald focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all"
+                          maxLength={20}
+                          className={`w-full pl-12 pr-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
+                            validationErrors.phone ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-accent-emerald'
+                          }`}
                           placeholder="+852 1234 5678"
                         />
                       </div>
+                      {validationErrors.phone && (
+                        <p className="text-red-500 text-xs mt-1">{validationErrors.phone}</p>
+                      )}
                     </div>
 
                     {/* Notes */}
@@ -478,9 +551,20 @@ export function BookingSection() {
                         value={formData.notes}
                         onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                         rows={3}
-                        className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:border-accent-emerald focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all resize-none"
+                        maxLength={500}
+                        className={`w-full px-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all resize-none ${
+                          validationErrors.notes ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-accent-emerald'
+                        }`}
                         placeholder="Any special requirements or questions..."
                       />
+                      <div className="flex justify-between mt-1">
+                        {validationErrors.notes ? (
+                          <p className="text-red-500 text-xs">{validationErrors.notes}</p>
+                        ) : (
+                          <span />
+                        )}
+                        <p className="text-muted-foreground text-xs">{formData.notes.length}/500</p>
+                      </div>
                     </div>
                   </div>
                 </motion.div>

@@ -71,7 +71,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
         });
       }
     } catch (error) {
-      console.error('Error fetching profile:', error);
+      if (import.meta.env.DEV) console.error('Error fetching profile:', error);
       toast.error('Failed to load profile');
     } finally {
       setLoading(false);
@@ -99,7 +99,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
       toast.success('Profile updated successfully');
       onClose();
     } catch (error) {
-      console.error('Error saving profile:', error);
+      if (import.meta.env.DEV) console.error('Error saving profile:', error);
       toast.error('Failed to save profile');
     } finally {
       setSaving(false);
