@@ -20,11 +20,11 @@ export default function App() {
           <section id="hero" aria-label="Hero section">
             <Hero />
           </section>
-          <section aria-label="Services section">
-            <Services />
-          </section>
           <section aria-label="Locations section">
             <Locations />
+          </section>
+          <section aria-label="Services section">
+            <Services />
           </section>
           <section aria-label="Booking section">
             <BookingSection />
