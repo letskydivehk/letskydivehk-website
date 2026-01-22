@@ -24,7 +24,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       await signInWithGoogle();
       onClose();
     } catch (error) {
-      console.error('Error signing in with Google:', error);
+      if (import.meta.env.DEV) console.error('Error signing in with Google:', error);
       toast.error('Google sign in failed. Please try again.');
     } finally {
       setIsLoading(false);
@@ -61,7 +61,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
         onClose();
       }
     } catch (error: any) {
-      console.error('Auth error:', error);
+      if (import.meta.env.DEV) console.error('Auth error:', error);
       if (error.message?.includes('Invalid login credentials')) {
         toast.error('Invalid email or password');
       } else if (error.message?.includes('User already registered')) {

@@ -19,7 +19,7 @@ export function AuthButton({ onOpenProfile }: AuthButtonProps) {
     try {
       await signOut();
     } catch (error) {
-      console.error('Error signing out:', error);
+      if (import.meta.env.DEV) console.error('Error signing out:', error);
     }
   };
 
