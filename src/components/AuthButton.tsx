@@ -3,26 +3,16 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { User, LogOut, ChevronDown } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { AuthModal } from './AuthModal';
 
 interface AuthButtonProps {
   onOpenProfile?: () => void;
 }
 
 export function AuthButton({ onOpenProfile }: AuthButtonProps) {
-  const { user, loading, signInWithGoogle, signOut } = useAuth();
+  const { user, loading, signOut } = useAuth();
   const [isOpen, setIsOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-
-  const handleSignIn = async () => {
-    setIsLoading(true);
-    try {
-      await signInWithGoogle();
-    } catch (error) {
-      console.error('Error signing in:', error);
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
   const handleSignOut = async () => {
     setIsOpen(false);
@@ -41,16 +31,18 @@ export function AuthButton({ onOpenProfile }: AuthButtonProps) {
 
   if (!user) {
     return (
-      <motion.button
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={handleSignIn}
-        disabled={isLoading}
-        className="flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white font-medium px-4 py-2 rounded-full border border-white/20 hover:bg-white/20 gentle-animation cursor-pointer disabled:opacity-50"
-      >
-        <User className="w-4 h-4" />
-        <span className="hidden sm:inline">{isLoading ? '登入中...' : '登入'}</span>
-      </motion.button>
+      <>
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+          onClick={() => setIsAuthModalOpen(true)}
+          className="flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white font-medium px-4 py-2 rounded-full border border-white/20 hover:bg-white/20 gentle-animation cursor-pointer"
+        >
+          <User className="w-4 h-4" />
+          <span className="hidden sm:inline">登入</span>
+        </motion.button>
+        <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
+      </>
     );
   }
 
