@@ -3,9 +3,13 @@
 import { motion } from 'framer-motion';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { AuthButton } from './AuthButton';
+import { ProfileModal } from './ProfileModal';
+
 export function Hero() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   // Scroll detection
   useEffect(() => {
@@ -99,8 +103,11 @@ export function Hero() {
               </a>
             </div>
 
-            {/* Right Side - CTA + Mobile Menu */}
+            {/* Right Side - Auth + CTA + Mobile Menu */}
             <div className="flex items-center space-x-3 relative">
+              {/* Auth Button */}
+              <AuthButton onOpenProfile={() => setIsProfileOpen(true)} />
+              
               {/* CTA Button - Hidden on mobile */}
               <motion.button whileHover={{
               scale: 1.05
@@ -249,5 +256,8 @@ export function Hero() {
           </motion.div>
         </motion.div>
       </div>
+
+      {/* Profile Modal */}
+      <ProfileModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
     </div>;
 }
