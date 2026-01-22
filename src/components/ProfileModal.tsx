@@ -72,7 +72,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
       }
     } catch (error) {
       console.error('Error fetching profile:', error);
-      toast.error('無法載入個人資料');
+      toast.error('Failed to load profile');
     } finally {
       setLoading(false);
     }
@@ -96,11 +96,11 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
 
       if (error) throw error;
 
-      toast.success('個人資料已更新');
+      toast.success('Profile updated successfully');
       onClose();
     } catch (error) {
       console.error('Error saving profile:', error);
-      toast.error('無法儲存個人資料');
+      toast.error('Failed to save profile');
     } finally {
       setSaving(false);
     }
@@ -129,7 +129,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
           >
             {/* Header */}
             <div className="sticky top-0 bg-card border-b border-border p-4 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-foreground">個人資料</h2>
+              <h2 className="text-xl font-bold text-foreground">Profile</h2>
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-muted rounded-full transition-colors"
@@ -156,7 +156,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-medium text-foreground">{formData.full_name || '會員'}</p>
+                    <p className="font-medium text-foreground">{formData.full_name || 'Member'}</p>
                     <p className="text-sm text-muted-foreground">{user?.email}</p>
                   </div>
                 </div>
@@ -165,22 +165,22 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                 <div className="space-y-4">
                   <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
                     <User className="w-4 h-4" />
-                    基本資料
+                    Basic Information
                   </h3>
                   
                   <div className="space-y-3">
                     <div>
-                      <Label htmlFor="full_name">姓名</Label>
+                      <Label htmlFor="full_name">Full Name</Label>
                       <Input
                         id="full_name"
                         value={formData.full_name}
                         onChange={(e) => handleChange('full_name', e.target.value)}
-                        placeholder="請輸入姓名"
+                        placeholder="Enter your name"
                       />
                     </div>
                     
                     <div>
-                      <Label htmlFor="email">電郵</Label>
+                      <Label htmlFor="email">Email</Label>
                       <div className="flex items-center gap-2 px-3 py-2 bg-muted rounded-md">
                         <Mail className="w-4 h-4 text-muted-foreground" />
                         <span className="text-muted-foreground">{user?.email}</span>
@@ -188,12 +188,12 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                     </div>
                     
                     <div>
-                      <Label htmlFor="phone">電話</Label>
+                      <Label htmlFor="phone">Phone</Label>
                       <Input
                         id="phone"
                         value={formData.phone}
                         onChange={(e) => handleChange('phone', e.target.value)}
-                        placeholder="請輸入電話號碼"
+                        placeholder="Enter your phone number"
                       />
                     </div>
                   </div>
@@ -203,37 +203,37 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                 <div className="space-y-4">
                   <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
                     <UserPlus className="w-4 h-4" />
-                    緊急聯絡人 <span className="text-muted-foreground font-normal">(選填)</span>
+                    Emergency Contact <span className="text-muted-foreground font-normal">(Optional)</span>
                   </h3>
                   
                   <div className="space-y-3">
                     <div>
-                      <Label htmlFor="emergency_contact_name">姓名</Label>
+                      <Label htmlFor="emergency_contact_name">Name</Label>
                       <Input
                         id="emergency_contact_name"
                         value={formData.emergency_contact_name}
                         onChange={(e) => handleChange('emergency_contact_name', e.target.value)}
-                        placeholder="緊急聯絡人姓名"
+                        placeholder="Emergency contact name"
                       />
                     </div>
                     
                     <div>
-                      <Label htmlFor="emergency_contact_phone">電話</Label>
+                      <Label htmlFor="emergency_contact_phone">Phone</Label>
                       <Input
                         id="emergency_contact_phone"
                         value={formData.emergency_contact_phone}
                         onChange={(e) => handleChange('emergency_contact_phone', e.target.value)}
-                        placeholder="緊急聯絡人電話"
+                        placeholder="Emergency contact phone"
                       />
                     </div>
                     
                     <div>
-                      <Label htmlFor="emergency_contact_relationship">關係</Label>
+                      <Label htmlFor="emergency_contact_relationship">Relationship</Label>
                       <Input
                         id="emergency_contact_relationship"
                         value={formData.emergency_contact_relationship}
                         onChange={(e) => handleChange('emergency_contact_relationship', e.target.value)}
-                        placeholder="例如：配偶、父母、朋友"
+                        placeholder="e.g., Spouse, Parent, Friend"
                       />
                     </div>
                   </div>
@@ -252,7 +252,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                   ) : (
                     <Save className="w-5 h-5" />
                   )}
-                  {saving ? '儲存中...' : '儲存'}
+                  {saving ? 'Saving...' : 'Save'}
                 </motion.button>
               </div>
             )}

@@ -25,7 +25,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       onClose();
     } catch (error) {
       console.error('Error signing in with Google:', error);
-      toast.error('Google 登入失敗，請稍後再試');
+      toast.error('Google sign in failed. Please try again.');
     } finally {
       setIsLoading(false);
     }
@@ -34,17 +34,17 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      toast.error('請輸入電郵和密碼');
+      toast.error('Please enter email and password');
       return;
     }
 
     if (mode === 'signup') {
       if (password !== confirmPassword) {
-        toast.error('密碼不一致');
+        toast.error('Passwords do not match');
         return;
       }
       if (password.length < 6) {
-        toast.error('密碼至少需要6個字符');
+        toast.error('Password must be at least 6 characters');
         return;
       }
     }
@@ -53,23 +53,23 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     try {
       if (mode === 'login') {
         await signInWithEmail(email, password);
-        toast.success('登入成功！');
+        toast.success('Signed in successfully!');
         onClose();
       } else {
         await signUpWithEmail(email, password);
-        toast.success('註冊成功！請查看您的電郵以驗證帳戶');
+        toast.success('Registration successful! Please check your email to verify your account.');
         onClose();
       }
     } catch (error: any) {
       console.error('Auth error:', error);
       if (error.message?.includes('Invalid login credentials')) {
-        toast.error('電郵或密碼錯誤');
+        toast.error('Invalid email or password');
       } else if (error.message?.includes('User already registered')) {
-        toast.error('此電郵已被註冊');
+        toast.error('This email is already registered');
       } else if (error.message?.includes('Email not confirmed')) {
-        toast.error('請先驗證您的電郵');
+        toast.error('Please verify your email first');
       } else {
-        toast.error(mode === 'login' ? '登入失敗' : '註冊失敗');
+        toast.error(mode === 'login' ? 'Sign in failed' : 'Registration failed');
       }
     } finally {
       setIsLoading(false);
@@ -109,7 +109,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-white/10">
               <h2 className="text-xl font-bold text-white">
-                {mode === 'login' ? '歡迎回來' : '建立帳戶'}
+                {mode === 'login' ? 'Welcome Back' : 'Create Account'}
               </h2>
               <button
                 onClick={onClose}
@@ -133,7 +133,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
-                使用 Google 登入
+                Sign in with Google
               </button>
 
               {/* Divider */}
@@ -142,7 +142,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   <div className="w-full border-t border-white/20"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-gray-900 text-white/60">或</span>
+                  <span className="px-4 bg-gray-900 text-white/60">or</span>
                 </div>
               </div>
 
@@ -150,7 +150,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               <form onSubmit={handleEmailSubmit} className="space-y-4">
                 <div>
                   <label className="block text-white/80 text-sm font-medium mb-2">
-                    電郵地址
+                    Email Address
                   </label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
@@ -166,7 +166,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
                 <div>
                   <label className="block text-white/80 text-sm font-medium mb-2">
-                    密碼
+                    Password
                   </label>
                   <div className="relative">
                     <input
@@ -189,7 +189,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 {mode === 'signup' && (
                   <div>
                     <label className="block text-white/80 text-sm font-medium mb-2">
-                      確認密碼
+                      Confirm Password
                     </label>
                     <input
                       type={showPassword ? 'text' : 'password'}
@@ -206,7 +206,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   disabled={isLoading}
                   className="w-full bg-accent-orange text-white font-semibold py-3 px-4 rounded-lg hover:bg-accent-orange/90 transition-colors disabled:opacity-50"
                 >
-                  {isLoading ? '處理中...' : mode === 'login' ? '登入' : '註冊'}
+                  {isLoading ? 'Processing...' : mode === 'login' ? 'Sign In' : 'Sign Up'}
                 </button>
               </form>
 
@@ -214,22 +214,22 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               <p className="text-center text-white/60 text-sm">
                 {mode === 'login' ? (
                   <>
-                    還沒有帳戶？{' '}
+                    Don't have an account?{' '}
                     <button
                       onClick={() => switchMode('signup')}
                       className="text-accent-orange hover:underline font-medium"
                     >
-                      立即註冊
+                      Sign Up
                     </button>
                   </>
                 ) : (
                   <>
-                    已有帳戶？{' '}
+                    Already have an account?{' '}
                     <button
                       onClick={() => switchMode('login')}
                       className="text-accent-orange hover:underline font-medium"
                     >
-                      立即登入
+                      Sign In
                     </button>
                   </>
                 )}
