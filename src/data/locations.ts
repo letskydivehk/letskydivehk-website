@@ -18,7 +18,7 @@ export const locations: Location[] = [
   {
     id: "pattaya",
     slug: "pattaya",
-    name: "Thai Sky Adventures Pattaya",
+    name: "Pattaya",
     country: "Thailand",
     city: "Pattaya",
     hasAFF: true,
