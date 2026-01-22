@@ -64,7 +64,7 @@ export const locations: Location[] = [
     hasAFF: true,
     hasGroupEvents: true,
     comingSoon: false,
-    imageUrl: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop",
+    imageUrl: "https://www.hicn.cn/pic/003/224/604/00322460450_08ee309a.png",
     description: "Tropical paradise skydiving with crystal clear ocean views.",
     displayOrder: 4,
   },
