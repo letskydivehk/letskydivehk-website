@@ -7,26 +7,27 @@
 
 :root {
   --font-size: 16px;
-  --background: hsl(210 40% 98%);
-  --foreground: hsl(222 47% 11%);
-  --card: hsl(0 0% 100%);
-  --card-foreground: hsl(222 47% 11%);
-  --popover: hsl(0 0% 100%);
-  --popover-foreground: hsl(222 47% 11%);
+  /* Light blue sky theme */
+  --background: hsl(200 80% 96%);
+  --foreground: hsl(210 50% 15%);
+  --card: hsl(200 60% 99%);
+  --card-foreground: hsl(210 50% 15%);
+  --popover: hsl(200 60% 99%);
+  --popover-foreground: hsl(210 50% 15%);
   --primary: hsl(24 95% 53%);
   --primary-foreground: hsl(0 0% 100%);
   --secondary: hsl(199 89% 48%);
   --secondary-foreground: hsl(0 0% 100%);
-  --muted: hsl(210 40% 96%);
-  --muted-foreground: hsl(215 16% 47%);
+  --muted: hsl(200 50% 92%);
+  --muted-foreground: hsl(210 25% 40%);
   --accent: hsl(199 89% 48%);
   --accent-foreground: hsl(0 0% 100%);
   --destructive: hsl(0 84% 60%);
   --destructive-foreground: hsl(0 0% 100%);
-  --border: hsl(214 32% 91%);
-  --input: hsl(214 32% 91%);
-  --input-background: hsl(0 0% 100%);
-  --switch-background: hsl(214 32% 91%);
+  --border: hsl(200 40% 85%);
+  --input: hsl(200 40% 90%);
+  --input-background: hsl(200 60% 99%);
+  --switch-background: hsl(200 40% 85%);
   --font-weight-medium: 500;
   --font-weight-normal: 400;
   --ring: hsl(24 95% 53%);
@@ -35,29 +36,39 @@
   --accent-blue: hsl(199 89% 48%);
   --accent-orange: hsl(24 95% 53%);
   
+  /* Sky depth gradients */
+  --sky-gradient-top: hsl(200 90% 85%);
+  --sky-gradient-mid: hsl(200 80% 92%);
+  --sky-gradient-bottom: hsl(200 70% 96%);
+  
   --radius: 0.75rem;
 }
 
 .dark {
-  --background: hsl(222 47% 11%);
-  --foreground: hsl(210 40% 98%);
-  --card: hsl(222 47% 15%);
-  --card-foreground: hsl(210 40% 98%);
-  --popover: hsl(222 47% 15%);
-  --popover-foreground: hsl(210 40% 98%);
+  --background: hsl(210 50% 8%);
+  --foreground: hsl(200 80% 96%);
+  --card: hsl(210 50% 12%);
+  --card-foreground: hsl(200 80% 96%);
+  --popover: hsl(210 50% 12%);
+  --popover-foreground: hsl(200 80% 96%);
   --primary: hsl(24 95% 53%);
   --primary-foreground: hsl(0 0% 100%);
   --secondary: hsl(199 89% 48%);
   --secondary-foreground: hsl(0 0% 100%);
-  --muted: hsl(222 47% 20%);
-  --muted-foreground: hsl(215 20% 65%);
+  --muted: hsl(210 40% 18%);
+  --muted-foreground: hsl(200 30% 65%);
   --accent: hsl(199 89% 48%);
   --accent-foreground: hsl(0 0% 100%);
   --destructive: hsl(0 84% 60%);
-  --destructive-foreground: hsl(210 40% 98%);
-  --border: hsl(222 47% 25%);
-  --input: hsl(222 47% 20%);
+  --destructive-foreground: hsl(200 80% 96%);
+  --border: hsl(210 40% 22%);
+  --input: hsl(210 40% 18%);
   --ring: hsl(24 95% 53%);
+  
+  /* Dark sky gradients */
+  --sky-gradient-top: hsl(210 50% 12%);
+  --sky-gradient-mid: hsl(210 45% 10%);
+  --sky-gradient-bottom: hsl(210 50% 8%);
 }
 
 
@@ -104,6 +115,15 @@
     font-feature-settings: "cv02", "cv03", "cv04", "cv11";
     width: 100%;
     max-width: 100vw;
+    /* Sky depth gradient background */
+    background: linear-gradient(
+      180deg,
+      var(--sky-gradient-top) 0%,
+      var(--sky-gradient-mid) 40%,
+      var(--sky-gradient-bottom) 100%
+    );
+    background-attachment: fixed;
+    min-height: 100vh;
   }
   
   * {
@@ -362,6 +382,140 @@
   .perforations-scroll-animation {
     animation: perforationsScroll 28s linear infinite;
     animation-duration: 28s !important;
+  }
+  
+  /* Interactive depth effects */
+  @keyframes parallax-float {
+    0%, 100% { 
+      transform: translateY(0) translateX(0) scale(1);
+    }
+    25% { 
+      transform: translateY(-8px) translateX(4px) scale(1.01);
+    }
+    50% { 
+      transform: translateY(-12px) translateX(0) scale(1.02);
+    }
+    75% { 
+      transform: translateY(-6px) translateX(-4px) scale(1.01);
+    }
+  }
+  
+  @keyframes cloud-drift {
+    0% { transform: translateX(-100%); opacity: 0; }
+    10% { opacity: 0.6; }
+    90% { opacity: 0.6; }
+    100% { transform: translateX(100vw); opacity: 0; }
+  }
+  
+  @keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  
+  @keyframes depth-pulse {
+    0%, 100% { 
+      box-shadow: 
+        0 4px 20px hsl(200 80% 70% / 0.15),
+        0 8px 40px hsl(200 80% 60% / 0.1);
+    }
+    50% { 
+      box-shadow: 
+        0 6px 30px hsl(200 80% 70% / 0.25),
+        0 12px 50px hsl(200 80% 60% / 0.15);
+    }
+  }
+  
+  .parallax-float {
+    animation: parallax-float 8s ease-in-out infinite;
+  }
+  
+  .cloud-drift {
+    animation: cloud-drift 30s linear infinite;
+  }
+  
+  .shimmer-effect {
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      hsl(200 80% 90% / 0.4) 50%,
+      transparent 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 3s ease-in-out infinite;
+  }
+  
+  .depth-pulse {
+    animation: depth-pulse 4s ease-in-out infinite;
+  }
+  
+  /* Enhanced card with depth */
+  .sky-card {
+    background: linear-gradient(
+      135deg,
+      hsl(200 60% 99% / 0.95) 0%,
+      hsl(200 70% 96% / 0.9) 100%
+    );
+    border: 1px solid hsl(200 50% 85% / 0.6);
+    box-shadow: 
+      0 4px 20px hsl(200 80% 70% / 0.15),
+      0 8px 40px hsl(200 80% 60% / 0.08),
+      inset 0 1px 0 hsl(0 0% 100% / 0.5);
+    backdrop-filter: blur(10px);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .sky-card:hover {
+    transform: translateY(-4px) scale(1.01);
+    box-shadow: 
+      0 8px 30px hsl(200 80% 70% / 0.25),
+      0 16px 60px hsl(200 80% 60% / 0.12),
+      inset 0 1px 0 hsl(0 0% 100% / 0.6);
+  }
+  
+  .dark .sky-card {
+    background: linear-gradient(
+      135deg,
+      hsl(210 50% 14% / 0.95) 0%,
+      hsl(210 45% 10% / 0.9) 100%
+    );
+    border: 1px solid hsl(210 40% 25% / 0.6);
+    box-shadow: 
+      0 4px 20px hsl(210 50% 5% / 0.3),
+      0 8px 40px hsl(210 50% 5% / 0.2),
+      inset 0 1px 0 hsl(210 40% 30% / 0.3);
+  }
+  
+  .dark .sky-card:hover {
+    box-shadow: 
+      0 8px 30px hsl(210 50% 5% / 0.4),
+      0 16px 60px hsl(210 50% 5% / 0.25),
+      inset 0 1px 0 hsl(210 40% 35% / 0.4);
+  }
+  
+  /* Interactive hover depth effect */
+  .hover-depth {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  
+  .hover-depth:hover {
+    transform: translateY(-6px) translateZ(20px);
+    box-shadow: 
+      0 12px 40px hsl(200 80% 60% / 0.2),
+      0 4px 12px hsl(200 80% 70% / 0.15);
+  }
+  
+  /* Floating clouds decoration */
+  .floating-cloud {
+    position: fixed;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at center,
+      hsl(200 80% 98% / 0.6) 0%,
+      hsl(200 80% 95% / 0.3) 40%,
+      transparent 70%
+    );
+    border-radius: 50%;
+    filter: blur(20px);
   }
   
   /* Global animation slowdowns */
