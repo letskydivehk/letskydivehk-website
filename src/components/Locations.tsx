@@ -1,19 +1,20 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MapPin, Check, Clock, Users, GraduationCap } from 'lucide-react'
-import { locations, getLocationsByCountry, Location } from '@/data/locations'
+import { MapPin, Users, GraduationCap, Loader2 } from 'lucide-react'
+import { useLocations, type Location } from '@/hooks/useLocations'
 
 type Country = 'Thailand' | 'China'
 
 export function Locations() {
   const [activeCountry, setActiveCountry] = useState<Country>('Thailand')
+  const { data: locations, isLoading, error } = useLocations()
 
-  const thailandLocations = getLocationsByCountry('Thailand')
-  const chinaLocations = getLocationsByCountry('China')
-
-  const currentLocations = activeCountry === 'Thailand' ? thailandLocations : chinaLocations
+  const currentLocations = useMemo(() => {
+    if (!locations) return []
+    return locations.filter(loc => loc.country === activeCountry)
+  }, [locations, activeCountry])
 
   const scrollToBooking = () => {
     const bookingSection = document.getElementById('booking')
@@ -62,25 +63,46 @@ export function Locations() {
           </div>
         </div>
 
+        {/* Loading State */}
+        {isLoading && (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="w-8 h-8 animate-spin text-accent-orange" />
+          </div>
+        )}
+
+        {/* Error State */}
+        {error && (
+          <div className="text-center py-20">
+            <p className="text-destructive">Failed to load locations. Please try again later.</p>
+          </div>
+        )}
+
         {/* Locations Grid */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeCountry}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.3 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
-          >
-            {currentLocations.map((location) => (
-              <LocationCard 
-                key={location.id} 
-                location={location} 
-                onBookClick={scrollToBooking}
-              />
-            ))}
-          </motion.div>
-        </AnimatePresence>
+        {!isLoading && !error && (
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeCountry}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto"
+            >
+              {currentLocations.map((location) => (
+                <LocationCard 
+                  key={location.id} 
+                  location={location} 
+                  onBookClick={scrollToBooking}
+                />
+              ))}
+              {currentLocations.length === 0 && (
+                <div className="col-span-full text-center py-12">
+                  <p className="text-muted-foreground">No locations available in {activeCountry} yet.</p>
+                </div>
+              )}
+            </motion.div>
+          </AnimatePresence>
+        )}
 
         {/* Map Placeholder */}
         <div className="mt-16 max-w-4xl mx-auto">
@@ -113,20 +135,20 @@ function LocationCard({ location, onBookClick }: LocationCardProps) {
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3 }}
       className={`relative bg-card rounded-2xl overflow-hidden clean-border group hover:elevated-shadow transition-all duration-300 ${
-        location.comingSoon ? 'opacity-75' : ''
+        location.coming_soon ? 'opacity-75' : ''
       }`}
     >
       {/* Image */}
       <div className="relative h-48 overflow-hidden">
         <img
-          src={location.imageUrl}
-          alt={location.name}
+          src={location.image_url || '/placeholder.svg'}
+          alt={location.Name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
         
         {/* Coming Soon Badge */}
-        {location.comingSoon && (
+        {location.coming_soon && (
           <div className="absolute top-4 right-4">
             <span className="bg-accent-blue text-white text-xs font-bold px-3 py-1 rounded-full">
               COMING SOON
@@ -138,9 +160,9 @@ function LocationCard({ location, onBookClick }: LocationCardProps) {
         <div className="absolute bottom-4 left-4 right-4">
           <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
             <MapPin className="w-4 h-4" />
-            <span>{location.city}, {location.country}</span>
+            <span>{location.City}, {location.country}</span>
           </div>
-          <h3 className="text-xl font-bold text-white">{location.name}</h3>
+          <h3 className="text-xl font-bold text-white">{location.Name}</h3>
         </div>
       </div>
 
@@ -156,13 +178,13 @@ function LocationCard({ location, onBookClick }: LocationCardProps) {
             <Users className="w-3 h-3" />
             Tandem
           </span>
-          {location.hasAFF && (
+          {location.has_aff && (
             <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-blue/10 text-accent-blue px-3 py-1 rounded-full">
               <GraduationCap className="w-3 h-3" />
               AFF
             </span>
           )}
-          {location.hasGroupEvents && (
+          {location.has_group_events && (
             <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-blue/10 text-accent-blue px-3 py-1 rounded-full">
               <Users className="w-3 h-3" />
               Groups
@@ -171,7 +193,7 @@ function LocationCard({ location, onBookClick }: LocationCardProps) {
         </div>
 
         {/* CTA */}
-        {!location.comingSoon ? (
+        {!location.coming_soon ? (
           <button
             onClick={onBookClick}
             className="w-full py-3 bg-accent-orange text-white font-semibold rounded-lg hover:bg-accent-orange/90 transition-colors cursor-pointer"
