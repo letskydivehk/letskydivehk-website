@@ -39,7 +39,7 @@ export function AuthButton({ onOpenProfile }: AuthButtonProps) {
           className="flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white font-medium px-4 py-2 rounded-full border border-white/20 hover:bg-white/20 gentle-animation cursor-pointer"
         >
           <User className="w-4 h-4" />
-          <span className="hidden sm:inline">登入</span>
+          <span className="hidden sm:inline">Sign In</span>
         </motion.button>
         <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
       </>
@@ -85,7 +85,7 @@ export function AuthButton({ onOpenProfile }: AuthButtonProps) {
             >
               <div className="p-3 border-b border-white/10">
                 <p className="text-white font-medium text-sm truncate">
-                  {user.user_metadata?.full_name || '會員'}
+                  {user.user_metadata?.full_name || 'Member'}
                 </p>
                 <p className="text-white/60 text-xs truncate">{user.email}</p>
               </div>
@@ -99,14 +99,14 @@ export function AuthButton({ onOpenProfile }: AuthButtonProps) {
                   className="w-full flex items-center gap-2 px-3 py-2 text-white hover:bg-white/10 rounded-md transition-colors text-sm"
                 >
                   <User className="w-4 h-4" />
-                  個人資料
+                  Profile
                 </button>
                 <button
                   onClick={handleSignOut}
                   className="w-full flex items-center gap-2 px-3 py-2 text-red-400 hover:bg-white/10 rounded-md transition-colors text-sm"
                 >
                   <LogOut className="w-4 h-4" />
-                  登出
+                  Sign Out
                 </button>
               </div>
             </motion.div>
