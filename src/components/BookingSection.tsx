@@ -307,26 +307,38 @@ export function BookingSection() {
                       {locations?.filter(l => !l.coming_soon).map((location) => (
                         <button
                           key={location.id}
-                          onClick={() => setFormData({ ...formData, location: location.id })}
-                          className={`p-4 rounded-xl border-2 text-left transition-all cursor-pointer ${
+                          onClick={() => {
+                            setFormData({ ...formData, location: location.id })
+                            // Auto-advance to service selection
+                            setTimeout(() => setCurrentStep('service'), 150)
+                          }}
+                          className={`group overflow-hidden rounded-xl border-2 text-left transition-all cursor-pointer ${
                             formData.location === location.id
                               ? 'border-accent-emerald bg-accent-emerald/5'
                               : 'border-border hover:border-accent-emerald/50'
                           }`}
                         >
-                          <div className="flex items-start gap-3">
-                            <div className={`w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                              formData.location === location.id ? 'bg-accent-emerald text-white' : 'bg-muted text-muted-foreground'
-                            }`}>
-                              <MapPin className="w-5 h-5" />
-                            </div>
-                            <div className="flex-1 min-w-0">
-                              <p className="font-semibold text-foreground">{location.Name}</p>
-                              <p className="text-sm text-muted-foreground">{location.City}, {location.country}</p>
-                            </div>
+                          {/* Location Image */}
+                          <div className="relative h-32 overflow-hidden">
+                            <img
+                              src={location.image_url || '/placeholder.svg'}
+                              alt={location.Name}
+                              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                            />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                             {formData.location === location.id && (
-                              <Check className="w-5 h-5 text-accent-emerald flex-shrink-0" />
+                              <div className="absolute top-2 right-2 w-8 h-8 bg-accent-emerald rounded-full flex items-center justify-center">
+                                <Check className="w-5 h-5 text-white" />
+                              </div>
                             )}
+                          </div>
+                          {/* Location Info */}
+                          <div className="p-4">
+                            <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1">
+                              <MapPin className="w-3 h-3" />
+                              <span>{location.City}, {location.country}</span>
+                            </div>
+                            <p className="font-semibold text-foreground">{location.Name}</p>
                           </div>
                         </button>
                       ))}
@@ -359,7 +371,11 @@ export function BookingSection() {
                       {services?.map((service) => (
                         <button
                           key={service.id}
-                          onClick={() => setFormData({ ...formData, service: service.id })}
+                          onClick={() => {
+                            setFormData({ ...formData, service: service.id })
+                            // Auto-advance to date & details
+                            setTimeout(() => setCurrentStep('details'), 150)
+                          }}
                           className={`w-full p-6 rounded-xl border-2 text-left transition-all cursor-pointer ${
                             formData.service === service.id
                               ? 'border-accent-emerald bg-accent-emerald/5'
