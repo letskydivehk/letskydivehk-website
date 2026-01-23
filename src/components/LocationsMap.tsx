@@ -1,61 +1,57 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { MapPin, ExternalLink } from 'lucide-react'
-import { useLocations } from '@/hooks/useLocations'
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { MapPin, ExternalLink } from "lucide-react";
+import { useLocations } from "@/hooks/useLocations";
 
 // City coordinates for map markers
 const cityCoordinates: Record<string, { lat: number; lng: number }> = {
-  'Pattaya': { lat: 12.9236, lng: 100.8825 },
-  'Chiang Mai': { lat: 18.7883, lng: 98.9853 },
-  'Huizhou': { lat: 23.1107, lng: 114.4158 },
-  'Hainan': { lat: 20.0442, lng: 110.1999 },
-  'Luoding': { lat: 22.7570, lng: 111.5740 },
-  'Zhuhai': { lat: 22.2707, lng: 113.5767 },
-}
+  Pattaya: { lat: 12.7082, lng: 101.631 },
+  "Chiang Mai": { lat: 19.42, lng: 99.8667 },
+  Huizhou: { lat: 23.1107, lng: 114.4158 },
+  Hainan: { lat: 20.0442, lng: 110.1999 },
+  Luoding: { lat: 22.757, lng: 111.574 },
+  Zhuhai: { lat: 22.2707, lng: 113.5767 },
+};
 
 export function LocationsMap() {
-  const { data: locations, isLoading } = useLocations()
-  const [selectedLocation, setSelectedLocation] = useState<string | null>(null)
+  const { data: locations, isLoading } = useLocations();
+  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
 
   if (isLoading || !locations || locations.length === 0) {
-    return null
+    return null;
   }
 
   // Get locations with coordinates
   const mappedLocations = locations
-    .filter(loc => loc.City && cityCoordinates[loc.City])
-    .map(loc => ({
+    .filter((loc) => loc.City && cityCoordinates[loc.City])
+    .map((loc) => ({
       ...loc,
-      coords: cityCoordinates[loc.City!]
-    }))
+      coords: cityCoordinates[loc.City!],
+    }));
 
   if (mappedLocations.length === 0) {
-    return null
+    return null;
   }
 
   // Get selected location or default to first
-  const activeLocation = selectedLocation 
-    ? mappedLocations.find(loc => loc.id === selectedLocation) 
-    : mappedLocations[0]
+  const activeLocation = selectedLocation
+    ? mappedLocations.find((loc) => loc.id === selectedLocation)
+    : mappedLocations[0];
 
   // Create OpenStreetMap embed URL
   const getMapUrl = (lat: number, lng: number) => {
-    return `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.05}%2C${lat - 0.03}%2C${lng + 0.05}%2C${lat + 0.03}&layer=mapnik&marker=${lat}%2C${lng}`
-  }
+    return `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.05}%2C${lat - 0.03}%2C${lng + 0.05}%2C${lat + 0.03}&layer=mapnik&marker=${lat}%2C${lng}`;
+  };
 
   return (
     <div className="mt-16 max-w-5xl mx-auto">
       <div className="text-center mb-8">
-        <h3 className="text-2xl font-bold text-foreground mb-2">
-          Explore Our Dropzones
-        </h3>
-        <p className="text-muted-foreground">
-          Select a location to view on the map
-        </p>
+        <h3 className="text-2xl font-bold text-foreground mb-2">Explore Our Dropzones</h3>
+        <p className="text-muted-foreground">Select a location to view on the map</p>
       </div>
-      
+
       <div className="bg-card rounded-2xl clean-border overflow-hidden elevated-shadow">
         {/* Location Selector */}
         <div className="flex flex-wrap gap-2 p-4 border-b border-border bg-muted/30">
@@ -64,9 +60,9 @@ export function LocationsMap() {
               key={location.id}
               onClick={() => setSelectedLocation(location.id)}
               className={`px-4 py-2 rounded-lg font-medium text-sm transition-all cursor-pointer flex items-center gap-2 ${
-                (selectedLocation === location.id || (!selectedLocation && location.id === mappedLocations[0].id))
-                  ? 'bg-accent-orange text-white'
-                  : 'bg-card text-muted-foreground hover:text-foreground hover:bg-muted'
+                selectedLocation === location.id || (!selectedLocation && location.id === mappedLocations[0].id)
+                  ? "bg-accent-orange text-white"
+                  : "bg-card text-muted-foreground hover:text-foreground hover:bg-muted"
               }`}
             >
               <MapPin className="w-4 h-4" />
@@ -101,17 +97,13 @@ export function LocationsMap() {
           <div className="p-6 border-t border-border bg-muted/20">
             <div className="flex items-start justify-between gap-4 flex-wrap">
               <div>
-                <h4 className="text-xl font-bold text-foreground mb-1">
-                  {activeLocation.Name}
-                </h4>
+                <h4 className="text-xl font-bold text-foreground mb-1">{activeLocation.Name}</h4>
                 <p className="text-muted-foreground flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
                   {activeLocation.City}, {activeLocation.country}
                 </p>
                 {activeLocation.description && (
-                  <p className="text-muted-foreground mt-2 max-w-xl">
-                    {activeLocation.description}
-                  </p>
+                  <p className="text-muted-foreground mt-2 max-w-xl">{activeLocation.description}</p>
                 )}
               </div>
               <a
@@ -150,5 +142,5 @@ export function LocationsMap() {
         )}
       </div>
     </div>
-  )
+  );
 }
