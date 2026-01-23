@@ -9,6 +9,7 @@ import { Footer } from './components/Footer'
 import { AuthProvider } from './contexts/AuthContext'
 import { BookingProvider } from './contexts/BookingContext'
 import { Toaster } from './components/ui/sonner'
+import { BackgroundDecorations } from './components/BackgroundDecorations'
 
 const queryClient = new QueryClient()
 
@@ -17,8 +18,9 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider>
         <BookingProvider>
-          <div className="min-h-screen bg-background text-foreground">
-            <main className="relative" role="main">
+          <div className="min-h-screen bg-background text-foreground relative">
+            <BackgroundDecorations />
+            <main className="relative z-10" role="main">
               <section id="hero" aria-label="Hero section">
                 <Hero />
               </section>
