@@ -47,9 +47,9 @@ export function Hero() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [isMobileMenuOpen]);
-  const scrollToBooking = () => {
-    const bookingSection = document.getElementById('booking');
-    bookingSection?.scrollIntoView({
+  const scrollToLocations = () => {
+    const locationsSection = document.getElementById('locations');
+    locationsSection?.scrollIntoView({
       behavior: 'smooth'
     });
   };
@@ -113,7 +113,7 @@ export function Hero() {
               scale: 1.05
             }} whileTap={{
               scale: 0.95
-            }} onClick={scrollToBooking} className="hidden sm:block bg-accent-orange backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-md hover:bg-accent-orange/90 gentle-animation cursor-pointer">
+            }} onClick={scrollToLocations} className="hidden sm:block bg-accent-orange backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-md hover:bg-accent-orange/90 gentle-animation cursor-pointer">
                 Book Your Jump
               </motion.button>
 
@@ -178,7 +178,7 @@ export function Hero() {
           }} whileTap={{
             scale: 0.95
           }} onClick={() => {
-            scrollToBooking();
+            scrollToLocations();
             setIsMobileMenuOpen(false);
           }} className="bg-accent-orange text-white font-semibold px-6 py-3 rounded-lg hover:bg-accent-orange/90 active:bg-accent-orange/80 gentle-animation mt-8 cursor-pointer">
               Book Your Jump
@@ -219,7 +219,7 @@ export function Hero() {
             scale: 1.05
           }} whileTap={{
             scale: 0.95
-          }} onClick={scrollToBooking} className="bg-accent-orange text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-accent-orange/90 gentle-animation cursor-pointer w-full sm:w-auto">
+          }} onClick={scrollToLocations} className="bg-accent-orange text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-accent-orange/90 gentle-animation cursor-pointer w-full sm:w-auto">
               Book Your Jump
             </motion.button>
             <motion.a href="#services" whileHover={{
