@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { MapPin, Users, GraduationCap, Loader2 } from 'lucide-react'
 import { useLocations, type Location } from '@/hooks/useLocations'
 import { useBooking } from '@/contexts/BookingContext'
+import { LocationsMap } from './LocationsMap'
 
 type Country = 'Thailand' | 'China'
 
@@ -106,6 +107,9 @@ export function Locations() {
             </motion.div>
           </AnimatePresence>
         )}
+
+        {/* Interactive Map */}
+        <LocationsMap />
       </div>
     </section>
   )
