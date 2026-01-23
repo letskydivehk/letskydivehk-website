@@ -14,6 +14,56 @@ export type Database = {
   }
   public: {
     Tables: {
+      location_services: {
+        Row: {
+          created_at: string
+          description: string | null
+          display_order: number
+          id: string
+          includes: string[] | null
+          is_popular: boolean
+          location_id: string
+          price_display: string
+          service_name: string
+          service_type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          id?: string
+          includes?: string[] | null
+          is_popular?: boolean
+          location_id: string
+          price_display: string
+          service_name: string
+          service_type?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          id?: string
+          includes?: string[] | null
+          is_popular?: boolean
+          location_id?: string
+          price_display?: string
+          service_name?: string
+          service_type?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "location_services_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       locations: {
         Row: {
           City: string | null
