@@ -182,7 +182,7 @@ export function BookingSection() {
   if (isComplete) {
     return (
       <section id="booking" className="relative py-24 bg-background overflow-hidden">
-        <SectionDecorations variant="alt" />
+        <SectionDecorations />
         <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
