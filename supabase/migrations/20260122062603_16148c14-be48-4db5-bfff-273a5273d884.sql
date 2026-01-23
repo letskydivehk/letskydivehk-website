@@ -67,7 +67,7 @@ INSERT INTO public.locations (slug, name, country, city, has_aff, has_group_even
 ('pattaya', 'Thai Sky Adventures Pattaya', 'Thailand', 'Pattaya', true, true, false, 'https://images.unsplash.com/photo-1504150558240-0b4fd8946624?w=800&h=600&fit=crop', 'Experience breathtaking views of the Gulf of Thailand with our premier dropzone in Pattaya.', 1),
 ('chiang-mai', 'Northern Sky Chiang Mai', 'Thailand', 'Chiang Mai', true, true, false, 'https://images.unsplash.com/photo-1528181304800-259b08848526?w=800&h=600&fit=crop', 'Jump over the stunning mountains and temples of Northern Thailand.', 2),
 ('huizhou', 'Huizhou Skydive Center', 'China', 'Huizhou', false, true, false, 'https://images.unsplash.com/photo-1474181487882-5abf3f0ba6c2?w=800&h=600&fit=crop', 'Scenic coastal views and perfect weather conditions year-round.', 3),
-('hainan', 'Hainan Island Skydive', 'China', 'Hainan', true, true, false, 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=800&h=600&fit=crop', 'Tropical paradise skydiving with crystal clear ocean views.', 4),
+('hainan', 'Hainan Island Skydive', 'China', 'Hainan', true, true, false, 'https://shorturl.at/s38IA', 'Tropical paradise skydiving with crystal clear ocean views.', 4),
 ('luoding', 'Luoding Sky Sports', 'China', 'Luoding', false, true, true, 'https://images.unsplash.com/photo-1540959733332-eab4deabeeaf?w=800&h=600&fit=crop', 'Coming soon - A new adventure destination in Guangdong province.', 5),
 ('zhuhai', 'Zhuhai Coastal Skydive', 'China', 'Zhuhai', false, true, true, 'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=600&fit=crop', 'Coming soon - Stunning coastal views near Macau.', 6);
 
