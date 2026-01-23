@@ -106,59 +106,9 @@ export function Locations() {
             </motion.div>
           </AnimatePresence>
         )}
-
-       import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
-
-// Fix Leaflet marker icon paths for React
-delete L.Icon.Default.prototype._getIconUrl;
-L.Icon.Default.mergeOptions({
-  iconRetinaUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png",
-  iconUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png",
-  shadowUrl: "https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png",
-});
-
-const locations = [
-  { name: "Chiang Mai, Thailand", coords: [18.7883, 98.9853], details: "Northern cultural hub with temples and mountains." },
-  { name: "Pattaya, Thailand", coords: [12.9236, 100.8825], details: "Coastal city famous for beaches and nightlife." },
-  { name: "Zhuhai, China", coords: [22.2707, 113.5767], details: "Pearl River Delta city, gateway to Macau." },
-  { name: "Huizhou, China", coords: [23.1107, 114.4158], details: "Historic city with West Lake and tech industry." },
-  { name: "Hainan, China", coords: [20.0442, 110.1999], details: "Capital of Hainan Island, tropical climate." },
-  { name: "Luoding, China", coords: [22.7570, 111.5740], details: "County-level city known for agriculture and trade." },
-];
-
-export default function MapSection() {
-  return (
-    <section>
-      <div className="mt-16 max-w-4xl mx-auto">
-        <div className="bg-card rounded-2xl clean-border overflow-hidden">
-          {/* Interactive Map */}
-          <div className="aspect-[16/9]">
-            <MapContainer
-              center={[20.5, 110]} // roughly center between Thailand & South China
-              zoom={5}
-              style={{ height: "100%", width: "100%" }}
-            >
-              <TileLayer
-                attribution='&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>'
-                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              />
-              {locations.map((loc, idx) => (
-                <Marker key={idx} position={loc.coords}>
-                  <Popup>
-                    <strong>{loc.name}</strong>
-                    <br />
-                    {loc.details}
-                  </Popup>
-                </Marker>
-              ))}
-            </MapContainer>
-          </div>
-        </div>
       </div>
     </section>
-  );
+  )
 }
 
 interface LocationCardProps {
