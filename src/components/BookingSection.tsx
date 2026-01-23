@@ -8,6 +8,7 @@ import { useDirectBookingServices, type Service } from '@/hooks/useServices'
 import { useBooking } from '@/contexts/BookingContext'
 import { z } from 'zod'
 import { toast } from 'sonner'
+import { SectionDecorations } from './SectionDecorations'
 
 // Validation schema for booking form
 const bookingDetailsSchema = z.object({
@@ -180,8 +181,9 @@ export function BookingSection() {
 
   if (isComplete) {
     return (
-      <section id="booking" className="relative py-24 bg-background">
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+      <section id="booking" className="relative py-24 bg-background overflow-hidden">
+        <SectionDecorations variant="alt" />
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -222,8 +224,9 @@ export function BookingSection() {
   }
 
   return (
-    <section id="booking" className="relative py-24 bg-background">
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+    <section id="booking" className="relative py-24 bg-background overflow-hidden">
+      <SectionDecorations />
+      <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         
         {/* Header */}
         <div className="text-center mb-12">

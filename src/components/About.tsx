@@ -2,6 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { Shield, Award, Users, Heart } from 'lucide-react'
+import { SectionDecorations } from './SectionDecorations'
 
 export function About() {
   const stats = [
@@ -36,6 +37,7 @@ export function About() {
 
   return (
     <section id="about" className="relative py-24 bg-background overflow-hidden">
+      <SectionDecorations variant="alt" />
       <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         
         {/* Header */}

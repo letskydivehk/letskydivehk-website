@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Plane, GraduationCap, Users, Check, ArrowRight, Loader2 } from 'lucide-react'
 import { useServices, type Service } from '@/hooks/useServices'
+import { SectionDecorations } from './SectionDecorations'
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   parachute: Plane,
@@ -21,8 +22,9 @@ export function Services() {
   }
 
   return (
-    <section id="services" className="relative py-24 bg-background">
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+    <section id="services" className="relative py-24 bg-background overflow-hidden">
+      <SectionDecorations />
+      <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         
         {/* Header */}
         <div className="text-center mb-16">
