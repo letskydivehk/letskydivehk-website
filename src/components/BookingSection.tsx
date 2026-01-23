@@ -4,7 +4,7 @@ import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Calendar, MapPin, User, Mail, Phone, Check, ArrowRight, ArrowLeft, Plane, Loader2 } from 'lucide-react'
 import { useLocations, type Location } from '@/hooks/useLocations'
-import { useDirectBookingServices, type Service } from '@/hooks/useServices'
+import { useLocationServices, type LocationService } from '@/hooks/useLocationServices'
 import { useBooking } from '@/contexts/BookingContext'
 import { z } from 'zod'
 import { toast } from 'sonner'
@@ -60,8 +60,10 @@ export function BookingSection() {
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({})
 
   const { data: locations, isLoading: locationsLoading } = useLocations()
-  const { data: services, isLoading: servicesLoading } = useDirectBookingServices()
   const { preselectedLocationId, setPreselectedLocationId } = useBooking()
+  
+  // Fetch location-specific services when a location is selected
+  const { data: locationServices, isLoading: servicesLoading } = useLocationServices(formData.location || undefined)
 
   // Handle preselected location from Locations component
   useEffect(() => {
@@ -82,8 +84,8 @@ export function BookingSection() {
   )
 
   const selectedService = useMemo(() => 
-    services?.find(s => s.id === formData.service),
-    [services, formData.service]
+    locationServices?.find(s => s.id === formData.service),
+    [locationServices, formData.service]
   )
 
   const steps: { id: Step; label: string; icon: React.ElementType }[] = [
@@ -196,15 +198,15 @@ export function BookingSection() {
               <h2 className="text-3xl font-black text-foreground mb-4">
                 Booking Request Submitted!
               </h2>
-              <p className="text-muted-foreground mb-8 text-lg">
-                Thank you, {formData.firstName}! We've received your booking request for {selectedService?.title} at {selectedLocation?.Name}. 
-                We'll contact you within 24 hours to confirm your booking.
-              </p>
+                  <p className="text-muted-foreground mb-8 text-lg">
+                    Thank you, {formData.firstName}! We've received your booking request for {selectedService?.service_name} at {selectedLocation?.Name}. 
+                    We'll contact you within 24 hours to confirm your booking.
+                  </p>
               <div className="bg-accent-emerald/10 rounded-xl p-6 mb-8 text-left">
                 <h3 className="font-bold text-foreground mb-3">Booking Summary</h3>
                 <div className="space-y-2 text-sm text-muted-foreground">
                   <p><span className="font-medium text-foreground">Location:</span> {selectedLocation?.Name}, {selectedLocation?.City}</p>
-                  <p><span className="font-medium text-foreground">Service:</span> {selectedService?.title}</p>
+                  <p><span className="font-medium text-foreground">Service:</span> {selectedService?.service_name}</p>
                   <p><span className="font-medium text-foreground">Date:</span> {formData.date}</p>
                   <p><span className="font-medium text-foreground">Participants:</span> {formData.participants}</p>
                   <p><span className="font-medium text-foreground">Email:</span> {formData.email}</p>
@@ -311,7 +313,8 @@ export function BookingSection() {
                         <button
                           key={location.id}
                           onClick={() => {
-                            setFormData({ ...formData, location: location.id })
+                            // Clear service selection when changing location
+                            setFormData({ ...formData, location: location.id, service: '' })
                             // Auto-advance to service selection
                             setTimeout(() => setCurrentStep('service'), 150)
                           }}
@@ -371,7 +374,7 @@ export function BookingSection() {
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {services?.map((service) => (
+                      {locationServices?.map((service) => (
                         <button
                           key={service.id}
                           onClick={() => {
@@ -388,26 +391,32 @@ export function BookingSection() {
                           <div className="flex items-start justify-between gap-4">
                             <div className="flex-1">
                               <div className="flex items-center gap-2 mb-1">
-                                <h4 className="font-bold text-foreground text-lg">{service.title}</h4>
+                                <h4 className="font-bold text-foreground text-lg">{service.service_name}</h4>
                                 {service.is_popular && (
                                   <span className="bg-accent-orange text-white text-xs font-bold px-2 py-0.5 rounded-full">
                                     POPULAR
                                   </span>
                                 )}
                               </div>
-                              <p className="text-sm text-muted-foreground mb-2">{service.subtitle}</p>
-                              <p className="text-muted-foreground text-sm">{service.description}</p>
-                              {service.duration && (
-                                <p className="text-sm text-muted-foreground mt-2">
-                                  <span className="font-medium">Duration:</span> {service.duration}
-                                </p>
+                              <p className="text-sm text-muted-foreground capitalize mb-2">{service.service_type} Experience</p>
+                              {service.description && (
+                                <p className="text-muted-foreground text-sm">{service.description}</p>
+                              )}
+                              {service.includes && service.includes.length > 0 && (
+                                <div className="mt-3 flex flex-wrap gap-2">
+                                  {service.includes.slice(0, 3).map((item, idx) => (
+                                    <span key={idx} className="text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground">
+                                      {item}
+                                    </span>
+                                  ))}
+                                  {service.includes.length > 3 && (
+                                    <span className="text-xs text-muted-foreground">+{service.includes.length - 3} more</span>
+                                  )}
+                                </div>
                               )}
                             </div>
                             <div className="text-right flex-shrink-0">
                               <p className="text-2xl font-black text-foreground">{service.price_display}</p>
-                              {service.price_note && (
-                                <p className="text-xs text-muted-foreground">{service.price_note}</p>
-                              )}
                             </div>
                           </div>
                           {formData.service === service.id && (
@@ -420,6 +429,11 @@ export function BookingSection() {
                           )}
                         </button>
                       ))}
+                      {(!locationServices || locationServices.length === 0) && !servicesLoading && (
+                        <div className="text-center py-8">
+                          <p className="text-muted-foreground">No services available at this location.</p>
+                        </div>
+                      )}
                     </div>
                   )}
                 </motion.div>
@@ -613,7 +627,7 @@ export function BookingSection() {
                       </div>
                       <div>
                         <p className="text-muted-foreground">Service</p>
-                        <p className="font-semibold text-foreground">{selectedService?.title}</p>
+                        <p className="font-semibold text-foreground">{selectedService?.service_name}</p>
                         <p className="text-xs text-muted-foreground">{selectedService?.price_display}</p>
                       </div>
                       <div>
