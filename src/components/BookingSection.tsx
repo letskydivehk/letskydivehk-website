@@ -1,128 +1,139 @@
-'use client'
+"use client";
 
-import { useState, useMemo, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { Calendar, MapPin, User, Mail, Phone, Check, ArrowRight, ArrowLeft, Plane, Loader2 } from 'lucide-react'
-import { useLocations, type Location } from '@/hooks/useLocations'
-import { useLocationServices, type LocationService } from '@/hooks/useLocationServices'
-import { useBooking } from '@/contexts/BookingContext'
-import { z } from 'zod'
-import { toast } from 'sonner'
-import { SectionDecorations } from './SectionDecorations'
+import { useState, useMemo, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Calendar, MapPin, User, Mail, Phone, Check, ArrowRight, ArrowLeft, Plane, Loader2 } from "lucide-react";
+import { useLocations, type Location } from "@/hooks/useLocations";
+import { useLocationServices, type LocationService } from "@/hooks/useLocationServices";
+import { useBooking } from "@/contexts/BookingContext";
+import { z } from "zod";
+import { toast } from "sonner";
+import { SectionDecorations } from "./SectionDecorations";
 
 // Validation schema for booking form
 const bookingDetailsSchema = z.object({
-  firstName: z.string().trim().min(1, 'First name is required').max(50, 'First name must be less than 50 characters'),
-  lastName: z.string().trim().min(1, 'Last name is required').max(50, 'Last name must be less than 50 characters'),
-  email: z.string().trim().email('Please enter a valid email address').max(255, 'Email must be less than 255 characters'),
-  phone: z.string().trim().min(1, 'Phone number is required').max(20, 'Phone number must be less than 20 characters'),
-  date: z.string().min(1, 'Please select a date'),
-  participants: z.number().int().min(1, 'At least 1 participant required').max(10, 'Maximum 10 participants allowed'),
-  notes: z.string().max(500, 'Notes must be less than 500 characters').optional()
-})
+  firstName: z.string().trim().min(1, "First name is required").max(50, "First name must be less than 50 characters"),
+  lastName: z.string().trim().min(1, "Last name is required").max(50, "Last name must be less than 50 characters"),
+  email: z
+    .string()
+    .trim()
+    .email("Please enter a valid email address")
+    .max(255, "Email must be less than 255 characters"),
+  phone: z.string().trim().min(1, "Phone number is required").max(20, "Phone number must be less than 20 characters"),
+  date: z.string().min(1, "Please select a date"),
+  participants: z.number().int().min(1, "At least 1 participant required").max(10, "Maximum 10 participants allowed"),
+  notes: z.string().max(500, "Notes must be less than 500 characters").optional(),
+});
 
 // Sanitize text input to prevent XSS
 const sanitizeText = (text: string): string => {
   return text
-    .replace(/[<>]/g, '') // Remove angle brackets
-    .trim()
-}
+    .replace(/[<>]/g, "") // Remove angle brackets
+    .trim();
+};
 
 interface BookingFormData {
-  location: string
-  service: string
-  date: string
-  participants: number
-  firstName: string
-  lastName: string
-  email: string
-  phone: string
-  notes: string
+  location: string;
+  service: string;
+  date: string;
+  participants: number;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  notes: string;
 }
 
-type Step = 'location' | 'service' | 'details' | 'confirm'
+type Step = "location" | "service" | "details" | "confirm";
 
 export function BookingSection() {
-  const [currentStep, setCurrentStep] = useState<Step>('location')
+  const [currentStep, setCurrentStep] = useState<Step>("location");
   const [formData, setFormData] = useState<BookingFormData>({
-    location: '',
-    service: '',
-    date: '',
+    location: "",
+    service: "",
+    date: "",
     participants: 1,
-    firstName: '',
-    lastName: '',
-    email: '',
-    phone: '',
-    notes: ''
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isComplete, setIsComplete] = useState(false)
-  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({})
+    firstName: "",
+    lastName: "",
+    email: "",
+    phone: "",
+    notes: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
-  const { data: locations, isLoading: locationsLoading } = useLocations()
-  const { preselectedLocationId, setPreselectedLocationId } = useBooking()
-  
+  const { data: locations, isLoading: locationsLoading } = useLocations();
+  const { preselectedLocationId, setPreselectedLocationId } = useBooking();
+
   // Fetch location-specific services when a location is selected
-  const { data: locationServices, isLoading: servicesLoading } = useLocationServices(formData.location || undefined)
+  const { data: locationServices, isLoading: servicesLoading } = useLocationServices(formData.location || undefined);
 
   // Handle preselected location from Locations component
   useEffect(() => {
     if (preselectedLocationId && locations) {
-      const locationExists = locations.find(l => l.id === preselectedLocationId && !l.coming_soon)
+      const locationExists = locations.find((l) => l.id === preselectedLocationId && !l.coming_soon);
       if (locationExists) {
-        setFormData(prev => ({ ...prev, location: preselectedLocationId }))
-        setCurrentStep('service')
+        setFormData((prev) => ({ ...prev, location: preselectedLocationId }));
+        setCurrentStep("service");
         // Clear the preselection after using it
-        setPreselectedLocationId(null)
+        setPreselectedLocationId(null);
       }
     }
-  }, [preselectedLocationId, locations, setPreselectedLocationId])
+  }, [preselectedLocationId, locations, setPreselectedLocationId]);
 
-  const selectedLocation = useMemo(() => 
-    locations?.find(l => l.id === formData.location),
-    [locations, formData.location]
-  )
+  const selectedLocation = useMemo(
+    () => locations?.find((l) => l.id === formData.location),
+    [locations, formData.location],
+  );
 
-  const selectedService = useMemo(() => 
-    locationServices?.find(s => s.id === formData.service),
-    [locationServices, formData.service]
-  )
+  const selectedService = useMemo(
+    () => locationServices?.find((s) => s.id === formData.service),
+    [locationServices, formData.service],
+  );
 
   const steps: { id: Step; label: string; icon: React.ElementType }[] = [
-    { id: 'location', label: 'Location', icon: MapPin },
-    { id: 'service', label: 'Service', icon: Plane },
-    { id: 'details', label: 'Date & Details', icon: User },
-    { id: 'confirm', label: 'Confirm', icon: Check }
-  ]
+    { id: "location", label: "Location", icon: MapPin },
+    { id: "service", label: "Service", icon: Plane },
+    { id: "details", label: "Date & Details", icon: User },
+    { id: "confirm", label: "Confirm", icon: Check },
+  ];
 
-  const currentStepIndex = steps.findIndex(s => s.id === currentStep)
+  const currentStepIndex = steps.findIndex((s) => s.id === currentStep);
 
   const canProceed = () => {
     switch (currentStep) {
-      case 'location':
-        return !!formData.location
-      case 'service':
-        return !!formData.service
-      case 'details':
-        return formData.date && formData.participants > 0 && formData.firstName && formData.lastName && formData.email && formData.phone
-      case 'confirm':
-        return true
+      case "location":
+        return !!formData.location;
+      case "service":
+        return !!formData.service;
+      case "details":
+        return (
+          formData.date &&
+          formData.participants > 0 &&
+          formData.firstName &&
+          formData.lastName &&
+          formData.email &&
+          formData.phone
+        );
+      case "confirm":
+        return true;
       default:
-        return false
+        return false;
     }
-  }
+  };
 
   const handleNext = () => {
-    if (currentStep === 'location') setCurrentStep('service')
-    else if (currentStep === 'service') setCurrentStep('details')
-    else if (currentStep === 'details') setCurrentStep('confirm')
-  }
+    if (currentStep === "location") setCurrentStep("service");
+    else if (currentStep === "service") setCurrentStep("details");
+    else if (currentStep === "details") setCurrentStep("confirm");
+  };
 
   const handleBack = () => {
-    if (currentStep === 'service') setCurrentStep('location')
-    else if (currentStep === 'details') setCurrentStep('service')
-    else if (currentStep === 'confirm') setCurrentStep('details')
-  }
+    if (currentStep === "service") setCurrentStep("location");
+    else if (currentStep === "details") setCurrentStep("service");
+    else if (currentStep === "confirm") setCurrentStep("details");
+  };
 
   const handleSubmit = async () => {
     // Validate form data before submission
@@ -133,53 +144,53 @@ export function BookingSection() {
       phone: sanitizeText(formData.phone),
       date: formData.date,
       participants: formData.participants,
-      notes: formData.notes ? sanitizeText(formData.notes) : undefined
-    })
+      notes: formData.notes ? sanitizeText(formData.notes) : undefined,
+    });
 
     if (!validationResult.success) {
-      const errors: Record<string, string> = {}
-      validationResult.error.errors.forEach(err => {
+      const errors: Record<string, string> = {};
+      validationResult.error.errors.forEach((err) => {
         if (err.path[0]) {
-          errors[err.path[0] as string] = err.message
+          errors[err.path[0] as string] = err.message;
         }
-      })
-      setValidationErrors(errors)
-      toast.error('Please fix the validation errors before submitting')
-      return
+      });
+      setValidationErrors(errors);
+      toast.error("Please fix the validation errors before submitting");
+      return;
     }
 
     // Clear any previous validation errors
-    setValidationErrors({})
-    
-    setIsSubmitting(true)
+    setValidationErrors({});
+
+    setIsSubmitting(true);
     // Simulate API call - will be replaced with actual submission
     // When implementing: use validationResult.data for sanitized/validated data
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    setIsSubmitting(false)
-    setIsComplete(true)
-  }
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setIsSubmitting(false);
+    setIsComplete(true);
+  };
 
   const handleReset = () => {
     setFormData({
-      location: '',
-      service: '',
-      date: '',
+      location: "",
+      service: "",
+      date: "",
       participants: 1,
-      firstName: '',
-      lastName: '',
-      email: '',
-      phone: '',
-      notes: ''
-    })
-    setCurrentStep('location')
-    setIsComplete(false)
-    setValidationErrors({})
-  }
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      notes: "",
+    });
+    setCurrentStep("location");
+    setIsComplete(false);
+    setValidationErrors({});
+  };
 
   // Get min date (tomorrow)
-  const tomorrow = new Date()
-  tomorrow.setDate(tomorrow.getDate() + 1)
-  const minDate = tomorrow.toISOString().split('T')[0]
+  const tomorrow = new Date();
+  tomorrow.setDate(tomorrow.getDate() + 1);
+  const minDate = tomorrow.toISOString().split("T")[0];
 
   if (isComplete) {
     return (
@@ -195,21 +206,30 @@ export function BookingSection() {
               <div className="w-20 h-20 bg-accent-emerald rounded-full flex items-center justify-center mx-auto mb-6">
                 <Check className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-3xl font-black text-foreground mb-4">
-                Booking Request Submitted!
-              </h2>
-                  <p className="text-muted-foreground mb-8 text-lg">
-                    Thank you, {formData.firstName}! We've received your booking request for {selectedService?.service_name} at {selectedLocation?.Name}. 
-                    We'll contact you within 24 hours to confirm your booking.
-                  </p>
+              <h2 className="text-3xl font-black text-foreground mb-4">Booking Request Submitted!</h2>
+              <p className="text-muted-foreground mb-8 text-lg">
+                Thank you, {formData.firstName}! We've received your booking request for {selectedService?.service_name}{" "}
+                at {selectedLocation?.Name}. We'll contact you within 24 hours to confirm your booking.
+              </p>
               <div className="bg-accent-emerald/10 rounded-xl p-6 mb-8 text-left">
                 <h3 className="font-bold text-foreground mb-3">Booking Summary</h3>
                 <div className="space-y-2 text-sm text-muted-foreground">
-                  <p><span className="font-medium text-foreground">Location:</span> {selectedLocation?.Name}, {selectedLocation?.City}</p>
-                  <p><span className="font-medium text-foreground">Service:</span> {selectedService?.service_name}</p>
-                  <p><span className="font-medium text-foreground">Date:</span> {formData.date}</p>
-                  <p><span className="font-medium text-foreground">Participants:</span> {formData.participants}</p>
-                  <p><span className="font-medium text-foreground">Email:</span> {formData.email}</p>
+                  <p>
+                    <span className="font-medium text-foreground">Location:</span> {selectedLocation?.Name},{" "}
+                    {selectedLocation?.City}
+                  </p>
+                  <p>
+                    <span className="font-medium text-foreground">Service:</span> {selectedService?.service_name}
+                  </p>
+                  <p>
+                    <span className="font-medium text-foreground">Date:</span> {formData.date}
+                  </p>
+                  <p>
+                    <span className="font-medium text-foreground">Participants:</span> {formData.participants}
+                  </p>
+                  <p>
+                    <span className="font-medium text-foreground">Email:</span> {formData.email}
+                  </p>
                 </div>
               </div>
               <button
@@ -222,65 +242,92 @@ export function BookingSection() {
           </motion.div>
         </div>
       </section>
-    )
+    );
   }
 
   return (
     <section id="booking" className="relative py-24 bg-background overflow-hidden">
       <SectionDecorations />
       <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
-        
         {/* Header */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-3 mb-6">
             <div className="w-3 h-3 bg-accent-emerald rounded-full animate-pulse" />
-            <span className="text-sm font-semibold text-muted-foreground">
-              Book Your Adventure
-            </span>
+            <span className="text-sm font-semibold text-muted-foreground">Book Your Adventure</span>
             <div className="w-3 h-3 bg-accent-blue rounded-full animate-pulse" />
           </div>
-          
+
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground">
             Book Your Skydive
           </h2>
-          
+
           <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
             Ready for the thrill of a lifetime? Book your skydive in just a few simple steps.
           </p>
         </div>
 
-        {/* Progress Steps */}
+        {/* Progress Steps - FIXED VERSION */}
         <div className="max-w-4xl mx-auto mb-12">
-          <div className="flex items-center justify-between">
-            {steps.map((step, index) => {
-              const Icon = step.icon
-              const isActive = currentStepIndex === index
-              const isCompleted = currentStepIndex > index
-              
-              return (
-                <div key={step.id} className="flex items-center flex-1">
-                  <div className="flex flex-col items-center">
-                    <div className={`w-12 h-12 rounded-full flex items-center justify-center transition-colors ${
-                      isActive ? 'bg-accent-emerald text-white' :
-                      isCompleted ? 'bg-accent-emerald/20 text-accent-emerald' :
-                      'bg-muted text-muted-foreground'
-                    }`}>
-                      {isCompleted ? <Check className="w-6 h-6" /> : <Icon className="w-6 h-6" />}
+          <div className="relative">
+            {/* Progress line (behind the icons) */}
+            <div className="absolute top-6 left-0 right-0 h-1 bg-muted -translate-y-1/2">
+              <div
+                className="h-full bg-accent-emerald transition-all duration-500"
+                style={{ width: `${(currentStepIndex / (steps.length - 1)) * 100}%` }}
+              />
+            </div>
+
+            {/* Steps container */}
+            <div className="relative flex justify-between">
+              {steps.map((step, index) => {
+                const Icon = step.icon;
+                const isActive = currentStepIndex === index;
+                const isCompleted = currentStepIndex > index;
+
+                return (
+                  <div key={step.id} className="flex flex-col items-center relative z-10">
+                    {/* Step circle */}
+                    <div
+                      className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 transition-all duration-300 ${
+                        isActive
+                          ? "bg-accent-emerald text-white scale-110 shadow-lg shadow-accent-emerald/30"
+                          : isCompleted
+                            ? "bg-accent-emerald text-white"
+                            : "bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {isCompleted ? (
+                        <Check className="w-6 h-6" />
+                      ) : (
+                        <Icon className={`w-6 h-6 ${isActive ? "" : "opacity-80"}`} />
+                      )}
                     </div>
-                    <span className={`text-xs sm:text-sm mt-2 font-medium text-center ${
-                      isActive ? 'text-foreground' : 'text-muted-foreground'
-                    }`}>
+
+                    {/* Step label */}
+                    <span
+                      className={`text-xs sm:text-sm font-medium transition-colors ${
+                        isActive ? "text-foreground font-semibold" : "text-muted-foreground"
+                      }`}
+                    >
                       {step.label}
                     </span>
+
+                    {/* Step number (optional) */}
+                    <div
+                      className={`absolute -top-1 -right-1 w-5 h-5 rounded-full text-xs flex items-center justify-center ${
+                        isActive
+                          ? "bg-accent-blue text-white"
+                          : isCompleted
+                            ? "bg-accent-emerald/20 text-accent-emerald"
+                            : "bg-muted text-muted-foreground"
+                      }`}
+                    >
+                      {index + 1}
+                    </div>
                   </div>
-                  {index < steps.length - 1 && (
-                    <div className={`flex-1 h-1 mx-2 sm:mx-4 rounded ${
-                      currentStepIndex > index ? 'bg-accent-emerald' : 'bg-muted'
-                    }`} />
-                  )}
-                </div>
-              )
-            })}
+                );
+              })}
+            </div>
           </div>
         </div>
 
@@ -289,7 +336,7 @@ export function BookingSection() {
           <div className="bg-card rounded-3xl p-8 lg:p-12 clean-border elevated-shadow">
             <AnimatePresence mode="wait">
               {/* Step 1: Location Selection */}
-              {currentStep === 'location' && (
+              {currentStep === "location" && (
                 <motion.div
                   key="location"
                   initial={{ opacity: 0, x: 20 }}
@@ -309,52 +356,56 @@ export function BookingSection() {
                     </div>
                   ) : (
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {locations?.filter(l => !l.coming_soon).map((location) => (
-                        <button
-                          key={location.id}
-                          onClick={() => {
-                            // Clear service selection when changing location
-                            setFormData({ ...formData, location: location.id, service: '' })
-                            // Auto-advance to service selection
-                            setTimeout(() => setCurrentStep('service'), 150)
-                          }}
-                          className={`group overflow-hidden rounded-xl border-2 text-left transition-all cursor-pointer ${
-                            formData.location === location.id
-                              ? 'border-accent-emerald bg-accent-emerald/5'
-                              : 'border-border hover:border-accent-emerald/50'
-                          }`}
-                        >
-                          {/* Location Image */}
-                          <div className="relative h-32 overflow-hidden">
-                            <img
-                              src={location.image_url || '/placeholder.svg'}
-                              alt={location.Name}
-                              className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                            {formData.location === location.id && (
-                              <div className="absolute top-2 right-2 w-8 h-8 bg-accent-emerald rounded-full flex items-center justify-center">
-                                <Check className="w-5 h-5 text-white" />
-                              </div>
-                            )}
-                          </div>
-                          {/* Location Info */}
-                          <div className="p-4">
-                            <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1">
-                              <MapPin className="w-3 h-3" />
-                              <span>{location.City}, {location.country}</span>
+                      {locations
+                        ?.filter((l) => !l.coming_soon)
+                        .map((location) => (
+                          <button
+                            key={location.id}
+                            onClick={() => {
+                              // Clear service selection when changing location
+                              setFormData({ ...formData, location: location.id, service: "" });
+                              // Auto-advance to service selection
+                              setTimeout(() => setCurrentStep("service"), 150);
+                            }}
+                            className={`group overflow-hidden rounded-xl border-2 text-left transition-all cursor-pointer ${
+                              formData.location === location.id
+                                ? "border-accent-emerald bg-accent-emerald/5"
+                                : "border-border hover:border-accent-emerald/50"
+                            }`}
+                          >
+                            {/* Location Image */}
+                            <div className="relative h-32 overflow-hidden">
+                              <img
+                                src={location.image_url || "/placeholder.svg"}
+                                alt={location.Name}
+                                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                              {formData.location === location.id && (
+                                <div className="absolute top-2 right-2 w-8 h-8 bg-accent-emerald rounded-full flex items-center justify-center">
+                                  <Check className="w-5 h-5 text-white" />
+                                </div>
+                              )}
                             </div>
-                            <p className="font-semibold text-foreground">{location.Name}</p>
-                          </div>
-                        </button>
-                      ))}
+                            {/* Location Info */}
+                            <div className="p-4">
+                              <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1">
+                                <MapPin className="w-3 h-3" />
+                                <span>
+                                  {location.City}, {location.country}
+                                </span>
+                              </div>
+                              <p className="font-semibold text-foreground">{location.Name}</p>
+                            </div>
+                          </button>
+                        ))}
                     </div>
                   )}
                 </motion.div>
               )}
 
               {/* Step 2: Service Selection */}
-              {currentStep === 'service' && (
+              {currentStep === "service" && (
                 <motion.div
                   key="service"
                   initial={{ opacity: 0, x: 20 }}
@@ -378,14 +429,14 @@ export function BookingSection() {
                         <button
                           key={service.id}
                           onClick={() => {
-                            setFormData({ ...formData, service: service.id })
+                            setFormData({ ...formData, service: service.id });
                             // Auto-advance to date & details
-                            setTimeout(() => setCurrentStep('details'), 150)
+                            setTimeout(() => setCurrentStep("details"), 150);
                           }}
                           className={`w-full p-6 rounded-xl border-2 text-left transition-all cursor-pointer ${
                             formData.service === service.id
-                              ? 'border-accent-emerald bg-accent-emerald/5'
-                              : 'border-border hover:border-accent-emerald/50'
+                              ? "border-accent-emerald bg-accent-emerald/5"
+                              : "border-border hover:border-accent-emerald/50"
                           }`}
                         >
                           <div className="flex items-start justify-between gap-4">
@@ -398,19 +449,26 @@ export function BookingSection() {
                                   </span>
                                 )}
                               </div>
-                              <p className="text-sm text-muted-foreground capitalize mb-2">{service.service_type} Experience</p>
+                              <p className="text-sm text-muted-foreground capitalize mb-2">
+                                {service.service_type} Experience
+                              </p>
                               {service.description && (
                                 <p className="text-muted-foreground text-sm">{service.description}</p>
                               )}
                               {service.includes && service.includes.length > 0 && (
                                 <div className="mt-3 flex flex-wrap gap-2">
                                   {service.includes.slice(0, 3).map((item, idx) => (
-                                    <span key={idx} className="text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground">
+                                    <span
+                                      key={idx}
+                                      className="text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground"
+                                    >
                                       {item}
                                     </span>
                                   ))}
                                   {service.includes.length > 3 && (
-                                    <span className="text-xs text-muted-foreground">+{service.includes.length - 3} more</span>
+                                    <span className="text-xs text-muted-foreground">
+                                      +{service.includes.length - 3} more
+                                    </span>
                                   )}
                                 </div>
                               )}
@@ -440,7 +498,7 @@ export function BookingSection() {
               )}
 
               {/* Step 3: Date & Details */}
-              {currentStep === 'details' && (
+              {currentStep === "details" && (
                 <motion.div
                   key="details"
                   initial={{ opacity: 0, x: 20 }}
@@ -456,9 +514,7 @@ export function BookingSection() {
 
                   {/* Date Selection */}
                   <div>
-                    <label className="block text-lg font-semibold text-foreground mb-4">
-                      Preferred Date
-                    </label>
+                    <label className="block text-lg font-semibold text-foreground mb-4">Preferred Date</label>
                     <div className="relative">
                       <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                       <input
@@ -473,12 +529,12 @@ export function BookingSection() {
 
                   {/* Participants */}
                   <div>
-                    <label className="block text-lg font-semibold text-foreground mb-4">
-                      Number of Jumpers
-                    </label>
+                    <label className="block text-lg font-semibold text-foreground mb-4">Number of Jumpers</label>
                     <div className="flex items-center gap-4">
                       <button
-                        onClick={() => setFormData({ ...formData, participants: Math.max(1, formData.participants - 1) })}
+                        onClick={() =>
+                          setFormData({ ...formData, participants: Math.max(1, formData.participants - 1) })
+                        }
                         className="w-12 h-12 rounded-xl border border-border hover:border-accent-emerald/50 flex items-center justify-center text-xl font-bold cursor-pointer transition-colors"
                       >
                         -
@@ -487,18 +543,20 @@ export function BookingSection() {
                         {formData.participants}
                       </span>
                       <button
-                        onClick={() => setFormData({ ...formData, participants: Math.min(10, formData.participants + 1) })}
+                        onClick={() =>
+                          setFormData({ ...formData, participants: Math.min(10, formData.participants + 1) })
+                        }
                         className="w-12 h-12 rounded-xl border border-border hover:border-accent-emerald/50 flex items-center justify-center text-xl font-bold cursor-pointer transition-colors"
                       >
                         +
                       </button>
-                      <span className="text-muted-foreground">jumper{formData.participants !== 1 ? 's' : ''}</span>
+                      <span className="text-muted-foreground">jumper{formData.participants !== 1 ? "s" : ""}</span>
                     </div>
                   </div>
 
                   <div className="border-t border-border pt-6">
                     <h4 className="text-lg font-semibold text-foreground mb-4">Your Contact Details</h4>
-                    
+
                     {/* Name */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                       <div>
@@ -509,7 +567,9 @@ export function BookingSection() {
                           onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                           maxLength={50}
                           className={`w-full px-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
-                            validationErrors.firstName ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-accent-emerald'
+                            validationErrors.firstName
+                              ? "border-red-500 focus:border-red-500"
+                              : "border-border focus:border-accent-emerald"
                           }`}
                           placeholder="John"
                         />
@@ -525,7 +585,9 @@ export function BookingSection() {
                           onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                           maxLength={50}
                           className={`w-full px-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
-                            validationErrors.lastName ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-accent-emerald'
+                            validationErrors.lastName
+                              ? "border-red-500 focus:border-red-500"
+                              : "border-border focus:border-accent-emerald"
                           }`}
                           placeholder="Doe"
                         />
@@ -546,14 +608,14 @@ export function BookingSection() {
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           maxLength={255}
                           className={`w-full pl-12 pr-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
-                            validationErrors.email ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-accent-emerald'
+                            validationErrors.email
+                              ? "border-red-500 focus:border-red-500"
+                              : "border-border focus:border-accent-emerald"
                           }`}
                           placeholder="john@example.com"
                         />
                       </div>
-                      {validationErrors.email && (
-                        <p className="text-red-500 text-xs mt-1">{validationErrors.email}</p>
-                      )}
+                      {validationErrors.email && <p className="text-red-500 text-xs mt-1">{validationErrors.email}</p>}
                     </div>
 
                     {/* Phone */}
@@ -567,26 +629,30 @@ export function BookingSection() {
                           onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                           maxLength={20}
                           className={`w-full pl-12 pr-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
-                            validationErrors.phone ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-accent-emerald'
+                            validationErrors.phone
+                              ? "border-red-500 focus:border-red-500"
+                              : "border-border focus:border-accent-emerald"
                           }`}
                           placeholder="+852 1234 5678"
                         />
                       </div>
-                      {validationErrors.phone && (
-                        <p className="text-red-500 text-xs mt-1">{validationErrors.phone}</p>
-                      )}
+                      {validationErrors.phone && <p className="text-red-500 text-xs mt-1">{validationErrors.phone}</p>}
                     </div>
 
                     {/* Notes */}
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">Special Requests (Optional)</label>
+                      <label className="block text-sm font-medium text-foreground mb-2">
+                        Special Requests (Optional)
+                      </label>
                       <textarea
                         value={formData.notes}
                         onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
                         rows={3}
                         maxLength={500}
                         className={`w-full px-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all resize-none ${
-                          validationErrors.notes ? 'border-red-500 focus:border-red-500' : 'border-border focus:border-accent-emerald'
+                          validationErrors.notes
+                            ? "border-red-500 focus:border-red-500"
+                            : "border-border focus:border-accent-emerald"
                         }`}
                         placeholder="Any special requirements or questions..."
                       />
@@ -604,7 +670,7 @@ export function BookingSection() {
               )}
 
               {/* Step 4: Confirm */}
-              {currentStep === 'confirm' && (
+              {currentStep === "confirm" && (
                 <motion.div
                   key="confirm"
                   initial={{ opacity: 0, x: 20 }}
@@ -623,7 +689,9 @@ export function BookingSection() {
                       <div>
                         <p className="text-muted-foreground">Location</p>
                         <p className="font-semibold text-foreground">{selectedLocation?.Name}</p>
-                        <p className="text-xs text-muted-foreground">{selectedLocation?.City}, {selectedLocation?.country}</p>
+                        <p className="text-xs text-muted-foreground">
+                          {selectedLocation?.City}, {selectedLocation?.country}
+                        </p>
                       </div>
                       <div>
                         <p className="text-muted-foreground">Service</p>
@@ -636,18 +704,25 @@ export function BookingSection() {
                       </div>
                       <div>
                         <p className="text-muted-foreground">Participants</p>
-                        <p className="font-semibold text-foreground">{formData.participants} jumper{formData.participants !== 1 ? 's' : ''}</p>
+                        <p className="font-semibold text-foreground">
+                          {formData.participants} jumper{formData.participants !== 1 ? "s" : ""}
+                        </p>
                       </div>
                     </div>
                     <div className="border-t border-border pt-4">
                       <p className="text-muted-foreground text-sm">Contact</p>
-                      <p className="font-semibold text-foreground">{formData.firstName} {formData.lastName}</p>
-                      <p className="text-sm text-muted-foreground">{formData.email} • {formData.phone}</p>
+                      <p className="font-semibold text-foreground">
+                        {formData.firstName} {formData.lastName}
+                      </p>
+                      <p className="text-sm text-muted-foreground">
+                        {formData.email} • {formData.phone}
+                      </p>
                     </div>
                   </div>
 
                   <p className="text-sm text-muted-foreground text-center">
-                    By clicking submit, you agree to our booking terms. We'll contact you within 24 hours to confirm availability and finalize your booking.
+                    By clicking submit, you agree to our booking terms. We'll contact you within 24 hours to confirm
+                    availability and finalize your booking.
                   </p>
                 </motion.div>
               )}
@@ -655,7 +730,7 @@ export function BookingSection() {
 
             {/* Navigation Buttons */}
             <div className="flex items-center justify-between mt-8 pt-6 border-t border-border">
-              {currentStep !== 'location' ? (
+              {currentStep !== "location" ? (
                 <button
                   onClick={handleBack}
                   className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
@@ -667,14 +742,14 @@ export function BookingSection() {
                 <div />
               )}
 
-              {currentStep !== 'confirm' ? (
+              {currentStep !== "confirm" ? (
                 <button
                   onClick={handleNext}
                   disabled={!canProceed()}
                   className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all cursor-pointer ${
                     canProceed()
-                      ? 'bg-accent-emerald text-white hover:bg-accent-emerald/90'
-                      : 'bg-muted text-muted-foreground cursor-not-allowed'
+                      ? "bg-accent-emerald text-white hover:bg-accent-emerald/90"
+                      : "bg-muted text-muted-foreground cursor-not-allowed"
                   }`}
                 >
                   Continue
@@ -704,5 +779,5 @@ export function BookingSection() {
         </div>
       </div>
     </section>
-  )
+  );
 }
