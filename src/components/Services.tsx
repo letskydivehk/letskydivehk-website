@@ -1,20 +1,96 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Plane, GraduationCap, Users, Check, ArrowRight, Loader2 } from 'lucide-react'
-import { useServices, type Service } from '@/hooks/useServices'
+import { useAllLocationServices, type LocationService } from '@/hooks/useLocationServices'
 import { SectionDecorations } from './SectionDecorations'
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
-  parachute: Plane,
-  graduation: GraduationCap,
-  users: Users
+  tandem: Plane,
+  aff: GraduationCap,
+  group: Users
+}
+
+// Aggregate services by type for display
+interface AggregatedService {
+  type: 'tandem' | 'aff' | 'group'
+  title: string
+  subtitle: string
+  description: string
+  priceRange: string
+  includes: string[]
+  isPopular: boolean
+}
+
+const serviceInfo: Record<string, { title: string; subtitle: string; description: string }> = {
+  tandem: {
+    title: 'Tandem Skydive',
+    subtitle: 'First-time jumpers',
+    description: 'Experience the thrill of freefall safely strapped to an experienced instructor. No experience needed!'
+  },
+  aff: {
+    title: 'AFF Course',
+    subtitle: 'Learn to skydive solo',
+    description: 'Accelerated Freefall program to become a licensed skydiver. Comprehensive training included.'
+  },
+  group: {
+    title: 'Group Events',
+    subtitle: 'Corporate & celebrations',
+    description: 'Perfect for team building, birthdays, or any special occasion. Custom packages available.'
+  }
 }
 
 export function Services() {
   const [hoveredService, setHoveredService] = useState<string | null>(null)
-  const { data: services, isLoading, error } = useServices()
+  const { data: locationServices, isLoading, error } = useAllLocationServices()
+
+  // Aggregate location services by type
+  const aggregatedServices = useMemo(() => {
+    if (!locationServices) return []
+
+    const grouped = locationServices.reduce((acc, service) => {
+      if (!acc[service.service_type]) {
+        acc[service.service_type] = {
+          services: [],
+          isPopular: false,
+          includes: new Set<string>()
+        }
+      }
+      acc[service.service_type].services.push(service)
+      if (service.is_popular) acc[service.service_type].isPopular = true
+      service.includes?.forEach(item => acc[service.service_type].includes.add(item))
+      return acc
+    }, {} as Record<string, { services: LocationService[]; isPopular: boolean; includes: Set<string> }>)
+
+    // Calculate price ranges and create aggregated services
+    return Object.entries(grouped).map(([type, data]) => {
+      const prices = data.services
+        .filter(s => !s.price_display.toLowerCase().includes('custom'))
+        .map(s => parseInt(s.price_display.replace(/[^0-9]/g, '')) || 0)
+        .filter(p => p > 0)
+        .sort((a, b) => a - b)
+
+      const info = serviceInfo[type] || { title: type, subtitle: '', description: '' }
+
+      return {
+        type: type as 'tandem' | 'aff' | 'group',
+        title: info.title,
+        subtitle: info.subtitle,
+        description: info.description,
+        priceRange: prices.length > 0 
+          ? prices.length > 1 
+            ? `From $${prices[0].toLocaleString()}` 
+            : `$${prices[0].toLocaleString()}`
+          : 'Custom Quote',
+        includes: Array.from(data.includes).slice(0, 4),
+        isPopular: data.isPopular
+      } as AggregatedService
+    }).sort((a, b) => {
+      const order = { tandem: 1, aff: 2, group: 3 }
+      return (order[a.type] || 99) - (order[b.type] || 99)
+    })
+  }, [locationServices])
 
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId)
@@ -60,27 +136,27 @@ export function Services() {
         )}
 
         {/* Services Grid */}
-        {!isLoading && !error && services && (
+        {!isLoading && !error && aggregatedServices && (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto items-stretch">
-            {services.map((service) => {
-              const IconComponent = iconMap[service.icon_name] || Plane
-              const isHovered = hoveredService === service.id
+            {aggregatedServices.map((service, index) => {
+              const IconComponent = iconMap[service.type] || Plane
+              const isHovered = hoveredService === service.type
               
               return (
                 <motion.div
-                  key={service.id}
+                  key={service.type}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: service.display_order * 0.1 }}
-                  onMouseEnter={() => setHoveredService(service.id)}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  onMouseEnter={() => setHoveredService(service.type)}
                   onMouseLeave={() => setHoveredService(null)}
                   className={`relative bg-card rounded-2xl p-8 clean-border transition-all duration-300 ${
                     isHovered ? 'elevated-shadow scale-[1.02]' : 'subtle-shadow'
-                  } ${service.is_popular ? 'ring-2 ring-accent-orange' : ''}`}
+                  } ${service.isPopular ? 'ring-2 ring-accent-orange' : ''}`}
                 >
                   {/* Popular Badge */}
-                  {service.is_popular && (
+                  {service.isPopular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                       <span className="bg-accent-orange text-white text-xs font-bold px-4 py-1 rounded-full">
                         MOST POPULAR
@@ -111,29 +187,20 @@ export function Services() {
                   {/* Price */}
                   <div className="mb-6">
                     <span className="text-3xl font-black text-foreground">
-                      {service.price_display}
+                      {service.priceRange}
                     </span>
-                    {service.price_note && (
-                      <p className="text-sm text-muted-foreground mt-1">
-                        {service.price_note}
-                      </p>
-                    )}
+                    <p className="text-sm text-muted-foreground mt-1">
+                      Prices vary by location
+                    </p>
                   </div>
 
-                  {/* Duration */}
-                  {service.duration && (
-                    <div className="text-sm text-muted-foreground mb-6">
-                      <span className="font-medium">Duration:</span> {service.duration}
-                    </div>
-                  )}
-
                   {/* Includes */}
-                  {service.includes && service.includes.length > 0 && (
+                  {service.includes.length > 0 && (
                     <div className="mb-8">
                       <p className="text-sm font-semibold text-foreground mb-3">What's included:</p>
                       <ul className="space-y-2">
-                        {service.includes.slice(0, 4).map((item, index) => (
-                          <li key={index} className="flex items-start gap-2 text-sm text-muted-foreground">
+                        {service.includes.map((item, idx) => (
+                          <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
                             <Check className="w-4 h-4 text-accent-orange mt-0.5 flex-shrink-0" />
                             <span>{item}</span>
                           </li>
@@ -144,14 +211,14 @@ export function Services() {
 
                   {/* CTA Button */}
                   <button
-                    onClick={() => scrollToSection(service.booking_type === 'direct' ? 'booking' : 'contact')}
+                    onClick={() => scrollToSection(service.type === 'group' ? 'contact' : 'booking')}
                     className={`w-full py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
-                      service.booking_type === 'direct'
+                      service.type !== 'group'
                         ? 'bg-accent-orange text-white hover:bg-accent-orange/90'
                         : 'bg-foreground text-background hover:bg-foreground/90'
                     }`}
                   >
-                    {service.booking_type === 'direct' ? 'Book Now' : 'Contact Us'}
+                    {service.type !== 'group' ? 'Book Now' : 'Contact Us'}
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </motion.div>
