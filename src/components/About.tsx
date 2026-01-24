@@ -49,7 +49,7 @@ export function About() {
             <div className="w-3 h-3 bg-accent-orange rounded-full animate-pulse" />
           </div>
 
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground whitespace-nowrap">
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground sm:whitespace-nowrap">
             Why Choose Let's Skydive HK?
           </h2>
 
