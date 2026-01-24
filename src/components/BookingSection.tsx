@@ -513,16 +513,17 @@ export function BookingSection() {
                   </div>
 
                   {/* Date Selection */}
-                  <div>
+                  <div className="overflow-hidden">
                     <label className="block text-lg font-semibold text-foreground mb-4">Preferred Date</label>
                     <div className="relative">
-                      <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                      <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none z-10" />
                       <input
                         type="date"
                         min={minDate}
                         value={formData.date}
                         onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                        className="w-full pl-12 pr-4 py-4 rounded-xl border border-border bg-background text-foreground focus:border-accent-emerald focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all"
+                        className="w-full pl-12 pr-4 py-4 rounded-xl border border-border bg-background text-foreground focus:border-accent-emerald focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all appearance-none [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer max-w-full"
+                        style={{ colorScheme: 'dark' }}
                       />
                     </div>
                   </div>
