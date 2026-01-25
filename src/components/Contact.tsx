@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Send, MessageSquare, Clock, Instagram } from "lucide-react";
+import { Mail, Send, MessageSquare, Clock, Instagram, Phone } from "lucide-react";
 
 interface ContactFormData {
   name: string;
@@ -81,7 +81,11 @@ export function Contact() {
                     <div>
                       <h3 className="font-semibold text-foreground mb-1">Email Us</h3>
                       <p className="text-muted-foreground text-sm mb-2">For bookings and inquiries</p>
-                      <a href="mailto:info@letsskydivehk.com" className="text-accent-emerald hover:underline">
+                      <a
+                        href="mailto:info@letsskydivehk.com"
+                        className="text-accent-emerald hover:underline inline-flex items-center gap-1"
+                      >
+                        <Mail className="w-4 h-4" />
                         info@letsskydivehk.com
                       </a>
                     </div>
@@ -97,11 +101,12 @@ export function Contact() {
                       <h3 className="font-semibold text-foreground mb-1">Message our Instagram</h3>
                       <p className="text-muted-foreground text-sm mb-2">Response time in 24 hours</p>
                       <a
-                        href="https://www.instagram.com/lets_skydive_hk?igsh=aWFkZ240bnZzZXB0"
+                        href="https://www.instagram.com/lets_skydive_hk/"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-accent-blue hover:underline"
+                        className="text-accent-blue hover:underline inline-flex items-center gap-1"
                       >
+                        <Instagram className="w-4 h-4" />
                         @lets_skydive_hk
                       </a>
                     </div>
@@ -120,8 +125,9 @@ export function Contact() {
                         href="https://wa.me/85212345678"
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-accent-purple hover:underline"
+                        className="text-accent-purple hover:underline inline-flex items-center gap-1"
                       >
+                        <Phone className="w-4 h-4" />
                         +852 1234 5678
                       </a>
                     </div>
@@ -139,6 +145,44 @@ export function Contact() {
                   We typically respond to all inquiries within 24 hours. For urgent matters, please call or WhatsApp us
                   directly.
                 </p>
+              </div>
+
+              {/* Social Media Links */}
+              <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card">
+                <h3 className="font-semibold text-foreground mb-4">Follow Us</h3>
+                <div className="flex items-center gap-4">
+                  <a
+                    href="https://www.instagram.com/lets_skydive_hk/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-accent-blue/10 rounded-full flex items-center justify-center hover:bg-accent-blue/20 transition-colors"
+                    aria-label="Instagram"
+                  >
+                    <Instagram className="w-5 h-5 text-accent-blue" />
+                  </a>
+                  <a
+                    href="https://www.facebook.com/lets.skydive.hk/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center hover:bg-blue-500/20 transition-colors"
+                    aria-label="Facebook"
+                  >
+                    <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                    </svg>
+                  </a>
+                  <a
+                    href="https://www.youtube.com/@letsskydivehk"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-10 h-10 bg-red-500/10 rounded-full flex items-center justify-center hover:bg-red-500/20 transition-colors"
+                    aria-label="YouTube"
+                  >
+                    <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+                    </svg>
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -160,8 +204,9 @@ export function Contact() {
                     </p>
                     <button
                       onClick={handleReset}
-                      className="text-accent-emerald font-semibold hover:underline cursor-pointer"
+                      className="text-accent-emerald font-semibold hover:underline cursor-pointer inline-flex items-center gap-2"
                     >
+                      <Send className="w-4 h-4" />
                       Send another message
                     </button>
                   </motion.div>
@@ -170,7 +215,7 @@ export function Contact() {
                     {/* Name & Email */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">Name</label>
+                        <label className="block text-sm font-medium text-foreground mb-2">Name *</label>
                         <input
                           type="text"
                           required
@@ -181,7 +226,7 @@ export function Contact() {
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">Email</label>
+                        <label className="block text-sm font-medium text-foreground mb-2">Email *</label>
                         <input
                           type="email"
                           required
@@ -207,7 +252,7 @@ export function Contact() {
 
                     {/* Subject */}
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">Subject</label>
+                      <label className="block text-sm font-medium text-foreground mb-2">Subject *</label>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         {subjects.map((subject) => (
                           <button
@@ -219,7 +264,7 @@ export function Contact() {
                             className={`px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all cursor-pointer ${
                               formData.subject === subject.value
                                 ? "border-accent-emerald bg-accent-emerald/5 text-accent-emerald"
-                                : "border-border text-muted-foreground hover:border-accent-emerald/50"
+                                : "border-border text-muted-foreground hover:border-accent-emerald/50 hover:text-foreground"
                             }`}
                           >
                             {subject.label}
@@ -230,7 +275,7 @@ export function Contact() {
 
                     {/* Message */}
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">Message</label>
+                      <label className="block text-sm font-medium text-foreground mb-2">Message *</label>
                       <textarea
                         required
                         rows={5}
@@ -239,6 +284,7 @@ export function Contact() {
                         className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:border-accent-emerald focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all resize-none"
                         placeholder="Tell us about your inquiry..."
                       />
+                      <p className="text-xs text-muted-foreground mt-2">* Required fields</p>
                     </div>
 
                     {/* Submit */}
