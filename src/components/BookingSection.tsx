@@ -64,7 +64,7 @@ export function BookingSection() {
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
   const { data: locations, isLoading: locationsLoading } = useLocations();
-  const { preselectedLocationId, setPreselectedLocationId, preselectedServiceType, setPreselectedServiceType } = useBooking();
+  const { preselectedLocationId, setPreselectedLocationId, preselectedServiceType, setPreselectedServiceType, activeServiceTypeFilter, setActiveServiceTypeFilter } = useBooking();
 
   // Fetch location-specific services when a location is selected
   const { data: locationServices, isLoading: servicesLoading } = useLocationServices(formData.location || undefined);
@@ -88,10 +88,44 @@ export function BookingSection() {
       // Reset form and start at location step so user can choose where to do this service
       setFormData((prev) => ({ ...prev, location: "", service: "" }));
       setCurrentStep("location");
+      // Set the filter to show only locations that offer this service type
+      setActiveServiceTypeFilter(preselectedServiceType);
       // Clear the preselection after using it
       setPreselectedServiceType(null);
     }
-  }, [preselectedServiceType, setPreselectedServiceType]);
+  }, [preselectedServiceType, setPreselectedServiceType, setActiveServiceTypeFilter]);
+
+  // Filter locations based on active service type filter
+  const filteredLocations = useMemo(() => {
+    if (!locations) return [];
+    if (!activeServiceTypeFilter) return locations.filter(l => !l.coming_soon);
+    
+    return locations.filter(l => {
+      if (l.coming_soon) return false;
+      if (activeServiceTypeFilter === 'aff') return l.has_aff;
+      if (activeServiceTypeFilter === 'group') return l.has_group_events;
+      return true; // tandem is available everywhere
+    });
+  }, [locations, activeServiceTypeFilter]);
+
+  // Clear filter when user manually navigates or resets
+  const handleReset = () => {
+    setFormData({
+      location: "",
+      service: "",
+      date: "",
+      participants: 1,
+      firstName: "",
+      lastName: "",
+      email: "",
+      phone: "",
+      notes: "",
+    });
+    setCurrentStep("location");
+    setIsComplete(false);
+    setValidationErrors({});
+    setActiveServiceTypeFilter(null);
+  };
 
   const selectedLocation = useMemo(
     () => locations?.find((l) => l.id === formData.location),
@@ -181,22 +215,6 @@ export function BookingSection() {
     setIsComplete(true);
   };
 
-  const handleReset = () => {
-    setFormData({
-      location: "",
-      service: "",
-      date: "",
-      participants: 1,
-      firstName: "",
-      lastName: "",
-      email: "",
-      phone: "",
-      notes: "",
-    });
-    setCurrentStep("location");
-    setIsComplete(false);
-    setValidationErrors({});
-  };
 
   // Get min date (tomorrow)
   const tomorrow = new Date();
@@ -366,10 +384,22 @@ export function BookingSection() {
                       <Loader2 className="w-8 h-8 animate-spin text-accent-emerald" />
                     </div>
                   ) : (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {locations
-                        ?.filter((l) => !l.coming_soon)
-                        .map((location) => (
+                    <>
+                      {activeServiceTypeFilter && (
+                        <div className="mb-4 p-3 bg-accent-blue/10 rounded-lg flex items-center justify-between">
+                          <span className="text-sm text-accent-blue font-medium">
+                            Showing locations with {activeServiceTypeFilter === 'aff' ? 'A-Licence' : activeServiceTypeFilter} available
+                          </span>
+                          <button
+                            onClick={() => setActiveServiceTypeFilter(null)}
+                            className="text-xs text-muted-foreground hover:text-foreground underline cursor-pointer"
+                          >
+                            Show all
+                          </button>
+                        </div>
+                      )}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        {filteredLocations.map((location) => (
                           <button
                             key={location.id}
                             onClick={() => {
@@ -410,7 +440,13 @@ export function BookingSection() {
                             </div>
                           </button>
                         ))}
-                    </div>
+                        {filteredLocations.length === 0 && (
+                          <div className="col-span-full text-center py-8 text-muted-foreground">
+                            No locations available for this service type.
+                          </div>
+                        )}
+                      </div>
+                    </>
                   )}
                 </motion.div>
               )}

@@ -31,7 +31,7 @@ const serviceInfo: Record<string, { title: string; subtitle: string; description
     description: 'Experience the thrill of freefall safely strapped to an experienced instructor. No experience needed!'
   },
   aff: {
-    title: 'AFF Course',
+    title: 'A-Licence',
     subtitle: 'Learn to skydive solo',
     description: 'Accelerated Freefall program to become a licensed skydiver. Comprehensive training included.'
   },
