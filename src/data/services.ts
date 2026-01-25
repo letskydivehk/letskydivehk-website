@@ -40,16 +40,17 @@ export const services: Service[] = [
     displayOrder: 1
   },
   {
-    id: 'aff',
-    slug: 'aff-course',
-    title: 'AFF Course',
+    id: 'Alicences',
+    slug: 'A-Licences',
+    title: 'A-Licences',
     subtitle: 'Learn to skydive solo',
     description: 'The Accelerated Freefall (AFF) program is your pathway to becoming a licensed skydiver. Master the skills to jump independently.',
     priceDisplay: 'Contact for pricing',
     duration: '7-10 days intensive program',
     includes: [
+      '25 Jumps'
       'Ground school training',
-      '8 progressive jump levels',
+      '9 progressive jump levels',
       'Personal instructor guidance',
       'All equipment provided',
       'License preparation'
