@@ -5,8 +5,10 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { AuthButton } from './AuthButton';
 import { ProfileModal } from './ProfileModal';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export function Hero() {
+  const { t } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -90,16 +92,16 @@ export function Hero() {
             {/* Navigation Menu */}
             <div className="hidden md:flex items-center space-x-8">
               <a href="#services" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
-                Services
+                {t('nav.services')}
               </a>
               <a href="#locations" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
-                Locations
+                {t('nav.locations')}
               </a>
               <a href="#about" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
-                About
+                {t('nav.about')}
               </a>
               <a href="#contact" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
-                Contact
+                {t('nav.contact')}
               </a>
             </div>
 
@@ -114,7 +116,7 @@ export function Hero() {
             }} whileTap={{
               scale: 0.95
             }} onClick={scrollToLocations} className="hidden sm:block bg-accent-orange backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-md hover:bg-accent-orange/90 gentle-animation cursor-pointer">
-                Book Your Jump
+                {t('hero.cta.book')}
               </motion.button>
 
               {/* Mobile Hamburger Menu Button */}
@@ -159,16 +161,16 @@ export function Hero() {
             {/* Mobile Navigation Links */}
             <div className="flex flex-col space-y-4 text-white">
               <a href="#services" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
-                Services
+                {t('nav.services')}
               </a>
               <a href="#locations" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
-                Locations
+                {t('nav.locations')}
               </a>
               <a href="#about" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
-                About
+                {t('nav.about')}
               </a>
               <a href="#contact" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
-                Contact
+                {t('nav.contact')}
               </a>
             </div>
 
@@ -181,7 +183,7 @@ export function Hero() {
             scrollToLocations();
             setIsMobileMenuOpen(false);
           }} className="bg-accent-orange text-white font-semibold px-6 py-3 rounded-lg hover:bg-accent-orange/90 active:bg-accent-orange/80 gentle-animation mt-8 cursor-pointer">
-              Book Your Jump
+              {t('hero.cta.book')}
             </motion.button>
           </div>
         </div>
@@ -220,14 +222,14 @@ export function Hero() {
           }} whileTap={{
             scale: 0.95
           }} onClick={scrollToLocations} className="bg-accent-orange text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-accent-orange/90 gentle-animation cursor-pointer w-full sm:w-auto">
-              Book Your Jump
+              {t('hero.cta.book')}
             </motion.button>
             <motion.a href="#services" whileHover={{
             scale: 1.05
           }} whileTap={{
             scale: 0.95
           }} className="bg-white/10 backdrop-blur-sm text-white font-semibold px-8 py-4 rounded-lg text-lg border border-white/20 hover:bg-white/20 gentle-animation cursor-pointer w-full sm:w-auto text-center">
-              Explore Services
+              {t('hero.cta.explore')}
             </motion.a>
           </div>
         </motion.div>

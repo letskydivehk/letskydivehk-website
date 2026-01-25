@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Send, MessageSquare, Clock, Instagram, Phone } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ContactFormData {
   name: string;
@@ -13,6 +14,7 @@ interface ContactFormData {
 }
 
 export function Contact() {
+  const { t } = useLanguage();
   const [formData, setFormData] = useState<ContactFormData>({
     name: "",
     email: "",
@@ -68,14 +70,14 @@ export function Contact() {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-6">
             <div className="w-3 h-3 bg-accent-blue rounded-full animate-pulse" />
-            <span className="text-sm font-semibold text-muted-foreground">Get in Touch</span>
+            <span className="text-sm font-semibold text-muted-foreground">{t('contact.badge')}</span>
             <div className="w-3 h-3 bg-accent-emerald rounded-full animate-pulse" />
           </div>
 
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground">Contact Us</h2>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground">{t('contact.title')}</h2>
 
           <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            Have questions about AFF courses, group events, or anything else? We're here to help!
+            {t('contact.subtitle')}
           </p>
         </div>
 
@@ -91,7 +93,7 @@ export function Contact() {
                       <Mail className="w-6 h-6 text-accent-emerald" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1">Email Us</h3>
+                      <h3 className="font-semibold text-foreground mb-1">{t('contact.email.label')}</h3>
                       <p className="text-muted-foreground text-sm mb-2">For bookings and inquiries</p>
                       <a
                         href="mailto:info@letsskydivehk.com"
@@ -110,7 +112,7 @@ export function Contact() {
                       <Instagram className="w-6 h-6 text-accent-blue" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1">Message our Instagram</h3>
+                      <h3 className="font-semibold text-foreground mb-1">{t('contact.instagram.label')}</h3>
                       <p className="text-muted-foreground text-sm mb-2">Response time in 24 hours</p>
                       <button
                         onClick={handleInstagramClick}
@@ -129,7 +131,7 @@ export function Contact() {
                       <MessageSquare className="w-6 h-6 text-accent-purple" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1">WhatsApp</h3>
+                      <h3 className="font-semibold text-foreground mb-1">{t('contact.whatsapp.label')}</h3>
                       <p className="text-muted-foreground text-sm mb-2">Quick responses</p>
                       <a
                         href="https://wa.me/85212345678"
