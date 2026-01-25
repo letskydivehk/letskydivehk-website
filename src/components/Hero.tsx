@@ -7,9 +7,10 @@ import { AuthButton } from './AuthButton';
 import { ProfileModal } from './ProfileModal';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
-
 export function Hero() {
-  const { t } = useLanguage();
+  const {
+    t
+  } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
@@ -115,13 +116,7 @@ export function Hero() {
               <AuthButton onOpenProfile={() => setIsProfileOpen(true)} />
               
               {/* CTA Button - Hidden on mobile */}
-              <motion.button whileHover={{
-              scale: 1.05
-            }} whileTap={{
-              scale: 0.95
-            }} onClick={scrollToLocations} className="hidden sm:block bg-accent-orange backdrop-blur-sm text-white font-semibold px-6 py-3 rounded-md hover:bg-accent-orange/90 gentle-animation cursor-pointer">
-                {t('hero.cta.book')}
-              </motion.button>
+              
 
               {/* Mobile Hamburger Menu Button */}
               <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden glass-effect p-3 rounded-full text-white hover:bg-white/20 active:bg-white/30 gentle-animation cursor-pointer z-[120] relative">
