@@ -104,8 +104,10 @@ export function Footer() {
             <h4 className="font-bold text-lg text-background mb-4">Services</h4>
             <ul className="space-y-3">
               {services.map((service) => (
-                <li key={service.id} className="text-background/70">
-                  {service.title}
+                <li key={service.id}>
+                  <a href="#services" className="text-background/70 hover:text-background transition-colors">
+                    {service.title}
+                  </a>
                 </li>
               ))}
             </ul>
@@ -116,9 +118,11 @@ export function Footer() {
             <h4 className="font-bold text-lg text-background mb-4">Our Locations</h4>
             <ul className="space-y-3">
               {locations.map((location) => (
-                <li key={location.id} className="flex items-center gap-2 text-background/70">
-                  <span>{countryFlags[location.country] || "🌍"}</span>
-                  <span>{location.City ? `${location.City}, ${location.country}` : location.Name}</span>
+                <li key={location.id}>
+                  <a href="#locations" className="flex items-center gap-2 text-background/70 hover:text-background transition-colors">
+                    <span>{countryFlags[location.country] || "🌍"}</span>
+                    <span>{location.City ? `${location.City}, ${location.country}` : location.Name}</span>
+                  </a>
                 </li>
               ))}
             </ul>
