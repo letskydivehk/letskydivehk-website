@@ -94,10 +94,10 @@ export function Contact() {
                       <Phone className="w-6 h-6 text-accent-blue" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1">Message Us</h3>
+                      <h3 className="font-semibold text-foreground mb-1">Message our Instagram (Lets_skydive_hk)</h3>
                       <p className="text-muted-foreground text-sm mb-2">Response time in 24 hours</p>
                       <a href="Instagram:Lets_skydive_hk" className="text-accent-blue hover:underline">
-                        Lets_skydive_hk https://www.instagram.com/lets_skydive_hk?igsh=aWFkZ240bnZzZXB0
+                        https://www.instagram.com/lets_skydive_hk?igsh=aWFkZ240bnZzZXB0
                       </a>
                     </div>
                   </div>
