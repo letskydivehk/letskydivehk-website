@@ -4,6 +4,7 @@ import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Plane, GraduationCap, Users, Check, ArrowRight, Loader2 } from 'lucide-react'
 import { useAllLocationServices, type LocationService } from '@/hooks/useLocationServices'
+import { useBooking } from '@/contexts/BookingContext'
 import { SectionDecorations } from './SectionDecorations'
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -44,6 +45,7 @@ const serviceInfo: Record<string, { title: string; subtitle: string; description
 export function Services() {
   const [hoveredService, setHoveredService] = useState<string | null>(null)
   const { data: locationServices, isLoading, error } = useAllLocationServices()
+  const { setPreselectedServiceType } = useBooking()
 
   // Aggregate location services by type
   const aggregatedServices = useMemo(() => {
@@ -91,6 +93,12 @@ export function Services() {
       return (order[a.type] || 99) - (order[b.type] || 99)
     })
   }, [locationServices])
+
+  const scrollToBookingWithServiceType = (serviceType: string) => {
+    setPreselectedServiceType(serviceType)
+    const section = document.getElementById('booking')
+    section?.scrollIntoView({ behavior: 'smooth' })
+  }
 
   const scrollToSection = (sectionId: string) => {
     const section = document.getElementById(sectionId)
@@ -211,7 +219,7 @@ export function Services() {
 
                   {/* CTA Button */}
                   <button
-                    onClick={() => scrollToSection(service.type === 'group' ? 'contact' : 'booking')}
+                    onClick={() => service.type === 'group' ? scrollToSection('contact') : scrollToBookingWithServiceType(service.type)}
                     className={`w-full py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
                       service.type !== 'group'
                         ? 'bg-accent-orange text-white hover:bg-accent-orange/90'
