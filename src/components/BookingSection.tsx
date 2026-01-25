@@ -385,10 +385,10 @@ export function BookingSection() {
                     </div>
                   ) : (
                     <>
-                      {activeServiceTypeFilter && (
+                      {activeServiceTypeFilter === 'aff' && (
                         <div className="mb-4 p-3 bg-accent-blue/10 rounded-lg flex items-center justify-between">
                           <span className="text-sm text-accent-blue font-medium">
-                            Showing locations with {activeServiceTypeFilter === 'aff' ? 'A-Licence' : activeServiceTypeFilter} available
+                            Showing locations with A-Licence training available
                           </span>
                           <button
                             onClick={() => setActiveServiceTypeFilter(null)}
