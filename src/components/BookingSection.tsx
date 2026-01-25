@@ -64,7 +64,7 @@ export function BookingSection() {
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
   const { data: locations, isLoading: locationsLoading } = useLocations();
-  const { preselectedLocationId, setPreselectedLocationId } = useBooking();
+  const { preselectedLocationId, setPreselectedLocationId, preselectedServiceType, setPreselectedServiceType } = useBooking();
 
   // Fetch location-specific services when a location is selected
   const { data: locationServices, isLoading: servicesLoading } = useLocationServices(formData.location || undefined);
@@ -81,6 +81,17 @@ export function BookingSection() {
       }
     }
   }, [preselectedLocationId, locations, setPreselectedLocationId]);
+
+  // Handle preselected service type from Services component - show location step to choose where
+  useEffect(() => {
+    if (preselectedServiceType) {
+      // Reset form and start at location step so user can choose where to do this service
+      setFormData((prev) => ({ ...prev, location: "", service: "" }));
+      setCurrentStep("location");
+      // Clear the preselection after using it
+      setPreselectedServiceType(null);
+    }
+  }, [preselectedServiceType, setPreselectedServiceType]);
 
   const selectedLocation = useMemo(
     () => locations?.find((l) => l.id === formData.location),
