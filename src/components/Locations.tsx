@@ -13,7 +13,16 @@ type Country = 'Thailand' | 'China'
 export function Locations() {
   const [activeCountry, setActiveCountry] = useState<Country>('Thailand')
   const { data: locations, isLoading, error } = useLocations()
-  const { t } = useLanguage()
+  const { t, translateData } = useLanguage()
+
+  // Helper function to translate location data
+  const translateLocation = (location: Location) => ({
+    ...location,
+    Name: translateData(`location.${location.slug}`, location.Name),
+    description: translateData(`location.${location.slug}.desc`, location.description || ''),
+    City: translateData(`city.${location.City}`, location.City || ''),
+    country: translateData(`country.${location.country}`, location.country),
+  });
 
   // Listen for hash changes to switch country
   useEffect(() => {
@@ -121,6 +130,7 @@ export function Locations() {
                 <LocationCard 
                   key={location.id} 
                   location={location} 
+                  translatedLocation={translateLocation(location)}
                   onBookClick={() => scrollToBookingWithLocation(location.id)}
                   t={t}
                 />
@@ -141,13 +151,21 @@ export function Locations() {
   )
 }
 
+interface TranslatedLocation {
+  Name: string
+  description: string
+  City: string
+  country: string
+}
+
 interface LocationCardProps {
   location: Location
+  translatedLocation: TranslatedLocation
   onBookClick: (locationId: string) => void
   t: (key: string) => string
 }
 
-function LocationCard({ location, onBookClick, t }: LocationCardProps) {
+function LocationCard({ location, translatedLocation, onBookClick, t }: LocationCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -161,7 +179,7 @@ function LocationCard({ location, onBookClick, t }: LocationCardProps) {
       <div className="relative h-48 overflow-hidden">
         <img
           src={location.image_url || '/placeholder.svg'}
-          alt={location.Name}
+          alt={translatedLocation.Name}
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -170,7 +188,7 @@ function LocationCard({ location, onBookClick, t }: LocationCardProps) {
         {location.coming_soon && (
           <div className="absolute top-4 right-4">
             <span className="bg-accent-blue text-white text-xs font-bold px-3 py-1 rounded-full">
-              COMING SOON
+              {t('common.comingSoon').toUpperCase()}
             </span>
           </div>
         )}
@@ -179,16 +197,16 @@ function LocationCard({ location, onBookClick, t }: LocationCardProps) {
         <div className="absolute bottom-4 left-4 right-4">
           <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
             <MapPin className="w-4 h-4" />
-            <span>{location.City}, {location.country}</span>
+            <span>{translatedLocation.City}, {translatedLocation.country}</span>
           </div>
-          <h3 className="text-xl font-bold text-white">{location.Name}</h3>
+          <h3 className="text-xl font-bold text-white">{translatedLocation.Name}</h3>
         </div>
       </div>
 
       {/* Content */}
       <div className="p-6">
         <p className="text-muted-foreground mb-4 leading-relaxed">
-          {location.description}
+          {translatedLocation.description}
         </p>
 
         {/* Features */}

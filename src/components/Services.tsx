@@ -5,6 +5,7 @@ import { motion } from 'framer-motion'
 import { Plane, GraduationCap, Users, Check, ArrowRight, Loader2 } from 'lucide-react'
 import { useAllLocationServices, type LocationService } from '@/hooks/useLocationServices'
 import { useBooking } from '@/contexts/BookingContext'
+import { useLanguage } from '@/contexts/LanguageContext'
 import { SectionDecorations } from './SectionDecorations'
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
@@ -24,28 +25,33 @@ interface AggregatedService {
   isPopular: boolean
 }
 
-const serviceInfo: Record<string, { title: string; subtitle: string; description: string }> = {
-  tandem: {
-    title: 'Tandem Skydive',
-    subtitle: 'First-time jumpers',
-    description: 'Experience the thrill of freefall safely strapped to an experienced instructor. No experience needed!'
-  },
-  aff: {
-    title: 'A-Licence',
-    subtitle: 'Learn to skydive solo',
-    description: 'Accelerated Freefall program to become a licensed skydiver. Comprehensive training included.'
-  },
-  group: {
-    title: 'Group Events',
-    subtitle: 'Corporate & celebrations',
-    description: 'Perfect for team building, birthdays, or any special occasion. Custom packages available.'
-  }
-}
-
 export function Services() {
   const [hoveredService, setHoveredService] = useState<string | null>(null)
   const { data: locationServices, isLoading, error } = useAllLocationServices()
   const { setPreselectedServiceType } = useBooking()
+  const { t, translateData } = useLanguage()
+
+  // Service info with translations
+  const getServiceInfo = (type: string) => {
+    const infoMap: Record<string, { title: string; subtitle: string; description: string }> = {
+      tandem: {
+        title: t('services.tandem.title'),
+        subtitle: t('services.tandem.subtitle'),
+        description: t('services.tandem.description')
+      },
+      aff: {
+        title: t('services.alicence.title'),
+        subtitle: t('services.alicence.subtitle'),
+        description: t('services.alicence.description')
+      },
+      group: {
+        title: t('services.group.title'),
+        subtitle: t('services.group.subtitle'),
+        description: t('services.group.description')
+      }
+    }
+    return infoMap[type] || { title: type, subtitle: '', description: '' }
+  }
 
   // Aggregate location services by type
   const aggregatedServices = useMemo(() => {
@@ -73,7 +79,7 @@ export function Services() {
         .filter(p => p > 0)
         .sort((a, b) => a - b)
 
-      const info = serviceInfo[type] || { title: type, subtitle: '', description: '' }
+      const info = getServiceInfo(type)
 
       return {
         type: type as 'tandem' | 'aff' | 'group',
@@ -92,7 +98,7 @@ export function Services() {
       const order = { tandem: 1, aff: 2, group: 3 }
       return (order[a.type] || 99) - (order[b.type] || 99)
     })
-  }, [locationServices])
+  }, [locationServices, t])
 
   const scrollToBookingWithServiceType = (serviceType: string) => {
     setPreselectedServiceType(serviceType)
@@ -115,17 +121,17 @@ export function Services() {
           <div className="inline-flex items-center gap-3 mb-6">
             <div className="w-3 h-3 bg-accent-orange rounded-full animate-pulse" />
             <span className="text-sm font-semibold text-muted-foreground">
-              Choose Your Adventure
+              {t('services.badge')}
             </span>
             <div className="w-3 h-3 bg-accent-blue rounded-full animate-pulse" />
           </div>
           
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground">
-            Our Services
+            {t('services.title')}
           </h2>
           
           <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            From first-time tandem jumps to professional certification courses, we have the perfect experience for you.
+            {t('services.subtitle')}
           </p>
         </div>
 
@@ -167,7 +173,7 @@ export function Services() {
                   {service.isPopular && (
                     <div className="absolute -top-3 left-1/2 -translate-x-1/2">
                       <span className="bg-accent-orange text-white text-xs font-bold px-4 py-1 rounded-full">
-                        MOST POPULAR
+                        {t('services.popular').toUpperCase()}
                       </span>
                     </div>
                   )}
@@ -198,14 +204,14 @@ export function Services() {
                       {service.priceRange}
                     </span>
                     <p className="text-sm text-muted-foreground mt-1">
-                      Prices vary by location
+                      {t('services.priceVaries')}
                     </p>
                   </div>
 
                   {/* Includes */}
                   {service.includes.length > 0 && (
                     <div className="mb-8">
-                      <p className="text-sm font-semibold text-foreground mb-3">What's included:</p>
+                      <p className="text-sm font-semibold text-foreground mb-3">{t('services.whatsIncluded')}</p>
                       <ul className="space-y-2">
                         {service.includes.map((item, idx) => (
                           <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
@@ -226,7 +232,7 @@ export function Services() {
                         : 'bg-foreground text-background hover:bg-foreground/90'
                     }`}
                   >
-                    {service.type !== 'group' ? 'Book Now' : 'Contact Us'}
+                    {service.type !== 'group' ? t('common.bookNow') : t('services.contactUs')}
                     <ArrowRight className="w-4 h-4" />
                   </button>
                 </motion.div>
@@ -240,7 +246,7 @@ export function Services() {
           <div className="inline-flex items-center gap-4 bg-card/50 rounded-2xl px-8 py-4 clean-border mobile-transparent-card">
             <div className="w-3 h-3 bg-accent-orange rounded-full" />
             <p className="text-muted-foreground">
-              <span className="font-semibold text-foreground">Safety First:</span> All jumps are conducted with certified instructors and modern equipment
+              <span className="font-semibold text-foreground">{t('services.safetyNote')}</span> {t('services.safetyDesc')}
             </p>
             <div className="w-3 h-3 bg-accent-orange rounded-full" />
           </div>

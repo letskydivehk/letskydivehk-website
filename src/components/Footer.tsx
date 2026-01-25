@@ -14,7 +14,7 @@ const countryFlags: Record<string, string> = {
 export function Footer() {
   const { data: locations = [] } = useLocations();
   const { data: services = [] } = useServices();
-  const { t } = useLanguage();
+  const { t, translateData } = useLanguage();
 
   const quickLinks = [
     { label: t('nav.services'), href: "#services" },
@@ -23,6 +23,16 @@ export function Footer() {
     { label: t('nav.booking'), href: "#booking" },
     { label: t('nav.contact'), href: "#contact" },
   ];
+
+  // Service type to translation key mapping
+  const getServiceTitle = (slug: string, title: string) => {
+    const slugToKey: Record<string, string> = {
+      'tandem-skydive': 'services.tandem.title',
+      'a-licence': 'services.alicence.title',
+      'group-events': 'services.group.title',
+    };
+    return slugToKey[slug] ? t(slugToKey[slug]) : title;
+  };
 
   return (
     <footer className="relative py-16 bg-foreground text-background">
@@ -107,7 +117,7 @@ export function Footer() {
               {services.map((service) => (
                 <li key={service.id}>
                   <a href="#services" className="text-background/70 hover:text-background transition-colors">
-                    {service.title}
+                    {getServiceTitle(service.slug, service.title)}
                   </a>
                 </li>
               ))}
@@ -118,17 +128,22 @@ export function Footer() {
           <div>
             <h4 className="font-bold text-lg text-background mb-4">{t('footer.locations')}</h4>
             <ul className="space-y-3">
-              {locations.map((location) => (
-                <li key={location.id}>
-                  <a 
-                    href={`#locations-${location.country.toLowerCase()}`} 
-                    className="flex items-center gap-2 text-background/70 hover:text-background transition-colors"
-                  >
-                    <span>{countryFlags[location.country] || "🌍"}</span>
-                    <span>{location.City ? `${location.City}, ${location.country}` : location.Name}</span>
-                  </a>
-                </li>
-              ))}
+              {locations.map((location) => {
+                const translatedCity = translateData(`city.${location.City}`, location.City || '');
+                const translatedCountry = translateData(`country.${location.country}`, location.country);
+                const translatedName = translateData(`location.${location.slug}`, location.Name);
+                return (
+                  <li key={location.id}>
+                    <a 
+                      href={`#locations-${location.country.toLowerCase()}`} 
+                      className="flex items-center gap-2 text-background/70 hover:text-background transition-colors"
+                    >
+                      <span>{countryFlags[location.country] || "🌍"}</span>
+                      <span>{location.City ? `${translatedCity}, ${translatedCountry}` : translatedName}</span>
+                    </a>
+                  </li>
+                );
+              })}
             </ul>
           </div>
         </div>
