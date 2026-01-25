@@ -52,7 +52,7 @@ export function LocationsMap() {
         <p className="text-muted-foreground">Select a location to view on the map</p>
       </div>
 
-      <div className="bg-card rounded-2xl clean-border overflow-hidden elevated-shadow">
+      <div className="bg-card rounded-2xl clean-border overflow-hidden elevated-shadow mobile-transparent-card">
         {/* Location Selector */}
         <div className="flex flex-wrap gap-2 p-4 border-b border-border bg-muted/30">
           {mappedLocations.map((location) => (
