@@ -2,8 +2,10 @@
 
 import { motion } from "framer-motion";
 import { Shield, Award, Users, Heart } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export function About() {
+  const { t } = useLanguage();
   const stats = [
     { number: "10,000+", label: "Safe Jumps" },
     { number: "15+", label: "Years Experience" },
@@ -45,16 +47,16 @@ export function About() {
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-6">
             <div className="w-3 h-3 bg-accent-blue rounded-full animate-pulse" />
-            <span className="text-sm font-semibold text-muted-foreground">About Us</span>
+            <span className="text-sm font-semibold text-muted-foreground">{t('about.badge')}</span>
             <div className="w-3 h-3 bg-accent-orange rounded-full animate-pulse" />
           </div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground sm:whitespace-nowrap">
-            Why Choose Let's Skydive HK?
+            {t('about.title')}
           </h2>
 
           <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            We're dedicated to delivering the safest, most thrilling skydiving experiences across Asia.
+            {t('about.subtitle')}
           </p>
         </div>
 

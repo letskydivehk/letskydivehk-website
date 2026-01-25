@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { MapPin, Users, GraduationCap, Loader2 } from 'lucide-react'
 import { useLocations, type Location } from '@/hooks/useLocations'
 import { useBooking } from '@/contexts/BookingContext'
+import { useLanguage } from '@/contexts/LanguageContext'
 import { LocationsMap } from './LocationsMap'
 
 type Country = 'Thailand' | 'China'
@@ -12,6 +13,7 @@ type Country = 'Thailand' | 'China'
 export function Locations() {
   const [activeCountry, setActiveCountry] = useState<Country>('Thailand')
   const { data: locations, isLoading, error } = useLocations()
+  const { t } = useLanguage()
 
   // Listen for hash changes to switch country
   useEffect(() => {
@@ -57,17 +59,17 @@ export function Locations() {
           <div className="inline-flex items-center gap-3 mb-6">
             <div className="w-3 h-3 bg-accent-blue rounded-full animate-pulse" />
             <span className="text-sm font-semibold text-muted-foreground">
-              Our Dropzones
+              {t('locations.badge')}
             </span>
             <div className="w-3 h-3 bg-accent-orange rounded-full animate-pulse" />
           </div>
           
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground">
-            Jump Locations
+            {t('locations.title')}
           </h2>
           
           <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            Choose from our premium dropzones across Thailand and China, each offering unique scenery and world-class facilities.
+            {t('locations.subtitle')}
           </p>
         </div>
 
@@ -84,7 +86,7 @@ export function Locations() {
                     : 'text-muted-foreground hover:text-foreground'
                 }`}
               >
-                {country === 'Thailand' ? '🇹🇭 Thailand' : '🇨🇳 China'}
+                {country === 'Thailand' ? t('locations.thailand') : t('locations.china')}
               </button>
             ))}
           </div>
@@ -120,6 +122,7 @@ export function Locations() {
                   key={location.id} 
                   location={location} 
                   onBookClick={() => scrollToBookingWithLocation(location.id)}
+                  t={t}
                 />
               ))}
               {currentLocations.length === 0 && (
@@ -141,9 +144,10 @@ export function Locations() {
 interface LocationCardProps {
   location: Location
   onBookClick: (locationId: string) => void
+  t: (key: string) => string
 }
 
-function LocationCard({ location, onBookClick }: LocationCardProps) {
+function LocationCard({ location, onBookClick, t }: LocationCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0, scale: 0.95 }}
@@ -191,18 +195,18 @@ function LocationCard({ location, onBookClick }: LocationCardProps) {
         <div className="flex flex-wrap gap-2 mb-6">
           <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-orange/10 text-accent-orange px-3 py-1 rounded-full">
             <Users className="w-3 h-3" />
-            Tandem
+            {t('locations.tandem')}
           </span>
           {location.has_aff && (
             <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-blue/10 text-accent-blue px-3 py-1 rounded-full">
               <GraduationCap className="w-3 h-3" />
-              AFF
+              {t('locations.aff')}
             </span>
           )}
           {location.has_group_events && (
             <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-blue/10 text-accent-blue px-3 py-1 rounded-full">
               <Users className="w-3 h-3" />
-              Groups
+              {t('locations.groups')}
             </span>
           )}
         </div>
@@ -213,14 +217,14 @@ function LocationCard({ location, onBookClick }: LocationCardProps) {
             onClick={() => onBookClick(location.id)}
             className="w-full py-3 bg-accent-orange text-white font-semibold rounded-lg hover:bg-accent-orange/90 transition-colors cursor-pointer"
           >
-            Book at this location
+            {t('locations.bookHere')}
           </button>
         ) : (
           <button
             disabled
             className="w-full py-3 bg-muted text-muted-foreground font-semibold rounded-lg cursor-not-allowed"
           >
-            Coming Soon
+            {t('common.comingSoon')}
           </button>
         )}
       </div>

@@ -3,6 +3,7 @@
 import { MapPin, Mail, Phone } from "lucide-react";
 import { useLocations } from "@/hooks/useLocations";
 import { useServices } from "@/hooks/useServices";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const countryFlags: Record<string, string> = {
   Thailand: "🇹🇭",
@@ -13,13 +14,14 @@ const countryFlags: Record<string, string> = {
 export function Footer() {
   const { data: locations = [] } = useLocations();
   const { data: services = [] } = useServices();
+  const { t } = useLanguage();
 
   const quickLinks = [
-    { label: "Services", href: "#services" },
-    { label: "Locations", href: "#locations" },
-    { label: "About Us", href: "#about" },
-    { label: "Book Now", href: "#booking" },
-    { label: "Contact", href: "#contact" },
+    { label: t('nav.services'), href: "#services" },
+    { label: t('nav.locations'), href: "#locations" },
+    { label: t('nav.about'), href: "#about" },
+    { label: t('nav.booking'), href: "#booking" },
+    { label: t('nav.contact'), href: "#contact" },
   ];
 
   return (
@@ -30,8 +32,7 @@ export function Footer() {
           <div className="lg:col-span-1">
             <div className="font-bagel text-background text-2xl tracking-wider mb-4">LET'S SKYDIVE HK</div>
             <p className="text-background/70 leading-relaxed mb-6">
-              Experience the thrill of skydiving with Asia's premier dropzone network. Professional tandem jumps, AFF
-              courses, and group events across Thailand and China.
+              {t('footer.description')}
             </p>
             {/* Social Media Icons */}
             <div className="flex items-center space-x-4">
@@ -87,7 +88,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-lg text-background mb-4">Quick Links</h4>
+            <h4 className="font-bold text-lg text-background mb-4">{t('footer.quickLinks')}</h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.label}>
@@ -101,7 +102,7 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-bold text-lg text-background mb-4">Services</h4>
+            <h4 className="font-bold text-lg text-background mb-4">{t('footer.services')}</h4>
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service.id}>
@@ -115,7 +116,7 @@ export function Footer() {
 
           {/* Locations */}
           <div>
-            <h4 className="font-bold text-lg text-background mb-4">Our Locations</h4>
+            <h4 className="font-bold text-lg text-background mb-4">{t('footer.locations')}</h4>
             <ul className="space-y-3">
               {locations.map((location) => (
                 <li key={location.id}>
@@ -156,16 +157,16 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-background/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-sm text-background/70">© 2025 Let's Skydive HK. All rights reserved.</div>
+            <div className="text-sm text-background/70">{t('footer.copyright')}</div>
             <div className="flex gap-6 text-sm text-background/70">
               <a href="#" className="hover:text-background transition-colors">
-                Privacy Policy
+                {t('footer.privacy')}
               </a>
               <a href="#" className="hover:text-background transition-colors">
-                Terms of Service
+                {t('footer.terms')}
               </a>
               <a href="#" className="hover:text-background transition-colors">
-                Safety Guidelines
+                {t('footer.safety')}
               </a>
             </div>
           </div>
