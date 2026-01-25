@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Mail, Eye, EyeOff } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { toast } from 'sonner';
 
 interface AuthModalProps {
@@ -11,6 +12,7 @@ interface AuthModalProps {
 
 export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const { signInWithGoogle, signInWithEmail, signUpWithEmail } = useAuth();
+  const { t } = useLanguage();
   const [mode, setMode] = useState<'login' | 'signup'>('login');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -109,7 +111,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-white/10">
               <h2 className="text-xl font-bold text-white">
-                {mode === 'login' ? 'Welcome Back' : 'Create Account'}
+                {mode === 'login' ? t('auth.welcomeBack') : t('auth.createAccount')}
               </h2>
               <button
                 onClick={onClose}
@@ -133,7 +135,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
                   <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
                 </svg>
-                Sign in with Google
+                {t('auth.signInWithGoogle')}
               </button>
 
               {/* Divider */}
@@ -142,7 +144,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   <div className="w-full border-t border-white/20"></div>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="px-4 bg-gray-900 text-white/60">or</span>
+                  <span className="px-4 bg-gray-900 text-white/60">{t('auth.or')}</span>
                 </div>
               </div>
 
@@ -150,7 +152,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               <form onSubmit={handleEmailSubmit} className="space-y-4">
                 <div>
                   <label className="block text-white/80 text-sm font-medium mb-2">
-                    Email Address
+                    {t('auth.emailAddress')}
                   </label>
                   <div className="relative">
                     <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-white/40" />
@@ -166,7 +168,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
 
                 <div>
                   <label className="block text-white/80 text-sm font-medium mb-2">
-                    Password
+                    {t('auth.password')}
                   </label>
                   <div className="relative">
                     <input
@@ -189,7 +191,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                 {mode === 'signup' && (
                   <div>
                     <label className="block text-white/80 text-sm font-medium mb-2">
-                      Confirm Password
+                      {t('auth.confirmPassword')}
                     </label>
                     <input
                       type={showPassword ? 'text' : 'password'}
@@ -206,7 +208,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
                   disabled={isLoading}
                   className="w-full bg-accent-orange text-white font-semibold py-3 px-4 rounded-lg hover:bg-accent-orange/90 transition-colors disabled:opacity-50"
                 >
-                  {isLoading ? 'Processing...' : mode === 'login' ? 'Sign In' : 'Sign Up'}
+                  {isLoading ? t('auth.processing') : mode === 'login' ? t('auth.signIn') : t('auth.signUp')}
                 </button>
               </form>
 
@@ -214,22 +216,22 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               <p className="text-center text-white/60 text-sm">
                 {mode === 'login' ? (
                   <>
-                    Don't have an account?{' '}
+                    {t('auth.noAccount')}{' '}
                     <button
                       onClick={() => switchMode('signup')}
                       className="text-accent-orange hover:underline font-medium"
                     >
-                      Sign Up
+                      {t('auth.signUp')}
                     </button>
                   </>
                 ) : (
                   <>
-                    Already have an account?{' '}
+                    {t('auth.haveAccount')}{' '}
                     <button
                       onClick={() => switchMode('login')}
                       className="text-accent-orange hover:underline font-medium"
                     >
-                      Sign In
+                      {t('auth.signIn')}
                     </button>
                   </>
                 )}

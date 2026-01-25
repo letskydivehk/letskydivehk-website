@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, LogOut, ChevronDown } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AuthModal } from './AuthModal';
 
@@ -11,6 +12,7 @@ interface AuthButtonProps {
 
 export function AuthButton({ onOpenProfile }: AuthButtonProps) {
   const { user, loading, signOut } = useAuth();
+  const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
@@ -39,7 +41,7 @@ export function AuthButton({ onOpenProfile }: AuthButtonProps) {
           className="flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white font-medium px-4 py-2 rounded-full border border-white/20 hover:bg-white/20 gentle-animation cursor-pointer"
         >
           <User className="w-4 h-4" />
-          <span className="hidden sm:inline">Sign In</span>
+          <span className="hidden sm:inline">{t('auth.signIn')}</span>
         </motion.button>
         <AuthModal isOpen={isAuthModalOpen} onClose={() => setIsAuthModalOpen(false)} />
       </>
@@ -85,7 +87,7 @@ export function AuthButton({ onOpenProfile }: AuthButtonProps) {
             >
               <div className="p-3 border-b border-white/10">
                 <p className="text-white font-medium text-sm truncate">
-                  {user.user_metadata?.full_name || 'Member'}
+                  {user.user_metadata?.full_name || t('auth.member')}
                 </p>
                 <p className="text-white/60 text-xs truncate">{user.email}</p>
               </div>
@@ -99,14 +101,14 @@ export function AuthButton({ onOpenProfile }: AuthButtonProps) {
                   className="w-full flex items-center gap-2 px-3 py-2 text-white hover:bg-white/10 rounded-md transition-colors text-sm"
                 >
                   <User className="w-4 h-4" />
-                  Profile
+                  {t('auth.profile')}
                 </button>
                 <button
                   onClick={handleSignOut}
                   className="w-full flex items-center gap-2 px-3 py-2 text-red-400 hover:bg-white/10 rounded-md transition-colors text-sm"
                 >
                   <LogOut className="w-4 h-4" />
-                  Sign Out
+                  {t('auth.signOut')}
                 </button>
               </div>
             </motion.div>
