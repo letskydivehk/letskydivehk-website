@@ -43,6 +43,18 @@ export function Contact() {
     setIsComplete(false);
   };
 
+  const handleInstagramClick = () => {
+    window.open("https://instagram.com/lets_skydive_hk", "_blank", "noopener,noreferrer");
+  };
+
+  const handleFacebookClick = () => {
+    window.open("https://www.facebook.com/lets.skydive.hk/", "_blank", "noopener,noreferrer");
+  };
+
+  const handleYouTubeClick = () => {
+    window.open("https://www.youtube.com/@letsskydivehk", "_blank", "noopener,noreferrer");
+  };
+
   const subjects = [
     { value: "aff", label: "AFF Course Inquiry" },
     { value: "group", label: "Group Events" },
@@ -100,15 +112,13 @@ export function Contact() {
                     <div>
                       <h3 className="font-semibold text-foreground mb-1">Message our Instagram</h3>
                       <p className="text-muted-foreground text-sm mb-2">Response time in 24 hours</p>
-                      <a
-                        href="https://www.instagram.com/lets_skydive_hk/"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-accent-blue hover:underline inline-flex items-center gap-1"
+                      <button
+                        onClick={handleInstagramClick}
+                        className="text-accent-blue hover:underline inline-flex items-center gap-1 cursor-pointer text-left"
                       >
                         <Instagram className="w-4 h-4" />
                         @lets_skydive_hk
-                      </a>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -151,37 +161,31 @@ export function Contact() {
               <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card">
                 <h3 className="font-semibold text-foreground mb-4">Follow Us</h3>
                 <div className="flex items-center gap-4">
-                  <a
-                    href="https://www.instagram.com/lets_skydive_hk/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-accent-blue/10 rounded-full flex items-center justify-center hover:bg-accent-blue/20 transition-colors"
+                  <button
+                    onClick={handleInstagramClick}
+                    className="w-10 h-10 bg-accent-blue/10 rounded-full flex items-center justify-center hover:bg-accent-blue/20 transition-colors cursor-pointer"
                     aria-label="Instagram"
                   >
                     <Instagram className="w-5 h-5 text-accent-blue" />
-                  </a>
-                  <a
-                    href="https://www.facebook.com/lets.skydive.hk/"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center hover:bg-blue-500/20 transition-colors"
+                  </button>
+                  <button
+                    onClick={handleFacebookClick}
+                    className="w-10 h-10 bg-blue-500/10 rounded-full flex items-center justify-center hover:bg-blue-500/20 transition-colors cursor-pointer"
                     aria-label="Facebook"
                   >
                     <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                     </svg>
-                  </a>
-                  <a
-                    href="https://www.youtube.com/@letsskydivehk"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="w-10 h-10 bg-red-500/10 rounded-full flex items-center justify-center hover:bg-red-500/20 transition-colors"
+                  </button>
+                  <button
+                    onClick={handleYouTubeClick}
+                    className="w-10 h-10 bg-red-500/10 rounded-full flex items-center justify-center hover:bg-red-500/20 transition-colors cursor-pointer"
                     aria-label="YouTube"
                   >
                     <svg className="w-5 h-5 text-red-500" fill="currentColor" viewBox="0 0 24 24">
                       <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
                     </svg>
-                  </a>
+                  </button>
                 </div>
               </div>
             </div>
