@@ -81,8 +81,8 @@ export function Contact() {
                     <div>
                       <h3 className="font-semibold text-foreground mb-1">Email Us</h3>
                       <p className="text-muted-foreground text-sm mb-2">For bookings and inquiries</p>
-                      <a href="mailto:letskydivehk@gmail.com" className="text-accent-emerald hover:underline">
-                        letskydivehk@gmail.com
+                      <a href="mailto:info@letsskydivehk.com" className="text-accent-emerald hover:underline">
+                        info@letsskydivehk.com
                       </a>
                     </div>
                   </div>
@@ -94,10 +94,10 @@ export function Contact() {
                       <Phone className="w-6 h-6 text-accent-blue" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1">Call Us</h3>
-                      <p className="text-muted-foreground text-sm mb-2">Mon-Sun, 9am-6pm HKT</p>
-                      <a href="tel:+85212345678" className="text-accent-blue hover:underline">
-                        +852 1234 5678
+                      <h3 className="font-semibold text-foreground mb-1">Message Us</h3>
+                      <p className="text-muted-foreground text-sm mb-2">Response time in 24 hours</p>
+                      <a href="Instagram:Lets_skydive_hk" className="text-accent-blue hover:underline">
+                        Lets_skydive_hk https://www.instagram.com/lets_skydive_hk?igsh=aWFkZ240bnZzZXB0
                       </a>
                     </div>
                   </div>
