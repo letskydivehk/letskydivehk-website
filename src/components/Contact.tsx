@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Phone, MapPin, Send, MessageSquare, Clock } from "lucide-react";
+import { Mail, Send, MessageSquare, Clock, Instagram } from "lucide-react";
 
 interface ContactFormData {
   name: string;
@@ -91,13 +91,18 @@ export function Contact() {
                 <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-accent-blue/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                      <Phone className="w-6 h-6 text-accent-blue" />
+                      <Instagram className="w-6 h-6 text-accent-blue" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-foreground mb-1">Message our Instagram (Lets_skydive_hk)</h3>
+                      <h3 className="font-semibold text-foreground mb-1">Message our Instagram</h3>
                       <p className="text-muted-foreground text-sm mb-2">Response time in 24 hours</p>
-                      <a href="Instagram:Lets_skydive_hk" className="text-accent-blue hover:underline">
-                        https://www.instagram.com/lets_skydive_hk?igsh=aWFkZ240bnZzZXB0
+                      <a
+                        href="https://www.instagram.com/lets_skydive_hk?igsh=aWFkZ240bnZzZXB0"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent-blue hover:underline"
+                      >
+                        @lets_skydive_hk
                       </a>
                     </div>
                   </div>
