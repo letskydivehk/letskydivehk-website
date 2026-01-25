@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { MapPin, Users, GraduationCap, Loader2 } from 'lucide-react'
 import { useLocations, type Location } from '@/hooks/useLocations'
@@ -12,6 +12,29 @@ type Country = 'Thailand' | 'China'
 export function Locations() {
   const [activeCountry, setActiveCountry] = useState<Country>('Thailand')
   const { data: locations, isLoading, error } = useLocations()
+
+  // Listen for hash changes to switch country
+  useEffect(() => {
+    const handleHashChange = () => {
+      const hash = window.location.hash
+      if (hash === '#locations-china') {
+        setActiveCountry('China')
+        setTimeout(() => {
+          document.getElementById('locations')?.scrollIntoView({ behavior: 'smooth' })
+        }, 100)
+      } else if (hash === '#locations-thailand') {
+        setActiveCountry('Thailand')
+        setTimeout(() => {
+          document.getElementById('locations')?.scrollIntoView({ behavior: 'smooth' })
+        }, 100)
+      }
+    }
+
+    handleHashChange()
+    window.addEventListener('hashchange', handleHashChange)
+    return () => window.removeEventListener('hashchange', handleHashChange)
+  }, [])
+
   const { setPreselectedLocationId } = useBooking()
 
   const currentLocations = useMemo(() => {

@@ -119,7 +119,10 @@ export function Footer() {
             <ul className="space-y-3">
               {locations.map((location) => (
                 <li key={location.id}>
-                  <a href="#locations" className="flex items-center gap-2 text-background/70 hover:text-background transition-colors">
+                  <a 
+                    href={`#locations-${location.country.toLowerCase()}`} 
+                    className="flex items-center gap-2 text-background/70 hover:text-background transition-colors"
+                  >
                     <span>{countryFlags[location.country] || "🌍"}</span>
                     <span>{location.City ? `${location.City}, ${location.country}` : location.Name}</span>
                   </a>
