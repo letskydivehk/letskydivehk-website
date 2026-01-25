@@ -48,7 +48,7 @@ export const services: Service[] = [
     priceDisplay: 'Contact for pricing',
     duration: '7-10 days intensive program',
     includes: [
-      '25 Jumps'
+      '25 Jumps',
       'Ground school training',
       '9 progressive jump levels',
       'Personal instructor guidance',
