@@ -8,7 +8,7 @@ import { useLocations } from "@/hooks/useLocations";
 // City coordinates for map markers
 const cityCoordinates: Record<string, { lat: number; lng: number }> = {
   Pattaya: { lat: 12.697530110539647, lng: 101.63242084029467 },
-  "Chiang Mai": { lat: 19.420020622237345, lng: 100.19635768945962 },
+  Chiang_Mai: { lat: 19.420020622237345, lng: 100.19635768945962 },
   Huizhou: { lat: 23.41358815164999, lng: 114.55790770229758 },
   Hainan: { lat: 19.640326830428453, lng: 109.14443672147532 },
   Luoding: { lat: 22.708941775990702, lng: 111.60880992560826 },
