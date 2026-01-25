@@ -50,7 +50,7 @@ export function Locations() {
 
         {/* Country Tabs */}
         <div className="flex justify-center mb-12">
-          <div className="inline-flex bg-card rounded-full p-1 clean-border">
+          <div className="inline-flex bg-card rounded-full p-1 clean-border mobile-transparent-card">
             {(['Thailand', 'China'] as Country[]).map((country) => (
               <button
                 key={country}
@@ -126,7 +126,7 @@ function LocationCard({ location, onBookClick }: LocationCardProps) {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.3 }}
-      className={`relative bg-card rounded-2xl overflow-hidden clean-border group hover:elevated-shadow transition-all duration-300 ${
+      className={`relative bg-card rounded-2xl overflow-hidden clean-border group hover:elevated-shadow transition-all duration-300 mobile-transparent-card ${
         location.coming_soon ? 'opacity-75' : ''
       }`}
     >

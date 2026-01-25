@@ -202,7 +202,7 @@ export function BookingSection() {
             animate={{ opacity: 1, scale: 1 }}
             className="max-w-2xl mx-auto text-center"
           >
-            <div className="bg-card rounded-3xl p-12 clean-border elevated-shadow">
+            <div className="bg-card rounded-3xl p-12 clean-border elevated-shadow mobile-transparent-card">
               <div className="w-20 h-20 bg-accent-emerald rounded-full flex items-center justify-center mx-auto mb-6">
                 <Check className="w-10 h-10 text-white" />
               </div>
@@ -333,7 +333,7 @@ export function BookingSection() {
 
         {/* Form Container */}
         <div className="max-w-3xl mx-auto">
-          <div className="bg-card rounded-3xl p-8 lg:p-12 clean-border elevated-shadow">
+          <div className="bg-card rounded-3xl p-8 lg:p-12 clean-border elevated-shadow mobile-transparent-card">
             <AnimatePresence mode="wait">
               {/* Step 1: Location Selection */}
               {currentStep === "location" && (

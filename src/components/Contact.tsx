@@ -79,7 +79,7 @@ export function Contact() {
             <div className="lg:col-span-2 space-y-8">
               {/* Contact Cards */}
               <div className="space-y-4">
-                <div className="bg-card rounded-2xl p-6 clean-border">
+                <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-accent-emerald/10 rounded-xl flex items-center justify-center flex-shrink-0">
                       <Mail className="w-6 h-6 text-accent-emerald" />
@@ -94,7 +94,7 @@ export function Contact() {
                   </div>
                 </div>
 
-                <div className="bg-card rounded-2xl p-6 clean-border">
+                <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-accent-blue/10 rounded-xl flex items-center justify-center flex-shrink-0">
                       <Phone className="w-6 h-6 text-accent-blue" />
@@ -109,7 +109,7 @@ export function Contact() {
                   </div>
                 </div>
 
-                <div className="bg-card rounded-2xl p-6 clean-border">
+                <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card">
                   <div className="flex items-start gap-4">
                     <div className="w-12 h-12 bg-accent-purple/10 rounded-xl flex items-center justify-center flex-shrink-0">
                       <MessageSquare className="w-6 h-6 text-accent-purple" />
@@ -126,7 +126,7 @@ export function Contact() {
               </div>
 
               {/* Response Time */}
-              <div className="bg-accent-emerald/5 rounded-2xl p-6 clean-border">
+              <div className="bg-accent-emerald/5 rounded-2xl p-6 clean-border mobile-transparent-card">
                 <div className="flex items-center gap-3 mb-3">
                   <Clock className="w-5 h-5 text-accent-emerald" />
                   <h3 className="font-semibold text-foreground">Response Time</h3>
@@ -139,7 +139,7 @@ export function Contact() {
 
             {/* Contact Form */}
             <div className="lg:col-span-3">
-              <div className="bg-card rounded-3xl p-8 clean-border elevated-shadow">
+              <div className="bg-card rounded-3xl p-8 clean-border elevated-shadow mobile-transparent-card">
                 {isComplete ? (
                   <motion.div
                     initial={{ opacity: 0, scale: 0.95 }}

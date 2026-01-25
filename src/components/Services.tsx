@@ -151,7 +151,7 @@ export function Services() {
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                   onMouseEnter={() => setHoveredService(service.type)}
                   onMouseLeave={() => setHoveredService(null)}
-                  className={`relative bg-card rounded-2xl p-8 clean-border transition-all duration-300 ${
+                  className={`relative bg-card rounded-2xl p-8 clean-border transition-all duration-300 mobile-transparent-card ${
                     isHovered ? 'elevated-shadow scale-[1.02]' : 'subtle-shadow'
                   } ${service.isPopular ? 'ring-2 ring-accent-orange' : ''}`}
                 >
@@ -229,7 +229,7 @@ export function Services() {
 
         {/* Safety Note */}
         <div className="mt-16 text-center">
-          <div className="inline-flex items-center gap-4 bg-card/50 rounded-2xl px-8 py-4 clean-border">
+          <div className="inline-flex items-center gap-4 bg-card/50 rounded-2xl px-8 py-4 clean-border mobile-transparent-card">
             <div className="w-3 h-3 bg-accent-orange rounded-full" />
             <p className="text-muted-foreground">
               <span className="font-semibold text-foreground">Safety First:</span> All jumps are conducted with certified instructors and modern equipment

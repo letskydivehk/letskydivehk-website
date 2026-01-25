@@ -67,7 +67,7 @@ export function About() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="text-center p-6 bg-card rounded-2xl clean-border"
+              className="text-center p-6 bg-card rounded-2xl clean-border mobile-transparent-card"
             >
               <div className="text-3xl lg:text-4xl font-black text-accent-orange mb-2">{stat.number}</div>
               <div className="text-sm text-muted-foreground font-medium">{stat.label}</div>
@@ -86,7 +86,7 @@ export function About() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="bg-card rounded-2xl p-8 clean-border hover:elevated-shadow transition-all duration-300"
+                className="bg-card rounded-2xl p-8 clean-border hover:elevated-shadow transition-all duration-300 mobile-transparent-card"
               >
                 <div className="w-14 h-14 bg-accent-orange/10 rounded-2xl flex items-center justify-center mb-6">
                   <Icon className="w-7 h-7 text-accent-orange" />
@@ -100,7 +100,7 @@ export function About() {
 
         {/* Story Section */}
         <div className="mt-20 max-w-4xl mx-auto">
-          <div className="bg-gradient-to-br from-accent-orange/5 to-accent-blue/5 rounded-3xl p-8 lg:p-12 clean-border">
+          <div className="bg-gradient-to-br from-accent-orange/5 to-accent-blue/5 rounded-3xl p-8 lg:p-12 clean-border mobile-transparent-card">
             <h3 className="text-2xl lg:text-3xl font-bold text-foreground mb-6 text-center">Our Story</h3>
             <div className="prose prose-lg max-w-none text-muted-foreground">
               <p className="mb-4">
