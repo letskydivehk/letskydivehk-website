@@ -1,16 +1,18 @@
 "use client";
 
 import { MapPin, Mail, Phone } from "lucide-react";
+import { useLocations } from "@/hooks/useLocations";
+import { useServices } from "@/hooks/useServices";
+
+const countryFlags: Record<string, string> = {
+  Thailand: "🇹🇭",
+  China: "🇨🇳",
+  "Hong Kong": "🇭🇰",
+};
 
 export function Footer() {
-  const locations = [
-    { name: "Pattaya, Thailand", flag: "🇹🇭" },
-    { name: "Chiang Mai, Thailand", flag: "🇹🇭" },
-    { name: "Huizhou, China", flag: "🇨🇳" },
-    { name: "Hainan, China", flag: "🇨🇳" },
-  ];
-
-  const services = ["Tandem Skydive", "AFF Course", "Group Events", "Gift Vouchers"];
+  const { data: locations = [] } = useLocations();
+  const { data: services = [] } = useServices();
 
   const quickLinks = [
     { label: "Services", href: "#services" },
@@ -102,8 +104,8 @@ export function Footer() {
             <h4 className="font-bold text-lg text-background mb-4">Services</h4>
             <ul className="space-y-3">
               {services.map((service) => (
-                <li key={service} className="text-background/70">
-                  {service}
+                <li key={service.id} className="text-background/70">
+                  {service.title}
                 </li>
               ))}
             </ul>
@@ -114,9 +116,9 @@ export function Footer() {
             <h4 className="font-bold text-lg text-background mb-4">Our Locations</h4>
             <ul className="space-y-3">
               {locations.map((location) => (
-                <li key={location.name} className="flex items-center gap-2 text-background/70">
-                  <span>{location.flag}</span>
-                  <span>{location.name}</span>
+                <li key={location.id} className="flex items-center gap-2 text-background/70">
+                  <span>{countryFlags[location.country] || "🌍"}</span>
+                  <span>{location.City ? `${location.City}, ${location.country}` : location.Name}</span>
                 </li>
               ))}
             </ul>
