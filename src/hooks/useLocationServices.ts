@@ -1,50 +1,53 @@
-import { useQuery } from "@tanstack/react-query";
-import { supabase } from "@/integrations/supabase/client";
+import { useQuery } from '@tanstack/react-query'
+import { supabase } from '@/integrations/supabase/client'
 
 export interface LocationService {
-  id: string;
-  location_id: string;
-  service_name: string;
-  service_type: "tandem" | "a_licence" | "group";
-  price_display: string;
-  description: string | null;
-  includes: string[];
-  is_popular: boolean;
-  display_order: number;
-  created_at: string;
-  updated_at: string;
+  id: string
+  location_id: string
+  service_name: string
+  service_type: 'tandem' | 'aff' | 'group'
+  price_display: string
+  description: string | null
+  includes: string[]
+  is_popular: boolean
+  display_order: number
+  created_at: string
+  updated_at: string
 }
 
 export function useLocationServices(locationId?: string) {
   return useQuery({
-    queryKey: ["location-services", locationId],
+    queryKey: ['location-services', locationId],
     queryFn: async () => {
-      let query = supabase.from("location_services").select("*").order("display_order", { ascending: true });
+      let query = supabase
+        .from('location_services')
+        .select('*')
+        .order('display_order', { ascending: true })
 
       if (locationId) {
-        query = query.eq("location_id", locationId);
+        query = query.eq('location_id', locationId)
       }
 
-      const { data, error } = await query;
+      const { data, error } = await query
 
-      if (error) throw error;
-      return data as LocationService[];
+      if (error) throw error
+      return data as LocationService[]
     },
-    enabled: locationId !== undefined,
-  });
+    enabled: locationId !== undefined
+  })
 }
 
 export function useAllLocationServices() {
   return useQuery({
-    queryKey: ["location-services", "all"],
+    queryKey: ['location-services', 'all'],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from("location_services")
-        .select("*")
-        .order("display_order", { ascending: true });
+        .from('location_services')
+        .select('*')
+        .order('display_order', { ascending: true })
 
-      if (error) throw error;
-      return data as LocationService[];
-    },
-  });
+      if (error) throw error
+      return data as LocationService[]
+    }
+  })
 }
