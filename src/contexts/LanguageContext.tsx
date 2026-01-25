@@ -108,6 +108,23 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.terms': 'Terms of Service',
     'footer.safety': 'Safety Guidelines',
     'footer.copyright': '© 2025 Let\'s Skydive HK. All rights reserved.',
+    
+    // Auth
+    'auth.signIn': 'Sign In',
+    'auth.signUp': 'Sign Up',
+    'auth.signOut': 'Sign Out',
+    'auth.profile': 'Profile',
+    'auth.welcomeBack': 'Welcome Back',
+    'auth.createAccount': 'Create Account',
+    'auth.signInWithGoogle': 'Sign in with Google',
+    'auth.or': 'or',
+    'auth.emailAddress': 'Email Address',
+    'auth.password': 'Password',
+    'auth.confirmPassword': 'Confirm Password',
+    'auth.processing': 'Processing...',
+    'auth.noAccount': "Don't have an account?",
+    'auth.haveAccount': 'Already have an account?',
+    'auth.member': 'Member',
   },
   'zh-TW': {
     // Navigation & Common
@@ -205,6 +222,23 @@ const translations: Record<Language, Record<string, string>> = {
     'footer.terms': '服務條款',
     'footer.safety': '安全指南',
     'footer.copyright': '© 2025 Let\'s Skydive HK. 版權所有。',
+    
+    // Auth
+    'auth.signIn': '登入',
+    'auth.signUp': '註冊',
+    'auth.signOut': '登出',
+    'auth.profile': '個人資料',
+    'auth.welcomeBack': '歡迎回來',
+    'auth.createAccount': '建立帳戶',
+    'auth.signInWithGoogle': '使用 Google 登入',
+    'auth.or': '或',
+    'auth.emailAddress': '電子郵件地址',
+    'auth.password': '密碼',
+    'auth.confirmPassword': '確認密碼',
+    'auth.processing': '處理中...',
+    'auth.noAccount': '還沒有帳戶？',
+    'auth.haveAccount': '已經有帳戶？',
+    'auth.member': '會員',
   }
 };
 

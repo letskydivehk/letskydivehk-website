@@ -5,6 +5,7 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { AuthButton } from './AuthButton';
 import { ProfileModal } from './ProfileModal';
+import { LanguageSwitcher } from './LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
 
 export function Hero() {
@@ -105,8 +106,11 @@ export function Hero() {
               </a>
             </div>
 
-            {/* Right Side - Auth + CTA + Mobile Menu */}
-            <div className="flex items-center space-x-3 relative">
+            {/* Right Side - Language + Auth + CTA + Mobile Menu */}
+            <div className="flex items-center space-x-2 sm:space-x-3 relative">
+              {/* Language Switcher */}
+              <LanguageSwitcher />
+              
               {/* Auth Button */}
               <AuthButton onOpenProfile={() => setIsProfileOpen(true)} />
               
