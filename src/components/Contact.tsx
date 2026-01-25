@@ -56,7 +56,7 @@ export function Contact() {
   };
 
   const subjects = [
-    { value: "aff", label: "AFF Course Inquiry" },
+    { value: "aff", label: "A-Licence Inquiry" },
     { value: "group", label: "Group Events" },
     { value: "general", label: "General Question" },
   ];
