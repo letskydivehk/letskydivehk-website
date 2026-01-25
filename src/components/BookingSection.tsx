@@ -6,6 +6,7 @@ import { Calendar, MapPin, User, Mail, Phone, Check, ArrowRight, ArrowLeft, Plan
 import { useLocations, type Location } from "@/hooks/useLocations";
 import { useLocationServices, type LocationService } from "@/hooks/useLocationServices";
 import { useBooking } from "@/contexts/BookingContext";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { z } from "zod";
 import { toast } from "sonner";
 import { SectionDecorations } from "./SectionDecorations";
@@ -65,6 +66,22 @@ export function BookingSection() {
 
   const { data: locations, isLoading: locationsLoading } = useLocations();
   const { preselectedLocationId, setPreselectedLocationId, preselectedServiceType, setPreselectedServiceType, activeServiceTypeFilter, setActiveServiceTypeFilter } = useBooking();
+  const { t, translateData } = useLanguage();
+
+  // Helper function to translate location data
+  const translateLocation = (location: Location) => ({
+    ...location,
+    Name: translateData(`location.${location.slug}`, location.Name),
+    description: translateData(`location.${location.slug}.desc`, location.description || ''),
+    City: translateData(`city.${location.City}`, location.City || ''),
+    country: translateData(`country.${location.country}`, location.country),
+  });
+
+  // Helper function to translate service data
+  const translateService = (service: LocationService) => ({
+    ...service,
+    service_name: translateData(`service.${service.service_name}`, service.service_name),
+  });
 
   // Fetch location-specific services when a location is selected
   const { data: locationServices, isLoading: servicesLoading } = useLocationServices(formData.location || undefined);
@@ -132,16 +149,20 @@ export function BookingSection() {
     [locations, formData.location],
   );
 
+  const translatedSelectedLocation = selectedLocation ? translateLocation(selectedLocation) : null;
+
   const selectedService = useMemo(
     () => locationServices?.find((s) => s.id === formData.service),
     [locationServices, formData.service],
   );
 
+  const translatedSelectedService = selectedService ? translateService(selectedService) : null;
+
   const steps: { id: Step; label: string; icon: React.ElementType }[] = [
-    { id: "location", label: "Location", icon: MapPin },
-    { id: "service", label: "Service", icon: Plane },
-    { id: "details", label: "Date & Details", icon: User },
-    { id: "confirm", label: "Confirm", icon: Check },
+    { id: "location", label: t('booking.step1'), icon: MapPin },
+    { id: "service", label: t('booking.step2'), icon: Plane },
+    { id: "details", label: t('booking.step3'), icon: User },
+    { id: "confirm", label: t('booking.step4'), icon: Check },
   ];
 
   const currentStepIndex = steps.findIndex((s) => s.id === currentStep);
@@ -235,29 +256,28 @@ export function BookingSection() {
               <div className="w-20 h-20 bg-accent-emerald rounded-full flex items-center justify-center mx-auto mb-6">
                 <Check className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-3xl font-black text-foreground mb-4">Booking Request Submitted!</h2>
+              <h2 className="text-3xl font-black text-foreground mb-4">{t('booking.success')}</h2>
               <p className="text-muted-foreground mb-8 text-lg">
-                Thank you, {formData.firstName}! We've received your booking request for {selectedService?.service_name}{" "}
-                at {selectedLocation?.Name}. We'll contact you within 24 hours to confirm your booking.
+                {t('booking.successMessage').replace('{name}', formData.firstName)}
               </p>
               <div className="bg-accent-emerald/10 rounded-xl p-6 mb-8 text-left">
-                <h3 className="font-bold text-foreground mb-3">Booking Summary</h3>
+                <h3 className="font-bold text-foreground mb-3">{t('booking.summary')}</h3>
                 <div className="space-y-2 text-sm text-muted-foreground">
                   <p>
-                    <span className="font-medium text-foreground">Location:</span> {selectedLocation?.Name},{" "}
-                    {selectedLocation?.City}
+                    <span className="font-medium text-foreground">{t('booking.location')}:</span> {translatedSelectedLocation?.Name},{" "}
+                    {translatedSelectedLocation?.City}
                   </p>
                   <p>
-                    <span className="font-medium text-foreground">Service:</span> {selectedService?.service_name}
+                    <span className="font-medium text-foreground">{t('booking.service')}:</span> {translatedSelectedService?.service_name}
                   </p>
                   <p>
-                    <span className="font-medium text-foreground">Date:</span> {formData.date}
+                    <span className="font-medium text-foreground">{t('booking.date')}:</span> {formData.date}
                   </p>
                   <p>
-                    <span className="font-medium text-foreground">Participants:</span> {formData.participants}
+                    <span className="font-medium text-foreground">{t('booking.participants')}:</span> {formData.participants}
                   </p>
                   <p>
-                    <span className="font-medium text-foreground">Email:</span> {formData.email}
+                    <span className="font-medium text-foreground">{t('booking.email')}:</span> {formData.email}
                   </p>
                 </div>
               </div>
@@ -265,7 +285,7 @@ export function BookingSection() {
                 onClick={handleReset}
                 className="bg-foreground text-background font-semibold px-8 py-3 rounded-lg hover:bg-foreground/90 transition-colors cursor-pointer"
               >
-                Book Another Jump
+                {t('booking.bookAnother')}
               </button>
             </div>
           </motion.div>
@@ -282,16 +302,16 @@ export function BookingSection() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-3 mb-6">
             <div className="w-3 h-3 bg-accent-emerald rounded-full animate-pulse" />
-            <span className="text-sm font-semibold text-muted-foreground">Book Your Adventure</span>
+            <span className="text-sm font-semibold text-muted-foreground">{t('booking.badge')}</span>
             <div className="w-3 h-3 bg-accent-blue rounded-full animate-pulse" />
           </div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground">
-            Book Your Skydive
+            {t('booking.title')}
           </h2>
 
           <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            Ready for the thrill of a lifetime? Book your skydive in just a few simple steps.
+            {t('booking.subtitle')}
           </p>
         </div>
 
@@ -375,8 +395,8 @@ export function BookingSection() {
                 >
                   <div className="text-center mb-8">
                     <MapPin className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-foreground">Where do you want to jump?</h3>
-                    <p className="text-muted-foreground">Select your preferred dropzone location</p>
+                    <h3 className="text-2xl font-bold text-foreground">{t('booking.whereJump')}</h3>
+                    <p className="text-muted-foreground">{t('booking.selectDropzone')}</p>
                   </div>
 
                   {locationsLoading ? (
@@ -388,58 +408,61 @@ export function BookingSection() {
                       {activeServiceTypeFilter === 'aff' && (
                         <div className="mb-4 p-3 bg-accent-blue/10 rounded-lg flex items-center justify-between">
                           <span className="text-sm text-accent-blue font-medium">
-                            Showing locations with A-Licence training available
+                            {t('booking.filter.showing')}
                           </span>
                           <button
                             onClick={() => setActiveServiceTypeFilter(null)}
                             className="text-xs text-muted-foreground hover:text-foreground underline cursor-pointer"
                           >
-                            Show all
+                            {t('booking.showAll')}
                           </button>
                         </div>
                       )}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {filteredLocations.map((location) => (
-                          <button
-                            key={location.id}
-                            onClick={() => {
-                              // Clear service selection when changing location
-                              setFormData({ ...formData, location: location.id, service: "" });
-                              // Auto-advance to service selection
-                              setTimeout(() => setCurrentStep("service"), 150);
-                            }}
-                            className={`group overflow-hidden rounded-xl border-2 text-left transition-all cursor-pointer ${
-                              formData.location === location.id
-                                ? "border-accent-emerald bg-accent-emerald/5"
-                                : "border-border hover:border-accent-emerald/50"
-                            }`}
-                          >
-                            {/* Location Image */}
-                            <div className="relative h-32 overflow-hidden">
-                              <img
-                                src={location.image_url || "/placeholder.svg"}
-                                alt={location.Name}
-                                className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                              />
-                              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                              {formData.location === location.id && (
-                                <div className="absolute top-2 right-2 w-8 h-8 bg-accent-emerald rounded-full flex items-center justify-center">
-                                  <Check className="w-5 h-5 text-white" />
-                                </div>
-                              )}
-                            </div>
-                            {/* Location Info */}
-                            <div className="p-4">
-                              <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1">
-                                <MapPin className="w-3 h-3" />
-                                <span>
-                                  {location.City}, {location.country}
-                                </span>
+                        {filteredLocations.map((location) => {
+                          const translated = translateLocation(location);
+                          return (
+                            <button
+                              key={location.id}
+                              onClick={() => {
+                                // Clear service selection when changing location
+                                setFormData({ ...formData, location: location.id, service: "" });
+                                // Auto-advance to service selection
+                                setTimeout(() => setCurrentStep("service"), 150);
+                              }}
+                              className={`group overflow-hidden rounded-xl border-2 text-left transition-all cursor-pointer ${
+                                formData.location === location.id
+                                  ? "border-accent-emerald bg-accent-emerald/5"
+                                  : "border-border hover:border-accent-emerald/50"
+                              }`}
+                            >
+                              {/* Location Image */}
+                              <div className="relative h-32 overflow-hidden">
+                                <img
+                                  src={location.image_url || "/placeholder.svg"}
+                                  alt={translated.Name}
+                                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                />
+                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                {formData.location === location.id && (
+                                  <div className="absolute top-2 right-2 w-8 h-8 bg-accent-emerald rounded-full flex items-center justify-center">
+                                    <Check className="w-5 h-5 text-white" />
+                                  </div>
+                                )}
                               </div>
-                              <p className="font-semibold text-foreground">{location.Name}</p>
-                            </div>
-                          </button>
-                        ))}
+                              {/* Location Info */}
+                              <div className="p-4">
+                                <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1">
+                                  <MapPin className="w-3 h-3" />
+                                  <span>
+                                    {translated.City}, {translated.country}
+                                  </span>
+                                </div>
+                                <p className="font-semibold text-foreground">{translated.Name}</p>
+                              </div>
+                            </button>
+                          );
+                        })}
                         {filteredLocations.length === 0 && (
                           <div className="col-span-full text-center py-8 text-muted-foreground">
                             No locations available for this service type.
@@ -462,8 +485,8 @@ export function BookingSection() {
                 >
                   <div className="text-center mb-8">
                     <Plane className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-foreground">Choose your experience</h3>
-                    <p className="text-muted-foreground">Select the type of skydive at {selectedLocation?.Name}</p>
+                    <h3 className="text-2xl font-bold text-foreground">{t('booking.chooseService')}</h3>
+                    <p className="text-muted-foreground">{t('booking.selectPackage')} - {translatedSelectedLocation?.Name}</p>
                   </div>
 
                   {servicesLoading ? (
@@ -472,68 +495,71 @@ export function BookingSection() {
                     </div>
                   ) : (
                     <div className="space-y-4">
-                      {locationServices?.map((service) => (
-                        <button
-                          key={service.id}
-                          onClick={() => {
-                            setFormData({ ...formData, service: service.id });
-                            // Auto-advance to date & details
-                            setTimeout(() => setCurrentStep("details"), 150);
-                          }}
-                          className={`w-full p-6 rounded-xl border-2 text-left transition-all cursor-pointer ${
-                            formData.service === service.id
-                              ? "border-accent-emerald bg-accent-emerald/5"
-                              : "border-border hover:border-accent-emerald/50"
-                          }`}
-                        >
-                          <div className="flex items-start justify-between gap-4">
-                            <div className="flex-1">
-                              <div className="flex items-center gap-2 mb-1">
-                                <h4 className="font-bold text-foreground text-lg">{service.service_name}</h4>
-                                {service.is_popular && (
-                                  <span className="bg-accent-orange text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                                    POPULAR
-                                  </span>
-                                )}
-                              </div>
-                              <p className="text-sm text-muted-foreground capitalize mb-2">
-                                {service.service_type} Experience
-                              </p>
-                              {service.description && (
-                                <p className="text-muted-foreground text-sm">{service.description}</p>
-                              )}
-                              {service.includes && service.includes.length > 0 && (
-                                <div className="mt-3 flex flex-wrap gap-2">
-                                  {service.includes.slice(0, 3).map((item, idx) => (
-                                    <span
-                                      key={idx}
-                                      className="text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground"
-                                    >
-                                      {item}
-                                    </span>
-                                  ))}
-                                  {service.includes.length > 3 && (
-                                    <span className="text-xs text-muted-foreground">
-                                      +{service.includes.length - 3} more
+                      {locationServices?.map((service) => {
+                        const translatedService = translateService(service);
+                        return (
+                          <button
+                            key={service.id}
+                            onClick={() => {
+                              setFormData({ ...formData, service: service.id });
+                              // Auto-advance to date & details
+                              setTimeout(() => setCurrentStep("details"), 150);
+                            }}
+                            className={`w-full p-6 rounded-xl border-2 text-left transition-all cursor-pointer ${
+                              formData.service === service.id
+                                ? "border-accent-emerald bg-accent-emerald/5"
+                                : "border-border hover:border-accent-emerald/50"
+                            }`}
+                          >
+                            <div className="flex items-start justify-between gap-4">
+                              <div className="flex-1">
+                                <div className="flex items-center gap-2 mb-1">
+                                  <h4 className="font-bold text-foreground text-lg">{translatedService.service_name}</h4>
+                                  {service.is_popular && (
+                                    <span className="bg-accent-orange text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                                      {t('services.popular').toUpperCase()}
                                     </span>
                                   )}
                                 </div>
-                              )}
-                            </div>
-                            <div className="text-right flex-shrink-0">
-                              <p className="text-2xl font-black text-foreground">{service.price_display}</p>
-                            </div>
-                          </div>
-                          {formData.service === service.id && (
-                            <div className="mt-4 pt-4 border-t border-border">
-                              <div className="flex items-center gap-2 text-accent-emerald">
-                                <Check className="w-4 h-4" />
-                                <span className="text-sm font-medium">Selected</span>
+                                <p className="text-sm text-muted-foreground capitalize mb-2">
+                                  {translateData(`serviceType.${service.service_type}`, service.service_type)}
+                                </p>
+                                {service.description && (
+                                  <p className="text-muted-foreground text-sm">{service.description}</p>
+                                )}
+                                {service.includes && service.includes.length > 0 && (
+                                  <div className="mt-3 flex flex-wrap gap-2">
+                                    {service.includes.slice(0, 3).map((item, idx) => (
+                                      <span
+                                        key={idx}
+                                        className="text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground"
+                                      >
+                                        {item}
+                                      </span>
+                                    ))}
+                                    {service.includes.length > 3 && (
+                                      <span className="text-xs text-muted-foreground">
+                                        +{service.includes.length - 3} more
+                                      </span>
+                                    )}
+                                  </div>
+                                )}
+                              </div>
+                              <div className="text-right flex-shrink-0">
+                                <p className="text-2xl font-black text-foreground">{service.price_display}</p>
                               </div>
                             </div>
-                          )}
-                        </button>
-                      ))}
+                            {formData.service === service.id && (
+                              <div className="mt-4 pt-4 border-t border-border">
+                                <div className="flex items-center gap-2 text-accent-emerald">
+                                  <Check className="w-4 h-4" />
+                                  <span className="text-sm font-medium">Selected</span>
+                                </div>
+                              </div>
+                            )}
+                          </button>
+                        );
+                      })}
                       {(!locationServices || locationServices.length === 0) && !servicesLoading && (
                         <div className="text-center py-8">
                           <p className="text-muted-foreground">No services available at this location.</p>
@@ -728,37 +754,37 @@ export function BookingSection() {
                 >
                   <div className="text-center mb-8">
                     <Check className="w-16 h-16 text-accent-emerald mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-foreground">Confirm Your Booking</h3>
-                    <p className="text-muted-foreground">Please review your details before submitting</p>
+                    <h3 className="text-2xl font-bold text-foreground">{t('booking.reviewBooking')}</h3>
+                    <p className="text-muted-foreground">{t('booking.confirmDetails')}</p>
                   </div>
 
                   <div className="bg-accent-emerald/5 rounded-xl p-6 space-y-4">
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
-                        <p className="text-muted-foreground">Location</p>
-                        <p className="font-semibold text-foreground">{selectedLocation?.Name}</p>
+                        <p className="text-muted-foreground">{t('booking.location')}</p>
+                        <p className="font-semibold text-foreground">{translatedSelectedLocation?.Name}</p>
                         <p className="text-xs text-muted-foreground">
-                          {selectedLocation?.City}, {selectedLocation?.country}
+                          {translatedSelectedLocation?.City}, {translatedSelectedLocation?.country}
                         </p>
                       </div>
                       <div>
-                        <p className="text-muted-foreground">Service</p>
-                        <p className="font-semibold text-foreground">{selectedService?.service_name}</p>
+                        <p className="text-muted-foreground">{t('booking.service')}</p>
+                        <p className="font-semibold text-foreground">{translatedSelectedService?.service_name}</p>
                         <p className="text-xs text-muted-foreground">{selectedService?.price_display}</p>
                       </div>
                       <div>
-                        <p className="text-muted-foreground">Date</p>
+                        <p className="text-muted-foreground">{t('booking.date')}</p>
                         <p className="font-semibold text-foreground">{formData.date}</p>
                       </div>
                       <div>
-                        <p className="text-muted-foreground">Participants</p>
+                        <p className="text-muted-foreground">{t('booking.participants')}</p>
                         <p className="font-semibold text-foreground">
                           {formData.participants} jumper{formData.participants !== 1 ? "s" : ""}
                         </p>
                       </div>
                     </div>
                     <div className="border-t border-border pt-4">
-                      <p className="text-muted-foreground text-sm">Contact</p>
+                      <p className="text-muted-foreground text-sm">{t('booking.contact')}</p>
                       <p className="font-semibold text-foreground">
                         {formData.firstName} {formData.lastName}
                       </p>
@@ -784,7 +810,7 @@ export function BookingSection() {
                   className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
-                  Back
+                  {t('booking.back')}
                 </button>
               ) : (
                 <div />
@@ -800,7 +826,7 @@ export function BookingSection() {
                       : "bg-muted text-muted-foreground cursor-not-allowed"
                   }`}
                 >
-                  Continue
+                  {t('booking.next')}
                   <ArrowRight className="w-4 h-4" />
                 </button>
               ) : (
@@ -812,11 +838,11 @@ export function BookingSection() {
                   {isSubmitting ? (
                     <>
                       <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                      Submitting...
+                      {t('booking.submitting')}
                     </>
                   ) : (
                     <>
-                      Submit Booking
+                      {t('booking.confirmBooking')}
                       <Check className="w-4 h-4" />
                     </>
                   )}

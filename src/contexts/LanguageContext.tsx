@@ -6,11 +6,12 @@ interface LanguageContextType {
   language: Language;
   setLanguage: (lang: Language) => void;
   t: (key: string) => string;
+  translateData: (key: string, fallback: string) => string;
 }
 
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
-// Translations
+// Translations for static UI content
 const translations: Record<Language, Record<string, string>> = {
   'en': {
     // Navigation & Common
@@ -58,6 +59,10 @@ const translations: Record<Language, Record<string, string>> = {
     'services.group.description': 'Perfect for corporate team building, bachelor/bachelorette parties, birthdays, or any special occasion. Create unforgettable memories together!',
     'services.popular': 'Most Popular',
     'services.contactUs': 'Contact Us',
+    'services.priceVaries': 'Prices vary by location',
+    'services.whatsIncluded': "What's included:",
+    'services.safetyNote': 'Safety First:',
+    'services.safetyDesc': 'All jumps are conducted with certified instructors and modern equipment',
     
     // Booking Section
     'booking.badge': 'Ready to Jump?',
@@ -76,6 +81,36 @@ const translations: Record<Language, Record<string, string>> = {
     'booking.form.notes': 'Additional Notes',
     'booking.form.submit': 'Submit Booking Request',
     'booking.filter.showing': 'Showing locations with A-Licence training available',
+    'booking.whereJump': 'Where do you want to jump?',
+    'booking.selectDropzone': 'Select your preferred dropzone location',
+    'booking.showAll': 'Show all',
+    'booking.chooseService': 'Choose your experience',
+    'booking.selectPackage': 'Select your preferred package',
+    'booking.changeLocation': 'Change location',
+    'booking.yourDetails': 'Your details',
+    'booking.fillInfo': 'Fill in your information to complete the booking',
+    'booking.firstName': 'First Name',
+    'booking.lastName': 'Last Name',
+    'booking.email': 'Email',
+    'booking.phone': 'Phone',
+    'booking.date': 'Preferred Date',
+    'booking.participants': 'Number of Participants',
+    'booking.notes': 'Additional Notes (Optional)',
+    'booking.notesPlaceholder': 'Any special requests or requirements...',
+    'booking.reviewBooking': 'Review your booking',
+    'booking.confirmDetails': 'Please confirm your booking details',
+    'booking.location': 'Location',
+    'booking.service': 'Service',
+    'booking.price': 'Price',
+    'booking.contact': 'Contact',
+    'booking.back': 'Back',
+    'booking.next': 'Next',
+    'booking.confirmBooking': 'Confirm Booking',
+    'booking.submitting': 'Submitting...',
+    'booking.success': 'Booking Request Submitted!',
+    'booking.successMessage': "We've received your booking request. We'll contact you within 24 hours to confirm your booking.",
+    'booking.summary': 'Booking Summary',
+    'booking.bookAnother': 'Book Another Jump',
     
     // About Section
     'about.badge': 'About Us',
@@ -125,6 +160,19 @@ const translations: Record<Language, Record<string, string>> = {
     'auth.noAccount': "Don't have an account?",
     'auth.haveAccount': 'Already have an account?',
     'auth.member': 'Member',
+
+    // Profile
+    'profile.title': 'Profile',
+    'profile.basicInfo': 'Basic Information',
+    'profile.fullName': 'Full Name',
+    'profile.phone': 'Phone',
+    'profile.emergencyContact': 'Emergency Contact',
+    'profile.optional': 'Optional',
+    'profile.name': 'Name',
+    'profile.relationship': 'Relationship',
+    'profile.relationshipPlaceholder': 'e.g., Spouse, Parent, Friend',
+    'profile.save': 'Save',
+    'profile.saving': 'Saving...',
   },
   'zh-TW': {
     // Navigation & Common
@@ -172,6 +220,10 @@ const translations: Record<Language, Record<string, string>> = {
     'services.group.description': '非常適合企業團隊建設、單身派對、生日或任何特殊場合。一起創造難忘的回憶！',
     'services.popular': '最受歡迎',
     'services.contactUs': '聯絡我們',
+    'services.priceVaries': '價格因地點而異',
+    'services.whatsIncluded': '包含內容：',
+    'services.safetyNote': '安全第一：',
+    'services.safetyDesc': '所有跳傘均由認證教練使用現代化設備進行',
     
     // Booking Section
     'booking.badge': '準備好了嗎？',
@@ -190,6 +242,36 @@ const translations: Record<Language, Record<string, string>> = {
     'booking.form.notes': '備註',
     'booking.form.submit': '提交預約申請',
     'booking.filter.showing': '顯示提供A級執照培訓的地點',
+    'booking.whereJump': '您想在哪裡跳傘？',
+    'booking.selectDropzone': '選擇您偏好的跳傘場地',
+    'booking.showAll': '顯示全部',
+    'booking.chooseService': '選擇您的體驗',
+    'booking.selectPackage': '選擇您偏好的套餐',
+    'booking.changeLocation': '更換地點',
+    'booking.yourDetails': '您的資料',
+    'booking.fillInfo': '填寫您的資料以完成預約',
+    'booking.firstName': '名字',
+    'booking.lastName': '姓氏',
+    'booking.email': '電子郵件',
+    'booking.phone': '電話',
+    'booking.date': '偏好日期',
+    'booking.participants': '參加人數',
+    'booking.notes': '備註（選填）',
+    'booking.notesPlaceholder': '任何特殊要求或需求...',
+    'booking.reviewBooking': '確認您的預約',
+    'booking.confirmDetails': '請確認您的預約詳情',
+    'booking.location': '地點',
+    'booking.service': '服務',
+    'booking.price': '價格',
+    'booking.contact': '聯絡方式',
+    'booking.back': '返回',
+    'booking.next': '下一步',
+    'booking.confirmBooking': '確認預約',
+    'booking.submitting': '提交中...',
+    'booking.success': '預約申請已提交！',
+    'booking.successMessage': '我們已收到您的預約申請。我們會在24小時內聯繫您確認預約。',
+    'booking.summary': '預約摘要',
+    'booking.bookAnother': '再次預約',
     
     // About Section
     'about.badge': '關於我們',
@@ -239,6 +321,105 @@ const translations: Record<Language, Record<string, string>> = {
     'auth.noAccount': '還沒有帳戶？',
     'auth.haveAccount': '已經有帳戶？',
     'auth.member': '會員',
+
+    // Profile
+    'profile.title': '個人資料',
+    'profile.basicInfo': '基本資料',
+    'profile.fullName': '全名',
+    'profile.phone': '電話',
+    'profile.emergencyContact': '緊急聯絡人',
+    'profile.optional': '選填',
+    'profile.name': '姓名',
+    'profile.relationship': '關係',
+    'profile.relationshipPlaceholder': '例如：配偶、父母、朋友',
+    'profile.save': '儲存',
+    'profile.saving': '儲存中...',
+  }
+};
+
+// Translations for dynamic Supabase data (locations, services, etc.)
+const dataTranslations: Record<Language, Record<string, string>> = {
+  'en': {
+    // Location names (keep English as-is)
+    'location.chiang-mai': 'Chiang Mai (Wefly)',
+    'location.pattaya': 'Pattaya',
+    'location.hainan': 'Hainan (Weland)',
+    'location.huizhou': 'Huizhou (Yingfei)',
+    'location.luoding': 'Luoding (Yingfei)',
+    'location.zhuhai': 'Zhuhai (Weland)',
+    
+    // Location descriptions
+    'location.chiang-mai.desc': 'Jump over the stunning mountains and temples of Northern Thailand.',
+    'location.pattaya.desc': 'Experience breathtaking views of the Gulf of Thailand in Pattaya.',
+    'location.hainan.desc': 'Tropical paradise skydiving with crystal clear ocean views.',
+    'location.huizhou.desc': 'Scenic coastal views and perfect weather conditions year-round.',
+    'location.luoding.desc': 'A new adventure destination in Guangdong province.',
+    'location.zhuhai.desc': 'Coming soon - Stunning coastal views near Macau.',
+    
+    // Countries
+    'country.Thailand': 'Thailand',
+    'country.China': 'China',
+    
+    // Cities
+    'city.Chiang Mai': 'Chiang Mai',
+    'city.Pattaya': 'Pattaya',
+    'city.Hainan': 'Hainan',
+    'city.Huizhou': 'Huizhou',
+    'city.Luoding': 'Luoding',
+    'city.Zhuhai': 'Zhuhai',
+    
+    // Service names
+    'service.Tandem Skydive with Handicam': 'Tandem Skydive with Handicam',
+    'service.Tandem Skydive with Video': 'Tandem Skydive with Video',
+    'service.Tandem Skydive with Ultimate Combo': 'Tandem Skydive with Ultimate Combo',
+    'service.A-License Package': 'A-License Package',
+    'service.Group Events': 'Group Events',
+    
+    // Service types
+    'serviceType.tandem': 'Tandem Skydive',
+    'serviceType.aff': 'A-Licence',
+    'serviceType.group': 'Group Events',
+  },
+  'zh-TW': {
+    // Location names
+    'location.chiang-mai': '清邁 (Wefly)',
+    'location.pattaya': '芭達雅',
+    'location.hainan': '海南 (Weland)',
+    'location.huizhou': '惠州 (Yingfei)',
+    'location.luoding': '羅定 (Yingfei)',
+    'location.zhuhai': '珠海 (Weland)',
+    
+    // Location descriptions
+    'location.chiang-mai.desc': '在泰國北部壯麗的山脈和寺廟上空跳傘。',
+    'location.pattaya.desc': '在芭達雅體驗泰國灣的壯麗景色。',
+    'location.hainan.desc': '在熱帶天堂跳傘，享受清澈的海景。',
+    'location.huizhou.desc': '全年優美的海岸景色和完美的天氣條件。',
+    'location.luoding.desc': '廣東省的新探險目的地。',
+    'location.zhuhai.desc': '即將推出 - 澳門附近的壯麗海岸景色。',
+    
+    // Countries
+    'country.Thailand': '泰國',
+    'country.China': '中國',
+    
+    // Cities
+    'city.Chiang Mai': '清邁',
+    'city.Pattaya': '芭達雅',
+    'city.Hainan': '海南',
+    'city.Huizhou': '惠州',
+    'city.Luoding': '羅定',
+    'city.Zhuhai': '珠海',
+    
+    // Service names
+    'service.Tandem Skydive with Handicam': '雙人跳傘含手持攝影',
+    'service.Tandem Skydive with Video': '雙人跳傘含影片',
+    'service.Tandem Skydive with Ultimate Combo': '雙人跳傘終極組合',
+    'service.A-License Package': 'A級執照套餐',
+    'service.Group Events': '團體活動',
+    
+    // Service types
+    'serviceType.tandem': '雙人跳傘',
+    'serviceType.aff': 'A級執照',
+    'serviceType.group': '團體活動',
   }
 };
 
@@ -249,8 +430,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
     return translations[language][key] || key;
   };
 
+  // Translate dynamic data from Supabase
+  const translateData = (key: string, fallback: string): string => {
+    return dataTranslations[language][key] || fallback;
+  };
+
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+    <LanguageContext.Provider value={{ language, setLanguage, t, translateData }}>
       {children}
     </LanguageContext.Provider>
   );

@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, User, Phone, Mail, UserPlus, Save, Loader2 } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
+import { useLanguage } from '@/contexts/LanguageContext';
 import { supabase } from '@/integrations/supabase/client';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
@@ -27,6 +28,7 @@ interface ProfileModalProps {
 
 export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
   const { user } = useAuth();
+  const { t } = useLanguage();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -129,7 +131,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
           >
             {/* Header */}
             <div className="sticky top-0 bg-card border-b border-border p-4 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-foreground">Profile</h2>
+              <h2 className="text-xl font-bold text-foreground">{t('profile.title')}</h2>
               <button
                 onClick={onClose}
                 className="p-2 hover:bg-muted rounded-full transition-colors"
@@ -165,12 +167,12 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                 <div className="space-y-4">
                   <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
                     <User className="w-4 h-4" />
-                    Basic Information
+                    {t('profile.basicInfo')}
                   </h3>
                   
                   <div className="space-y-3">
                     <div>
-                      <Label htmlFor="full_name">Full Name</Label>
+                      <Label htmlFor="full_name">{t('profile.fullName')}</Label>
                       <Input
                         id="full_name"
                         value={formData.full_name}
@@ -188,7 +190,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                     </div>
                     
                     <div>
-                      <Label htmlFor="phone">Phone</Label>
+                      <Label htmlFor="phone">{t('profile.phone')}</Label>
                       <Input
                         id="phone"
                         value={formData.phone}
@@ -203,12 +205,12 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                 <div className="space-y-4">
                   <h3 className="text-sm font-semibold text-foreground flex items-center gap-2">
                     <UserPlus className="w-4 h-4" />
-                    Emergency Contact <span className="text-muted-foreground font-normal">(Optional)</span>
+                    {t('profile.emergencyContact')} <span className="text-muted-foreground font-normal">({t('profile.optional')})</span>
                   </h3>
                   
                   <div className="space-y-3">
                     <div>
-                      <Label htmlFor="emergency_contact_name">Name</Label>
+                      <Label htmlFor="emergency_contact_name">{t('profile.name')}</Label>
                       <Input
                         id="emergency_contact_name"
                         value={formData.emergency_contact_name}
@@ -218,7 +220,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                     </div>
                     
                     <div>
-                      <Label htmlFor="emergency_contact_phone">Phone</Label>
+                      <Label htmlFor="emergency_contact_phone">{t('profile.phone')}</Label>
                       <Input
                         id="emergency_contact_phone"
                         value={formData.emergency_contact_phone}
@@ -228,12 +230,12 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                     </div>
                     
                     <div>
-                      <Label htmlFor="emergency_contact_relationship">Relationship</Label>
+                      <Label htmlFor="emergency_contact_relationship">{t('profile.relationship')}</Label>
                       <Input
                         id="emergency_contact_relationship"
                         value={formData.emergency_contact_relationship}
                         onChange={(e) => handleChange('emergency_contact_relationship', e.target.value)}
-                        placeholder="e.g., Spouse, Parent, Friend"
+                        placeholder={t('profile.relationshipPlaceholder')}
                       />
                     </div>
                   </div>
@@ -252,7 +254,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                   ) : (
                     <Save className="w-5 h-5" />
                   )}
-                  {saving ? 'Saving...' : 'Save'}
+                  {saving ? t('profile.saving') : t('profile.save')}
                 </motion.button>
               </div>
             )}
