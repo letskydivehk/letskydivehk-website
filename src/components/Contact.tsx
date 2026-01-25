@@ -1,72 +1,67 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Mail, Phone, MapPin, Send, MessageSquare, Clock } from 'lucide-react'
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { Mail, Phone, MapPin, Send, MessageSquare, Clock } from "lucide-react";
 
 interface ContactFormData {
-  name: string
-  email: string
-  phone: string
-  subject: 'aff' | 'group' | 'general'
-  message: string
+  name: string;
+  email: string;
+  phone: string;
+  subject: "aff" | "group" | "general";
+  message: string;
 }
 
 export function Contact() {
   const [formData, setFormData] = useState<ContactFormData>({
-    name: '',
-    email: '',
-    phone: '',
-    subject: 'general',
-    message: ''
-  })
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isComplete, setIsComplete] = useState(false)
+    name: "",
+    email: "",
+    phone: "",
+    subject: "general",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isComplete, setIsComplete] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsSubmitting(true)
+    e.preventDefault();
+    setIsSubmitting(true);
     // Simulate API call - will be replaced with Firebase
-    await new Promise(resolve => setTimeout(resolve, 2000))
-    setIsSubmitting(false)
-    setIsComplete(true)
-  }
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    setIsSubmitting(false);
+    setIsComplete(true);
+  };
 
   const handleReset = () => {
     setFormData({
-      name: '',
-      email: '',
-      phone: '',
-      subject: 'general',
-      message: ''
-    })
-    setIsComplete(false)
-  }
+      name: "",
+      email: "",
+      phone: "",
+      subject: "general",
+      message: "",
+    });
+    setIsComplete(false);
+  };
 
   const subjects = [
-    { value: 'aff', label: 'AFF Course Inquiry' },
-    { value: 'group', label: 'Group Events' },
-    { value: 'general', label: 'General Question' }
-  ]
+    { value: "aff", label: "AFF Course Inquiry" },
+    { value: "group", label: "Group Events" },
+    { value: "general", label: "General Question" },
+  ];
 
   return (
     <section id="contact" className="relative py-24 bg-card/30">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
-        
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-6">
             <div className="w-3 h-3 bg-accent-blue rounded-full animate-pulse" />
-            <span className="text-sm font-semibold text-muted-foreground">
-              Get in Touch
-            </span>
+            <span className="text-sm font-semibold text-muted-foreground">Get in Touch</span>
             <div className="w-3 h-3 bg-accent-emerald rounded-full animate-pulse" />
           </div>
-          
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground">
-            Contact Us
-          </h2>
-          
+
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground">Contact Us</h2>
+
           <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
             Have questions about AFF courses, group events, or anything else? We're here to help!
           </p>
@@ -74,7 +69,6 @@ export function Contact() {
 
         <div className="max-w-6xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-5 gap-12">
-            
             {/* Contact Info */}
             <div className="lg:col-span-2 space-y-8">
               {/* Contact Cards */}
@@ -87,8 +81,8 @@ export function Contact() {
                     <div>
                       <h3 className="font-semibold text-foreground mb-1">Email Us</h3>
                       <p className="text-muted-foreground text-sm mb-2">For bookings and inquiries</p>
-                      <a href="mailto:info@letsskydivehk.com" className="text-accent-emerald hover:underline">
-                        info@letsskydivehk.com
+                      <a href="mailto:letskydivehk@gmail.com" className="text-accent-emerald hover:underline">
+                        letskydivehk@gmail.com
                       </a>
                     </div>
                   </div>
@@ -117,7 +111,12 @@ export function Contact() {
                     <div>
                       <h3 className="font-semibold text-foreground mb-1">WhatsApp</h3>
                       <p className="text-muted-foreground text-sm mb-2">Quick responses</p>
-                      <a href="https://wa.me/85212345678" target="_blank" rel="noopener noreferrer" className="text-accent-purple hover:underline">
+                      <a
+                        href="https://wa.me/85212345678"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent-purple hover:underline"
+                      >
                         +852 1234 5678
                       </a>
                     </div>
@@ -132,7 +131,8 @@ export function Contact() {
                   <h3 className="font-semibold text-foreground">Response Time</h3>
                 </div>
                 <p className="text-muted-foreground text-sm">
-                  We typically respond to all inquiries within 24 hours. For urgent matters, please call or WhatsApp us directly.
+                  We typically respond to all inquiries within 24 hours. For urgent matters, please call or WhatsApp us
+                  directly.
                 </p>
               </div>
             </div>
@@ -149,9 +149,7 @@ export function Contact() {
                     <div className="w-16 h-16 bg-accent-emerald rounded-full flex items-center justify-center mx-auto mb-6">
                       <Send className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold text-foreground mb-3">
-                      Message Sent!
-                    </h3>
+                    <h3 className="text-2xl font-bold text-foreground mb-3">Message Sent!</h3>
                     <p className="text-muted-foreground mb-6">
                       Thank you for reaching out. We'll get back to you within 24 hours.
                     </p>
@@ -210,11 +208,13 @@ export function Contact() {
                           <button
                             key={subject.value}
                             type="button"
-                            onClick={() => setFormData({ ...formData, subject: subject.value as ContactFormData['subject'] })}
+                            onClick={() =>
+                              setFormData({ ...formData, subject: subject.value as ContactFormData["subject"] })
+                            }
                             className={`px-4 py-3 rounded-xl border-2 text-sm font-medium transition-all cursor-pointer ${
                               formData.subject === subject.value
-                                ? 'border-accent-emerald bg-accent-emerald/5 text-accent-emerald'
-                                : 'border-border text-muted-foreground hover:border-accent-emerald/50'
+                                ? "border-accent-emerald bg-accent-emerald/5 text-accent-emerald"
+                                : "border-border text-muted-foreground hover:border-accent-emerald/50"
                             }`}
                           >
                             {subject.label}
@@ -262,5 +262,5 @@ export function Contact() {
         </div>
       </div>
     </section>
-  )
+  );
 }
