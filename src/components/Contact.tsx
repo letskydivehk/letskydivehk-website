@@ -58,9 +58,9 @@ export function Contact() {
   };
 
   const subjects = [
-    { value: "aff", label: "A-Licence Inquiry" },
-    { value: "group", label: "Group Events" },
-    { value: "general", label: "General Question" },
+    { value: "aff", label: t('contact.subject.aff') },
+    { value: "group", label: t('contact.subject.group') },
+    { value: "general", label: t('contact.subject.general') },
   ];
 
   return (
@@ -94,7 +94,7 @@ export function Contact() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-foreground mb-1">{t('contact.email.label')}</h3>
-                      <p className="text-muted-foreground text-sm mb-2">For bookings and inquiries</p>
+                      <p className="text-muted-foreground text-sm mb-2">{t('contact.email.desc')}</p>
                       <a
                         href="mailto:info@letsskydivehk.com"
                         className="text-accent-emerald hover:underline inline-flex items-center gap-1"
@@ -113,7 +113,7 @@ export function Contact() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-foreground mb-1">{t('contact.instagram.label')}</h3>
-                      <p className="text-muted-foreground text-sm mb-2">Response time in 24 hours</p>
+                      <p className="text-muted-foreground text-sm mb-2">{t('contact.instagram.desc')}</p>
                       <button
                         onClick={handleInstagramClick}
                         className="text-accent-blue hover:underline inline-flex items-center gap-1 cursor-pointer text-left"
@@ -132,7 +132,7 @@ export function Contact() {
                     </div>
                     <div>
                       <h3 className="font-semibold text-foreground mb-1">{t('contact.whatsapp.label')}</h3>
-                      <p className="text-muted-foreground text-sm mb-2">Quick responses</p>
+                      <p className="text-muted-foreground text-sm mb-2">{t('contact.whatsapp.desc')}</p>
                       <a
                         href="https://wa.me/85212345678"
                         target="_blank"
@@ -151,17 +151,16 @@ export function Contact() {
               <div className="bg-accent-emerald/5 rounded-2xl p-6 clean-border mobile-transparent-card">
                 <div className="flex items-center gap-3 mb-3">
                   <Clock className="w-5 h-5 text-accent-emerald" />
-                  <h3 className="font-semibold text-foreground">Response Time</h3>
+                  <h3 className="font-semibold text-foreground">{t('contact.responseTime')}</h3>
                 </div>
                 <p className="text-muted-foreground text-sm">
-                  We typically respond to all inquiries within 24 hours. For urgent matters, please call or WhatsApp us
-                  directly.
+                  {t('contact.responseTimeDesc')}
                 </p>
               </div>
 
               {/* Social Media Links */}
               <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card">
-                <h3 className="font-semibold text-foreground mb-4">Follow Us</h3>
+                <h3 className="font-semibold text-foreground mb-4">{t('contact.followUs')}</h3>
                 <div className="flex items-center gap-4">
                   <button
                     onClick={handleInstagramClick}
@@ -204,16 +203,16 @@ export function Contact() {
                     <div className="w-16 h-16 bg-accent-emerald rounded-full flex items-center justify-center mx-auto mb-6">
                       <Send className="w-8 h-8 text-white" />
                     </div>
-                    <h3 className="text-2xl font-bold text-foreground mb-3">Message Sent!</h3>
+                    <h3 className="text-2xl font-bold text-foreground mb-3">{t('contact.form.success')}</h3>
                     <p className="text-muted-foreground mb-6">
-                      Thank you for reaching out. We'll get back to you within 24 hours.
+                      {t('contact.form.successDesc')}
                     </p>
                     <button
                       onClick={handleReset}
                       className="text-accent-emerald font-semibold hover:underline cursor-pointer inline-flex items-center gap-2"
                     >
                       <Send className="w-4 h-4" />
-                      Send another message
+                      {t('contact.form.sendAnother')}
                     </button>
                   </motion.div>
                 ) : (
@@ -221,44 +220,44 @@ export function Contact() {
                     {/* Name & Email */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                       <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">Name *</label>
+                        <label className="block text-sm font-medium text-foreground mb-2">{t('contact.form.name')}</label>
                         <input
                           type="text"
                           required
                           value={formData.name}
                           onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                           className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:border-accent-emerald focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all"
-                          placeholder="Your name"
+                          placeholder={t('contact.form.namePlaceholder')}
                         />
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">Email *</label>
+                        <label className="block text-sm font-medium text-foreground mb-2">{t('contact.form.email')}</label>
                         <input
                           type="email"
                           required
                           value={formData.email}
                           onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                           className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:border-accent-emerald focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all"
-                          placeholder="your@email.com"
+                          placeholder={t('contact.form.emailPlaceholder')}
                         />
                       </div>
                     </div>
 
                     {/* Phone */}
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">Phone (Optional)</label>
+                      <label className="block text-sm font-medium text-foreground mb-2">{t('contact.form.phone')}</label>
                       <input
                         type="tel"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:border-accent-emerald focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all"
-                        placeholder="+852 1234 5678"
+                        placeholder={t('contact.form.phonePlaceholder')}
                       />
                     </div>
 
                     {/* Subject */}
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">Subject *</label>
+                      <label className="block text-sm font-medium text-foreground mb-2">{t('contact.form.subject')}</label>
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         {subjects.map((subject) => (
                           <button
@@ -281,16 +280,16 @@ export function Contact() {
 
                     {/* Message */}
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">Message *</label>
+                      <label className="block text-sm font-medium text-foreground mb-2">{t('contact.form.message')}</label>
                       <textarea
                         required
                         rows={5}
                         value={formData.message}
                         onChange={(e) => setFormData({ ...formData, message: e.target.value })}
                         className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:border-accent-emerald focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all resize-none"
-                        placeholder="Tell us about your inquiry..."
+                        placeholder={t('contact.form.messagePlaceholder')}
                       />
-                      <p className="text-xs text-muted-foreground mt-2">* Required fields</p>
+                      <p className="text-xs text-muted-foreground mt-2">{t('contact.form.required')}</p>
                     </div>
 
                     {/* Submit */}
@@ -302,11 +301,11 @@ export function Contact() {
                       {isSubmitting ? (
                         <>
                           <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                          Sending...
+                          {t('contact.form.sending')}
                         </>
                       ) : (
                         <>
-                          Send Message
+                          {t('contact.form.submit')}
                           <Send className="w-5 h-5" />
                         </>
                       )}
