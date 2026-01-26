@@ -134,13 +134,13 @@ export function Contact() {
                       <h3 className="font-semibold text-foreground mb-1">{t('contact.whatsapp.label')}</h3>
                       <p className="text-muted-foreground text-sm mb-2">{t('contact.whatsapp.desc')}</p>
                       <a
-                        href="https://wa.me/85212345678"
+                        href="https://wa.me/85269391570"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-accent-purple hover:underline inline-flex items-center gap-1"
                       >
                         <Phone className="w-4 h-4" />
-                        +852 1234 5678
+                        +852 6939 1570
                       </a>
                     </div>
                   </div>

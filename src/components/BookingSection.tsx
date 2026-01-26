@@ -707,7 +707,7 @@ export function BookingSection() {
                               ? "border-red-500 focus:border-red-500"
                               : "border-border focus:border-accent-emerald"
                           }`}
-                          placeholder="+852 1234 5678"
+                          placeholder="+852 6939 1570"
                         />
                       </div>
                       {validationErrors.phone && <p className="text-red-500 text-xs mt-1">{validationErrors.phone}</p>}
