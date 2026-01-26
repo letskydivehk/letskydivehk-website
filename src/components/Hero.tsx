@@ -9,7 +9,8 @@ import { LanguageSwitcher } from './LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
 export function Hero() {
   const {
-    t
+    t,
+    language
   } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -205,8 +206,14 @@ export function Hero() {
 
           {/* Main Heading */}
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-6">
-            <span className="block">{t('hero.experienceThe')}</span>
-            <span className="block text-accent-orange">{t('hero.ultimateThrill')}</span>
+            {language === 'zh-TW' ? (
+              <span className="block">{t('hero.experienceThe')}<span className="text-accent-orange">{t('hero.ultimateThrill')}</span></span>
+            ) : (
+              <>
+                <span className="block">{t('hero.experienceThe')}</span>
+                <span className="block text-accent-orange">{t('hero.ultimateThrill')}</span>
+              </>
+            )}
           </h1>
 
           {/* Subtitle */}
