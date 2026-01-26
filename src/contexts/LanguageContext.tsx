@@ -68,6 +68,8 @@ const translations: Record<Language, Record<string, string>> = {
     'services.whatsIncluded': "What's included:",
     'services.safetyNote': 'Safety First:',
     'services.safetyDesc': 'All jumps are conducted with certified instructors and modern equipment',
+    'services.priceFrom': 'From ${price}',
+    'services.customQuote': 'Custom Quote',
     
     // Booking Section
     'booking.badge': 'Ready to Jump?',
@@ -234,6 +236,8 @@ const translations: Record<Language, Record<string, string>> = {
     'services.whatsIncluded': '包含內容：',
     'services.safetyNote': '安全第一：',
     'services.safetyDesc': '所有跳傘均由認證教練使用現代化設備進行',
+    'services.priceFrom': '${price}起',
+    'services.customQuote': '專屬跳傘報價',
     
     // Booking Section
     'booking.badge': '準備好了嗎？',
