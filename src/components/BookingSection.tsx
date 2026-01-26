@@ -465,7 +465,7 @@ export function BookingSection() {
                         })}
                         {filteredLocations.length === 0 && (
                           <div className="col-span-full text-center py-8 text-muted-foreground">
-                            No locations available for this service type.
+                            {t('booking.noLocations')}
                           </div>
                         )}
                       </div>
@@ -539,7 +539,7 @@ export function BookingSection() {
                                     ))}
                                     {service.includes.length > 3 && (
                                       <span className="text-xs text-muted-foreground">
-                                        +{service.includes.length - 3} more
+                                        +{service.includes.length - 3} {t('booking.more')}
                                       </span>
                                     )}
                                   </div>
@@ -553,7 +553,7 @@ export function BookingSection() {
                               <div className="mt-4 pt-4 border-t border-border">
                                 <div className="flex items-center gap-2 text-accent-emerald">
                                   <Check className="w-4 h-4" />
-                                  <span className="text-sm font-medium">Selected</span>
+                                  <span className="text-sm font-medium">{t('booking.selected')}</span>
                                 </div>
                               </div>
                             )}
@@ -562,7 +562,7 @@ export function BookingSection() {
                       })}
                       {(!locationServices || locationServices.length === 0) && !servicesLoading && (
                         <div className="text-center py-8">
-                          <p className="text-muted-foreground">No services available at this location.</p>
+                          <p className="text-muted-foreground">{t('booking.noServices')}</p>
                         </div>
                       )}
                     </div>
@@ -581,13 +581,13 @@ export function BookingSection() {
                 >
                   <div className="text-center mb-8">
                     <Calendar className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-foreground">When would you like to jump?</h3>
-                    <p className="text-muted-foreground">Select your preferred date and provide your details</p>
+                    <h3 className="text-2xl font-bold text-foreground">{t('booking.whenJump')}</h3>
+                    <p className="text-muted-foreground">{t('booking.selectDateDetails')}</p>
                   </div>
 
                   {/* Date Selection */}
                   <div className="overflow-hidden">
-                    <label className="block text-lg font-semibold text-foreground mb-4">Preferred Date</label>
+                    <label className="block text-lg font-semibold text-foreground mb-4">{t('booking.preferredDate')}</label>
                     <div className="relative">
                       <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none z-10" />
                       <input
@@ -603,7 +603,7 @@ export function BookingSection() {
 
                   {/* Participants */}
                   <div>
-                    <label className="block text-lg font-semibold text-foreground mb-4">Number of Jumpers</label>
+                    <label className="block text-lg font-semibold text-foreground mb-4">{t('booking.numberOfJumpers')}</label>
                     <div className="flex items-center gap-4">
                       <button
                         onClick={() =>
@@ -624,17 +624,17 @@ export function BookingSection() {
                       >
                         +
                       </button>
-                      <span className="text-muted-foreground">jumper{formData.participants !== 1 ? "s" : ""}</span>
+                      <span className="text-muted-foreground">{formData.participants !== 1 ? t('booking.jumpers') : t('booking.jumper')}</span>
                     </div>
                   </div>
 
                   <div className="border-t border-border pt-6">
-                    <h4 className="text-lg font-semibold text-foreground mb-4">Your Contact Details</h4>
+                    <h4 className="text-lg font-semibold text-foreground mb-4">{t('booking.contactDetails')}</h4>
 
                     {/* Name */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                       <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">First Name</label>
+                        <label className="block text-sm font-medium text-foreground mb-2">{t('booking.firstName.label')}</label>
                         <input
                           type="text"
                           value={formData.firstName}
@@ -652,7 +652,7 @@ export function BookingSection() {
                         )}
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">Last Name</label>
+                        <label className="block text-sm font-medium text-foreground mb-2">{t('booking.lastName.label')}</label>
                         <input
                           type="text"
                           value={formData.lastName}
@@ -673,7 +673,7 @@ export function BookingSection() {
 
                     {/* Email */}
                     <div className="mb-4">
-                      <label className="block text-sm font-medium text-foreground mb-2">Email Address</label>
+                      <label className="block text-sm font-medium text-foreground mb-2">{t('booking.email.label')}</label>
                       <div className="relative">
                         <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                         <input
@@ -694,7 +694,7 @@ export function BookingSection() {
 
                     {/* Phone */}
                     <div className="mb-4">
-                      <label className="block text-sm font-medium text-foreground mb-2">Phone Number</label>
+                      <label className="block text-sm font-medium text-foreground mb-2">{t('booking.phone.label')}</label>
                       <div className="relative">
                         <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                         <input
@@ -716,7 +716,7 @@ export function BookingSection() {
                     {/* Notes */}
                     <div>
                       <label className="block text-sm font-medium text-foreground mb-2">
-                        Special Requests (Optional)
+                        {t('booking.specialRequests')}
                       </label>
                       <textarea
                         value={formData.notes}
@@ -728,7 +728,7 @@ export function BookingSection() {
                             ? "border-red-500 focus:border-red-500"
                             : "border-border focus:border-accent-emerald"
                         }`}
-                        placeholder="Any special requirements or questions..."
+                        placeholder={t('booking.specialRequestsPlaceholder')}
                       />
                       <div className="flex justify-between mt-1">
                         {validationErrors.notes ? (
