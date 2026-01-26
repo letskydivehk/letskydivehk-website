@@ -81,16 +81,23 @@ export function Services() {
 
       const info = getServiceInfo(type)
 
+      // Format price with translation
+      let priceDisplay: string
+      if (prices.length > 0) {
+        const lowestPrice = `$${prices[0].toLocaleString()}`
+        priceDisplay = prices.length > 1 
+          ? t('services.priceFrom').replace('${price}', lowestPrice)
+          : lowestPrice
+      } else {
+        priceDisplay = t('services.customQuote')
+      }
+
       return {
         type: type as 'tandem' | 'aff' | 'group',
         title: info.title,
         subtitle: info.subtitle,
         description: info.description,
-        priceRange: prices.length > 0 
-          ? prices.length > 1 
-            ? `From $${prices[0].toLocaleString()}` 
-            : `$${prices[0].toLocaleString()}`
-          : 'Custom Quote',
+        priceRange: priceDisplay,
         includes: Array.from(data.includes).slice(0, 4),
         isPopular: data.isPopular
       } as AggregatedService
