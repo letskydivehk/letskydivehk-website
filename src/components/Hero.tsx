@@ -205,13 +205,13 @@ export function Hero() {
 
           {/* Main Heading */}
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-6">
-            <span className="block">EXPERIENCE THE</span>
-            <span className="block text-accent-orange">ULTIMATE THRILL</span>
+            <span className="block">{t('hero.experienceThe')}</span>
+            <span className="block text-accent-orange">{t('hero.ultimateThrill')}</span>
           </h1>
 
           {/* Subtitle */}
-          <p className="text-xl lg:text-2xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Professional tandem skydiving, AFF courses, and group events across Asia's most stunning dropzones.
+          <p className="text-xl lg:text-2xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed whitespace-pre-line">
+            {t('hero.subtitle')}
           </p>
 
           {/* CTA Buttons */}
