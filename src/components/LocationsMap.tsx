@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { MapPin, ExternalLink } from "lucide-react";
 import { useLocations } from "@/hooks/useLocations";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 // City coordinates for map markers
 const cityCoordinates: Record<string, { lat: number; lng: number }> = {
@@ -17,6 +18,7 @@ const cityCoordinates: Record<string, { lat: number; lng: number }> = {
 
 export function LocationsMap() {
   const { data: locations, isLoading } = useLocations();
+  const { t, translateData } = useLanguage();
   const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
 
   if (isLoading || !locations || locations.length === 0) {
@@ -45,11 +47,25 @@ export function LocationsMap() {
     return `https://www.openstreetmap.org/export/embed.html?bbox=${lng - 0.05}%2C${lat - 0.03}%2C${lng + 0.05}%2C${lat + 0.03}&layer=mapnik&marker=${lat}%2C${lng}`;
   };
 
+  // Helper to translate location data
+  const translateLocation = (location: typeof activeLocation) => {
+    if (!location) return null;
+    return {
+      ...location,
+      Name: translateData(`location.${location.slug}`, location.Name),
+      description: translateData(`location.${location.slug}.desc`, location.description || ''),
+      City: translateData(`city.${location.City}`, location.City || ''),
+      country: translateData(`country.${location.country}`, location.country),
+    };
+  };
+
+  const translatedActiveLocation = translateLocation(activeLocation);
+
   return (
     <div className="mt-16 max-w-5xl mx-auto">
       <div className="text-center mb-8">
-        <h3 className="text-2xl font-bold text-foreground mb-2">Explore Our Dropzones</h3>
-        <p className="text-muted-foreground">Select a location to view on the map</p>
+        <h3 className="text-2xl font-bold text-foreground mb-2">{t('locations.map.title')}</h3>
+        <p className="text-muted-foreground">{t('locations.map.subtitle')}</p>
       </div>
 
       <div className="bg-card rounded-2xl clean-border overflow-hidden elevated-shadow mobile-transparent-card">
@@ -66,7 +82,7 @@ export function LocationsMap() {
               }`}
             >
               <MapPin className="w-4 h-4" />
-              {location.City}
+              {translateData(`city.${location.City}`, location.City || '')}
             </button>
           ))}
         </div>
@@ -93,17 +109,17 @@ export function LocationsMap() {
         </div>
 
         {/* Location Info */}
-        {activeLocation && (
+        {translatedActiveLocation && activeLocation && (
           <div className="p-6 border-t border-border bg-muted/20">
             <div className="flex items-start justify-between gap-4 flex-wrap">
               <div>
-                <h4 className="text-xl font-bold text-foreground mb-1">{activeLocation.Name}</h4>
+                <h4 className="text-xl font-bold text-foreground mb-1">{translatedActiveLocation.Name}</h4>
                 <p className="text-muted-foreground flex items-center gap-2">
                   <MapPin className="w-4 h-4" />
-                  {activeLocation.City}, {activeLocation.country}
+                  {translatedActiveLocation.City}, {translatedActiveLocation.country}
                 </p>
-                {activeLocation.description && (
-                  <p className="text-muted-foreground mt-2 max-w-xl">{activeLocation.description}</p>
+                {translatedActiveLocation.description && (
+                  <p className="text-muted-foreground mt-2 max-w-xl">{translatedActiveLocation.description}</p>
                 )}
               </div>
               <a
@@ -113,28 +129,28 @@ export function LocationsMap() {
                 className="inline-flex items-center gap-2 px-4 py-2 bg-accent-orange text-white rounded-lg font-medium hover:bg-accent-orange/90 transition-colors"
               >
                 <ExternalLink className="w-4 h-4" />
-                Open in Google Maps
+                {t('locations.map.openGoogleMaps')}
               </a>
             </div>
 
             {/* Features */}
             <div className="flex flex-wrap gap-2 mt-4">
               <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-orange/10 text-accent-orange px-3 py-1 rounded-full">
-                Tandem
+                {t('locations.tandem')}
               </span>
               {activeLocation.has_aff && (
                 <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-blue/10 text-accent-blue px-3 py-1 rounded-full">
-                  AFF
+                  {t('locations.aff')}
                 </span>
               )}
               {activeLocation.has_group_events && (
                 <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-blue/10 text-accent-blue px-3 py-1 rounded-full">
-                  Groups
+                  {t('locations.groups')}
                 </span>
               )}
               {activeLocation.coming_soon && (
                 <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-blue text-white px-3 py-1 rounded-full">
-                  Coming Soon
+                  {t('common.comingSoon')}
                 </span>
               )}
             </div>

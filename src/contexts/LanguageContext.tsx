@@ -45,6 +45,9 @@ const translations: Record<Language, Record<string, string>> = {
     'locations.tandem': 'Tandem',
     'locations.aff': 'AFF',
     'locations.groups': 'Groups',
+    'locations.map.title': 'Explore Our Dropzones',
+    'locations.map.subtitle': 'Select a location to view on the map',
+    'locations.map.openGoogleMaps': 'Open in Google Maps',
     
     // Services Section
     'services.badge': 'What We Offer',
@@ -208,6 +211,9 @@ const translations: Record<Language, Record<string, string>> = {
     'locations.tandem': '雙人跳傘',
     'locations.aff': 'AFF課程',
     'locations.groups': '團體活動',
+    'locations.map.title': '探索我們的跳傘基地',
+    'locations.map.subtitle': '選擇一個地點在地圖上查看',
+    'locations.map.openGoogleMaps': '在 Google 地圖中開啟',
     
     // Services Section
     'services.badge': '我們提供的服務',
