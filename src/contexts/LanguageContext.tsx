@@ -136,8 +136,8 @@ const translations: Record<Language, Record<string, string>> = {
     'about.values.passionDriven.title': 'Passion Driven',
     'about.values.passionDriven.desc': 'We love what we do. That passion translates into an incredible experience for every guest who jumps with us.',
     'about.story.title': 'Our Story',
-    'about.story.paragraph1': 'Let\'s Skydive HK was founded by a group of passionate skydivers who wanted to share the incredible feeling of freefall with adventure seekers across Asia. What started as a single dropzone has grown into a network of world-class facilities across Thailand and China.',
-    'about.story.paragraph2': 'Today, we\'re proud to be one of the most trusted names in Asian skydiving. Our team includes internationally certified instructors, riggers, and pilots who share one common goal: to give you the experience of a lifetime while maintaining the highest safety standards in the industry.',
+    'about.story.paragraph1': 'Let\'s Skydive HK was founded by a young man who dreamed of wearing a wingsuit. His vision was to let more people in Hong Kong accomplish a major bucket-list item: to experience the pure thrill of flight. We provide closer and better options across Asia, transforming that initial passion into a network of world-class facilities in Thailand and China.',
+    'about.story.paragraph2': 'As the first in Hong Kong to provide comprehensive, well-organized support for skydiving, our entire operation is built around a singular priority: your safety. We set and maintain the highest safety standards in the industry, ensuring every flight is not only thrilling but also meticulously managed for your absolute security and peace of mind.',
     
     // Contact Section
     'contact.badge': 'Get in Touch',
@@ -311,8 +311,8 @@ const translations: Record<Language, Record<string, string>> = {
     'about.values.passionDriven.title': '熱情驅動',
     'about.values.passionDriven.desc': '我們熱愛我們的工作。這份熱情轉化為每位與我們一起跳傘的客人的絕佳體驗。',
     'about.story.title': '我們的故事',
-    'about.story.paragraph1': 'Let\'s Skydive HK 由一群熱愛跳傘的人士創立，他們希望與亞洲各地的冒險家分享自由落體的美妙感覺。從一個跳傘場開始，如今已發展成為遍布泰國和中國的世界級設施網絡。',
-    'about.story.paragraph2': '如今，我們自豪地成為亞洲跳傘界最受信賴的品牌之一。我們的團隊包括國際認證的教練、裝備維護師和飛行員，他們都有一個共同的目標：為您提供畢生難忘的體驗，同時保持業界最高的安全標準。',
+    'about.story.paragraph1': 'Let\'s Skydive HK 由一位夢想穿上翼裝飛行的年輕人創立。他的願景是讓更多香港人完成人生清單上的重要項目：體驗純粹的飛行快感。我們在亞洲各地提供更近、更優質的選擇，將最初的熱情轉化為遍布泰國和中國的世界級設施網絡。',
+    'about.story.paragraph2': '作為香港首家提供全面、有系統跳傘支援服務的機構，我們的整體運營圍繞著一個核心優先事項：您的安全。我們制定並維持業界最高的安全標準，確保每一次飛行不僅刺激，更是經過精心管理，讓您絕對安心無憂。',
     
     // Contact Section
     'contact.badge': '聯繫我們',
