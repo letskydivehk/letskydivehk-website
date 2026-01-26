@@ -158,9 +158,9 @@ export function Footer() {
               <Mail className="w-4 h-4" />
               letskydivehk@gmail.com
             </a>
-            <a href="tel:+85212345678" className="flex items-center gap-2 hover:text-background transition-colors">
+            <a href="tel:+85269391570" className="flex items-center gap-2 hover:text-background transition-colors">
               <Phone className="w-4 h-4" />
-              +852 1234 5678
+              (852) 69391570
             </a>
             <span className="flex items-center gap-2">
               <MapPin className="w-4 h-4" />
