@@ -388,10 +388,10 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Location names
     'location.chiang-mai': '清邁 (Wefly)',
     'location.pattaya': '芭達雅',
-    'location.hainan': '海南 (Weland)',
-    'location.huizhou': '惠州 (Yingfei)',
-    'location.luoding': '羅定 (Yingfei)',
-    'location.zhuhai': '珠海 (Weland)',
+    'location.hainan': '海南 (蔚藍)',
+    'location.huizhou': '惠州 (鷹飛)',
+    'location.luoding': '羅定 (鷹飛)',
+    'location.zhuhai': '珠海 (蔚藍)',
     
     // Location descriptions
     'location.chiang-mai.desc': '在泰國北部壯麗的山脈和寺廟上空跳傘。',
