@@ -28,7 +28,9 @@ const translations: Record<Language, Record<string, string>> = {
     // Hero Section
     'hero.badge': 'Hong Kong\'s Premier Skydiving Experience',
     'hero.title': "LET'S SKYDIVE",
-    'hero.subtitle': 'Experience the ultimate thrill of freefall across Asia\'s most stunning dropzones. Professional tandem jumps, AFF courses, and group adventures.',
+    'hero.experienceThe': 'EXPERIENCE THE',
+    'hero.ultimateThrill': 'ULTIMATE THRILL',
+    'hero.subtitle': 'Professional tandem skydiving, AFF courses, and group events across Asia\'s most stunning dropzones.',
     'hero.cta.book': 'Book Your Jump',
     'hero.cta.explore': 'Explore Locations',
     
@@ -189,7 +191,9 @@ const translations: Record<Language, Record<string, string>> = {
     // Hero Section
     'hero.badge': '香港首選跳傘體驗',
     'hero.title': "一起跳傘吧",
-    'hero.subtitle': '在亞洲最壯麗的跳傘場地體驗極限自由落體的刺激。專業雙人跳傘、AFF課程及團體探險活動。',
+    'hero.experienceThe': '體驗',
+    'hero.ultimateThrill': '極致飛翔',
+    'hero.subtitle': '我們提供專業雙人跳傘體驗、AFF（ Accelerated Freefall）加速自由落體認證課程，並可為企業團體、親友聚會等量身規劃跳傘活動專案。\n\n服務範圍遍及亞洲各地景觀絕佳的跳傘基地，讓您在專業安全保障下，俯瞰壯麗山河，成就非凡時刻。',
     'hero.cta.book': '預約您的跳傘',
     'hero.cta.explore': '探索跳傘地點',
     
