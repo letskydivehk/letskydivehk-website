@@ -405,7 +405,7 @@ export function BookingSection() {
 
         {/* Form Container */}
         <div className="max-w-3xl mx-auto">
-          <div className="bg-card rounded-3xl p-8 lg:p-12 clean-border elevated-shadow mobile-transparent-card">
+          <div className="bg-card rounded-3xl p-8 lg:p-12 clean-border elevated-shadow mobile-transparent-card max-h-[80vh] overflow-y-auto flex flex-col">
             <AnimatePresence mode="wait">
               {/* Step 1: Location Selection */}
               {currentStep === "location" && (
@@ -863,7 +863,7 @@ export function BookingSection() {
             </AnimatePresence>
 
             {/* Navigation Buttons */}
-            <div className="flex items-center justify-between mt-8 pt-6 border-t border-border">
+            <div className="flex items-center justify-between mt-8 pt-6 border-t border-border sticky bottom-0 bg-card pb-2">
               {currentStep !== "location" ? (
                 <button
                   onClick={handleBack}
