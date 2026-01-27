@@ -2,7 +2,18 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar as CalendarIcon, MapPin, User, Mail, Phone, Check, ArrowRight, ArrowLeft, Plane, Loader2 } from "lucide-react";
+import {
+  Calendar as CalendarIcon,
+  MapPin,
+  User,
+  Mail,
+  Phone,
+  Check,
+  ArrowRight,
+  ArrowLeft,
+  Plane,
+  Loader2,
+} from "lucide-react";
 import { format } from "date-fns";
 import { zhTW } from "date-fns/locale";
 import { useLocations, type Location } from "@/hooks/useLocations";
@@ -71,15 +82,22 @@ export function BookingSection() {
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
 
   const { data: locations, isLoading: locationsLoading } = useLocations();
-  const { preselectedLocationId, setPreselectedLocationId, preselectedServiceType, setPreselectedServiceType, activeServiceTypeFilter, setActiveServiceTypeFilter } = useBooking();
+  const {
+    preselectedLocationId,
+    setPreselectedLocationId,
+    preselectedServiceType,
+    setPreselectedServiceType,
+    activeServiceTypeFilter,
+    setActiveServiceTypeFilter,
+  } = useBooking();
   const { t, translateData, language } = useLanguage();
 
   // Helper function to translate location data
   const translateLocation = (location: Location) => ({
     ...location,
     Name: translateData(`location.${location.slug}`, location.Name),
-    description: translateData(`location.${location.slug}.desc`, location.description || ''),
-    City: translateData(`city.${location.City}`, location.City || ''),
+    description: translateData(`location.${location.slug}.desc`, location.description || ""),
+    City: translateData(`city.${location.City}`, location.City || ""),
     country: translateData(`country.${location.country}`, location.country),
   });
 
@@ -121,12 +139,12 @@ export function BookingSection() {
   // Filter locations based on active service type filter
   const filteredLocations = useMemo(() => {
     if (!locations) return [];
-    if (!activeServiceTypeFilter) return locations.filter(l => !l.coming_soon);
-    
-    return locations.filter(l => {
+    if (!activeServiceTypeFilter) return locations.filter((l) => !l.coming_soon);
+
+    return locations.filter((l) => {
       if (l.coming_soon) return false;
-      if (activeServiceTypeFilter === 'aff') return l.has_aff;
-      if (activeServiceTypeFilter === 'group') return l.has_group_events;
+      if (activeServiceTypeFilter === "aff") return l.has_aff;
+      if (activeServiceTypeFilter === "group") return l.has_group_events;
       return true; // tandem is available everywhere
     });
   }, [locations, activeServiceTypeFilter]);
@@ -165,10 +183,10 @@ export function BookingSection() {
   const translatedSelectedService = selectedService ? translateService(selectedService) : null;
 
   const steps: { id: Step; label: string; icon: React.ElementType }[] = [
-    { id: "location", label: t('booking.step1'), icon: MapPin },
-    { id: "service", label: t('booking.step2'), icon: Plane },
-    { id: "details", label: t('booking.step3'), icon: User },
-    { id: "confirm", label: t('booking.step4'), icon: Check },
+    { id: "location", label: t("booking.step1"), icon: MapPin },
+    { id: "service", label: t("booking.step2"), icon: Plane },
+    { id: "details", label: t("booking.step3"), icon: User },
+    { id: "confirm", label: t("booking.step4"), icon: Check },
   ];
 
   const currentStepIndex = steps.findIndex((s) => s.id === currentStep);
@@ -242,7 +260,6 @@ export function BookingSection() {
     setIsComplete(true);
   };
 
-
   // Get min date (tomorrow)
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
@@ -262,28 +279,30 @@ export function BookingSection() {
               <div className="w-20 h-20 bg-accent-emerald rounded-full flex items-center justify-center mx-auto mb-6">
                 <Check className="w-10 h-10 text-white" />
               </div>
-              <h2 className="text-3xl font-black text-foreground mb-4">{t('booking.success')}</h2>
+              <h2 className="text-3xl font-black text-foreground mb-4">{t("booking.success")}</h2>
               <p className="text-muted-foreground mb-8 text-lg">
-                {t('booking.successMessage').replace('{name}', formData.firstName)}
+                {t("booking.successMessage").replace("{name}", formData.firstName)}
               </p>
               <div className="bg-accent-emerald/10 rounded-xl p-6 mb-8 text-left">
-                <h3 className="font-bold text-foreground mb-3">{t('booking.summary')}</h3>
+                <h3 className="font-bold text-foreground mb-3">{t("booking.summary")}</h3>
                 <div className="space-y-2 text-sm text-muted-foreground">
                   <p>
-                    <span className="font-medium text-foreground">{t('booking.location')}:</span> {translatedSelectedLocation?.Name},{" "}
-                    {translatedSelectedLocation?.City}
+                    <span className="font-medium text-foreground">{t("booking.location")}:</span>{" "}
+                    {translatedSelectedLocation?.Name}, {translatedSelectedLocation?.City}
                   </p>
                   <p>
-                    <span className="font-medium text-foreground">{t('booking.service')}:</span> {translatedSelectedService?.service_name}
+                    <span className="font-medium text-foreground">{t("booking.service")}:</span>{" "}
+                    {translatedSelectedService?.service_name}
                   </p>
                   <p>
-                    <span className="font-medium text-foreground">{t('booking.date')}:</span> {formData.date}
+                    <span className="font-medium text-foreground">{t("booking.date")}:</span> {formData.date}
                   </p>
                   <p>
-                    <span className="font-medium text-foreground">{t('booking.participants')}:</span> {formData.participants}
+                    <span className="font-medium text-foreground">{t("booking.participants")}:</span>{" "}
+                    {formData.participants}
                   </p>
                   <p>
-                    <span className="font-medium text-foreground">{t('booking.email')}:</span> {formData.email}
+                    <span className="font-medium text-foreground">{t("booking.email")}:</span> {formData.email}
                   </p>
                 </div>
               </div>
@@ -291,7 +310,7 @@ export function BookingSection() {
                 onClick={handleReset}
                 className="bg-foreground text-background font-semibold px-8 py-3 rounded-lg hover:bg-foreground/90 transition-colors cursor-pointer"
               >
-                {t('booking.bookAnother')}
+                {t("booking.bookAnother")}
               </button>
             </div>
           </motion.div>
@@ -308,17 +327,15 @@ export function BookingSection() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-3 mb-6">
             <div className="w-3 h-3 bg-accent-emerald rounded-full animate-pulse" />
-            <span className="text-sm font-semibold text-muted-foreground">{t('booking.badge')}</span>
+            <span className="text-sm font-semibold text-muted-foreground">{t("booking.badge")}</span>
             <div className="w-3 h-3 bg-accent-blue rounded-full animate-pulse" />
           </div>
 
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground">
-            {t('booking.title')}
+            {t("booking.title")}
           </h2>
 
-          <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
-            {t('booking.subtitle')}
-          </p>
+          <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">{t("booking.subtitle")}</p>
         </div>
 
         {/* Progress Steps - FIXED VERSION */}
@@ -401,8 +418,8 @@ export function BookingSection() {
                 >
                   <div className="text-center mb-8">
                     <MapPin className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-foreground">{t('booking.whereJump')}</h3>
-                    <p className="text-muted-foreground">{t('booking.selectDropzone')}</p>
+                    <h3 className="text-2xl font-bold text-foreground">{t("booking.whereJump")}</h3>
+                    <p className="text-muted-foreground">{t("booking.selectDropzone")}</p>
                   </div>
 
                   {locationsLoading ? (
@@ -411,16 +428,14 @@ export function BookingSection() {
                     </div>
                   ) : (
                     <>
-                      {activeServiceTypeFilter === 'aff' && (
+                      {activeServiceTypeFilter === "aff" && (
                         <div className="mb-4 p-3 bg-accent-blue/10 rounded-lg flex items-center justify-between">
-                          <span className="text-sm text-accent-blue font-medium">
-                            {t('booking.filter.showing')}
-                          </span>
+                          <span className="text-sm text-accent-blue font-medium">{t("booking.filter.showing")}</span>
                           <button
                             onClick={() => setActiveServiceTypeFilter(null)}
                             className="text-xs text-muted-foreground hover:text-foreground underline cursor-pointer"
                           >
-                            {t('booking.showAll')}
+                            {t("booking.showAll")}
                           </button>
                         </div>
                       )}
@@ -471,7 +486,7 @@ export function BookingSection() {
                         })}
                         {filteredLocations.length === 0 && (
                           <div className="col-span-full text-center py-8 text-muted-foreground">
-                            {t('booking.noLocations')}
+                            {t("booking.noLocations")}
                           </div>
                         )}
                       </div>
@@ -491,8 +506,10 @@ export function BookingSection() {
                 >
                   <div className="text-center mb-8">
                     <Plane className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-foreground">{t('booking.chooseService')}</h3>
-                    <p className="text-muted-foreground">{t('booking.selectPackage')} - {translatedSelectedLocation?.Name}</p>
+                    <h3 className="text-2xl font-bold text-foreground">{t("booking.chooseService")}</h3>
+                    <p className="text-muted-foreground">
+                      {t("booking.selectPackage")} - {translatedSelectedLocation?.Name}
+                    </p>
                   </div>
 
                   {servicesLoading ? (
@@ -520,10 +537,12 @@ export function BookingSection() {
                             <div className="flex items-start justify-between gap-4">
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-1">
-                                  <h4 className="font-bold text-foreground text-lg">{translatedService.service_name}</h4>
+                                  <h4 className="font-bold text-foreground text-lg">
+                                    {translatedService.service_name}
+                                  </h4>
                                   {service.is_popular && (
                                     <span className="bg-accent-orange text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                                      {t('services.popular').toUpperCase()}
+                                      {t("services.popular").toUpperCase()}
                                     </span>
                                   )}
                                 </div>
@@ -545,7 +564,7 @@ export function BookingSection() {
                                     ))}
                                     {service.includes.length > 3 && (
                                       <span className="text-xs text-muted-foreground">
-                                        +{service.includes.length - 3} {t('booking.more')}
+                                        +{service.includes.length - 3} {t("booking.more")}
                                       </span>
                                     )}
                                   </div>
@@ -559,7 +578,7 @@ export function BookingSection() {
                               <div className="mt-4 pt-4 border-t border-border">
                                 <div className="flex items-center gap-2 text-accent-emerald">
                                   <Check className="w-4 h-4" />
-                                  <span className="text-sm font-medium">{t('booking.selected')}</span>
+                                  <span className="text-sm font-medium">{t("booking.selected")}</span>
                                 </div>
                               </div>
                             )}
@@ -568,7 +587,7 @@ export function BookingSection() {
                       })}
                       {(!locationServices || locationServices.length === 0) && !servicesLoading && (
                         <div className="text-center py-8">
-                          <p className="text-muted-foreground">{t('booking.noServices')}</p>
+                          <p className="text-muted-foreground">{t("booking.noServices")}</p>
                         </div>
                       )}
                     </div>
@@ -587,13 +606,15 @@ export function BookingSection() {
                 >
                   <div className="text-center mb-8">
                     <CalendarIcon className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-foreground">{t('booking.whenJump')}</h3>
-                    <p className="text-muted-foreground">{t('booking.selectDateDetails')}</p>
+                    <h3 className="text-2xl font-bold text-foreground">{t("booking.whenJump")}</h3>
+                    <p className="text-muted-foreground">{t("booking.selectDateDetails")}</p>
                   </div>
 
                   {/* Date Selection */}
                   <div className="overflow-hidden">
-                    <label className="block text-lg font-semibold text-foreground mb-4">{t('booking.preferredDate')}</label>
+                    <label className="block text-lg font-semibold text-foreground mb-4">
+                      {t("booking.preferredDate")}
+                    </label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
@@ -601,14 +622,14 @@ export function BookingSection() {
                           className={cn(
                             "w-full justify-start text-left font-normal h-14 rounded-xl border bg-background text-foreground hover:bg-muted",
                             !formData.date && "text-muted-foreground",
-                            validationErrors.date ? "border-red-500" : "border-border"
+                            validationErrors.date ? "border-red-500" : "border-border",
                           )}
                         >
                           <CalendarIcon className="mr-3 h-5 w-5 text-muted-foreground" />
                           {formData.date ? (
-                            format(new Date(formData.date), "PPP", { locale: language === 'zh-TW' ? zhTW : undefined })
+                            format(new Date(formData.date), "PPP", { locale: language === "zh-TW" ? zhTW : undefined })
                           ) : (
-                            <span>{t('booking.preferredDate')}</span>
+                            <span>{t("booking.preferredDate")}</span>
                           )}
                         </Button>
                       </PopoverTrigger>
@@ -627,14 +648,14 @@ export function BookingSection() {
                         />
                       </PopoverContent>
                     </Popover>
-                    {validationErrors.date && (
-                      <p className="text-red-500 text-xs mt-1">{validationErrors.date}</p>
-                    )}
+                    {validationErrors.date && <p className="text-red-500 text-xs mt-1">{validationErrors.date}</p>}
                   </div>
 
                   {/* Participants */}
                   <div>
-                    <label className="block text-lg font-semibold text-foreground mb-4">{t('booking.numberOfJumpers')}</label>
+                    <label className="block text-lg font-semibold text-foreground mb-4">
+                      {t("booking.numberOfJumpers")}
+                    </label>
                     <div className="flex items-center gap-4">
                       <button
                         onClick={() =>
@@ -655,17 +676,21 @@ export function BookingSection() {
                       >
                         +
                       </button>
-                      <span className="text-muted-foreground">{formData.participants !== 1 ? t('booking.jumpers') : t('booking.jumper')}</span>
+                      <span className="text-muted-foreground">
+                        {formData.participants !== 1 ? t("booking.jumpers") : t("booking.jumper")}
+                      </span>
                     </div>
                   </div>
 
                   <div className="border-t border-border pt-6">
-                    <h4 className="text-lg font-semibold text-foreground mb-4">{t('booking.contactDetails')}</h4>
+                    <h4 className="text-lg font-semibold text-foreground mb-4">{t("booking.contactDetails")}</h4>
 
                     {/* Name */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
                       <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">{t('booking.firstName.label')}</label>
+                        <label className="block text-sm font-medium text-foreground mb-2">
+                          {t("booking.firstName.label")}
+                        </label>
                         <input
                           type="text"
                           value={formData.firstName}
@@ -683,7 +708,9 @@ export function BookingSection() {
                         )}
                       </div>
                       <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">{t('booking.lastName.label')}</label>
+                        <label className="block text-sm font-medium text-foreground mb-2">
+                          {t("booking.lastName.label")}
+                        </label>
                         <input
                           type="text"
                           value={formData.lastName}
@@ -694,7 +721,7 @@ export function BookingSection() {
                               ? "border-red-500 focus:border-red-500"
                               : "border-border focus:border-accent-emerald"
                           }`}
-                          placeholder="Doe"
+                          placeholder="Chan"
                         />
                         {validationErrors.lastName && (
                           <p className="text-red-500 text-xs mt-1">{validationErrors.lastName}</p>
@@ -704,7 +731,9 @@ export function BookingSection() {
 
                     {/* Email */}
                     <div className="mb-4">
-                      <label className="block text-sm font-medium text-foreground mb-2">{t('booking.email.label')}</label>
+                      <label className="block text-sm font-medium text-foreground mb-2">
+                        {t("booking.email.label")}
+                      </label>
                       <div className="relative">
                         <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                         <input
@@ -717,7 +746,7 @@ export function BookingSection() {
                               ? "border-red-500 focus:border-red-500"
                               : "border-border focus:border-accent-emerald"
                           }`}
-                          placeholder="john@example.com"
+                          placeholder="sample@gmail.com"
                         />
                       </div>
                       {validationErrors.email && <p className="text-red-500 text-xs mt-1">{validationErrors.email}</p>}
@@ -725,7 +754,9 @@ export function BookingSection() {
 
                     {/* Phone */}
                     <div className="mb-4">
-                      <label className="block text-sm font-medium text-foreground mb-2">{t('booking.phone.label')}</label>
+                      <label className="block text-sm font-medium text-foreground mb-2">
+                        {t("booking.phone.label")}
+                      </label>
                       <div className="relative">
                         <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
                         <input
@@ -738,7 +769,7 @@ export function BookingSection() {
                               ? "border-red-500 focus:border-red-500"
                               : "border-border focus:border-accent-emerald"
                           }`}
-                          placeholder="+852 6939 1570"
+                          placeholder="+852 9876 5432"
                         />
                       </div>
                       {validationErrors.phone && <p className="text-red-500 text-xs mt-1">{validationErrors.phone}</p>}
@@ -747,7 +778,7 @@ export function BookingSection() {
                     {/* Notes */}
                     <div>
                       <label className="block text-sm font-medium text-foreground mb-2">
-                        {t('booking.specialRequests')}
+                        {t("booking.specialRequests")}
                       </label>
                       <textarea
                         value={formData.notes}
@@ -759,7 +790,7 @@ export function BookingSection() {
                             ? "border-red-500 focus:border-red-500"
                             : "border-border focus:border-accent-emerald"
                         }`}
-                        placeholder={t('booking.specialRequestsPlaceholder')}
+                        placeholder={t("booking.specialRequestsPlaceholder")}
                       />
                       <div className="flex justify-between mt-1">
                         {validationErrors.notes ? (
@@ -785,37 +816,38 @@ export function BookingSection() {
                 >
                   <div className="text-center mb-8">
                     <Check className="w-16 h-16 text-accent-emerald mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-foreground">{t('booking.reviewBooking')}</h3>
-                    <p className="text-muted-foreground">{t('booking.confirmDetails')}</p>
+                    <h3 className="text-2xl font-bold text-foreground">{t("booking.reviewBooking")}</h3>
+                    <p className="text-muted-foreground">{t("booking.confirmDetails")}</p>
                   </div>
 
                   <div className="bg-accent-emerald/5 rounded-xl p-6 space-y-4">
                     <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
-                        <p className="text-muted-foreground">{t('booking.location')}</p>
+                        <p className="text-muted-foreground">{t("booking.location")}</p>
                         <p className="font-semibold text-foreground">{translatedSelectedLocation?.Name}</p>
                         <p className="text-xs text-muted-foreground">
                           {translatedSelectedLocation?.City}, {translatedSelectedLocation?.country}
                         </p>
                       </div>
                       <div>
-                        <p className="text-muted-foreground">{t('booking.service')}</p>
+                        <p className="text-muted-foreground">{t("booking.service")}</p>
                         <p className="font-semibold text-foreground">{translatedSelectedService?.service_name}</p>
                         <p className="text-xs text-muted-foreground">{selectedService?.price_display}</p>
                       </div>
                       <div>
-                        <p className="text-muted-foreground">{t('booking.date')}</p>
+                        <p className="text-muted-foreground">{t("booking.date")}</p>
                         <p className="font-semibold text-foreground">{formData.date}</p>
                       </div>
                       <div>
-                        <p className="text-muted-foreground">{t('booking.participants')}</p>
+                        <p className="text-muted-foreground">{t("booking.participants")}</p>
                         <p className="font-semibold text-foreground">
-                          {formData.participants} {formData.participants !== 1 ? t('booking.jumpers') : t('booking.jumper')}
+                          {formData.participants}{" "}
+                          {formData.participants !== 1 ? t("booking.jumpers") : t("booking.jumper")}
                         </p>
                       </div>
                     </div>
                     <div className="border-t border-border pt-4">
-                      <p className="text-muted-foreground text-sm">{t('booking.contact')}</p>
+                      <p className="text-muted-foreground text-sm">{t("booking.contact")}</p>
                       <p className="font-semibold text-foreground">
                         {formData.firstName} {formData.lastName}
                       </p>
@@ -825,9 +857,7 @@ export function BookingSection() {
                     </div>
                   </div>
 
-                  <p className="text-sm text-muted-foreground text-center">
-                    {t('booking.termsDisclaimer')}
-                  </p>
+                  <p className="text-sm text-muted-foreground text-center">{t("booking.termsDisclaimer")}</p>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -840,7 +870,7 @@ export function BookingSection() {
                   className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
-                  {t('booking.back')}
+                  {t("booking.back")}
                 </button>
               ) : (
                 <div />
@@ -856,7 +886,7 @@ export function BookingSection() {
                       : "bg-muted text-muted-foreground cursor-not-allowed"
                   }`}
                 >
-                  {t('booking.next')}
+                  {t("booking.next")}
                   <ArrowRight className="w-4 h-4" />
                 </button>
               ) : (
@@ -868,11 +898,11 @@ export function BookingSection() {
                   {isSubmitting ? (
                     <>
                       <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
-                      {t('booking.submitting')}
+                      {t("booking.submitting")}
                     </>
                   ) : (
                     <>
-                      {t('booking.confirmBooking')}
+                      {t("booking.confirmBooking")}
                       <Check className="w-4 h-4" />
                     </>
                   )}
