@@ -135,6 +135,41 @@ const translations: Record<Language, Record<string, string>> = {
     'booking.noServices': 'No services available at this location.',
     'booking.noLocations': 'No locations available for this service type.',
     'booking.more': 'more',
+    'booking.termsDisclaimer': 'By clicking submit, you agree to our booking terms. We\'ll contact you within 24 hours to confirm availability and finalize your booking.',
+    
+    // Profile
+    'profile.title': 'Profile',
+    'profile.basicInfo': 'Basic Information',
+    'profile.fullName': 'Full Name',
+    'profile.phone': 'Phone',
+    'profile.emergencyContact': 'Emergency Contact',
+    'profile.optional': 'Optional',
+    'profile.name': 'Name',
+    'profile.relationship': 'Relationship',
+    'profile.relationshipPlaceholder': 'e.g., Spouse, Parent, Friend',
+    'profile.save': 'Save Changes',
+    'profile.saving': 'Saving...',
+    'profile.namePlaceholder': 'Enter your full name',
+    'profile.phonePlaceholder': 'Enter your phone number',
+    'profile.emergencyNamePlaceholder': 'Emergency contact name',
+    'profile.emergencyPhonePlaceholder': 'Emergency contact phone',
+    'profile.updateSuccess': 'Profile updated successfully',
+    'profile.updateError': 'Failed to save profile',
+    'profile.loadError': 'Failed to load profile',
+    'profile.validationError': 'Invalid input',
+    
+    // Auth Messages
+    'auth.signInSuccess': 'Signed in successfully!',
+    'auth.signUpSuccess': 'Registration successful! Please check your email to verify your account.',
+    'auth.invalidCredentials': 'Invalid email or password',
+    'auth.emailAlreadyRegistered': 'This email is already registered',
+    'auth.emailNotConfirmed': 'Please verify your email first',
+    'auth.signInFailed': 'Sign in failed',
+    'auth.signUpFailed': 'Registration failed',
+    'auth.googleSignInFailed': 'Google sign in failed. Please try again.',
+    'auth.enterEmailPassword': 'Please enter email and password',
+    'auth.passwordsMismatch': 'Passwords do not match',
+    'auth.passwordTooShort': 'Password must be at least 6 characters',
     
     // About Section
     'about.badge': 'About Us',
@@ -215,19 +250,6 @@ const translations: Record<Language, Record<string, string>> = {
     'auth.noAccount': "Don't have an account?",
     'auth.haveAccount': 'Already have an account?',
     'auth.member': 'Member',
-
-    // Profile
-    'profile.title': 'Profile',
-    'profile.basicInfo': 'Basic Information',
-    'profile.fullName': 'Full Name',
-    'profile.phone': 'Phone',
-    'profile.emergencyContact': 'Emergency Contact',
-    'profile.optional': 'Optional',
-    'profile.name': 'Name',
-    'profile.relationship': 'Relationship',
-    'profile.relationshipPlaceholder': 'e.g., Spouse, Parent, Friend',
-    'profile.save': 'Save',
-    'profile.saving': 'Saving...',
   },
   'zh-TW': {
     // Navigation & Common
@@ -351,6 +373,41 @@ const translations: Record<Language, Record<string, string>> = {
     'booking.noServices': '此地點暫無可用服務。',
     'booking.noLocations': '此服務類型暫無可用地點。',
     'booking.more': '更多',
+    'booking.termsDisclaimer': '點擊提交即表示您同意我們的預約條款。我們將在24小時內與您聯繫確認可用性並完成預約。',
+    
+    // Profile
+    'profile.title': '個人資料',
+    'profile.basicInfo': '基本資料',
+    'profile.fullName': '全名',
+    'profile.phone': '電話',
+    'profile.emergencyContact': '緊急聯絡人',
+    'profile.optional': '選填',
+    'profile.name': '姓名',
+    'profile.relationship': '關係',
+    'profile.relationshipPlaceholder': '例如：配偶、父母、朋友',
+    'profile.save': '儲存變更',
+    'profile.saving': '儲存中...',
+    'profile.namePlaceholder': '輸入您的全名',
+    'profile.phonePlaceholder': '輸入您的電話號碼',
+    'profile.emergencyNamePlaceholder': '緊急聯絡人姓名',
+    'profile.emergencyPhonePlaceholder': '緊急聯絡人電話',
+    'profile.updateSuccess': '個人資料更新成功',
+    'profile.updateError': '儲存個人資料失敗',
+    'profile.loadError': '載入個人資料失敗',
+    'profile.validationError': '輸入無效',
+    
+    // Auth Messages
+    'auth.signInSuccess': '登入成功！',
+    'auth.signUpSuccess': '註冊成功！請查看您的電子郵件以驗證帳戶。',
+    'auth.invalidCredentials': '電子郵件或密碼無效',
+    'auth.emailAlreadyRegistered': '此電子郵件已註冊',
+    'auth.emailNotConfirmed': '請先驗證您的電子郵件',
+    'auth.signInFailed': '登入失敗',
+    'auth.signUpFailed': '註冊失敗',
+    'auth.googleSignInFailed': 'Google 登入失敗，請重試。',
+    'auth.enterEmailPassword': '請輸入電子郵件和密碼',
+    'auth.passwordsMismatch': '密碼不符',
+    'auth.passwordTooShort': '密碼必須至少6個字元',
     
     // About Section
     'about.badge': '關於我們',
@@ -431,19 +488,6 @@ const translations: Record<Language, Record<string, string>> = {
     'auth.noAccount': '還沒有帳戶？',
     'auth.haveAccount': '已經有帳戶？',
     'auth.member': '會員',
-
-    // Profile
-    'profile.title': '個人資料',
-    'profile.basicInfo': '基本資料',
-    'profile.fullName': '全名',
-    'profile.phone': '電話',
-    'profile.emergencyContact': '緊急聯絡人',
-    'profile.optional': '選填',
-    'profile.name': '姓名',
-    'profile.relationship': '關係',
-    'profile.relationshipPlaceholder': '例如：配偶、父母、朋友',
-    'profile.save': '儲存',
-    'profile.saving': '儲存中...',
   }
 };
 

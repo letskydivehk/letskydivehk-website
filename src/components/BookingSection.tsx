@@ -779,7 +779,7 @@ export function BookingSection() {
                       <div>
                         <p className="text-muted-foreground">{t('booking.participants')}</p>
                         <p className="font-semibold text-foreground">
-                          {formData.participants} jumper{formData.participants !== 1 ? "s" : ""}
+                          {formData.participants} {formData.participants !== 1 ? t('booking.jumpers') : t('booking.jumper')}
                         </p>
                       </div>
                     </div>
@@ -795,8 +795,7 @@ export function BookingSection() {
                   </div>
 
                   <p className="text-sm text-muted-foreground text-center">
-                    By clicking submit, you agree to our booking terms. We'll contact you within 24 hours to confirm
-                    availability and finalize your booking.
+                    {t('booking.termsDisclaimer')}
                   </p>
                 </motion.div>
               )}
