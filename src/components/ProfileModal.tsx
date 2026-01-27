@@ -86,7 +86,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
       }
     } catch (error) {
       if (import.meta.env.DEV) console.error('Error fetching profile:', error);
-      toast.error('Failed to load profile');
+      toast.error(t('profile.loadError'));
     } finally {
       setLoading(false);
     }
@@ -102,7 +102,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
       
       if (!validationResult.success) {
         const firstError = validationResult.error.errors[0];
-        toast.error(firstError.message || 'Invalid input');
+        toast.error(firstError.message || t('profile.validationError'));
         setSaving(false);
         return;
       }
@@ -122,11 +122,11 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
 
       if (error) throw error;
 
-      toast.success('Profile updated successfully');
+      toast.success(t('profile.updateSuccess'));
       onClose();
     } catch (error) {
       if (import.meta.env.DEV) console.error('Error saving profile:', error);
-      toast.error('Failed to save profile');
+      toast.error(t('profile.updateError'));
     } finally {
       setSaving(false);
     }
@@ -201,12 +201,12 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                         id="full_name"
                         value={formData.full_name}
                         onChange={(e) => handleChange('full_name', e.target.value)}
-                        placeholder="Enter your name"
+                        placeholder={t('profile.namePlaceholder')}
                       />
                     </div>
                     
                     <div>
-                      <Label htmlFor="email">Email</Label>
+                      <Label htmlFor="email">{t('auth.emailAddress')}</Label>
                       <div className="flex items-center gap-2 px-3 py-2 bg-muted rounded-md">
                         <Mail className="w-4 h-4 text-muted-foreground" />
                         <span className="text-muted-foreground">{user?.email}</span>
@@ -219,7 +219,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                         id="phone"
                         value={formData.phone}
                         onChange={(e) => handleChange('phone', e.target.value)}
-                        placeholder="Enter your phone number"
+                        placeholder={t('profile.phonePlaceholder')}
                       />
                     </div>
                   </div>
@@ -239,7 +239,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                         id="emergency_contact_name"
                         value={formData.emergency_contact_name}
                         onChange={(e) => handleChange('emergency_contact_name', e.target.value)}
-                        placeholder="Emergency contact name"
+                        placeholder={t('profile.emergencyNamePlaceholder')}
                       />
                     </div>
                     
@@ -249,7 +249,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
                         id="emergency_contact_phone"
                         value={formData.emergency_contact_phone}
                         onChange={(e) => handleChange('emergency_contact_phone', e.target.value)}
-                        placeholder="Emergency contact phone"
+                        placeholder={t('profile.emergencyPhonePlaceholder')}
                       />
                     </div>
                     

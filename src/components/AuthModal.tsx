@@ -27,7 +27,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       onClose();
     } catch (error) {
       if (import.meta.env.DEV) console.error('Error signing in with Google:', error);
-      toast.error('Google sign in failed. Please try again.');
+      toast.error(t('auth.googleSignInFailed'));
     } finally {
       setIsLoading(false);
     }
@@ -36,17 +36,17 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email || !password) {
-      toast.error('Please enter email and password');
+      toast.error(t('auth.enterEmailPassword'));
       return;
     }
 
     if (mode === 'signup') {
       if (password !== confirmPassword) {
-        toast.error('Passwords do not match');
+        toast.error(t('auth.passwordsMismatch'));
         return;
       }
       if (password.length < 6) {
-        toast.error('Password must be at least 6 characters');
+        toast.error(t('auth.passwordTooShort'));
         return;
       }
     }
@@ -55,23 +55,23 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     try {
       if (mode === 'login') {
         await signInWithEmail(email, password);
-        toast.success('Signed in successfully!');
+        toast.success(t('auth.signInSuccess'));
         onClose();
       } else {
         await signUpWithEmail(email, password);
-        toast.success('Registration successful! Please check your email to verify your account.');
+        toast.success(t('auth.signUpSuccess'));
         onClose();
       }
     } catch (error: any) {
       if (import.meta.env.DEV) console.error('Auth error:', error);
       if (error.message?.includes('Invalid login credentials')) {
-        toast.error('Invalid email or password');
+        toast.error(t('auth.invalidCredentials'));
       } else if (error.message?.includes('User already registered')) {
-        toast.error('This email is already registered');
+        toast.error(t('auth.emailAlreadyRegistered'));
       } else if (error.message?.includes('Email not confirmed')) {
-        toast.error('Please verify your email first');
+        toast.error(t('auth.emailNotConfirmed'));
       } else {
-        toast.error(mode === 'login' ? 'Sign in failed' : 'Registration failed');
+        toast.error(mode === 'login' ? t('auth.signInFailed') : t('auth.signUpFailed'));
       }
     } finally {
       setIsLoading(false);
