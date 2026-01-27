@@ -586,7 +586,7 @@ export function BookingSection() {
                   className="space-y-6"
                 >
                   <div className="text-center mb-8">
-                    <Calendar className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
+                    <CalendarIcon className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
                     <h3 className="text-2xl font-bold text-foreground">{t('booking.whenJump')}</h3>
                     <p className="text-muted-foreground">{t('booking.selectDateDetails')}</p>
                   </div>
