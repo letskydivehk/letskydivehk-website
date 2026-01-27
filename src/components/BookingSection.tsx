@@ -405,8 +405,10 @@ export function BookingSection() {
 
         {/* Form Container */}
         <div className="max-w-3xl mx-auto">
-          <div className="bg-card rounded-3xl p-8 lg:p-12 clean-border elevated-shadow mobile-transparent-card max-h-[80vh] overflow-y-auto flex flex-col">
-            <AnimatePresence mode="wait">
+          <div className="bg-card rounded-3xl clean-border elevated-shadow mobile-transparent-card max-h-[80vh] flex flex-col overflow-hidden">
+            {/* Scrollable Content Area */}
+            <div className="flex-1 overflow-y-auto p-8 lg:p-12 pb-0">
+              <AnimatePresence mode="wait">
               {/* Step 1: Location Selection */}
               {currentStep === "location" && (
                 <motion.div
@@ -860,10 +862,11 @@ export function BookingSection() {
                   <p className="text-sm text-muted-foreground text-center">{t("booking.termsDisclaimer")}</p>
                 </motion.div>
               )}
-            </AnimatePresence>
+              </AnimatePresence>
+            </div>
 
-            {/* Navigation Buttons */}
-            <div className="flex items-center justify-between mt-8 pt-6 border-t border-border sticky bottom-0 bg-card pb-2">
+            {/* Navigation Buttons - Fixed at bottom */}
+            <div className="flex items-center justify-between p-8 lg:px-12 pt-6 border-t border-border bg-card flex-shrink-0">
               {currentStep !== "location" ? (
                 <button
                   onClick={handleBack}
