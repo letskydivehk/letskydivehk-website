@@ -14,6 +14,72 @@ export type Database = {
   }
   public: {
     Tables: {
+      bookings: {
+        Row: {
+          created_at: string
+          email: string
+          first_name: string
+          id: string
+          last_name: string
+          location_id: string
+          participants: number
+          phone: string
+          preferred_date: string
+          service_id: string
+          special_requests: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          email: string
+          first_name: string
+          id?: string
+          last_name: string
+          location_id: string
+          participants?: number
+          phone: string
+          preferred_date: string
+          service_id: string
+          special_requests?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          email?: string
+          first_name?: string
+          id?: string
+          last_name?: string
+          location_id?: string
+          participants?: number
+          phone?: string
+          preferred_date?: string
+          service_id?: string
+          special_requests?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "bookings_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "bookings_service_id_fkey"
+            columns: ["service_id"]
+            isOneToOne: false
+            referencedRelation: "location_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       location_services: {
         Row: {
           created_at: string
