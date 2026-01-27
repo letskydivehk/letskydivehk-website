@@ -8,6 +8,18 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { toast } from 'sonner';
+import { z } from 'zod';
+
+// Validation schema for profile data
+const phoneRegex = /^(\+?[1-9]\d{0,14})?$/;
+
+const profileSchema = z.object({
+  full_name: z.string().max(100, 'Name must be less than 100 characters').optional().nullable().transform(val => val?.trim() || null),
+  phone: z.string().max(20, 'Phone number too long').regex(phoneRegex, 'Invalid phone format').optional().nullable().transform(val => val?.trim() || null),
+  emergency_contact_name: z.string().max(100, 'Name must be less than 100 characters').optional().nullable().transform(val => val?.trim() || null),
+  emergency_contact_phone: z.string().max(20, 'Phone number too long').regex(phoneRegex, 'Invalid phone format').optional().nullable().transform(val => val?.trim() || null),
+  emergency_contact_relationship: z.string().max(50, 'Relationship must be less than 50 characters').optional().nullable().transform(val => val?.trim() || null),
+});
 
 interface Profile {
   id: string;
@@ -85,14 +97,26 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
 
     setSaving(true);
     try {
+      // Validate form data with Zod schema
+      const validationResult = profileSchema.safeParse(formData);
+      
+      if (!validationResult.success) {
+        const firstError = validationResult.error.errors[0];
+        toast.error(firstError.message || 'Invalid input');
+        setSaving(false);
+        return;
+      }
+
+      const validatedData = validationResult.data;
+
       const { error } = await supabase
         .from('profiles')
         .update({
-          full_name: formData.full_name || null,
-          phone: formData.phone || null,
-          emergency_contact_name: formData.emergency_contact_name || null,
-          emergency_contact_phone: formData.emergency_contact_phone || null,
-          emergency_contact_relationship: formData.emergency_contact_relationship || null,
+          full_name: validatedData.full_name,
+          phone: validatedData.phone,
+          emergency_contact_name: validatedData.emergency_contact_name,
+          emergency_contact_phone: validatedData.emergency_contact_phone,
+          emergency_contact_relationship: validatedData.emergency_contact_relationship,
         })
         .eq('user_id', user.id);
 
