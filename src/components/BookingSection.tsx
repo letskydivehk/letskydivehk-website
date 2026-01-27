@@ -405,9 +405,9 @@ export function BookingSection() {
 
         {/* Form Container */}
         <div className="max-w-3xl mx-auto">
-          <div className="bg-card rounded-3xl clean-border elevated-shadow mobile-transparent-card max-h-[80vh] flex flex-col overflow-hidden">
-            {/* Scrollable Content Area */}
-            <div className="flex-1 overflow-y-auto p-8 lg:p-12 pb-0">
+          <div className="bg-card rounded-3xl clean-border elevated-shadow mobile-transparent-card flex flex-col">
+            {/* Content Area */}
+            <div className="p-8 lg:p-12 pb-0">
               <AnimatePresence mode="wait">
               {/* Step 1: Location Selection */}
               {currentStep === "location" && (
