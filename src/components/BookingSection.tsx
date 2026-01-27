@@ -2,7 +2,9 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Calendar, MapPin, User, Mail, Phone, Check, ArrowRight, ArrowLeft, Plane, Loader2 } from "lucide-react";
+import { Calendar as CalendarIcon, MapPin, User, Mail, Phone, Check, ArrowRight, ArrowLeft, Plane, Loader2 } from "lucide-react";
+import { format } from "date-fns";
+import { zhTW } from "date-fns/locale";
 import { useLocations, type Location } from "@/hooks/useLocations";
 import { useLocationServices, type LocationService } from "@/hooks/useLocationServices";
 import { useBooking } from "@/contexts/BookingContext";
@@ -10,6 +12,10 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { z } from "zod";
 import { toast } from "sonner";
 import { SectionDecorations } from "./SectionDecorations";
+import { Calendar } from "@/components/ui/calendar";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 // Validation schema for booking form
 const bookingDetailsSchema = z.object({
@@ -66,7 +72,7 @@ export function BookingSection() {
 
   const { data: locations, isLoading: locationsLoading } = useLocations();
   const { preselectedLocationId, setPreselectedLocationId, preselectedServiceType, setPreselectedServiceType, activeServiceTypeFilter, setActiveServiceTypeFilter } = useBooking();
-  const { t, translateData } = useLanguage();
+  const { t, translateData, language } = useLanguage();
 
   // Helper function to translate location data
   const translateLocation = (location: Location) => ({
@@ -588,17 +594,42 @@ export function BookingSection() {
                   {/* Date Selection */}
                   <div className="overflow-hidden">
                     <label className="block text-lg font-semibold text-foreground mb-4">{t('booking.preferredDate')}</label>
-                    <div className="relative">
-                      <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none z-10" />
-                      <input
-                        type="date"
-                        min={minDate}
-                        value={formData.date}
-                        onChange={(e) => setFormData({ ...formData, date: e.target.value })}
-                        className="w-full pl-12 pr-4 py-4 rounded-xl border border-border bg-background text-foreground focus:border-accent-emerald focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all appearance-none [&::-webkit-calendar-picker-indicator]:opacity-100 [&::-webkit-calendar-picker-indicator]:cursor-pointer max-w-full"
-                        style={{ colorScheme: 'dark' }}
-                      />
-                    </div>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          variant="outline"
+                          className={cn(
+                            "w-full justify-start text-left font-normal h-14 rounded-xl border bg-background text-foreground hover:bg-muted",
+                            !formData.date && "text-muted-foreground",
+                            validationErrors.date ? "border-red-500" : "border-border"
+                          )}
+                        >
+                          <CalendarIcon className="mr-3 h-5 w-5 text-muted-foreground" />
+                          {formData.date ? (
+                            format(new Date(formData.date), "PPP", { locale: language === 'zh-TW' ? zhTW : undefined })
+                          ) : (
+                            <span>{t('booking.preferredDate')}</span>
+                          )}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-0 bg-card border border-border shadow-lg z-50" align="start">
+                        <Calendar
+                          mode="single"
+                          selected={formData.date ? new Date(formData.date) : undefined}
+                          onSelect={(date) => {
+                            if (date) {
+                              setFormData({ ...formData, date: format(date, "yyyy-MM-dd") });
+                            }
+                          }}
+                          disabled={(date) => date < new Date()}
+                          initialFocus
+                          className={cn("p-3 pointer-events-auto")}
+                        />
+                      </PopoverContent>
+                    </Popover>
+                    {validationErrors.date && (
+                      <p className="text-red-500 text-xs mt-1">{validationErrors.date}</p>
+                    )}
                   </div>
 
                   {/* Participants */}
