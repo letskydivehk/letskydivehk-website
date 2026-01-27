@@ -430,17 +430,6 @@ export function BookingSection() {
                     </div>
                   ) : (
                     <>
-                      {activeServiceTypeFilter === "aff" && (
-                        <div className="mb-4 p-3 bg-accent-blue/10 rounded-lg flex items-center justify-between">
-                          <span className="text-sm text-accent-blue font-medium">{t("booking.filter.showing")}</span>
-                          <button
-                            onClick={() => setActiveServiceTypeFilter(null)}
-                            className="text-xs text-muted-foreground hover:text-foreground underline cursor-pointer"
-                          >
-                            {t("booking.showAll")}
-                          </button>
-                        </div>
-                      )}
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {filteredLocations.map((location) => {
                           const translated = translateLocation(location);
