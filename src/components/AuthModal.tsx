@@ -102,11 +102,11 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
             onClick={onClose}
           />
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+            initial={{ opacity: 0, scale: 0.95, y: -20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.95, y: 20 }}
+            exit={{ opacity: 0, scale: 0.95, y: -20 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-x-4 top-8 sm:inset-x-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 w-auto sm:w-full max-w-md max-h-[calc(100vh-4rem)] overflow-y-auto bg-gradient-to-br from-gray-900 to-black border border-white/20 rounded-2xl shadow-2xl z-[201]"
+            className="fixed left-1/2 -translate-x-1/2 top-16 w-[calc(100%-2rem)] sm:w-full max-w-md max-h-[calc(100vh-5rem)] overflow-y-auto bg-gradient-to-br from-gray-900 to-black border border-white/20 rounded-2xl shadow-2xl z-[201]"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-white/10">
