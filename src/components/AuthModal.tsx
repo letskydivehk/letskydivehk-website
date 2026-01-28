@@ -82,7 +82,8 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       } else {
         await signUpWithEmail(email, password);
         toast.success(t("auth.signUpSuccess"));
-        // Modal will auto-close via useEffect when user state updates
+        // Switch to login mode after successful signup
+        switchMode("login");
       }
     } catch (error: any) {
       toast.error(error.message || t("auth.signInFailed"));
