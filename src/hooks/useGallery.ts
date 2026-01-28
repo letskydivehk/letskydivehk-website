@@ -124,9 +124,15 @@ export function useGallery() {
           // Combine and deduplicate - check for files already in database
           const dbFilePaths = new Set(dbItems.map((item) => item.file_path));
 
+          // Cast database items to GalleryItem (media_type is string in DB but we know it's "image" | "video")
+          const typedDbItems: GalleryItem[] = dbItems.map((item) => ({
+            ...item,
+            media_type: item.media_type as "image" | "video",
+          }));
+
           // Add storage files that aren't already in database
           const combinedItems: GalleryItem[] = [
-            ...dbItems,
+            ...typedDbItems,
             ...storageFiles.filter((file) => !dbFilePaths.has(file.file_path!)).map((file) => file as GalleryItem),
           ];
 
