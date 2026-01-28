@@ -6,6 +6,7 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import { Toaster } from './components/ui/sonner';
 import Home from './pages/Home';
 import MemberProfile from './pages/MemberProfile';
+import Gallery from './pages/Gallery';
 import NotFound from './pages/NotFound';
 
 const queryClient = new QueryClient();
@@ -20,6 +21,7 @@ export default function App() {
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/membership" element={<MemberProfile />} />
+                <Route path="/gallery" element={<Gallery />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
