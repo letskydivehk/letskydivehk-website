@@ -44,5 +44,103 @@
 .duration-1000 {
   animation-duration: unset;
   --tw-duration: 1s;
-    transition-duration: 1s;
+  transition-duration: 1s;
+}
+
+/* ==================== */
+/* MOBILE LOGIN FIXES */
+/* ==================== */
+
+@media (max-width: 768px) {
+  /* Make root container full width on mobile */
+  #root {
+    max-width: 100% !important;
+    padding: 1rem !important;
+    margin: 0 !important;
+    width: 100% !important;
+  }
+
+  /* Login form container adjustments */
+  .login-container,
+  .auth-container,
+  form {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 1.5rem !important;
+    margin: 0 auto !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Form inputs full width */
+  input[type="email"],
+  input[type="password"],
+  input[type="text"] {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 50px !important;
+    font-size: 16px !important; /* Prevents iOS zoom */
+    padding: 12px 15px !important;
+    margin: 10px 0 !important;
+    box-sizing: border-box !important;
+    display: block !important;
+  }
+
+  /* Login button full width */
+  button[type="submit"],
+  .sign-in-button,
+  .login-button,
+  input[type="submit"] {
+    width: 100% !important;
+    height: 50px !important;
+    margin: 20px 0 !important;
+    font-size: 16px !important;
+  }
+
+  /* Card adjustments for mobile */
+  .card {
+    padding: 1.5rem !important;
+    margin: 1rem 0 !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Ensure text fits */
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  label {
+    word-wrap: break-word !important;
+    overflow-wrap: break-word !important;
+  }
+
+  /* Fix for any overflow issues */
+  body,
+  html {
+    overflow-x: hidden !important;
+    max-width: 100% !important;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  #root {
+    padding: 0.5rem !important;
+  }
+
+  .logo {
+    height: 4em !important;
+    padding: 1em !important;
+  }
+
+  .card {
+    padding: 1rem !important;
+  }
+
+  input[type="email"],
+  input[type="password"] {
+    height: 45px !important;
+    padding: 10px 12px !important;
+  }
 }
