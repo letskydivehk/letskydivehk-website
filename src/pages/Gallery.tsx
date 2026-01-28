@@ -21,6 +21,23 @@ export default function Gallery() {
   const [showUpload, setShowUpload] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
+  // 🔥 CRITICAL FIX: Scroll to top when page loads
+  useEffect(() => {
+    // Scroll to top immediately
+    window.scrollTo(0, 0);
+
+    // Also scroll to top when component mounts (double safety)
+    const timer = setTimeout(() => {
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: "smooth", // Optional: adds smooth scrolling
+      });
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   // Reset selected index when items change
   useEffect(() => {
     if (items.length > 0 && selectedIndex >= items.length) {
@@ -49,10 +66,13 @@ export default function Gallery() {
         {/* Header */}
         <div className="container mx-auto px-4 pt-8 pb-4">
           <div className="flex items-center justify-between">
-            <Link to="/">
+            <Link
+              to="/"
+              onClick={() => window.scrollTo(0, 0)} // Also fix back button
+            >
               <Button variant="ghost" className="gap-2">
                 <ArrowLeft className="h-4 w-4" />
-                {t("gallery.backToHome")}
+                Back to Home
               </Button>
             </Link>
 
@@ -72,7 +92,7 @@ export default function Gallery() {
           </div>
         </div>
 
-        {/* Gallery Title - Simplified */}
+        {/* Gallery Title */}
         <div className="container mx-auto px-4 py-8 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <h1 className="text-4xl md:text-5xl font-bold mb-4">Photo Gallery</h1>
