@@ -14,7 +14,6 @@ export interface GalleryItem {
   display_order: number;
   is_featured: boolean;
   created_at: string;
-  // Optional flag for storage-only items
   is_storage_only?: boolean;
 }
 
@@ -46,32 +45,73 @@ export function useGallery() {
   // Function to fetch files from Supabase Storage
   const fetchStorageFiles = async (): Promise<Partial<GalleryItem>[]> => {
     try {
-      // List all files in the gallery bucket
-      // Try both root and uploads folder
-      const { data: files, error } = await supabase.storage.from("gallery").list("", {
-        // Empty string for root folder
-        limit: 100,
-        offset: 0,
-        sortBy: { column: "created_at", order: "desc" },
-      });
+      console.log("Fetching files from Supabase Storage...");
 
-      if (error) {
-        console.error("Storage fetch error:", error);
+      // Try different folder paths to find where files are
+      const folderPaths = ["", "uploads/", "gallery/", "public/"];
+
+      let allFiles: any[] = [];
+
+      for (const folder of folderPaths) {
+        const { data: files, error } = await supabase.storage.from("gallery").list(folder, {
+          limit: 100,
+          offset: 0,
+          sortBy: { column: "created_at", order: "desc" },
+        });
+
+        if (error) {
+          console.log(`Error listing folder "${folder}":`, error.message);
+          continue;
+        }
+
+        if (files && files.length > 0) {
+          console.log(`Found ${files.length} files in folder "${folder}"`);
+          allFiles = [
+            ...allFiles,
+            ...files.map((file) => ({
+              ...file,
+              folder: folder,
+            })),
+          ];
+        }
+      }
+
+      if (allFiles.length === 0) {
+        console.log("No files found in any folder");
         return [];
       }
 
+      console.log(`Total files found: ${allFiles.length}`);
+
       // Transform storage files to your format
       const storageFiles = await Promise.all(
-        files.map(async (file) => {
-          // Handle both root and nested paths
-          const filePath = file.name.startsWith("uploads/") ? file.name : `uploads/${file.name}`;
+        allFiles.map(async (file) => {
+          // Construct correct file path
+          const filePath = file.folder ? `${file.folder}${file.name}`.replace(/\/\//g, "/") : file.name;
 
-          const { data: urlData } = supabase.storage.from("gallery").getPublicUrl(filePath);
+          console.log(`Processing file: ${filePath}`);
+
+          // Get public URL
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from("gallery").getPublicUrl(filePath);
+
+          console.log(`Generated URL for ${file.name}:`, publicUrl);
+
+          // Test if URL is accessible
+          let isUrlAccessible = false;
+          try {
+            const response = await fetch(publicUrl, { method: "HEAD" });
+            isUrlAccessible = response.ok;
+            console.log(`URL accessibility test for ${file.name}: ${response.ok ? "OK" : "FAILED"}`);
+          } catch (error) {
+            console.log(`URL test failed for ${file.name}:`, error);
+          }
 
           // Determine media type from file name
           const isVideo = /\.(mp4|mov|avi|wmv|flv|webm|mkv)$/i.test(file.name);
-          const isImage = /\.(jpg|jpeg|png|gif|webp|bmp|svg)$/i.test(file.name);
-          const mediaType = isVideo ? "video" : isImage ? "image" : "image"; // Default to image
+          const isImage = /\.(jpg|jpeg|png|gif|webp|bmp|svg|heic|heif|PNG|JPG|JPEG)$/i.test(file.name);
+          const mediaType = isVideo ? "video" : isImage ? "image" : "unknown";
 
           return {
             id: `storage_${file.id || file.name.replace(/[^a-zA-Z0-9]/g, "_")}`,
@@ -79,17 +119,26 @@ export function useGallery() {
             description: null,
             media_type: mediaType as "image" | "video",
             file_path: filePath,
-            file_url: urlData.publicUrl,
-            thumbnail_url: mediaType === "image" ? urlData.publicUrl : null,
+            file_url: publicUrl,
+            thumbnail_url: mediaType === "image" ? publicUrl : null,
             display_order: 0,
             is_featured: false,
             created_at: file.created_at || new Date().toISOString(),
             is_storage_only: true,
+            _debug: {
+              originalName: file.name,
+              folder: file.folder,
+              urlAccessible: isUrlAccessible,
+            },
           };
         }),
       );
 
-      return storageFiles;
+      // Filter out unknown media types
+      const validFiles = storageFiles.filter((file) => file.media_type !== "unknown");
+      console.log(`Valid gallery files: ${validFiles.length}/${storageFiles.length}`);
+
+      return validFiles;
     } catch (error) {
       console.error("Error fetching storage files:", error);
       return [];
@@ -104,48 +153,97 @@ export function useGallery() {
     queryKey: ["gallery-items"],
     queryFn: async () => {
       try {
-        // Fetch from database
-        const { data: dbItems, error } = await supabase
-          .from("gallery_items")
-          .select("*")
-          .order("display_order", { ascending: true })
-          .order("created_at", { ascending: false });
+        console.log("Fetching gallery items...");
 
-        if (error) {
-          console.error("Database fetch error:", error);
-          // Continue with storage files even if DB fails
+        // Fetch from database
+        let dbItems: GalleryItem[] = [];
+        try {
+          const { data, error } = await supabase
+            .from("gallery_items")
+            .select("*")
+            .order("display_order", { ascending: true })
+            .order("created_at", { ascending: false });
+
+          if (error) {
+            console.error("Database fetch error:", error);
+          } else {
+            dbItems = data || [];
+            console.log(`Found ${dbItems.length} items in database`);
+          }
+        } catch (dbError) {
+          console.error("Database error:", dbError);
         }
 
         // Fetch from storage
         const storageFiles = await fetchStorageFiles();
 
         // If we have database items, combine them
-        if (dbItems && dbItems.length > 0) {
+        if (dbItems.length > 0) {
           // Combine and deduplicate - check for files already in database
           const dbFilePaths = new Set(dbItems.map((item) => item.file_path));
 
-          // Cast database items to GalleryItem (media_type is string in DB but we know it's "image" | "video")
-          const typedDbItems: GalleryItem[] = dbItems.map((item) => ({
-            ...item,
-            media_type: item.media_type as "image" | "video",
-          }));
-
           // Add storage files that aren't already in database
           const combinedItems: GalleryItem[] = [
-            ...typedDbItems,
-            ...storageFiles.filter((file) => !dbFilePaths.has(file.file_path!)).map((file) => file as GalleryItem),
+            ...dbItems,
+            ...(storageFiles
+              .filter((file) => !dbFilePaths.has(file.file_path!))
+              .map((file) => ({
+                ...file,
+                // Ensure all required fields are present
+                id: file.id!,
+                title: file.title || null,
+                description: file.description || null,
+                media_type: file.media_type!,
+                file_path: file.file_path!,
+                file_url: file.file_url!,
+                thumbnail_url: file.thumbnail_url || null,
+                display_order: file.display_order || 0,
+                is_featured: file.is_featured || false,
+                created_at: file.created_at!,
+                is_storage_only: true,
+              })) as GalleryItem[]),
           ];
 
+          console.log(`Total combined items: ${combinedItems.length}`);
           return combinedItems;
         } else {
           // If no database items, just return storage files
-          return storageFiles as GalleryItem[];
+          const storageItems = storageFiles.map((file) => ({
+            ...file,
+            id: file.id!,
+            title: file.title || null,
+            description: file.description || null,
+            media_type: file.media_type!,
+            file_path: file.file_path!,
+            file_url: file.file_url!,
+            thumbnail_url: file.thumbnail_url || null,
+            display_order: file.display_order || 0,
+            is_featured: file.is_featured || false,
+            created_at: file.created_at!,
+            is_storage_only: true,
+          })) as GalleryItem[];
+
+          console.log(`Returning ${storageItems.length} storage items`);
+          return storageItems;
         }
       } catch (error) {
         console.error("Error in gallery query:", error);
         // Fallback to just storage files
         const storageFiles = await fetchStorageFiles();
-        return storageFiles as GalleryItem[];
+        return storageFiles.map((file) => ({
+          ...file,
+          id: file.id!,
+          title: file.title || null,
+          description: file.description || null,
+          media_type: file.media_type!,
+          file_path: file.file_path!,
+          file_url: file.file_url!,
+          thumbnail_url: file.thumbnail_url || null,
+          display_order: file.display_order || 0,
+          is_featured: file.is_featured || false,
+          created_at: file.created_at!,
+          is_storage_only: true,
+        })) as GalleryItem[];
       }
     },
   });
@@ -158,7 +256,7 @@ export function useGallery() {
   };
 }
 
-// Your existing functions remain the same
+// Your existing uploadGalleryItem function - UPDATED
 export async function uploadGalleryItem(
   file: File,
   title?: string,
@@ -169,21 +267,33 @@ export async function uploadGalleryItem(
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
     const filePath = `uploads/${fileName}`;
 
-    // Upload file to storage
-    const { error: uploadError } = await supabase.storage.from("gallery").upload(filePath, file);
+    console.log(`Uploading file to: ${filePath}`);
 
-    if (uploadError) throw uploadError;
+    // Upload file to storage
+    const { error: uploadError } = await supabase.storage.from("gallery").upload(filePath, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
+
+    if (uploadError) {
+      console.error("Upload error:", uploadError);
+      throw uploadError;
+    }
+
+    console.log("File uploaded successfully");
 
     // Get public URL
-    const { data: urlData } = supabase.storage.from("gallery").getPublicUrl(filePath);
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("gallery").getPublicUrl(filePath);
 
-    const fileUrl = urlData.publicUrl;
+    console.log("Generated public URL:", publicUrl);
 
     // Determine media type
     const mediaType = file.type.startsWith("video/") ? "video" : "image";
 
     // For videos, we might want to use a thumbnail later
-    const thumbnailUrl = mediaType === "image" ? fileUrl : null;
+    const thumbnailUrl = mediaType === "image" ? publicUrl : null;
 
     // Insert gallery item record
     const { error: insertError } = await supabase.from("gallery_items").insert({
@@ -191,12 +301,16 @@ export async function uploadGalleryItem(
       description: description || null,
       media_type: mediaType,
       file_path: filePath,
-      file_url: fileUrl,
+      file_url: publicUrl,
       thumbnail_url: thumbnailUrl,
     });
 
-    if (insertError) throw insertError;
+    if (insertError) {
+      console.error("Insert error:", insertError);
+      throw insertError;
+    }
 
+    console.log("Gallery item created in database");
     return { success: true };
   } catch (error: any) {
     console.error("Upload error:", error);
@@ -206,6 +320,8 @@ export async function uploadGalleryItem(
 
 export async function deleteGalleryItem(id: string, filePath: string): Promise<{ success: boolean; error?: string }> {
   try {
+    console.log(`Deleting item: ${id}, path: ${filePath}`);
+
     // Check if it's a storage-only item
     if (id.startsWith("storage_")) {
       // Only delete from storage for storage-only items
@@ -213,6 +329,8 @@ export async function deleteGalleryItem(id: string, filePath: string): Promise<{
 
       if (storageError) {
         console.warn("Storage delete warning:", storageError);
+      } else {
+        console.log("Storage file deleted successfully");
       }
       return { success: true };
     }
@@ -222,16 +340,63 @@ export async function deleteGalleryItem(id: string, filePath: string): Promise<{
 
     if (storageError) {
       console.warn("Storage delete warning:", storageError);
+    } else {
+      console.log("Storage file deleted");
     }
 
     // Delete from database
     const { error: dbError } = await supabase.from("gallery_items").delete().eq("id", id);
 
-    if (dbError) throw dbError;
+    if (dbError) {
+      console.error("Database delete error:", dbError);
+      throw dbError;
+    }
 
+    console.log("Database record deleted");
     return { success: true };
   } catch (error: any) {
     console.error("Delete error:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+// NEW: Test function to check Supabase Storage
+export async function testSupabaseStorage() {
+  console.log("=== Testing Supabase Storage ===");
+
+  try {
+    // Test 1: List buckets
+    const { data: buckets, error: bucketsError } = await supabase.storage.listBuckets();
+    if (bucketsError) {
+      console.error("Error listing buckets:", bucketsError);
+    } else {
+      console.log("Available buckets:", buckets);
+    }
+
+    // Test 2: List files in gallery bucket
+    const { data: files, error: filesError } = await supabase.storage.from("gallery").list("", { limit: 10 });
+
+    if (filesError) {
+      console.error("Error listing files:", filesError);
+    } else {
+      console.log("Files in gallery bucket:", files);
+
+      // Test 3: Test URL generation for first file
+      if (files && files.length > 0) {
+        const testFile = files[0];
+        const { data: urlData } = supabase.storage.from("gallery").getPublicUrl(testFile.name);
+
+        console.log("Test file URL:", urlData.publicUrl);
+
+        // Test 4: Try to fetch the file
+        const response = await fetch(urlData.publicUrl, { method: "HEAD" });
+        console.log("URL accessibility:", response.status, response.ok);
+      }
+    }
+
+    return { success: true };
+  } catch (error: any) {
+    console.error("Storage test failed:", error);
     return { success: false, error: error.message };
   }
 }
