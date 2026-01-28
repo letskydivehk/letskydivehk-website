@@ -54,37 +54,38 @@ export function Hero() {
       behavior: 'smooth'
     });
   };
-  return <div className="relative h-screen w-full overflow-hidden">
+  return (
+    <div className="relative h-screen w-full overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
-      backgroundImage: 'url(https://images.unsplash.com/photo-1601024445121-e5b82f020549?w=1920&h=1080&fit=crop)'
-    }}>
+        backgroundImage: 'url(https://images.unsplash.com/photo-1601024445121-e5b82f020549?w=1920&h=1080&fit=crop)'
+      }}>
         {/* Gradient Overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
       </div>
 
       {/* Full-Width Navbar */}
       <motion.nav initial={{
-      opacity: 0,
-      y: -30
-    }} animate={{
-      opacity: 1,
-      y: 0
-    }} transition={{
-      duration: 0.8,
-      delay: 0.3
-    }} className="fixed top-0 left-0 right-0 w-full z-[110]">
+        opacity: 0,
+        y: -30
+      }} animate={{
+        opacity: 1,
+        y: 0
+      }} transition={{
+        duration: 0.8,
+        delay: 0.3
+      }} className="fixed top-0 left-0 right-0 w-full z-[110]">
         <div className={`w-full px-6 sm:px-8 lg:px-12 py-4 transition-all duration-300 ease-out ${isScrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/10' : 'bg-transparent'}`}>
           <div className="flex items-center justify-between">
             {/* Logo */}
             <motion.div whileHover={{
-            scale: 1.05
-          }} className="flex items-center cursor-pointer" onClick={() => {
-            window.scrollTo({
-              top: 0,
-              behavior: 'smooth'
-            });
-          }}>
+              scale: 1.05
+            }} className="flex items-center cursor-pointer" onClick={() => {
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+              });
+            }}>
               <span className="font-bagel text-white text-xl tracking-wider">LET'S SKYDIVE HK</span>
             </motion.div>
 
@@ -111,9 +112,6 @@ export function Hero() {
               
               {/* Auth Button */}
               <AuthButton />
-              
-              {/* CTA Button - Hidden on mobile */}
-              
 
               {/* Mobile Hamburger Menu Button */}
               <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden glass-effect p-3 rounded-full text-white hover:bg-white/20 active:bg-white/30 gentle-animation cursor-pointer z-[120] relative">
@@ -125,26 +123,28 @@ export function Hero() {
       </motion.nav>
 
       {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && <motion.div initial={{
-      opacity: 0
-    }} animate={{
-      opacity: 1
-    }} exit={{
-      opacity: 0
-    }} transition={{
-      duration: 0.3
-    }} className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-md z-[80] cursor-pointer" onClick={() => setIsMobileMenuOpen(false)} />}
+      {isMobileMenuOpen && (
+        <motion.div initial={{
+          opacity: 0
+        }} animate={{
+          opacity: 1
+        }} exit={{
+          opacity: 0
+        }} transition={{
+          duration: 0.3
+        }} className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-md z-[80] cursor-pointer" onClick={() => setIsMobileMenuOpen(false)} />
+      )}
 
       {/* Mobile Menu Panel */}
       <motion.div initial={{
-      x: '100%'
-    }} animate={{
-      x: isMobileMenuOpen ? '0%' : '100%'
-    }} transition={{
-      type: 'spring',
-      damping: 25,
-      stiffness: 200
-    }} className="md:hidden fixed top-0 right-0 h-full w-72 max-w-[85vw] bg-black/90 backdrop-blur-xl border-l border-white/10 z-[90] mobile-menu-panel pointer-events-auto" onClick={e => e.stopPropagation()}>
+        x: '100%'
+      }} animate={{
+        x: isMobileMenuOpen ? '0%' : '100%'
+      }} transition={{
+        type: 'spring',
+        damping: 25,
+        stiffness: 200
+      }} className="md:hidden fixed top-0 right-0 h-full w-72 max-w-[85vw] bg-black/90 backdrop-blur-xl border-l border-white/10 z-[90] mobile-menu-panel pointer-events-auto" onClick={e => e.stopPropagation()}>
         <div className="flex flex-col h-full">
           {/* Close Button at the top */}
           <div className="flex justify-end p-4">
@@ -172,13 +172,13 @@ export function Hero() {
 
             {/* Mobile CTA Button */}
             <motion.button whileHover={{
-            scale: 1.05
-          }} whileTap={{
-            scale: 0.95
-          }} onClick={() => {
-            scrollToLocations();
-            setIsMobileMenuOpen(false);
-          }} className="bg-accent-orange text-white font-semibold px-6 py-3 rounded-lg hover:bg-accent-orange/90 active:bg-accent-orange/80 gentle-animation mt-8 cursor-pointer">
+              scale: 1.05
+            }} whileTap={{
+              scale: 0.95
+            }} onClick={() => {
+              scrollToLocations();
+              setIsMobileMenuOpen(false);
+            }} className="bg-accent-orange text-white font-semibold px-6 py-3 rounded-lg hover:bg-accent-orange/90 active:bg-accent-orange/80 gentle-animation mt-8 cursor-pointer">
               {t('hero.cta.book')}
             </motion.button>
           </div>
@@ -188,18 +188,15 @@ export function Hero() {
       {/* Hero Content */}
       <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
         <motion.div initial={{
-        opacity: 0,
-        y: 30
-      }} animate={{
-        opacity: 1,
-        y: 0
-      }} transition={{
-        duration: 1,
-        delay: 0.5
-      }} className="max-w-4xl">
-          {/* Badge */}
-          
-
+          opacity: 0,
+          y: 30
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          duration: 1,
+          delay: 0.5
+        }} className="max-w-4xl">
           {/* Main Heading */}
           <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-6">
             {language === 'zh-TW' ? (
@@ -220,17 +217,17 @@ export function Hero() {
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <motion.button whileHover={{
-            scale: 1.05
-          }} whileTap={{
-            scale: 0.95
-          }} onClick={scrollToLocations} className="bg-accent-orange text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-accent-orange/90 gentle-animation cursor-pointer w-full sm:w-auto">
+              scale: 1.05
+            }} whileTap={{
+              scale: 0.95
+            }} onClick={scrollToLocations} className="bg-accent-orange text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-accent-orange/90 gentle-animation cursor-pointer w-full sm:w-auto">
               {t('hero.cta.book')}
             </motion.button>
             <motion.a href="#services" whileHover={{
-            scale: 1.05
-          }} whileTap={{
-            scale: 0.95
-          }} className="bg-white/10 backdrop-blur-sm text-white font-semibold px-8 py-4 rounded-lg text-lg border border-white/20 hover:bg-white/20 gentle-animation cursor-pointer w-full sm:w-auto text-center">
+              scale: 1.05
+            }} whileTap={{
+              scale: 0.95
+            }} className="bg-white/10 backdrop-blur-sm text-white font-semibold px-8 py-4 rounded-lg text-lg border border-white/20 hover:bg-white/20 gentle-animation cursor-pointer w-full sm:w-auto text-center">
               {t('hero.cta.explore')}
             </motion.a>
           </div>
@@ -238,29 +235,28 @@ export function Hero() {
 
         {/* Scroll Indicator */}
         <motion.div initial={{
-        opacity: 0
-      }} animate={{
-        opacity: 1
-      }} transition={{
-        delay: 2
-      }} className="absolute bottom-8 left-1/2 -translate-x-1/2">
-          <motion.div animate={{
-          y: [0, 10, 0]
+          opacity: 0
+        }} animate={{
+          opacity: 1
         }} transition={{
-          repeat: Infinity,
-          duration: 2
-        }} className="flex flex-col items-center text-white/60 cursor-pointer" onClick={() => {
-          const servicesSection = document.getElementById('services');
-          servicesSection?.scrollIntoView({
-            behavior: 'smooth'
-          });
-        }}>
+          delay: 2
+        }} className="absolute bottom-8 left-1/2 -translate-x-1/2">
+          <motion.div animate={{
+            y: [0, 10, 0]
+          }} transition={{
+            repeat: Infinity,
+            duration: 2
+          }} className="flex flex-col items-center text-white/60 cursor-pointer" onClick={() => {
+            const servicesSection = document.getElementById('services');
+            servicesSection?.scrollIntoView({
+              behavior: 'smooth'
+            });
+          }}>
             <span className="text-sm mb-2">Scroll to explore</span>
             <ChevronDown className="w-6 h-6" />
           </motion.div>
         </motion.div>
       </div>
-
     </div>
   );
 }
