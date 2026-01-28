@@ -151,7 +151,7 @@ export function ProfileModal({ isOpen, onClose }: ProfileModalProps) {
             initial={{ opacity: 0, scale: 0.95, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
-            className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md max-h-[90vh] overflow-y-auto bg-card rounded-2xl shadow-2xl z-[201] border border-border"
+            className="fixed inset-x-4 top-8 bottom-8 sm:inset-auto sm:left-1/2 sm:top-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-md sm:max-h-[90vh] overflow-y-auto bg-card rounded-2xl shadow-2xl z-[201] border border-border"
           >
             {/* Header */}
             <div className="sticky top-0 bg-card border-b border-border p-4 flex items-center justify-between">
