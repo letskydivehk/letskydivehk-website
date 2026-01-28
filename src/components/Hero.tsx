@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { AuthButton } from './AuthButton';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
@@ -97,6 +98,9 @@ export function Hero() {
               <a href="#locations" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
                 {t('nav.locations')}
               </a>
+              <Link to="/gallery" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
+                {t('nav.gallery')}
+              </Link>
               <a href="#about" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
                 {t('nav.about')}
               </a>
@@ -162,6 +166,9 @@ export function Hero() {
               <a href="#locations" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
                 {t('nav.locations')}
               </a>
+              <Link to="/gallery" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
+                {t('nav.gallery')}
+              </Link>
               <a href="#about" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
                 {t('nav.about')}
               </a>

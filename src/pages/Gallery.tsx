@@ -1,0 +1,131 @@
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { BackgroundDecorations } from '@/components/BackgroundDecorations';
+import { Footer } from '@/components/Footer';
+import { GalleryViewer } from '@/components/gallery/GalleryViewer';
+import { GalleryThumbnails } from '@/components/gallery/GalleryThumbnails';
+import { GalleryUpload } from '@/components/gallery/GalleryUpload';
+import { useGallery } from '@/hooks/useGallery';
+import { useAuth } from '@/contexts/AuthContext';
+import { ArrowLeft, Upload, Loader2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+
+export default function Gallery() {
+  const { t } = useLanguage();
+  const { user } = useAuth();
+  const { items, isLoading, isAdmin, refetch } = useGallery();
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [showUpload, setShowUpload] = useState(false);
+
+  // Reset selected index when items change
+  useEffect(() => {
+    if (items.length > 0 && selectedIndex >= items.length) {
+      setSelectedIndex(0);
+    }
+  }, [items.length, selectedIndex]);
+
+  const selectedItem = items[selectedIndex] || null;
+
+  return (
+    <div className="min-h-screen bg-background text-foreground relative">
+      <BackgroundDecorations />
+      <main className="relative z-10">
+        {/* Header */}
+        <div className="container mx-auto px-4 pt-8 pb-4">
+          <div className="flex items-center justify-between">
+            <Link to="/">
+              <Button variant="ghost" className="gap-2">
+                <ArrowLeft className="h-4 w-4" />
+                {t('gallery.backToHome')}
+              </Button>
+            </Link>
+            
+            {isAdmin && (
+              <Button 
+                onClick={() => setShowUpload(true)}
+                className="gap-2 bg-primary hover:bg-primary/90"
+              >
+                <Upload className="h-4 w-4" />
+                {t('gallery.upload')}
+              </Button>
+            )}
+          </div>
+        </div>
+
+        {/* Gallery Title */}
+        <div className="container mx-auto px-4 py-8 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
+              {t('gallery.badge')}
+            </span>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">
+              {t('gallery.title')}
+            </h1>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              {t('gallery.subtitle')}
+            </p>
+          </motion.div>
+        </div>
+
+        {/* Gallery Content */}
+        {isLoading ? (
+          <div className="flex items-center justify-center py-20">
+            <Loader2 className="h-8 w-8 animate-spin text-primary" />
+          </div>
+        ) : items.length === 0 ? (
+          <div className="container mx-auto px-4 py-20 text-center">
+            <p className="text-muted-foreground text-lg">
+              {t('gallery.empty')}
+            </p>
+            {isAdmin && (
+              <Button 
+                onClick={() => setShowUpload(true)}
+                className="mt-4 gap-2"
+              >
+                <Upload className="h-4 w-4" />
+                {t('gallery.uploadFirst')}
+              </Button>
+            )}
+          </div>
+        ) : (
+          <div className="container mx-auto px-4 pb-8">
+            {/* Selected Item Viewer */}
+            <GalleryViewer 
+              item={selectedItem} 
+              isAdmin={isAdmin}
+              onDelete={refetch}
+            />
+
+            {/* Thumbnail Scroll Gallery */}
+            <GalleryThumbnails
+              items={items}
+              selectedIndex={selectedIndex}
+              onSelect={setSelectedIndex}
+            />
+          </div>
+        )}
+      </main>
+      
+      <Footer />
+
+      {/* Upload Modal */}
+      <AnimatePresence>
+        {showUpload && (
+          <GalleryUpload 
+            onClose={() => setShowUpload(false)}
+            onSuccess={() => {
+              setShowUpload(false);
+              refetch();
+            }}
+          />
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
