@@ -25,7 +25,7 @@ export function AuthButton() {
 
   const handleOpenProfile = () => {
     setIsOpen(false);
-    navigate('/profile');
+    navigate('/membership');
   };
 
   if (loading) {
