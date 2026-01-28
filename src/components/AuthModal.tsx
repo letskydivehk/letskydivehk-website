@@ -19,18 +19,6 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [isMobile, setIsMobile] = useState(false);
-
-  // Detect mobile screen
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 640);
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
 
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
@@ -133,24 +121,17 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
               damping: 25,
               stiffness: 300
             }}
-            className="fixed left-1/2 -translate-x-1/2 
+            className="fixed top-4 sm:top-[10%] left-1/2 -translate-x-1/2 
               w-[calc(100%-2rem)] 
-              sm:max-w-md 
-              max-h-[90vh] 
+              max-w-md
+              max-h-[calc(100vh-2rem)] sm:max-h-[80vh]
               overflow-y-auto 
               bg-gradient-to-br from-gray-900 to-black 
               border border-white/20 
               rounded-2xl 
               shadow-2xl 
               z-[201]
-              mx-auto
               no-scrollbar"
-            style={{
-              top: isMobile ? '5%' : '10%',
-              bottom: isMobile ? 'auto' : '10%',
-              maxHeight: isMobile ? '85vh' : '80vh',
-              minHeight: isMobile ? 'auto' : 'min-content'
-            }}
           >
             {/* Header - Sticky on mobile */}
             <div className="sticky top-0 bg-gradient-to-br from-gray-900 to-black z-10 border-b border-white/10 p-4 sm:p-6">
