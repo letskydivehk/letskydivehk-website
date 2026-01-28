@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Play } from "lucide-react";
 import { GalleryItem } from "@/hooks/useGallery";
@@ -66,11 +66,7 @@ export function GalleryThumbnails({ items, selectedIndex, onSelect }: GalleryThu
             {item.media_type === "video" ? (
               <>
                 {item.thumbnail_url ? (
-                  <img
-                    src={item.thumbnail_url}
-                    alt={item.title || "Video thumbnail"}
-                    className="w-full h-full object-cover"
-                  />
+                  <img src={item.thumbnail_url} alt="Video thumbnail" className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full bg-muted flex items-center justify-center">
                     <Play className="h-6 w-6 text-muted-foreground" />
@@ -82,7 +78,7 @@ export function GalleryThumbnails({ items, selectedIndex, onSelect }: GalleryThu
                 </div>
               </>
             ) : (
-              <img src={item.file_url} alt={item.title || "Gallery thumbnail"} className="w-full h-full object-cover" />
+              <img src={item.file_url} alt="" className="w-full h-full object-cover" />
             )}
 
             {/* Selected indicator */}
