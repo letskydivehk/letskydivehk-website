@@ -65,21 +65,20 @@ export default function Gallery() {
               {isAdmin && (
                 <Button onClick={() => setShowUpload(true)} className="gap-2 bg-primary hover:bg-primary/90">
                   <Upload className="h-4 w-4" />
-                  {t("gallery.upload")}
+                  Upload
                 </Button>
               )}
             </div>
           </div>
         </div>
 
-        {/* Gallery Title */}
+        {/* Gallery Title - Simplified */}
         <div className="container mx-auto px-4 py-8 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-4">
-              {t("gallery.badge")}
-            </span>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">{t("gallery.title")}</h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto">{t("gallery.subtitle")}</p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Photo Gallery</h1>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              Browse through our collection of photos and videos
+            </p>
           </motion.div>
         </div>
 
@@ -90,17 +89,17 @@ export default function Gallery() {
           </div>
         ) : items.length === 0 ? (
           <div className="container mx-auto px-4 py-20 text-center">
-            <p className="text-muted-foreground text-lg">{t("gallery.empty")}</p>
+            <p className="text-muted-foreground text-lg">No photos in the gallery yet</p>
             {isAdmin && (
               <Button onClick={() => setShowUpload(true)} className="mt-4 gap-2">
                 <Upload className="h-4 w-4" />
-                {t("gallery.uploadFirst")}
+                Upload First Photo
               </Button>
             )}
           </div>
         ) : (
           <div className="container mx-auto px-4 pb-8">
-            {/* Main Image Viewer - Takes most of the screen */}
+            {/* Main Image Viewer */}
             <div className="mb-8">
               <GalleryViewer
                 item={selectedItem}
@@ -117,7 +116,7 @@ export default function Gallery() {
               />
             </div>
 
-            {/* Thumbnail Scroll Gallery at Bottom */}
+            {/* Thumbnail Gallery at Bottom */}
             <div className="mt-8 pt-8 border-t">
               <GalleryThumbnails items={items} selectedIndex={selectedIndex} onSelect={setSelectedIndex} />
             </div>
