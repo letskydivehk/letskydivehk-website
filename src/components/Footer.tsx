@@ -17,19 +17,19 @@ export function Footer() {
   const { t, translateData } = useLanguage();
 
   const quickLinks = [
-    { label: t('nav.services'), href: "#services" },
-    { label: t('nav.locations'), href: "#locations" },
-    { label: t('nav.about'), href: "#about" },
-    { label: t('nav.booking'), href: "#booking" },
-    { label: t('nav.contact'), href: "#contact" },
+    { label: t("nav.services"), href: "#services" },
+    { label: t("nav.locations"), href: "#locations" },
+    { label: t("nav.about"), href: "#about" },
+    { label: t("nav.booking"), href: "#booking" },
+    { label: t("nav.contact"), href: "#contact" },
   ];
 
   // Service type to translation key mapping
   const getServiceTitle = (slug: string, title: string) => {
     const slugToKey: Record<string, string> = {
-      'tandem-skydive': 'services.tandem.title',
-      'a-licence': 'services.alicence.title',
-      'group-events': 'services.group.title',
+      "tandem-skydive": "services.tandem.title",
+      "a-licence": "services.alicence.title",
+      "group-events": "services.group.title",
     };
     return slugToKey[slug] ? t(slugToKey[slug]) : title;
   };
@@ -41,9 +41,7 @@ export function Footer() {
           {/* Brand */}
           <div className="lg:col-span-1">
             <div className="font-bagel text-background text-2xl tracking-wider mb-4">LET'S SKYDIVE HK</div>
-            <p className="text-background/70 leading-relaxed mb-6">
-              {t('footer.description')}
-            </p>
+            <p className="text-background/70 leading-relaxed mb-6">{t("footer.description")}</p>
             {/* Social Media Icons */}
             <div className="flex items-center space-x-4">
               {/* Instagram */}
@@ -98,7 +96,7 @@ export function Footer() {
 
           {/* Quick Links */}
           <div>
-            <h4 className="font-bold text-lg text-background mb-4">{t('footer.quickLinks')}</h4>
+            <h4 className="font-bold text-lg text-background mb-4">{t("footer.quickLinks")}</h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
                 <li key={link.label}>
@@ -112,7 +110,7 @@ export function Footer() {
 
           {/* Services */}
           <div>
-            <h4 className="font-bold text-lg text-background mb-4">{t('footer.services')}</h4>
+            <h4 className="font-bold text-lg text-background mb-4">{t("footer.services")}</h4>
             <ul className="space-y-3">
               {services.map((service) => (
                 <li key={service.id}>
@@ -126,16 +124,16 @@ export function Footer() {
 
           {/* Locations */}
           <div>
-            <h4 className="font-bold text-lg text-background mb-4">{t('footer.locations')}</h4>
+            <h4 className="font-bold text-lg text-background mb-4">{t("footer.locations")}</h4>
             <ul className="space-y-3">
               {locations.map((location) => {
-                const translatedCity = translateData(`city.${location.City}`, location.City || '');
+                const translatedCity = translateData(`city.${location.City}`, location.City || "");
                 const translatedCountry = translateData(`country.${location.country}`, location.country);
                 const translatedName = translateData(`location.${location.slug}`, location.Name);
                 return (
                   <li key={location.id}>
-                    <a 
-                      href={`#locations-${location.country.toLowerCase()}`} 
+                    <a
+                      href={`#locations-${location.country.toLowerCase()}`}
                       className="flex items-center gap-2 text-background/70 hover:text-background transition-colors"
                     >
                       <span>{countryFlags[location.country] || "🌍"}</span>
@@ -172,16 +170,16 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-background/20 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <div className="text-sm text-background/70">{t('footer.copyright')}</div>
+            <div className="text-sm text-background/70">{t("footer.copyright")}</div>
             <div className="flex gap-6 text-sm text-background/70">
               <a href="#" className="hover:text-background transition-colors">
-                {t('footer.privacy')}
+                {t("footer.privacy")}
               </a>
               <a href="#" className="hover:text-background transition-colors">
-                {t('footer.terms')}
+                {t("footer.terms")}
               </a>
               <a href="#" className="hover:text-background transition-colors">
-                {t('footer.safety')}
+                {t("footer.disclaimer")}
               </a>
             </div>
           </div>
