@@ -111,13 +111,19 @@ export function useGallery() {
           // Determine media type from file name
           const isVideo = /\.(mp4|mov|avi|wmv|flv|webm|mkv)$/i.test(file.name);
           const isImage = /\.(jpg|jpeg|png|gif|webp|bmp|svg|heic|heif|PNG|JPG|JPEG)$/i.test(file.name);
-          const mediaType = isVideo ? "video" : isImage ? "image" : "unknown";
+          
+          // Skip unknown file types
+          if (!isVideo && !isImage) {
+            return null;
+          }
+          
+          const mediaType: "image" | "video" = isVideo ? "video" : "image";
 
           return {
             id: `storage_${file.id || file.name.replace(/[^a-zA-Z0-9]/g, "_")}`,
             title: file.name.replace(/\.[^/.]+$/, ""), // Remove extension
             description: null,
-            media_type: mediaType as "image" | "video",
+            media_type: mediaType,
             file_path: filePath,
             file_url: publicUrl,
             thumbnail_url: mediaType === "image" ? publicUrl : null,
@@ -134,8 +140,8 @@ export function useGallery() {
         }),
       );
 
-      // Filter out unknown media types
-      const validFiles = storageFiles.filter((file) => file.media_type !== "unknown");
+      // Filter out null entries (unknown media types)
+      const validFiles = storageFiles.filter((file): file is NonNullable<typeof file> => file !== null);
       console.log(`Valid gallery files: ${validFiles.length}/${storageFiles.length}`);
 
       return validFiles;
@@ -156,7 +162,7 @@ export function useGallery() {
         console.log("Fetching gallery items...");
 
         // Fetch from database
-        let dbItems: GalleryItem[] = [];
+        let typedDbItems: GalleryItem[] = [];
         try {
           const { data, error } = await supabase
             .from("gallery_items")
@@ -166,9 +172,12 @@ export function useGallery() {
 
           if (error) {
             console.error("Database fetch error:", error);
-          } else {
-            dbItems = data || [];
-            console.log(`Found ${dbItems.length} items in database`);
+          } else if (data) {
+            typedDbItems = data.map((item) => ({
+              ...item,
+              media_type: item.media_type as "image" | "video",
+            }));
+            console.log(`Found ${typedDbItems.length} items in database`);
           }
         } catch (dbError) {
           console.error("Database error:", dbError);
@@ -178,13 +187,13 @@ export function useGallery() {
         const storageFiles = await fetchStorageFiles();
 
         // If we have database items, combine them
-        if (dbItems.length > 0) {
+        if (typedDbItems.length > 0) {
           // Combine and deduplicate - check for files already in database
-          const dbFilePaths = new Set(dbItems.map((item) => item.file_path));
+          const dbFilePaths = new Set(typedDbItems.map((item) => item.file_path));
 
           // Add storage files that aren't already in database
           const combinedItems: GalleryItem[] = [
-            ...dbItems,
+            ...typedDbItems,
             ...(storageFiles
               .filter((file) => !dbFilePaths.has(file.file_path!))
               .map((file) => ({
