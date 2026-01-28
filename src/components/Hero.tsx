@@ -4,17 +4,13 @@ import { motion } from 'framer-motion';
 import { Menu, X, ChevronDown } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { AuthButton } from './AuthButton';
-import { ProfileModal } from './ProfileModal';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
+
 export function Hero() {
-  const {
-    t,
-    language
-  } = useLanguage();
+  const { t, language } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   // Scroll detection
   useEffect(() => {
@@ -114,7 +110,7 @@ export function Hero() {
               <LanguageSwitcher />
               
               {/* Auth Button */}
-              <AuthButton onOpenProfile={() => setIsProfileOpen(true)} />
+              <AuthButton />
               
               {/* CTA Button - Hidden on mobile */}
               
@@ -265,7 +261,6 @@ export function Hero() {
         </motion.div>
       </div>
 
-      {/* Profile Modal */}
-      <ProfileModal isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
-    </div>;
+    </div>
+  );
 }
