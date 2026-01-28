@@ -11,7 +11,7 @@ interface AuthModalProps {
 }
 
 export function AuthModal({ isOpen, onClose }: AuthModalProps) {
-  const { signInWithGoogle, signInWithEmail, signUpWithEmail } = useAuth();
+  const { user, signInWithGoogle, signInWithEmail, signUpWithEmail } = useAuth();
   const { t } = useLanguage();
   const [mode, setMode] = useState<"login" | "signup">("login");
   const [email, setEmail] = useState("");
@@ -19,6 +19,13 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+  // Close modal when user becomes authenticated
+  useEffect(() => {
+    if (user && isOpen) {
+      onClose();
+    }
+  }, [user, isOpen, onClose]);
 
   // Prevent background scrolling on mobile
   useEffect(() => {
@@ -44,7 +51,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     setIsLoading(true);
     try {
       await signInWithGoogle();
-      onClose();
+      // Don't close here - OAuth will redirect, so modal state doesn't matter
     } catch (error) {
       console.error("Google Sign-In error:", error);
       toast.error(t("auth.googleSignInFailed"));
@@ -71,11 +78,12 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       if (mode === "login") {
         await signInWithEmail(email, password);
         toast.success(t("auth.signInSuccess"));
+        // Modal will auto-close via useEffect when user state updates
       } else {
         await signUpWithEmail(email, password);
         toast.success(t("auth.signUpSuccess"));
+        // Modal will auto-close via useEffect when user state updates
       }
-      onClose();
     } catch (error: any) {
       toast.error(error.message || t("auth.signInFailed"));
     } finally {
