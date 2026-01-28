@@ -21,22 +21,21 @@ export default function Gallery() {
   const [showUpload, setShowUpload] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // 🔥 CRITICAL FIX: Scroll to top when page loads
+  // 🔥 FIX: Scroll to top when page loads
   useEffect(() => {
-    // Scroll to top immediately
+    // Method 1: Immediate scroll
     window.scrollTo(0, 0);
 
-    // Also scroll to top when component mounts (double safety)
+    // Method 2: Smooth scroll after a tiny delay (for better compatibility)
     const timer = setTimeout(() => {
       window.scrollTo({
         top: 0,
-        left: 0,
-        behavior: "smooth", // Optional: adds smooth scrolling
+        behavior: "instant", // Use 'instant' for immediate scroll
       });
-    }, 100);
+    }, 10);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, []); // Empty dependency array = runs once on mount
 
   // Reset selected index when items change
   useEffect(() => {
@@ -66,10 +65,7 @@ export default function Gallery() {
         {/* Header */}
         <div className="container mx-auto px-4 pt-8 pb-4">
           <div className="flex items-center justify-between">
-            <Link
-              to="/"
-              onClick={() => window.scrollTo(0, 0)} // Also fix back button
-            >
+            <Link to="/">
               <Button variant="ghost" className="gap-2">
                 <ArrowLeft className="h-4 w-4" />
                 Back to Home
