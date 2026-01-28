@@ -1,6 +1,7 @@
 "use client";
 
 import { MapPin, Mail, Phone } from "lucide-react";
+import { Link } from "react-router-dom";
 import { useLocations } from "@/hooks/useLocations";
 import { useServices } from "@/hooks/useServices";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -172,15 +173,15 @@ export function Footer() {
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <div className="text-sm text-background/70">{t("footer.copyright")}</div>
             <div className="flex gap-6 text-sm text-background/70">
-              <a href="#" className="hover:text-background transition-colors">
+              <Link to="/privacy" className="hover:text-background transition-colors">
                 {t("footer.privacy")}
-              </a>
-              <a href="#" className="hover:text-background transition-colors">
+              </Link>
+              <Link to="/terms" className="hover:text-background transition-colors">
                 {t("footer.terms")}
-              </a>
-              <a href="#" className="hover:text-background transition-colors">
+              </Link>
+              <Link to="/disclaimer" className="hover:text-background transition-colors">
                 {t("footer.disclaimer")}
-              </a>
+              </Link>
             </div>
           </div>
         </div>
