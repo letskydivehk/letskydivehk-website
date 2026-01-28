@@ -157,6 +157,8 @@ const translations: Record<Language, Record<string, string>> = {
     'profile.updateError': 'Failed to save profile',
     'profile.loadError': 'Failed to load profile',
     'profile.validationError': 'Invalid input',
+    'profile.myBookings': 'My Bookings',
+    'profile.noBookings': 'No bookings yet',
     
     // Auth Messages
     'auth.signInSuccess': 'Signed in successfully!',
@@ -395,6 +397,8 @@ const translations: Record<Language, Record<string, string>> = {
     'profile.updateError': '儲存個人資料失敗',
     'profile.loadError': '載入個人資料失敗',
     'profile.validationError': '輸入無效',
+    'profile.myBookings': '我的預約',
+    'profile.noBookings': '尚無預約記錄',
     
     // Auth Messages
     'auth.signInSuccess': '登入成功！',

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { User, LogOut, ChevronDown } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
@@ -6,13 +7,10 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { AuthModal } from './AuthModal';
 
-interface AuthButtonProps {
-  onOpenProfile?: () => void;
-}
-
-export function AuthButton({ onOpenProfile }: AuthButtonProps) {
+export function AuthButton() {
   const { user, loading, signOut } = useAuth();
   const { t } = useLanguage();
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
   const [isAuthModalOpen, setIsAuthModalOpen] = useState(false);
 
@@ -23,6 +21,11 @@ export function AuthButton({ onOpenProfile }: AuthButtonProps) {
     } catch (error) {
       if (import.meta.env.DEV) console.error('Error signing out:', error);
     }
+  };
+
+  const handleOpenProfile = () => {
+    setIsOpen(false);
+    navigate('/profile');
   };
 
   if (loading) {
@@ -94,10 +97,7 @@ export function AuthButton({ onOpenProfile }: AuthButtonProps) {
               
               <div className="p-1">
                 <button
-                  onClick={() => {
-                    setIsOpen(false);
-                    onOpenProfile?.();
-                  }}
+                  onClick={handleOpenProfile}
                   className="w-full flex items-center gap-2 px-3 py-2 text-white hover:bg-white/10 rounded-md transition-colors text-sm"
                 >
                   <User className="w-4 h-4" />
