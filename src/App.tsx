@@ -7,6 +7,9 @@ import { Toaster } from './components/ui/sonner';
 import Home from './pages/Home';
 import MemberProfile from './pages/MemberProfile';
 import Gallery from './pages/Gallery';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import Disclaimer from './pages/Disclaimer';
 import NotFound from './pages/NotFound';
 
 const queryClient = new QueryClient();
@@ -22,6 +25,9 @@ export default function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/membership" element={<MemberProfile />} />
                 <Route path="/gallery" element={<Gallery />} />
+                <Route path="/privacy" element={<Privacy />} />
+                <Route path="/terms" element={<Terms />} />
+                <Route path="/disclaimer" element={<Disclaimer />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
