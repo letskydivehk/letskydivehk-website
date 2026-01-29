@@ -304,27 +304,71 @@ const translations: Record<Language, Record<string, string>> = {
     // Legal Pages
     "legal.backToHome": "Back to Home",
 
-    // Privacy Policy
-    "privacy.title": "Privacy Policy",
+    // Privacy Policy - English (COMPREHENSIVE VERSION)
+    "privacy.title": "Let's Skydive HK Limited Personal Data (Privacy) Policy Statement",
     "privacy.lastUpdated": "Last Updated",
-    "privacy.section1.title": "1. Information We Collect",
+    "privacy.introduction":
+      'Let\'s Skydive HK Limited (hereinafter referred to as "the Company", "we", "us" or "our") is committed to safeguarding your personal data privacy. This Privacy Policy Statement outlines how we collect, use, store, transfer, and handle your personal data in accordance with the Personal Data (Privacy) Ordinance (Cap. 486) of the Laws of Hong Kong (hereinafter referred to as "the Ordinance"). Please read this policy carefully to understand our practices regarding your personal data.',
+    "privacy.updateNotice":
+      "Our policies and measures are designed to ensure compliance with the Ordinance in the handling of personal data (as defined below) during our business operations. We may amend this policy from time to time and will publish the updated version on this website. Your continued use of our services or maintenance of a relationship with us after any amendments constitutes your acceptance of the revised policy.",
+
+    "privacy.section1.title": "1. Types of Personal Data Collected",
     "privacy.section1.content":
-      "We collect personal information you provide when booking a skydiving experience, creating an account, or contacting us. This includes your name, email address, phone number, emergency contact details, and any health information relevant to skydiving safety.",
-    "privacy.section2.title": "2. How We Use Your Information",
+      'We may collect personal identification data ("Personal Data") necessary for providing our services through various channels such as our website, telephone, email, social media, mobile applications, or in-person at our offices. This includes, but is not limited to:',
+    "privacy.section1.list":
+      "• Contact details (e.g., name, phone number, email address, postal address);<br>• Identification document details (e.g., passport or ID card number, date of birth);<br>• Physical health and medical-related information (e.g., weight, medical history, injury records, for assessing suitability for skydiving activities);<br>• Payment details (e.g., credit/debit card number, cardholder name, expiry date, billing address);<br>• Activity-related details (e.g., booked skydiving date, location, package type, video and photo preferences, emergency contact information);<br>• Information provided when participating in promotional events, contests, or surveys organized by us; and<br>• Communication records (for quality assurance and training purposes, we may record customer service-related calls or electronic messages).",
+    "privacy.section1.note":
+      "If you choose not to provide necessary data, we may be unable to provide you with skydiving activities or related services. If you are under 18 years old, you must obtain consent from a parent or guardian before providing personal data.",
+
+    "privacy.section2.title": "2. Purposes of Collection and Use of Personal Data",
     "privacy.section2.content":
-      "Your information is used to process bookings, communicate about your skydiving experience, ensure safety compliance, and improve our services. We may also send promotional materials if you opt-in to receive them.",
-    "privacy.section3.title": "3. Information Sharing",
+      "We will use your Personal Data for the following purposes related to our business and services:",
+    "privacy.section2.list":
+      "• To process, confirm, and manage your skydiving activity bookings, registrations, and payments;<br>• To assess your physical suitability and safety risks for participating in skydiving activities;<br>• To contact and follow up with you regarding your booking, enquiries, feedback, or complaints;<br>• To provide pre-activity briefings, safety instructions, and related service arrangements;<br>• To process and produce photographs, video recordings, and related products from your skydiving activity;<br>• To manage member accounts (where applicable) and provide related benefits;<br>• To conduct customer service quality monitoring, staff training, and handle claims;<br>• To conduct market research, analysis, and service improvements to enhance customer experience;<br>• To send you direct marketing messages regarding our latest offers, promotions, and service information, subject to your consent;<br>• To comply with legal or regulatory obligations, or to respond to requests from law enforcement agencies or government departments as required or permitted by law;<br>• To protect the rights, property, or safety of the Company, our customers, or the public, including the prevention of fraud or criminal activity; and<br>• Other purposes directly related to any of the above.",
+    "privacy.section2.note":
+      "We will not use your Personal Data for purposes other than those specified above without your prior consent.",
+
+    "privacy.section3.title": "3. Disclosure and Transfer of Personal Data",
     "privacy.section3.content":
-      "We share your information with our partner dropzones to facilitate your booking. We do not sell your personal information to third parties. We may disclose information when required by law or to protect safety.",
-    "privacy.section4.title": "4. Data Security",
+      "To achieve the purposes stated in Section 2, we may disclose or transfer your Personal Data to the following categories of third parties where necessary:",
+    "privacy.section3.list":
+      "• Third-party service providers involved in delivering the skydiving activity (e.g., skydiving instructors, aircraft leasing companies, photography teams);<br>• Financial institutions and payment service providers for processing payments;<br>• Contractors providing business support services to us (e.g., IT system providers, customer service centers, mailing services);<br>• Our professional advisers (e.g., lawyers, insurers, auditors);<br>• Government departments, regulators, or law enforcement agencies entitled to request data under legal requirements or authorizations; and<br>• Business partners collaborating with us to offer you relevant benefits or services (only with your consent).",
+    "privacy.section3.note":
+      "Some of these third parties may be located outside Hong Kong. When transferring your Personal Data, we will take reasonable steps to ensure adequate protection and compliance with the Ordinance.",
+
+    "privacy.section4.title": "4. Protection and Retention of Personal Data",
     "privacy.section4.content":
-      "We implement appropriate security measures to protect your personal information. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.",
-    "privacy.section5.title": "5. Your Rights",
+      "We adopt reasonable technical and organizational measures (including encryption, firewalls, and access controls) commensurate with industry standards to protect your Personal Data from unauthorized access, use, disclosure, alteration, or destruction.",
+    "privacy.section4.retention":
+      "We will retain your Personal Data only for as long as necessary to fulfill the purposes for which it was collected, or as required for legal compliance, dispute resolution, and enforcement of agreements. Thereafter, we will securely delete or destroy the data.",
+
+    "privacy.section5.title": "5. Cookies and Similar Technologies",
     "privacy.section5.content":
-      "You have the right to access, correct, or delete your personal information. You may also opt-out of marketing communications at any time. Contact us at letskydivehk@gmail.com to exercise these rights.",
-    "privacy.section6.title": "6. Contact Us",
+      "Our website may use Cookies and similar technologies to enhance your browsing experience, analyze website traffic, and deliver personalized content. You can manage or disable Cookies through your browser settings, although this may affect some website functionalities.",
+
+    "privacy.section6.title": "6. Links to Third-Party Websites",
     "privacy.section6.content":
-      "If you have questions about this Privacy Policy, please contact us at letskydivehk@gmail.com or call (852) 69391570.",
+      "Our website or communications may contain links to third-party websites. These sites have their own independent privacy policies. We assume no responsibility for their content or policies. We advise you to review their privacy policies before using these sites.",
+
+    "privacy.section7.title": "7. Your Rights",
+    "privacy.section7.content": "Under the Ordinance, you have the right to:",
+    "privacy.section7.list":
+      "• Inquire whether we hold your Personal Data and request access to such data;<br>• Request correction of inaccurate Personal Data;<br>• Ascertain our policies and practices regarding Personal Data and be informed of the kinds of Personal Data we hold;<br>• Object to the use of your Personal Data for direct marketing; and<br>• Request cessation of using your Personal Data, subject to the conditions stipulated in the Ordinance.",
+    "privacy.section7.note":
+      "For exercising the above rights or any enquiry regarding this policy, please contact our Privacy Officer (contact details in Section 9).",
+
+    "privacy.section8.title": "8. Direct Marketing",
+    "privacy.section8.content":
+      "We will only use your Personal Data (e.g., name and contact details) to send you direct marketing information about our services and promotions with your explicit consent (opt-in). You can unsubscribe from receiving such messages at any time free of charge by using the unsubscribe method provided in our marketing messages or by contacting our Privacy Officer.",
+
+    "privacy.section9.title": "9. Contact Us",
+    "privacy.section9.content":
+      "If you have any questions, requests, or complaints regarding this Privacy Policy, our handling of personal data, or wish to exercise your personal data rights, please contact our Privacy Officer via:",
+    "privacy.section9.email": "Email: letskydivehk@gmail.com",
+    "privacy.section9.phone": "Phone: (852) 69391570",
+
+    "privacy.finalNote":
+      "(Note: For the avoidance of doubt, the latest update date of this policy is **1 January 2026**.)<br><br>**(This Privacy Policy Statement shall be governed by the English version.)**",
 
     // Terms of Service
     "terms.title": "Terms of Service",
@@ -355,65 +399,88 @@ const translations: Record<Language, Record<string, string>> = {
     "disclaimer.title": "COMPREHENSIVE DISCLAIMER FOR LET'S SKYDIVE HK LIMITED",
     "disclaimer.lastUpdated": "Last Updated: 1 January 2026",
     "disclaimer.website": "Website: https://letskydivehk.com/",
-    
+
     "disclaimer.section1.title": "1. Acceptance of Terms",
-    "disclaimer.section1.content": "Let's Skydive HK Limited (\"the Company\", \"we\", \"us\", or \"our\") operates this website and organises skydiving experiences, training courses, and related travel services worldwide. By accessing, browsing, or using this website, or by booking and participating in any service we organise, you acknowledge that you have read, understood, and irrevocably accept all terms of this comprehensive Disclaimer. If you do not agree with any part, you must immediately discontinue use of our services.",
-    
+    "disclaimer.section1.content":
+      'Let\'s Skydive HK Limited ("the Company", "we", "us", or "our") operates this website and organises skydiving experiences, training courses, and related travel services worldwide. By accessing, browsing, or using this website, or by booking and participating in any service we organise, you acknowledge that you have read, understood, and irrevocably accept all terms of this comprehensive Disclaimer. If you do not agree with any part, you must immediately discontinue use of our services.',
+
     "disclaimer.section2.title": "2. Extreme Sport Risk Acknowledgement & Assumption of Liability",
     "disclaimer.section2.subtitle1": "2.1 Inherent Risks:",
-    "disclaimer.section2.content1": "Skydiving is an extreme sport with inherent, unavoidable, and significant risks that CANNOT BE ELIMINATED, regardless of the care taken. These risks include, but are not limited to:",
-    "disclaimer.section2.risks": "• Personal Injury or Death: From freefall, parachute deployment, landing, or mid-air collision, potentially resulting in paralysis, traumatic brain injury, or fatality.<br>• Equipment Failure: Malfunction or failure of the parachute, harness, altimeter, automatic activation device, or aircraft.<br>• Environmental Hazards: Adverse or sudden changes in weather, wind conditions, turbulence, poor visibility, obstacles in the landing or drop zone.<br>• Operational & Human Error: Errors in judgment by pilots, instructors, or ground crew; communication failures; deviations from planned flight or jump run.<br>• Health Reactions: Altitude-related illnesses, vertigo, loss of consciousness, or exacerbation of pre-existing physical or psychological conditions.",
+    "disclaimer.section2.content1":
+      "Skydiving is an extreme sport with inherent, unavoidable, and significant risks that CANNOT BE ELIMINATED, regardless of the care taken. These risks include, but are not limited to:",
+    "disclaimer.section2.risks":
+      "• Personal Injury or Death: From freefall, parachute deployment, landing, or mid-air collision, potentially resulting in paralysis, traumatic brain injury, or fatality.<br>• Equipment Failure: Malfunction or failure of the parachute, harness, altimeter, automatic activation device, or aircraft.<br>• Environmental Hazards: Adverse or sudden changes in weather, wind conditions, turbulence, poor visibility, obstacles in the landing or drop zone.<br>• Operational & Human Error: Errors in judgment by pilots, instructors, or ground crew; communication failures; deviations from planned flight or jump run.<br>• Health Reactions: Altitude-related illnesses, vertigo, loss of consciousness, or exacerbation of pre-existing physical or psychological conditions.",
     "disclaimer.section2.subtitle2": "2.2 Your Responsibility & Assumption of Risk:",
-    "disclaimer.section2.content2": "By participating, you VOLUNTARILY AND EXPRESSLY ASSUME ALL SUCH RISKS. You confirm that you:",
-    "disclaimer.section2.responsibilities": "• Are of legal age (18 years or older) or have consent from a legal guardian/parent.<br>• Are NOT pregnant and are in good physical and mental health, without any cardiovascular, respiratory, bone/joint, neurological conditions, or any other ailment that may be aggravated by skydiving.<br>• Have truthfully completed all required health and liability waiver forms.<br>• Will follow ALL instructions given by Company representatives and third-party instructors without exception.<br>• Are solely responsible for self-assessing your fitness and suitability to participate.",
-    
+    "disclaimer.section2.content2":
+      "By participating, you VOLUNTARILY AND EXPRESSLY ASSUME ALL SUCH RISKS. You confirm that you:",
+    "disclaimer.section2.responsibilities":
+      "• Are of legal age (18 years or older) or have consent from a legal guardian/parent.<br>• Are NOT pregnant and are in good physical and mental health, without any cardiovascular, respiratory, bone/joint, neurological conditions, or any other ailment that may be aggravated by skydiving.<br>• Have truthfully completed all required health and liability waiver forms.<br>• Will follow ALL instructions given by Company representatives and third-party instructors without exception.<br>• Are solely responsible for self-assessing your fitness and suitability to participate.",
+
     "disclaimer.section3.title": "3. Service Model & Third-Party Liability",
     "disclaimer.section3.subtitle1": "3.1 Agent Role:",
-    "disclaimer.section3.content1": "The Company acts as a booking agent, coordinator, and facilitator. The actual skydiving services (including aircraft operation, jump execution, and instruction) are performed by independent, licensed third-party partner drop zones, operators, pilots, and instructors (\"Service Partners\").",
+    "disclaimer.section3.content1":
+      'The Company acts as a booking agent, coordinator, and facilitator. The actual skydiving services (including aircraft operation, jump execution, and instruction) are performed by independent, licensed third-party partner drop zones, operators, pilots, and instructors ("Service Partners").',
     "disclaimer.section3.subtitle2": "3.2 No Joint Liability:",
-    "disclaimer.section3.content2": "We meticulously select our Service Partners but do not own, control, or directly supervise their daily operations. To the fullest extent permitted by law, we explicitly disclaim all liability for any acts, omissions, negligence, or wilful misconduct of these Service Partners, including breaches of safety protocols. Any claim relating to the actual skydive must be directed to the relevant Service Partner and their insurers.",
-    
+    "disclaimer.section3.content2":
+      "We meticulously select our Service Partners but do not own, control, or directly supervise their daily operations. To the fullest extent permitted by law, we explicitly disclaim all liability for any acts, omissions, negligence, or wilful misconduct of these Service Partners, including breaches of safety protocols. Any claim relating to the actual skydive must be directed to the relevant Service Partner and their insurers.",
+
     "disclaimer.section4.title": "4. Booking, Cancellation, and Force Majeure",
     "disclaimer.section4.subtitle1": "4.1 Weather & Safety Cancellations:",
-    "disclaimer.section4.content1": "Skydiving is 100% weather and condition-dependent. The Company or the Service Partner may cancel or reschedule any activity due to safety concerns (weather, wind, visibility, etc.) at any time. We are not liable for any associated costs you incur (e.g., travel, accommodation). Our standard rescheduling policy will apply; refunds are not guaranteed.",
+    "disclaimer.section4.content1":
+      "Skydiving is 100% weather and condition-dependent. The Company or the Service Partner may cancel or reschedule any activity due to safety concerns (weather, wind, visibility, etc.) at any time. We are not liable for any associated costs you incur (e.g., travel, accommodation). Our standard rescheduling policy will apply; refunds are not guaranteed.",
     "disclaimer.section4.subtitle2": "4.2 Health & Suitability:",
-    "disclaimer.section4.content2": "Service Partners reserve the right to deny participation to any person failing the on-site safety briefing or health assessment. Paid fees will be handled per the booking terms.",
+    "disclaimer.section4.content2":
+      "Service Partners reserve the right to deny participation to any person failing the on-site safety briefing or health assessment. Paid fees will be handled per the booking terms.",
     "disclaimer.section4.subtitle3": "4.3 No-Shows & Late Arrival:",
-    "disclaimer.section4.content3": "Failure to arrive on time for your booked slot constitutes a cancellation without refund.",
+    "disclaimer.section4.content3":
+      "Failure to arrive on time for your booked slot constitutes a cancellation without refund.",
     "disclaimer.section4.subtitle4": "4.4 Force Majeure:",
-    "disclaimer.section4.content4": "We are not liable for failure to perform due to events beyond our reasonable control, including war, natural disasters, pandemics, government orders, strikes, or transportation failures.",
-    
+    "disclaimer.section4.content4":
+      "We are not liable for failure to perform due to events beyond our reasonable control, including war, natural disasters, pandemics, government orders, strikes, or transportation failures.",
+
     "disclaimer.section5.title": "5. Insurance and Limitation of Liability",
     "disclaimer.section5.subtitle1": "5.1 Mandatory Personal Insurance:",
-    "disclaimer.section5.content1": "You MUST obtain comprehensive personal travel and medical insurance that EXPLICITLY COVERS SKYDIVING AND EXTREME SPORTS. The Company's insurance does not cover your personal injury or medical costs.",
+    "disclaimer.section5.content1":
+      "You MUST obtain comprehensive personal travel and medical insurance that EXPLICITLY COVERS SKYDIVING AND EXTREME SPORTS. The Company's insurance does not cover your personal injury or medical costs.",
     "disclaimer.section5.subtitle2": "5.2 Company Liability Insurance:",
-    "disclaimer.section5.content2": "We maintain third-party liability insurance as required by law, the details and limits of which are available upon request.",
+    "disclaimer.section5.content2":
+      "We maintain third-party liability insurance as required by law, the details and limits of which are available upon request.",
     "disclaimer.section5.subtitle3": "5.3 Limitation of Our Liability:",
-    "disclaimer.section5.content3": "TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE COMPANY, ITS DIRECTORS, EMPLOYEES, AND AGENTS SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES arising from your use of this website or participation in our organised activities. This includes, but is not limited to, damages for personal injury, death, emotional distress, loss of profits, data, or enjoyment, even if advised of the possibility of such damages.",
+    "disclaimer.section5.content3":
+      "TO THE MAXIMUM EXTENT PERMITTED BY LAW, THE COMPANY, ITS DIRECTORS, EMPLOYEES, AND AGENTS SHALL NOT BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, OR PUNITIVE DAMAGES arising from your use of this website or participation in our organised activities. This includes, but is not limited to, damages for personal injury, death, emotional distress, loss of profits, data, or enjoyment, even if advised of the possibility of such damages.",
     "disclaimer.section5.subtitle4": "5.4 Waiver Agreement:",
-    "disclaimer.section5.content4": "Participation is CONDITIONAL upon signing the Service Partner's formal Risk Waiver and Release of Liability agreement on the activity day.",
-    
+    "disclaimer.section5.content4":
+      "Participation is CONDITIONAL upon signing the Service Partner's formal Risk Waiver and Release of Liability agreement on the activity day.",
+
     "disclaimer.section6.title": "6. Website Use, Content, and Intellectual Property",
-    "disclaimer.section6.subtitle1": "6.1 \"As-Is\" Basis:",
-    "disclaimer.section6.content1": "This website and all content (information, prices, descriptions, media) are provided \"AS IS\" and \"AS AVAILABLE\" without warranties of any kind. We strive for accuracy but do not guarantee completeness, timeliness, or freedom from errors. All content is subject to change without notice.",
+    "disclaimer.section6.subtitle1": '6.1 "As-Is" Basis:',
+    "disclaimer.section6.content1":
+      'This website and all content (information, prices, descriptions, media) are provided "AS IS" and "AS AVAILABLE" without warranties of any kind. We strive for accuracy but do not guarantee completeness, timeliness, or freedom from errors. All content is subject to change without notice.',
     "disclaimer.section6.subtitle2": "6.2 No Professional Advice:",
-    "disclaimer.section6.content2": "Instructional content (videos, guides) is for reference only and DOES NOT replace mandatory on-site training from a certified instructor.",
+    "disclaimer.section6.content2":
+      "Instructional content (videos, guides) is for reference only and DOES NOT replace mandatory on-site training from a certified instructor.",
     "disclaimer.section6.subtitle3": "6.3 External Links:",
-    "disclaimer.section6.content3": "We are not responsible for the content, security, or privacy practices of any third-party websites we link to.",
+    "disclaimer.section6.content3":
+      "We are not responsible for the content, security, or privacy practices of any third-party websites we link to.",
     "disclaimer.section6.subtitle4": "6.4 Intellectual Property:",
-    "disclaimer.section6.content4": "All website content (text, graphics, logos, images, videos) is our property or licensed to us and is protected by copyright and trademark laws. You may not reproduce, modify, or commercially exploit any content without our prior written permission.",
-    
+    "disclaimer.section6.content4":
+      "All website content (text, graphics, logos, images, videos) is our property or licensed to us and is protected by copyright and trademark laws. You may not reproduce, modify, or commercially exploit any content without our prior written permission.",
+
     "disclaimer.section7.title": "7. Governing Law and Dispute Resolution",
-    "disclaimer.section7.content": "This Disclaimer is governed by and construed in accordance with the laws of the Hong Kong Special Administrative Region. Any dispute arising from it shall be subject to the exclusive jurisdiction of the courts of Hong Kong.",
-    
+    "disclaimer.section7.content":
+      "This Disclaimer is governed by and construed in accordance with the laws of the Hong Kong Special Administrative Region. Any dispute arising from it shall be subject to the exclusive jurisdiction of the courts of Hong Kong.",
+
     "disclaimer.section8.title": "8. Amendments and Contact",
     "disclaimer.section8.subtitle1": "8.1 Updates:",
-    "disclaimer.section8.content1": "We reserve the right to modify this Disclaimer at any time. The updated version will be posted here with a new effective date. Your continued use constitutes acceptance.",
+    "disclaimer.section8.content1":
+      "We reserve the right to modify this Disclaimer at any time. The updated version will be posted here with a new effective date. Your continued use constitutes acceptance.",
     "disclaimer.section8.subtitle2": "8.2 Contact:",
-    "disclaimer.section8.content2": "For any questions regarding this Disclaimer, please use the contact form on our website.",
-    
+    "disclaimer.section8.content2":
+      "For any questions regarding this Disclaimer, please use the contact form on our website.",
+
     "disclaimer.final.title": "FINAL ACKNOWLEDGEMENT",
-    "disclaimer.final.content": "SKYDIVING CARRIES A RISK OF SERIOUS INJURY OR DEATH. YOUR PARTICIPATION IS VOLUNTARY. YOU ARE SOLELY RESPONSIBLE FOR UNDERSTANDING THESE RISKS, ENSURING YOU ARE FIT TO PARTICIPATE, AND OBTAINING APPROPRIATE INSURANCE. BY PROCEEDING WITH A BOOKING, YOU CONFIRM YOUR FULL AND UNCONDITIONAL ACCEPTANCE OF THIS DISCLAIMER.",
+    "disclaimer.final.content":
+      "SKYDIVING CARRIES A RISK OF SERIOUS INJURY OR DEATH. YOUR PARTICIPATION IS VOLUNTARY. YOU ARE SOLELY RESPONSIBLE FOR UNDERSTANDING THESE RISKS, ENSURING YOU ARE FIT TO PARTICIPATE, AND OBTAINING APPROPRIATE INSURANCE. BY PROCEEDING WITH A BOOKING, YOU CONFIRM YOUR FULL AND UNCONDITIONAL ACCEPTANCE OF THIS DISCLAIMER.",
   },
   "zh-TW": {
     // Navigation & Common
@@ -694,26 +761,67 @@ const translations: Record<Language, Record<string, string>> = {
     // Legal Pages
     "legal.backToHome": "返回首頁",
 
-    // Privacy Policy
-    "privacy.title": "私隱政策",
+    // Privacy Policy - Traditional Chinese (COMPREHENSIVE VERSION)
+    "privacy.title": "Let's Skydive HK Limited 個人資料（私隱）政策聲明",
     "privacy.lastUpdated": "最後更新",
-    "privacy.section1.title": "1. 我們收集的資料",
+    "privacy.introduction":
+      "Let's Skydive HK Limited（下稱「本公司」、「我們」）致力保障您的個人資料私隱。本私隱政策聲明闡述我們如何根據香港法例第486章《個人資料（私隱）條例》（下稱「條例」）收集、使用、儲存、傳輸及處理您的個人資料。請細閱本政策，以了解我們處理您個人資料的常規做法。",
+    "privacy.updateNotice":
+      "我們的政策及措施旨在確保在業務營運過程中處理個人資料（定義見下文）時，符合條例的規定。我們可能不時修訂本政策，並於本網站公布更新版本。若您於修訂後繼續使用我們的服務或與我們維持關係，即表示您接受經修訂的政策。",
+
+    "privacy.section1.title": "1. 收集的個人資料種類",
     "privacy.section1.content":
-      "當您預約跳傘體驗、建立帳戶或聯絡我們時，我們會收集您提供的個人資料。這包括您的姓名、電郵地址、電話號碼、緊急聯絡人資料，以及與跳傘安全相關的健康資訊。",
-    "privacy.section2.title": "2. 我們如何使用您的資料",
-    "privacy.section2.content":
-      "您的資料用於處理預約、溝通跳傘體驗事宜、確保安全合規以及改進我們的服務。如您選擇接收推廣資訊，我們亦會向您發送相關內容。",
-    "privacy.section3.title": "3. 資料分享",
-    "privacy.section3.content":
-      "我們會與合作跳傘場分享您的資料以便處理預約。我們不會將您的個人資料出售給第三方。在法律要求或為保護安全時，我們可能會披露相關資料。",
-    "privacy.section4.title": "4. 資料安全",
+      "我們可能透過網站、電話、電郵、社交媒體、流動應用程式或親臨辦事處等渠道，向您收集為提供服務所必需的個人身份識別資料（「個人資料」），包括但不限於：",
+    "privacy.section1.list":
+      "• 聯絡資料（如姓名、電話號碼、電郵地址、通訊地址）；<br>• 身份證明文件資料（如護照或身份證號碼、出生日期）；<br>• 體格健康及醫療相關資料（如體重、過往病史、傷患記錄，以評估是否適合參與跳傘活動）；<br>• 付款資料（如信用卡/扣賬卡號碼、持卡人姓名、有效期及賬單地址）；<br>• 活動相關資料（如預訂的跳傘日期、地點、套餐類型、錄影及照片偏好、緊急聯絡人資料）；<br>• 參與本公司舉辦的推廣活動、比賽或問卷調查時所提供的資料；及<br>• 通訊記錄（為確保服務質素及培訓，我們可能會記錄與客戶服務相關的通話或電子訊息）。",
+    "privacy.section1.note":
+      "若您選擇不提供必要資料，我們可能無法為您提供跳傘活動或相關服務。如您未滿18歲，必須事先徵得家長或監護人同意方可提供個人資料。",
+
+    "privacy.section2.title": "2. 收集及使用個人資料的目的",
+    "privacy.section2.content": "我們會將您的個人資料用於以下與我們業務及服務相關之目的：",
+    "privacy.section2.list":
+      "• 處理、確認及管理您的跳傘活動預訂、報名及付款；<br>• 評估您參與跳傘活動的體格適合性及安全風險；<br>• 就您的預訂、查詢、意見或投訴與您聯絡及跟進；<br>• 提供活動前簡報、安全指引及相關服務安排；<br>• 處理及製作跳傘活動的相片、影片紀錄及相關產品；<br>• 管理會員帳戶（如適用）及提供相關禮遇；<br>• 進行客戶服務質素監控、員工培訓及處理索償事宜；<br>• 進行市場研究、分析及服務改善，以提升客戶體驗；<br>• 在獲得您同意的情况下，向您發送關於本公司最新優惠、推廣活動及服務資訊的直接營銷訊息；<br>• 履行法律或規管義務，或回應執法機構、政府部門依法提出的要求；<br>• 保障本公司、客戶或公眾的權利、財產或安全，包括預防欺詐或犯罪活動；及<br>• 與上述任何目的直接相關的其他用途。",
+    "privacy.section2.note": "未經您的事先同意，我們不會將您的個人資料用於上述列明範圍之外的其他目的。",
+
+    "privacy.section3.title": "3. 個人資料的披露及轉移",
+    "privacy.section3.content": "為達成第2條所述之目的，我們可能在必要情況下將您的個人資料轉交予以下類別之第三方：",
+    "privacy.section3.list":
+      "• 提供跳傘活動協作服務的第三方供應商（如跳傘教練、飛機租賃公司、攝影團隊）；<br>• 協助處理付款的金融機構及支付服務供應商；<br>• 為我們提供業務支援服務的承辦商（如資訊科技系統供應商、客戶服務中心、郵遞服務公司）；<br>• 我們的專業顧問（如律師、保險公司、審計師）；<br>• 在法律要求或授權下，有權索取資料的政府部門、監管機構或執法機關；及<br>• 與我們有合作關係並為您提供相關優惠或服務的商業夥伴（僅在獲得您同意的情況下）。",
+    "privacy.section3.note":
+      "部分第三方可能位於香港以外的地方。在轉移您的個人資料時，我們會採取合理措施確保資料獲得足夠的保護，並遵守條例的規定。",
+
+    "privacy.section4.title": "4. 個人資料的保護及保存",
     "privacy.section4.content":
-      "我們採取適當的安全措施保護您的個人資料。然而，網絡傳輸並非百分百安全，我們無法保證絕對安全。",
-    "privacy.section5.title": "5. 您的權利",
+      "我們採取符合行業標準的合理技術性及組織性措施（包括加密技術、防火牆及存取權限控制），以保護您提供的個人資料免遭未經授權的查閱、使用、披露、更改或破壞。",
+    "privacy.section4.retention":
+      "我們只會將您的個人資料保存至達致收集目的所需之期限，或為遵守法律義務、解決爭議及執行協議所需之合理期限。其後，我們會以安全的方式刪除或銷毀該等資料。",
+
+    "privacy.section5.title": "5. Cookies及類似技術",
     "privacy.section5.content":
-      "您有權存取、更正或刪除您的個人資料。您亦可隨時選擇退出營銷通訊。如需行使這些權利，請聯絡 letskydivehk@gmail.com。",
-    "privacy.section6.title": "6. 聯絡我們",
-    "privacy.section6.content": "如對本私隱政策有任何疑問，請聯絡 letskydivehk@gmail.com 或致電 (852) 69391570。",
+      "我們的網站可能使用Cookies及類似技術以增強您的瀏覽體驗、分析網站流量及提供個人化內容。您可透過瀏覽器設定管理或禁用Cookies，但此舉可能會影響網站的部分功能。",
+
+    "privacy.section6.title": "6. 第三方網站連結",
+    "privacy.section6.content":
+      "我們的網站或通訊可能包含第三方網站的連結。該等第三方網站有其獨立的私隱政策，我們對其內容及政策概不負責。建議您在使用該等網站前查閱其私隱政策。",
+
+    "privacy.section7.title": "7. 您的權利",
+    "privacy.section7.content": "根據條例，您有權：",
+    "privacy.section7.list":
+      "• 查詢我們是否持有您的個人資料及要求查閱該等資料；<br>• 要求更正不準確的個人資料；<br>• 查明我們關於個人資料的政策和做法，並獲知我們持有的個人資料種類；<br>• 就我們使用您的個人資料作直接營銷提出反對；及<br>• 要求停止使用您的個人資料，惟須符合條例規定的條件。",
+    "privacy.section7.note": "有關行使上述權利或對本政策有任何查詢，請聯絡我們的私隱主任（聯絡方式見第9條）。",
+
+    "privacy.section8.title": "8. 直接營銷",
+    "privacy.section8.content":
+      "我們只有在獲得您明確同意（表示不反對）的情况下，才會使用您的個人資料（如姓名及聯絡方式）向您發送關於本公司服務及推廣活動的直接營銷資訊。您可隨時透過我們在營銷訊息中提供的取消訂閱方式，或聯絡我們的私隱主任，免費選擇停止接收此類訊息。",
+
+    "privacy.section9.title": "9. 聯絡我們",
+    "privacy.section9.content":
+      "如您對本私隱政策、我們處理個人資料的方式，或欲行使您的個人資料權利有任何疑問、要求或投訴，請透過以下方式聯絡我們的私隱主任：",
+    "privacy.section9.email": "電郵：letskydivehk@gmail.com",
+    "privacy.section9.phone": "電話：(852) 69391570",
+
+    "privacy.finalNote":
+      "（註：為免生疑問，本政策之最新更新日期為 **2026年1月1日**。）<br><br>**（本私隱政策聲明以中文版本為準。）**",
 
     // Terms of Service
     "terms.title": "服務條款",
@@ -739,69 +847,85 @@ const translations: Record<Language, Record<string, string>> = {
     "terms.section7.title": "7. 條款變更",
     "terms.section7.content": "我們保留隨時修改這些條款的權利。在條款變更後繼續使用我們的服務即表示接受新條款。",
 
-     // Disclaimer - Traditional Chinese (FIXED WITH ACTUAL CONTENT)
+    // Disclaimer - Traditional Chinese (FIXED WITH ACTUAL CONTENT)
     "disclaimer.title": "Let's Skydive HK Limited 免責聲明（繁體中文版）",
     "disclaimer.lastUpdated": "最後更新日期：2026年1月1日",
     "disclaimer.website": "網站：https://letskydivehk.com/",
-    
+
     "disclaimer.section1.title": "1. 接受條款",
-    "disclaimer.section1.content": "Let's Skydive HK Limited（以下稱「本公司」、「我們」或「我們的」）運營此網站，並在全球範圍內組織跳傘體驗、培訓課程及相關旅行服務。透過存取、瀏覽或使用本網站，或預訂及參與我們組織的任何服務，即表示您確認已閱讀、理解並不可撤銷地接受本免責聲明的所有條款。如您不同意任何部分，必須立即停止使用我們的服務。",
-    
+    "disclaimer.section1.content":
+      "Let's Skydive HK Limited（以下稱「本公司」、「我們」或「我們的」）運營此網站，並在全球範圍內組織跳傘體驗、培訓課程及相關旅行服務。透過存取、瀏覽或使用本網站，或預訂及參與我們組織的任何服務，即表示您確認已閱讀、理解並不可撤銷地接受本免責聲明的所有條款。如您不同意任何部分，必須立即停止使用我們的服務。",
+
     "disclaimer.section2.title": "2. 極限運動風險認知與責任承擔",
     "disclaimer.section2.subtitle1": "2.1 固有風險：",
-    "disclaimer.section2.content1": "跳傘是一項具有固有、不可避免且重大風險的極限運動，無論採取何種防護措施，這些風險都無法被消除。這些風險包括但不限於：",
-    "disclaimer.section2.risks": "• 人身傷害或死亡：可能因自由落體、開傘、著陸或空中碰撞而導致癱瘓、創傷性腦損傷或死亡。<br>• 設備故障：降落傘、背帶、高度計、自動激活裝置或飛機的故障或失靈。<br>• 環境危害：惡劣或突變的天氣、風況、氣流、能見度差、著陸區或降落區的障礙物。<br>• 操作及人為錯誤：飛行員、教練或地勤人員的判斷錯誤；溝通失誤；偏離計劃的飛行或跳傘航線。<br>• 健康反應：高空相關疾病、眩暈、意識喪失，或既有身體或心理狀況的惡化。",
+    "disclaimer.section2.content1":
+      "跳傘是一項具有固有、不可避免且重大風險的極限運動，無論採取何種防護措施，這些風險都無法被消除。這些風險包括但不限於：",
+    "disclaimer.section2.risks":
+      "• 人身傷害或死亡：可能因自由落體、開傘、著陸或空中碰撞而導致癱瘓、創傷性腦損傷或死亡。<br>• 設備故障：降落傘、背帶、高度計、自動激活裝置或飛機的故障或失靈。<br>• 環境危害：惡劣或突變的天氣、風況、氣流、能見度差、著陸區或降落區的障礙物。<br>• 操作及人為錯誤：飛行員、教練或地勤人員的判斷錯誤；溝通失誤；偏離計劃的飛行或跳傘航線。<br>• 健康反應：高空相關疾病、眩暈、意識喪失，或既有身體或心理狀況的惡化。",
     "disclaimer.section2.subtitle2": "2.2 您的責任與風險承擔：",
     "disclaimer.section2.content2": "參與即表示您自願且明確地承擔所有此類風險。您確認：",
-    "disclaimer.section2.responsibilities": "• 您已達法定年齡（18歲或以上），或已獲得合法監護人/父母同意。<br>• 您並未懷孕，且身體及精神健康狀況良好，無任何可能因跳傘而惡化的心血管、呼吸系統、骨骼/關節、神經系統疾病或其他任何疾病。<br>• 您已如實填寫所有要求的健康及責任豁免表格。<br>• 您將毫無例外地遵守本公司代表及第三方教練的所有指示。<br>• 您需自行負責評估自身是否適合參與。",
-    
+    "disclaimer.section2.responsibilities":
+      "• 您已達法定年齡（18歲或以上），或已獲得合法監護人/父母同意。<br>• 您並未懷孕，且身體及精神健康狀況良好，無任何可能因跳傘而惡化的心血管、呼吸系統、骨骼/關節、神經系統疾病或其他任何疾病。<br>• 您已如實填寫所有要求的健康及責任豁免表格。<br>• 您將毫無例外地遵守本公司代表及第三方教練的所有指示。<br>• 您需自行負責評估自身是否適合參與。",
+
     "disclaimer.section3.title": "3. 服務模式與第三方責任",
     "disclaimer.section3.subtitle1": "3.1 代理角色：",
-    "disclaimer.section3.content1": "本公司僅作為預訂代理、協調者及促成者。實際的跳傘服務（包括飛機操作、跳傘執行及教學）由獨立的、持有牌照的第三方合作跳傘中心、運營商、飛行員及教練（「服務夥伴」）提供。",
+    "disclaimer.section3.content1":
+      "本公司僅作為預訂代理、協調者及促成者。實際的跳傘服務（包括飛機操作、跳傘執行及教學）由獨立的、持有牌照的第三方合作跳傘中心、運營商、飛行員及教練（「服務夥伴」）提供。",
     "disclaimer.section3.subtitle2": "3.2 無連帶責任：",
-    "disclaimer.section3.content2": "我們謹慎選擇服務夥伴，但並不擁有、控制或直接監督其日常運營。在法律允許的最大範圍內，我們明確免除對這些服務夥伴的任何行為、疏忽、過失或故意不當行為（包括違反安全協議）所產生的一切責任。任何與實際跳傘活動相關的索賠必須直接向相關的服務夥伴及其保險公司提出。",
-    
+    "disclaimer.section3.content2":
+      "我們謹慎選擇服務夥伴，但並不擁有、控制或直接監督其日常運營。在法律允許的最大範圍內，我們明確免除對這些服務夥伴的任何行為、疏忽、過失或故意不當行為（包括違反安全協議）所產生的一切責任。任何與實際跳傘活動相關的索賠必須直接向相關的服務夥伴及其保險公司提出。",
+
     "disclaimer.section4.title": "4. 預訂、取消及不可抗力",
     "disclaimer.section4.subtitle1": "4.1 天氣及安全取消：",
-    "disclaimer.section4.content1": "跳傘活動完全取決於天氣及安全條件。本公司或服務夥伴可隨時因安全考慮（天氣、風速、能見度等）取消或重新安排活動。對於您因此產生的任何相關費用（如交通、住宿），我們概不負責。我們的標準改期政策將適用；並不保證退款。",
+    "disclaimer.section4.content1":
+      "跳傘活動完全取決於天氣及安全條件。本公司或服務夥伴可隨時因安全考慮（天氣、風速、能見度等）取消或重新安排活動。對於您因此產生的任何相關費用（如交通、住宿），我們概不負責。我們的標準改期政策將適用；並不保證退款。",
     "disclaimer.section4.subtitle2": "4.2 健康及適用性：",
-    "disclaimer.section4.content2": "服務夥伴有權拒絕任何未通過現場安全簡報或健康評估的人士參與。已支付費用將按預訂條款處理。",
+    "disclaimer.section4.content2":
+      "服務夥伴有權拒絕任何未通過現場安全簡報或健康評估的人士參與。已支付費用將按預訂條款處理。",
     "disclaimer.section4.subtitle3": "4.3 未出席及遲到：",
     "disclaimer.section4.content3": "未能準時出席已預訂的活動時段，將被視為自動取消，不予退款。",
     "disclaimer.section4.subtitle4": "4.4 不可抗力：",
-    "disclaimer.section4.content4": "對於因超出我們合理控制範圍的事件（包括戰爭、自然災害、疫情、政府命令、罷工或交通中斷）導致我們未能履行服務，我們不承擔責任。",
-    
+    "disclaimer.section4.content4":
+      "對於因超出我們合理控制範圍的事件（包括戰爭、自然災害、疫情、政府命令、罷工或交通中斷）導致我們未能履行服務，我們不承擔責任。",
+
     "disclaimer.section5.title": "5. 保險與責任限制",
     "disclaimer.section5.subtitle1": "5.1 強制個人保險：",
-    "disclaimer.section5.content1": "您必須購買全面的個人旅行及醫療保險，且該保險必須明確承保跳傘及極限運動。本公司的保險不涵蓋您的個人傷害或醫療費用。",
+    "disclaimer.section5.content1":
+      "您必須購買全面的個人旅行及醫療保險，且該保險必須明確承保跳傘及極限運動。本公司的保險不涵蓋您的個人傷害或醫療費用。",
     "disclaimer.section5.subtitle2": "5.2 公司責任保險：",
     "disclaimer.section5.content2": "我們依法持有第三方責任保險，其詳細內容及限額可根據要求提供。",
     "disclaimer.section5.subtitle3": "5.3 我們的責任限制：",
-    "disclaimer.section5.content3": "在法律允許的最大範圍內，本公司及其董事、僱員和代理人均不對因您使用本網站或參與我們組織的活動而產生的任何直接、間接、附帶、特殊、後果性或懲罰性損害承擔責任。這包括但不限於人身傷害、死亡、精神困擾、利潤損失、數據或樂趣喪失的損害賠償，即使已被告知可能發生此類損害。",
+    "disclaimer.section5.content3":
+      "在法律允許的最大範圍內，本公司及其董事、僱員和代理人均不對因您使用本網站或參與我們組織的活動而產生的任何直接、間接、附帶、特殊、後果性或懲罰性損害承擔責任。這包括但不限於人身傷害、死亡、精神困擾、利潤損失、數據或樂趣喪失的損害賠償，即使已被告知可能發生此類損害。",
     "disclaimer.section5.subtitle4": "5.4 豁免協議：",
     "disclaimer.section5.content4": "參與活動的前提條件是於活動當天簽署服務夥伴提供的正式《風險承擔及責任豁免協議》。",
-    
+
     "disclaimer.section6.title": "6. 網站使用、內容及知識產權",
     "disclaimer.section6.subtitle1": "6.1 「現狀」提供：",
-    "disclaimer.section6.content1": "本網站及其所有內容（資訊、價格、描述、媒體）均按「現狀」及「可用」狀態提供，不附帶任何形式的保證。我們力求準確，但不保證內容的完整性、及時性或無錯誤。所有內容均可能隨時更改，恕不另行通知。",
+    "disclaimer.section6.content1":
+      "本網站及其所有內容（資訊、價格、描述、媒體）均按「現狀」及「可用」狀態提供，不附帶任何形式的保證。我們力求準確，但不保證內容的完整性、及時性或無錯誤。所有內容均可能隨時更改，恕不另行通知。",
     "disclaimer.section6.subtitle2": "6.2 非專業建議：",
     "disclaimer.section6.content2": "教學內容（影片、指南）僅供參考，不能替代持證教練的強制性現場培訓。",
     "disclaimer.section6.subtitle3": "6.3 外部連結：",
     "disclaimer.section6.content3": "我們不對任何我們連結到的第三方網站的內容、安全性或隱私慣例負責。",
     "disclaimer.section6.subtitle4": "6.4 知識產權：",
-    "disclaimer.section6.content4": "本網站的所有內容（文字、圖形、標誌、圖像、影片）均為本公司財產或經授權使用，受版權和商標法保護。未經我們事先書面許可，您不得複製、修改或用於任何商業用途。",
-    
+    "disclaimer.section6.content4":
+      "本網站的所有內容（文字、圖形、標誌、圖像、影片）均為本公司財產或經授權使用，受版權和商標法保護。未經我們事先書面許可，您不得複製、修改或用於任何商業用途。",
+
     "disclaimer.section7.title": "7. 管轄法律與爭議解決",
-    "disclaimer.section7.content": "本免責聲明受中華人民共和國香港特別行政區法律管轄並據其解釋。任何由此產生的爭議均應提交香港法院專屬管轄。",
-    
+    "disclaimer.section7.content":
+      "本免責聲明受中華人民共和國香港特別行政區法律管轄並據其解釋。任何由此產生的爭議均應提交香港法院專屬管轄。",
+
     "disclaimer.section8.title": "8. 修改與聯繫方式",
     "disclaimer.section8.subtitle1": "8.1 更新：",
-    "disclaimer.section8.content1": "我們保留隨時修改本免責聲明的權利。更新後的版本將在此發布，並附上新生效日期。您繼續使用即表示接受。",
+    "disclaimer.section8.content1":
+      "我們保留隨時修改本免責聲明的權利。更新後的版本將在此發布，並附上新生效日期。您繼續使用即表示接受。",
     "disclaimer.section8.subtitle2": "8.2 聯繫：",
     "disclaimer.section8.content2": "如有關於本免責聲明的任何疑問，請使用我們網站上的聯繫表格。",
-    
+
     "disclaimer.final.title": "最終確認聲明",
-    "disclaimer.final.content": "跳傘活動具有導致嚴重受傷或死亡的風險。您的參與純屬自願。您需自行負責了解這些風險、確保自身適合參與並購買合適的保險。進行預訂即表示您確認完全且無條件接受本免責聲明。",
+    "disclaimer.final.content":
+      "跳傘活動具有導致嚴重受傷或死亡的風險。您的參與純屬自願。您需自行負責了解這些風險、確保自身適合參與並購買合適的保險。進行預訂即表示您確認完全且無條件接受本免責聲明。",
   },
 };
 
