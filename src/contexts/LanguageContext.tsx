@@ -339,7 +339,6 @@ const translations: Record<Language, Record<string, string>> = {
     "terms.section7.content": "We reserve the right to modify these terms at any time. Continued use of our services after changes constitutes acceptance of the new terms.",
 
     // Disclaimer
-{
     "disclaimer.title": "COMPREHENSIVE DISCLAIMER FOR LET'S SKYDIVE HK LIMITED",
     "disclaimer.lastUpdated": "Last Updated: [Current Date]",
     "disclaimer.website": "Website: https://letskydivehk.com/",
@@ -401,8 +400,7 @@ const translations: Record<Language, Record<string, string>> = {
     "disclaimer.section8.content2": "For any questions regarding this Disclaimer, please use the contact form on our website.",
     
     "disclaimer.final.title": "FINAL ACKNOWLEDGEMENT",
-    "disclaimer.final.content": "SKYDIVING CARRIES A RISK OF SERIOUS INJURY OR DEATH. YOUR PARTICIPATION IS VOLUNTARY. YOU ARE SOLELY RESPONSIBLE FOR UNDERSTANDING THESE RISKS, ENSURING YOU ARE FIT TO PARTICIPATE, AND OBTAINING APPROPRIATE INSURANCE. BY PROCEEDING WITH A BOOKING, YOU CONFIRM YOUR FULL AND UNCONDITIONAL ACCEPTANCE OF THIS DISCLAIMER."
-    },
+    "disclaimer.final.content": "SKYDIVING CARRIES A RISK OF SERIOUS INJURY OR DEATH. YOUR PARTICIPATION IS VOLUNTARY. YOU ARE SOLELY RESPONSIBLE FOR UNDERSTANDING THESE RISKS, ENSURING YOU ARE FIT TO PARTICIPATE, AND OBTAINING APPROPRIATE INSURANCE. BY PROCEEDING WITH A BOOKING, YOU CONFIRM YOUR FULL AND UNCONDITIONAL ACCEPTANCE OF THIS DISCLAIMER.",
   },
   "zh-TW": {
     // Navigation & Common
