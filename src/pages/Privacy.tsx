@@ -27,43 +27,80 @@ export default function Privacy() {
               {t("privacy.lastUpdated")}: January 2025
             </p>
 
+            {/* Introduction */}
+            <p className="text-muted-foreground leading-relaxed mb-4">
+              {t("privacy.introduction")}
+            </p>
+            <p className="text-muted-foreground leading-relaxed mb-8">
+              {t("privacy.updateNotice")}
+            </p>
+
             <div className="prose prose-lg max-w-none space-y-8">
+              {/* Section 1 */}
               <section>
                 <h2 className="text-xl font-semibold text-foreground mb-4">
                   {t("privacy.section1.title")}
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed mb-3">
                   {t("privacy.section1.content")}
+                </p>
+                <p
+                  className="text-muted-foreground leading-relaxed mb-3"
+                  dangerouslySetInnerHTML={{ __html: t("privacy.section1.list") }}
+                />
+                <p className="text-muted-foreground leading-relaxed">
+                  {t("privacy.section1.note")}
                 </p>
               </section>
 
+              {/* Section 2 */}
               <section>
                 <h2 className="text-xl font-semibold text-foreground mb-4">
                   {t("privacy.section2.title")}
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed mb-3">
                   {t("privacy.section2.content")}
+                </p>
+                <p
+                  className="text-muted-foreground leading-relaxed mb-3"
+                  dangerouslySetInnerHTML={{ __html: t("privacy.section2.list") }}
+                />
+                <p className="text-muted-foreground leading-relaxed">
+                  {t("privacy.section2.note")}
                 </p>
               </section>
 
+              {/* Section 3 */}
               <section>
                 <h2 className="text-xl font-semibold text-foreground mb-4">
                   {t("privacy.section3.title")}
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed mb-3">
                   {t("privacy.section3.content")}
+                </p>
+                <p
+                  className="text-muted-foreground leading-relaxed mb-3"
+                  dangerouslySetInnerHTML={{ __html: t("privacy.section3.list") }}
+                />
+                <p className="text-muted-foreground leading-relaxed">
+                  {t("privacy.section3.note")}
                 </p>
               </section>
 
+              {/* Section 4 */}
               <section>
                 <h2 className="text-xl font-semibold text-foreground mb-4">
                   {t("privacy.section4.title")}
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
+                <p className="text-muted-foreground leading-relaxed mb-3">
                   {t("privacy.section4.content")}
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  {t("privacy.section4.retention")}
                 </p>
               </section>
 
+              {/* Section 5 */}
               <section>
                 <h2 className="text-xl font-semibold text-foreground mb-4">
                   {t("privacy.section5.title")}
@@ -73,6 +110,7 @@ export default function Privacy() {
                 </p>
               </section>
 
+              {/* Section 6 */}
               <section>
                 <h2 className="text-xl font-semibold text-foreground mb-4">
                   {t("privacy.section6.title")}
@@ -80,6 +118,57 @@ export default function Privacy() {
                 <p className="text-muted-foreground leading-relaxed">
                   {t("privacy.section6.content")}
                 </p>
+              </section>
+
+              {/* Section 7 */}
+              <section>
+                <h2 className="text-xl font-semibold text-foreground mb-4">
+                  {t("privacy.section7.title")}
+                </h2>
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  {t("privacy.section7.content")}
+                </p>
+                <p
+                  className="text-muted-foreground leading-relaxed mb-3"
+                  dangerouslySetInnerHTML={{ __html: t("privacy.section7.list") }}
+                />
+                <p className="text-muted-foreground leading-relaxed">
+                  {t("privacy.section7.note")}
+                </p>
+              </section>
+
+              {/* Section 8 */}
+              <section>
+                <h2 className="text-xl font-semibold text-foreground mb-4">
+                  {t("privacy.section8.title")}
+                </h2>
+                <p className="text-muted-foreground leading-relaxed">
+                  {t("privacy.section8.content")}
+                </p>
+              </section>
+
+              {/* Section 9 */}
+              <section>
+                <h2 className="text-xl font-semibold text-foreground mb-4">
+                  {t("privacy.section9.title")}
+                </h2>
+                <p className="text-muted-foreground leading-relaxed mb-3">
+                  {t("privacy.section9.content")}
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  {t("privacy.section9.email")}
+                </p>
+                <p className="text-muted-foreground leading-relaxed">
+                  {t("privacy.section9.phone")}
+                </p>
+              </section>
+
+              {/* Final Note */}
+              <section className="mt-8 pt-6 border-t border-border">
+                <p
+                  className="text-muted-foreground leading-relaxed italic"
+                  dangerouslySetInnerHTML={{ __html: t("privacy.finalNote") }}
+                />
               </section>
             </div>
           </div>
