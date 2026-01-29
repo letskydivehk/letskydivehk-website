@@ -1,26 +1,29 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { X, Upload, Image, Video, Loader2 } from 'lucide-react';
+import { X, Upload, Image, Video, Loader2, GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { uploadGalleryItem } from '@/hooks/useGallery';
+import { uploadGalleryItem, GalleryCategory } from '@/hooks/useGallery';
 import { toast } from 'sonner';
 
 interface GalleryUploadProps {
   onClose: () => void;
   onSuccess: () => void;
+  defaultCategory?: GalleryCategory;
 }
 
-export function GalleryUpload({ onClose, onSuccess }: GalleryUploadProps) {
+export function GalleryUpload({ onClose, onSuccess, defaultCategory = 'photos' }: GalleryUploadProps) {
   const { t } = useLanguage();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [file, setFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
+  const [category, setCategory] = useState<GalleryCategory>(defaultCategory);
   const [isUploading, setIsUploading] = useState(false);
   const [dragActive, setDragActive] = useState(false);
 
@@ -78,7 +81,7 @@ export function GalleryUpload({ onClose, onSuccess }: GalleryUploadProps) {
     if (!file) return;
 
     setIsUploading(true);
-    const result = await uploadGalleryItem(file, title, description);
+    const result = await uploadGalleryItem(file, category, title, description);
     setIsUploading(false);
 
     if (result.success) {
@@ -101,7 +104,7 @@ export function GalleryUpload({ onClose, onSuccess }: GalleryUploadProps) {
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
-        className="relative w-full max-w-lg bg-card rounded-2xl shadow-xl overflow-hidden"
+        className="relative w-full max-w-lg bg-card rounded-2xl shadow-xl overflow-hidden max-h-[90vh] overflow-y-auto"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
@@ -114,6 +117,36 @@ export function GalleryUpload({ onClose, onSuccess }: GalleryUploadProps) {
 
         {/* Content */}
         <div className="p-6 space-y-6">
+          {/* Category Selection */}
+          <div className="space-y-2">
+            <Label>Category</Label>
+            <Select value={category} onValueChange={(value: string) => setCategory(value as GalleryCategory)}>
+              <SelectTrigger>
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="photos">
+                  <div className="flex items-center gap-2">
+                    <Image className="h-4 w-4" />
+                    <span>Photos</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="daily_videos">
+                  <div className="flex items-center gap-2">
+                    <Video className="h-4 w-4" />
+                    <span>Daily Videos</span>
+                  </div>
+                </SelectItem>
+                <SelectItem value="aff_videos">
+                  <div className="flex items-center gap-2">
+                    <GraduationCap className="h-4 w-4" />
+                    <span>AFF Course Videos</span>
+                  </div>
+                </SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
           {/* File Drop Zone */}
           <div
             className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-colors ${

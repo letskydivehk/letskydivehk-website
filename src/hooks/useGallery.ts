@@ -3,6 +3,8 @@ import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useState, useEffect } from "react";
 
+export type GalleryCategory = "photos" | "daily_videos" | "aff_videos";
+
 export interface GalleryItem {
   id: string;
   title: string | null;
@@ -14,10 +16,11 @@ export interface GalleryItem {
   display_order: number;
   is_featured: boolean;
   created_at: string;
+  category: GalleryCategory;
   is_storage_only?: boolean;
 }
 
-export function useGallery() {
+export function useGallery(category?: GalleryCategory) {
   const { user } = useAuth();
   const [isAdmin, setIsAdmin] = useState(false);
 
@@ -130,6 +133,7 @@ export function useGallery() {
             display_order: 0,
             is_featured: false,
             created_at: file.created_at || new Date().toISOString(),
+            category: "photos" as GalleryCategory, // Default category for storage-only items
             is_storage_only: true,
             _debug: {
               originalName: file.name,
@@ -156,19 +160,26 @@ export function useGallery() {
     isLoading,
     refetch,
   } = useQuery({
-    queryKey: ["gallery-items"],
+    queryKey: ["gallery-items", category],
     queryFn: async () => {
       try {
-        console.log("Fetching gallery items...");
+        console.log("Fetching gallery items...", category ? `for category: ${category}` : "all");
 
         // Fetch from database
         let typedDbItems: GalleryItem[] = [];
         try {
-          const { data, error } = await supabase
+          let query = supabase
             .from("gallery_items")
             .select("*")
             .order("display_order", { ascending: true })
             .order("created_at", { ascending: false });
+          
+          // Filter by category if provided
+          if (category) {
+            query = query.eq("category", category);
+          }
+
+          const { data, error } = await query;
 
           if (error) {
             console.error("Database fetch error:", error);
@@ -176,6 +187,7 @@ export function useGallery() {
             typedDbItems = data.map((item) => ({
               ...item,
               media_type: item.media_type as "image" | "video",
+              category: (item.category || "photos") as GalleryCategory,
             }));
             console.log(`Found ${typedDbItems.length} items in database`);
           }
@@ -183,41 +195,69 @@ export function useGallery() {
           console.error("Database error:", dbError);
         }
 
-        // Fetch from storage
-        const storageFiles = await fetchStorageFiles();
+        // For photos category or no category, also fetch from storage
+        if (!category || category === "photos") {
+          const storageFiles = await fetchStorageFiles();
 
-        // If we have database items, combine them
-        if (typedDbItems.length > 0) {
-          // Combine and deduplicate - check for files already in database
-          const dbFilePaths = new Set(typedDbItems.map((item) => item.file_path));
+          // If we have database items, combine them
+          if (typedDbItems.length > 0) {
+            // Combine and deduplicate - check for files already in database
+            const dbFilePaths = new Set(typedDbItems.map((item) => item.file_path));
 
-          // Add storage files that aren't already in database
-          const combinedItems: GalleryItem[] = [
-            ...typedDbItems,
-            ...(storageFiles
-              .filter((file) => !dbFilePaths.has(file.file_path!))
-              .map((file) => ({
-                ...file,
-                // Ensure all required fields are present
-                id: file.id!,
-                title: file.title || null,
-                description: file.description || null,
-                media_type: file.media_type!,
-                file_path: file.file_path!,
-                file_url: file.file_url!,
-                thumbnail_url: file.thumbnail_url || null,
-                display_order: file.display_order || 0,
-                is_featured: file.is_featured || false,
-                created_at: file.created_at!,
-                is_storage_only: true,
-              })) as GalleryItem[]),
-          ];
+            // Add storage files that aren't already in database
+            const combinedItems: GalleryItem[] = [
+              ...typedDbItems,
+              ...(storageFiles
+                .filter((file) => !dbFilePaths.has(file.file_path!))
+                .map((file) => ({
+                  ...file,
+                  id: file.id!,
+                  title: file.title || null,
+                  description: file.description || null,
+                  media_type: file.media_type!,
+                  file_path: file.file_path!,
+                  file_url: file.file_url!,
+                  thumbnail_url: file.thumbnail_url || null,
+                  display_order: file.display_order || 0,
+                  is_featured: file.is_featured || false,
+                  created_at: file.created_at!,
+                  category: "photos" as GalleryCategory,
+                  is_storage_only: true,
+                })) as GalleryItem[]),
+            ];
 
-          console.log(`Total combined items: ${combinedItems.length}`);
-          return combinedItems;
-        } else {
-          // If no database items, just return storage files
-          const storageItems = storageFiles.map((file) => ({
+            console.log(`Total combined items: ${combinedItems.length}`);
+            return combinedItems;
+          } else {
+            // If no database items, just return storage files
+            const storageItems = storageFiles.map((file) => ({
+              ...file,
+              id: file.id!,
+              title: file.title || null,
+              description: file.description || null,
+              media_type: file.media_type!,
+              file_path: file.file_path!,
+              file_url: file.file_url!,
+              thumbnail_url: file.thumbnail_url || null,
+              display_order: file.display_order || 0,
+              is_featured: file.is_featured || false,
+              created_at: file.created_at!,
+              category: "photos" as GalleryCategory,
+              is_storage_only: true,
+            })) as GalleryItem[];
+
+            console.log(`Returning ${storageItems.length} storage items`);
+            return storageItems;
+          }
+        }
+
+        return typedDbItems;
+      } catch (error) {
+        console.error("Error in gallery query:", error);
+        // Fallback to just storage files for photos
+        if (!category || category === "photos") {
+          const storageFiles = await fetchStorageFiles();
+          return storageFiles.map((file) => ({
             ...file,
             id: file.id!,
             title: file.title || null,
@@ -229,30 +269,11 @@ export function useGallery() {
             display_order: file.display_order || 0,
             is_featured: file.is_featured || false,
             created_at: file.created_at!,
+            category: "photos" as GalleryCategory,
             is_storage_only: true,
           })) as GalleryItem[];
-
-          console.log(`Returning ${storageItems.length} storage items`);
-          return storageItems;
         }
-      } catch (error) {
-        console.error("Error in gallery query:", error);
-        // Fallback to just storage files
-        const storageFiles = await fetchStorageFiles();
-        return storageFiles.map((file) => ({
-          ...file,
-          id: file.id!,
-          title: file.title || null,
-          description: file.description || null,
-          media_type: file.media_type!,
-          file_path: file.file_path!,
-          file_url: file.file_url!,
-          thumbnail_url: file.thumbnail_url || null,
-          display_order: file.display_order || 0,
-          is_featured: file.is_featured || false,
-          created_at: file.created_at!,
-          is_storage_only: true,
-        })) as GalleryItem[];
+        return [];
       }
     },
   });
@@ -265,9 +286,10 @@ export function useGallery() {
   };
 }
 
-// Your existing uploadGalleryItem function - UPDATED
+// Upload function with category support
 export async function uploadGalleryItem(
   file: File,
+  category: GalleryCategory = "photos",
   title?: string,
   description?: string,
 ): Promise<{ success: boolean; error?: string }> {
@@ -276,7 +298,7 @@ export async function uploadGalleryItem(
     const fileName = `${Date.now()}-${Math.random().toString(36).substring(7)}.${fileExt}`;
     const filePath = `uploads/${fileName}`;
 
-    console.log(`Uploading file to: ${filePath}`);
+    console.log(`Uploading file to: ${filePath}, category: ${category}`);
 
     // Upload file to storage
     const { error: uploadError } = await supabase.storage.from("gallery").upload(filePath, file, {
@@ -304,7 +326,7 @@ export async function uploadGalleryItem(
     // For videos, we might want to use a thumbnail later
     const thumbnailUrl = mediaType === "image" ? publicUrl : null;
 
-    // Insert gallery item record
+    // Insert gallery item record with category
     const { error: insertError } = await supabase.from("gallery_items").insert({
       title: title || null,
       description: description || null,
@@ -312,6 +334,7 @@ export async function uploadGalleryItem(
       file_path: filePath,
       file_url: publicUrl,
       thumbnail_url: thumbnailUrl,
+      category: category,
     });
 
     if (insertError) {
@@ -319,7 +342,7 @@ export async function uploadGalleryItem(
       throw insertError;
     }
 
-    console.log("Gallery item created in database");
+    console.log("Gallery item created in database with category:", category);
     return { success: true };
   } catch (error: any) {
     console.error("Upload error:", error);
@@ -369,7 +392,7 @@ export async function deleteGalleryItem(id: string, filePath: string): Promise<{
   }
 }
 
-// NEW: Test function to check Supabase Storage
+// Test function to check Supabase Storage
 export async function testSupabaseStorage() {
   console.log("=== Testing Supabase Storage ===");
 

@@ -85,6 +85,7 @@ export type Database = {
       }
       gallery_items: {
         Row: {
+          category: string
           created_at: string
           description: string | null
           display_order: number
@@ -99,6 +100,7 @@ export type Database = {
           uploaded_by: string | null
         }
         Insert: {
+          category?: string
           created_at?: string
           description?: string | null
           display_order?: number
@@ -113,6 +115,7 @@ export type Database = {
           uploaded_by?: string | null
         }
         Update: {
+          category?: string
           created_at?: string
           description?: string | null
           display_order?: number
