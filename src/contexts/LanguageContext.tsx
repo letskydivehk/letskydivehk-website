@@ -353,7 +353,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Disclaimer
     "disclaimer.title": "COMPREHENSIVE DISCLAIMER FOR LET'S SKYDIVE HK LIMITED",
-    "disclaimer.lastUpdated": "Last Updated:",
+    "disclaimer.lastUpdated": "Last Updated: 1 Jan 2026",
     "disclaimer.website": "Website: https://letskydivehk.com/",
     "disclaimer.section1.title": "1. Acceptance of Terms",
     "disclaimer.section1.content":
