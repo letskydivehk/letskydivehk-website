@@ -339,8 +339,9 @@ const translations: Record<Language, Record<string, string>> = {
     "terms.section7.content": "We reserve the right to modify these terms at any time. Continued use of our services after changes constitutes acceptance of the new terms.",
 
     // Disclaimer
+{
     "disclaimer.title": "COMPREHENSIVE DISCLAIMER FOR LET'S SKYDIVE HK LIMITED",
-    "disclaimer.lastUpdated": "Last Updated: 1 Jan 2026",
+    "disclaimer.lastUpdated": "Last Updated: [Current Date]",
     "disclaimer.website": "Website: https://letskydivehk.com/",
     
     "disclaimer.section1.title": "1. Acceptance of Terms",
@@ -401,6 +402,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     "disclaimer.final.title": "FINAL ACKNOWLEDGEMENT",
     "disclaimer.final.content": "SKYDIVING CARRIES A RISK OF SERIOUS INJURY OR DEATH. YOUR PARTICIPATION IS VOLUNTARY. YOU ARE SOLELY RESPONSIBLE FOR UNDERSTANDING THESE RISKS, ENSURING YOU ARE FIT TO PARTICIPATE, AND OBTAINING APPROPRIATE INSURANCE. BY PROCEEDING WITH A BOOKING, YOU CONFIRM YOUR FULL AND UNCONDITIONAL ACCEPTANCE OF THIS DISCLAIMER."
+    },
   },
   "zh-TW": {
     // Navigation & Common
@@ -716,69 +718,19 @@ const translations: Record<Language, Record<string, string>> = {
     "terms.section7.content": "我們保留隨時修改這些條款的權利。在條款變更後繼續使用我們的服務即表示接受新條款。",
 
     // Disclaimer
-    "disclaimer.title": "Let's Skydive HK Limited 免責聲明（繁體中文版）",
-    "disclaimer.lastUpdated": "最後更新日期：1 Jan 2026",
-    "disclaimer.website": "網站：https://letskydivehk.com/",
-    
-    "disclaimer.section1.title": "1. 接受條款",
-    "disclaimer.section1.content": "Let's Skydive HK Limited（以下稱「本公司」、「我們」或「我們的」）運營此網站，並在全球範圍內組織跳傘體驗、培訓課程及相關旅行服務。透過存取、瀏覽或使用本網站，或預訂及參與我們組織的任何服務，即表示您確認已閱讀、理解並不可撤銷地接受本免責聲明的所有條款。如您不同意任何部分，必須立即停止使用我們的服務。",
-    
-    "disclaimer.section2.title": "2. 極限運動風險認知與責任承擔",
-    "disclaimer.section2.subtitle1": "2.1 固有風險：",
-    "disclaimer.section2.content1": "跳傘是一項具有固有、不可避免且重大風險的極限運動，無論採取何種防護措施，這些風險都無法被消除。這些風險包括但不限於：",
-    "disclaimer.section2.risks": "• 人身傷害或死亡：可能因自由落體、開傘、著陸或空中碰撞而導致癱瘓、創傷性腦損傷或死亡。<br>• 設備故障：降落傘、背帶、高度計、自動激活裝置或飛機的故障或失靈。<br>• 環境危害：惡劣或突變的天氣、風況、氣流、能見度差、著陸區或降落區的障礙物。<br>• 操作及人為錯誤：飛行員、教練或地勤人員的判斷錯誤；溝通失誤；偏離計劃的飛行或跳傘航線。<br>• 健康反應：高空相關疾病、眩暈、意識喪失，或既有身體或心理狀況的惡化。",
-    "disclaimer.section2.subtitle2": "2.2 您的責任與風險承擔：",
-    "disclaimer.section2.content2": "參與即表示您自願且明確地承擔所有此類風險。您確認：",
-    "disclaimer.section2.responsibilities": "• 您已達法定年齡（18歲或以上），或已獲得合法監護人/父母同意。<br>• 您並未懷孕，且身體及精神健康狀況良好，無任何可能因跳傘而惡化的心血管、呼吸系統、骨骼/關節、神經系統疾病或其他任何疾病。<br>• 您已如實填寫所有要求的健康及責任豁免表格。<br>• 您將毫無例外地遵守本公司代表及第三方教練的所有指示。<br>• 您需自行負責評估自身是否適合參與。",
-    
-    "disclaimer.section3.title": "3. 服務模式與第三方責任",
-    "disclaimer.section3.subtitle1": "3.1 代理角色：",
-    "disclaimer.section3.content1": "本公司僅作為預訂代理、協調者及促成者。實際的跳傘服務（包括飛機操作、跳傘執行及教學）由獨立的、持有牌照的第三方合作跳傘中心、運營商、飛行員及教練（「服務夥伴」）提供。",
-    "disclaimer.section3.subtitle2": "3.2 無連帶責任：",
-    "disclaimer.section3.content2": "我們謹慎選擇服務夥伴，但並不擁有、控制或直接監督其日常運營。在法律允許的最大範圍內，我們明確免除對這些服務夥伴的任何行為、疏忽、過失或故意不當行為（包括違反安全協議）所產生的一切責任。任何與實際跳傘活動相關的索賠必須直接向相關的服務夥伴及其保險公司提出。",
-    
-    "disclaimer.section4.title": "4. 預訂、取消及不可抗力",
-    "disclaimer.section4.subtitle1": "4.1 天氣及安全取消：",
-    "disclaimer.section4.content1": "跳傘活動完全取決於天氣及安全條件。本公司或服務夥伴可隨時因安全考慮（天氣、風速、能見度等）取消或重新安排活動。對於您因此產生的任何相關費用（如交通、住宿），我們概不負責。我們的標準改期政策將適用；並不保證退款。",
-    "disclaimer.section4.subtitle2": "4.2 健康及適用性：",
-    "disclaimer.section4.content2": "服務夥伴有權拒絕任何未通過現場安全簡報或健康評估的人士參與。已支付費用將按預訂條款處理。",
-    "disclaimer.section4.subtitle3": "4.3 未出席及遲到：",
-    "disclaimer.section4.content3": "未能準時出席已預訂的活動時段，將被視為自動取消，不予退款。",
-    "disclaimer.section4.subtitle4": "4.4 不可抗力：",
-    "disclaimer.section4.content4": "對於因超出我們合理控制範圍的事件（包括戰爭、自然災害、疫情、政府命令、罷工或交通中斷）導致我們未能履行服務，我們不承擔責任。",
-    
-    "disclaimer.section5.title": "5. 保險與責任限制",
-    "disclaimer.section5.subtitle1": "5.1 強制個人保險：",
-    "disclaimer.section5.content1": "您必須購買全面的個人旅行及醫療保險，且該保險必須明確承保跳傘及極限運動。本公司的保險不涵蓋您的個人傷害或醫療費用。",
-    "disclaimer.section5.subtitle2": "5.2 公司責任保險：",
-    "disclaimer.section5.content2": "我們依法持有第三方責任保險，其詳細內容及限額可根據要求提供。",
-    "disclaimer.section5.subtitle3": "5.3 我們的責任限制：",
-    "disclaimer.section5.content3": "在法律允許的最大範圍內，本公司及其董事、僱員和代理人均不對因您使用本網站或參與我們組織的活動而產生的任何直接、間接、附帶、特殊、後果性或懲罰性損害承擔責任。這包括但不限於人身傷害、死亡、精神困擾、利潤損失、數據或樂趣喪失的損害賠償，即使已被告知可能發生此類損害。",
-    "disclaimer.section5.subtitle4": "5.4 豁免協議：",
-    "disclaimer.section5.content4": "參與活動的前提條件是於活動當天簽署服務夥伴提供的正式《風險承擔及責任豁免協議》。",
-    
-    "disclaimer.section6.title": "6. 網站使用、內容及知識產權",
-    "disclaimer.section6.subtitle1": "6.1 「現狀」提供：",
-    "disclaimer.section6.content1": "本網站及其所有內容（資訊、價格、描述、媒體）均按「現狀」及「可用」狀態提供，不附帶任何形式的保證。我們力求準確，但不保證內容的完整性、及時性或無錯誤。所有內容均可能隨時更改，恕不另行通知。",
-    "disclaimer.section6.subtitle2": "6.2 非專業建議：",
-    "disclaimer.section6.content2": "教學內容（影片、指南）僅供參考，不能替代持證教練的強制性現場培訓。",
-    "disclaimer.section6.subtitle3": "6.3 外部連結：",
-    "disclaimer.section6.content3": "我們不對任何我們連結到的第三方網站的內容、安全性或隱私慣例負責。",
-    "disclaimer.section6.subtitle4": "6.4 知識產權：",
-    "disclaimer.section6.content4": "本網站的所有內容（文字、圖形、標誌、圖像、影片）均為本公司財產或經授權使用，受版權和商標法保護。未經我們事先書面許可，您不得複製、修改或用於任何商業用途。",
-    
-    "disclaimer.section7.title": "7. 管轄法律與爭議解決",
-    "disclaimer.section7.content": "本免責聲明受中華人民共和國香港特別行政區法律管轄並據其解釋。任何由此產生的爭議均應提交香港法院專屬管轄。",
-    
-    "disclaimer.section8.title": "8. 修改與聯繫方式",
-    "disclaimer.section8.subtitle1": "8.1 更新：",
-    "disclaimer.section8.content1": "我們保留隨時修改本免責聲明的權利。更新後的版本將在此發布，並附上新生效日期。您繼續使用即表示接受。",
-    "disclaimer.section8.subtitle2": "8.2 聯繫：",
-    "disclaimer.section8.content2": "如有關於本免責聲明的任何疑問，請使用我們網站上的聯繫表格。",
-    
-    "disclaimer.final.title": "最終確認聲明",
-    "disclaimer.final.content": "跳傘活動具有導致嚴重受傷或死亡的風險。您的參與純屬自願。您需自行負責了解這些風險、確保自身適合參與並購買合適的保險。進行預訂即表示您確認完全且無條件接受本免責聲明。"
-  }
+    "disclaimer.title": "免責聲明",
+    "disclaimer.lastUpdated": "最後更新",
+    "disclaimer.section1.title": "1. 跳傘性質",
+    "disclaimer.section1.content": "跳傘是一項極限運動，存在固有風險，包括但不限於嚴重傷害或死亡。無論採取多少預防措施，這些風險都存在。通過 Let's Skydive HK 預約即表示您了解並接受這些風險。",
+    "disclaimer.section2.title": "2. 健康與體能",
+    "disclaimer.section2.content": "參加者必須身心健康。某些健康狀況，包括但不限於心臟病、癲癇及近期手術，可能導致您不適合跳傘。如對您的參與能力有任何疑慮，請諮詢您的醫生。",
+    "disclaimer.section3.title": "3. 天氣及環境",
+    "disclaimer.section3.content": "跳傘活動取決於天氣狀況。跳傘可能因風力、降雨、雲層或其他天氣條件而延期或取消。安全是我們的首要任務，所有與天氣相關的決定均由各跳傘場的專業人員作出。",
+    "disclaimer.section4.title": "4. 第三方服務",
+    "disclaimer.section4.content": "Let's Skydive HK 為您連接獨立的跳傘場營運商。雖然我們根據安全記錄和認證仔細挑選合作夥伴，但我們並不直接控制其營運。各跳傘場均為獨立擁有和營運，有其自身的政策和程序。",
+    "disclaimer.section5.title": "5. 無保證",
+    "disclaimer.section5.content": "雖然我們致力提供最佳體驗，但我們無法保證特定結果、景觀或體驗。天氣、設備及個人情況等超出我們控制的因素可能會影響您的跳傘體驗。",
+  },
 };
 
 // Translations for dynamic Supabase data (locations, services, etc.)
