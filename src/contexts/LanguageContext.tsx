@@ -718,7 +718,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Disclaimer
     "disclaimer.title": "Let's Skydive HK Limited 免責聲明（繁體中文版）",
     "disclaimer.lastUpdated": "最後更新日期：1 Jan 2026",
-    "disclaimer.website": "網站：https://letskydivehk.com/",,
+    "disclaimer.website": "網站：https://letskydivehk.com/",
     
     "disclaimer.section1.title": "1. 接受條款",
     "disclaimer.section1.content": "Let's Skydive HK Limited（以下稱「本公司」、「我們」或「我們的」）運營此網站，並在全球範圍內組織跳傘體驗、培訓課程及相關旅行服務。透過存取、瀏覽或使用本網站，或預訂及參與我們組織的任何服務，即表示您確認已閱讀、理解並不可撤銷地接受本免責聲明的所有條款。如您不同意任何部分，必須立即停止使用我們的服務。",
@@ -778,6 +778,7 @@ const translations: Record<Language, Record<string, string>> = {
     
     "disclaimer.final.title": "最終確認聲明",
     "disclaimer.final.content": "跳傘活動具有導致嚴重受傷或死亡的風險。您的參與純屬自願。您需自行負責了解這些風險、確保自身適合參與並購買合適的保險。進行預訂即表示您確認完全且無條件接受本免責聲明。"
+  }
 };
 
 // Translations for dynamic Supabase data (locations, services, etc.)
