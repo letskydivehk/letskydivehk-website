@@ -368,7 +368,7 @@ const translations: Record<Language, Record<string, string>> = {
     "privacy.section9.phone": "Phone: (852) 69391570",
 
     "privacy.finalNote":
-      "(Note: For the avoidance of doubt, the latest update date of this policy is **1 January 2026**.)<br><br>**(This Privacy Policy Statement shall be governed by the English version.)**",
+      "(Note: For the avoidance of doubt, the latest update date of this policy is **1 January 2026**.)<br><br>**(This Privacy Policy Statement shall be governed by the Tradional Chinese version.)**",
 
     // Terms of Service
     "terms.title": "Terms of Service",
