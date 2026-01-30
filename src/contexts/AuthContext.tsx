@@ -63,7 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { data: profile, error: fetchError } = await supabase
         .from("profiles")
         .select("*")
-        .eq("id", user.id)
+        .eq("user_id", user.id) // CHANGED: from "id" to "user_id"
         .single();
 
       if (fetchError && fetchError.code !== "PGRST116") {
@@ -93,7 +93,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       } else {
         // Update existing profile
-        const { error: updateError } = await supabase.from("profiles").update(userData).eq("id", user.id);
+        const { error: updateError } = await supabase.from("profiles").update(userData).eq("user_id", user.id); // CHANGED: from "id" to "user_id"
 
         if (updateError) {
           console.error("Error updating profile:", updateError);
@@ -108,11 +108,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
 
-      // Always use the same approach - direct OAuth with redirect
+      // IMPORTANT: Fix the redirect URL - use lowercase and correct route
+      // Choose ONE of these options:
+
+      // Option 1: If your MemberProfile is at "/membership" route
+      const redirectUrl = `${window.location.origin}/membership`;
+
+      // Option 2: If your MemberProfile is at "/profile" route
+      // const redirectUrl = `${window.location.origin}/profile`;
+
+      console.log("Redirecting to:", redirectUrl);
+
       const { data, error } = await supabase.auth.signInWithOAuth({
         provider: "google",
         options: {
-          redirectTo: `${getRedirectUrl()}/MemberProfile`,
+          redirectTo: redirectUrl, // Use the correct variable
           queryParams: {
             access_type: "offline",
             prompt: "consent",
@@ -127,7 +137,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       // If we get a URL, we're doing server-side OAuth (custom domain)
-      // If not, Supabase will handle the redirect automatically
       if (data?.url) {
         // Validate the URL for security
         const url = new URL(data.url);
@@ -146,17 +155,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     } finally {
       setLoading(false);
     }
-  };
-
-  // Helper function to get correct redirect URL
-  const getRedirectUrl = () => {
-    // For development
-    if (window.location.hostname === "localhost") {
-      return "http://localhost:3000";
-    }
-
-    // For production
-    return window.location.origin;
   };
 
   const signInWithEmail = async (email: string, password: string) => {
@@ -192,11 +190,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signUpWithEmail = async (email: string, password: string) => {
     try {
       setLoading(true);
+
+      // IMPORTANT: Make this match your signInWithGoogle redirect
+      const redirectUrl = `${window.location.origin}/membership`;
+
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: `${getRedirectUrl()}/membership`,
+          emailRedirectTo: redirectUrl, // Updated to match
           data: {
             signup_method: "email",
           },
@@ -246,8 +248,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const resetPassword = async (email: string) => {
     try {
+      const redirectUrl = `${window.location.origin}/reset-password`;
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${getRedirectUrl()}/reset-password`,
+        redirectTo: redirectUrl,
       });
 
       if (error) throw error;
@@ -262,7 +265,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!user) throw new Error("No user logged in");
 
     try {
-      const { error } = await supabase.from("profiles").update(data).eq("id", user.id);
+      const { error } = await supabase.from("profiles").update(data).eq("user_id", user.id); // CHANGED: from "id" to "user_id"
 
       if (error) throw error;
       toast.success("Profile updated!");
