@@ -1060,15 +1060,19 @@ const dataTranslations: Record<Language, Record<string, string>> = {
   },
 };
 
+// Helper function to convert markdown-style bold (**text** or *text*) to HTML
+const formatBoldText = (text: string): string => {
+  return text
+    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*(.+?)\*/g, '<em>$1</em>');
+};
+
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>("en");
 
   const t = (key: string): string => {
     const translation = translations[language][key] || key;
-    // 如果返回的是原始鍵值，直接返回
-    if (translation === key) return key;
-    // 否則格式化粗體文本
-    return formatBoldText(translation);
+    return translation;
   };
 
   // Translate dynamic data from Supabase
