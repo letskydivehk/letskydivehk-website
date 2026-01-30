@@ -848,11 +848,10 @@ const translations: Record<Language, Record<string, string>> = {
     "terms.sections.article6.content": "本公司或其指定人員可能於活動期間拍攝照片或影片（「影像」）作安全記錄、員工培訓、品質控制及宣傳推廣之用。除非參加者於活動前以書面明確反對，否則即被視為授予本公司一項永久、免版稅、不可撤銷的全球性許可，允許本公司於任何媒體使用及編輯該等包含參加者肖像之影像。",
     
     "terms.sections.article7.title": "第七條：一般條款",
-    "terms.sections.article7.content": "7.1 **完整性：** 本條款構成雙方就本服務之完整協議，取代所有先前之討論、通訊及協議。<br><br>7.2 **可分割性：** 若本條款任何部分被有管轄權之法院裁定為無效或不可執行，該部分應在最小必要範圍內被分割，其餘部分仍保持完全效力。<br><br>7.3 **修改權：** 本公司保留隨時修訂本條款之權利。修訂後之條款將公佈於本公司官方網站。參加者於修訂後繼續使用服務，即表示接受經修訂之條款。<br><br>7.4 **通知：** 所有通知應以電郵或本公司網站公告方式發出。"
-  },
+    "terms.sections.article7.content": "7.1 **完整性：** 本條款構成雙方就本服務之完整協議，取代所有先前之討論、通訊及協議。<br><br>7.2 **可分割性：** 若本條款任何部分被有管轄權之法院裁定為無效或不可執行，該部分應在最小必要範圍內被分割，其餘部分仍保持完全效力。<br><br>7.3 **修改權：** 本公司保留隨時修訂本條款之權利。修訂後之條款將公佈於本公司官方網站。參加者於修訂後繼續使用服務，即表示接受經修訂之條款。<br><br>7.4 **通知：** 所有通知應以電郵或本公司網站公告方式發出。",
     
-  // Disclaimer - Traditional Chinese (FIXED WITH ACTUAL CONTENT)
-  "disclaimer.title": "Let's Skydive HK Limited 免責聲明（繁體中文版）",
+    // Disclaimer - Traditional Chinese
+    "disclaimer.title": "Let's Skydive HK Limited 免責聲明（繁體中文版）",
     "disclaimer.lastUpdated": "最後更新日期：2026年1月1日",
     "disclaimer.website": "網站：https://letskydivehk.com/",
 
