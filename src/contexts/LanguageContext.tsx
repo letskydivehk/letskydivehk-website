@@ -854,7 +854,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Terms of Service - Traditional Chinese (簡化結構)
     "terms.title": "條款及細則",
-    "terms.lastUpdated": "<strong>最後修改時間：2026年1月30日</strong>",
+    "terms.lastUpdated": "最後修改時間：2026年1月30日",
 
     "terms.preamble.title": "前言",
     "terms.preamble.content":
