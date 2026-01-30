@@ -379,7 +379,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Terms of Service - English (Updated with your provided content)
     "terms.title": "TERMS AND CONDITIONS",
-    "terms.lastUpdated": "<strong> Last Updated </strong>: January 30, 2026",
+    "terms.lastUpdated": "Last Updated: January 30, 2026",
 
     "terms.preamble.title": "Preamble",
     "terms.preamble.content":
