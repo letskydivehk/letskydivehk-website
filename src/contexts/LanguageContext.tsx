@@ -824,7 +824,8 @@ const translations: Record<Language, Record<string, string>> = {
       "（註：為免生疑問，本政策之最新更新日期為 **2026年1月1日**。）<br><br>**（本私隱政策聲明以中文版本為準。）**",
 
     // Terms of Service - Traditional Chinese
-    "terms": {
+    {
+  "terms": {
     "title": "服務條款",
     "lastUpdated": "最後更新時間：2026年1月30日",
     "sections": {
@@ -864,6 +865,13 @@ const translations: Record<Language, Record<string, string>> = {
         "title": "額外注意事項",
         "content": "• 為使各參加者獲得完善的保障，本公司建議參加者必須購買旅遊保險。<br>• 本公司保留權利修改本細則責任條款。如有任何爭議，本公司保留最終決定權。<br>• 本細則責任條款只備有中文版本，一概以中文版本為準。<br>• 本公司保留接受報名與否之最終權利。"
       },
+      "importantConfirmation": {
+        "title": "重要確認",
+        "content": "**本人（即參加者）確認已仔細閱讀並完全明白本《條款及細則》之全部內容，特別是其中以粗體標示之部分。本人清楚知悉跳傘活動之固有風險，並自願承擔此等風險。本人理解並同意本條款中關於責任豁免、放棄索償及彌償之規定，此乃本人參與活動之必要條件。**"
+      }
+    }
+  }
+}
     
   // Disclaimer - Traditional Chinese (FIXED WITH ACTUAL CONTENT)
   "disclaimer.title": "Let's Skydive HK Limited 免責聲明（繁體中文版）",
@@ -945,7 +953,7 @@ const translations: Record<Language, Record<string, string>> = {
     "disclaimer.final.content":
       "跳傘活動具有導致嚴重受傷或死亡的風險。您的參與純屬自願。您需自行負責了解這些風險、確保自身適合參與並購買合適的保險。進行預訂即表示您確認完全且無條件接受本免責聲明。",
   },
-};
+},
 
 // Translations for dynamic Supabase data (locations, services, etc.)
 const dataTranslations: Record<Language, Record<string, string>> = {
