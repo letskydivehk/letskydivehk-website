@@ -1,6 +1,5 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
-
 import { motion } from "framer-motion";
 import { ArrowLeft, User, Phone, Mail, UserPlus, Save, Loader2, Calendar, MapPin } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -77,14 +76,15 @@ interface Booking {
 }
 
 export default function MemberProfile() {
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { t } = useLanguage();
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [profileLoading, setProfileLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
 
   const [formData, setFormData] = useState({
     full_name: "",
@@ -94,32 +94,23 @@ export default function MemberProfile() {
     emergency_contact_relationship: "",
   });
 
-  // Redirect to home if not logged in
-  useEffect(() => {
-    if (!authLoading && !user) {
-      navigate("/");
-    }
-  }, [authLoading, user, navigate]);
-
-  useEffect(() => {
-    if (user) {
-      console.log("User detected, fetching profile...");
-      fetchProfile();
-      fetchBookings();
-    }
-  }, [user]);
-
-  const fetchProfile = async () => {
-    if (!user) return;
-
-    setLoading(true);
+  const fetchProfile = useCallback(async (userId: string) => {
+    setProfileLoading(true);
     try {
-      const { data, error } = await supabase.from("profiles").select("*").eq("user_id", user.id).maybeSingle();
+      // First try to get existing profile
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("user_id", userId)
+        .maybeSingle();
 
-      if (error) throw error;
+      if (error) {
+        console.error("Error fetching profile:", error);
+        throw error;
+      }
 
       if (data) {
-        console.log("Profile loaded:", data);
+        console.log("Profile loaded:", data.id);
         setProfile(data);
         setFormData({
           full_name: data.full_name || "",
@@ -129,40 +120,48 @@ export default function MemberProfile() {
           emergency_contact_relationship: data.emergency_contact_relationship || "",
         });
       } else {
-        console.log("No profile found, creating one...");
-        // Create profile if it doesn't exist
-        const { error: createError } = await supabase.from("profiles").insert({
-          user_id: user.id,
-          email: user.email,
-          full_name: user.user_metadata?.full_name || user.user_metadata?.name || "",
-          avatar_url: user.user_metadata?.avatar_url || user.user_metadata?.picture || "",
-          created_at: new Date().toISOString(),
-          updated_at: new Date().toISOString(),
-        });
-
-        if (createError) {
-          console.error("Error creating profile:", createError);
+        // Profile doesn't exist - the database trigger should have created it
+        // Wait a moment and retry once (trigger may still be processing)
+        console.log("No profile found, waiting for trigger...");
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        
+        const { data: retryData, error: retryError } = await supabase
+          .from("profiles")
+          .select("*")
+          .eq("user_id", userId)
+          .maybeSingle();
+        
+        if (retryError) throw retryError;
+        
+        if (retryData) {
+          console.log("Profile found on retry:", retryData.id);
+          setProfile(retryData);
+          setFormData({
+            full_name: retryData.full_name || "",
+            phone: retryData.phone || "",
+            emergency_contact_name: retryData.emergency_contact_name || "",
+            emergency_contact_phone: retryData.emergency_contact_phone || "",
+            emergency_contact_relationship: retryData.emergency_contact_relationship || "",
+          });
         } else {
-          console.log("Profile created, refetching...");
-          fetchProfile(); // Refetch to get the new profile
+          console.log("Profile still not found after retry");
+          // Set empty profile state - user can still use the form
+          setProfile(null);
         }
       }
     } catch (error) {
-      console.error("Error fetching profile:", error);
+      console.error("Error in fetchProfile:", error);
       toast.error(t("profile.loadError") || "Failed to load profile");
     } finally {
-      setLoading(false);
+      setProfileLoading(false);
     }
-  };
+  }, [t]);
 
-  const fetchBookings = async () => {
-    if (!user) return;
-
+  const fetchBookings = useCallback(async (userId: string) => {
     try {
       const { data, error } = await supabase
         .from("bookings")
-        .select(
-          `
+        .select(`
           id,
           preferred_date,
           status,
@@ -170,9 +169,8 @@ export default function MemberProfile() {
           created_at,
           locations:location_id (Name, City),
           location_services:service_id (service_name, price_display)
-        `,
-        )
-        .eq("user_id", user.id)
+        `)
+        .eq("user_id", userId)
         .order("preferred_date", { ascending: false })
         .limit(10);
 
@@ -181,7 +179,25 @@ export default function MemberProfile() {
     } catch (error) {
       console.error("Error fetching bookings:", error);
     }
-  };
+  }, []);
+
+  // Handle auth state and redirects
+  useEffect(() => {
+    if (authLoading) return;
+    
+    setHasCheckedAuth(true);
+    
+    if (!user) {
+      // Not logged in - redirect to home
+      navigate("/", { replace: true });
+      return;
+    }
+
+    // User is logged in - fetch their data
+    console.log("User authenticated, fetching profile data...");
+    fetchProfile(user.id);
+    fetchBookings(user.id);
+  }, [authLoading, user, navigate, fetchProfile, fetchBookings]);
 
   const handleSave = async () => {
     if (!user) return;
@@ -199,19 +215,44 @@ export default function MemberProfile() {
 
       const validatedData = validationResult.data;
 
-      const { error } = await supabase
-        .from("profiles")
-        .update({
-          full_name: validatedData.full_name,
-          phone: validatedData.phone,
-          emergency_contact_name: validatedData.emergency_contact_name,
-          emergency_contact_phone: validatedData.emergency_contact_phone,
-          emergency_contact_relationship: validatedData.emergency_contact_relationship,
-          updated_at: new Date().toISOString(),
-        })
-        .eq("user_id", user.id);
+      // Check if profile exists
+      if (profile) {
+        // Update existing profile
+        const { error } = await supabase
+          .from("profiles")
+          .update({
+            full_name: validatedData.full_name,
+            phone: validatedData.phone,
+            emergency_contact_name: validatedData.emergency_contact_name,
+            emergency_contact_phone: validatedData.emergency_contact_phone,
+            emergency_contact_relationship: validatedData.emergency_contact_relationship,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("user_id", user.id);
 
-      if (error) throw error;
+        if (error) throw error;
+      } else {
+        // Create new profile
+        const { data: newProfile, error } = await supabase
+          .from("profiles")
+          .insert({
+            user_id: user.id,
+            email: user.email,
+            full_name: validatedData.full_name,
+            phone: validatedData.phone,
+            emergency_contact_name: validatedData.emergency_contact_name,
+            emergency_contact_phone: validatedData.emergency_contact_phone,
+            emergency_contact_relationship: validatedData.emergency_contact_relationship,
+            avatar_url: user.user_metadata?.avatar_url || "",
+            created_at: new Date().toISOString(),
+            updated_at: new Date().toISOString(),
+          })
+          .select()
+          .single();
+
+        if (error) throw error;
+        if (newProfile) setProfile(newProfile);
+      }
 
       toast.success(t("profile.updateSuccess") || "Profile updated successfully");
     } catch (error) {
@@ -228,9 +269,13 @@ export default function MemberProfile() {
 
   const handleSignOut = async () => {
     try {
-      await signOut();
+      const { signOut } = await import("@/contexts/AuthContext").then(m => {
+        // Get signOut from context
+        return { signOut: async () => await supabase.auth.signOut() };
+      });
+      await supabase.auth.signOut();
       toast.success("Signed out successfully");
-      navigate("/");
+      navigate("/", { replace: true });
     } catch (error) {
       console.error("Error signing out:", error);
       toast.error("Failed to sign out");
@@ -250,17 +295,34 @@ export default function MemberProfile() {
     }
   };
 
-  if (authLoading || loading) {
+  // Show loading while checking auth or fetching profile
+  if (authLoading || (!hasCheckedAuth)) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-primary" />
-        <span className="ml-2">Loading profile...</span>
+        <span className="ml-2 text-foreground">Loading...</span>
       </div>
     );
   }
 
+  // After auth check, if no user, don't render (redirect will happen)
   if (!user) {
-    return null;
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <span className="ml-2 text-foreground">Redirecting...</span>
+      </div>
+    );
+  }
+
+  // Show loading while fetching profile data
+  if (profileLoading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <Loader2 className="w-8 h-8 animate-spin text-primary" />
+        <span className="ml-2 text-foreground">Loading profile...</span>
+      </div>
+    );
   }
 
   return (
@@ -286,7 +348,7 @@ export default function MemberProfile() {
                 <div className="flex items-center gap-4">
                   <Avatar className="w-16 h-16">
                     <AvatarImage
-                      src={user?.user_metadata?.avatar_url || profile?.avatar_url}
+                      src={user?.user_metadata?.avatar_url || profile?.avatar_url || undefined}
                       alt={formData.full_name || "User"}
                     />
                     <AvatarFallback className="bg-primary text-primary-foreground text-xl">
@@ -295,7 +357,7 @@ export default function MemberProfile() {
                   </Avatar>
                   <div>
                     <p className="font-semibold text-lg text-foreground">
-                      {formData.full_name || t("auth.member") || "Member"}
+                      {formData.full_name || user?.user_metadata?.full_name || t("auth.member") || "Member"}
                     </p>
                     <p className="text-sm text-muted-foreground">{user?.email}</p>
                   </div>
