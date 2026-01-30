@@ -379,7 +379,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Terms of Service - English (Updated with your provided content)
     "terms.title": "TERMS AND CONDITIONS",
-    "terms.lastUpdated": "<strong>Last Updated</strong>: January 30, 2026",
+    "terms.lastUpdated": "<strong> Last Updated </strong>: January 30, 2026",
 
     "terms.preamble.title": "Preamble",
     "terms.preamble.content":
@@ -1062,9 +1062,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
 
 // Helper function to convert markdown-style bold (**text** or *text*) to HTML
 const formatBoldText = (text: string): string => {
-  return text
-    .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.+?)\*/g, '<em>$1</em>');
+  return text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>");
 };
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
