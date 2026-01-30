@@ -20,6 +20,8 @@ import { useLocations, type Location } from "@/hooks/useLocations";
 import { useLocationServices, type LocationService } from "@/hooks/useLocationServices";
 import { useBooking } from "@/contexts/BookingContext";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 import { toast } from "sonner";
 import { SectionDecorations } from "./SectionDecorations";
@@ -80,8 +82,10 @@ export function BookingSection() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
+  const [bookingAccessToken, setBookingAccessToken] = useState<string | null>(null);
 
   const { data: locations, isLoading: locationsLoading } = useLocations();
+  const { user } = useAuth();
   const {
     preselectedLocationId,
     setPreselectedLocationId,
@@ -245,7 +249,7 @@ export function BookingSection() {
         }
       });
       setValidationErrors(errors);
-      toast.error("Please fix the validation errors before submitting");
+      toast.error(t("booking.fixErrors"));
       return;
     }
 
@@ -253,11 +257,46 @@ export function BookingSection() {
     setValidationErrors({});
 
     setIsSubmitting(true);
-    // Simulate API call - will be replaced with actual submission
-    // When implementing: use validationResult.data for sanitized/validated data
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    setIsComplete(true);
+    
+    try {
+      // Insert booking into Supabase database
+      const { data, error } = await supabase
+        .from('bookings')
+        .insert({
+          user_id: user?.id || null,
+          location_id: formData.location,
+          service_id: formData.service,
+          preferred_date: validationResult.data.date,
+          participants: validationResult.data.participants,
+          first_name: validationResult.data.firstName,
+          last_name: validationResult.data.lastName,
+          email: validationResult.data.email,
+          phone: validationResult.data.phone,
+          special_requests: validationResult.data.notes || null,
+          status: 'pending'
+        })
+        .select()
+        .single();
+
+      if (error) {
+        console.error('Booking submission error:', error);
+        toast.error(t("booking.submitError"));
+        return;
+      }
+
+      // Store access token for anonymous bookings
+      if (!user && data?.access_token) {
+        setBookingAccessToken(data.access_token);
+      }
+
+      setIsComplete(true);
+      toast.success(t("booking.submitSuccess"));
+    } catch (error) {
+      console.error('Booking submission error:', error);
+      toast.error(t("booking.submitError"));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   // Get min date (tomorrow)

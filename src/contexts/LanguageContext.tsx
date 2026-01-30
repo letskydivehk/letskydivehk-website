@@ -144,6 +144,9 @@ const translations: Record<Language, Record<string, string>> = {
     "booking.more": "more",
     "booking.termsDisclaimer":
       "By clicking submit, you agree to our booking terms. We'll contact you within 24 hours to confirm availability and finalize your booking.",
+    "booking.fixErrors": "Please fix the validation errors before submitting",
+    "booking.submitError": "Failed to submit booking. Please try again.",
+    "booking.submitSuccess": "Booking submitted successfully!",
 
     // Profile
     "profile.title": "Profile",
@@ -180,6 +183,10 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.enterEmailPassword": "Please enter email and password",
     "auth.passwordsMismatch": "Passwords do not match",
     "auth.passwordTooShort": "Password must be at least 6 characters",
+    "auth.passwordMinLength": "Password must be at least 8 characters",
+    "auth.passwordLowercase": "Password must contain a lowercase letter",
+    "auth.passwordUppercase": "Password must contain an uppercase letter",
+    "auth.passwordNumber": "Password must contain a number",
 
     // About Section
     "about.badge": "About Us",
@@ -621,6 +628,9 @@ const translations: Record<Language, Record<string, string>> = {
     "booking.noLocations": "此服務類型暫無可用地點。",
     "booking.more": "更多",
     "booking.termsDisclaimer": "點擊提交即表示您同意我們的預約條款。我們將在24小時內與您聯繫確認可用性並完成預約。",
+    "booking.fixErrors": "請先修正驗證錯誤再提交",
+    "booking.submitError": "預約提交失敗，請重試。",
+    "booking.submitSuccess": "預約提交成功！",
 
     // Profile
     "profile.title": "個人資料",
@@ -657,6 +667,10 @@ const translations: Record<Language, Record<string, string>> = {
     "auth.enterEmailPassword": "請輸入電子郵件和密碼",
     "auth.passwordsMismatch": "密碼不符",
     "auth.passwordTooShort": "密碼必須至少6個字元",
+    "auth.passwordMinLength": "密碼必須至少8個字元",
+    "auth.passwordLowercase": "密碼必須包含小寫字母",
+    "auth.passwordUppercase": "密碼必須包含大寫字母",
+    "auth.passwordNumber": "密碼必須包含數字",
 
     // About Section
     "about.badge": "關於我們",

@@ -60,6 +60,23 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     }
   };
 
+  // Password validation for signup
+  const validatePassword = (password: string): string | null => {
+    if (password.length < 8) {
+      return t("auth.passwordMinLength");
+    }
+    if (!/[a-z]/.test(password)) {
+      return t("auth.passwordLowercase");
+    }
+    if (!/[A-Z]/.test(password)) {
+      return t("auth.passwordUppercase");
+    }
+    if (!/[0-9]/.test(password)) {
+      return t("auth.passwordNumber");
+    }
+    return null;
+  };
+
   // Handle form submission
   const handleEmailSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -68,9 +85,18 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
       return;
     }
 
-    if (mode === "signup" && password !== confirmPassword) {
-      toast.error(t("auth.passwordsMismatch"));
-      return;
+    if (mode === "signup") {
+      // Validate password complexity for signup
+      const passwordError = validatePassword(password);
+      if (passwordError) {
+        toast.error(passwordError);
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        toast.error(t("auth.passwordsMismatch"));
+        return;
+      }
     }
 
     setIsLoading(true);
