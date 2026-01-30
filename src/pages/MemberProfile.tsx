@@ -1,9 +1,6 @@
-// Save this as /app/membership/page.tsx (or /app/profile/page.tsx)
-"use client";
-
 import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation"; // CHANGED: from 'react-router-dom'
-import Link from "next/link"; // CHANGED: from 'react-router-dom'
+import { useNavigate, Link } from "react-router-dom";
+
 import { motion } from "framer-motion";
 import { ArrowLeft, User, Phone, Mail, UserPlus, Save, Loader2, Calendar, MapPin } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -82,7 +79,7 @@ interface Booking {
 export default function MemberProfile() {
   const { user, loading: authLoading, signOut } = useAuth();
   const { t } = useLanguage();
-  const router = useRouter(); // CHANGED: from useNavigate()
+  const navigate = useNavigate();
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -100,9 +97,9 @@ export default function MemberProfile() {
   // Redirect to home if not logged in
   useEffect(() => {
     if (!authLoading && !user) {
-      router.push("/"); // CHANGED: from navigate('/')
+      navigate("/");
     }
-  }, [authLoading, user, router]);
+  }, [authLoading, user, navigate]);
 
   useEffect(() => {
     if (user) {
@@ -233,7 +230,7 @@ export default function MemberProfile() {
     try {
       await signOut();
       toast.success("Signed out successfully");
-      router.push("/"); // CHANGED: from navigate('/')
+      navigate("/");
     } catch (error) {
       console.error("Error signing out:", error);
       toast.error("Failed to sign out");
@@ -274,9 +271,7 @@ export default function MemberProfile() {
         <div className="container max-w-4xl mx-auto px-4">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <Link href="/">
-              {" "}
-              {/* CHANGED: from to="/" */}
+            <Link to="/">
               <Button variant="ghost" size="icon" className="rounded-full">
                 <ArrowLeft className="w-5 h-5" />
               </Button>
@@ -414,9 +409,7 @@ export default function MemberProfile() {
                       <p className="text-muted-foreground text-sm mb-4">
                         {t("profile.noBookings") || "No bookings yet"}
                       </p>
-                      <Link href="/#booking">
-                        {" "}
-                        {/* CHANGED: from to="/#booking" */}
+                      <Link to="/#booking">
                         <Button size="sm" variant="outline">
                           {t("common.bookNow") || "Book Now"}
                         </Button>
