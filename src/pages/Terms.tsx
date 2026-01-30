@@ -20,75 +20,122 @@ export default function Terms() {
           </Link>
 
           <div className="mobile-transparent-card bg-card/80 backdrop-blur-md rounded-2xl p-8 md:p-12 shadow-lg">
-            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-8">
+            <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               {t("terms.title")}
             </h1>
             <p className="text-muted-foreground mb-8">
-              {t("terms.lastUpdated")}: January 2025
+              {t("terms.lastUpdated")}
             </p>
 
             <div className="prose prose-lg max-w-none space-y-8">
+              {/* Preamble */}
               <section>
                 <h2 className="text-xl font-semibold text-foreground mb-4">
-                  {t("terms.section1.title")}
+                  {t("terms.preamble.title")}
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  {t("terms.section1.content")}
-                </p>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: t("terms.preamble.content") }}
+                />
               </section>
 
+              {/* Article 1 */}
               <section>
                 <h2 className="text-xl font-semibold text-foreground mb-4">
-                  {t("terms.section2.title")}
+                  {t("terms.article1.title")}
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  {t("terms.section2.content")}
-                </p>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: t("terms.article1.content") }}
+                />
               </section>
 
+              {/* Article 2 */}
               <section>
                 <h2 className="text-xl font-semibold text-foreground mb-4">
-                  {t("terms.section3.title")}
+                  {t("terms.article2.title")}
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  {t("terms.section3.content")}
-                </p>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: t("terms.article2.content") }}
+                />
               </section>
 
+              {/* Article 3 */}
               <section>
                 <h2 className="text-xl font-semibold text-foreground mb-4">
-                  {t("terms.section4.title")}
+                  {t("terms.article3.title")}
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  {t("terms.section4.content")}
-                </p>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: t("terms.article3.content") }}
+                />
               </section>
 
+              {/* Article 4 */}
               <section>
                 <h2 className="text-xl font-semibold text-foreground mb-4">
-                  {t("terms.section5.title")}
+                  {t("terms.article4.title")}
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  {t("terms.section5.content")}
-                </p>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: t("terms.article4.content") }}
+                />
               </section>
 
+              {/* Article 5 */}
               <section>
                 <h2 className="text-xl font-semibold text-foreground mb-4">
-                  {t("terms.section6.title")}
+                  {t("terms.article5.title")}
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  {t("terms.section6.content")}
-                </p>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: t("terms.article5.content") }}
+                />
               </section>
 
+              {/* Article 6 */}
               <section>
                 <h2 className="text-xl font-semibold text-foreground mb-4">
-                  {t("terms.section7.title")}
+                  {t("terms.article6.title")}
                 </h2>
-                <p className="text-muted-foreground leading-relaxed">
-                  {t("terms.section7.content")}
-                </p>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: t("terms.article6.content") }}
+                />
+              </section>
+
+              {/* Article 7 */}
+              <section>
+                <h2 className="text-xl font-semibold text-foreground mb-4">
+                  {t("terms.article7.title")}
+                </h2>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: t("terms.article7.content") }}
+                />
+              </section>
+
+              {/* Additional Notes */}
+              <section>
+                <h2 className="text-xl font-semibold text-foreground mb-4">
+                  {t("terms.additionalNotes.title")}
+                </h2>
+                <p
+                  className="text-muted-foreground leading-relaxed"
+                  dangerouslySetInnerHTML={{ __html: t("terms.additionalNotes.content") }}
+                />
+              </section>
+
+              {/* Important Confirmation */}
+              <section className="mt-8 pt-6 border-t border-border">
+                <h2 className="text-xl font-semibold text-foreground mb-4">
+                  {t("terms.importantConfirmation.title")}
+                </h2>
+                <p
+                  className="text-muted-foreground leading-relaxed font-medium"
+                  dangerouslySetInnerHTML={{ __html: t("terms.importantConfirmation.content") }}
+                />
               </section>
             </div>
           </div>
