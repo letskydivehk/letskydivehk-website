@@ -370,29 +370,30 @@ const translations: Record<Language, Record<string, string>> = {
     "privacy.finalNote":
       "(Note: For the avoidance of doubt, the latest update date of this policy is **1 January 2026**.)<br><br>**(This Privacy Policy Statement shall be governed by the Tradional Chinese version.)**",
 
-    // Terms of Service - English (COMPREHENSIVE VERSION)
-    "terms.title": "Terms and Conditions",
-    "terms.lastUpdated": "Last Updated: January 30, 2026",
-    "terms.preamble.title": "Preamble",
-    "terms.preamble.content": "1.1 These Terms and Conditions (hereinafter referred to as the \"Terms\") constitute a legally binding agreement between you (hereinafter referred to as the \"Participant\" or \"Customer\") and Let's Skydive HK Limited (hereinafter referred to as \"the Company\", \"we\", or \"us\") regarding the provision of skydiving activity services (hereinafter referred to as \"the Service\"). These Terms shall be governed by and construed in accordance with the laws of the Hong Kong Special Administrative Region.<br><br>1.2 By confirming a booking, making any payment, or participating in the Service through any means, you acknowledge that you have read, understood, and unconditionally accept all contents of these Terms, which are legally binding upon you. If you are making a booking on behalf of others, you are deemed to have obtained full authorisation from those individuals to accept these Terms on their behalf.",
-    "terms.article1.title": "Article 1: Eligibility, Health, and Safety",
-    "terms.article1.content": "1.1 The Participant must be at least 18 years old on the activity date and present a valid Hong Kong identity card or travel document with a photograph for verification.<br><br>1.2 The Participant's weight must be 100 kilograms or less, and their height-to-weight ratio must comply with the operational specifications of the safety equipment used by the Company. The Company reserves the right to conduct final measurements on the activity day. Should the Participant exceed these safety limits, the Company has the right to unilaterally refuse participation, and all fees paid will be non-refundable.<br><br>1.3 The Participant declares they are in good physical and mental health and are fit to participate in high-altitude and high-intensity sporting activities. <strong>The Participant must confirm and warrant that they do not have any of the following conditions (including but not limited to): heart disease, hypertension, spinal or neck injuries, epilepsy, pneumothorax, pregnancy or potential pregnancy, any condition that may be aggravated by changes in air pressure or severe impact, and any mental condition that may affect their ability to understand safety instructions or assess risks.</strong> The Company strongly advises the Participant to consult a qualified medical practitioner before booking to assess their personal suitability.<br><br>1.4 The Participant must not be under the influence of alcohol, illegal drugs, or any substance that may impair consciousness, judgment, coordination, or reaction time before and during participation. The Company's staff has absolute discretion to determine the Participant's suitability for participation. If deemed unsuitable, the Company has the right to immediately cancel their participation without refund.",
-    "terms.article2.title": "Article 2: Acknowledgement of Risk and Liability Waiver",
-    "terms.article2.content": "2.1 <strong>Acknowledgment of Inherent Risks:</strong> The Participant expressly knows, understands, and acknowledges that skydiving is an extreme sport with inherent and significant risks, which can lead to serious bodily injury, permanent disability, or death. These risks include, but are not limited to: aircraft incidents during takeoff, flight, or landing; collisions during exit from the aircraft, freefall, parachute deployment, or landing; equipment malfunction, failure, or misuse; sudden changes in weather conditions; errors in judgment or negligence by the instructor, Participant, other persons, or third parties; and landing in unintended areas or colliding with obstacles.<br><br>2.2 <strong>Waiver, Release, and Indemnity:</strong> In consideration of the Company providing the Service, the Participant, on behalf of themselves, their heirs, executors, and administrators, hereby makes the following irrevocable commitments:<br><br>(a) <strong>Fully releases, waives, and forever discharges</strong> the Company, its directors, officers, employees, contracted instructors, agents, subcontractors, and aviation service providers (collectively, the \"Released Parties\") from any and all claims, demands, causes of action, losses, liabilities, damages, costs, and expenses (including reasonable legal fees) arising from or related to the Service, <strong>regardless of whether such liability arises from any negligence, fault, breach of statutory duty, or other cause attributable to any Released Party, and regardless of whether it arises from any latent defect in the equipment, premises, or aircraft provided by the Company, except for willful misconduct or gross negligence which cannot be excluded by law.</strong><br><br>(b) <strong>Agrees to indemnify and hold harmless the Released Parties</strong> from and against any and all claims, liabilities, damages, and expenses directly or indirectly resulting from the Participant's participation in the Service, breach of any warranty or provision herein, or any act or omission by the Participant.<br><br>2.3 <strong>Limitation of Liability:</strong> To the fullest extent permitted by law, the Company's total liability to the Participant arising under or in connection with these Terms or the Service, whether in contract, tort (including negligence), or any other legal theory, shall not exceed the total service fee paid by the Participant for the specific activity.",
-    "terms.article3.title": "Article 3: Booking, Payment, Cancellation, and Rescheduling",
-    "terms.article3.content": "3.1 A booking is confirmed only upon payment of the deposit within the period specified by the Company. The full balance must be settled before the specified deadline prior to the activity date. Failure to pay may result in cancellation of the booking by the Company, and the deposit paid will be non-refundable.<br><br>3.2 <strong>Cancellation and Rescheduling Policy:</strong><br><br>(a) <strong>Cancellation Initiated by Participant:</strong><br>(i) Cancellation notification received <strong>14 days or more</strong> before the scheduled activity date: Free rescheduling to another available date.<br>(ii) Cancellation notification received <strong>within 7 to 14 days</strong> before the scheduled activity date: <strong>50%</strong> of the fees paid will be refunded.<br>(iii) Cancellation notification received <strong>within 7 days (inclusive)</strong> before the scheduled activity date, or failure to attend on the activity day (\"No-Show\"): <strong>All fees paid will be non-refundable.</strong><br><br>(b) <strong>Cancellation/Rescheduling Initiated by the Company:</strong><br>(i) If the activity cannot proceed due to safety reasons (including but not limited to adverse weather, excessive wind speed, insufficient visibility, low cloud base) or any circumstances beyond the Company's reasonable control (e.g., aircraft malfunction, maintenance, air traffic control, government directives, pandemic restrictions, etc.), the Company will endeavour to assist the Participant in rescheduling.<br>(ii) If rescheduling is not possible or the Participant does not accept the proposed alternative date, the Company will refund the full activity fee paid by the Participant.<br>(iii) <strong>Under such circumstances, the Company shall not be liable for any incidental, consequential, or indirect losses incurred by the Participant (including but not limited to travel, accommodation, loss of holiday, etc.), and the Participant shall have no claim against the Company for the same.</strong><br><br>3.3 All cancellation or rescheduling requests must be submitted via the Company's designated contact methods (e.g., phone, email) and receive written confirmation from the Company to be effective.",
-    "terms.article4.title": "Article 4: Rules of Conduct and Customer Responsibilities on Activity Day",
-    "terms.article4.content": "4.1 The Participant must arrive at the designated meeting point at the specified time. Late arrival may result in cancellation of the activity without refund.<br><br>4.2 The Participant must attend the mandatory safety briefing and strictly follow all instructions given by the Company's instructors and staff throughout the activity. Any behaviour endangering the safety of themselves or others will result in immediate termination of participation without refund.<br><br>4.3 The Participant must bring appropriate sportswear and closed-toe athletic shoes. The Company will provide all necessary safety equipment (including jumpsuit, helmet, goggles, etc.). The Participant must not adjust or interfere with any equipment.<br><br>4.4 The Participant is responsible for their personal belongings. The Company is not responsible for any loss or damage to personal property left at the Company's premises, vehicles, or aircraft.",
-    "terms.article5.title": "Article 5: Insurance and Personal Data",
-    "terms.article5.content": "5.1 The Company has obtained third-party liability insurance as required by law. <strong>This insurance does not cover personal accident or injury to the Participant.</strong> The Company strongly recommends that the Participant purchases adequate personal accident insurance, which must explicitly cover \"skydiving\" or \"high-risk sporting activities\".<br><br>5.2 To comply with the Personal Data (Privacy) Ordinance, personal data collected by the Company will be used solely for processing bookings, providing the Service, safety purposes, and internal administration. Please refer to the Company's Privacy Policy Statement for details.",
-    "terms.article6.title": "Article 6: Use of Images",
-    "terms.article6.content": "The Company or its designated personnel may take photographs or videos (\"Images\") during the activity for safety records, staff training, quality control, and promotional purposes. Unless the Participant explicitly objects in writing before the activity, they are deemed to grant the Company a perpetual, royalty-free, irrevocable, worldwide license to use and edit such Images containing the Participant's likeness in any media.",
-    "terms.article7.title": "Article 7: General Provisions",
-    "terms.article7.content": "7.1 <strong>Entire Agreement:</strong> These Terms constitute the entire agreement between the parties regarding the Service and supersede all prior discussions, communications, and agreements.<br><br>7.2 <strong>Severability:</strong> If any part of these Terms is held to be invalid or unenforceable by a court of competent jurisdiction, that part shall be severed to the minimum extent necessary, and the remaining parts shall remain in full force and effect.<br><br>7.3 <strong>Right to Amend:</strong> The Company reserves the right to amend these Terms at any time. The amended Terms will be published on the Company's official website. Continued use of the Service by the Participant after such amendments constitutes acceptance of the revised Terms.<br><br>7.4 <strong>Notices:</strong> All notices shall be issued via email or announcement on the Company's website.",
-    "terms.additionalNotes.title": "Additional Important Notes",
-    "terms.additionalNotes.content": "• To ensure comprehensive protection, the Company recommends that all Participants purchase travel insurance.<br>• The Company reserves the right to modify these Terms. In case of any dispute, the Company's decision shall be final.<br>• These Terms are prepared in the Chinese language version only, which shall be the governing version.<br>• The Company reserves the final right to accept any booking.",
-    "terms.importantConfirmation.title": "Important Confirmation",
-    "terms.importantConfirmation.content": "<strong>I (the Participant) confirm that I have carefully read and fully understand all the contents of these Terms and Conditions, especially the parts highlighted in bold. I am fully aware of the inherent risks of skydiving activities and voluntarily assume such risks. I understand and agree to the provisions regarding liability waiver, release of claims, and indemnity in these Terms, which are a necessary condition for my participation in the activity.</strong>",
+    // Terms of Service
+    "terms.title": "Terms of Service",
+    "terms.lastUpdated": "Last Updated",
+    "terms.section1.title": "1. Acceptance of Terms",
+    "terms.section1.content":
+      "By accessing or using Let's Skydive HK services, you agree to be bound by these Terms of Service. If you do not agree to these terms, please do not use our services.",
+    "terms.section2.title": "2. Eligibility Requirements",
+    "terms.section2.content":
+      "Participants must meet minimum age requirements (typically 18 years or 16 with parental consent), weight restrictions, and health requirements as specified by each dropzone. You must honestly disclose any medical conditions that may affect your ability to skydive safely.",
+    "terms.section3.title": "3. Booking and Cancellation",
+    "terms.section3.content":
+      "All bookings are subject to availability and weather conditions. Cancellation policies vary by location and service type. Refunds for weather-related cancellations will be handled according to each dropzone's policy. We recommend travel insurance for all bookings.",
+    "terms.section4.title": "4. Assumption of Risk",
+    "terms.section4.content":
+      "Skydiving is an inherently dangerous activity. By participating, you acknowledge and accept the risks involved. You will be required to sign a liability waiver before jumping at any of our partner dropzones.",
+    "terms.section5.title": "5. Photography and Media",
+    "terms.section5.content":
+      "Photos and videos taken during your jump are subject to additional fees as specified in your booking. Let's Skydive HK may use anonymized photos and videos for promotional purposes unless you opt out.",
+    "terms.section6.title": "6. Limitation of Liability",
+    "terms.section6.content":
+      "Let's Skydive HK acts as a booking facilitator and is not directly liable for incidents occurring at partner dropzones. Each dropzone maintains its own insurance and safety protocols. Our liability is limited to the booking fee paid.",
+    "terms.section7.title": "7. Changes to Terms",
+    "terms.section7.content":
+      "We reserve the right to modify these terms at any time. Continued use of our services after changes constitutes acceptance of the new terms.",
 
     // Disclaimer - English (COMPLETE WITH ACTUAL CONTENT)
     "disclaimer.title": "COMPREHENSIVE DISCLAIMER FOR LET'S SKYDIVE HK LIMITED",
@@ -822,84 +823,131 @@ const translations: Record<Language, Record<string, string>> = {
     "privacy.finalNote":
       "（註：為免生疑問，本政策之最新更新日期為 **2026年1月1日**。）<br><br>**（本私隱政策聲明以中文版本為準。）**",
 
-    // Terms of Service - Traditional Chinese (COMPREHENSIVE VERSION)
-    "terms.title": "條款及細則",
-    "terms.lastUpdated": "最後修改時間：2026年1月30日",
-    "terms.preamble.title": "前言",
-    "terms.preamble.content": "1.1 本《條款及細則》（下稱「本條款」）構成閣下（下稱「參加者」或「客戶」）與Let's Skydive HK Limited（下稱「本公司」或「我們」）就提供跳傘活動服務（下稱「本服務」）所訂立之法律協議。本條款受香港特別行政區法律管轄及解釋。<br><br>1.2 閣下透過任何途徑確認預訂、支付款項或參與本服務，即表示閣下已閱讀、理解並無條件接受本條款之全部內容，對閣下具有法律約束力。若閣下為他人代為預訂，即被視為已獲該等人士之充分授權代表其同意受本條款約束。",
-    "terms.article1.title": "第一條：資格、健康與安全",
-    "terms.article1.content": "1.1 參加者必須於活動當日年滿18歲，並出示附有相片之有效香港身份證或旅遊證件以供核實。<br><br>1.2 參加者之體重必須為100公斤或以下，且身高體重比例須符合本公司所使用安全裝備之操作規格。本公司保留於活動當日進行最終測量之權利。若參加者超出此安全限制，本公司有權單方面拒絕其參與，已繳付之所有費用將不予退還。<br><br>1.3 參加者聲明其身心健康狀況良好，適宜參與高空及高強度之體育活動。<strong>參加者必須確認並保證其並無以下任何狀況（包括但不限於）：心臟病、高血壓、脊椎或頸部損傷、癲癇、氣胸、懷孕或可能懷孕、任何可能因氣壓變化或劇烈衝擊而惡化之病症，以及任何精神狀況以致影響其理解安全指示或判斷風險之能力。</strong> 本公司強烈建議參加者在預訂前諮詢合資格醫生以評估自身狀況。<br><br>1.4 參加者在參與活動前及期間，不得受酒精、非法藥物或任何可能損害神智、判斷力、協調能力或反應能力之藥物影響。本公司職員有絕對酌情權判斷參加者是否適合參與，若判斷為不適合，有權即時取消其參與資格而不作退款。",
-    "terms.article2.title": "第二條：風險確認與責任豁免",
-    "terms.article2.content": "2.1 <strong>固有風險之確認：</strong>參加者明確知悉、理解並承認，跳傘乃一項具有固有及顯著風險之極限運動，此等風險可導致嚴重身體受傷、永久傷殘、甚或死亡。此等風險包括但不限於：起飛、飛行或降落時之航空器事故；跳出航空器、自由墜落、開傘或著陸過程中發生之碰撞；裝備故障、失靈或不當使用；天氣狀況突然變化；教練、參加者、其他人士或第三方之錯誤判斷或疏忽；以及著陸於非預定區域或與障礙物碰撞。<br><br>2.2 <strong>豁免、放棄索償及彌償：</strong>為換取本公司提供本服務，參加者在此代表其本人、其繼承人、遺囑執行人及遺產管理人，作出以下不可撤銷之承諾：<br><br>(a) <strong>完全免除、放棄及永久解除</strong>本公司、其董事、高級職員、僱員、合約教練、代理人、分包商及航空服務供應商（統稱「被豁免方」）因本服務引致或與之相關之任何及所有索償、要求、訴訟因由、損失、法律責任、損害賠償、費用及開支（包括合理律師費），<strong>無論該等責任因被豁免方之任何疏忽、過失、違反法定責任或其他原因而產生，亦不論是否因本公司所提供之設備、場所或航空器之任何潛在缺陷而引致，惟法律明令禁止豁免之故意失當行為或重大過失除外。</strong><br><br>(b) <strong>同意彌償並使被豁免方免受損害</strong>，保障其免受因參加者參與本服務、違反本條款任何保證或規定、或其任何作為或不作為而直接或間接導致之任何及所有索償、法律責任、損害及開支。<br><br>2.3 <strong>責任上限：</strong>在法律允許之最大範圍內，本公司因本條款或本服務而對參加者所負之全部責任，不論於合約法、侵權法（包括疏忽）或其他法律原則下產生，其總額均不得超過參加者就該次活動向本公司支付之服務費用。",
-    "terms.article3.title": "第三條：預訂、付款、取消及改期",
-    "terms.article3.content": "3.1 預訂必須於本公司指定之期限內支付訂金方告確認。餘款須於活動日前指定期限內全數繳清。逾期未付，本公司有權取消預訂，已付訂金將不予退還。<br><br>3.2 <strong>取消及改期政策：</strong><br><br>(a) <strong>由參加者提出取消：</strong><br>(i) 於預定活動日<strong>14天或之前</strong>通知取消，可免費改期至另一可供預訂之日期。<br>(ii) 於預定活動日<strong>前7至14天內</strong>通知取消，可獲退還已支付費用之<strong>50%</strong>。<br>(iii) 於預定活動日<strong>前7天內（含第7天）</strong>通知取消，或於活動當日未能出席（「No-Show」），<strong>所有已支付費用將概不退還</strong>。<br><br>(b) <strong>由本公司提出取消/改期：</strong><br>(i) 若因安全理由（包括但不限於惡劣天氣、風速過高、能見度不足、雲層過低）或任何超出本公司合理控制範圍之情況（如航空器故障、維修、空中交通管制、政府指令、疫症限制等）導致活動無法進行，本公司將盡力協助參加者改期。<br>(ii) 若無法改期或參加者不接受建議之改期日期，本公司將全數退還參加者已支付之活動費用。<br>(iii) <strong>在此等情況下，本公司對參加者因此產生之任何附帶、衍生或間接損失（包括但不限於交通、住宿、假期損失等）概不負責，參加者亦不得就此提出任何索償。</strong><br><br>3.3 所有取消或改期要求必須經由本公司指定之聯絡方式（如電話、電郵）提出並獲得書面確認，方為有效。",
-    "terms.article4.title": "第四條：活動當日守則與客戶責任",
-    "terms.article4.content": "4.1 參加者必須於指定時間到達指定集合地點。遲到者可能導致活動被取消，且不獲退款。<br><br>4.2 參加者必須參與強制性的安全簡報，並於活動全程嚴格遵守本公司教練及工作人員之一切指示。任何危害自身或他人安全之行為，將導致即時終止參與資格而不作退款。<br><br>4.3 參加者需自備合適之運動服裝及包覆腳踝之運動鞋。本公司將提供所有必要之安全裝備（包括跳傘服、頭盔、護目鏡等）。參加者不得擅自調校或干預任何裝備。<br><br>4.4 參加者須自行保管其個人物品。本公司對任何置於本公司場所、車輛或航空器內之財物之損失或損壞概不負責。",
-    "terms.article5.title": "第五條：保險與個人資料",
-    "terms.article5.content": "5.1 本公司已購買法律要求之第三者責任保險。<strong>此保險並不涵蓋參加者之人身意外傷害。</strong>本公司強烈建議參加者自行購買足額之個人意外保險，且該保險須明確承保「跳傘」或「高危體育活動」。<br><br>5.2 為遵守《個人資料（私隱）條例》，本公司收集之個人資料將僅用於處理預訂、提供服務、安全及內部行政之用。詳情請參閱本公司之私隱政策聲明。",
-    "terms.article6.title": "第六條：影像使用",
-    "terms.article6.content": "本公司或其指定人員可能於活動期間拍攝照片或影片（「影像」）作安全記錄、員工培訓、品質控制及宣傳推廣之用。除非參加者於活動前以書面明確反對，否則即被視為授予本公司一項永久、免版稅、不可撤銷的全球性許可，允許本公司於任何媒體使用及編輯該等包含參加者肖像之影像。",
-    "terms.article7.title": "第七條：一般條款",
-    "terms.article7.content": "7.1 <strong>完整性：</strong>本條款構成雙方就本服務之完整協議，取代所有先前之討論、通訊及協議。<br><br>7.2 <strong>可分割性：</strong>若本條款任何部分被有管轄權之法院裁定為無效或不可執行，該部分應在最小必要範圍內被分割，其餘部分仍保持完全效力。<br><br>7.3 <strong>修改權：</strong>本公司保留隨時修訂本條款之權利。修訂後之條款將公佈於本公司官方網站。參加者於修訂後繼續使用服務，即表示接受經修訂之條款。<br><br>7.4 <strong>通知：</strong>所有通知應以電郵或本公司網站公告方式發出。",
-    "terms.additionalNotes.title": "額外注意事項",
-    "terms.additionalNotes.content": "• 為使各參加者獲得完善的保障，本公司建議參加者必須購買旅遊保險。<br>• 本公司保留權利修改本細則責任條款。如有任何爭議，本公司保留最終決定權。<br>• 本細則責任條款只備有中文版本，一概以中文版本為準。<br>• 本公司保留接受報名與否之最終權利。",
-    "terms.importantConfirmation.title": "重要確認",
-    "terms.importantConfirmation.content": "<strong>本人（即參加者）確認已仔細閱讀並完全明白本《條款及細則》之全部內容，特別是其中以粗體標示之部分。本人清楚知悉跳傘活動之固有風險，並自願承擔此等風險。本人理解並同意本條款中關於責任豁免、放棄索償及彌償之規定，此乃本人參與活動之必要條件。</strong>",
-
-    // Disclaimer - Traditional Chinese
-    "disclaimer.title": "Let's Skydive HK Limited 免責聲明（繁體中文版）",
+    // Terms of Service - Traditional Chinese
+    {
+  "terms": {
+    "title": "服務條款",
+    "lastUpdated": "最後更新時間：2026年1月30日",
+    "sections": {
+      "preamble": {
+        "title": "前言",
+        "content": "1.1 本《條款及細則》（下稱「本條款」）構成閣下（下稱「參加者」或「客戶」）與Let's Skydive HK Limited（下稱「本公司」或「我們」）就提供跳傘活動服務（下稱「本服務」）所訂立之法律協議。本條款受香港特別行政區法律管轄及解釋。<br><br>1.2 閣下透過任何途徑確認預訂、支付款項或參與本服務，即表示閣下已閱讀、理解並無條件接受本條款之全部內容，對閣下具有法律約束力。若閣下為他人代為預訂，即被視為已獲該等人士之充分授權代表其同意受本條款約束。"
+      },
+      "article1": {
+        "title": "第一條：資格、健康與安全",
+        "content": "1.1 參加者必須於活動當日年滿18歲，並出示附有相片之有效香港身份證或旅遊證件以供核實。<br><br>1.2 參加者之體重必須為100公斤或以下，且身高體重比例須符合本公司所使用安全裝備之操作規格。本公司保留於活動當日進行最終測量之權利。若參加者超出此安全限制，本公司有權單方面拒絕其參與，已繳付之所有費用將不予退還。<br><br>1.3 參加者聲明其身心健康狀況良好，適宜參與高空及高強度之體育活動。**參加者必須確認並保證其並無以下任何狀況（包括但不限於）：心臟病、高血壓、脊椎或頸部損傷、癲癇、氣胸、懷孕或可能懷孕、任何可能因氣壓變化或劇烈衝擊而惡化之病症，以及任何精神狀況以致影響其理解安全指示或判斷風險之能力。** 本公司強烈建議參加者在預訂前諮詢合資格醫生以評估自身狀況。<br><br>1.4 參加者在參與活動前及期間，不得受酒精、非法藥物或任何可能損害神智、判斷力、協調能力或反應能力之藥物影響。本公司職員有絕對酌情權判斷參加者是否適合參與，若判斷為不適合，有權即時取消其參與資格而不作退款。"
+      },
+      "article2": {
+        "title": "第二條：風險確認與責任豁免",
+        "content": "2.1 **固有風險之確認：** 參加者明確知悉、理解並承認，跳傘乃一項具有固有及顯著風險之極限運動，此等風險可導致嚴重身體受傷、永久傷殘、甚或死亡。此等風險包括但不限於：起飛、飛行或降落時之航空器事故；跳出航空器、自由墜落、開傘或著陸過程中發生之碰撞；裝備故障、失靈或不當使用；天氣狀況突然變化；教練、參加者、其他人士或第三方之錯誤判斷或疏忽；以及著陸於非預定區域或與障礙物碰撞。<br><br>2.2 **豁免、放棄索償及彌償：** 為換取本公司提供本服務，參加者在此代表其本人、其繼承人、遺囑執行人及遺產管理人，作出以下不可撤銷之承諾：<br><br>(a) **完全免除、放棄及永久解除** 本公司、其董事、高級職員、僱員、合約教練、代理人、分包商及航空服務供應商（統稱「被豁免方」）因本服務引致或與之相關之任何及所有索償、要求、訴訟因由、損失、法律責任、損害賠償、費用及開支（包括合理律師費），**無論該等責任因被豁免方之任何疏忽、過失、違反法定責任或其他原因而產生，亦不論是否因本公司所提供之設備、場所或航空器之任何潛在缺陷而引致，惟法律明令禁止豁免之故意失當行為或重大過失除外。**<br><br>(b) **同意彌償並使被豁免方免受損害**，保障其免受因參加者參與本服務、違反本條款任何保證或規定、或其任何作為或不作為而直接或間接導致之任何及所有索償、法律責任、損害及開支。<br><br>2.3 **責任上限：** 在法律允許之最大範圍內，本公司因本條款或本服務而對參加者所負之全部責任，不論於合約法、侵權法（包括疏忽）或其他法律原則下產生，其總額均不得超過參加者就該次活動向本公司支付之服務費用。"
+      },
+      "article3": {
+        "title": "第三條：預訂、付款、取消及改期",
+        "content": "3.1 預訂必須於本公司指定之期限內支付訂金方告確認。餘款須於活動日前指定期限內全數繳清。逾期未付，本公司有權取消預訂，已付訂金將不予退還。<br><br>3.2 **取消及改期政策：**<br><br>(a) **由參加者提出取消：**<br>• 於預定活動日 **14天或之前** 通知取消，可免費改期至另一可供預訂之日期。<br>• 於預定活動日 **前7至14天內** 通知取消，可獲退還已支付費用之 **50%**。<br>• 於預定活動日 **前7天內（含第7天）** 通知取消，或於活動當日未能出席（「No-Show」），**所有已支付費用將概不退還**。<br><br>(b) **由本公司提出取消/改期：**<br>• 若因安全理由（包括但不限於惡劣天氣、風速過高、能見度不足、雲層過低）或任何超出本公司合理控制範圍之情況（如航空器故障、維修、空中交通管制、政府指令、疫症限制等）導致活動無法進行，本公司將盡力協助參加者改期。<br>• 若無法改期或參加者不接受建議之改期日期，本公司將全數退還參加者已支付之活動費用。<br>• **在此等情況下，本公司對參加者因此產生之任何附帶、衍生或間接損失（包括但不限於交通、住宿、假期損失等）概不負責，參加者亦不得就此提出任何索償。**<br><br>3.3 所有取消或改期要求必須經由本公司指定之聯絡方式（如電話、電郵）提出並獲得書面確認，方為有效。"
+      },
+      "article4": {
+        "title": "第四條：活動當日守則與客戶責任",
+        "content": "4.1 參加者必須於指定時間到達指定集合地點。遲到者可能導致活動被取消，且不獲退款。<br><br>4.2 參加者必須參與強制性的安全簡報，並於活動全程嚴格遵守本公司教練及工作人員之一切指示。任何危害自身或他人安全之行為，將導致即時終止參與資格而不作退款。<br><br>4.3 參加者需自備合適之運動服裝及包覆腳踝之運動鞋。本公司將提供所有必要之安全裝備（包括跳傘服、頭盔、護目鏡等）。參加者不得擅自調校或干預任何裝備。<br><br>4.4 參加者須自行保管其個人物品。本公司對任何置於本公司場所、車輛或航空器內之財物之損失或損壞概不負責。"
+      },
+      "article5": {
+        "title": "第五條：保險與個人資料",
+        "content": "5.1 本公司已購買法律要求之第三者責任保險。**此保險並不涵蓋參加者之人身意外傷害。** 本公司強烈建議參加者自行購買足額之個人意外保險，且該保險須明確承保「跳傘」或「高危體育活動」。<br><br>5.2 為遵守《個人資料（私隱）條例》，本公司收集之個人資料將僅用於處理預訂、提供服務、安全及內部行政之用。詳情請參閱本公司之私隱政策聲明。"
+      },
+      "article6": {
+        "title": "第六條：影像使用",
+        "content": "本公司或其指定人員可能於活動期間拍攝照片或影片（「影像」）作安全記錄、員工培訓、品質控制及宣傳推廣之用。除非參加者於活動前以書面明確反對，否則即被視為授予本公司一項永久、免版稅、不可撤銷的全球性許可，允許本公司於任何媒體使用及編輯該等包含參加者肖像之影像。"
+      },
+      "article7": {
+        "title": "第七條：一般條款",
+        "content": "7.1 **完整性：** 本條款構成雙方就本服務之完整協議，取代所有先前之討論、通訊及協議。<br><br>7.2 **可分割性：** 若本條款任何部分被有管轄權之法院裁定為無效或不可執行，該部分應在最小必要範圍內被分割，其餘部分仍保持完全效力。<br><br>7.3 **修改權：** 本公司保留隨時修訂本條款之權利。修訂後之條款將公佈於本公司官方網站。參加者於修訂後繼續使用服務，即表示接受經修訂之條款。<br><br>7.4 **通知：** 所有通知應以電郵或本公司網站公告方式發出。"
+      },
+      "additionalNotes": {
+        "title": "額外注意事項",
+        "content": "• 為使各參加者獲得完善的保障，本公司建議參加者必須購買旅遊保險。<br>• 本公司保留權利修改本細則責任條款。如有任何爭議，本公司保留最終決定權。<br>• 本細則責任條款只備有中文版本，一概以中文版本為準。<br>• 本公司保留接受報名與否之最終權利。"
+      },
+    }
+  }
+}
+    
+  // Disclaimer - Traditional Chinese (FIXED WITH ACTUAL CONTENT)
+  "disclaimer.title": "Let's Skydive HK Limited 免責聲明（繁體中文版）",
     "disclaimer.lastUpdated": "最後更新日期：2026年1月1日",
     "disclaimer.website": "網站：https://letskydivehk.com/",
+
     "disclaimer.section1.title": "1. 接受條款",
-    "disclaimer.section1.content": "Let's Skydive HK Limited（以下稱「本公司」、「我們」或「我們的」）運營此網站，並在全球範圍內組織跳傘體驗、培訓課程及相關旅行服務。透過存取、瀏覽或使用本網站，或預訂及參與我們組織的任何服務，即表示您確認已閱讀、理解並不可撤銷地接受本免責聲明的所有條款。如您不同意任何部分，必須立即停止使用我們的服務。",
+    "disclaimer.section1.content":
+      "Let's Skydive HK Limited（以下稱「本公司」、「我們」或「我們的」）運營此網站，並在全球範圍內組織跳傘體驗、培訓課程及相關旅行服務。透過存取、瀏覽或使用本網站，或預訂及參與我們組織的任何服務，即表示您確認已閱讀、理解並不可撤銷地接受本免責聲明的所有條款。如您不同意任何部分，必須立即停止使用我們的服務。",
+
     "disclaimer.section2.title": "2. 極限運動風險認知與責任承擔",
     "disclaimer.section2.subtitle1": "2.1 固有風險：",
-    "disclaimer.section2.content1": "跳傘是一項具有固有、不可避免且重大風險的極限運動，無論採取何種防護措施，這些風險都無法被消除。這些風險包括但不限於：",
-    "disclaimer.section2.risks": "• 人身傷害或死亡：可能因自由落體、開傘、著陸或空中碰撞而導致癱瘓、創傷性腦損傷或死亡。<br>• 設備故障：降落傘、背帶、高度計、自動激活裝置或飛機的故障或失靈。<br>• 環境危害：惡劣或突變的天氣、風況、氣流、能見度差、著陸區或降落區的障礙物。<br>• 操作及人為錯誤：飛行員、教練或地勤人員的判斷錯誤；溝通失誤；偏離計劃的飛行或跳傘航線。<br>• 健康反應：高空相關疾病、眩暈、意識喪失，或既有身體或心理狀況的惡化。",
+    "disclaimer.section2.content1":
+      "跳傘是一項具有固有、不可避免且重大風險的極限運動，無論採取何種防護措施，這些風險都無法被消除。這些風險包括但不限於：",
+    "disclaimer.section2.risks":
+      "• 人身傷害或死亡：可能因自由落體、開傘、著陸或空中碰撞而導致癱瘓、創傷性腦損傷或死亡。<br>• 設備故障：降落傘、背帶、高度計、自動激活裝置或飛機的故障或失靈。<br>• 環境危害：惡劣或突變的天氣、風況、氣流、能見度差、著陸區或降落區的障礙物。<br>• 操作及人為錯誤：飛行員、教練或地勤人員的判斷錯誤；溝通失誤；偏離計劃的飛行或跳傘航線。<br>• 健康反應：高空相關疾病、眩暈、意識喪失，或既有身體或心理狀況的惡化。",
     "disclaimer.section2.subtitle2": "2.2 您的責任與風險承擔：",
     "disclaimer.section2.content2": "參與即表示您自願且明確地承擔所有此類風險。您確認：",
-    "disclaimer.section2.responsibilities": "• 您已達法定年齡（18歲或以上），或已獲得合法監護人/父母同意。<br>• 您並未懷孕，且身體及精神健康狀況良好，無任何可能因跳傘而惡化的心血管、呼吸系統、骨骼/關節、神經系統疾病或其他任何疾病。<br>• 您已如實填寫所有要求的健康及責任豁免表格。<br>• 您將毫無例外地遵守本公司代表及第三方教練的所有指示。<br>• 您需自行負責評估自身是否適合參與。",
+    "disclaimer.section2.responsibilities":
+      "• 您已達法定年齡（18歲或以上），或已獲得合法監護人/父母同意。<br>• 您並未懷孕，且身體及精神健康狀況良好，無任何可能因跳傘而惡化的心血管、呼吸系統、骨骼/關節、神經系統疾病或其他任何疾病。<br>• 您已如實填寫所有要求的健康及責任豁免表格。<br>• 您將毫無例外地遵守本公司代表及第三方教練的所有指示。<br>• 您需自行負責評估自身是否適合參與。",
+
     "disclaimer.section3.title": "3. 服務模式與第三方責任",
     "disclaimer.section3.subtitle1": "3.1 代理角色：",
-    "disclaimer.section3.content1": "本公司僅作為預訂代理、協調者及促成者。實際的跳傘服務（包括飛機操作、跳傘執行及教學）由獨立的、持有牌照的第三方合作跳傘中心、運營商、飛行員及教練（「服務夥伴」）提供。",
+    "disclaimer.section3.content1":
+      "本公司僅作為預訂代理、協調者及促成者。實際的跳傘服務（包括飛機操作、跳傘執行及教學）由獨立的、持有牌照的第三方合作跳傘中心、運營商、飛行員及教練（「服務夥伴」）提供。",
     "disclaimer.section3.subtitle2": "3.2 無連帶責任：",
-    "disclaimer.section3.content2": "我們謹慎選擇服務夥伴，但並不擁有、控制或直接監督其日常運營。在法律允許的最大範圍內，我們明確免除對這些服務夥伴的任何行為、疏忽、過失或故意不當行為（包括違反安全協議）所產生的一切責任。",
+    "disclaimer.section3.content2":
+      "我們謹慎選擇服務夥伴，但並不擁有、控制或直接監督其日常運營。在法律允許的最大範圍內，我們明確免除對這些服務夥伴的任何行為、疏忽、過失或故意不當行為（包括違反安全協議）所產生的一切責任。任何與實際跳傘活動相關的索賠必須直接向相關的服務夥伴及其保險公司提出。",
+
     "disclaimer.section4.title": "4. 預訂、取消及不可抗力",
     "disclaimer.section4.subtitle1": "4.1 天氣及安全取消：",
-    "disclaimer.section4.content1": "跳傘活動完全取決於天氣及安全條件。本公司或服務夥伴可隨時因安全考慮取消或重新安排活動。",
+    "disclaimer.section4.content1":
+      "跳傘活動完全取決於天氣及安全條件。本公司或服務夥伴可隨時因安全考慮（天氣、風速、能見度等）取消或重新安排活動。對於您因此產生的任何相關費用（如交通、住宿），我們概不負責。我們的標準改期政策將適用；並不保證退款。",
     "disclaimer.section4.subtitle2": "4.2 健康及適用性：",
-    "disclaimer.section4.content2": "服務夥伴有權拒絕任何未通過現場安全簡報或健康評估的人士參與。",
+    "disclaimer.section4.content2":
+      "服務夥伴有權拒絕任何未通過現場安全簡報或健康評估的人士參與。已支付費用將按預訂條款處理。",
     "disclaimer.section4.subtitle3": "4.3 未出席及遲到：",
     "disclaimer.section4.content3": "未能準時出席已預訂的活動時段，將被視為自動取消，不予退款。",
     "disclaimer.section4.subtitle4": "4.4 不可抗力：",
-    "disclaimer.section4.content4": "對於因超出我們合理控制範圍的事件導致我們未能履行服務，我們不承擔責任。",
+    "disclaimer.section4.content4":
+      "對於因超出我們合理控制範圍的事件（包括戰爭、自然災害、疫情、政府命令、罷工或交通中斷）導致我們未能履行服務，我們不承擔責任。",
+
     "disclaimer.section5.title": "5. 保險與責任限制",
     "disclaimer.section5.subtitle1": "5.1 強制個人保險：",
-    "disclaimer.section5.content1": "您必須購買全面的個人旅行及醫療保險，且該保險必須明確承保跳傘及極限運動。",
+    "disclaimer.section5.content1":
+      "您必須購買全面的個人旅行及醫療保險，且該保險必須明確承保跳傘及極限運動。本公司的保險不涵蓋您的個人傷害或醫療費用。",
     "disclaimer.section5.subtitle2": "5.2 公司責任保險：",
     "disclaimer.section5.content2": "我們依法持有第三方責任保險，其詳細內容及限額可根據要求提供。",
     "disclaimer.section5.subtitle3": "5.3 我們的責任限制：",
-    "disclaimer.section5.content3": "在法律允許的最大範圍內，本公司及其董事、僱員和代理人均不對因您使用本網站或參與我們組織的活動而產生的任何損害承擔責任。",
+    "disclaimer.section5.content3":
+      "在法律允許的最大範圍內，本公司及其董事、僱員和代理人均不對因您使用本網站或參與我們組織的活動而產生的任何直接、間接、附帶、特殊、後果性或懲罰性損害承擔責任。這包括但不限於人身傷害、死亡、精神困擾、利潤損失、數據或樂趣喪失的損害賠償，即使已被告知可能發生此類損害。",
     "disclaimer.section5.subtitle4": "5.4 豁免協議：",
     "disclaimer.section5.content4": "參與活動的前提條件是於活動當天簽署服務夥伴提供的正式《風險承擔及責任豁免協議》。",
+
     "disclaimer.section6.title": "6. 網站使用、內容及知識產權",
     "disclaimer.section6.subtitle1": "6.1 「現狀」提供：",
-    "disclaimer.section6.content1": "本網站及其所有內容均按「現狀」及「可用」狀態提供，不附帶任何形式的保證。",
+    "disclaimer.section6.content1":
+      "本網站及其所有內容（資訊、價格、描述、媒體）均按「現狀」及「可用」狀態提供，不附帶任何形式的保證。我們力求準確，但不保證內容的完整性、及時性或無錯誤。所有內容均可能隨時更改，恕不另行通知。",
     "disclaimer.section6.subtitle2": "6.2 非專業建議：",
-    "disclaimer.section6.content2": "教學內容僅供參考，不能替代持證教練的強制性現場培訓。",
+    "disclaimer.section6.content2": "教學內容（影片、指南）僅供參考，不能替代持證教練的強制性現場培訓。",
     "disclaimer.section6.subtitle3": "6.3 外部連結：",
     "disclaimer.section6.content3": "我們不對任何我們連結到的第三方網站的內容、安全性或隱私慣例負責。",
     "disclaimer.section6.subtitle4": "6.4 知識產權：",
-    "disclaimer.section6.content4": "本網站的所有內容均為本公司財產或經授權使用，受版權和商標法保護。",
+    "disclaimer.section6.content4":
+      "本網站的所有內容（文字、圖形、標誌、圖像、影片）均為本公司財產或經授權使用，受版權和商標法保護。未經我們事先書面許可，您不得複製、修改或用於任何商業用途。",
+
     "disclaimer.section7.title": "7. 管轄法律與爭議解決",
-    "disclaimer.section7.content": "本免責聲明受中華人民共和國香港特別行政區法律管轄並據其解釋。任何由此產生的爭議均應提交香港法院專屬管轄。",
+    "disclaimer.section7.content":
+      "本免責聲明受中華人民共和國香港特別行政區法律管轄並據其解釋。任何由此產生的爭議均應提交香港法院專屬管轄。",
+
     "disclaimer.section8.title": "8. 修改與聯繫方式",
     "disclaimer.section8.subtitle1": "8.1 更新：",
-    "disclaimer.section8.content1": "我們保留隨時修改本免責聲明的權利。更新後的版本將在此發布，並附上新生效日期。",
+    "disclaimer.section8.content1":
+      "我們保留隨時修改本免責聲明的權利。更新後的版本將在此發布，並附上新生效日期。您繼續使用即表示接受。",
     "disclaimer.section8.subtitle2": "8.2 聯繫：",
     "disclaimer.section8.content2": "如有關於本免責聲明的任何疑問，請使用我們網站上的聯繫表格。",
+
     "disclaimer.final.title": "最終確認聲明",
-    "disclaimer.final.content": "跳傘活動具有導致嚴重受傷或死亡的風險。您的參與純屬自願。您需自行負責了解這些風險、確保自身適合參與並購買合適的保險。進行預訂即表示您確認完全且無條件接受本免責聲明。",
+    "disclaimer.final.content":
+      "跳傘活動具有導致嚴重受傷或死亡的風險。您的參與純屬自願。您需自行負責了解這些風險、確保自身適合參與並購買合適的保險。進行預訂即表示您確認完全且無條件接受本免責聲明。",
   },
 };
 
