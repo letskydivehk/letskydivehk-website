@@ -46,15 +46,24 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     };
   }, [isOpen]);
 
-  // Handle Google Sign In
+  // Handle Google Sign In - Updated for Supabase
   const handleGoogleSignIn = async () => {
     setIsLoading(true);
     try {
       await signInWithGoogle();
-      // Don't close here - OAuth will redirect, so modal state doesn't matter
-    } catch (error) {
+      // Note: OAuth will redirect, so we don't need to close modal here
+      // The modal will close when the page reloads after redirect
+    } catch (error: any) {
       console.error("Google Sign-In error:", error);
-      toast.error(t("auth.googleSignInFailed"));
+
+      // Check for specific error types
+      if (error.message.includes("popup blocked") || error.message.includes("third-party cookies")) {
+        toast.error(t("auth.allowCookies"));
+      } else if (error.message.includes("access_denied")) {
+        toast.error(t("auth.accessDenied"));
+      } else {
+        toast.error(error.message || t("auth.googleSignInFailed"));
+      }
     } finally {
       setIsLoading(false);
     }
