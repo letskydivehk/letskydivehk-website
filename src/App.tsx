@@ -7,6 +7,7 @@ import { Toaster } from './components/ui/sonner';
 import Home from './pages/Home';
 import MemberProfile from './pages/MemberProfile';
 import Gallery from './pages/Gallery';
+import AuthCallback from './pages/AuthCallback';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import Disclaimer from './pages/Disclaimer';
@@ -23,6 +24,7 @@ export default function App() {
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/auth/callback" element={<AuthCallback />} />
                 <Route path="/membership" element={<MemberProfile />} />
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/privacy" element={<Privacy />} />
