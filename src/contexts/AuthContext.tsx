@@ -108,14 +108,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
 
-      // IMPORTANT: Fix the redirect URL - use lowercase and correct route
-      // Choose ONE of these options:
-
-      // Option 1: If your MemberProfile is at "/membership" route
-      const redirectUrl = `${window.location.origin}/membership`;
-
-      // Option 2: If your MemberProfile is at "/profile" route
-      // const redirectUrl = `${window.location.origin}/profile`;
+      // Use the auth callback route to properly handle token exchange
+      const redirectUrl = `${window.location.origin}/auth/callback`;
 
       console.log("Redirecting to:", redirectUrl);
 
