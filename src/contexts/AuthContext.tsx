@@ -17,6 +17,17 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Helper to detect if we're on a custom domain
+const isCustomDomain = () => {
+  const hostname = window.location.hostname;
+  return (
+    !hostname.includes("lovable.app") &&
+    !hostname.includes("lovableproject.com") &&
+    !hostname.includes("localhost") &&
+    !hostname.includes("127.0.0.1")
+  );
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -63,11 +74,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { data: profile, error: fetchError } = await supabase
         .from("profiles")
         .select("*")
-        .eq("user_id", user.id) // CHANGED: from "id" to "user_id"
+        .eq("user_id", user.id)
         .single();
 
       if (fetchError && fetchError.code !== "PGRST116") {
-        // PGRST116 = no rows
         console.error("Error fetching profile:", fetchError);
         return;
       }
@@ -93,7 +103,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       } else {
         // Update existing profile
-        const { error: updateError } = await supabase.from("profiles").update(userData).eq("user_id", user.id); // CHANGED: from "id" to "user_id"
+        const { error: updateError } = await supabase
+          .from("profiles")
+          .update(userData)
+          .eq("user_id", user.id);
 
         if (updateError) {
           console.error("Error updating profile:", updateError);
@@ -108,39 +121,70 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
 
-      // Use the auth callback route to properly handle token exchange
+      // Build the callback URL
       const redirectUrl = `${window.location.origin}/auth/callback`;
+      console.log("OAuth redirect URL:", redirectUrl);
+      console.log("Is custom domain:", isCustomDomain());
 
-      console.log("Redirecting to:", redirectUrl);
-
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider: "google",
-        options: {
-          redirectTo: redirectUrl, // Use the correct variable
-          queryParams: {
-            access_type: "offline",
-            prompt: "consent",
+      if (isCustomDomain()) {
+        // For custom domains, use skipBrowserRedirect to bypass auth-bridge issues
+        const { data, error } = await supabase.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo: redirectUrl,
+            skipBrowserRedirect: true,
+            queryParams: {
+              access_type: "offline",
+              prompt: "consent",
+            },
           },
-        },
-      });
+        });
 
-      if (error) {
-        console.error("Google OAuth error:", error);
-        toast.error(`Google Sign-In failed: ${error.message}`);
-        throw error;
-      }
-
-      // If we get a URL, we're doing server-side OAuth (custom domain)
-      if (data?.url) {
-        // Validate the URL for security
-        const url = new URL(data.url);
-        const allowedDomains = ["accounts.google.com", "supabase.co"];
-
-        if (!allowedDomains.some((domain) => url.hostname.endsWith(domain))) {
-          throw new Error("Invalid OAuth redirect URL");
+        if (error) {
+          console.error("Google OAuth error:", error);
+          toast.error(`Google Sign-In failed: ${error.message}`);
+          throw error;
         }
 
-        window.location.href = data.url;
+        if (data?.url) {
+          // Validate the OAuth URL for security
+          const oauthUrl = new URL(data.url);
+          const allowedHosts = [
+            "accounts.google.com",
+            "xmelqjnxllsqofvkoccd.supabase.co",
+          ];
+
+          const isAllowed = allowedHosts.some(
+            (host) =>
+              oauthUrl.hostname === host || oauthUrl.hostname.endsWith(`.${host}`)
+          );
+
+          if (!isAllowed) {
+            console.error("Invalid OAuth URL host:", oauthUrl.hostname);
+            throw new Error("Invalid OAuth redirect URL");
+          }
+
+          console.log("Redirecting to OAuth provider:", data.url);
+          window.location.href = data.url;
+        }
+      } else {
+        // For Lovable preview domains, use normal flow
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider: "google",
+          options: {
+            redirectTo: redirectUrl,
+            queryParams: {
+              access_type: "offline",
+              prompt: "consent",
+            },
+          },
+        });
+
+        if (error) {
+          console.error("Google OAuth error:", error);
+          toast.error(`Google Sign-In failed: ${error.message}`);
+          throw error;
+        }
       }
     } catch (error: any) {
       console.error("Sign in with Google failed:", error);
@@ -185,14 +229,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     try {
       setLoading(true);
 
-      // IMPORTANT: Make this match your signInWithGoogle redirect
-      const redirectUrl = `${window.location.origin}/membership`;
+      const redirectUrl = `${window.location.origin}/auth/callback`;
 
       const { error } = await supabase.auth.signUp({
         email,
         password,
         options: {
-          emailRedirectTo: redirectUrl, // Updated to match
+          emailRedirectTo: redirectUrl,
           data: {
             signup_method: "email",
           },
@@ -242,7 +285,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const resetPassword = async (email: string) => {
     try {
-      const redirectUrl = `${window.location.origin}/reset-password`;
+      const redirectUrl = `${window.location.origin}/auth/callback`;
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: redirectUrl,
       });
@@ -259,7 +302,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     if (!user) throw new Error("No user logged in");
 
     try {
-      const { error } = await supabase.from("profiles").update(data).eq("user_id", user.id); // CHANGED: from "id" to "user_id"
+      const { error } = await supabase
+        .from("profiles")
+        .update(data)
+        .eq("user_id", user.id);
 
       if (error) throw error;
       toast.success("Profile updated!");
