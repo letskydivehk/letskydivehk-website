@@ -444,9 +444,9 @@ export function BookingSection() {
 
         {/* Form Container */}
         <div className="max-w-3xl mx-auto">
-          <div className="bg-card rounded-3xl clean-border elevated-shadow mobile-transparent-card flex flex-col">
+          <div className="bg-card rounded-3xl clean-border elevated-shadow mobile-transparent-card flex flex-col min-h-fit">
             {/* Content Area */}
-            <div className="p-8 lg:p-12 pb-0">
+            <div className="p-8 lg:p-12 pb-6 flex-1">
               <AnimatePresence mode="wait">
               {/* Step 1: Location Selection */}
               {currentStep === "location" && (
@@ -893,12 +893,12 @@ export function BookingSection() {
               </AnimatePresence>
             </div>
 
-            {/* Navigation Buttons - Fixed at bottom */}
-            <div className="flex items-center justify-between p-8 lg:px-12 pt-6 border-t border-border bg-card flex-shrink-0">
+            {/* Navigation Buttons - Always visible at bottom */}
+            <div className="flex items-center justify-between p-6 lg:p-8 border-t border-border bg-card rounded-b-3xl">
               {currentStep !== "location" ? (
                 <button
                   onClick={handleBack}
-                  className="flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                  className="flex items-center gap-2 px-4 py-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
                   <ArrowLeft className="w-4 h-4" />
                   {t("booking.back")}
@@ -913,7 +913,7 @@ export function BookingSection() {
                   disabled={!canProceed()}
                   className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all cursor-pointer ${
                     canProceed()
-                      ? "bg-accent-emerald text-white hover:bg-accent-emerald/90"
+                      ? "bg-accent-emerald text-white hover:bg-accent-emerald/90 shadow-md"
                       : "bg-muted text-muted-foreground cursor-not-allowed"
                   }`}
                 >
@@ -924,11 +924,11 @@ export function BookingSection() {
                 <button
                   onClick={handleSubmit}
                   disabled={isSubmitting}
-                  className="flex items-center gap-2 px-8 py-3 rounded-lg font-semibold bg-accent-emerald text-white hover:bg-accent-emerald/90 transition-all cursor-pointer disabled:opacity-50"
+                  className="flex items-center gap-2 px-8 py-3 rounded-lg font-semibold bg-accent-emerald text-white hover:bg-accent-emerald/90 shadow-md transition-all cursor-pointer disabled:opacity-50"
                 >
                   {isSubmitting ? (
                     <>
-                      <div className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin" />
+                      <Loader2 className="w-5 h-5 animate-spin" />
                       {t("booking.submitting")}
                     </>
                   ) : (
