@@ -1,13 +1,14 @@
 import { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { X, Upload, Image, Video, Loader2, GraduationCap } from 'lucide-react';
+import { X, Upload, Image, Video, Loader2, GraduationCap, Youtube, Link } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { uploadGalleryItem, GalleryCategory } from '@/hooks/useGallery';
+import { uploadGalleryItem, addYouTubeVideo, extractYouTubeId, getYouTubeThumbnail, GalleryCategory } from '@/hooks/useGallery';
 import { toast } from 'sonner';
 
 interface GalleryUploadProps {
@@ -19,13 +20,41 @@ interface GalleryUploadProps {
 export function GalleryUpload({ onClose, onSuccess, defaultCategory = 'photos' }: GalleryUploadProps) {
   const { t } = useLanguage();
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [file, setFile] = useState<File | null>(null);
-  const [preview, setPreview] = useState<string | null>(null);
+  
+  // Common state
+  const [category, setCategory] = useState<GalleryCategory>(defaultCategory);
   const [title, setTitle] = useState('');
   const [description, setDescription] = useState('');
-  const [category, setCategory] = useState<GalleryCategory>(defaultCategory);
   const [isUploading, setIsUploading] = useState(false);
+  
+  // File upload state
+  const [file, setFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
   const [dragActive, setDragActive] = useState(false);
+  
+  // YouTube state
+  const [youtubeUrl, setYoutubeUrl] = useState('');
+  const [youtubePreview, setYoutubePreview] = useState<string | null>(null);
+  
+  // Determine upload mode based on category
+  const isVideoCategory = category === 'daily_videos' || category === 'aff_videos';
+  const [uploadMode, setUploadMode] = useState<'file' | 'youtube'>(isVideoCategory ? 'youtube' : 'file');
+
+  // Update upload mode when category changes
+  const handleCategoryChange = (value: string) => {
+    const newCategory = value as GalleryCategory;
+    setCategory(newCategory);
+    if (newCategory === 'photos') {
+      setUploadMode('file');
+    } else {
+      setUploadMode('youtube');
+    }
+    // Reset state
+    setFile(null);
+    setPreview(null);
+    setYoutubeUrl('');
+    setYoutubePreview(null);
+  };
 
   const handleFileSelect = (selectedFile: File) => {
     if (!selectedFile) return;
@@ -57,6 +86,16 @@ export function GalleryUpload({ onClose, onSuccess, defaultCategory = 'photos' }
     }
   };
 
+  const handleYoutubeUrlChange = (url: string) => {
+    setYoutubeUrl(url);
+    const videoId = extractYouTubeId(url);
+    if (videoId) {
+      setYoutubePreview(getYouTubeThumbnail(videoId));
+    } else {
+      setYoutubePreview(null);
+    }
+  };
+
   const handleDrag = (e: React.DragEvent) => {
     e.preventDefault();
     e.stopPropagation();
@@ -78,19 +117,48 @@ export function GalleryUpload({ onClose, onSuccess, defaultCategory = 'photos' }
   };
 
   const handleUpload = async () => {
-    if (!file) return;
-
     setIsUploading(true);
-    const result = await uploadGalleryItem(file, category, title, description);
-    setIsUploading(false);
-
-    if (result.success) {
-      toast.success(t('gallery.uploadSuccess'));
-      onSuccess();
-    } else {
-      toast.error(result.error || t('gallery.uploadError'));
+    
+    try {
+      if (uploadMode === 'youtube') {
+        // Add YouTube video
+        if (!youtubeUrl) {
+          toast.error('Please enter a YouTube URL');
+          setIsUploading(false);
+          return;
+        }
+        
+        const result = await addYouTubeVideo(youtubeUrl, category, title, description);
+        
+        if (result.success) {
+          toast.success('YouTube video added successfully!');
+          onSuccess();
+        } else {
+          toast.error(result.error || 'Failed to add YouTube video');
+        }
+      } else {
+        // Upload file
+        if (!file) {
+          toast.error('Please select a file');
+          setIsUploading(false);
+          return;
+        }
+        
+        const result = await uploadGalleryItem(file, category, title, description);
+        
+        if (result.success) {
+          toast.success(t('gallery.uploadSuccess'));
+          onSuccess();
+        } else {
+          toast.error(result.error || t('gallery.uploadError'));
+        }
+      }
+    } finally {
+      setIsUploading(false);
     }
   };
+
+  const canSubmit = uploadMode === 'youtube' ? !!youtubeUrl && !!extractYouTubeId(youtubeUrl) : !!file;
 
   return (
     <motion.div
@@ -109,7 +177,9 @@ export function GalleryUpload({ onClose, onSuccess, defaultCategory = 'photos' }
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b">
-          <h2 className="text-lg font-semibold">{t('gallery.uploadTitle')}</h2>
+          <h2 className="text-lg font-semibold">
+            {uploadMode === 'youtube' ? 'Add YouTube Video' : t('gallery.uploadTitle')}
+          </h2>
           <Button variant="ghost" size="icon" onClick={onClose}>
             <X className="h-4 w-4" />
           </Button>
@@ -120,7 +190,7 @@ export function GalleryUpload({ onClose, onSuccess, defaultCategory = 'photos' }
           {/* Category Selection */}
           <div className="space-y-2">
             <Label>Category</Label>
-            <Select value={category} onValueChange={(value: string) => setCategory(value as GalleryCategory)}>
+            <Select value={category} onValueChange={handleCategoryChange}>
               <SelectTrigger>
                 <SelectValue placeholder="Select category" />
               </SelectTrigger>
@@ -147,66 +217,130 @@ export function GalleryUpload({ onClose, onSuccess, defaultCategory = 'photos' }
             </Select>
           </div>
 
-          {/* File Drop Zone */}
-          <div
-            className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-colors ${
-              dragActive ? 'border-primary bg-primary/5' : 'border-muted-foreground/25'
-            }`}
-            onDragEnter={handleDrag}
-            onDragLeave={handleDrag}
-            onDragOver={handleDrag}
-            onDrop={handleDrop}
-          >
-            {file ? (
-              <div className="space-y-4">
-                {preview ? (
-                  <img
-                    src={preview}
-                    alt="Preview"
-                    className="max-h-48 mx-auto rounded-lg object-contain"
-                  />
-                ) : (
-                  <div className="flex items-center justify-center h-32 bg-muted rounded-lg">
-                    <Video className="h-12 w-12 text-muted-foreground" />
-                  </div>
-                )}
-                <p className="text-sm text-muted-foreground">{file.name}</p>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    setFile(null);
-                    setPreview(null);
-                  }}
-                >
-                  {t('gallery.removeFile')}
-                </Button>
-              </div>
-            ) : (
-              <>
-                <div className="flex justify-center gap-4 mb-4">
-                  <Image className="h-8 w-8 text-muted-foreground" />
-                  <Video className="h-8 w-8 text-muted-foreground" />
-                </div>
-                <p className="text-sm text-muted-foreground mb-2">
-                  {t('gallery.dragDrop')}
-                </p>
-                <Button
-                  variant="outline"
-                  onClick={() => fileInputRef.current?.click()}
-                >
-                  {t('gallery.browseFiles')}
-                </Button>
-                <input
-                  ref={fileInputRef}
-                  type="file"
-                  className="hidden"
-                  accept="image/jpeg,image/png,image/gif,image/webp,video/mp4,video/webm,video/quicktime"
-                  onChange={(e) => e.target.files?.[0] && handleFileSelect(e.target.files[0])}
+          {/* Upload Mode Tabs (only for video categories) */}
+          {isVideoCategory && (
+            <Tabs value={uploadMode} onValueChange={(v) => setUploadMode(v as 'file' | 'youtube')}>
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="youtube" className="gap-2">
+                  <Youtube className="h-4 w-4" />
+                  YouTube Link
+                </TabsTrigger>
+                <TabsTrigger value="file" className="gap-2">
+                  <Upload className="h-4 w-4" />
+                  Upload File
+                </TabsTrigger>
+              </TabsList>
+            </Tabs>
+          )}
+
+          {/* YouTube URL Input */}
+          {uploadMode === 'youtube' && isVideoCategory && (
+            <div className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="youtube-url" className="flex items-center gap-2">
+                  <Youtube className="h-4 w-4 text-red-500" />
+                  YouTube Video URL
+                </Label>
+                <Input
+                  id="youtube-url"
+                  value={youtubeUrl}
+                  onChange={(e) => handleYoutubeUrlChange(e.target.value)}
+                  placeholder="https://www.youtube.com/watch?v=..."
                 />
-              </>
-            )}
-          </div>
+                <p className="text-xs text-muted-foreground">
+                  Paste a YouTube video link (e.g., youtube.com/watch?v=xxxxx or youtu.be/xxxxx)
+                </p>
+              </div>
+              
+              {/* YouTube Preview */}
+              {youtubePreview && (
+                <div className="relative rounded-lg overflow-hidden border bg-muted">
+                  <img
+                    src={youtubePreview}
+                    alt="YouTube thumbnail"
+                    className="w-full aspect-video object-cover"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <div className="bg-red-600 rounded-full p-3">
+                      <Youtube className="h-8 w-8 text-white" />
+                    </div>
+                  </div>
+                </div>
+              )}
+              
+              {youtubeUrl && !youtubePreview && (
+                <div className="p-4 bg-destructive/10 rounded-lg text-center">
+                  <p className="text-sm text-destructive">Invalid YouTube URL</p>
+                </div>
+              )}
+            </div>
+          )}
+
+          {/* File Drop Zone (for photos or when file mode selected) */}
+          {(uploadMode === 'file' || !isVideoCategory) && (
+            <div
+              className={`relative border-2 border-dashed rounded-xl p-8 text-center transition-colors ${
+                dragActive ? 'border-primary bg-primary/5' : 'border-muted-foreground/25'
+              }`}
+              onDragEnter={handleDrag}
+              onDragLeave={handleDrag}
+              onDragOver={handleDrag}
+              onDrop={handleDrop}
+            >
+              {file ? (
+                <div className="space-y-4">
+                  {preview ? (
+                    <img
+                      src={preview}
+                      alt="Preview"
+                      className="max-h-48 mx-auto rounded-lg object-contain"
+                    />
+                  ) : (
+                    <div className="flex items-center justify-center h-32 bg-muted rounded-lg">
+                      <Video className="h-12 w-12 text-muted-foreground" />
+                    </div>
+                  )}
+                  <p className="text-sm text-muted-foreground">{file.name}</p>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      setFile(null);
+                      setPreview(null);
+                    }}
+                  >
+                    {t('gallery.removeFile')}
+                  </Button>
+                </div>
+              ) : (
+                <>
+                  <div className="flex justify-center gap-4 mb-4">
+                    <Image className="h-8 w-8 text-muted-foreground" />
+                    {isVideoCategory && <Video className="h-8 w-8 text-muted-foreground" />}
+                  </div>
+                  <p className="text-sm text-muted-foreground mb-2">
+                    {t('gallery.dragDrop')}
+                  </p>
+                  <Button
+                    variant="outline"
+                    onClick={() => fileInputRef.current?.click()}
+                  >
+                    {t('gallery.browseFiles')}
+                  </Button>
+                  <input
+                    ref={fileInputRef}
+                    type="file"
+                    className="hidden"
+                    accept={isVideoCategory 
+                      ? "video/mp4,video/webm,video/quicktime"
+                      : "image/jpeg,image/png,image/gif,image/webp"
+                    }
+                    onChange={(e) => e.target.files?.[0] && handleFileSelect(e.target.files[0])}
+                  />
+                </>
+              )}
+            </div>
+          )}
 
           {/* Title */}
           <div className="space-y-2">
@@ -241,18 +375,18 @@ export function GalleryUpload({ onClose, onSuccess, defaultCategory = 'photos' }
           </Button>
           <Button
             onClick={handleUpload}
-            disabled={!file || isUploading}
+            disabled={!canSubmit || isUploading}
             className="gap-2"
           >
             {isUploading ? (
               <>
                 <Loader2 className="h-4 w-4 animate-spin" />
-                {t('gallery.uploading')}
+                {uploadMode === 'youtube' ? 'Adding...' : t('gallery.uploading')}
               </>
             ) : (
               <>
-                <Upload className="h-4 w-4" />
-                {t('gallery.uploadBtn')}
+                {uploadMode === 'youtube' ? <Youtube className="h-4 w-4" /> : <Upload className="h-4 w-4" />}
+                {uploadMode === 'youtube' ? 'Add Video' : t('gallery.uploadBtn')}
               </>
             )}
           </Button>

@@ -18,6 +18,32 @@ export interface GalleryItem {
   created_at: string;
   category: GalleryCategory;
   is_storage_only?: boolean;
+  is_youtube?: boolean;
+  youtube_id?: string;
+}
+
+// Helper function to extract YouTube video ID from various URL formats
+export function extractYouTubeId(url: string): string | null {
+  const patterns = [
+    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\s?]+)/,
+    /^([a-zA-Z0-9_-]{11})$/, // Direct video ID
+  ];
+  
+  for (const pattern of patterns) {
+    const match = url.match(pattern);
+    if (match) return match[1];
+  }
+  return null;
+}
+
+// Generate YouTube thumbnail URL from video ID
+export function getYouTubeThumbnail(videoId: string): string {
+  return `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`;
+}
+
+// Generate YouTube embed URL from video ID
+export function getYouTubeEmbedUrl(videoId: string): string {
+  return `https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1`;
 }
 
 export function useGallery(category?: GalleryCategory) {
@@ -286,7 +312,7 @@ export function useGallery(category?: GalleryCategory) {
   };
 }
 
-// Upload function with category support
+// Upload function with category support (for images/files)
 export async function uploadGalleryItem(
   file: File,
   category: GalleryCategory = "photos",
@@ -346,6 +372,49 @@ export async function uploadGalleryItem(
     return { success: true };
   } catch (error: any) {
     console.error("Upload error:", error);
+    return { success: false, error: error.message };
+  }
+}
+
+// Add YouTube video to gallery
+export async function addYouTubeVideo(
+  youtubeUrl: string,
+  category: GalleryCategory = "daily_videos",
+  title?: string,
+  description?: string,
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    const videoId = extractYouTubeId(youtubeUrl);
+    
+    if (!videoId) {
+      return { success: false, error: "Invalid YouTube URL. Please provide a valid YouTube video link." };
+    }
+
+    const embedUrl = getYouTubeEmbedUrl(videoId);
+    const thumbnailUrl = getYouTubeThumbnail(videoId);
+
+    console.log(`Adding YouTube video: ${videoId}, category: ${category}`);
+
+    // Insert gallery item record with YouTube data
+    const { error: insertError } = await supabase.from("gallery_items").insert({
+      title: title || `YouTube Video ${videoId}`,
+      description: description || null,
+      media_type: "video",
+      file_path: `youtube:${videoId}`, // Use youtube: prefix to identify YouTube videos
+      file_url: embedUrl,
+      thumbnail_url: thumbnailUrl,
+      category: category,
+    });
+
+    if (insertError) {
+      console.error("Insert error:", insertError);
+      throw insertError;
+    }
+
+    console.log("YouTube video added to database with category:", category);
+    return { success: true };
+  } catch (error: any) {
+    console.error("Add YouTube video error:", error);
     return { success: false, error: error.message };
   }
 }
