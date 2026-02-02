@@ -1,8 +1,13 @@
 import { useRef, useEffect } from "react";
 import { motion } from "framer-motion";
-import { Play } from "lucide-react";
+import { Play, Youtube } from "lucide-react";
 import { GalleryItem } from "@/hooks/useGallery";
 import { cn } from "@/lib/utils";
+
+// Helper to check if a gallery item is a YouTube video
+function isYouTubeVideo(item: GalleryItem): boolean {
+  return item.file_path?.startsWith("youtube:") || item.file_url?.includes("youtube.com/embed");
+}
 
 interface GalleryThumbnailsProps {
   items: GalleryItem[];
@@ -69,12 +74,20 @@ export function GalleryThumbnails({ items, selectedIndex, onSelect }: GalleryThu
                   <img src={item.thumbnail_url} alt="Video thumbnail" className="w-full h-full object-cover" />
                 ) : (
                   <div className="w-full h-full bg-muted flex items-center justify-center">
-                    <Play className="h-6 w-6 text-muted-foreground" />
+                    {isYouTubeVideo(item) ? (
+                      <Youtube className="h-6 w-6 text-red-500" />
+                    ) : (
+                      <Play className="h-6 w-6 text-muted-foreground" />
+                    )}
                   </div>
                 )}
                 {/* Video indicator */}
                 <div className="absolute bottom-1 right-1 bg-black/70 p-1 rounded">
-                  <Play className="h-2 w-2 text-white" />
+                  {isYouTubeVideo(item) ? (
+                    <Youtube className="h-2 w-2 text-red-500" />
+                  ) : (
+                    <Play className="h-2 w-2 text-white" />
+                  )}
                 </div>
               </>
             ) : (

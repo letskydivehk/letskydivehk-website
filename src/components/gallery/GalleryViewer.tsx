@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import { useState } from "react";
-import { Trash2, Loader2, Play, ExternalLink } from "lucide-react";
+import { Trash2, Loader2, Play, ExternalLink, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { GalleryItem, deleteGalleryItem } from "@/hooks/useGallery";
@@ -15,6 +15,11 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
+
+// Helper to check if a gallery item is a YouTube video
+function isYouTubeVideo(item: GalleryItem): boolean {
+  return item.file_path?.startsWith("youtube:") || item.file_url?.includes("youtube.com/embed");
+}
 
 interface GalleryViewerProps {
   item: GalleryItem | null;
@@ -85,7 +90,22 @@ export function GalleryViewer({ item, isAdmin, onDelete }: GalleryViewerProps) {
               </Button>
             </div>
           </div>
+        ) : item.media_type === "video" && isYouTubeVideo(item) ? (
+          // YouTube Video Embed
+          <div className="w-full h-full flex items-center justify-center">
+            <div className="w-full aspect-video max-h-[70vh]">
+              <iframe
+                src={item.file_url}
+                title={item.title || "YouTube Video"}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="w-full h-full rounded-lg"
+              />
+            </div>
+          </div>
         ) : item.media_type === "video" ? (
+          // Regular Video (from Supabase storage)
           <div className="w-full h-full flex items-center justify-center">
             <video
               src={item.file_url}
@@ -122,8 +142,12 @@ export function GalleryViewer({ item, isAdmin, onDelete }: GalleryViewerProps) {
         {/* Video Play Indicator */}
         {item.media_type === "video" && !mediaError && (
           <div className="absolute top-4 left-4 bg-black/50 px-3 py-2 rounded flex items-center gap-2">
-            <Play className="h-4 w-4 text-white" />
-            <span className="text-white text-sm">Video</span>
+            {isYouTubeVideo(item) ? (
+              <Youtube className="h-4 w-4 text-red-500" />
+            ) : (
+              <Play className="h-4 w-4 text-white" />
+            )}
+            <span className="text-white text-sm">{isYouTubeVideo(item) ? "YouTube" : "Video"}</span>
           </div>
         )}
       </motion.div>
