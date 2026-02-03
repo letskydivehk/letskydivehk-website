@@ -63,7 +63,7 @@ const translations: Record<Language, Record<string, string>> = {
     "services.alicence.title": "A-Licence",
     "services.alicence.subtitle": "Learn to skydive solo",
     "services.alicence.description":
-      "The Accelerated Freefall (AFF) program is your pathway to becoming a licensed skydiver. Master the skills to jump independently.",
+      "Before getting your first licence, the Accelerated Freefall (AFF) program is your pathway to becoming a licensed skydiver. Master the skills to jump independently.",
     "services.group.title": "Group Events",
     "services.group.subtitle": "Team building & celebrations",
     "services.group.description":
