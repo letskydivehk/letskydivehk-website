@@ -3,6 +3,7 @@ import { Services } from '@/components/Services';
 import { Locations } from '@/components/Locations';
 import { BookingSection } from '@/components/BookingSection';
 import { About } from '@/components/About';
+import { FAQ } from '@/components/FAQ';
 import { Contact } from '@/components/Contact';
 import { Footer } from '@/components/Footer';
 import { BackgroundDecorations } from '@/components/BackgroundDecorations';
@@ -26,6 +27,9 @@ export default function Home() {
         </section>
         <section id="about" aria-label="About section">
           <About />
+        </section>
+        <section id="faq" aria-label="FAQ section">
+          <FAQ />
         </section>
         <section id="contact" aria-label="Contact section">
           <Contact />

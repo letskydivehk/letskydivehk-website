@@ -1060,6 +1060,80 @@ const dataTranslations: Record<Language, Record<string, string>> = {
   },
 };
 
+// FAQ Translations - English
+translations.en["faq.badge"] = "Frequently Asked Questions";
+translations.en["faq.title"] = "FAQ";
+translations.en["faq.subtitle"] = "Got questions about skydiving? Here are the answers to the most common questions from our guests.";
+translations.en["faq.moreQuestions"] = "Still have questions? We're here to help!";
+translations.en["faq.contactUs"] = "Contact Us";
+
+translations.en["faq.q1"] = "What are the age and weight requirements for skydiving?";
+translations.en["faq.a1"] = "Participants must be at least 18 years old (valid ID required). Weight limits vary by location but typically range from 40kg to 100kg. If you're close to the weight limit, please contact us in advance as some locations may accommodate higher weights with specific arrangements.";
+
+translations.en["faq.q2"] = "Do I need any prior experience to do a tandem skydive?";
+translations.en["faq.a2"] = "No prior experience is needed for tandem skydiving! You'll be securely attached to a certified instructor who handles all technical aspects of the jump. We provide comprehensive training before each jump covering body position, emergency procedures, and landing techniques.";
+
+translations.en["faq.q3"] = "Can I skydive if I have a fear of heights?";
+translations.en["faq.a3"] = "Yes! Many of our guests have a fear of heights and still complete their jump successfully. At high altitude (13,000+ feet), the height perception is completely different from standing on a tall building. You're so high that there's no visual reference to trigger the typical fear response. Many people with acrophobia find skydiving surprisingly comfortable.";
+
+translations.en["faq.q4"] = "Can I wear glasses or contact lenses while skydiving?";
+translations.en["faq.a4"] = "Yes, you can wear both glasses and contact lenses. We provide protective goggles that fit comfortably over regular glasses. For contact lens wearers, the goggles also prevent them from drying out or being displaced during freefall.";
+
+translations.en["faq.q5"] = "What is the difference between tandem skydiving and the A-Licence course?";
+translations.en["faq.a5"] = "Tandem skydiving is a one-time experience where you're attached to an instructor. The A-Licence (AFF) course is a comprehensive training program (typically 25 jumps) that teaches you to skydive solo. After completing the course and passing the exam, you'll receive an internationally recognized license allowing you to jump independently at dropzones worldwide.";
+
+translations.en["faq.q6"] = "How long does the entire skydiving experience take?";
+translations.en["faq.a6"] = "Plan for approximately 3-4 hours for the entire experience. This includes registration, training (about 30 minutes), gearing up, the flight to altitude (15-20 minutes), the jump itself (1 minute of freefall + 5-7 minutes under canopy), and landing celebrations. Actual times may vary based on weather and the number of jumpers.";
+
+translations.en["faq.q7"] = "Is skydiving safe?";
+translations.en["faq.a7"] = "Skydiving is statistically one of the safest extreme sports when conducted with proper training and equipment. All our instructors are certified by international organizations (USPA/APF) with thousands of jumps of experience. Equipment includes multiple backup systems, including automatic deployment devices. Our safety record speaks for itself with zero accidents across all our locations.";
+
+translations.en["faq.q8"] = "What should I wear for skydiving?";
+translations.en["faq.a8"] = "Wear comfortable, weather-appropriate clothing that allows freedom of movement. Athletic wear, t-shirts, and long pants work well. Closed-toe athletic shoes are required (no sandals, heels, or loose footwear). Avoid loose jewelry, scarves, or anything that could get tangled. We provide jumpsuits, harnesses, goggles, and all necessary equipment.";
+
+translations.en["faq.q9"] = "What happens if the weather is bad on my scheduled jump day?";
+translations.en["faq.a9"] = "Safety is our top priority. If weather conditions are unsuitable (strong winds, rain, low visibility, thunderstorms), we will reschedule your jump at no additional cost. We recommend booking with some flexibility in your travel schedule to accommodate weather delays.";
+
+translations.en["faq.q10"] = "Should I train in a wind tunnel before taking the A-Licence course?";
+translations.en["faq.a10"] = "Wind tunnel training is optional but beneficial. One hour in a wind tunnel equals approximately 60-80 skydives worth of freefall practice. Some students prefer to train beforehand for efficiency, while others go directly to the dropzone and use the tunnel later if they encounter difficulties. We can provide recommendations based on your learning style.";
+
+// FAQ Translations - Traditional Chinese
+translations["zh-TW"]["faq.badge"] = "常見問題";
+translations["zh-TW"]["faq.title"] = "常見問題";
+translations["zh-TW"]["faq.subtitle"] = "對跳傘有疑問？以下是我們最常收到的問題解答。";
+translations["zh-TW"]["faq.moreQuestions"] = "還有其他問題？我們隨時為您解答！";
+translations["zh-TW"]["faq.contactUs"] = "聯絡我們";
+
+translations["zh-TW"]["faq.q1"] = "跳傘的年齡和體重限制是什麼？";
+translations["zh-TW"]["faq.a1"] = "參加者必須年滿18歲（需出示有效身份證明）。體重限制因地點而異，通常為40公斤至100公斤。如果您的體重接近上限，請提前與我們聯繫，部分場地可能可以作特別安排以容納較高體重的參加者。";
+
+translations["zh-TW"]["faq.q2"] = "雙人跳傘需要任何經驗嗎？";
+translations["zh-TW"]["faq.a2"] = "雙人跳傘完全不需要任何經驗！您將安全地連接在持證教練身上，由教練負責所有技術操作。我們會在每次跳傘前提供全面培訓，包括身體姿勢、緊急程序和著陸技巧。";
+
+translations["zh-TW"]["faq.q3"] = "有懼高症可以跳傘嗎？";
+translations["zh-TW"]["faq.a3"] = "可以！我們很多客人都有懼高症，但仍然成功完成跳傘。在高空（13,000英尺以上），高度感知與站在高樓上完全不同。當您身處如此高的位置時，沒有視覺參照物來觸發典型的恐懼反應。許多有恐高症的人會發現跳傘出乎意料地舒適。";
+
+translations["zh-TW"]["faq.q4"] = "跳傘時可以戴眼鏡或隱形眼鏡嗎？";
+translations["zh-TW"]["faq.a4"] = "可以，您可以佩戴眼鏡或隱形眼鏡。我們提供的護目鏡可以舒適地戴在普通眼鏡外面。對於佩戴隱形眼鏡的人，護目鏡也能防止鏡片在自由落體期間乾燥或移位。";
+
+translations["zh-TW"]["faq.q5"] = "雙人跳傘與A級執照課程有什麼分別？";
+translations["zh-TW"]["faq.a5"] = "雙人跳傘是一次性的體驗，您會與教練連接在一起。A級執照（AFF）課程是一個全面的培訓計劃（通常需要25次跳傘），教您如何獨立跳傘。完成課程並通過考試後，您將獲得國際認可的執照，可以在全球各地的跳傘場獨立跳傘。";
+
+translations["zh-TW"]["faq.q6"] = "整個跳傘體驗需要多長時間？";
+translations["zh-TW"]["faq.a6"] = "請預留大約3-4小時。這包括登記、培訓（約30分鐘）、穿戴裝備、飛到指定高度（15-20分鐘）、跳傘本身（約1分鐘自由落體 + 5-7分鐘傘下飛行），以及著陸後慶祝。實際時間可能因天氣和跳傘人數而異。";
+
+translations["zh-TW"]["faq.q7"] = "跳傘安全嗎？";
+translations["zh-TW"]["faq.a7"] = "在正確的培訓和設備下，跳傘在統計上是最安全的極限運動之一。我們所有教練都獲得國際組織（USPA/APF）認證，擁有數千次跳傘經驗。設備包括多重備份系統，包括自動開傘裝置。我們在所有場地保持零事故的安全紀錄。";
+
+translations["zh-TW"]["faq.q8"] = "跳傘應該穿什麼？";
+translations["zh-TW"]["faq.a8"] = "穿著舒適、適合天氣且方便活動的衣服。運動服、T恤和長褲都很合適。必須穿著包腳趾的運動鞋（不可穿涼鞋、高跟鞋或鬆脫的鞋子）。避免佩戴容易纏繞的鬆散珠寶、圍巾等物品。我們會提供跳傘服、安全帶、護目鏡及所有必要裝備。";
+
+translations["zh-TW"]["faq.q9"] = "如果預定跳傘當天天氣不好怎麼辦？";
+translations["zh-TW"]["faq.a9"] = "安全是我們的首要考慮。如果天氣條件不適合（強風、下雨、能見度低、雷暴），我們將免費為您重新安排跳傘日期。我們建議預訂時在行程中保留一些彈性，以應對可能的天氣延誤。";
+
+translations["zh-TW"]["faq.q10"] = "學習A級執照課程前應該先去風洞訓練嗎？";
+translations["zh-TW"]["faq.a10"] = "風洞訓練是可選的，但確實有幫助。在風洞中訓練一小時，相當於約60-80次跳傘的自由落體練習。有些學員喜歡事先訓練以提高效率，有些則直接去跳傘場，等遇到困難時再去風洞練習。我們可以根據您的學習風格提供建議。";
+
 // Helper function to convert markdown-style bold (**text** or *text*) to HTML
 const formatBoldText = (text: string): string => {
   return text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>");
