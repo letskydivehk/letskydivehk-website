@@ -48,6 +48,7 @@ export function useAllLocationServices() {
 
       if (error) throw error
       return data as LocationService[]
-    }
+    },
+    staleTime: 1000 * 60 * 10, // 10 minutes - services rarely change
   })
 }

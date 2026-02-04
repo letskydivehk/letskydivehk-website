@@ -16,7 +16,8 @@ export function useLocations() {
 
       if (error) throw error
       return data as Location[]
-    }
+    },
+    staleTime: 1000 * 60 * 10, // 10 minutes - locations rarely change
   })
 }
 

@@ -168,8 +168,9 @@ interface LocationCardProps {
 function LocationCard({ location, translatedLocation, onBookClick, t }: LocationCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, scale: 0.95 }}
-      animate={{ opacity: 1, scale: 1 }}
+      initial={{ opacity: 0 }}
+      whileInView={{ opacity: 1 }}
+      viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.3 }}
       className={`relative bg-card rounded-2xl overflow-hidden clean-border group hover:elevated-shadow transition-all duration-300 mobile-transparent-card ${
         location.coming_soon ? 'opacity-75' : ''
@@ -180,6 +181,8 @@ function LocationCard({ location, translatedLocation, onBookClick, t }: Location
         <img
           src={location.image_url || '/placeholder.svg'}
           alt={translatedLocation.Name}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
