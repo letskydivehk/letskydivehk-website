@@ -13,7 +13,16 @@ import Terms from './pages/Terms';
 import Disclaimer from './pages/Disclaimer';
 import NotFound from './pages/NotFound';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 1000 * 60 * 5, // 5 minutes - data stays fresh
+      gcTime: 1000 * 60 * 30, // 30 minutes - cache retention
+      refetchOnWindowFocus: false, // Don't refetch on tab focus
+      retry: 1, // Only retry once on failure
+    },
+  },
+});
 
 export default function App() {
   return (
