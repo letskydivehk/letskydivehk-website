@@ -307,6 +307,7 @@ const translations: Record<Language, Record<string, string>> = {
     "gallery.uploadSuccess": "Media uploaded successfully!",
     "gallery.uploadError": "Failed to upload media",
     "nav.gallery": "Gallery",
+    "nav.faq": "FAQ",
 
     // Legal Pages
     "legal.backToHome": "Back to Home",
@@ -786,6 +787,7 @@ const translations: Record<Language, Record<string, string>> = {
     "gallery.uploadSuccess": "媒體上傳成功！",
     "gallery.uploadError": "上傳媒體失敗",
     "nav.gallery": "相片集",
+    "nav.faq": "常見問題",
 
     // Legal Pages
     "legal.backToHome": "返回首頁",
