@@ -92,12 +92,16 @@ const handler = async (req: Request): Promise<Response> => {
             </table>
           </div>
 
-          ${data.specialRequests ? `
+          ${
+            data.specialRequests
+              ? `
           <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h2 style="color: #16213e; margin-top: 0;">Special Requests</h2>
             <p style="margin: 0;">${data.specialRequests}</p>
           </div>
-          ` : ""}
+          `
+              : ""
+          }
 
           <p style="color: #666; font-size: 12px; margin-top: 30px;">
             This is an automated notification from Let's Skydive HK booking system.
@@ -138,7 +142,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send email to letskydivehk.com
     const emailResponse = await resend.emails.send({
       from: "Let's Skydive HK <noreply@letskydivehk.com>",
-      to: ["info@letskydivehk.com"],
+      to: ["letskydivehk@gmail.com"],
       subject: subject,
       html: htmlContent,
     });
@@ -155,13 +159,10 @@ const handler = async (req: Request): Promise<Response> => {
   } catch (error: unknown) {
     console.error("Error in send-notification function:", error);
     const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    return new Response(
-      JSON.stringify({ success: false, error: errorMessage }),
-      {
-        status: 500,
-        headers: { "Content-Type": "application/json", ...corsHeaders },
-      }
-    );
+    return new Response(JSON.stringify({ success: false, error: errorMessage }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders },
+    });
   }
 };
 
