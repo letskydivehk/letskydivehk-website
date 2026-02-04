@@ -289,6 +289,29 @@ export function BookingSection() {
         setBookingAccessToken(data.access_token);
       }
 
+      // Send notification email (fire and forget - don't block success)
+      try {
+        await supabase.functions.invoke('send-notification', {
+          body: {
+            type: 'booking',
+            data: {
+              firstName: validationResult.data.firstName,
+              lastName: validationResult.data.lastName,
+              email: validationResult.data.email,
+              phone: validationResult.data.phone,
+              locationName: selectedLocation?.Name || 'Unknown Location',
+              serviceName: selectedService?.service_name || 'Unknown Service',
+              preferredDate: validationResult.data.date,
+              participants: validationResult.data.participants,
+              specialRequests: validationResult.data.notes || undefined,
+            }
+          }
+        });
+      } catch (notifyError) {
+        // Log but don't fail the booking if notification fails
+        console.error('Failed to send notification email:', notifyError);
+      }
+
       setIsComplete(true);
       toast.success(t("booking.submitSuccess"));
     } catch (error) {
