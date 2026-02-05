@@ -78,12 +78,13 @@ export default {
   				DEFAULT: 'var(--muted)',
   				foreground: 'var(--muted-foreground)'
   			},
-  			accent: {
-  				DEFAULT: 'var(--accent)',
-  				foreground: 'var(--accent-foreground)',
-  				blue: 'var(--accent-blue)',
-  				orange: 'var(--accent-orange)'
-  			},
+			accent: {
+				DEFAULT: 'var(--accent)',
+				foreground: 'var(--accent-foreground)',
+				blue: 'var(--accent-blue)',
+				orange: 'var(--accent-orange)',
+				emerald: 'var(--accent-emerald)'
+			},
   			popover: {
   				DEFAULT: 'var(--popover)',
   				foreground: 'var(--popover-foreground)'
