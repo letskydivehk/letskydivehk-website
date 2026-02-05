@@ -1,5 +1,6 @@
-import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
-import { Resend } from "https://esm.sh/resend@2.0.0";
+ import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
+ import { Resend } from "https://esm.sh/resend@2.0.0";
+ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const resend = new Resend(Deno.env.get("RESEND_API_KEY"));
 
@@ -28,6 +29,25 @@ interface NotificationRequest {
   };
 }
 
+ // Simple input sanitization to prevent XSS in email content
+ function sanitizeInput(input: string | undefined | null): string {
+   if (!input) return "";
+   return String(input)
+     .replace(/&/g, "&amp;")
+     .replace(/</g, "&lt;")
+     .replace(/>/g, "&gt;")
+     .replace(/"/g, "&quot;")
+     .replace(/'/g, "&#039;")
+     .slice(0, 500); // Limit length
+ }
+ 
+ // Validate email format
+ function isValidEmail(email: string | undefined): boolean {
+   if (!email) return false;
+   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+   return emailRegex.test(email) && email.length <= 255;
+ }
+ 
 const handler = async (req: Request): Promise<Response> => {
   // Handle CORS preflight requests
   if (req.method === "OPTIONS") {
@@ -35,17 +55,101 @@ const handler = async (req: Request): Promise<Response> => {
   }
 
   try {
+     // Only allow POST requests
+     if (req.method !== "POST") {
+       return new Response(
+         JSON.stringify({ success: false, error: "Method not allowed" }),
+         { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders } }
+       );
+     }
+ 
     const { type, data }: NotificationRequest = await req.json();
 
     if (!type || !data) {
-      throw new Error("Missing required fields: type and data");
+       return new Response(
+         JSON.stringify({ success: false, error: "Invalid request" }),
+         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+       );
+     }
+ 
+     // Validate notification type
+     if (type !== "booking" && type !== "registration") {
+       return new Response(
+         JSON.stringify({ success: false, error: "Invalid notification type" }),
+         { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+       );
+     }
+ 
+     // For registration notifications, require authentication
+     if (type === "registration") {
+       const authHeader = req.headers.get("authorization");
+       if (!authHeader || !authHeader.startsWith("Bearer ")) {
+         return new Response(
+           JSON.stringify({ success: false, error: "Unauthorized" }),
+           { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
+         );
+       }
+ 
+       // Verify the JWT token
+       const supabaseClient = createClient(
+         Deno.env.get("SUPABASE_URL") ?? "",
+         Deno.env.get("SUPABASE_ANON_KEY") ?? "",
+         { global: { headers: { Authorization: authHeader } } }
+       );
+ 
+       const token = authHeader.replace("Bearer ", "");
+       const { data: claimsData, error: claimsError } = await supabaseClient.auth.getClaims(token);
+       
+       if (claimsError || !claimsData?.claims) {
+         console.error("Auth error:", claimsError);
+         return new Response(
+           JSON.stringify({ success: false, error: "Invalid token" }),
+           { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
+         );
+       }
+ 
+       // Verify email from token matches request
+       const tokenEmail = claimsData.claims.email;
+       if (tokenEmail !== data.registrationEmail) {
+         return new Response(
+           JSON.stringify({ success: false, error: "Email mismatch" }),
+           { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
+         );
+       }
+     }
+ 
+     // For booking notifications, validate required fields
+     if (type === "booking") {
+       if (!data.email || !isValidEmail(data.email)) {
+         return new Response(
+           JSON.stringify({ success: false, error: "Invalid email" }),
+           { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+         );
+       }
+       if (!data.firstName || !data.lastName) {
+         return new Response(
+           JSON.stringify({ success: false, error: "Missing required booking fields" }),
+           { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
+         );
+       }
     }
 
     let subject: string;
     let htmlContent: string;
 
     if (type === "booking") {
-      subject = `🪂 New Booking Request - ${data.firstName} ${data.lastName}`;
+       // Sanitize all user inputs
+       const firstName = sanitizeInput(data.firstName);
+       const lastName = sanitizeInput(data.lastName);
+       const email = sanitizeInput(data.email);
+       const phone = sanitizeInput(data.phone);
+       const locationName = sanitizeInput(data.locationName);
+       const serviceName = sanitizeInput(data.serviceName);
+       const preferredDate = sanitizeInput(data.preferredDate);
+       const participants = Math.min(Math.max(1, data.participants || 1), 100);
+       const specialRequests = sanitizeInput(data.specialRequests);
+ 
+       subject = `🪂 New Booking Request - ${firstName} ${lastName}`;
       htmlContent = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #1a1a2e; border-bottom: 2px solid #16213e; padding-bottom: 10px;">
@@ -57,15 +161,15 @@ const handler = async (req: Request): Promise<Response> => {
             <table style="width: 100%; border-collapse: collapse;">
               <tr>
                 <td style="padding: 8px 0; font-weight: bold; width: 40%;">Name:</td>
-                <td style="padding: 8px 0;">${data.firstName} ${data.lastName}</td>
+                 <td style="padding: 8px 0;">${firstName} ${lastName}</td>
               </tr>
               <tr>
                 <td style="padding: 8px 0; font-weight: bold;">Email:</td>
-                <td style="padding: 8px 0;"><a href="mailto:${data.email}">${data.email}</a></td>
+                 <td style="padding: 8px 0;"><a href="mailto:${email}">${email}</a></td>
               </tr>
               <tr>
                 <td style="padding: 8px 0; font-weight: bold;">Phone:</td>
-                <td style="padding: 8px 0;"><a href="tel:${data.phone}">${data.phone}</a></td>
+                 <td style="padding: 8px 0;"><a href="tel:${phone}">${phone}</a></td>
               </tr>
             </table>
           </div>
@@ -75,29 +179,29 @@ const handler = async (req: Request): Promise<Response> => {
             <table style="width: 100%; border-collapse: collapse;">
               <tr>
                 <td style="padding: 8px 0; font-weight: bold; width: 40%;">Location:</td>
-                <td style="padding: 8px 0;">${data.locationName || "N/A"}</td>
+                 <td style="padding: 8px 0;">${locationName || "N/A"}</td>
               </tr>
               <tr>
                 <td style="padding: 8px 0; font-weight: bold;">Service:</td>
-                <td style="padding: 8px 0;">${data.serviceName || "N/A"}</td>
+                 <td style="padding: 8px 0;">${serviceName || "N/A"}</td>
               </tr>
               <tr>
                 <td style="padding: 8px 0; font-weight: bold;">Preferred Date:</td>
-                <td style="padding: 8px 0;">${data.preferredDate || "N/A"}</td>
+                 <td style="padding: 8px 0;">${preferredDate || "N/A"}</td>
               </tr>
               <tr>
                 <td style="padding: 8px 0; font-weight: bold;">Participants:</td>
-                <td style="padding: 8px 0;">${data.participants || 1}</td>
+                 <td style="padding: 8px 0;">${participants}</td>
               </tr>
             </table>
           </div>
 
           ${
-            data.specialRequests
+             specialRequests
               ? `
           <div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0;">
             <h2 style="color: #16213e; margin-top: 0;">Special Requests</h2>
-            <p style="margin: 0;">${data.specialRequests}</p>
+             <p style="margin: 0;">${specialRequests}</p>
           </div>
           `
               : ""
@@ -108,8 +212,12 @@ const handler = async (req: Request): Promise<Response> => {
           </p>
         </div>
       `;
-    } else if (type === "registration") {
-      subject = `👤 New Member Registration - ${data.fullName || data.registrationEmail}`;
+     } else {
+       // type === "registration" (validated earlier)
+       const fullName = sanitizeInput(data.fullName);
+       const registrationEmail = sanitizeInput(data.registrationEmail);
+ 
+       subject = `👤 New Member Registration - ${fullName || registrationEmail}`;
       htmlContent = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
           <h1 style="color: #1a1a2e; border-bottom: 2px solid #16213e; padding-bottom: 10px;">
@@ -121,11 +229,11 @@ const handler = async (req: Request): Promise<Response> => {
             <table style="width: 100%; border-collapse: collapse;">
               <tr>
                 <td style="padding: 8px 0; font-weight: bold; width: 40%;">Name:</td>
-                <td style="padding: 8px 0;">${data.fullName || "Not provided"}</td>
+                 <td style="padding: 8px 0;">${fullName || "Not provided"}</td>
               </tr>
               <tr>
                 <td style="padding: 8px 0; font-weight: bold;">Email:</td>
-                <td style="padding: 8px 0;"><a href="mailto:${data.registrationEmail}">${data.registrationEmail}</a></td>
+                 <td style="padding: 8px 0;"><a href="mailto:${registrationEmail}">${registrationEmail}</a></td>
               </tr>
             </table>
           </div>
@@ -135,8 +243,6 @@ const handler = async (req: Request): Promise<Response> => {
           </p>
         </div>
       `;
-    } else {
-      throw new Error("Invalid notification type");
     }
 
     // Send email to letskydivehk.com
@@ -158,8 +264,8 @@ const handler = async (req: Request): Promise<Response> => {
     });
   } catch (error: unknown) {
     console.error("Error in send-notification function:", error);
-    const errorMessage = error instanceof Error ? error.message : "Unknown error";
-    return new Response(JSON.stringify({ success: false, error: errorMessage }), {
+     // Return generic error message, log details server-side
+     return new Response(JSON.stringify({ success: false, error: "Failed to send notification" }), {
       status: 500,
       headers: { "Content-Type": "application/json", ...corsHeaders },
     });
