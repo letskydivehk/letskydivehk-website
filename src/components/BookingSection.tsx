@@ -919,7 +919,8 @@ export function BookingSection() {
             {/* Navigation Buttons - Always visible at bottom */}
             <div className="flex items-center justify-between p-6 lg:p-8 border-t border-border bg-card rounded-b-3xl">
               {currentStep !== "location" ? (
-                <button
+              <button
+                  type="button"
                   onClick={handleBack}
                   className="flex items-center gap-2 px-4 py-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
                 >
@@ -931,7 +932,8 @@ export function BookingSection() {
               )}
 
               {currentStep !== "confirm" ? (
-                <button
+              <button
+                  type="button"
                   onClick={handleNext}
                   disabled={!canProceed()}
                   className={`flex items-center gap-2 px-6 py-3 rounded-lg font-semibold transition-all cursor-pointer ${
@@ -944,8 +946,13 @@ export function BookingSection() {
                   <ArrowRight className="w-4 h-4" />
                 </button>
               ) : (
-                <button
-                  onClick={handleSubmit}
+              <button
+                  type="button"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    handleSubmit();
+                  }}
                   disabled={isSubmitting}
                   className="flex items-center gap-2 px-8 py-3 rounded-lg font-semibold bg-accent-emerald text-white hover:bg-accent-emerald/90 shadow-md transition-all cursor-pointer disabled:opacity-50"
                 >
