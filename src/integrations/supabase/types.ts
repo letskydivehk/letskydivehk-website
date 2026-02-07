@@ -29,6 +29,7 @@ export type Database = {
           service_id: string
           special_requests: string | null
           status: string
+          token_expires_at: string | null
           updated_at: string
           user_id: string | null
         }
@@ -46,6 +47,7 @@ export type Database = {
           service_id: string
           special_requests?: string | null
           status?: string
+          token_expires_at?: string | null
           updated_at?: string
           user_id?: string | null
         }
@@ -63,6 +65,7 @@ export type Database = {
           service_id?: string
           special_requests?: string | null
           status?: string
+          token_expires_at?: string | null
           updated_at?: string
           user_id?: string | null
         }
