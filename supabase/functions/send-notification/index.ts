@@ -245,17 +245,100 @@ const handler = async (req: Request): Promise<Response> => {
       `;
     }
 
-    // Send email to letskydivehk.com
-    const emailResponse = await resend.emails.send({
+    // Send notification email to admin
+    const adminEmailResponse = await resend.emails.send({
       from: "Let's Skydive HK <noreply@letskydivehk.com>",
       to: ["letskydivehk@gmail.com"],
       subject: subject,
       html: htmlContent,
     });
 
-    console.log("Notification email sent successfully:", emailResponse);
+    console.log("Admin notification email sent successfully:", adminEmailResponse);
 
-    return new Response(JSON.stringify({ success: true, data: emailResponse }), {
+    // Send confirmation email to customer (only for bookings)
+    let customerEmailResponse = null;
+    if (type === "booking" && data.email && isValidEmail(data.email)) {
+      const customerSubject = `🪂 Booking Confirmation - Let's Skydive HK`;
+      const customerHtmlContent = `
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
+          <div style="background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%); padding: 30px; text-align: center;">
+            <h1 style="color: #ffffff; margin: 0; font-size: 28px;">🪂 Booking Confirmed!</h1>
+            <p style="color: #a0a0a0; margin-top: 10px;">Thank you for choosing Let's Skydive HK</p>
+          </div>
+          
+          <div style="padding: 30px;">
+            <p style="font-size: 16px; color: #333;">Hi ${sanitizeInput(data.firstName)},</p>
+            <p style="font-size: 16px; color: #333; line-height: 1.6;">
+              We've received your booking request and our team will be in touch shortly to confirm your adventure!
+            </p>
+
+            <div style="background: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
+              <h2 style="color: #16213e; margin-top: 0; font-size: 18px;">📋 Booking Details</h2>
+              <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                  <td style="padding: 8px 0; font-weight: bold; color: #666; width: 40%;">Location:</td>
+                  <td style="padding: 8px 0; color: #333;">${sanitizeInput(data.locationName) || "N/A"}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; font-weight: bold; color: #666;">Service:</td>
+                  <td style="padding: 8px 0; color: #333;">${sanitizeInput(data.serviceName) || "N/A"}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; font-weight: bold; color: #666;">Preferred Date:</td>
+                  <td style="padding: 8px 0; color: #333;">${sanitizeInput(data.preferredDate) || "N/A"}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; font-weight: bold; color: #666;">Participants:</td>
+                  <td style="padding: 8px 0; color: #333;">${Math.min(Math.max(1, data.participants || 1), 100)}</td>
+                </tr>
+              </table>
+            </div>
+
+            <div style="background: #e8f5e9; padding: 20px; border-radius: 8px; margin: 20px 0; border-left: 4px solid #4caf50;">
+              <h3 style="color: #2e7d32; margin-top: 0; font-size: 16px;">📞 What's Next?</h3>
+              <p style="color: #333; margin-bottom: 0; line-height: 1.6;">
+                Our team will contact you within 24-48 hours to confirm availability and finalize your booking. 
+                If you have any questions, feel free to reply to this email or contact us directly.
+              </p>
+            </div>
+
+            <p style="font-size: 14px; color: #666; margin-top: 30px;">
+              Get ready for the adventure of a lifetime! 🎉
+            </p>
+            <p style="font-size: 14px; color: #333;">
+              Best regards,<br/>
+              <strong>The Let's Skydive HK Team</strong>
+            </p>
+          </div>
+
+          <div style="background: #f5f5f5; padding: 20px; text-align: center; border-top: 1px solid #e0e0e0;">
+            <p style="color: #666; font-size: 12px; margin: 0;">
+              © ${new Date().getFullYear()} Let's Skydive HK. All rights reserved.
+            </p>
+            <p style="color: #999; font-size: 11px; margin-top: 10px;">
+              This is an automated confirmation email. Please do not reply directly to this email.
+            </p>
+          </div>
+        </div>
+      `;
+
+      customerEmailResponse = await resend.emails.send({
+        from: "Let's Skydive HK <noreply@letskydivehk.com>",
+        to: [data.email],
+        subject: customerSubject,
+        html: customerHtmlContent,
+      });
+
+      console.log("Customer confirmation email sent successfully:", customerEmailResponse);
+    }
+
+    return new Response(JSON.stringify({ 
+      success: true, 
+      data: { 
+        admin: adminEmailResponse, 
+        customer: customerEmailResponse 
+      } 
+    }), {
       status: 200,
       headers: {
         "Content-Type": "application/json",
