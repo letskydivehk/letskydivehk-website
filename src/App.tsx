@@ -4,6 +4,7 @@ import { AuthProvider } from './contexts/AuthContext';
 import { BookingProvider } from './contexts/BookingContext';
 import { LanguageProvider } from './contexts/LanguageContext';
 import { Toaster } from './components/ui/sonner';
+import { WhatsAppButton } from './components/WhatsAppButton';
 import Home from './pages/Home';
 import MemberProfile from './pages/MemberProfile';
 import Gallery from './pages/Gallery';
@@ -43,6 +44,7 @@ export default function App() {
               </Routes>
             </BrowserRouter>
             <Toaster />
+            <WhatsAppButton />
           </BookingProvider>
         </AuthProvider>
       </LanguageProvider>
