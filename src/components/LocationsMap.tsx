@@ -53,8 +53,8 @@ export function LocationsMap() {
     return {
       ...location,
       Name: translateData(`location.${location.slug}`, location.Name),
-      description: translateData(`location.${location.slug}.desc`, location.description || ''),
-      City: translateData(`city.${location.City}`, location.City || ''),
+      description: translateData(`location.${location.slug}.desc`, location.description || ""),
+      City: translateData(`city.${location.City}`, location.City || ""),
       country: translateData(`country.${location.country}`, location.country),
     };
   };
@@ -64,8 +64,8 @@ export function LocationsMap() {
   return (
     <div className="mt-16 max-w-5xl mx-auto">
       <div className="text-center mb-8">
-        <h3 className="text-2xl font-bold text-foreground mb-2">{t('locations.map.title')}</h3>
-        <p className="text-muted-foreground">{t('locations.map.subtitle')}</p>
+        <h3 className="text-2xl font-bold text-foreground mb-2">{t("locations.map.title")}</h3>
+        <p className="text-muted-foreground">{t("locations.map.subtitle")}</p>
       </div>
 
       <div className="bg-card rounded-2xl clean-border overflow-hidden elevated-shadow mobile-transparent-card">
@@ -74,11 +74,10 @@ export function LocationsMap() {
           {/* Thailand Row */}
           <div className="flex flex-wrap items-center gap-2">
             <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground min-w-fit">
-              <span className="text-lg">🇹🇭</span>
-              <span>{t('locations.thailand')}</span>
+              <span>{t("locations.thailand")}</span>
             </div>
             {mappedLocations
-              .filter((loc) => loc.country === 'Thailand')
+              .filter((loc) => loc.country === "Thailand")
               .map((location) => (
                 <button
                   key={location.id}
@@ -90,7 +89,7 @@ export function LocationsMap() {
                   }`}
                 >
                   <MapPin className="w-4 h-4" />
-                  {translateData(`city.${location.City}`, location.City || '')}
+                  {translateData(`city.${location.City}`, location.City || "")}
                 </button>
               ))}
           </div>
@@ -98,11 +97,10 @@ export function LocationsMap() {
           {/* China Row */}
           <div className="flex flex-wrap items-center gap-2">
             <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground min-w-fit">
-              <span className="text-lg">🇨🇳</span>
-              <span>{t('locations.china')}</span>
+              <span>{t("locations.china")}</span>
             </div>
             {mappedLocations
-              .filter((loc) => loc.country === 'China')
+              .filter((loc) => loc.country === "China")
               .map((location) => (
                 <button
                   key={location.id}
@@ -114,7 +112,7 @@ export function LocationsMap() {
                   }`}
                 >
                   <MapPin className="w-4 h-4" />
-                  {translateData(`city.${location.City}`, location.City || '')}
+                  {translateData(`city.${location.City}`, location.City || "")}
                 </button>
               ))}
           </div>
@@ -162,28 +160,28 @@ export function LocationsMap() {
                 className="inline-flex items-center gap-2 px-4 py-2 bg-accent-orange text-white rounded-lg font-medium hover:bg-accent-orange/90 transition-colors"
               >
                 <ExternalLink className="w-4 h-4" />
-                {t('locations.map.openGoogleMaps')}
+                {t("locations.map.openGoogleMaps")}
               </a>
             </div>
 
             {/* Features */}
             <div className="flex flex-wrap gap-2 mt-4">
               <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-orange/10 text-accent-orange px-3 py-1 rounded-full">
-                {t('locations.tandem')}
+                {t("locations.tandem")}
               </span>
               {activeLocation.has_aff && (
                 <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-blue/10 text-accent-blue px-3 py-1 rounded-full">
-                  {t('locations.aff')}
+                  {t("locations.aff")}
                 </span>
               )}
               {activeLocation.has_group_events && (
                 <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-blue/10 text-accent-blue px-3 py-1 rounded-full">
-                  {t('locations.groups')}
+                  {t("locations.groups")}
                 </span>
               )}
               {activeLocation.coming_soon && (
                 <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-blue text-white px-3 py-1 rounded-full">
-                  {t('common.comingSoon')}
+                  {t("common.comingSoon")}
                 </span>
               )}
             </div>
