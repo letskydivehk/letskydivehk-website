@@ -69,22 +69,55 @@ export function LocationsMap() {
       </div>
 
       <div className="bg-card rounded-2xl clean-border overflow-hidden elevated-shadow mobile-transparent-card">
-        {/* Location Selector */}
-        <div className="flex flex-wrap gap-2 p-4 border-b border-border bg-muted/30">
-          {mappedLocations.map((location) => (
-            <button
-              key={location.id}
-              onClick={() => setSelectedLocation(location.id)}
-              className={`px-4 py-2 rounded-lg font-medium text-sm transition-all cursor-pointer flex items-center gap-2 ${
-                selectedLocation === location.id || (!selectedLocation && location.id === mappedLocations[0].id)
-                  ? "bg-accent-orange text-white"
-                  : "bg-card text-muted-foreground hover:text-foreground hover:bg-muted"
-              }`}
-            >
-              <MapPin className="w-4 h-4" />
-              {translateData(`city.${location.City}`, location.City || '')}
-            </button>
-          ))}
+        {/* Location Selector - Grouped by Country */}
+        <div className="p-4 border-b border-border bg-muted/30 space-y-3">
+          {/* Thailand Row */}
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground min-w-fit">
+              <span className="text-lg">🇹🇭</span>
+              <span>{t('locations.thailand')}</span>
+            </div>
+            {mappedLocations
+              .filter((loc) => loc.country === 'Thailand')
+              .map((location) => (
+                <button
+                  key={location.id}
+                  onClick={() => setSelectedLocation(location.id)}
+                  className={`px-4 py-2 rounded-lg font-medium text-sm transition-all cursor-pointer flex items-center gap-2 ${
+                    selectedLocation === location.id || (!selectedLocation && location.id === mappedLocations[0].id)
+                      ? "bg-accent-orange text-white"
+                      : "bg-card text-muted-foreground hover:text-foreground hover:bg-muted"
+                  }`}
+                >
+                  <MapPin className="w-4 h-4" />
+                  {translateData(`city.${location.City}`, location.City || '')}
+                </button>
+              ))}
+          </div>
+
+          {/* China Row */}
+          <div className="flex flex-wrap items-center gap-2">
+            <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground min-w-fit">
+              <span className="text-lg">🇨🇳</span>
+              <span>{t('locations.china')}</span>
+            </div>
+            {mappedLocations
+              .filter((loc) => loc.country === 'China')
+              .map((location) => (
+                <button
+                  key={location.id}
+                  onClick={() => setSelectedLocation(location.id)}
+                  className={`px-4 py-2 rounded-lg font-medium text-sm transition-all cursor-pointer flex items-center gap-2 ${
+                    selectedLocation === location.id
+                      ? "bg-accent-orange text-white"
+                      : "bg-card text-muted-foreground hover:text-foreground hover:bg-muted"
+                  }`}
+                >
+                  <MapPin className="w-4 h-4" />
+                  {translateData(`city.${location.City}`, location.City || '')}
+                </button>
+              ))}
+          </div>
         </div>
 
         {/* Map Display */}
