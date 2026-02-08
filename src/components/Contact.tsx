@@ -50,7 +50,7 @@ export function Contact() {
   };
 
   const handleFacebookClick = () => {
-    window.open("https://www.facebook.com/lets.skydive.hk/", "_blank", "noopener,noreferrer");
+    window.open("https://www.facebook.com/profile.php?id=61580183024425", "_blank", "noopener,noreferrer");
   };
 
   const handleYouTubeClick = () => {
