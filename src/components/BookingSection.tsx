@@ -327,15 +327,29 @@ export function BookingSection() {
   tomorrow.setDate(tomorrow.getDate() + 1);
   const minDate = tomorrow.toISOString().split("T")[0];
 
+  // Auto-scroll to booking section when complete
+  useEffect(() => {
+    if (isComplete) {
+      // Small delay to ensure render is complete
+      const timer = setTimeout(() => {
+        const bookingSection = document.getElementById('booking');
+        if (bookingSection) {
+          bookingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [isComplete]);
+
   if (isComplete) {
     return (
       <section id="booking" className="relative py-24 bg-background overflow-hidden">
         <SectionDecorations />
-        <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10 flex items-center justify-center min-h-[60vh]">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="max-w-2xl mx-auto text-center"
+            className="max-w-2xl mx-auto text-center w-full"
           >
             <div className="bg-card rounded-3xl p-12 clean-border elevated-shadow mobile-transparent-card">
               <div className="w-20 h-20 bg-accent-emerald rounded-full flex items-center justify-center mx-auto mb-6">
