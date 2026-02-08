@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Send, MessageSquare, Clock, Instagram, Phone } from "lucide-react";
+import { Mail, Send, Clock, Instagram, Phone } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 
 interface ContactFormData {
   name: string;
@@ -28,10 +30,30 @@ export function Contact() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
-    // Simulate API call - will be replaced with Firebase
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setIsSubmitting(false);
-    setIsComplete(true);
+    
+    try {
+      const { data, error } = await supabase.functions.invoke('send-contact-email', {
+        body: formData
+      });
+      
+      if (error) {
+        console.error('Error sending message:', error);
+        toast.error(t('contact.form.error') || 'Failed to send message. Please try again.');
+        return;
+      }
+      
+      if (data?.success) {
+        setIsComplete(true);
+        toast.success(t('contact.form.success'));
+      } else {
+        toast.error(data?.error || 'Failed to send message. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error sending message:', error);
+      toast.error('Failed to send message. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleReset = () => {
