@@ -281,7 +281,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signOut = async () => {
     try {
-      setLoading(true);
+      // Don't set loading to true during sign out to prevent UI flash/lag
       const { error } = await supabase.auth.signOut();
 
       if (error) {
@@ -290,11 +290,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         throw error;
       }
 
+      // Clear user state immediately for smooth transition
+      setUser(null);
+      setSession(null);
+
       toast.success("Signed out successfully");
     } catch (error) {
       throw error;
-    } finally {
-      setLoading(false);
     }
   };
 
