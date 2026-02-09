@@ -2,6 +2,7 @@ import { Hero } from '@/components/Hero';
 import { Services } from '@/components/Services';
 import { Locations } from '@/components/Locations';
 import { BookingSection } from '@/components/BookingSection';
+import { Testimonials } from '@/components/Testimonials';
 import { About } from '@/components/About';
 import { FAQ } from '@/components/FAQ';
 import { Contact } from '@/components/Contact';
@@ -24,6 +25,9 @@ export default function Home() {
         </section>
         <section id="booking" aria-label="Booking section">
           <BookingSection />
+        </section>
+        <section id="testimonials" aria-label="Testimonials section">
+          <Testimonials />
         </section>
         <section id="about" aria-label="About section">
           <About />
