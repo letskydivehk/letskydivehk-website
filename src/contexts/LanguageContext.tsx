@@ -1136,6 +1136,86 @@ translations["zh-TW"]["faq.a9"] = "安全是我們的首要考慮。如果天氣
 translations["zh-TW"]["faq.q10"] = "學習A級執照課程前應該先去風洞訓練嗎？";
 translations["zh-TW"]["faq.a10"] = "風洞訓練是可選的，但確實有幫助。在風洞中訓練一小時，相當於約60-80次跳傘的自由落體練習。有些學員喜歡事先訓練以提高效率，有些則直接去跳傘場，等遇到困難時再去風洞練習。我們可以根據您的學習風格提供建議。";
 
+// Testimonials - English
+translations.en["testimonials.badge"] = "What Jumpers Say";
+translations.en["testimonials.title"] = "Happy Jumpers";
+translations.en["testimonials.subtitle"] = "Hear from adventurers who took the leap with us and lived to tell the tale.";
+translations.en["testimonials.review1.name"] = "Sarah L.";
+translations.en["testimonials.review1.location"] = "Hong Kong";
+translations.en["testimonials.review1.quote"] = "Absolutely incredible experience! The instructors were professional and made me feel safe the entire time. The views over Pattaya were breathtaking. Already planning my next jump!";
+translations.en["testimonials.review1.service"] = "Tandem";
+translations.en["testimonials.review2.name"] = "David C.";
+translations.en["testimonials.review2.location"] = "Hong Kong";
+translations.en["testimonials.review2.quote"] = "Completed my A-Licence with Let's Skydive and it was the best decision ever. The training was thorough and the instructors genuinely cared about my progress. Now I'm a licensed skydiver!";
+translations.en["testimonials.review2.service"] = "A-Licence";
+translations.en["testimonials.review3.name"] = "Jessica W.";
+translations.en["testimonials.review3.location"] = "Singapore";
+translations.en["testimonials.review3.quote"] = "We booked a group event for my husband's birthday — 8 of us jumped together! The coordination was flawless and the photos & videos were amazing. Truly unforgettable.";
+translations.en["testimonials.review3.service"] = "Group Event";
+translations.en["testimonials.review4.name"] = "Tom H.";
+translations.en["testimonials.review4.location"] = "UK";
+translations.en["testimonials.review4.quote"] = "I was terrified of heights but the team was so encouraging. The 60 seconds of freefall changed my life — pure freedom! Highly recommend for anyone on the fence.";
+translations.en["testimonials.review4.service"] = "Tandem";
+translations.en["testimonials.review5.name"] = "Yuki T.";
+translations.en["testimonials.review5.location"] = "Japan";
+translations.en["testimonials.review5.quote"] = "Best organised skydiving experience in Asia. Everything from pickup to the jump itself was seamless. The canopy ride with ocean views was magical. Five stars!";
+translations.en["testimonials.review5.service"] = "Tandem";
+translations.en["testimonials.review6.name"] = "Mark R.";
+translations.en["testimonials.review6.location"] = "Australia";
+translations.en["testimonials.review6.quote"] = "As a licensed skydiver, I appreciate how seriously they take safety. Top-notch equipment, well-maintained aircraft, and the dropzones are stunning. Great fun jumps!";
+translations.en["testimonials.review6.service"] = "A-Licence";
+
+// Testimonials - Traditional Chinese
+translations["zh-TW"]["testimonials.badge"] = "跳傘者的話";
+translations["zh-TW"]["testimonials.title"] = "快樂的跳傘者";
+translations["zh-TW"]["testimonials.subtitle"] = "聽聽與我們一起挑戰的冒險者們怎麼說。";
+translations["zh-TW"]["testimonials.review1.name"] = "Sarah L.";
+translations["zh-TW"]["testimonials.review1.location"] = "香港";
+translations["zh-TW"]["testimonials.review1.quote"] = "超棒的體驗！教練非常專業，全程讓我感到安全。芭堤雅的景色令人嘆為觀止。已經在計劃下一次跳傘了！";
+translations["zh-TW"]["testimonials.review1.service"] = "雙人跳傘";
+translations["zh-TW"]["testimonials.review2.name"] = "David C.";
+translations["zh-TW"]["testimonials.review2.location"] = "香港";
+translations["zh-TW"]["testimonials.review2.quote"] = "在Let's Skydive完成了A級執照課程，這是我做過最好的決定。培訓非常全面，教練真心關心我的進步。現在我是持照跳傘員了！";
+translations["zh-TW"]["testimonials.review2.service"] = "A級執照";
+translations["zh-TW"]["testimonials.review3.name"] = "Jessica W.";
+translations["zh-TW"]["testimonials.review3.location"] = "新加坡";
+translations["zh-TW"]["testimonials.review3.quote"] = "我們為老公的生日預訂了團體活動——8個人一起跳！協調完美無瑕，照片和影片都很精彩。真正難忘的體驗。";
+translations["zh-TW"]["testimonials.review3.service"] = "團體活動";
+translations["zh-TW"]["testimonials.review4.name"] = "Tom H.";
+translations["zh-TW"]["testimonials.review4.location"] = "英國";
+translations["zh-TW"]["testimonials.review4.quote"] = "我本來很怕高，但團隊非常鼓勵人。60秒的自由落體改變了我的人生——純粹的自由！強烈推薦給猶豫不決的人。";
+translations["zh-TW"]["testimonials.review4.service"] = "雙人跳傘";
+translations["zh-TW"]["testimonials.review5.name"] = "Yuki T.";
+translations["zh-TW"]["testimonials.review5.location"] = "日本";
+translations["zh-TW"]["testimonials.review5.quote"] = "亞洲最好的跳傘體驗。從接送到跳傘本身都非常順暢。伴隨海景的傘下飛行非常夢幻。五星滿分！";
+translations["zh-TW"]["testimonials.review5.service"] = "雙人跳傘";
+translations["zh-TW"]["testimonials.review6.name"] = "Mark R.";
+translations["zh-TW"]["testimonials.review6.location"] = "澳洲";
+translations["zh-TW"]["testimonials.review6.quote"] = "作為持照跳傘員，我欣賞他們對安全的重視。一流的設備、維護良好的飛機，跳傘場景色優美。非常棒的跳傘體驗！";
+translations["zh-TW"]["testimonials.review6.service"] = "A級執照";
+
+// WhatsApp Widget - English
+translations.en["whatsapp.title"] = "Let's Skydive HK";
+translations.en["whatsapp.subtitle"] = "Typically replies within an hour";
+translations.en["whatsapp.greeting"] = "Hey there! 👋 How can we help you today? Choose a topic below or type your own message.";
+translations.en["whatsapp.quickOptions"] = "Quick questions:";
+translations.en["whatsapp.quick.tandem"] = "I'd like to book a tandem skydive!";
+translations.en["whatsapp.quick.aff"] = "Tell me about A-Licence courses";
+translations.en["whatsapp.quick.group"] = "I'm interested in group events";
+translations.en["whatsapp.quick.general"] = "I have a general question";
+translations.en["whatsapp.placeholder"] = "Type a message...";
+
+// WhatsApp Widget - Traditional Chinese
+translations["zh-TW"]["whatsapp.title"] = "Let's Skydive HK";
+translations["zh-TW"]["whatsapp.subtitle"] = "通常在一小時內回覆";
+translations["zh-TW"]["whatsapp.greeting"] = "你好！👋 有什麼可以幫到你？選擇以下話題或輸入你的訊息。";
+translations["zh-TW"]["whatsapp.quickOptions"] = "常見問題：";
+translations["zh-TW"]["whatsapp.quick.tandem"] = "我想預約雙人跳傘！";
+translations["zh-TW"]["whatsapp.quick.aff"] = "想了解A級執照課程";
+translations["zh-TW"]["whatsapp.quick.group"] = "我對團體活動有興趣";
+translations["zh-TW"]["whatsapp.quick.general"] = "我有一般問題想查詢";
+translations["zh-TW"]["whatsapp.placeholder"] = "輸入訊息...";
+
 // Helper function to convert markdown-style bold (**text** or *text*) to HTML
 const formatBoldText = (text: string): string => {
   return text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>");
