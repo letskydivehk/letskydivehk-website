@@ -51,77 +51,75 @@ const handler = async (req: Request): Promise<Response> => {
 
   try {
     if (req.method !== "POST") {
-      return new Response(
-        JSON.stringify({ success: false, error: "Method not allowed" }),
-        { status: 405, headers: { "Content-Type": "application/json", ...corsHeaders } }
-      );
+      return new Response(JSON.stringify({ success: false, error: "Method not allowed" }), {
+        status: 405,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
     }
 
     const { type, data }: NotificationRequest = await req.json();
 
     if (!type || !data) {
-      return new Response(
-        JSON.stringify({ success: false, error: "Invalid request" }),
-        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
-      );
+      return new Response(JSON.stringify({ success: false, error: "Invalid request" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
     }
 
     if (type !== "booking" && type !== "registration") {
-      return new Response(
-        JSON.stringify({ success: false, error: "Invalid notification type" }),
-        { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
-      );
+      return new Response(JSON.stringify({ success: false, error: "Invalid notification type" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      });
     }
 
     // For registration notifications, require authentication
     if (type === "registration") {
       const authHeader = req.headers.get("authorization");
       if (!authHeader || !authHeader.startsWith("Bearer ")) {
-        return new Response(
-          JSON.stringify({ success: false, error: "Unauthorized" }),
-          { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
-        );
+        return new Response(JSON.stringify({ success: false, error: "Unauthorized" }), {
+          status: 401,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
       }
 
-      const supabaseClient = createClient(
-        Deno.env.get("SUPABASE_URL") ?? "",
-        Deno.env.get("SUPABASE_ANON_KEY") ?? "",
-        { global: { headers: { Authorization: authHeader } } }
-      );
+      const supabaseClient = createClient(Deno.env.get("SUPABASE_URL") ?? "", Deno.env.get("SUPABASE_ANON_KEY") ?? "", {
+        global: { headers: { Authorization: authHeader } },
+      });
 
       const token = authHeader.replace("Bearer ", "");
       const { data: claimsData, error: claimsError } = await supabaseClient.auth.getClaims(token);
-      
+
       if (claimsError || !claimsData?.claims) {
         console.error("Auth error:", claimsError);
-        return new Response(
-          JSON.stringify({ success: false, error: "Invalid token" }),
-          { status: 401, headers: { "Content-Type": "application/json", ...corsHeaders } }
-        );
+        return new Response(JSON.stringify({ success: false, error: "Invalid token" }), {
+          status: 401,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
       }
 
       const tokenEmail = claimsData.claims.email;
       if (tokenEmail !== data.registrationEmail) {
-        return new Response(
-          JSON.stringify({ success: false, error: "Email mismatch" }),
-          { status: 403, headers: { "Content-Type": "application/json", ...corsHeaders } }
-        );
+        return new Response(JSON.stringify({ success: false, error: "Email mismatch" }), {
+          status: 403,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
       }
     }
 
     // For booking notifications, validate required fields
     if (type === "booking") {
       if (!data.email || !isValidEmail(data.email)) {
-        return new Response(
-          JSON.stringify({ success: false, error: "Invalid email" }),
-          { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
-        );
+        return new Response(JSON.stringify({ success: false, error: "Invalid email" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
       }
       if (!data.firstName || !data.lastName) {
-        return new Response(
-          JSON.stringify({ success: false, error: "Missing required booking fields" }),
-          { status: 400, headers: { "Content-Type": "application/json", ...corsHeaders } }
-        );
+        return new Response(JSON.stringify({ success: false, error: "Missing required booking fields" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
       }
     }
 
@@ -200,7 +198,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send confirmation email to customer
     let customerEmailResponse = null;
-    
+
     if (type === "booking" && data.email && isValidEmail(data.email)) {
       const customerHtmlContent = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
@@ -288,7 +286,7 @@ const handler = async (req: Request): Promise<Response> => {
           <div style="background: #f5f5f5; padding: 20px; text-align: center; border-top: 1px solid #e0e0e0;">
             <p style="color: #666; font-size: 12px; margin: 0;">© ${new Date().getFullYear()} Let's Skydive HK. All rights reserved.</p>
             <p style="color: #999; font-size: 11px; margin-top: 8px;">
-              Follow us on <a href="https://www.instagram.com/letsskydivehk/" style="color: #2563eb;">Instagram</a>
+              Follow us on <a href="https://www.instagram.com/lets_skydive_hk/" style="color: #2563eb;">Instagram</a>
             </p>
           </div>
         </div>
@@ -303,13 +301,16 @@ const handler = async (req: Request): Promise<Response> => {
       console.log("Welcome email sent to new member:", welcomeEmailResponse);
     }
 
-    return new Response(JSON.stringify({ 
-      success: true, 
-      data: { admin: adminEmailResponse, customer: customerEmailResponse } 
-    }), {
-      status: 200,
-      headers: { "Content-Type": "application/json", ...corsHeaders },
-    });
+    return new Response(
+      JSON.stringify({
+        success: true,
+        data: { admin: adminEmailResponse, customer: customerEmailResponse },
+      }),
+      {
+        status: 200,
+        headers: { "Content-Type": "application/json", ...corsHeaders },
+      },
+    );
   } catch (error: unknown) {
     console.error("Error in send-notification function:", error);
     return new Response(JSON.stringify({ success: false, error: "Failed to send notification" }), {

@@ -47,7 +47,7 @@ export function Footer() {
             <div className="flex items-center space-x-4">
               {/* Instagram */}
               <a
-                href="https://instagram.com/letsskydivehk"
+                href="https://www.instagram.com/lets_skydive_hk/"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-background/10 rounded-full flex items-center justify-center hover:bg-background/20 transition-colors"
