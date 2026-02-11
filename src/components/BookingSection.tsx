@@ -259,24 +259,19 @@ export function BookingSection() {
     setIsSubmitting(true);
     
     try {
-      // Insert booking into Supabase database
-      const { data, error } = await supabase
-        .from('bookings')
-        .insert({
-          user_id: user?.id || null,
-          location_id: formData.location,
-          service_id: formData.service,
-          preferred_date: validationResult.data.date,
-          participants: validationResult.data.participants,
-          first_name: validationResult.data.firstName,
-          last_name: validationResult.data.lastName,
-          email: validationResult.data.email,
-          phone: validationResult.data.phone,
-          special_requests: validationResult.data.notes || null,
-          status: 'pending'
-        })
-        .select()
-        .single();
+      // Insert booking via secure RPC function (avoids insecure SELECT policies)
+      const { data, error } = await supabase.rpc('create_booking', {
+        p_user_id: user?.id || null,
+        p_location_id: formData.location,
+        p_service_id: formData.service,
+        p_preferred_date: validationResult.data.date,
+        p_participants: validationResult.data.participants,
+        p_first_name: validationResult.data.firstName,
+        p_last_name: validationResult.data.lastName,
+        p_email: validationResult.data.email,
+        p_phone: validationResult.data.phone,
+        p_special_requests: validationResult.data.notes || null,
+      });
 
       if (error) {
         console.error('Booking submission error:', error);
@@ -285,8 +280,9 @@ export function BookingSection() {
       }
 
       // Store access token for anonymous bookings
-      if (!user && data?.access_token) {
-        setBookingAccessToken(data.access_token);
+      const bookingData = data as Record<string, unknown> | null;
+      if (!user && bookingData?.access_token) {
+        setBookingAccessToken(bookingData.access_token as string);
       }
 
       // Send notification email (fire and forget - don't block success)
