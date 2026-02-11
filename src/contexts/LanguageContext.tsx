@@ -1279,7 +1279,15 @@ const formatBoldText = (text: string): string => {
 };
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [language, setLanguage] = useState<Language>("en");
+  const [language, setLanguage] = useState<Language>(() => {
+    const saved = localStorage.getItem('preferred-language');
+    return (saved === 'en' || saved === 'zh-TW') ? saved : 'zh-TW';
+  });
+
+  const handleSetLanguage = (lang: Language) => {
+    setLanguage(lang);
+    localStorage.setItem('preferred-language', lang);
+  };
 
   const t = (key: string): string => {
     const translation = translations[language][key] || key;
@@ -1292,7 +1300,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage, t, translateData }}>{children}</LanguageContext.Provider>
+    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t, translateData }}>{children}</LanguageContext.Provider>
   );
 }
 
