@@ -320,20 +320,6 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.gallery": "Gallery",
     "nav.faq": "FAQ",
 
-    // Location Detail Page
-    "locations.viewDetails": "View Details",
-    "locationDetail.backToHome": "Back to Home",
-    "locationDetail.notFound": "Location not found",
-    "locationDetail.highlights": "Highlights",
-    "locationDetail.fromAirport": "From Airport",
-    "locationDetail.fromCity": "From City Center",
-    "locationDetail.transportation": "Transportation",
-    "locationDetail.photos": "Photo Gallery",
-    "locationDetail.servicesHere": "Services at This Location",
-    "locationDetail.map": "Location Map",
-    "locationDetail.readyToJump": "Ready to Jump Here?",
-    "locationDetail.bookCta": "Book your skydiving adventure at this location and experience the thrill of a lifetime!",
-
     // Legal Pages
     "legal.backToHome": "Back to Home",
 
@@ -533,12 +519,12 @@ const translations: Record<Language, Record<string, string>> = {
   "zh-TW": {
     // Navigation & Common
     "nav.services": "服務項目",
-    "nav.locations": "跳傘地點",
+    "nav.locations": "跳傘基地",
     "nav.about": "關於我們",
-    "nav.booking": "立即預約",
+    "nav.booking": "立即體驗",
     "nav.contact": "聯絡我們",
     "common.learnMore": "了解更多",
-    "common.bookNow": "立即預約",
+    "common.bookNow": "立即體驗",
     "common.comingSoon": "即將推出",
     "common.loading": "載入中...",
 
@@ -549,17 +535,17 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.ultimateThrill": "極致飛翔",
     "hero.subtitle":
       "我們提供專業雙人跳傘體驗、AFF（ Accelerated Freefall）加速自由落體認證課程，並可為企業團體、親友聚會等量身規劃跳傘活動專案。\n\n服務範圍遍及亞洲各地景觀絕佳的跳傘基地，讓您在專業安全保障下，俯瞰壯麗山河，成就非凡時刻。",
-    "hero.cta.book": "預約您的跳傘",
+    "hero.cta.book": "立即預約",
     "hero.cta.explore": "探索服務",
 
     // Locations Section
     "locations.badge": "我們的跳傘場",
-    "locations.title": "跳傘地點",
+    "locations.title": "跳傘基地",
     "locations.subtitle": "從我們位於泰國和中國的頂級跳傘場中選擇，每個場地都提供獨特的風景和世界級設施。",
     "locations.thailand": "🇹🇭 泰國",
     "locations.china": "🇨🇳 中國",
     "locations.noLocations": "{country}暫時沒有可用的跳傘地點。",
-    "locations.bookHere": "在此地點預約",
+    "locations.bookHere": "立即體驗",
     "locations.tandem": "雙人跳傘",
     "locations.aff": "AFF課程",
     "locations.groups": "團體活動",
@@ -592,7 +578,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Booking Section
     "booking.badge": "準備好了嗎？",
     "booking.title": "預約您的冒險",
-    "booking.subtitle": "選擇您偏好的地點和服務，開始您的跳傘之旅。",
+    "booking.subtitle": "選擇您有興趣的地點和服務，開始您的跳傘之旅。",
     "booking.step1": "選擇地點",
     "booking.step2": "選擇服務",
     "booking.step3": "您的資料",
@@ -602,15 +588,15 @@ const translations: Record<Language, Record<string, string>> = {
     "booking.form.name": "全名",
     "booking.form.email": "電子郵件",
     "booking.form.phone": "電話號碼",
-    "booking.form.date": "偏好日期",
+    "booking.form.date": "日期",
     "booking.form.notes": "備註",
     "booking.form.submit": "提交預約申請",
     "booking.filter.showing": "顯示提供A級執照培訓的地點",
     "booking.whereJump": "您想在哪裡跳傘？",
-    "booking.selectDropzone": "選擇您偏好的跳傘場地",
+    "booking.selectDropzone": "選擇您有興趣的跳傘基地",
     "booking.showAll": "顯示全部",
     "booking.chooseService": "選擇您的體驗",
-    "booking.selectPackage": "選擇您偏好的套餐",
+    "booking.selectPackage": "選擇您想選的套餐",
     "booking.changeLocation": "更換地點",
     "booking.yourDetails": "您的資料",
     "booking.fillInfo": "填寫您的資料以完成預約",
@@ -637,8 +623,8 @@ const translations: Record<Language, Record<string, string>> = {
     "booking.summary": "預約摘要",
     "booking.bookAnother": "再次預約",
     "booking.whenJump": "您想什麼時候跳傘？",
-    "booking.selectDateDetails": "選擇您偏好的日期並填寫您的資料",
-    "booking.preferredDate": "偏好日期",
+    "booking.selectDateDetails": "選擇您的日期並填寫您的資料",
+    "booking.preferredDate": "日期",
     "booking.numberOfJumpers": "跳傘人數",
     "booking.jumper": "位",
     "booking.jumpers": "位",
@@ -824,20 +810,6 @@ const translations: Record<Language, Record<string, string>> = {
     "gallery.uploadError": "上傳媒體失敗",
     "nav.gallery": "相片集",
     "nav.faq": "常見問題",
-
-    // Location Detail Page
-    "locations.viewDetails": "查看詳情",
-    "locationDetail.backToHome": "返回首頁",
-    "locationDetail.notFound": "找不到此地點",
-    "locationDetail.highlights": "特色亮點",
-    "locationDetail.fromAirport": "距離機場",
-    "locationDetail.fromCity": "距離市中心",
-    "locationDetail.transportation": "建議交通方式",
-    "locationDetail.photos": "相片集",
-    "locationDetail.servicesHere": "此地點的服務",
-    "locationDetail.map": "地圖位置",
-    "locationDetail.readyToJump": "準備好在這裡跳傘了嗎？",
-    "locationDetail.bookCta": "在此地點預約您的跳傘冒險，體驗一生難忘的刺激！",
 
     // Legal Pages
     "legal.backToHome": "返回首頁",
@@ -1308,13 +1280,13 @@ const formatBoldText = (text: string): string => {
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>(() => {
-    const saved = localStorage.getItem('preferred-language');
-    return (saved === 'en' || saved === 'zh-TW') ? saved : 'zh-TW';
+    const saved = localStorage.getItem("preferred-language");
+    return saved === "en" || saved === "zh-TW" ? saved : "zh-TW";
   });
 
   const handleSetLanguage = (lang: Language) => {
     setLanguage(lang);
-    localStorage.setItem('preferred-language', lang);
+    localStorage.setItem("preferred-language", lang);
   };
 
   const t = (key: string): string => {
@@ -1328,7 +1300,9 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   };
 
   return (
-    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t, translateData }}>{children}</LanguageContext.Provider>
+    <LanguageContext.Provider value={{ language, setLanguage: handleSetLanguage, t, translateData }}>
+      {children}
+    </LanguageContext.Provider>
   );
 }
 
