@@ -48,7 +48,7 @@ export default function LocationDetail() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground mb-4">{t("locationDetail.notFound")}</h1>
           <button onClick={() => navigate("/")} className="text-accent-orange hover:underline cursor-pointer">
-            {t("locationDetail.backToHome")}
+            {t("Back To Home")}
           </button>
         </div>
       </div>
@@ -75,7 +75,7 @@ export default function LocationDetail() {
               className="flex items-center gap-2 bg-card/80 backdrop-blur-sm text-foreground px-4 py-2 rounded-full clean-border hover:bg-card transition-colors cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span className="text-sm font-medium">{t("Back To Home")}</span>
+              <span className="text-sm font-medium">{t("locationDetail.backToHome")}</span>
             </button>
           </div>
 
@@ -256,7 +256,6 @@ export default function LocationDetail() {
               >
                 <div className="bg-card rounded-2xl p-10 clean-border mobile-transparent-card">
                   <h2 className="text-3xl font-black text-foreground mb-4">{t("Ready To Jump")}</h2>
-                  <p className="text-muted-foreground mb-8 max-w-xl mx-auto">{t("locationDetail.bookCta")}</p>
                   <button
                     onClick={handleBookHere}
                     className="bg-accent-orange text-white font-semibold px-10 py-4 rounded-lg hover:bg-accent-orange/90 transition-colors text-lg cursor-pointer"
