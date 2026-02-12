@@ -320,6 +320,20 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.gallery": "Gallery",
     "nav.faq": "FAQ",
 
+    // Location Detail Page
+    "locations.viewDetails": "View Details",
+    "locationDetail.backToHome": "Back to Home",
+    "locationDetail.notFound": "Location not found",
+    "locationDetail.highlights": "Highlights",
+    "locationDetail.fromAirport": "From Airport",
+    "locationDetail.fromCity": "From City Center",
+    "locationDetail.transportation": "Transportation",
+    "locationDetail.photos": "Photo Gallery",
+    "locationDetail.servicesHere": "Services at This Location",
+    "locationDetail.map": "Location Map",
+    "locationDetail.readyToJump": "Ready to Jump Here?",
+    "locationDetail.bookCta": "Book your skydiving adventure at this location and experience the thrill of a lifetime!",
+
     // Legal Pages
     "legal.backToHome": "Back to Home",
 
@@ -810,6 +824,20 @@ const translations: Record<Language, Record<string, string>> = {
     "gallery.uploadError": "上傳媒體失敗",
     "nav.gallery": "相片集",
     "nav.faq": "常見問題",
+
+    // Location Detail Page
+    "locations.viewDetails": "查看詳情",
+    "locationDetail.backToHome": "返回首頁",
+    "locationDetail.notFound": "找不到此地點",
+    "locationDetail.highlights": "特色亮點",
+    "locationDetail.fromAirport": "距離機場",
+    "locationDetail.fromCity": "距離市中心",
+    "locationDetail.transportation": "建議交通方式",
+    "locationDetail.photos": "相片集",
+    "locationDetail.servicesHere": "此地點的服務",
+    "locationDetail.map": "地圖位置",
+    "locationDetail.readyToJump": "準備好在這裡跳傘了嗎？",
+    "locationDetail.bookCta": "在此地點預約您的跳傘冒險，體驗一生難忘的刺激！",
 
     // Legal Pages
     "legal.backToHome": "返回首頁",

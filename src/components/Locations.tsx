@@ -2,7 +2,8 @@
 
 import { useState, useMemo, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MapPin, Users, GraduationCap, Loader2 } from 'lucide-react'
+import { MapPin, Users, GraduationCap, Loader2, Eye } from 'lucide-react'
+import { useNavigate } from 'react-router-dom'
 import { useLocations, type Location } from '@/hooks/useLocations'
 import { useBooking } from '@/contexts/BookingContext'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -14,6 +15,7 @@ export function Locations() {
   const [activeCountry, setActiveCountry] = useState<Country>('Thailand')
   const { data: locations, isLoading, error } = useLocations()
   const { t, translateData } = useLanguage()
+  const navigate = useNavigate()
 
   // Helper function to translate location data
   const translateLocation = (location: Location) => ({
@@ -132,6 +134,7 @@ export function Locations() {
                   location={location} 
                   translatedLocation={translateLocation(location)}
                   onBookClick={() => scrollToBookingWithLocation(location.id)}
+                  onViewDetails={() => navigate(`/location/${location.slug}`)}
                   t={t}
                 />
               ))}
@@ -162,17 +165,19 @@ interface LocationCardProps {
   location: Location
   translatedLocation: TranslatedLocation
   onBookClick: (locationId: string) => void
+  onViewDetails: () => void
   t: (key: string) => string
 }
 
-function LocationCard({ location, translatedLocation, onBookClick, t }: LocationCardProps) {
+function LocationCard({ location, translatedLocation, onBookClick, onViewDetails, t }: LocationCardProps) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       whileInView={{ opacity: 1 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.3 }}
-      className={`relative bg-card rounded-2xl overflow-hidden clean-border group hover:elevated-shadow transition-all duration-300 mobile-transparent-card ${
+      onClick={onViewDetails}
+      className={`relative bg-card rounded-2xl overflow-hidden clean-border group hover:elevated-shadow transition-all duration-300 mobile-transparent-card cursor-pointer ${
         location.coming_soon ? 'opacity-75' : ''
       }`}
     >
@@ -232,14 +237,23 @@ function LocationCard({ location, translatedLocation, onBookClick, t }: Location
           )}
         </div>
 
-        {/* CTA */}
+        {/* CTAs */}
         {!location.coming_soon ? (
-          <button
-            onClick={() => onBookClick(location.id)}
-            className="w-full py-3 bg-accent-orange text-white font-semibold rounded-lg hover:bg-accent-orange/90 transition-colors cursor-pointer"
-          >
-            {t('locations.bookHere')}
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={(e) => { e.stopPropagation(); onViewDetails(); }}
+              className="flex-1 py-3 bg-muted text-foreground font-semibold rounded-lg hover:bg-muted/80 transition-colors cursor-pointer flex items-center justify-center gap-2"
+            >
+              <Eye className="w-4 h-4" />
+              {t('locations.viewDetails')}
+            </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); onBookClick(location.id); }}
+              className="flex-1 py-3 bg-accent-orange text-white font-semibold rounded-lg hover:bg-accent-orange/90 transition-colors cursor-pointer"
+            >
+              {t('locations.bookHere')}
+            </button>
+          </div>
         ) : (
           <button
             disabled
