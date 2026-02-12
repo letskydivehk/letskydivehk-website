@@ -48,7 +48,7 @@ export default function LocationDetail() {
         <div className="text-center">
           <h1 className="text-2xl font-bold text-foreground mb-4">{t("locationDetail.notFound")}</h1>
           <button onClick={() => navigate("/")} className="text-accent-orange hover:underline cursor-pointer">
-            {t("locationDetail.backToHome")}
+            {t("Back To Home")}
           </button>
         </div>
       </div>
@@ -75,7 +75,7 @@ export default function LocationDetail() {
               className="flex items-center gap-2 bg-card/80 backdrop-blur-sm text-foreground px-4 py-2 rounded-full clean-border hover:bg-card transition-colors cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span className="text-sm font-medium">{t("locationDetail.backToHome")}</span>
+              <span className="text-sm font-medium">{t("Back To Home")}</span>
             </button>
           </div>
 
@@ -160,21 +160,21 @@ export default function LocationDetail() {
                 {location.airport_distance && (
                   <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card text-center">
                     <Plane className="w-8 h-8 text-accent-blue mx-auto mb-3" />
-                    <h3 className="font-semibold text-foreground mb-1">{t("From Airport")}</h3>
+                    <h3 className="font-semibold text-foreground mb-1">{t("locationDetail.fromAirport")}</h3>
                     <p className="text-muted-foreground">{location.airport_distance}</p>
                   </div>
                 )}
                 {location.city_distance && (
                   <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card text-center">
                     <Building className="w-8 h-8 text-accent-blue mx-auto mb-3" />
-                    <h3 className="font-semibold text-foreground mb-1">{t("From City")}</h3>
+                    <h3 className="font-semibold text-foreground mb-1">{t("locationDetail.fromCity")}</h3>
                     <p className="text-muted-foreground">{location.city_distance}</p>
                   </div>
                 )}
                 {location.transportation && (
                   <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card text-center">
                     <Car className="w-8 h-8 text-accent-blue mx-auto mb-3" />
-                    <h3 className="font-semibold text-foreground mb-1">{t("Transportation")}</h3>
+                    <h3 className="font-semibold text-foreground mb-1">{t("locationDetail.transportation")}</h3>
                     <p className="text-muted-foreground">{location.transportation}</p>
                   </div>
                 )}
