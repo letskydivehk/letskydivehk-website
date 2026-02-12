@@ -1,58 +1,58 @@
-import { useParams, useNavigate } from 'react-router-dom'
-import { motion } from 'framer-motion'
-import { ArrowLeft, MapPin, Plane, Car, Building, Users, GraduationCap, Star, Loader2 } from 'lucide-react'
-import { useLocationBySlug, useLocationPhotos } from '@/hooks/useLocationDetail'
-import { useLocationServices } from '@/hooks/useLocationServices'
-import { useLanguage } from '@/contexts/LanguageContext'
-import { useBooking } from '@/contexts/BookingContext'
-import { BackgroundDecorations } from '@/components/BackgroundDecorations'
-import { Footer } from '@/components/Footer'
-import { LocationPhotoGallery } from '@/components/location/LocationPhotoGallery'
+import { useParams, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { ArrowLeft, MapPin, Plane, Car, Building, Users, GraduationCap, Star, Loader2 } from "lucide-react";
+import { useLocationBySlug, useLocationPhotos } from "@/hooks/useLocationDetail";
+import { useLocationServices } from "@/hooks/useLocationServices";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { useBooking } from "@/contexts/BookingContext";
+import { BackgroundDecorations } from "@/components/BackgroundDecorations";
+import { Footer } from "@/components/Footer";
+import { LocationPhotoGallery } from "@/components/location/LocationPhotoGallery";
 
 export default function LocationDetail() {
-  const { slug } = useParams<{ slug: string }>()
-  const navigate = useNavigate()
-  const { t, translateData } = useLanguage()
-  const { setPreselectedLocationId } = useBooking()
+  const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
+  const { t, translateData } = useLanguage();
+  const { setPreselectedLocationId } = useBooking();
 
-  const { data: location, isLoading, error } = useLocationBySlug(slug)
-  const { data: photos } = useLocationPhotos(location?.id)
-  const { data: services } = useLocationServices(location?.id)
+  const { data: location, isLoading, error } = useLocationBySlug(slug);
+  const { data: photos } = useLocationPhotos(location?.id);
+  const { data: services } = useLocationServices(location?.id);
 
-  const translatedName = location ? translateData(`location.${location.slug}`, location.Name) : ''
-  const translatedDesc = location ? translateData(`location.${location.slug}.desc`, location.description || '') : ''
-  const translatedCity = location ? translateData(`city.${location.City}`, location.City || '') : ''
-  const translatedCountry = location ? translateData(`country.${location.country}`, location.country) : ''
+  const translatedName = location ? translateData(`location.${location.slug}`, location.Name) : "";
+  const translatedDesc = location ? translateData(`location.${location.slug}.desc`, location.description || "") : "";
+  const translatedCity = location ? translateData(`city.${location.City}`, location.City || "") : "";
+  const translatedCountry = location ? translateData(`country.${location.country}`, location.country) : "";
 
   const handleBookHere = () => {
     if (location) {
-      setPreselectedLocationId(location.id)
-      navigate('/#booking')
+      setPreselectedLocationId(location.id);
+      navigate("/#booking");
       setTimeout(() => {
-        document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })
-      }, 100)
+        document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
     }
-  }
+  };
 
   if (isLoading) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <Loader2 className="w-8 h-8 animate-spin text-accent-orange" />
       </div>
-    )
+    );
   }
 
   if (error || !location) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-foreground mb-4">{t('locationDetail.notFound')}</h1>
-          <button onClick={() => navigate('/')} className="text-accent-orange hover:underline cursor-pointer">
-            {t('locationDetail.backToHome')}
+          <h1 className="text-2xl font-bold text-foreground mb-4">{t("locationDetail.notFound")}</h1>
+          <button onClick={() => navigate("/")} className="text-accent-orange hover:underline cursor-pointer">
+            {t("locationDetail.backToHome")}
           </button>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -62,7 +62,7 @@ export default function LocationDetail() {
         {/* Hero Section */}
         <section className="relative h-[50vh] min-h-[400px] overflow-hidden">
           <img
-            src={location.image_url || '/placeholder.svg'}
+            src={location.image_url || "/placeholder.svg"}
             alt={translatedName}
             className="w-full h-full object-cover"
           />
@@ -71,11 +71,11 @@ export default function LocationDetail() {
           {/* Back button */}
           <div className="absolute top-6 left-6 z-20">
             <button
-              onClick={() => navigate('/')}
+              onClick={() => navigate("/")}
               className="flex items-center gap-2 bg-card/80 backdrop-blur-sm text-foreground px-4 py-2 rounded-full clean-border hover:bg-card transition-colors cursor-pointer"
             >
               <ArrowLeft className="w-4 h-4" />
-              <span className="text-sm font-medium">{t('locationDetail.backToHome')}</span>
+              <span className="text-sm font-medium">{t("locationDetail.backToHome")}</span>
             </button>
           </div>
 
@@ -84,11 +84,11 @@ export default function LocationDetail() {
             <div className="container mx-auto px-6 sm:px-8 lg:px-12">
               <div className="flex items-center gap-2 text-muted-foreground mb-2">
                 <MapPin className="w-4 h-4" />
-                <span>{translatedCity}, {translatedCountry}</span>
+                <span>
+                  {translatedCity}, {translatedCountry}
+                </span>
               </div>
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-foreground">
-                {translatedName}
-              </h1>
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-foreground">{translatedName}</h1>
             </div>
           </div>
         </section>
@@ -96,16 +96,9 @@ export default function LocationDetail() {
         {/* Content */}
         <div className="container mx-auto px-6 sm:px-8 lg:px-12 py-16">
           <div className="max-w-5xl mx-auto space-y-16">
-
             {/* Description */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <p className="text-xl text-muted-foreground leading-relaxed">
-                {translatedDesc}
-              </p>
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
+              <p className="text-xl text-muted-foreground leading-relaxed">{translatedDesc}</p>
             </motion.div>
 
             {/* Features badges */}
@@ -117,18 +110,18 @@ export default function LocationDetail() {
             >
               <span className="inline-flex items-center gap-2 bg-accent-orange/10 text-accent-orange px-4 py-2 rounded-full font-medium">
                 <Users className="w-4 h-4" />
-                {t('locations.tandem')}
+                {t("locations.tandem")}
               </span>
               {location.has_aff && (
                 <span className="inline-flex items-center gap-2 bg-accent-blue/10 text-accent-blue px-4 py-2 rounded-full font-medium">
                   <GraduationCap className="w-4 h-4" />
-                  {t('locations.aff')}
+                  {t("locations.aff")}
                 </span>
               )}
               {location.has_group_events && (
                 <span className="inline-flex items-center gap-2 bg-accent-blue/10 text-accent-blue px-4 py-2 rounded-full font-medium">
                   <Users className="w-4 h-4" />
-                  {t('locations.groups')}
+                  {t("locations.groups")}
                 </span>
               )}
             </motion.div>
@@ -143,7 +136,7 @@ export default function LocationDetail() {
               >
                 <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
                   <Star className="w-6 h-6 text-accent-orange" />
-                  {t('locationDetail.highlights')}
+                  {t("locationDetail.highlights")}
                 </h2>
                 <ul className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   {location.highlights.map((highlight, i) => (
@@ -167,21 +160,21 @@ export default function LocationDetail() {
                 {location.airport_distance && (
                   <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card text-center">
                     <Plane className="w-8 h-8 text-accent-blue mx-auto mb-3" />
-                    <h3 className="font-semibold text-foreground mb-1">{t('locationDetail.fromAirport')}</h3>
+                    <h3 className="font-semibold text-foreground mb-1">{t("From Airport")}</h3>
                     <p className="text-muted-foreground">{location.airport_distance}</p>
                   </div>
                 )}
                 {location.city_distance && (
                   <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card text-center">
                     <Building className="w-8 h-8 text-accent-blue mx-auto mb-3" />
-                    <h3 className="font-semibold text-foreground mb-1">{t('locationDetail.fromCity')}</h3>
+                    <h3 className="font-semibold text-foreground mb-1">{t("From City")}</h3>
                     <p className="text-muted-foreground">{location.city_distance}</p>
                   </div>
                 )}
                 {location.transportation && (
                   <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card text-center">
                     <Car className="w-8 h-8 text-accent-blue mx-auto mb-3" />
-                    <h3 className="font-semibold text-foreground mb-1">{t('locationDetail.transportation')}</h3>
+                    <h3 className="font-semibold text-foreground mb-1">{t("Transportation")}</h3>
                     <p className="text-muted-foreground">{location.transportation}</p>
                   </div>
                 )}
@@ -190,34 +183,29 @@ export default function LocationDetail() {
 
             {/* Photo Gallery */}
             {photos && photos.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-              >
-                <h2 className="text-2xl font-bold text-foreground mb-6">{t('locationDetail.photos')}</h2>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
+                <h2 className="text-2xl font-bold text-foreground mb-6">{t("locationDetail.photos")}</h2>
                 <LocationPhotoGallery photos={photos} />
               </motion.div>
             )}
 
             {/* Services at this location */}
             {services && services.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-              >
-                <h2 className="text-2xl font-bold text-foreground mb-6">{t('locationDetail.servicesHere')}</h2>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
+                <h2 className="text-2xl font-bold text-foreground mb-6">{t("locationDetail.servicesHere")}</h2>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {services.map((service) => {
-                    const translatedServiceName = translateData(`service.${service.service_name}`, service.service_name)
+                    const translatedServiceName = translateData(
+                      `service.${service.service_name}`,
+                      service.service_name,
+                    );
                     return (
                       <div key={service.id} className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card">
                         <div className="flex items-center justify-between mb-3">
                           <h3 className="font-bold text-foreground text-lg">{translatedServiceName}</h3>
                           {service.is_popular && (
                             <span className="text-xs font-bold bg-accent-orange text-white px-3 py-1 rounded-full">
-                              {t('services.popular')}
+                              {t("services.popular")}
                             </span>
                           )}
                         </div>
@@ -233,7 +221,7 @@ export default function LocationDetail() {
                           </ul>
                         )}
                       </div>
-                    )
+                    );
                   })}
                 </div>
               </motion.div>
@@ -241,12 +229,8 @@ export default function LocationDetail() {
 
             {/* Google Maps Embed */}
             {location.google_maps_embed_url && (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.4 }}
-              >
-                <h2 className="text-2xl font-bold text-foreground mb-6">{t('locationDetail.map')}</h2>
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+                <h2 className="text-2xl font-bold text-foreground mb-6">{t("locationDetail.map")}</h2>
                 <div className="rounded-2xl overflow-hidden clean-border aspect-video">
                   <iframe
                     src={location.google_maps_embed_url}
@@ -271,13 +255,13 @@ export default function LocationDetail() {
                 className="text-center"
               >
                 <div className="bg-card rounded-2xl p-10 clean-border mobile-transparent-card">
-                  <h2 className="text-3xl font-black text-foreground mb-4">{t('locationDetail.readyToJump')}</h2>
-                  <p className="text-muted-foreground mb-8 max-w-xl mx-auto">{t('locationDetail.bookCta')}</p>
+                  <h2 className="text-3xl font-black text-foreground mb-4">{t("locationDetail.readyToJump")}</h2>
+                  <p className="text-muted-foreground mb-8 max-w-xl mx-auto">{t("locationDetail.bookCta")}</p>
                   <button
                     onClick={handleBookHere}
                     className="bg-accent-orange text-white font-semibold px-10 py-4 rounded-lg hover:bg-accent-orange/90 transition-colors text-lg cursor-pointer"
                   >
-                    {t('locations.bookHere')}
+                    {t("locations.bookHere")}
                   </button>
                 </div>
               </motion.div>
@@ -287,5 +271,5 @@ export default function LocationDetail() {
       </main>
       <Footer />
     </div>
-  )
+  );
 }
