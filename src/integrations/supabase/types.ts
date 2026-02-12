@@ -134,6 +134,44 @@ export type Database = {
         }
         Relationships: []
       }
+      location_photos: {
+        Row: {
+          caption: string | null
+          created_at: string
+          display_order: number
+          file_path: string
+          file_url: string
+          id: string
+          location_id: string
+        }
+        Insert: {
+          caption?: string | null
+          created_at?: string
+          display_order?: number
+          file_path: string
+          file_url: string
+          id?: string
+          location_id: string
+        }
+        Update: {
+          caption?: string | null
+          created_at?: string
+          display_order?: number
+          file_path?: string
+          file_url?: string
+          id?: string
+          location_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "location_photos_location_id_fkey"
+            columns: ["location_id"]
+            isOneToOne: false
+            referencedRelation: "locations"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       location_services: {
         Row: {
           created_at: string
@@ -186,51 +224,66 @@ export type Database = {
       }
       locations: {
         Row: {
+          airport_distance: string | null
           City: string | null
+          city_distance: string | null
           coming_soon: boolean
           country: string
           created_at: string
           description: string | null
           display_order: number
+          google_maps_embed_url: string | null
           has_aff: boolean
           has_group_events: boolean
+          highlights: string[] | null
           id: string
           image_url: string | null
           is_active: boolean
           Name: string
           slug: string
+          transportation: string | null
           updated_at: string
         }
         Insert: {
+          airport_distance?: string | null
           City?: string | null
+          city_distance?: string | null
           coming_soon?: boolean
           country: string
           created_at?: string
           description?: string | null
           display_order?: number
+          google_maps_embed_url?: string | null
           has_aff?: boolean
           has_group_events?: boolean
+          highlights?: string[] | null
           id?: string
           image_url?: string | null
           is_active?: boolean
           Name: string
           slug: string
+          transportation?: string | null
           updated_at?: string
         }
         Update: {
+          airport_distance?: string | null
           City?: string | null
+          city_distance?: string | null
           coming_soon?: boolean
           country?: string
           created_at?: string
           description?: string | null
           display_order?: number
+          google_maps_embed_url?: string | null
           has_aff?: boolean
           has_group_events?: boolean
+          highlights?: string[] | null
           id?: string
           image_url?: string | null
           is_active?: boolean
           Name?: string
           slug?: string
+          transportation?: string | null
           updated_at?: string
         }
         Relationships: []

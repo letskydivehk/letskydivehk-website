@@ -8,6 +8,7 @@ import { WhatsAppButton } from './components/WhatsAppButton';
 import Home from './pages/Home';
 import MemberProfile from './pages/MemberProfile';
 import Gallery from './pages/Gallery';
+import LocationDetail from './pages/LocationDetail';
 import AuthCallback from './pages/AuthCallback';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
@@ -34,6 +35,7 @@ export default function App() {
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/location/:slug" element={<LocationDetail />} />
                 <Route path="/auth/callback" element={<AuthCallback />} />
                 <Route path="/membership" element={<MemberProfile />} />
                 <Route path="/gallery" element={<Gallery />} />
