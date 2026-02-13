@@ -1,8 +1,8 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { motion, useScroll, useTransform } from 'framer-motion';
 import { Menu, X, ChevronDown } from 'lucide-react';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthButton } from './AuthButton';
 import { LanguageSwitcher } from './LanguageSwitcher';
@@ -12,6 +12,12 @@ export function Hero() {
   const { t, language } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollY } = useScroll();
+  const bgY = useTransform(scrollY, [0, 800], [0, 300]);
+  const overlayOpacity = useTransform(scrollY, [0, 600], [0.4, 0.8]);
+  const contentY = useTransform(scrollY, [0, 500], [0, 100]);
+  const contentOpacity = useTransform(scrollY, [0, 400], [1, 0]);
 
   // Scroll detection
   useEffect(() => {
@@ -56,14 +62,21 @@ export function Hero() {
     });
   };
   return (
-    <div className="relative h-screen w-full overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0 bg-cover bg-center bg-no-repeat" style={{
-        backgroundImage: 'url(https://images.unsplash.com/photo-1601024445121-e5b82f020549?w=1920&h=1080&fit=crop)'
-      }}>
-        {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70" />
-      </div>
+    <div ref={heroRef} className="relative h-screen w-full overflow-hidden">
+      {/* Parallax Background Image */}
+      <motion.div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110" 
+        style={{
+          backgroundImage: 'url(https://images.unsplash.com/photo-1601024445121-e5b82f020549?w=1920&h=1080&fit=crop)',
+          y: bgY,
+        }}
+      >
+        {/* Dynamic Gradient Overlay */}
+        <motion.div 
+          className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"
+          style={{ opacity: overlayOpacity }}
+        />
+      </motion.div>
 
       {/* Full-Width Navbar */}
       <motion.nav initial={{
@@ -198,8 +211,8 @@ export function Hero() {
         </div>
       </motion.div>
 
-      {/* Hero Content */}
-      <div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6">
+      {/* Hero Content with Parallax */}
+      <motion.div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6" style={{ y: contentY, opacity: contentOpacity }}>
         <motion.div initial={{
           opacity: 0,
           y: 30
@@ -269,7 +282,7 @@ export function Hero() {
             <ChevronDown className="w-6 h-6" />
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
     </div>
   );
 }
