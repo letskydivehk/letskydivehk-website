@@ -65,7 +65,13 @@ export function Locations() {
     <section id="locations" className="relative py-24 bg-card/30">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         {/* Header */}
-        <div className="text-center mb-12">
+        <motion.div 
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-12"
+        >
           <div className="inline-flex items-center gap-3 mb-6">
             <div className="w-3 h-3 bg-accent-blue rounded-full animate-pulse" />
             <span className="text-sm font-semibold text-muted-foreground">{t("locations.badge")}</span>
@@ -77,7 +83,7 @@ export function Locations() {
           </h2>
 
           <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">{t("locations.subtitle")}</p>
-        </div>
+        </motion.div>
 
         {/* Country Tabs */}
         <div className="flex justify-center mb-12">
@@ -167,10 +173,11 @@ interface LocationCardProps {
 function LocationCard({ location, translatedLocation, onBookClick, onViewDetails, t }: LocationCardProps) {
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.3 }}
+      transition={{ duration: 0.5 }}
+      whileHover={{ y: -8, transition: { duration: 0.3 } }}
       onClick={onViewDetails}
       className={`relative bg-card rounded-2xl overflow-hidden clean-border group hover:elevated-shadow transition-all duration-300 mobile-transparent-card cursor-pointer ${
         location.coming_soon ? "opacity-75" : ""

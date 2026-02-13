@@ -166,19 +166,22 @@ export function Services() {
               return (
                 <motion.div
                   key={service.type}
-                  initial={{ opacity: 0 }}
-                  whileInView={{ opacity: 1 }}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.3 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  whileHover={{ y: -8, transition: { duration: 0.3 } }}
                   onMouseEnter={() => setHoveredService(service.type)}
                   onMouseLeave={() => setHoveredService(null)}
-                  className={`relative bg-card rounded-2xl p-8 clean-border transition-all duration-300 mobile-transparent-card ${
-                    isHovered ? 'elevated-shadow scale-[1.02]' : 'subtle-shadow'
+                  className={`relative bg-card rounded-2xl p-8 clean-border transition-all duration-300 mobile-transparent-card overflow-hidden ${
+                    isHovered ? 'elevated-shadow' : 'subtle-shadow'
                   } ${service.isPopular ? 'ring-2 ring-accent-orange' : ''}`}
                 >
+                  {/* Hover glow effect */}
+                  <div className={`absolute inset-0 bg-gradient-to-br from-accent-orange/0 to-accent-blue/0 transition-all duration-500 ${isHovered ? 'from-accent-orange/5 to-accent-blue/5' : ''}`} />
                   {/* Popular Badge */}
                   {service.isPopular && (
-                    <div className="absolute -top-3 left-1/2 -translate-x-1/2">
+                  <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
                       <span className="bg-accent-orange text-white text-xs font-bold px-4 py-1 rounded-full">
                         {t('services.popular').toUpperCase()}
                       </span>
@@ -186,15 +189,16 @@ export function Services() {
                   )}
 
                   {/* Icon */}
-                  <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300 ${
-                    isHovered ? 'bg-accent-orange' : 'bg-accent-orange/10'
+                  <div className={`relative z-10 w-16 h-16 rounded-2xl flex items-center justify-center mb-6 transition-all duration-500 ${
+                    isHovered ? 'bg-accent-orange scale-110' : 'bg-accent-orange/10'
                   }`}>
-                    <IconComponent className={`w-8 h-8 transition-colors duration-300 ${
+                    <IconComponent className={`w-8 h-8 transition-colors duration-500 ${
                       isHovered ? 'text-white' : 'text-accent-orange'
                     }`} />
                   </div>
 
                   {/* Content */}
+                  <div className="relative z-10">
                   <h3 className="text-2xl font-bold text-foreground mb-2">
                     {service.title}
                   </h3>
@@ -242,6 +246,7 @@ export function Services() {
                     {service.type !== 'group' ? t('common.bookNow') : t('services.contactUs')}
                     <ArrowRight className="w-4 h-4" />
                   </button>
+                  </div>
                 </motion.div>
               )
             })}

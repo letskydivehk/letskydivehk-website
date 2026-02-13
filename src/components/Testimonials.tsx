@@ -240,22 +240,28 @@ interface TestimonialCardProps {
 
 function TestimonialCard({ testimonial, t }: TestimonialCardProps) {
   return (
-    <div className="bg-card rounded-2xl p-6 lg:p-8 clean-border hover:elevated-shadow transition-all duration-300 mobile-transparent-card flex flex-col h-full">
+    <motion.div 
+      whileHover={{ y: -4, transition: { duration: 0.3 } }}
+      className="bg-card rounded-2xl p-6 lg:p-8 clean-border hover:elevated-shadow transition-all duration-300 mobile-transparent-card flex flex-col h-full group overflow-hidden relative"
+    >
+      {/* Hover gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-accent-orange/0 to-accent-blue/0 group-hover:from-accent-orange/5 group-hover:to-accent-blue/5 transition-all duration-500" />
+      
       {/* Quote Icon */}
-      <div className="mb-4">
-        <Quote className="w-8 h-8 text-accent-orange/30" />
+      <div className="relative z-10 mb-4">
+        <Quote className="w-8 h-8 text-accent-orange/30 group-hover:text-accent-orange/60 transition-colors duration-500" />
       </div>
 
       {/* Rating */}
-      <StarRating rating={testimonial.rating} />
+      <div className="relative z-10"><StarRating rating={testimonial.rating} /></div>
 
       {/* Quote */}
-      <p className="text-muted-foreground leading-relaxed mt-4 mb-6 flex-1 italic">
+      <p className="relative z-10 text-muted-foreground leading-relaxed mt-4 mb-6 flex-1 italic">
         "{t(testimonial.quoteKey)}"
       </p>
 
       {/* Author */}
-      <div className="border-t border-border pt-4 mt-auto">
+      <div className="relative z-10 border-t border-border pt-4 mt-auto">
         <div className="flex items-center justify-between">
           <div>
             <p className="font-semibold text-foreground text-sm">
@@ -270,6 +276,6 @@ function TestimonialCard({ testimonial, t }: TestimonialCardProps) {
           </span>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

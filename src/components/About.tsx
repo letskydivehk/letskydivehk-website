@@ -3,15 +3,10 @@
 import { motion } from "framer-motion";
 import { Shield, Award, Users, Heart } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { StatsSection } from "./StatsSection";
 
 export function About() {
   const { t } = useLanguage();
-  const stats = [
-    { number: "10,000+", labelKey: "about.stats.safeJumps" },
-    { number: "15+", labelKey: "about.stats.yearsExperience" },
-    { number: "6", labelKey: "about.stats.locations" },
-    { number: "100%", labelKey: "about.stats.safetyRecord" },
-  ];
 
   const values = [
     {
@@ -56,22 +51,8 @@ export function About() {
           </p>
         </div>
 
-        {/* Stats */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-20 max-w-4xl mx-auto">
-          {stats.map((stat, index) => (
-            <motion.div
-              key={stat.labelKey}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="text-center p-6 bg-card rounded-2xl clean-border mobile-transparent-card"
-            >
-              <div className="text-3xl lg:text-4xl font-black text-accent-orange mb-2">{stat.number}</div>
-              <div className="text-sm text-muted-foreground font-medium">{t(stat.labelKey)}</div>
-            </motion.div>
-          ))}
-        </div>
+        {/* Animated Stats */}
+        <StatsSection />
 
         {/* Values Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
@@ -80,17 +61,23 @@ export function About() {
             return (
               <motion.div
                 key={value.titleKey}
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-card rounded-2xl p-8 clean-border hover:elevated-shadow transition-all duration-300 mobile-transparent-card"
+                transition={{ delay: index * 0.1, duration: 0.5 }}
+                whileHover={{ y: -6, transition: { duration: 0.3 } }}
+                className="group relative bg-card rounded-2xl p-8 clean-border transition-all duration-300 mobile-transparent-card hover:elevated-shadow overflow-hidden"
               >
-                <div className="w-14 h-14 bg-accent-orange/10 rounded-2xl flex items-center justify-center mb-6">
-                  <Icon className="w-7 h-7 text-accent-orange" />
+                {/* Hover gradient overlay */}
+                <div className="absolute inset-0 bg-gradient-to-br from-accent-orange/0 to-accent-blue/0 group-hover:from-accent-orange/5 group-hover:to-accent-blue/5 transition-all duration-500" />
+                
+                <div className="relative z-10">
+                  <div className="w-14 h-14 bg-accent-orange/10 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-accent-orange group-hover:scale-110 transition-all duration-500">
+                    <Icon className="w-7 h-7 text-accent-orange group-hover:text-white transition-colors duration-500" />
+                  </div>
+                  <h3 className="text-xl font-bold text-foreground mb-3">{t(value.titleKey)}</h3>
+                  <p className="text-muted-foreground leading-relaxed">{t(value.descKey)}</p>
                 </div>
-                <h3 className="text-xl font-bold text-foreground mb-3">{t(value.titleKey)}</h3>
-                <p className="text-muted-foreground leading-relaxed">{t(value.descKey)}</p>
               </motion.div>
             );
           })}
