@@ -243,7 +243,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
               className="flex-1 py-3 bg-muted text-foreground font-semibold rounded-lg hover:bg-muted/80 transition-colors cursor-pointer flex items-center justify-center gap-2"
             >
               <Eye className="w-4 h-4" />
-              {t("View Details")}
+              {t("locations.viewDetails")}
             </button>
             <button
               onClick={(e) => {
@@ -252,7 +252,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
               }}
               className="flex-1 py-3 bg-accent-orange text-white font-semibold rounded-lg hover:bg-accent-orange/90 transition-colors cursor-pointer"
             >
-              {t("Book Here")}
+              {t("locations.bookHereBtn")}
             </button>
           </div>
         ) : (
