@@ -50,6 +50,21 @@ const translations: Record<Language, Record<string, string>> = {
     "locations.map.title": "Explore Our Dropzones",
     "locations.map.subtitle": "Select a location to view on the map",
     "locations.map.openGoogleMaps": "Open in Google Maps",
+    "locations.viewDetails": "View Details",
+    "locations.bookHereBtn": "Book Here",
+
+    // Location Detail Page
+    "locationDetail.notFound": "Location not found",
+    "locationDetail.backToHome": "Back To Home",
+    "locationDetail.highlights": "Highlights",
+    "locationDetail.fromAirport": "From Airport",
+    "locationDetail.fromCity": "From City",
+    "locationDetail.transportation": "Transportation",
+    "locationDetail.photos": "Photos",
+    "locationDetail.servicesHere": "Services Here",
+    "locationDetail.map": "Map",
+    "locationDetail.readyToJump": "Ready To Jump?",
+    "locationDetail.bookHere": "Book Here",
 
     // Services Section
     "services.badge": "What We Offer",
@@ -552,6 +567,21 @@ const translations: Record<Language, Record<string, string>> = {
     "locations.map.title": "探索我們的跳傘基地",
     "locations.map.subtitle": "選擇一個地點在地圖上查看",
     "locations.map.openGoogleMaps": "在 Google 地圖中開啟",
+    "locations.viewDetails": "查看詳情",
+    "locations.bookHereBtn": "立即預約",
+
+    // Location Detail Page
+    "locationDetail.notFound": "找不到該地點",
+    "locationDetail.backToHome": "返回首頁",
+    "locationDetail.highlights": "特色亮點",
+    "locationDetail.fromAirport": "距離機場",
+    "locationDetail.fromCity": "距離市區",
+    "locationDetail.transportation": "交通方式",
+    "locationDetail.photos": "相片集",
+    "locationDetail.servicesHere": "此地點服務",
+    "locationDetail.map": "地圖",
+    "locationDetail.readyToJump": "準備好起飛了嗎？",
+    "locationDetail.bookHere": "立即預約",
 
     // Services Section
     "services.badge": "我們提供的服務",
