@@ -1063,6 +1063,8 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "service.Tandem Skydive with Handicam": "Tandem Skydive with Handicam",
     "service.Tandem Skydive with Video": "Tandem Skydive with Video",
     "service.Tandem Skydive with Ultimate Combo": "Tandem Skydive with Ultimate Combo",
+    "service.Tandem Skydive with Ultimate Combo (Handicam + Wide shot)": "Tandem Skydive with Ultimate Combo (Handicam + Wide shot)",
+    "service.Tandem Skydive with Ultimate Combo (Video + Photos)": "Tandem Skydive with Ultimate Combo (Video + Photos)",
     "service.A-License Package": "A-License Package",
     "service.Group Events": "Group Events",
 
@@ -1104,6 +1106,8 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "service.Tandem Skydive with Handicam": "雙人跳傘含手持攝影",
     "service.Tandem Skydive with Video": "雙人跳傘含影片",
     "service.Tandem Skydive with Ultimate Combo": "雙人跳傘終極組合",
+    "service.Tandem Skydive with Ultimate Combo (Handicam + Wide shot)": "雙人傘終極組合（包含近鏡 + 全景拍攝）",
+    "service.Tandem Skydive with Ultimate Combo (Video + Photos)": "雙人傘終極組合（包含影片 + 照片）",
     "service.A-License Package": "A級執照套餐",
     "service.Group Events": "團體活動",
 
