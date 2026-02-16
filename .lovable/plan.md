@@ -1,120 +1,36 @@
 
-# Fix 404 Error After Google OAuth Sign-in
+## 問題分析
 
-## Problem Summary
-After signing in with Google OAuth, users see a "404: NOT_FOUND" error. This happens because:
-1. The custom domain `letskydivehk.com` may not be properly configured in Supabase's allowed redirect URLs
-2. The OAuth callback handling doesn't properly manage the token exchange on custom domains
+資料庫中所有「Ultimate Combo」相關的服務名稱在 `(` 前面包含了一個隱藏的**換行符號**（`\n`），導致翻譯 key 無法匹配。
 
----
+例如：
+- 資料庫值：`Tandem Skydive with Ultimate Combo\n(Video + Photos)`（有換行）
+- 翻譯 key：`service.Tandem Skydive with Ultimate Combo (Video + Photos)`（無換行）
 
-## Solution Overview
+由於 key 不同，`translateData` 找不到對應翻譯，就直接顯示英文原文。
 
-### Part 1: Supabase Dashboard Configuration (Manual Step)
+## 修復方案
 
-You need to update your Supabase project's authentication settings to include all domains:
-
-**Go to**: Supabase Dashboard > Authentication > URL Configuration
-
-**Add these Redirect URLs:**
-- `https://letskydivehk.com/**`
-- `https://letskydivehk.com/membership`
-- `https://letskydivehk.lovable.app/**`
-- `https://letskydivehk.lovable.app/membership`
-- `https://id-preview--7daa22e3-e313-4c93-a246-134f9c762b55.lovable.app/**`
-- `https://id-preview--7daa22e3-e313-4c93-a246-134f9c762b55.lovable.app/membership`
-
-**Set Site URL to:** `https://letskydivehk.com` (your primary production domain)
+在 `translateData` 函數中加入清理邏輯，將換行符號替換為空格後再進行 key 查找。這樣不需要修改資料庫資料，也能正確匹配翻譯。
 
 ---
 
-### Part 2: Code Changes
+### 技術細節
 
-#### 1. Update AuthContext.tsx - Handle OAuth Token from URL Hash
+**修改檔案**: `src/contexts/LanguageContext.tsx`
 
-Add logic to extract and process the OAuth access token from the URL hash after redirect. This ensures the session is properly established when returning from Google:
+修改 `translateData` 函數，在查找翻譯前先將 key 中的換行符號（`\n`、`\r`）替換為空格：
 
-```text
-Changes to src/contexts/AuthContext.tsx:
-- Add useEffect to detect OAuth callback (URL contains access_token)
-- Call supabase.auth.getSession() to exchange the token
-- Handle errors gracefully with user feedback
+```tsx
+const translateData = (key: string, fallback: string): string => {
+  const normalizedKey = key.replace(/[\r\n]+/g, ' ');
+  return dataTranslations[language][normalizedKey] || dataTranslations[language][key] || fallback;
+};
 ```
 
-#### 2. Create an Auth Callback Route (Optional but Recommended)
-
-Create a dedicated `/auth/callback` page that handles the OAuth redirect more reliably:
-
-```text
-New file: src/pages/AuthCallback.tsx
-- Extracts session from URL
-- Displays loading state while processing
-- Redirects to /membership after successful authentication
-- Shows error message if authentication fails
-```
-
-#### 3. Update App.tsx Routes
-
-Add the auth callback route:
-
-```text
-Changes to src/App.tsx:
-- Add route: /auth/callback -> AuthCallback component
-```
-
-#### 4. Update OAuth Redirect URL in AuthContext
-
-Change the redirect to use the callback handler:
-
-```text
-Changes to src/contexts/AuthContext.tsx signInWithGoogle:
-- Change redirectTo from /membership to /auth/callback
-- The callback page will then redirect to /membership after token exchange
-```
-
----
-
-## Technical Details
-
-### Token Exchange Flow (Current Issue)
-```text
-1. User clicks "Sign in with Google"
-2. Redirects to Google OAuth
-3. Google redirects back to Supabase callback
-4. Supabase redirects to custom domain with tokens in URL hash
-5. ❌ PROBLEM: Page loads but tokens aren't processed, session not established
-6. 404 error appears
-```
-
-### Fixed Flow
-```text
-1. User clicks "Sign in with Google"
-2. Redirects to Google OAuth
-3. Google redirects back to Supabase callback
-4. Supabase redirects to /auth/callback with tokens
-5. ✅ AuthCallback page extracts tokens
-6. ✅ Session established via getSession()
-7. ✅ Redirect to /membership with valid session
-```
-
----
-
-## Files to Create/Modify
-
-| File | Action | Purpose |
-|------|--------|---------|
-| `src/pages/AuthCallback.tsx` | Create | Handle OAuth redirect and token exchange |
-| `src/App.tsx` | Modify | Add /auth/callback route |
-| `src/contexts/AuthContext.tsx` | Modify | Update redirectTo URL |
-
----
-
-## Immediate Action Required
-
-Before the code changes will work, you must update the Supabase Dashboard:
-
-1. Go to https://supabase.com/dashboard/project/xmelqjnxllsqofvkoccd/auth/url-configuration
-2. Add your custom domain URLs to the Redirect URLs list
-3. Verify the Site URL is set correctly
-
-This is the most critical step - without it, OAuth will continue to fail.
+這個修改：
+- 先嘗試用清理後的 key 查找翻譯
+- 如果找不到，再用原始 key 查找（向下兼容）
+- 最後才退回顯示 fallback 原文
+- 不需要修改資料庫資料
+- 影響範圍最小，所有動態翻譯都會受益
