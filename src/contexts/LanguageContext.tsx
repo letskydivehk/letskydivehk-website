@@ -1045,7 +1045,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "location.hainan.desc": "Tropical paradise skydiving with crystal clear ocean views.",
     "location.huizhou.desc": "Scenic coastal views and perfect weather conditions year-round.",
     "location.luoding.desc": "A new adventure destination in Guangdong province.",
-    "location.zhuhai.desc": "Coming soon - Stunning coastal views near Macau.",
+    "location.zhuhai.desc": "Stunning coastal views near Macau with year-round skydiving conditions.",
 
     // Countries
     "country.Thailand": "Thailand",
@@ -1072,6 +1072,21 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "serviceType.tandem": "Tandem Skydive",
     "serviceType.aff": "A-Licence",
     "serviceType.group": "Group Events",
+
+    // Service includes
+    "include.Handicam video recording": "Handicam video recording",
+    "include.Wide shot video": "Wide shot video",
+    "include.Certificate of completion": "Certificate of completion",
+    "include.60 seconds of freefall": "60 seconds of freefall",
+    "include.5-7 minute canopy ride": "5-7 minute canopy ride",
+    "include.Dedicated group coordinator": "Dedicated group coordinator",
+    "include.Private briefing session": "Private briefing session",
+    "include.Group photos & videos": "Group photos & videos",
+    "include.Celebration area access": "Celebration area access",
+    "include.A free session of Shenzhen i-Fly experience": "A free session of Shenzhen i-Fly experience",
+
+    // Price display
+    "price.Custom Quote": "Custom Quote",
   },
   "zh-TW": {
     // Location names
@@ -1088,7 +1103,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "location.hainan.desc": "在熱帶天堂跳傘，享受清澈的海景。",
     "location.huizhou.desc": "全年優美的海岸景色和完美的天氣條件。",
     "location.luoding.desc": "廣東省的新探險目的地。",
-    "location.zhuhai.desc": "即將推出 - 澳門附近的壯麗海岸景色。",
+    "location.zhuhai.desc": "澳門附近的壯麗海岸景色，全年適合跳傘。",
 
     // Countries
     "country.Thailand": "泰國",
@@ -1115,6 +1130,21 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "serviceType.tandem": "雙人跳傘",
     "serviceType.aff": "A級執照",
     "serviceType.group": "團體活動",
+
+    // Service includes
+    "include.Handicam video recording": "手持攝影錄影",
+    "include.Wide shot video": "全景拍攝影片",
+    "include.Certificate of completion": "完成證書",
+    "include.60 seconds of freefall": "60秒自由落體",
+    "include.5-7 minute canopy ride": "5-7分鐘傘下飛行",
+    "include.Dedicated group coordinator": "專屬團體協調員",
+    "include.Private briefing session": "私人簡報環節",
+    "include.Group photos & videos": "團體照片及影片",
+    "include.Celebration area access": "慶祝區域使用",
+    "include.A free session of Shenzhen i-Fly experience": "免費一次深圳i-Fly體驗",
+
+    // Price display
+    "price.Custom Quote": "專屬報價",
   },
 };
 
