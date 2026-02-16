@@ -209,13 +209,13 @@ export default function LocationDetail() {
                             </span>
                           )}
                         </div>
-                        <p className="text-2xl font-black text-accent-orange mb-3">{service.price_display}</p>
+                        <p className="text-2xl font-black text-accent-orange mb-3">{translateData(`price.${service.price_display}`, service.price_display)}</p>
                         {service.includes && service.includes.length > 0 && (
                           <ul className="space-y-1">
                             {service.includes.map((item, i) => (
                               <li key={i} className="text-sm text-muted-foreground flex items-center gap-2">
                                 <div className="w-1.5 h-1.5 bg-accent-emerald rounded-full" />
-                                {item}
+                                {translateData(`include.${item}`, item)}
                               </li>
                             ))}
                           </ul>
