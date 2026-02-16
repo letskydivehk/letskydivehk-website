@@ -1360,7 +1360,8 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   // Translate dynamic data from Supabase
   const translateData = (key: string, fallback: string): string => {
-    return dataTranslations[language][key] || fallback;
+    const normalizedKey = key.replace(/[\r\n]+/g, ' ');
+    return dataTranslations[language][normalizedKey] || dataTranslations[language][key] || fallback;
   };
 
   return (
