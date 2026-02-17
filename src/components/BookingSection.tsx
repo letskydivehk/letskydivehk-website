@@ -25,6 +25,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
 import { toast } from "sonner";
 import { SectionDecorations } from "./SectionDecorations";
+import { ServiceNameDisplay } from "./ServiceNameDisplay";
 import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
@@ -364,7 +365,7 @@ export function BookingSection() {
                   </p>
                   <p>
                     <span className="font-medium text-foreground">{t("booking.service")}:</span>{" "}
-                    {translatedSelectedService?.service_name}
+                    <ServiceNameDisplay name={translatedSelectedService?.service_name || ''} />
                   </p>
                   <p>
                     <span className="font-medium text-foreground">{t("booking.date")}:</span> {formData.date}
@@ -601,7 +602,7 @@ export function BookingSection() {
                               <div className="flex-1">
                                 <div className="flex items-center gap-2 mb-1">
                                   <h4 className="font-bold text-foreground text-lg">
-                                    {translatedService.service_name}
+                                    <ServiceNameDisplay name={translatedService.service_name} />
                                   </h4>
                                   {service.is_popular && (
                                     <span className="bg-accent-orange text-white text-xs font-bold px-2 py-0.5 rounded-full">
@@ -894,7 +895,7 @@ export function BookingSection() {
                       </div>
                       <div>
                         <p className="text-muted-foreground">{t("booking.service")}</p>
-                        <p className="font-semibold text-foreground">{translatedSelectedService?.service_name}</p>
+                        <p className="font-semibold text-foreground"><ServiceNameDisplay name={translatedSelectedService?.service_name || ''} /></p>
                         <p className="text-xs text-muted-foreground">{selectedService?.price_display}</p>
                       </div>
                       <div>

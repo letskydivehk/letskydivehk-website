@@ -6,6 +6,7 @@ import { useLocationServices } from "@/hooks/useLocationServices";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useBooking } from "@/contexts/BookingContext";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
+import { ServiceNameDisplay } from "@/components/ServiceNameDisplay";
 import { Footer } from "@/components/Footer";
 import { LocationPhotoGallery } from "@/components/location/LocationPhotoGallery";
 
@@ -202,7 +203,7 @@ export default function LocationDetail() {
                     return (
                       <div key={service.id} className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card">
                         <div className="flex items-center justify-between mb-3">
-                          <h3 className="font-bold text-foreground text-lg">{translatedServiceName}</h3>
+                          <h3 className="font-bold text-foreground text-lg"><ServiceNameDisplay name={translatedServiceName} /></h3>
                           {service.is_popular && (
                             <span className="text-xs font-bold bg-accent-orange text-white px-3 py-1 rounded-full">
                               {t("services.popular")}
