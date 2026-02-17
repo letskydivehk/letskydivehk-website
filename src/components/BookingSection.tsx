@@ -598,45 +598,41 @@ export function BookingSection() {
                                 : "border-border hover:border-accent-emerald/50"
                             }`}
                           >
-                            <div className="flex items-start justify-between gap-4">
-                              <div className="flex-1">
-                                <div className="flex items-center gap-2 mb-1">
-                                  <h4 className="font-bold text-foreground text-lg">
-                                    <ServiceNameDisplay name={translatedService.service_name} />
-                                  </h4>
-                                  {service.is_popular && (
-                                    <span className="bg-accent-orange text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                                      {t("services.popular").toUpperCase()}
+                            <div>
+                              <div className="flex items-center gap-2 mb-1">
+                                <h4 className="font-bold text-foreground text-lg">
+                                  <ServiceNameDisplay name={translatedService.service_name} />
+                                </h4>
+                                {service.is_popular && (
+                                  <span className="bg-accent-orange text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                                    {t("services.popular").toUpperCase()}
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-2xl font-black text-foreground mb-2">{service.price_display}</p>
+                              <p className="text-sm text-muted-foreground capitalize mb-2">
+                                {translateData(`serviceType.${service.service_type}`, service.service_type)}
+                              </p>
+                              {service.description && (
+                                <p className="text-muted-foreground text-sm">{service.description}</p>
+                              )}
+                              {service.includes && service.includes.length > 0 && (
+                                <div className="mt-3 flex flex-wrap gap-2">
+                                  {service.includes.slice(0, 3).map((item, idx) => (
+                                    <span
+                                      key={idx}
+                                      className="text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground"
+                                    >
+                                      {item}
+                                    </span>
+                                  ))}
+                                  {service.includes.length > 3 && (
+                                    <span className="text-xs text-muted-foreground">
+                                      +{service.includes.length - 3} {t("booking.more")}
                                     </span>
                                   )}
                                 </div>
-                                <p className="text-sm text-muted-foreground capitalize mb-2">
-                                  {translateData(`serviceType.${service.service_type}`, service.service_type)}
-                                </p>
-                                {service.description && (
-                                  <p className="text-muted-foreground text-sm">{service.description}</p>
-                                )}
-                                {service.includes && service.includes.length > 0 && (
-                                  <div className="mt-3 flex flex-wrap gap-2">
-                                    {service.includes.slice(0, 3).map((item, idx) => (
-                                      <span
-                                        key={idx}
-                                        className="text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground"
-                                      >
-                                        {item}
-                                      </span>
-                                    ))}
-                                    {service.includes.length > 3 && (
-                                      <span className="text-xs text-muted-foreground">
-                                        +{service.includes.length - 3} {t("booking.more")}
-                                      </span>
-                                    )}
-                                  </div>
-                                )}
-                              </div>
-                              <div className="text-right flex-shrink-0">
-                                <p className="text-2xl font-black text-foreground">{service.price_display}</p>
-                              </div>
+                              )}
                             </div>
                             {formData.service === service.id && (
                               <div className="mt-4 pt-4 border-t border-border">
