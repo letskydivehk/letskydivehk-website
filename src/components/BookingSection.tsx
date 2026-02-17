@@ -610,9 +610,6 @@ export function BookingSection() {
                                 )}
                               </div>
                               <p className="text-2xl font-black text-foreground mb-2">{service.price_display}</p>
-                              <p className="text-sm text-muted-foreground capitalize mb-2">
-                                {translateData(`serviceType.${service.service_type}`, service.service_type)}
-                              </p>
                               {service.description && (
                                 <p className="text-muted-foreground text-sm">{service.description}</p>
                               )}
