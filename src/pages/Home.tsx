@@ -1,16 +1,16 @@
-import { Link } from 'react-router-dom';
-import { ChevronRight } from 'lucide-react';
-import { Hero } from '@/components/Hero';
-import { Services } from '@/components/Services';
-import { Locations } from '@/components/Locations';
-import { BookingSection } from '@/components/BookingSection';
-import { Testimonials } from '@/components/Testimonials';
-import { About } from '@/components/About';
-import { FAQ } from '@/components/FAQ';
-import { Contact } from '@/components/Contact';
-import { Footer } from '@/components/Footer';
-import { BackgroundDecorations } from '@/components/BackgroundDecorations';
-import { useLanguage } from '@/contexts/LanguageContext';
+import { Link } from "react-router-dom";
+import { ChevronRight } from "lucide-react";
+import { Hero } from "@/components/Hero";
+import { Services } from "@/components/Services";
+import { Locations } from "@/components/Locations";
+import { BookingSection } from "@/components/BookingSection";
+import { Testimonials } from "@/components/Testimonials";
+import { About } from "@/components/About";
+import { FAQ } from "@/components/FAQ";
+import { Contact } from "@/components/Contact";
+import { Footer } from "@/components/Footer";
+import { BackgroundDecorations } from "@/components/BackgroundDecorations";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -26,12 +26,12 @@ export default function Home() {
         {/* Promotion Banner */}
         <Link
           to="/promotions"
-          className="block bg-accent-orange text-white py-3 px-6 text-center font-semibold hover:bg-accent-orange/90 transition-colors"
+          className="block bg-accent-orange text-white py-10 px-6 text-center font-semibold hover:bg-accent-orange/90 transition-colors"
         >
           <span className="inline-flex items-center gap-2 text-sm sm:text-base">
-            {t('promo.homeBanner')}
+            {t("promo.homeBanner")}
             <span className="underline underline-offset-2 inline-flex items-center gap-1">
-              {t('promo.homeBannerCta')}
+              {t("promo.homeBannerCta")}
               <ChevronRight className="w-4 h-4" />
             </span>
           </span>
