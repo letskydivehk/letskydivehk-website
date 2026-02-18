@@ -28,7 +28,7 @@ export default function Home() {
           to="/promotions"
           className="block bg-accent-orange text-white py-10 px-6 text-center font-semibold hover:bg-accent-orange/90 transition-colors"
         >
-          <span className="inline-flex items-center gap-2 text-sm sm:text-base">
+          <span className="inline-flex items-center gap-2 text-3XL sm:text-base">
             {t("promo.homeBanner")}
             <span className="underline underline-offset-2 inline-flex items-center gap-1">
               {t("promo.homeBannerCta")}
