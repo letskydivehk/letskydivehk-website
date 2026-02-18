@@ -348,7 +348,8 @@ const translations: Record<Language, Record<string, string>> = {
     "promo.group2.title": "Buddy Deal — Jump Together & Save",
     "promo.group2.desc": "Bring a friend and you both save! Book together for an instant discount.",
     "promo.group2.details": "Each person saves $100 when 2 people book together for the same session.",
-    "promo.group2.terms": "Both participants must book the same session at the same location. Discount applies to tandem skydive packages only. Cannot be combined with other promotions. Subject to availability.",
+    "promo.group2.terms":
+      "Both participants must book the same session at the same location. Discount applies to tandem skydive packages only. Cannot be combined with other promotions. Subject to availability.",
     "promo.homeBanner": "🔥 Buddy Deal: 2 jump together, each saves $100!",
     "promo.homeBannerCta": "View Details",
 
@@ -857,7 +858,7 @@ const translations: Record<Language, Record<string, string>> = {
     "gallery.uploadError": "上傳媒體失敗",
     "nav.gallery": "相片集",
     "nav.faq": "常見問題",
-    "nav.promotions": "優惠活動",
+    "nav.promotions": "最新優惠",
 
     // Promotions Page
     "promo.badge": "限時優惠",
@@ -871,7 +872,8 @@ const translations: Record<Language, Record<string, string>> = {
     "promo.group2.title": "拍住跳優惠 — 一齊跳更抵！",
     "promo.group2.desc": "約埋朋友一齊跳，二人同行即享折扣！",
     "promo.group2.details": "2人同行預約同一場次，每人即減 $100。",
-    "promo.group2.terms": "兩位參加者必須預約同一地點的同一場次。優惠僅適用於雙人跳傘套餐，不能與其他優惠同時使用，名額有限，先到先得。",
+    "promo.group2.terms":
+      "兩位參加者必須預約同一地點的同一場次。優惠僅適用於雙人跳傘套餐，不能與其他優惠同時使用，名額有限，先到先得。",
     "promo.homeBanner": "🔥 拍住跳優惠：2人同行，每人減 $100！",
     "promo.homeBannerCta": "查看詳情",
 
@@ -1097,8 +1099,10 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "service.Tandem Skydive with Handicam": "Tandem Skydive with Handicam",
     "service.Tandem Skydive with Video": "Tandem Skydive with Video",
     "service.Tandem Skydive with Ultimate Combo": "Tandem Skydive with Ultimate Combo",
-    "service.Tandem Skydive with Ultimate Combo (Handicam + Wide shot)": "Tandem Skydive with Ultimate Combo (Handicam + Wide shot)",
-    "service.Tandem Skydive with Ultimate Combo (Video + Photos)": "Tandem Skydive with Ultimate Combo (Video + Photos)",
+    "service.Tandem Skydive with Ultimate Combo (Handicam + Wide shot)":
+      "Tandem Skydive with Ultimate Combo (Handicam + Wide shot)",
+    "service.Tandem Skydive with Ultimate Combo (Video + Photos)":
+      "Tandem Skydive with Ultimate Combo (Video + Photos)",
     "service.A-License Package": "A-License Package",
     "service.Group Events": "Group Events",
 
@@ -1394,7 +1398,7 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   // Translate dynamic data from Supabase
   const translateData = (key: string, fallback: string): string => {
-    const normalizedKey = key.replace(/[\r\n]+/g, ' ').replace(/\s+/g, ' ');
+    const normalizedKey = key.replace(/[\r\n]+/g, " ").replace(/\s+/g, " ");
     return dataTranslations[language][normalizedKey] || dataTranslations[language][key] || fallback;
   };
 
