@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+import { ChevronRight } from 'lucide-react';
 import { Hero } from '@/components/Hero';
 import { Services } from '@/components/Services';
 import { Locations } from '@/components/Locations';
@@ -8,8 +10,11 @@ import { FAQ } from '@/components/FAQ';
 import { Contact } from '@/components/Contact';
 import { Footer } from '@/components/Footer';
 import { BackgroundDecorations } from '@/components/BackgroundDecorations';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 export default function Home() {
+  const { t } = useLanguage();
+
   return (
     <div className="min-h-screen bg-background text-foreground relative">
       <BackgroundDecorations />
@@ -17,6 +22,21 @@ export default function Home() {
         <section id="hero" aria-label="Hero section">
           <Hero />
         </section>
+
+        {/* Promotion Banner */}
+        <Link
+          to="/promotions"
+          className="block bg-accent-orange text-white py-3 px-6 text-center font-semibold hover:bg-accent-orange/90 transition-colors"
+        >
+          <span className="inline-flex items-center gap-2 text-sm sm:text-base">
+            {t('promo.homeBanner')}
+            <span className="underline underline-offset-2 inline-flex items-center gap-1">
+              {t('promo.homeBannerCta')}
+              <ChevronRight className="w-4 h-4" />
+            </span>
+          </span>
+        </Link>
+
         <section id="locations" aria-label="Locations section">
           <Locations />
         </section>
