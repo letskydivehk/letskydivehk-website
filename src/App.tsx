@@ -15,6 +15,7 @@ import Terms from './pages/Terms';
 import Disclaimer from './pages/Disclaimer';
 import NotFound from './pages/NotFound';
 import Promotions from './pages/Promotions';
+import AdminCredits from './pages/AdminCredits';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -41,6 +42,7 @@ export default function App() {
                 <Route path="/membership" element={<MemberProfile />} />
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/promotions" element={<Promotions />} />
+                <Route path="/admin/credits" element={<AdminCredits />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/disclaimer" element={<Disclaimer />} />

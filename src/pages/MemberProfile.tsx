@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, User, Phone, Mail, UserPlus, Save, Loader2, Calendar, MapPin } from "lucide-react";
+import { ArrowLeft, User, Phone, Mail, UserPlus, Save, Loader2, Calendar, MapPin, Coins, TrendingUp, TrendingDown, Shield } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -82,6 +82,9 @@ export default function MemberProfile() {
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
+  const [creditBalance, setCreditBalance] = useState<number>(0);
+  const [creditTransactions, setCreditTransactions] = useState<any[]>([]);
+  const [isAdmin, setIsAdmin] = useState(false);
   const [profileLoading, setProfileLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
@@ -181,7 +184,33 @@ export default function MemberProfile() {
     }
   }, []);
 
-  // Handle auth state and redirects
+  const fetchCredits = useCallback(async (userId: string) => {
+    try {
+      const { data: balance } = await supabase.rpc('get_credit_balance', { _user_id: userId });
+      setCreditBalance(balance || 0);
+
+      const { data: transactions } = await supabase
+        .from('credit_transactions')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(10);
+      setCreditTransactions(transactions || []);
+    } catch (error) {
+      console.error('Error fetching credits:', error);
+    }
+  }, []);
+
+  const checkAdminRole = useCallback(async (userId: string) => {
+    try {
+      const { data } = await supabase.rpc('has_role', { _user_id: userId, _role: 'admin' });
+      setIsAdmin(!!data);
+    } catch (error) {
+      console.error('Error checking admin role:', error);
+    }
+  }, []);
+
+
   useEffect(() => {
     if (authLoading) return;
     
@@ -197,6 +226,8 @@ export default function MemberProfile() {
     console.log("User authenticated, fetching profile data...");
     fetchProfile(user.id);
     fetchBookings(user.id);
+    fetchCredits(user.id);
+    checkAdminRole(user.id);
   }, [authLoading, user, navigate, fetchProfile, fetchBookings]);
 
   const handleSave = async () => {
@@ -456,8 +487,58 @@ export default function MemberProfile() {
               </CardContent>
             </Card>
 
-            {/* Sidebar - Bookings */}
+            {/* Sidebar */}
             <div className="space-y-4">
+              {/* Credit Balance Card */}
+              <Card className="mobile-transparent-card border-primary/20">
+                <CardHeader className="pb-3">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    <Coins className="w-4 h-4 text-primary" />
+                    {t("credit.balance") || "Credit Balance"}
+                  </CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="text-center py-2">
+                    <p className="text-3xl font-bold text-primary">${creditBalance}</p>
+                    <p className="text-xs text-muted-foreground mt-1">HKD</p>
+                  </div>
+
+                  {creditTransactions.length > 0 && (
+                    <div className="mt-4 space-y-2">
+                      <h4 className="text-xs font-semibold text-muted-foreground uppercase">
+                        {t("credit.history") || "Transaction History"}
+                      </h4>
+                      {creditTransactions.map((tx) => (
+                        <div key={tx.id} className="flex items-center justify-between p-2 bg-muted/50 rounded-md">
+                          <div className="flex items-center gap-2">
+                            {tx.amount > 0 ? (
+                              <TrendingUp className="w-3 h-3 text-green-500" />
+                            ) : (
+                              <TrendingDown className="w-3 h-3 text-red-500" />
+                            )}
+                            <span className="text-xs">{t(`credit.${tx.type}`) || tx.type}</span>
+                          </div>
+                          <span className={`text-sm font-semibold ${tx.amount > 0 ? 'text-green-500' : 'text-red-500'}`}>
+                            {tx.amount > 0 ? '+' : ''}{tx.amount}
+                          </span>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+
+              {/* Admin Link */}
+              {isAdmin && (
+                <Link to="/admin/credits">
+                  <Button variant="outline" className="w-full flex items-center gap-2">
+                    <Shield className="w-4 h-4" />
+                    {t("admin.title") || "Admin - Credit Management"}
+                  </Button>
+                </Link>
+              )}
+
+              {/* Bookings */}
               <Card className="mobile-transparent-card">
                 <CardHeader className="pb-3">
                   <CardTitle className="text-base flex items-center gap-2">
