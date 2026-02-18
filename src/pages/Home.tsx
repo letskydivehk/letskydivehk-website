@@ -28,11 +28,11 @@ export default function Home() {
           to="/promotions"
           className="block bg-accent-orange text-white py-10 px-6 text-center font-semibold hover:bg-accent-orange/90 transition-colors"
         >
-          <span className="inline-flex items-center gap-2 text-3XL sm:text-base">
+          <span className="inline-flex items-center gap-3 text-3XL sm:text-base">
             {t("promo.homeBanner")}
-            <span className="underline underline-offset-2 inline-flex items-center gap-1">
+            <span className="underline underline-offset-4 inline-flex items-center gap-2">
               {t("promo.homeBannerCta")}
-              <ChevronRight className="w-4 h-4" />
+              <ChevronRight className="w-6 h-6" />
             </span>
           </span>
         </Link>
