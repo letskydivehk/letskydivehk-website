@@ -186,6 +186,30 @@ const translations: Record<Language, Record<string, string>> = {
     "profile.myBookings": "My Bookings",
     "profile.noBookings": "No bookings yet",
 
+    // Credits
+    "credit.title": "My Credits",
+    "credit.balance": "Credit Balance",
+    "credit.history": "Transaction History",
+    "credit.noTransactions": "No transactions yet",
+    "credit.signup_bonus": "Signup Bonus",
+    "credit.admin_adjustment": "Admin Adjustment",
+    "credit.redemption": "Redemption",
+    "credit.refund": "Refund",
+    "credit.promotion": "Promotion",
+
+    // Admin
+    "admin.title": "Admin - Credit Management",
+    "admin.members": "Members",
+    "admin.adjustCredit": "Adjust Credit",
+    "admin.amount": "Amount",
+    "admin.description": "Description",
+    "admin.currentBalance": "Current Balance",
+    "admin.addCredit": "Add Credit",
+    "admin.deductCredit": "Deduct Credit",
+    "admin.searchMembers": "Search members...",
+    "admin.noMembers": "No members found",
+    "admin.creditHistory": "Credit History",
+
     // Auth Messages
     "auth.signInSuccess": "Signed in successfully!",
     "auth.signUpSuccess": "Registration successful! Please check your email to verify your account.",
@@ -714,6 +738,30 @@ const translations: Record<Language, Record<string, string>> = {
     "profile.validationError": "輸入無效",
     "profile.myBookings": "我的預約",
     "profile.noBookings": "尚無預約記錄",
+
+    // Credits
+    "credit.title": "我的積分",
+    "credit.balance": "積分餘額",
+    "credit.history": "交易記錄",
+    "credit.noTransactions": "尚無交易記錄",
+    "credit.signup_bonus": "註冊獎勵",
+    "credit.admin_adjustment": "管理員調整",
+    "credit.redemption": "兌換使用",
+    "credit.refund": "退款",
+    "credit.promotion": "推廣優惠",
+
+    // Admin
+    "admin.title": "管理員 - 積分管理",
+    "admin.members": "會員",
+    "admin.adjustCredit": "調整積分",
+    "admin.amount": "金額",
+    "admin.description": "說明",
+    "admin.currentBalance": "目前餘額",
+    "admin.addCredit": "增加積分",
+    "admin.deductCredit": "扣除積分",
+    "admin.searchMembers": "搜尋會員...",
+    "admin.noMembers": "找不到會員",
+    "admin.creditHistory": "積分記錄",
 
     // Auth Messages
     "auth.signInSuccess": "登入成功！",

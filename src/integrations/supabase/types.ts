@@ -86,6 +86,36 @@ export type Database = {
           },
         ]
       }
+      credit_transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          created_by: string | null
+          description: string | null
+          id: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          created_by?: string | null
+          description?: string | null
+          id?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       gallery_items: {
         Row: {
           category: string
@@ -413,6 +443,15 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      admin_adjust_credit: {
+        Args: {
+          p_amount: number
+          p_description?: string
+          p_target_user_id: string
+          p_type?: string
+        }
+        Returns: Json
+      }
       create_booking: {
         Args: {
           p_email?: string
@@ -428,6 +467,7 @@ export type Database = {
         }
         Returns: Json
       }
+      get_credit_balance: { Args: { _user_id: string }; Returns: number }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
