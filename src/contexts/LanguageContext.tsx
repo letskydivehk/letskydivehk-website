@@ -863,18 +863,18 @@ const translations: Record<Language, Record<string, string>> = {
     // Promotions Page
     "promo.badge": "限時優惠",
     "promo.title": "最新優惠",
-    "promo.subtitle": "把握我們的最新優惠，節省您的跳傘冒險費用。",
+    "promo.subtitle": "把握我們的最新限時優惠，節省您的跳傘冒險費用。",
     "promo.backToHome": "返回首頁",
     "promo.active": "進行中",
     "promo.termsTitle": "條款及細則",
     "promo.bookNow": "立即預約",
     "promo.perPerson": "每人",
-    "promo.group2.title": "拍住跳優惠 — 一齊跳更抵！",
+    "promo.group2.title": "孖住跳 — 兩個一齊跳更抵！",
     "promo.group2.desc": "約埋朋友一齊跳，二人同行即享折扣！",
     "promo.group2.details": "2人同行預約同一場次，每人即減 $100。",
     "promo.group2.terms":
       "兩位參加者必須預約同一地點的同一場次。優惠僅適用於雙人跳傘套餐，不能與其他優惠同時使用，名額有限，先到先得。",
-    "promo.homeBanner": "🔥 拍住跳優惠：2人同行，每人減 $100！",
+    "promo.homeBanner": "🔥 孖住跳：2人同行，每人減 $100！",
     "promo.homeBannerCta": "查看詳情",
 
     // Legal Pages
