@@ -15,6 +15,28 @@ interface ContactFormData {
   phone: string;
   subject: "aff" | "group" | "general";
   message: string;
+  website?: string; // honeypot field
+}
+
+// In-memory rate limiter (per edge function instance)
+const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
+const RATE_LIMIT_MAX = 5; // max submissions per window
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000; // 15 minutes
+
+function isRateLimited(ip: string): boolean {
+  const now = Date.now();
+  const entry = rateLimitMap.get(ip);
+
+  if (!entry || now > entry.resetAt) {
+    rateLimitMap.set(ip, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS });
+    return false;
+  }
+
+  entry.count++;
+  if (entry.count > RATE_LIMIT_MAX) {
+    return true;
+  }
+  return false;
 }
 
 // Simple input sanitization to prevent XSS in email content
@@ -64,7 +86,26 @@ const handler = async (req: Request): Promise<Response> => {
       );
     }
 
+    // Rate limiting by IP
+    const clientIp = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+                     req.headers.get("cf-connecting-ip") || "unknown";
+    if (isRateLimited(clientIp)) {
+      return new Response(
+        JSON.stringify({ success: false, error: "Too many requests. Please try again later." }),
+        { status: 429, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
+
     const data: ContactFormData = await req.json();
+
+    // Honeypot check — if the hidden "website" field is filled, it's a bot
+    if (data.website) {
+      // Silently accept to not reveal the honeypot
+      return new Response(
+        JSON.stringify({ success: true }),
+        { status: 200, headers: { "Content-Type": "application/json", ...corsHeaders } }
+      );
+    }
 
     // Validate required fields
     if (!data.name || !data.email || !data.message) {

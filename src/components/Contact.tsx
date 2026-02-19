@@ -13,6 +13,7 @@ interface ContactFormData {
   phone: string;
   subject: "aff" | "group" | "general";
   message: string;
+  website?: string; // honeypot
 }
 
 export function Contact() {
@@ -23,6 +24,7 @@ export function Contact() {
     phone: "",
     subject: "general",
     message: "",
+    website: "", // honeypot
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -63,6 +65,7 @@ export function Contact() {
       phone: "",
       subject: "general",
       message: "",
+      website: "",
     });
     setIsComplete(false);
   };
@@ -320,6 +323,20 @@ export function Contact() {
                         placeholder={t("contact.form.messagePlaceholder")}
                       />
                       <p className="text-xs text-muted-foreground mt-2">{t("contact.form.required")}</p>
+                    </div>
+
+                    {/* Honeypot field - hidden from users, catches bots */}
+                    <div className="absolute opacity-0 -z-10" aria-hidden="true" tabIndex={-1}>
+                      <label htmlFor="website">Website</label>
+                      <input
+                        type="text"
+                        id="website"
+                        name="website"
+                        autoComplete="off"
+                        value={formData.website || ""}
+                        onChange={(e) => setFormData({ ...formData, website: e.target.value })}
+                        tabIndex={-1}
+                      />
                     </div>
 
                     {/* Submit */}
