@@ -26,6 +26,7 @@ export type Database = {
           participants: number
           phone: string
           preferred_date: string
+          referral_code: string | null
           service_id: string
           special_requests: string | null
           status: string
@@ -44,6 +45,7 @@ export type Database = {
           participants?: number
           phone: string
           preferred_date: string
+          referral_code?: string | null
           service_id: string
           special_requests?: string | null
           status?: string
@@ -62,6 +64,7 @@ export type Database = {
           participants?: number
           phone?: string
           preferred_date?: string
+          referral_code?: string | null
           service_id?: string
           special_requests?: string | null
           status?: string
@@ -95,6 +98,7 @@ export type Database = {
           email: string | null
           full_name: string | null
           id: string
+          status: string
           type: string
           user_id: string
         }
@@ -106,6 +110,7 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id?: string
+          status?: string
           type: string
           user_id: string
         }
@@ -117,6 +122,7 @@ export type Database = {
           email?: string | null
           full_name?: string | null
           id?: string
+          status?: string
           type?: string
           user_id?: string
         }
@@ -335,6 +341,7 @@ export type Database = {
           full_name: string | null
           id: string
           phone: string | null
+          referral_code: string | null
           updated_at: string
           user_id: string
         }
@@ -348,6 +355,7 @@ export type Database = {
           full_name?: string | null
           id?: string
           phone?: string | null
+          referral_code?: string | null
           updated_at?: string
           user_id: string
         }
@@ -361,6 +369,7 @@ export type Database = {
           full_name?: string | null
           id?: string
           phone?: string | null
+          referral_code?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -458,28 +467,58 @@ export type Database = {
         }
         Returns: Json
       }
-      create_booking: {
-        Args: {
-          p_email?: string
-          p_first_name?: string
-          p_last_name?: string
-          p_location_id?: string
-          p_participants?: number
-          p_phone?: string
-          p_preferred_date?: string
-          p_service_id?: string
-          p_special_requests?: string
-          p_user_id?: string
-        }
+      admin_approve_credit: {
+        Args: { p_transaction_id: string }
         Returns: Json
       }
+      admin_reject_credit: { Args: { p_transaction_id: string }; Returns: Json }
+      create_booking:
+        | {
+            Args: {
+              p_email?: string
+              p_first_name?: string
+              p_last_name?: string
+              p_location_id?: string
+              p_participants?: number
+              p_phone?: string
+              p_preferred_date?: string
+              p_service_id?: string
+              p_special_requests?: string
+              p_user_id?: string
+            }
+            Returns: Json
+          }
+        | {
+            Args: {
+              p_email?: string
+              p_first_name?: string
+              p_last_name?: string
+              p_location_id?: string
+              p_participants?: number
+              p_phone?: string
+              p_preferred_date?: string
+              p_referral_code?: string
+              p_service_id?: string
+              p_special_requests?: string
+              p_user_id?: string
+            }
+            Returns: Json
+          }
       get_credit_balance: { Args: { _user_id: string }; Returns: number }
+      get_pending_credit_balance: {
+        Args: { _user_id: string }
+        Returns: number
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
           _user_id: string
         }
         Returns: boolean
+      }
+      process_referral_credit: {
+        Args: { p_booking_id: string; p_referral_code: string }
+        Returns: Json
       }
     }
     Enums: {
