@@ -63,6 +63,7 @@ interface BookingFormData {
   email: string;
   phone: string;
   notes: string;
+  referralCode: string;
 }
 
 type Step = "location" | "service" | "details" | "confirm";
@@ -79,6 +80,7 @@ export function BookingSection() {
     email: "",
     phone: "",
     notes: "",
+    referralCode: "",
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -166,6 +168,7 @@ export function BookingSection() {
       email: "",
       phone: "",
       notes: "",
+      referralCode: "",
     });
     setCurrentStep("location");
     setIsComplete(false);
@@ -272,6 +275,7 @@ export function BookingSection() {
         p_email: validationResult.data.email,
         p_phone: validationResult.data.phone,
         p_special_requests: validationResult.data.notes || null,
+        p_referral_code: formData.referralCode.trim() || null,
       });
 
       if (error) {
@@ -857,6 +861,24 @@ export function BookingSection() {
                         )}
                         <p className="text-muted-foreground text-xs">{formData.notes.length}/500</p>
                       </div>
+                    </div>
+
+                    {/* Referral Code */}
+                    <div>
+                      <label className="block text-sm font-medium text-foreground mb-2">
+                        {t("referral.label")}
+                      </label>
+                      <input
+                        type="text"
+                        value={formData.referralCode}
+                        onChange={(e) => setFormData({ ...formData, referralCode: e.target.value.toUpperCase() })}
+                        maxLength={8}
+                        className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald outline-none transition-all uppercase tracking-widest"
+                        placeholder={t("referral.placeholder")}
+                      />
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {t("referral.description")}
+                      </p>
                     </div>
                   </div>
                 </motion.div>

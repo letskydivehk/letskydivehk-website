@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, User, Phone, Mail, UserPlus, Save, Loader2, Calendar, MapPin, Coins, TrendingUp, TrendingDown, Shield } from "lucide-react";
+import { ArrowLeft, User, Phone, Mail, UserPlus, Save, Loader2, Calendar, MapPin, Coins, TrendingUp, TrendingDown, Shield, Copy, Clock } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -63,6 +63,7 @@ interface Profile {
   emergency_contact_name: string | null;
   emergency_contact_phone: string | null;
   emergency_contact_relationship: string | null;
+  referral_code: string | null;
 }
 
 interface Booking {
@@ -83,6 +84,7 @@ export default function MemberProfile() {
   const [profile, setProfile] = useState<Profile | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
   const [creditBalance, setCreditBalance] = useState<number>(0);
+  const [pendingBalance, setPendingBalance] = useState<number>(0);
   const [creditTransactions, setCreditTransactions] = useState<any[]>([]);
   const [isAdmin, setIsAdmin] = useState(false);
   const [profileLoading, setProfileLoading] = useState(true);
@@ -188,6 +190,9 @@ export default function MemberProfile() {
     try {
       const { data: balance } = await supabase.rpc('get_credit_balance', { _user_id: userId });
       setCreditBalance(balance || 0);
+
+      const { data: pending } = await supabase.rpc('get_pending_credit_balance', { _user_id: userId });
+      setPendingBalance(pending || 0);
 
       const { data: transactions } = await supabase
         .from('credit_transactions')
@@ -503,6 +508,16 @@ export default function MemberProfile() {
                     <p className="text-xs text-muted-foreground mt-1">HKD</p>
                   </div>
 
+                  {pendingBalance > 0 && (
+                    <div className="flex items-center justify-between p-2 bg-yellow-500/10 rounded-md mt-2">
+                      <div className="flex items-center gap-2">
+                        <Clock className="w-3 h-3 text-yellow-500" />
+                        <span className="text-xs text-yellow-600 dark:text-yellow-400">{t("credit.pendingBalance") || "Pending"}</span>
+                      </div>
+                      <span className="text-sm font-semibold text-yellow-600 dark:text-yellow-400">${pendingBalance}</span>
+                    </div>
+                  )}
+
                   {creditTransactions.length > 0 && (
                     <div className="mt-4 space-y-2">
                       <h4 className="text-xs font-semibold text-muted-foreground uppercase">
@@ -511,14 +526,24 @@ export default function MemberProfile() {
                       {creditTransactions.map((tx) => (
                         <div key={tx.id} className="flex items-center justify-between p-2 bg-muted/50 rounded-md">
                           <div className="flex items-center gap-2">
-                            {tx.amount > 0 ? (
+                            {tx.status === 'pending' ? (
+                              <Clock className="w-3 h-3 text-yellow-500" />
+                            ) : tx.amount > 0 ? (
                               <TrendingUp className="w-3 h-3 text-green-500" />
                             ) : (
                               <TrendingDown className="w-3 h-3 text-red-500" />
                             )}
-                            <span className="text-xs">{t(`credit.${tx.type}`) || tx.type}</span>
+                            <div>
+                              <span className="text-xs">{t(`credit.${tx.type}`) || tx.type}</span>
+                              {tx.status === 'pending' && (
+                                <span className="text-[10px] ml-1 text-yellow-600 dark:text-yellow-400">({t("credit.pending")})</span>
+                              )}
+                            </div>
                           </div>
-                          <span className={`text-sm font-semibold ${tx.amount > 0 ? 'text-green-500' : 'text-red-500'}`}>
+                          <span className={`text-sm font-semibold ${
+                            tx.status === 'pending' ? 'text-yellow-600 dark:text-yellow-400' :
+                            tx.amount > 0 ? 'text-green-500' : 'text-red-500'
+                          }`}>
                             {tx.amount > 0 ? '+' : ''}{tx.amount}
                           </span>
                         </div>
@@ -527,6 +552,30 @@ export default function MemberProfile() {
                   )}
                 </CardContent>
               </Card>
+
+              {/* Referral Code Card */}
+              {profile?.referral_code && (
+                <Card className="mobile-transparent-card">
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Copy className="w-4 h-4" />
+                      {t("referral.title") || "My Referral Code"}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(profile.referral_code || '');
+                        toast.success(t("referral.copied") || "Copied!");
+                      }}
+                      className="w-full p-3 bg-primary/10 rounded-lg text-center cursor-pointer hover:bg-primary/20 transition-colors"
+                    >
+                      <p className="text-2xl font-mono font-bold text-primary tracking-[0.3em]">{profile.referral_code}</p>
+                      <p className="text-[10px] text-muted-foreground mt-1">{t("referral.description")}</p>
+                    </button>
+                  </CardContent>
+                </Card>
+              )}
 
               {/* Admin Link */}
               {isAdmin && (

@@ -196,19 +196,25 @@ const translations: Record<Language, Record<string, string>> = {
     "credit.redemption": "Redemption",
     "credit.refund": "Refund",
     "credit.promotion": "Promotion",
+    "credit.referral_bonus": "Referral Bonus",
+    "credit.pending": "Pending",
+    "credit.approved": "Approved",
+    "credit.rejected": "Rejected",
+    "credit.pendingBalance": "Pending Credits",
+
+    // Referral
+    "referral.title": "My Referral Code",
+    "referral.description": "Share your code with friends. When they book, you'll earn $100 credit (pending admin approval).",
+    "referral.copied": "Referral code copied!",
+    "referral.label": "Referral Code (optional)",
+    "referral.placeholder": "Enter referral code",
 
     // Admin
     "admin.title": "Admin - Credit Management",
-    "admin.members": "Members",
-    "admin.adjustCredit": "Adjust Credit",
-    "admin.amount": "Amount",
-    "admin.description": "Description",
-    "admin.currentBalance": "Current Balance",
-    "admin.addCredit": "Add Credit",
-    "admin.deductCredit": "Deduct Credit",
-    "admin.searchMembers": "Search members...",
-    "admin.noMembers": "No members found",
-    "admin.creditHistory": "Credit History",
+    "admin.pendingReferrals": "Pending Referrals",
+    "admin.approve": "Approve",
+    "admin.reject": "Reject",
+    "admin.noPending": "No pending referral credits",
 
     // Auth Messages
     "auth.signInSuccess": "Signed in successfully!",
@@ -749,19 +755,25 @@ const translations: Record<Language, Record<string, string>> = {
     "credit.redemption": "兌換使用",
     "credit.refund": "退款",
     "credit.promotion": "推廣優惠",
+    "credit.referral_bonus": "推薦獎勵",
+    "credit.pending": "待審核",
+    "credit.approved": "已批准",
+    "credit.rejected": "已拒絕",
+    "credit.pendingBalance": "待審核積分",
+
+    // Referral
+    "referral.title": "我的推薦碼",
+    "referral.description": "與朋友分享您的推薦碼。當他們預約時，您將獲得 $100 積分（待管理員批准）。",
+    "referral.copied": "推薦碼已複製！",
+    "referral.label": "推薦碼（選填）",
+    "referral.placeholder": "輸入推薦碼",
 
     // Admin
     "admin.title": "管理員 - 積分管理",
-    "admin.members": "會員",
-    "admin.adjustCredit": "調整積分",
-    "admin.amount": "金額",
-    "admin.description": "說明",
-    "admin.currentBalance": "目前餘額",
-    "admin.addCredit": "增加積分",
-    "admin.deductCredit": "扣除積分",
-    "admin.searchMembers": "搜尋會員...",
-    "admin.noMembers": "找不到會員",
-    "admin.creditHistory": "積分記錄",
+    "admin.pendingReferrals": "待審核推薦",
+    "admin.approve": "批准",
+    "admin.reject": "拒絕",
+    "admin.noPending": "沒有待審核的推薦積分",
 
     // Auth Messages
     "auth.signInSuccess": "登入成功！",
