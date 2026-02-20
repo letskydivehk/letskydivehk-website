@@ -126,9 +126,9 @@ export default function MemberProfile() {
         });
       } else {
         // Profile doesn't exist - the database trigger should have created it
-        // Wait a moment and retry once (trigger may still be processing)
-        console.log("No profile found, waiting for trigger...");
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        // Brief retry in case trigger is still processing
+        console.log("No profile found, retrying...");
+        await new Promise(resolve => setTimeout(resolve, 300));
         
         const { data: retryData, error: retryError } = await supabase
           .from("profiles")
@@ -188,19 +188,19 @@ export default function MemberProfile() {
 
   const fetchCredits = useCallback(async (userId: string) => {
     try {
-      const { data: balance } = await supabase.rpc('get_credit_balance', { _user_id: userId });
-      setCreditBalance(balance || 0);
-
-      const { data: pending } = await supabase.rpc('get_pending_credit_balance', { _user_id: userId });
-      setPendingBalance(pending || 0);
-
-      const { data: transactions } = await supabase
-        .from('credit_transactions')
-        .select('*')
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false })
-        .limit(10);
-      setCreditTransactions(transactions || []);
+      const [balanceRes, pendingRes, txRes] = await Promise.all([
+        supabase.rpc('get_credit_balance', { _user_id: userId }),
+        supabase.rpc('get_pending_credit_balance', { _user_id: userId }),
+        supabase
+          .from('credit_transactions')
+          .select('*')
+          .eq('user_id', userId)
+          .order('created_at', { ascending: false })
+          .limit(10),
+      ]);
+      setCreditBalance(balanceRes.data || 0);
+      setPendingBalance(pendingRes.data || 0);
+      setCreditTransactions(txRes.data || []);
     } catch (error) {
       console.error('Error fetching credits:', error);
     }
