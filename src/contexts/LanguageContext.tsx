@@ -598,7 +598,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.experienceThe": "體驗",
     "hero.ultimateThrill": "極致飛翔",
     "hero.subtitle":
-      "我們提供專業雙人跳傘體驗、AFF（ Accelerated Freefall）加速自由落體認證課程，並可為企業團體、親友聚會等量身規劃跳傘活動專案。\n\n服務範圍遍及亞洲各地景觀絕佳的跳傘基地，讓您在專業安全保障下，俯瞰壯麗山河，成就非凡時刻。",
+      "我們提供專業雙人跳傘體驗、AFF（Accelerated Freefall）加速自由落體認證課程，並可為企業團體、親友聚會等量身規劃跳傘活動專案。\n\n服務範圍遍及亞洲各地景觀絕佳的跳傘基地，讓您在專業安全保障下，俯瞰壯麗山河，成就非凡時刻。",
     "hero.cta.book": "立即體驗",
     "hero.cta.explore": "探索服務",
 
