@@ -204,7 +204,8 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Referral
     "referral.title": "My Referral Code",
-    "referral.description": "Share your code with friends. When they book, you'll earn $100 credit (pending admin approval).",
+    "referral.description":
+      "Share your code with friends. When they book, you'll earn $100 credit (pending admin approval).",
     "referral.copied": "Referral code copied!",
     "referral.label": "Referral Code (optional)",
     "referral.placeholder": "Enter referral code",
@@ -598,7 +599,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.ultimateThrill": "極致飛翔",
     "hero.subtitle":
       "我們提供專業雙人跳傘體驗、AFF（ Accelerated Freefall）加速自由落體認證課程，並可為企業團體、親友聚會等量身規劃跳傘活動專案。\n\n服務範圍遍及亞洲各地景觀絕佳的跳傘基地，讓您在專業安全保障下，俯瞰壯麗山河，成就非凡時刻。",
-    "hero.cta.book": "立即預約",
+    "hero.cta.book": "立即體驗",
     "hero.cta.explore": "探索服務",
 
     // Locations Section
@@ -616,7 +617,7 @@ const translations: Record<Language, Record<string, string>> = {
     "locations.map.subtitle": "選擇一個地點在地圖上查看",
     "locations.map.openGoogleMaps": "在 Google 地圖中開啟",
     "locations.viewDetails": "查看詳情",
-    "locations.bookHereBtn": "立即預約",
+    "locations.bookHereBtn": "立即體驗",
 
     // Location Detail Page
     "locationDetail.notFound": "找不到該地點",
@@ -629,7 +630,7 @@ const translations: Record<Language, Record<string, string>> = {
     "locationDetail.servicesHere": "此地點服務",
     "locationDetail.map": "地圖",
     "locationDetail.readyToJump": "準備好起飛了嗎？",
-    "locationDetail.bookHere": "立即預約",
+    "locationDetail.bookHere": "立即體驗",
 
     // Services Section
     "services.badge": "我們提供的服務",
@@ -927,7 +928,7 @@ const translations: Record<Language, Record<string, string>> = {
     "promo.backToHome": "返回首頁",
     "promo.active": "進行中",
     "promo.termsTitle": "條款及細則",
-    "promo.bookNow": "立即預約",
+    "promo.bookNow": "立即體驗",
     "promo.perPerson": "每人",
     "promo.group2.title": "孖住跳 — 兩個一齊跳更抵！",
     "promo.group2.desc": "約埋朋友一齊跳，二人同行即享折扣！",
