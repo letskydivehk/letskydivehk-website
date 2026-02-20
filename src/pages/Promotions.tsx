@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { ArrowLeft, Users, Tag, Calendar, ChevronRight } from 'lucide-react';
@@ -21,6 +22,10 @@ const promotions = [
 
 export default function Promotions() {
   const { t } = useLanguage();
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
