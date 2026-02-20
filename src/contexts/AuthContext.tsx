@@ -17,16 +17,6 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Helper to detect if we're on a custom domain
-const isCustomDomain = () => {
-  const hostname = window.location.hostname;
-  return (
-    !hostname.includes("lovable.app") &&
-    !hostname.includes("lovableproject.com") &&
-    !hostname.includes("localhost") &&
-    !hostname.includes("127.0.0.1")
-  );
-};
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -132,73 +122,64 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Detect if running inside an iframe (e.g. Lovable preview)
+  const isInIframe = () => {
+    try {
+      return window.self !== window.top;
+    } catch {
+      return true;
+    }
+  };
+
   const signInWithGoogle = async () => {
     try {
       setLoading(true);
 
-      // Build the callback URL
       const redirectUrl = `${window.location.origin}/auth/callback`;
       console.log("OAuth redirect URL:", redirectUrl);
-      console.log("Is custom domain:", isCustomDomain());
 
-      if (isCustomDomain()) {
-        // For custom domains, use skipBrowserRedirect to bypass auth-bridge issues
-        const { data, error } = await supabase.auth.signInWithOAuth({
-          provider: "google",
-          options: {
-            redirectTo: redirectUrl,
-            skipBrowserRedirect: true,
-            queryParams: {
-              access_type: "offline",
-              prompt: "consent",
-            },
+      // Always use skipBrowserRedirect to get the URL, then decide how to open it
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          redirectTo: redirectUrl,
+          skipBrowserRedirect: true,
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent",
           },
-        });
+        },
+      });
 
-        if (error) {
-          console.error("Google OAuth error:", error);
-          toast.error(`Google Sign-In failed: ${error.message}`);
-          throw error;
-        }
+      if (error) {
+        console.error("Google OAuth error:", error);
+        toast.error(`Google Sign-In failed: ${error.message}`);
+        throw error;
+      }
 
-        if (data?.url) {
-          // Validate the OAuth URL for security
-          const oauthUrl = new URL(data.url);
-          const allowedHosts = [
-            "accounts.google.com",
-            "xmelqjnxllsqofvkoccd.supabase.co",
-          ];
+      if (data?.url) {
+        if (isInIframe()) {
+          // Popup flow for iframe environments (Lovable preview)
+          const popup = window.open(data.url, "oauth-popup", "width=500,height=600");
 
-          const isAllowed = allowedHosts.some(
-            (host) =>
-              oauthUrl.hostname === host || oauthUrl.hostname.endsWith(`.${host}`)
-          );
-
-          if (!isAllowed) {
-            console.error("Invalid OAuth URL host:", oauthUrl.hostname);
-            throw new Error("Invalid OAuth redirect URL");
+          if (!popup) {
+            toast.error("Popup blocked. Please allow popups for this site and try again.");
+            return;
           }
 
-          console.log("Redirecting to OAuth provider:", data.url);
+          // Listen for completion message from the popup's callback page
+          const messageHandler = (event: MessageEvent) => {
+            if (event.origin === window.location.origin && event.data?.type === "oauth-complete") {
+              popup?.close();
+              window.removeEventListener("message", messageHandler);
+              // Reload to pick up the new session
+              window.location.reload();
+            }
+          };
+          window.addEventListener("message", messageHandler);
+        } else {
+          // Normal redirect for custom domains / non-iframe
           window.location.href = data.url;
-        }
-      } else {
-        // For Lovable preview domains, use normal flow
-        const { error } = await supabase.auth.signInWithOAuth({
-          provider: "google",
-          options: {
-            redirectTo: redirectUrl,
-            queryParams: {
-              access_type: "offline",
-              prompt: "consent",
-            },
-          },
-        });
-
-        if (error) {
-          console.error("Google OAuth error:", error);
-          toast.error(`Google Sign-In failed: ${error.message}`);
-          throw error;
         }
       }
     } catch (error: any) {

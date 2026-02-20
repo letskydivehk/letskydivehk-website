@@ -65,7 +65,11 @@ export default function AuthCallback() {
             // Clear hash from URL before navigating
             window.history.replaceState(null, "", window.location.pathname);
             
-            // Small delay to ensure state updates
+            // If opened as a popup, signal the opener and close
+            if (window.opener) {
+              window.opener.postMessage({ type: "oauth-complete" }, window.location.origin);
+              return;
+            }
             setTimeout(() => {
               navigate("/membership", { replace: true });
             }, 100);
@@ -87,6 +91,10 @@ export default function AuthCallback() {
           console.log("Existing session found, user:", sessionData.session.user.email);
           setStatus("Redirecting to profile...");
           
+          if (window.opener) {
+            window.opener.postMessage({ type: "oauth-complete" }, window.location.origin);
+            return;
+          }
           setTimeout(() => {
             navigate("/membership", { replace: true });
           }, 100);
@@ -114,6 +122,10 @@ export default function AuthCallback() {
             // Clear code from URL
             window.history.replaceState(null, "", window.location.pathname);
             
+            if (window.opener) {
+              window.opener.postMessage({ type: "oauth-complete" }, window.location.origin);
+              return;
+            }
             setTimeout(() => {
               navigate("/membership", { replace: true });
             }, 100);
