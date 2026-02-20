@@ -7,7 +7,7 @@ export function StatsSection() {
 
   const stats = [
     { end: 10000, suffix: "+", label: t("about.stats.safeJumps"), icon: <Plane className="w-6 h-6" /> },
-    { end: 15, suffix: "+", label: t("about.stats.yearsExperience"), icon: <Shield className="w-6 h-6" /> },
+    { end: 10, suffix: "+", label: t("about.stats.yearsExperience"), icon: <Shield className="w-6 h-6" /> },
     { end: 6, suffix: "", label: t("about.stats.locations"), icon: <MapPin className="w-6 h-6" /> },
     { end: 100, suffix: "%", label: t("about.stats.safetyRecord"), icon: <Users className="w-6 h-6" /> },
   ];
