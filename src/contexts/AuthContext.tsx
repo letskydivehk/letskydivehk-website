@@ -44,29 +44,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     // Listen for auth changes
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       console.log("Auth state changed:", event, session?.user?.email);
       setSession(session);
       setUser(session?.user ?? null);
 
       if (event === "SIGNED_IN" && session?.user) {
-        // Create or update user profile in database
-        await createOrUpdateUserProfile(session.user);
-        
-        // Send notification for new member registration (fire and forget)
-        try {
-          await supabase.functions.invoke('send-notification', {
+        // Defer async calls to avoid deadlock in onAuthStateChange
+        const user = session.user;
+        setTimeout(() => {
+          createOrUpdateUserProfile(user);
+          supabase.functions.invoke('send-notification', {
             body: {
               type: 'registration',
               data: {
-                fullName: session.user.user_metadata?.full_name || session.user.user_metadata?.name || '',
-                registrationEmail: session.user.email,
+                fullName: user.user_metadata?.full_name || user.user_metadata?.name || '',
+                registrationEmail: user.email,
               }
             }
-          });
-        } catch (notifyError) {
-          console.error('Failed to send registration notification:', notifyError);
-        }
+          }).catch(err => console.error('Failed to send registration notification:', err));
+        }, 0);
       }
     });
 
