@@ -1,21 +1,21 @@
-import { useEffect } from 'react';
-import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Users, Tag, Calendar, ChevronRight } from 'lucide-react';
-import { useLanguage } from '@/contexts/LanguageContext';
-import { Footer } from '@/components/Footer';
-import { BackgroundDecorations } from '@/components/BackgroundDecorations';
+import { useEffect } from "react";
+import { motion } from "framer-motion";
+import { Link, useNavigate } from "react-router-dom";
+import { ArrowLeft, Users, Tag, Calendar, ChevronRight } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Footer } from "@/components/Footer";
+import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 
 const promotions = [
   {
-    id: 'group-discount-2',
+    id: "group-discount-2",
     icon: Users,
-    titleKey: 'promo.group2.title',
-    descKey: 'promo.group2.desc',
-    detailsKey: 'promo.group2.details',
-    termsKey: 'promo.group2.terms',
-    highlight: '-$100',
-    highlightLabelKey: 'promo.perPerson',
+    titleKey: "promo.group2.title",
+    descKey: "promo.group2.desc",
+    detailsKey: "promo.group2.details",
+    termsKey: "promo.group2.terms",
+    highlight: "$100",
+    highlightLabelKey: "promo.perPerson",
     active: true,
   },
 ];
@@ -29,9 +29,9 @@ export default function Promotions() {
   }, []);
 
   const handleClaimCoupon = () => {
-    navigate('/');
+    navigate("/");
     setTimeout(() => {
-      document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+      document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
     }, 300);
   };
 
@@ -46,24 +46,16 @@ export default function Promotions() {
             className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground mb-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            {t('promo.backToHome')}
+            {t("promo.backToHome")}
           </Link>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-          >
+          <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <div className="inline-flex items-center gap-2 bg-accent-orange/10 text-accent-orange px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
               <Tag className="w-4 h-4" />
-              {t('promo.badge')}
+              {t("promo.badge")}
             </div>
-            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-4">
-              {t('promo.title')}
-            </h1>
-            <p className="text-lg text-muted-foreground max-w-2xl">
-              {t('promo.subtitle')}
-            </p>
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-black mb-4">{t("promo.title")}</h1>
+            <p className="text-lg text-muted-foreground max-w-2xl">{t("promo.subtitle")}</p>
           </motion.div>
         </div>
 
@@ -83,7 +75,7 @@ export default function Promotions() {
                 {promo.active && (
                   <div className="absolute top-4 right-4 bg-accent-emerald text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
                     <Calendar className="w-3 h-3" />
-                    {t('promo.active')}
+                    {t("promo.active")}
                   </div>
                 )}
 
@@ -105,19 +97,13 @@ export default function Promotions() {
                     className="group block w-full text-left bg-gradient-to-r from-accent-orange/10 to-accent-orange/5 border-2 border-dashed border-accent-orange/40 rounded-xl p-5 mb-6 hover:border-accent-orange hover:from-accent-orange/20 hover:to-accent-orange/10 transition-all duration-300 cursor-pointer"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="text-4xl sm:text-5xl font-black text-accent-orange">
-                        {promo.highlight}
-                      </div>
+                      <div className="text-4xl sm:text-5xl font-black text-accent-orange">{promo.highlight}</div>
                       <div className="flex-1">
-                        <div className="font-semibold text-foreground text-lg">
-                          {t(promo.highlightLabelKey)}
-                        </div>
-                        <div className="text-sm text-muted-foreground">
-                          {t(promo.detailsKey)}
-                        </div>
+                        <div className="font-semibold text-foreground text-lg">{t(promo.highlightLabelKey)}</div>
+                        <div className="text-sm text-muted-foreground">{t(promo.detailsKey)}</div>
                       </div>
                       <div className="flex-shrink-0 bg-accent-orange text-white font-bold px-5 py-2.5 rounded-lg group-hover:scale-105 transition-transform duration-200 flex items-center gap-2">
-                        {t('promo.claimCoupon')}
+                        {t("promo.claimCoupon")}
                         <ChevronRight className="w-4 h-4" />
                       </div>
                     </div>
