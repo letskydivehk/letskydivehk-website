@@ -29,7 +29,7 @@ export const services: Service[] = [
     duration: "3-4 hours total (includes training)",
     includes: [
       "15-minute ground training",
-      "60 seconds of freefall",
+      "45-60 seconds of freefall",
       "5-7 minute canopy ride",
       "Certificate of completion",
       "Photos & video available",
@@ -48,7 +48,7 @@ export const services: Service[] = [
     description:
       "Before getting your first licence, the Accelerated Freefall (AFF) program is your pathway to becoming a licensed skydiver. Master the skills to jump independently.",
     priceDisplay: "Contact for pricing",
-    duration: "7-10 days intensive program",
+    duration: "10-14 days intensive program",
     includes: [
       "25 Jumps",
       "Ground school training",
