@@ -91,39 +91,31 @@ export default function Promotions() {
                     </div>
                   </div>
 
-                  {/* Discount highlight */}
-                  <div className="bg-accent-orange/5 border border-accent-orange/20 rounded-xl p-5 mb-6 flex items-center gap-4">
-                    <div className="text-4xl sm:text-5xl font-black text-accent-orange">
-                      {promo.highlight}
-                    </div>
-                    <div>
-                      <div className="font-semibold text-foreground text-lg">
-                        {t(promo.highlightLabelKey)}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {t(promo.detailsKey)}
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Terms */}
-                  <div className="mb-6">
-                    <h3 className="font-semibold text-sm text-muted-foreground uppercase tracking-wider mb-2">
-                      {t('promo.termsTitle')}
-                    </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">
-                      {t(promo.termsKey)}
-                    </p>
-                  </div>
-
-                  {/* CTA */}
+                  {/* Coupon Button */}
                   <a
                     href="/#booking"
-                    className="inline-flex items-center gap-2 bg-accent-orange text-white font-semibold px-6 py-3 rounded-lg hover:bg-accent-orange/90 transition-colors"
+                    className="group block bg-gradient-to-r from-accent-orange/10 to-accent-orange/5 border-2 border-dashed border-accent-orange/40 rounded-xl p-5 mb-6 hover:border-accent-orange hover:from-accent-orange/20 hover:to-accent-orange/10 transition-all duration-300 cursor-pointer"
                   >
-                    {t('promo.bookNow')}
-                    <ChevronRight className="w-4 h-4" />
+                    <div className="flex items-center gap-4">
+                      <div className="text-4xl sm:text-5xl font-black text-accent-orange">
+                        {promo.highlight}
+                      </div>
+                      <div className="flex-1">
+                        <div className="font-semibold text-foreground text-lg">
+                          {t(promo.highlightLabelKey)}
+                        </div>
+                        <div className="text-sm text-muted-foreground">
+                          {t(promo.detailsKey)}
+                        </div>
+                      </div>
+                      <div className="flex-shrink-0 bg-accent-orange text-white font-bold px-5 py-2.5 rounded-lg group-hover:scale-105 transition-transform duration-200 flex items-center gap-2">
+                        {t('promo.claimCoupon')}
+                        <ChevronRight className="w-4 h-4" />
+                      </div>
+                    </div>
                   </a>
+
+                  {/* Terms */}
                 </div>
               </motion.div>
             );
