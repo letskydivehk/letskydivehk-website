@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ArrowLeft, Users, Tag, Calendar, ChevronRight } from 'lucide-react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { Footer } from '@/components/Footer';
@@ -22,10 +22,18 @@ const promotions = [
 
 export default function Promotions() {
   const { t } = useLanguage();
+  const navigate = useNavigate();
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
+
+  const handleClaimCoupon = () => {
+    navigate('/');
+    setTimeout(() => {
+      document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' });
+    }, 300);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
@@ -92,9 +100,9 @@ export default function Promotions() {
                   </div>
 
                   {/* Coupon Button */}
-                  <a
-                    href="/#booking"
-                    className="group block bg-gradient-to-r from-accent-orange/10 to-accent-orange/5 border-2 border-dashed border-accent-orange/40 rounded-xl p-5 mb-6 hover:border-accent-orange hover:from-accent-orange/20 hover:to-accent-orange/10 transition-all duration-300 cursor-pointer"
+                  <button
+                    onClick={handleClaimCoupon}
+                    className="group block w-full text-left bg-gradient-to-r from-accent-orange/10 to-accent-orange/5 border-2 border-dashed border-accent-orange/40 rounded-xl p-5 mb-6 hover:border-accent-orange hover:from-accent-orange/20 hover:to-accent-orange/10 transition-all duration-300 cursor-pointer"
                   >
                     <div className="flex items-center gap-4">
                       <div className="text-4xl sm:text-5xl font-black text-accent-orange">
@@ -113,7 +121,7 @@ export default function Promotions() {
                         <ChevronRight className="w-4 h-4" />
                       </div>
                     </div>
-                  </a>
+                  </button>
 
                   {/* Terms */}
                 </div>
