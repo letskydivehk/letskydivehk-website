@@ -14,7 +14,7 @@ export default function LocationDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { t, translateData } = useLanguage();
-  const { setPreselectedLocationId } = useBooking();
+  const { setPreselectedLocationId, setPreselectedServiceId } = useBooking();
 
   const { data: location, isLoading, error } = useLocationBySlug(slug);
   const { data: photos } = useLocationPhotos(location?.id);
@@ -28,6 +28,17 @@ export default function LocationDetail() {
   const handleBookHere = () => {
     if (location) {
       setPreselectedLocationId(location.id);
+      navigate("/#booking");
+      setTimeout(() => {
+        document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  };
+
+  const handleServiceClick = (serviceId: string) => {
+    if (location) {
+      setPreselectedLocationId(location.id);
+      setPreselectedServiceId(serviceId);
       navigate("/#booking");
       setTimeout(() => {
         document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
@@ -201,7 +212,11 @@ export default function LocationDetail() {
                       service.service_name,
                     );
                     return (
-                      <div key={service.id} className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card">
+                      <div
+                        key={service.id}
+                        onClick={() => handleServiceClick(service.id)}
+                        className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card cursor-pointer hover:border-accent-orange/50 hover:shadow-lg transition-all duration-300 group"
+                      >
                         <div className="flex items-center justify-between mb-3">
                           <h3 className="font-bold text-foreground text-lg"><ServiceNameDisplay name={translatedServiceName} /></h3>
                           {service.is_popular && (

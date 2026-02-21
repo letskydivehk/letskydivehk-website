@@ -92,6 +92,8 @@ export function BookingSection() {
   const {
     preselectedLocationId,
     setPreselectedLocationId,
+    preselectedServiceId,
+    setPreselectedServiceId,
     preselectedServiceType,
     setPreselectedServiceType,
     activeServiceTypeFilter,
@@ -129,6 +131,18 @@ export function BookingSection() {
       }
     }
   }, [preselectedLocationId, locations, setPreselectedLocationId]);
+
+  // Handle preselected service ID (from LocationDetail page)
+  useEffect(() => {
+    if (preselectedServiceId && locationServices) {
+      const serviceExists = locationServices.find((s) => s.id === preselectedServiceId);
+      if (serviceExists) {
+        setFormData((prev) => ({ ...prev, service: preselectedServiceId }));
+        setCurrentStep("details");
+        setPreselectedServiceId(null);
+      }
+    }
+  }, [preselectedServiceId, locationServices, setPreselectedServiceId]);
 
   // Handle preselected service type from Services component - show location step to choose where
   useEffect(() => {
