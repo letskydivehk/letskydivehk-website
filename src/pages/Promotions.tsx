@@ -94,21 +94,17 @@ export default function Promotions() {
                   {/* Coupon Button */}
                   <button
                     onClick={handleClaimCoupon}
-                    className="group block w-full text-left bg-gradient-to-r from-accent-orange/10 to-accent-orange/5 border-2 border-dashed border-accent-orange/40 rounded-xl p-6 sm:p-8 mb-8 hover:border-accent-orange hover:from-accent-orange/20 hover:to-accent-orange/10 transition-all duration-300 cursor-pointer"
+                    className="group block w-full text-left bg-gradient-to-r from-accent-orange/10 to-accent-orange/5 border-2 border-dashed border-accent-orange/40 rounded-xl p-5 mb-6 hover:border-accent-orange hover:from-accent-orange/20 hover:to-accent-orange/10 transition-all duration-300 cursor-pointer"
                   >
-                    <div className="flex items-center gap-4 sm:gap-6">
-                      <div className="text-5xl sm:text-6xl md:text-7xl font-black text-accent-orange">
-                        {promo.highlight}
-                      </div>
+                    <div className="flex items-center gap-4">
+                      <div className="text-4xl sm:text-5xl font-black text-accent-orange">{promo.highlight}</div>
                       <div className="flex-1">
-                        <div className="font-semibold text-foreground text-lg sm:text-xl md:text-2xl mb-1">
-                          {t(promo.highlightLabelKey)}
-                        </div>
-                        <div className="text-sm sm:text-base text-muted-foreground">{t(promo.detailsKey)}</div>
+                        <div className="font-semibold text-foreground text-lg">{t(promo.highlightLabelKey)}</div>
+                        <div className="text-sm text-muted-foreground">{t(promo.detailsKey)}</div>
                       </div>
-                      <div className="flex-shrink-0 bg-accent-orange text-white font-bold px-6 py-3 sm:px-8 sm:py-4 rounded-lg group-hover:scale-105 transition-transform duration-200 flex items-center gap-2 text-sm sm:text-base">
+                      <div className="flex-shrink-0 bg-accent-orange text-white font-bold px-5 py-2.5 rounded-lg group-hover:scale-105 transition-transform duration-200 flex items-center gap-2">
                         {t("promo.claimCoupon")}
-                        <ChevronRight className="w-5 h-5 sm:w-6 sm:h-6" />
+                        <ChevronRight className="w-4 h-4" />
                       </div>
                     </div>
                   </button>
