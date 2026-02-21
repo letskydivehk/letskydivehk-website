@@ -1241,6 +1241,10 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "include.Group photos & videos": "團體照片及影片",
     "include.Celebration area access": "慶祝區域使用",
     "include.A free session of Shenzhen i-Fly experience": "免費一次深圳i-Fly體驗",
+    "include.25 Jumps": "25次跳傘",
+    "include.Ground school training": "地面訓練",
+    "include.All equipment provided": "所有跳傘裝備",
+    "include.Personal instructor guidance": "教練全程手把手教學",
 
     // Price display
     "price.Custom Quote": "專屬報價",
