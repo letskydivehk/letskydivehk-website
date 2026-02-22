@@ -17,6 +17,8 @@ import Disclaimer from './pages/Disclaimer';
 import NotFound from './pages/NotFound';
 import Promotions from './pages/Promotions';
 import AdminCredits from './pages/AdminCredits';
+import ServiceTandem from './pages/ServiceTandem';
+import ServiceALicence from './pages/ServiceALicence';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -39,6 +41,8 @@ export default function App() {
             <BrowserRouter>
               <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="/services/tandem-skydive" element={<ServiceTandem />} />
+                <Route path="/services/a-licence" element={<ServiceALicence />} />
                 <Route path="/location/:slug" element={<LocationDetail />} />
                 <Route path="/auth/callback" element={<AuthCallback />} />
                 <Route path="/membership" element={<MemberProfile />} />

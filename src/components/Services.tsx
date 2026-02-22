@@ -2,7 +2,8 @@
 
 import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { Plane, GraduationCap, Users, Check, ArrowRight, Loader2 } from 'lucide-react'
+import { Plane, GraduationCap, Users, Check, ArrowRight, Loader2, Eye } from 'lucide-react'
+import { Link } from 'react-router-dom'
 import { useAllLocationServices, type LocationService } from '@/hooks/useLocationServices'
 import { useBooking } from '@/contexts/BookingContext'
 import { useLanguage } from '@/contexts/LanguageContext'
@@ -234,7 +235,8 @@ export function Services() {
                     </div>
                   )}
 
-                  {/* CTA Button */}
+                  {/* CTA Buttons */}
+                  <div className="space-y-3">
                   <button
                     onClick={() => service.type === 'group' ? scrollToSection('contact') : scrollToBookingWithServiceType(service.type)}
                     className={`w-full py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
@@ -246,6 +248,15 @@ export function Services() {
                     {service.type !== 'group' ? t('common.bookNow') : t('services.contactUs')}
                     <ArrowRight className="w-4 h-4" />
                   </button>
+                  {service.type !== 'group' && (
+                    <Link
+                      to={service.type === 'tandem' ? '/services/tandem-skydive' : '/services/a-licence'}
+                      className="w-full py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300 border border-border text-foreground hover:bg-muted cursor-pointer"
+                    >
+                      <Eye className="w-4 h-4" /> {t('servicePage.viewDetails')}
+                    </Link>
+                  )}
+                  </div>
                   </div>
                 </motion.div>
               )
