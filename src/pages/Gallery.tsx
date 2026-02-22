@@ -23,6 +23,7 @@ export default function Gallery() {
   const [activeTab, setActiveTab] = useState<GalleryTab>("photos");
   const [videoSubTab, setVideoSubTab] = useState<VideoSubTab>("daily_videos");
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState(0);
   const [showUpload, setShowUpload] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
@@ -43,6 +44,7 @@ export default function Gallery() {
   // Reset selected index when items or category changes
   useEffect(() => {
     setSelectedIndex(0);
+    setSlideDirection(0);
   }, [currentCategory]);
 
   useEffect(() => {
@@ -50,6 +52,11 @@ export default function Gallery() {
       setSelectedIndex(0);
     }
   }, [items.length, selectedIndex]);
+
+  const handleSelectIndex = (newIndex: number) => {
+    setSlideDirection(newIndex > selectedIndex ? 1 : -1);
+    setSelectedIndex(newIndex);
+  };
 
   const selectedItem = items[selectedIndex] || null;
 
@@ -126,10 +133,11 @@ export default function Gallery() {
                 isLoading={isLoading}
                 isAdmin={isAdmin}
                 selectedIndex={selectedIndex}
-                setSelectedIndex={setSelectedIndex}
+                setSelectedIndex={handleSelectIndex}
                 selectedItem={selectedItem}
                 refetch={refetch}
                 onUpload={() => setShowUpload(true)}
+                slideDirection={slideDirection}
               />
             </TabsContent>
 
@@ -153,11 +161,12 @@ export default function Gallery() {
                     isLoading={isLoading}
                     isAdmin={isAdmin}
                     selectedIndex={selectedIndex}
-                    setSelectedIndex={setSelectedIndex}
+                    setSelectedIndex={handleSelectIndex}
                     selectedItem={selectedItem}
                     refetch={refetch}
                     onUpload={() => setShowUpload(true)}
                     emptyMessage="No daily videos yet"
+                    slideDirection={slideDirection}
                   />
                 </TabsContent>
 
@@ -167,11 +176,12 @@ export default function Gallery() {
                     isLoading={isLoading}
                     isAdmin={isAdmin}
                     selectedIndex={selectedIndex}
-                    setSelectedIndex={setSelectedIndex}
+                    setSelectedIndex={handleSelectIndex}
                     selectedItem={selectedItem}
                     refetch={refetch}
                     onUpload={() => setShowUpload(true)}
                     emptyMessage="No AFF course videos yet"
+                    slideDirection={slideDirection}
                   />
                 </TabsContent>
               </Tabs>
@@ -210,6 +220,7 @@ interface GallerySectionProps {
   refetch: () => void;
   onUpload: () => void;
   emptyMessage?: string;
+  slideDirection?: number;
 }
 
 function GallerySection({
@@ -222,6 +233,7 @@ function GallerySection({
   refetch,
   onUpload,
   emptyMessage = "No items in this section yet",
+  slideDirection = 0,
 }: GallerySectionProps) {
   if (isLoading) {
     return (
@@ -252,6 +264,7 @@ function GallerySection({
         <GalleryViewer
           item={selectedItem}
           isAdmin={isAdmin}
+          direction={slideDirection}
           onDelete={() => {
             refetch();
             if (selectedIndex > 0) {

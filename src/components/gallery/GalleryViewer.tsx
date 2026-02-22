@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence, type Variants } from "framer-motion";
 import { useState } from "react";
 import { Trash2, Loader2, Play, ExternalLink, Youtube } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -25,9 +25,10 @@ interface GalleryViewerProps {
   item: GalleryItem | null;
   isAdmin: boolean;
   onDelete: () => void;
+  direction?: number;
 }
 
-export function GalleryViewer({ item, isAdmin, onDelete }: GalleryViewerProps) {
+export function GalleryViewer({ item, isAdmin, onDelete, direction = 0 }: GalleryViewerProps) {
   const { t } = useLanguage();
   const [isDeleting, setIsDeleting] = useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
@@ -67,15 +68,23 @@ export function GalleryViewer({ item, isAdmin, onDelete }: GalleryViewerProps) {
     window.open(item.file_url, "_blank", "noopener,noreferrer");
   };
 
-  return (
+   return (
     <>
-      <motion.div
-        key={item.id}
-        initial={{ opacity: 0, scale: 0.98 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.3 }}
-        className="relative bg-black/5 dark:bg-white/5 rounded-2xl overflow-hidden shadow-xl border min-h-[60vh]"
-      >
+      <AnimatePresence mode="popLayout" custom={direction}>
+        <motion.div
+          key={item.id}
+          custom={direction}
+          variants={{
+            enter: (d: number) => ({ opacity: 0, x: (d || 1) > 0 ? 100 : -100, scale: 0.97 }),
+            center: { opacity: 1, x: 0, scale: 1 },
+            exit: (d: number) => ({ opacity: 0, x: (d || 1) > 0 ? -100 : 100, scale: 0.97 }),
+          }}
+          initial="enter"
+          animate="center"
+          exit="exit"
+          transition={{ type: 'spring', stiffness: 200, damping: 28, mass: 0.8 }}
+          className="relative bg-black/5 dark:bg-white/5 rounded-2xl overflow-hidden shadow-xl border min-h-[60vh]"
+        >
         {/* Media Error State */}
         {mediaError ? (
           <div className="w-full h-full flex flex-col items-center justify-center bg-destructive/10 p-8">
@@ -151,6 +160,7 @@ export function GalleryViewer({ item, isAdmin, onDelete }: GalleryViewerProps) {
           </div>
         )}
       </motion.div>
+      </AnimatePresence>
 
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
