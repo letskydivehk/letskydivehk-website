@@ -173,7 +173,7 @@ export function Services() {
                   whileHover={{ y: -8, transition: { duration: 0.3 } }}
                   onMouseEnter={() => setHoveredService(service.type)}
                   onMouseLeave={() => setHoveredService(null)}
-                  className={`relative bg-card rounded-2xl p-8 clean-border transition-all duration-300 mobile-transparent-card overflow-hidden ${
+                  className={`relative bg-card rounded-2xl p-8 clean-border transition-all duration-300 mobile-transparent-card ${
                     isHovered ? 'elevated-shadow' : 'subtle-shadow'
                   } ${service.isPopular ? 'ring-2 ring-accent-orange' : ''}`}
                 >
