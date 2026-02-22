@@ -1,7 +1,7 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useCallback, useMemo } from 'react'
+import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -87,6 +87,12 @@ export function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0)
   const [direction, setDirection] = useState(0)
 
+  const slideVariants: Variants = {
+    enter: (d: number) => ({ opacity: 0, x: (d || 1) > 0 ? 80 : -80, scale: 0.97 }),
+    center: { opacity: 1, x: 0, scale: 1 },
+    exit: (d: number) => ({ opacity: 0, x: (d || 1) > 0 ? -80 : 80, scale: 0.97 }),
+  }
+
   // Show 1 on mobile, 2 on tablet, 3 on desktop
   const getVisibleCount = () => {
     if (typeof window === 'undefined') return 3
@@ -169,14 +175,15 @@ export function Testimonials() {
           </button>
 
           {/* Cards Grid */}
-          <AnimatePresence mode="wait" custom={direction}>
+          <AnimatePresence mode="popLayout" custom={direction}>
             <motion.div
               key={currentIndex}
               custom={direction}
-              initial={{ opacity: 0, x: direction > 0 ? 60 : -60 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: direction > 0 ? -60 : 60 }}
-              transition={{ duration: 0.35, ease: 'easeInOut' }}
+              variants={slideVariants}
+              initial="enter"
+              animate="center"
+              exit="exit"
+              transition={{ type: 'spring', stiffness: 200, damping: 28, mass: 0.8 }}
               className={`grid gap-6 ${
                 visibleCount === 1
                   ? 'grid-cols-1'
