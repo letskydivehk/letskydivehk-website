@@ -10,6 +10,8 @@ import { FAQ } from "@/components/FAQ";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
+import { SEO } from "@/components/SEO";
+import { OrganizationJsonLd } from "@/components/JsonLd";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Home() {
@@ -17,6 +19,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
+      <SEO path="/" />
+      <OrganizationJsonLd />
       <BackgroundDecorations />
       <main className="relative z-10" role="main">
         <section id="hero" aria-label="Hero section">

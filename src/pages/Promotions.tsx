@@ -1,3 +1,4 @@
+import { SEO } from "@/components/SEO";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
@@ -37,6 +38,7 @@ export default function Promotions() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
+      <SEO title="Promotions" description="Exclusive skydiving deals and group discounts. Save on your next jump with Let's Skydive HK." path="/promotions" />
       <BackgroundDecorations />
       <main className="relative z-10 pt-24 pb-16">
         {/* Header */}

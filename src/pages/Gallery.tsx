@@ -1,3 +1,4 @@
+import { SEO } from "@/components/SEO";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -74,6 +75,7 @@ export default function Gallery() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
+      <SEO title="Gallery" description="Relive the thrill through photos and videos from our skydivers across Asia." path="/gallery" />
       <BackgroundDecorations />
       <main className="relative z-10">
         {/* Header */}

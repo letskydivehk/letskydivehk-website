@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './contexts/AuthContext';
 import { BookingProvider } from './contexts/BookingContext';
 import { LanguageProvider } from './contexts/LanguageContext';
@@ -30,6 +31,7 @@ const queryClient = new QueryClient({
 
 export default function App() {
   return (
+    <HelmetProvider>
     <QueryClientProvider client={queryClient}>
       <LanguageProvider>
         <AuthProvider>
@@ -55,5 +57,6 @@ export default function App() {
         </AuthProvider>
       </LanguageProvider>
     </QueryClientProvider>
+    </HelmetProvider>
   );
 }
