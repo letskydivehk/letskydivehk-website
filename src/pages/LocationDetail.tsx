@@ -9,6 +9,8 @@ import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { ServiceNameDisplay } from "@/components/ServiceNameDisplay";
 import { Footer } from "@/components/Footer";
 import { LocationPhotoGallery } from "@/components/location/LocationPhotoGallery";
+import { SEO } from "@/components/SEO";
+import { LocalBusinessJsonLd } from "@/components/JsonLd";
 
 export default function LocationDetail() {
   const { slug } = useParams<{ slug: string }>();
@@ -69,6 +71,20 @@ export default function LocationDetail() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
+      <SEO
+        title={`Skydiving in ${translatedName}`}
+        description={`${translatedDesc?.slice(0, 150) || `Experience skydiving at ${translatedName}, ${translatedCity}, ${translatedCountry}`}`}
+        path={`/location/${slug}`}
+        image={location.image_url || undefined}
+      />
+      <LocalBusinessJsonLd
+        name={translatedName}
+        description={translatedDesc || `Skydiving at ${translatedName}`}
+        city={translatedCity}
+        country={translatedCountry}
+        url={`https://letskydivehk.lovable.app/location/${slug}`}
+        image={location.image_url || undefined}
+      />
       <BackgroundDecorations />
       <main className="relative z-10">
         {/* Hero Section */}

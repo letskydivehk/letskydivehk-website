@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, User, Phone, Mail, UserPlus, Save, Loader2, Calendar, MapPin, Coins, TrendingUp, TrendingDown, Shield, Copy, Clock } from "lucide-react";
+import { SEO } from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -363,6 +364,7 @@ export default function MemberProfile() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
+      <SEO title="My Profile" description="Manage your skydiving profile, bookings, and credits." path="/membership" />
       <BackgroundDecorations />
 
       <main className="relative z-10 pt-8 pb-20">
