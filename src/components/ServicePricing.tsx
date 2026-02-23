@@ -19,7 +19,7 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
   const { t, translateData } = useLanguage()
   const { data: allServices, isLoading } = useAllLocationServices()
   const { data: locations } = useLocations()
-  const { setPreselectedLocationId, setPreselectedServiceType } = useBooking()
+  const { setPreselectedLocationId, setPreselectedServiceId } = useBooking()
   const navigate = useNavigate()
 
   // Filter services by type and group by location
@@ -37,9 +37,9 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
     }).filter(g => g.location)
   })()
 
-  const handleBookAtLocation = (locationId: string) => {
+  const handleBookAtLocation = (locationId: string, serviceId: string) => {
     setPreselectedLocationId(locationId)
-    setPreselectedServiceType(serviceType)
+    setPreselectedServiceId(serviceId)
     navigate('/#booking')
     setTimeout(() => {
       document.getElementById('booking')?.scrollIntoView({ behavior: 'smooth' })
@@ -126,7 +126,7 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
 
               {/* CTA */}
               <button
-                onClick={() => handleBookAtLocation(locationId)}
+                onClick={() => handleBookAtLocation(locationId, services[0].id)}
                 className="w-full py-3 px-6 rounded-lg font-semibold bg-accent-orange text-white hover:bg-accent-orange/90 transition-all flex items-center justify-center gap-2 cursor-pointer"
               >
                 {t('common.bookNow')} <ArrowRight className="w-4 h-4" />
