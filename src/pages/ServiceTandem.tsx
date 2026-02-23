@@ -10,6 +10,7 @@ import { ServiceCTA } from '@/components/ServiceCTA'
 import { Footer } from '@/components/Footer'
 import { useBooking } from '@/contexts/BookingContext'
 import { useLanguage } from '@/contexts/LanguageContext'
+import heroTandem from '@/assets/hero-tandem.jpg'
 
 const tandemFAQItems = [
   { questionKey: 'servicePage.tandem.faq.q1', answerKey: 'servicePage.tandem.faq.a1' },
@@ -60,7 +61,7 @@ export default function ServiceTandem() {
         title={t('servicePage.tandem.heroTitle')}
         subtitle={t('servicePage.tandem.heroSubtitle')}
         tagline={t('servicePage.tandem.heroTagline')}
-        backgroundImage="https://images.unsplash.com/photo-1601024445121-e5b82f020549?w=1920&h=1080&fit=crop"
+        backgroundImage={heroTandem}
         onBookNow={handleBookNow}
       />
       <HowItWorks steps={steps} />

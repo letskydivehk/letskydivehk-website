@@ -10,6 +10,7 @@ import { ServiceCTA } from '@/components/ServiceCTA'
 import { Footer } from '@/components/Footer'
 import { useBooking } from '@/contexts/BookingContext'
 import { useLanguage } from '@/contexts/LanguageContext'
+import heroALicence from '@/assets/hero-a-licence.jpg'
 
 const affFAQItems = [
   { questionKey: 'servicePage.aff.faq.q1', answerKey: 'servicePage.aff.faq.a1' },
@@ -59,7 +60,7 @@ export default function ServiceALicence() {
         title={t('servicePage.aff.heroTitle')}
         subtitle={t('servicePage.aff.heroSubtitle')}
         tagline={t('servicePage.aff.heroTagline')}
-        backgroundImage="https://images.unsplash.com/photo-1474623809196-26c1d33457cc?w=1920&h=1080&fit=crop"
+        backgroundImage={heroALicence}
         onBookNow={handleBookNow}
       />
       <HowItWorks steps={steps} />
