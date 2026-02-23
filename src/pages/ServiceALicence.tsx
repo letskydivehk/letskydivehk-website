@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SEO } from '@/components/SEO'
 import { ServiceHero } from '@/components/ServiceHero'
@@ -23,6 +24,8 @@ export default function ServiceALicence() {
   const navigate = useNavigate()
   const { setPreselectedServiceType } = useBooking()
   const { t } = useLanguage()
+
+  useEffect(() => { window.scrollTo(0, 0) }, [])
 
   const handleBookNow = () => {
     setPreselectedServiceType('aff')
