@@ -99,11 +99,18 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
               {/* Packages */}
               <div className="space-y-3 mb-6">
                 {services.map(service => (
-                  <div key={service.id} className="flex justify-between items-center py-2 border-b border-border/50 last:border-0">
-                    <span className="text-sm text-foreground font-medium">
+                  <div key={service.id} className="flex items-center justify-between gap-2 py-2 border-b border-border/50 last:border-0">
+                    <span className="text-sm text-foreground font-medium flex-1">
                       {translateData(`service.${service.service_name}`, service.service_name)}
                     </span>
-                    <span className="text-lg font-bold text-accent-orange">{service.price_display}</span>
+                    <span className="text-lg font-bold text-accent-orange whitespace-nowrap">{service.price_display}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleBookAtLocation(locationId, service.id)}
+                      className="ml-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-accent-orange text-white hover:bg-accent-orange/90 transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                    >
+                      {t('common.bookNow')} <ArrowRight className="w-3 h-3" />
+                    </button>
                   </div>
                 ))}
               </div>
@@ -124,13 +131,6 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
                 </div>
               )}
 
-              {/* CTA */}
-              <button
-                onClick={() => handleBookAtLocation(locationId, services[0].id)}
-                className="w-full py-3 px-6 rounded-lg font-semibold bg-accent-orange text-white hover:bg-accent-orange/90 transition-all flex items-center justify-center gap-2 cursor-pointer"
-              >
-                {t('common.bookNow')} <ArrowRight className="w-4 h-4" />
-              </button>
             </motion.div>
           ))}
         </div>
