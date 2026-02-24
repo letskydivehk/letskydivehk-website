@@ -31,6 +31,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { useIsMobile } from "@/hooks/use-mobile";
 
 // Validation schema for booking form
 const bookingDetailsSchema = z.object({
@@ -106,6 +107,7 @@ export function BookingSection() {
     setActiveServiceTypeFilter,
   } = useBooking();
   const { t, translateData, language } = useLanguage();
+  const isMobile = useIsMobile();
 
   // Helper function to translate location data
   const translateLocation = (location: Location) => ({
@@ -320,6 +322,8 @@ export function BookingSection() {
 
       Airwallex.init({ env: 'prod', origin: window.location.origin });
 
+      const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
       const element = Airwallex.createElement('dropIn', {
         intent_id: intentId,
         client_secret: clientSecret,
@@ -330,6 +334,12 @@ export function BookingSection() {
           popupWidth: 400,
           popupHeight: 549,
         },
+        // Mobile: redirect to payment app instead of showing QR code
+        ...(isMobileDevice && {
+          autoRedirect: true,
+          successUrl: `${window.location.origin}/#booking?payment_status=success&payment_intent_id=${intentId}`,
+          failUrl: `${window.location.origin}/#booking?payment_status=failed`,
+        }),
       });
 
       const container = paymentContainerRef.current;
@@ -437,6 +447,48 @@ export function BookingSection() {
   const tomorrow = new Date();
   tomorrow.setDate(tomorrow.getDate() + 1);
   const minDate = tomorrow.toISOString().split("T")[0];
+
+  // Handle return from mobile payment redirect
+  useEffect(() => {
+    const hash = window.location.hash;
+    const hashParams = new URLSearchParams(hash.split('?')[1] || '');
+    const redirectPaymentStatus = hashParams.get('payment_status');
+    const redirectPaymentIntentId = hashParams.get('payment_intent_id');
+
+    if (redirectPaymentStatus && redirectPaymentIntentId) {
+      // Clean URL params
+      const cleanHash = hash.split('?')[0];
+      window.location.hash = cleanHash;
+
+      if (redirectPaymentStatus === 'success') {
+        // Verify payment server-side
+        const verifyRedirectPayment = async () => {
+          try {
+            const { data, error } = await supabase.functions.invoke('verify-payment', {
+              body: { payment_intent_id: redirectPaymentIntentId },
+            });
+            if (!error && data?.verified) {
+              setPaymentIntentId(redirectPaymentIntentId);
+              setIsPaymentComplete(true);
+              setCurrentStep('confirm');
+              toast.success(t('booking.paymentSuccess'));
+            } else {
+              toast.error(t('booking.paymentFailed'));
+              setCurrentStep('payment');
+            }
+          } catch (err) {
+            console.error('Payment verification failed:', err);
+            toast.error(t('booking.paymentError'));
+            setCurrentStep('payment');
+          }
+        };
+        verifyRedirectPayment();
+      } else {
+        toast.error(t('booking.paymentFailed'));
+        setCurrentStep('payment');
+      }
+    }
+  }, []); // Run once on mount
 
   // Auto-scroll to booking section when complete
   useEffect(() => {
