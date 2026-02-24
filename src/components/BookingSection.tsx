@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   Calendar as CalendarIcon,
@@ -13,6 +13,7 @@ import {
   ArrowLeft,
   Plane,
   Loader2,
+  CreditCard,
 } from "lucide-react";
 import { format } from "date-fns";
 import { zhTW } from "date-fns/locale";
@@ -66,7 +67,7 @@ interface BookingFormData {
   referralCode: string;
 }
 
-type Step = "location" | "service" | "details" | "confirm";
+type Step = "location" | "service" | "details" | "payment" | "confirm";
 
 export function BookingSection() {
   const [currentStep, setCurrentStep] = useState<Step>("location");
@@ -86,6 +87,11 @@ export function BookingSection() {
   const [isComplete, setIsComplete] = useState(false);
   const [validationErrors, setValidationErrors] = useState<Record<string, string>>({});
   const [bookingAccessToken, setBookingAccessToken] = useState<string | null>(null);
+  const [paymentIntentId, setPaymentIntentId] = useState<string | null>(null);
+  const [paymentClientSecret, setPaymentClientSecret] = useState<string | null>(null);
+  const [isPaymentLoading, setIsPaymentLoading] = useState(false);
+  const [isPaymentComplete, setIsPaymentComplete] = useState(false);
+  const paymentContainerRef = useRef<HTMLDivElement>(null);
 
   const { data: locations, isLoading: locationsLoading } = useLocations();
   const { user } = useAuth();
@@ -188,6 +194,9 @@ export function BookingSection() {
     setIsComplete(false);
     setValidationErrors({});
     setActiveServiceTypeFilter(null);
+    setPaymentIntentId(null);
+    setPaymentClientSecret(null);
+    setIsPaymentComplete(false);
   };
 
   const selectedLocation = useMemo(
@@ -208,7 +217,8 @@ export function BookingSection() {
     { id: "location", label: t("booking.step1"), icon: MapPin },
     { id: "service", label: t("booking.step2"), icon: Plane },
     { id: "details", label: t("booking.step3"), icon: User },
-    { id: "confirm", label: t("booking.step4"), icon: Check },
+    { id: "payment", label: t("booking.step4"), icon: CreditCard },
+    { id: "confirm", label: t("booking.step5"), icon: Check },
   ];
 
   const currentStepIndex = steps.findIndex((s) => s.id === currentStep);
@@ -228,6 +238,8 @@ export function BookingSection() {
           formData.email &&
           formData.phone
         );
+      case "payment":
+        return isPaymentComplete;
       case "confirm":
         return true;
       default:
@@ -238,59 +250,144 @@ export function BookingSection() {
   const handleNext = () => {
     if (currentStep === "location") setCurrentStep("service");
     else if (currentStep === "service") setCurrentStep("details");
-    else if (currentStep === "details") setCurrentStep("confirm");
+    else if (currentStep === "details") {
+      // Validate before going to payment
+      const validationResult = bookingDetailsSchema.safeParse({
+        firstName: sanitizeText(formData.firstName),
+        lastName: sanitizeText(formData.lastName),
+        email: formData.email.trim(),
+        phone: sanitizeText(formData.phone),
+        date: formData.date,
+        participants: formData.participants,
+        notes: formData.notes ? sanitizeText(formData.notes) : undefined,
+      });
+      if (!validationResult.success) {
+        const errors: Record<string, string> = {};
+        validationResult.error.errors.forEach((err) => {
+          if (err.path[0]) {
+            errors[err.path[0] as string] = err.message;
+          }
+        });
+        setValidationErrors(errors);
+        toast.error(t("booking.fixErrors"));
+        return;
+      }
+      setValidationErrors({});
+      setCurrentStep("payment");
+      // Create payment intent when entering payment step
+      createPaymentIntent();
+    }
+    else if (currentStep === "payment") setCurrentStep("confirm");
   };
 
   const handleBack = () => {
     if (currentStep === "service") setCurrentStep("location");
     else if (currentStep === "details") setCurrentStep("service");
-    else if (currentStep === "confirm") setCurrentStep("details");
+    else if (currentStep === "payment") setCurrentStep("details");
+    else if (currentStep === "confirm") setCurrentStep("payment");
+  };
+
+  // Create Airwallex payment intent
+  const createPaymentIntent = async () => {
+    if (paymentClientSecret) return; // Already created
+    setIsPaymentLoading(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('create-payment-intent', {
+        body: { amount: 500, currency: 'HKD' },
+      });
+      if (error) throw error;
+      setPaymentClientSecret(data.client_secret);
+      setPaymentIntentId(data.payment_intent_id);
+      // Initialize Airwallex drop-in after getting client secret
+      setTimeout(() => initAirwallexDropIn(data.client_secret, data.payment_intent_id), 100);
+    } catch (error) {
+      console.error('Failed to create payment intent:', error);
+      toast.error(t('booking.paymentError'));
+    } finally {
+      setIsPaymentLoading(false);
+    }
+  };
+
+  // Initialize Airwallex Drop-in element
+  const initAirwallexDropIn = async (clientSecret: string, intentId: string) => {
+    try {
+      const Airwallex = (window as any).Airwallex;
+      if (!Airwallex) {
+        console.error('Airwallex SDK not loaded');
+        toast.error(t('booking.paymentError'));
+        return;
+      }
+
+      Airwallex.init({ env: 'prod', origin: window.location.origin });
+
+      const element = Airwallex.createElement('dropIn', {
+        intent_id: intentId,
+        client_secret: clientSecret,
+        currency: 'HKD',
+        mode: 'payment',
+        autoCapture: true,
+        style: {
+          popupWidth: 400,
+          popupHeight: 549,
+        },
+      });
+
+      const container = paymentContainerRef.current;
+      if (container) {
+        // Clear previous content
+        container.innerHTML = '';
+        element.mount(container);
+      }
+
+      // Listen for success
+      window.addEventListener('onSuccess', async (event: any) => {
+        setIsPaymentComplete(true);
+        toast.success(t('booking.paymentSuccess'));
+        // Auto-advance to confirm
+        setCurrentStep('confirm');
+      });
+
+      window.addEventListener('onError', (event: any) => {
+        console.error('Payment error:', event.detail);
+        toast.error(t('booking.paymentFailed'));
+      });
+    } catch (error) {
+      console.error('Failed to init Airwallex:', error);
+      toast.error(t('booking.paymentError'));
+    }
   };
 
   const handleSubmit = async () => {
-    // Validate form data before submission
-    const validationResult = bookingDetailsSchema.safeParse({
-      firstName: sanitizeText(formData.firstName),
-      lastName: sanitizeText(formData.lastName),
-      email: formData.email.trim(),
-      phone: sanitizeText(formData.phone),
-      date: formData.date,
-      participants: formData.participants,
-      notes: formData.notes ? sanitizeText(formData.notes) : undefined,
-    });
-
-    if (!validationResult.success) {
-      const errors: Record<string, string> = {};
-      validationResult.error.errors.forEach((err) => {
-        if (err.path[0]) {
-          errors[err.path[0] as string] = err.message;
-        }
-      });
-      setValidationErrors(errors);
-      toast.error(t("booking.fixErrors"));
-      return;
-    }
-
-    // Clear any previous validation errors
-    setValidationErrors({});
-
     setIsSubmitting(true);
     
     try {
-      // Insert booking via secure RPC function (avoids insecure SELECT policies)
+      // Verify payment server-side before submitting booking
+      if (paymentIntentId) {
+        const { data: verifyData, error: verifyError } = await supabase.functions.invoke('verify-payment', {
+          body: { payment_intent_id: paymentIntentId },
+        });
+        if (verifyError || !verifyData?.verified) {
+          toast.error(t("booking.paymentFailed"));
+          setIsSubmitting(false);
+          return;
+        }
+      }
+
+      // Insert booking via secure RPC function
       const { data, error } = await supabase.rpc('create_booking', {
         p_user_id: user?.id || null,
         p_location_id: formData.location,
         p_service_id: formData.service,
-        p_preferred_date: validationResult.data.date,
-        p_participants: validationResult.data.participants,
-        p_first_name: validationResult.data.firstName,
-        p_last_name: validationResult.data.lastName,
-        p_email: validationResult.data.email,
-        p_phone: validationResult.data.phone,
-        p_special_requests: validationResult.data.notes || null,
+        p_preferred_date: formData.date,
+        p_participants: formData.participants,
+        p_first_name: sanitizeText(formData.firstName),
+        p_last_name: sanitizeText(formData.lastName),
+        p_email: formData.email.trim(),
+        p_phone: sanitizeText(formData.phone),
+        p_special_requests: formData.notes ? sanitizeText(formData.notes) : null,
         p_referral_code: formData.referralCode.trim() || null,
-      });
+        p_payment_intent_id: paymentIntentId || null,
+      } as any);
 
       if (error) {
         console.error('Booking submission error:', error);
@@ -310,20 +407,19 @@ export function BookingSection() {
           body: {
             type: 'booking',
             data: {
-              firstName: validationResult.data.firstName,
-              lastName: validationResult.data.lastName,
-              email: validationResult.data.email,
-              phone: validationResult.data.phone,
+              firstName: sanitizeText(formData.firstName),
+              lastName: sanitizeText(formData.lastName),
+              email: formData.email.trim(),
+              phone: sanitizeText(formData.phone),
               locationName: selectedLocation?.Name || 'Unknown Location',
               serviceName: selectedService?.service_name || 'Unknown Service',
-              preferredDate: validationResult.data.date,
-              participants: validationResult.data.participants,
-              specialRequests: validationResult.data.notes || undefined,
+              preferredDate: formData.date,
+              participants: formData.participants,
+              specialRequests: formData.notes ? sanitizeText(formData.notes) : undefined,
             }
           }
         });
       } catch (notifyError) {
-        // Log but don't fail the booking if notification fails
         console.error('Failed to send notification email:', notifyError);
       }
 
@@ -898,7 +994,48 @@ export function BookingSection() {
                 </motion.div>
               )}
 
-              {/* Step 4: Confirm */}
+              {/* Step 4: Payment */}
+              {currentStep === "payment" && (
+                <motion.div
+                  key="payment"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-6"
+                >
+                  <div className="text-center mb-8">
+                    <CreditCard className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
+                    <h3 className="text-2xl font-bold text-foreground">{t("booking.paymentTitle")}</h3>
+                    <p className="text-muted-foreground">{t("booking.paymentSubtitle")}</p>
+                  </div>
+
+                  <div className="bg-accent-emerald/5 rounded-xl p-6 mb-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-foreground font-medium">{t("booking.depositAmount")}</span>
+                      <span className="text-2xl font-black text-foreground">HKD $500</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-2">{t("booking.depositNote")}</p>
+                  </div>
+
+                  {isPaymentLoading ? (
+                    <div className="flex items-center justify-center py-12">
+                      <Loader2 className="w-8 h-8 animate-spin text-accent-emerald" />
+                      <span className="ml-3 text-muted-foreground">{t("booking.paymentProcessing")}</span>
+                    </div>
+                  ) : (
+                    <div ref={paymentContainerRef} className="min-h-[300px]" />
+                  )}
+
+                  {isPaymentComplete && (
+                    <div className="flex items-center gap-2 text-accent-emerald justify-center">
+                      <Check className="w-5 h-5" />
+                      <span className="font-medium">{t("booking.paymentSuccess")}</span>
+                    </div>
+                  )}
+                </motion.div>
+              )}
+
+              {/* Step 5: Confirm */}
               {currentStep === "confirm" && (
                 <motion.div
                   key="confirm"

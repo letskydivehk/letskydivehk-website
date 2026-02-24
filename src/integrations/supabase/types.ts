@@ -18,12 +18,15 @@ export type Database = {
         Row: {
           access_token: string | null
           created_at: string
+          deposit_amount: number | null
           email: string
           first_name: string
           id: string
           last_name: string
           location_id: string
           participants: number
+          payment_intent_id: string | null
+          payment_status: string | null
           phone: string
           preferred_date: string
           referral_code: string | null
@@ -37,12 +40,15 @@ export type Database = {
         Insert: {
           access_token?: string | null
           created_at?: string
+          deposit_amount?: number | null
           email: string
           first_name: string
           id?: string
           last_name: string
           location_id: string
           participants?: number
+          payment_intent_id?: string | null
+          payment_status?: string | null
           phone: string
           preferred_date: string
           referral_code?: string | null
@@ -56,12 +62,15 @@ export type Database = {
         Update: {
           access_token?: string | null
           created_at?: string
+          deposit_amount?: number | null
           email?: string
           first_name?: string
           id?: string
           last_name?: string
           location_id?: string
           participants?: number
+          payment_intent_id?: string | null
+          payment_status?: string | null
           phone?: string
           preferred_date?: string
           referral_code?: string | null
@@ -495,6 +504,23 @@ export type Database = {
               p_last_name?: string
               p_location_id?: string
               p_participants?: number
+              p_phone?: string
+              p_preferred_date?: string
+              p_referral_code?: string
+              p_service_id?: string
+              p_special_requests?: string
+              p_user_id?: string
+            }
+            Returns: Json
+          }
+        | {
+            Args: {
+              p_email?: string
+              p_first_name?: string
+              p_last_name?: string
+              p_location_id?: string
+              p_participants?: number
+              p_payment_intent_id?: string
               p_phone?: string
               p_preferred_date?: string
               p_referral_code?: string
