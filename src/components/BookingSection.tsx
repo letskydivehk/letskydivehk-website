@@ -68,7 +68,7 @@ interface BookingFormData {
   referralCode: string;
 }
 
-type Step = "location" | "service" | "details" | "payment" | "confirm";
+type Step = "location" | "service" | "details" | "preview" | "payment";
 
 export function BookingSection() {
   const [currentStep, setCurrentStep] = useState<Step>("location");
@@ -226,8 +226,8 @@ export function BookingSection() {
     { id: "location", label: t("booking.step1"), icon: MapPin },
     { id: "service", label: t("booking.step2"), icon: Plane },
     { id: "details", label: t("booking.step3"), icon: User },
-    { id: "payment", label: t("booking.step4"), icon: CreditCard },
-    { id: "confirm", label: t("booking.step5"), icon: Check },
+    { id: "preview", label: t("booking.step4"), icon: Check },
+    { id: "payment", label: t("booking.step5"), icon: CreditCard },
   ];
 
   const currentStepIndex = steps.findIndex((s) => s.id === currentStep);
@@ -247,10 +247,10 @@ export function BookingSection() {
           formData.email &&
           formData.phone
         );
-      case "payment":
-        return isPaymentComplete;
-      case "confirm":
+      case "preview":
         return true;
+      case "payment":
+        return false; // payment widget handles completion
       default:
         return false;
     }
@@ -282,18 +282,20 @@ export function BookingSection() {
         return;
       }
       setValidationErrors({});
+      setCurrentStep("preview");
+    }
+    else if (currentStep === "preview") {
       setCurrentStep("payment");
       // Create payment intent when entering payment step
       createPaymentIntent();
     }
-    else if (currentStep === "payment") setCurrentStep("confirm");
   };
 
   const handleBack = () => {
     if (currentStep === "service") setCurrentStep("location");
     else if (currentStep === "details") setCurrentStep("service");
-    else if (currentStep === "payment") setCurrentStep("details");
-    else if (currentStep === "confirm") setCurrentStep("payment");
+    else if (currentStep === "preview") setCurrentStep("details");
+    else if (currentStep === "payment") setCurrentStep("preview");
   };
 
   // Create Airwallex payment intent (with sessionStorage caching + concurrency lock)
@@ -402,7 +404,8 @@ export function BookingSection() {
       const successHandler = async (event: any) => {
         setIsPaymentComplete(true);
         toast.success(t('booking.paymentSuccess'));
-        setCurrentStep('confirm');
+        // Auto-submit booking to database after successful payment
+        await handleSubmit();
       };
       const errorHandler = (event: any) => {
         console.error('Payment error:', event.detail);
@@ -527,8 +530,9 @@ export function BookingSection() {
             if (!error && data?.verified) {
               setPaymentIntentId(redirectPaymentIntentId);
               setIsPaymentComplete(true);
-              setCurrentStep('confirm');
               toast.success(t('booking.paymentSuccess'));
+              // Auto-submit booking after verified redirect payment
+              await handleSubmit();
             } else {
               toast.error(t('booking.paymentFailed'));
               setCurrentStep('payment');
@@ -1103,51 +1107,10 @@ export function BookingSection() {
                 </motion.div>
               )}
 
-              {/* Step 4: Payment */}
-              {currentStep === "payment" && (
+              {/* Step 4: Preview */}
+              {currentStep === "preview" && (
                 <motion.div
-                  key="payment"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
-                >
-                  <div className="text-center mb-8">
-                    <CreditCard className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-foreground">{t("booking.paymentTitle")}</h3>
-                    <p className="text-muted-foreground">{t("booking.paymentSubtitle")}</p>
-                  </div>
-
-                  <div className="bg-accent-emerald/5 rounded-xl p-6 mb-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-foreground font-medium">{t("booking.depositAmount")}</span>
-                      <span className="text-2xl font-black text-foreground">HKD $500</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-2">{t("booking.depositNote")}</p>
-                  </div>
-
-                  {isPaymentLoading ? (
-                    <div className="flex items-center justify-center py-12">
-                      <Loader2 className="w-8 h-8 animate-spin text-accent-emerald" />
-                      <span className="ml-3 text-muted-foreground">{t("booking.paymentProcessing")}</span>
-                    </div>
-                  ) : (
-                    <div ref={paymentContainerRef} className="min-h-[300px]" />
-                  )}
-
-                  {isPaymentComplete && (
-                    <div className="flex items-center gap-2 text-accent-emerald justify-center">
-                      <Check className="w-5 h-5" />
-                      <span className="font-medium">{t("booking.paymentSuccess")}</span>
-                    </div>
-                  )}
-                </motion.div>
-              )}
-
-              {/* Step 5: Confirm */}
-              {currentStep === "confirm" && (
-                <motion.div
-                  key="confirm"
+                  key="preview"
                   initial={{ opacity: 0, x: 20 }}
                   animate={{ opacity: 1, x: 0 }}
                   exit={{ opacity: 0, x: -20 }}
@@ -1199,6 +1162,54 @@ export function BookingSection() {
                   <p className="text-sm text-muted-foreground text-center">{t("booking.termsDisclaimer")}</p>
                 </motion.div>
               )}
+
+              {/* Step 5: Payment */}
+              {currentStep === "payment" && (
+                <motion.div
+                  key="payment"
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -20 }}
+                  className="space-y-6"
+                >
+                  <div className="text-center mb-8">
+                    <CreditCard className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
+                    <h3 className="text-2xl font-bold text-foreground">{t("booking.paymentTitle")}</h3>
+                    <p className="text-muted-foreground">{t("booking.paymentSubtitle")}</p>
+                  </div>
+
+                  <div className="bg-accent-emerald/5 rounded-xl p-6 mb-4">
+                    <div className="flex justify-between items-center">
+                      <span className="text-foreground font-medium">{t("booking.depositAmount")}</span>
+                      <span className="text-2xl font-black text-foreground">HKD $500</span>
+                    </div>
+                    <p className="text-sm text-muted-foreground mt-2">{t("booking.depositNote")}</p>
+                  </div>
+
+                  {isPaymentLoading ? (
+                    <div className="flex items-center justify-center py-12">
+                      <Loader2 className="w-8 h-8 animate-spin text-accent-emerald" />
+                      <span className="ml-3 text-muted-foreground">{t("booking.paymentProcessing")}</span>
+                    </div>
+                  ) : (
+                    <div ref={paymentContainerRef} className="min-h-[300px]" />
+                  )}
+
+                  {isPaymentComplete && (
+                    <div className="flex items-center gap-2 text-accent-emerald justify-center">
+                      <Check className="w-5 h-5" />
+                      <span className="font-medium">{t("booking.paymentSuccess")}</span>
+                    </div>
+                  )}
+
+                  {isSubmitting && (
+                    <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                      <Loader2 className="w-5 h-5 animate-spin" />
+                      <span>{t("booking.submitting")}</span>
+                    </div>
+                  )}
+                </motion.div>
+              )}
               </AnimatePresence>
             </div>
 
@@ -1217,7 +1228,7 @@ export function BookingSection() {
                 <div />
               )}
 
-              {currentStep !== "confirm" ? (
+              {currentStep !== "payment" ? (
               <button
                   type="button"
                   onClick={handleNext}
@@ -1232,28 +1243,7 @@ export function BookingSection() {
                   <ArrowRight className="w-4 h-4" />
                 </button>
               ) : (
-              <button
-                  type="button"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    handleSubmit();
-                  }}
-                  disabled={isSubmitting}
-                  className="flex items-center gap-2 px-8 py-3 rounded-lg font-semibold bg-accent-emerald text-white hover:bg-accent-emerald/90 shadow-md transition-all cursor-pointer disabled:opacity-50"
-                >
-                  {isSubmitting ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      {t("booking.submitting")}
-                    </>
-                  ) : (
-                    <>
-                      {t("booking.confirmBooking")}
-                      <Check className="w-4 h-4" />
-                    </>
-                  )}
-                </button>
+                <div /> /* Payment step: no Next button, payment widget handles completion */
               )}
             </div>
           </div>
