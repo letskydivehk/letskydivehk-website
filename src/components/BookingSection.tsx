@@ -93,6 +93,10 @@ export function BookingSection() {
   const [isPaymentLoading, setIsPaymentLoading] = useState(false);
   const [isPaymentComplete, setIsPaymentComplete] = useState(false);
   const paymentContainerRef = useRef<HTMLDivElement>(null);
+  const airwallexInitializedForIntent = useRef<string | null>(null);
+  const isCreatingIntent = useRef(false);
+  const successHandlerRef = useRef<((event: any) => void) | null>(null);
+  const errorHandlerRef = useRef<((event: any) => void) | null>(null);
 
   const { data: locations, isLoading: locationsLoading } = useLocations();
   const { user } = useAuth();
@@ -200,6 +204,8 @@ export function BookingSection() {
     setPaymentClientSecret(null);
     setIsPaymentComplete(false);
     sessionStorage.removeItem('booking_payment_intent');
+    airwallexInitializedForIntent.current = null;
+    isCreatingIntent.current = false;
   };
 
   const selectedLocation = useMemo(
@@ -290,10 +296,14 @@ export function BookingSection() {
     else if (currentStep === "confirm") setCurrentStep("payment");
   };
 
-  // Create Airwallex payment intent (with sessionStorage caching to minimize costs)
+  // Create Airwallex payment intent (with sessionStorage caching + concurrency lock)
   const createPaymentIntent = async () => {
-    // Check in-memory state first
+    // Concurrency lock - prevent duplicate calls from rapid clicks
+    if (isCreatingIntent.current) return;
+
+    // Check in-memory state first - skip if already initialized for this intent
     if (paymentClientSecret && paymentIntentId) {
+      if (airwallexInitializedForIntent.current === paymentIntentId) return;
       initAirwallexDropIn(paymentClientSecret, paymentIntentId);
       return;
     }
@@ -304,6 +314,7 @@ export function BookingSection() {
       try {
         const { client_secret, payment_intent_id } = JSON.parse(cached);
         if (client_secret && payment_intent_id) {
+          if (airwallexInitializedForIntent.current === payment_intent_id) return;
           setPaymentClientSecret(client_secret);
           setPaymentIntentId(payment_intent_id);
           initAirwallexDropIn(client_secret, payment_intent_id);
@@ -314,7 +325,8 @@ export function BookingSection() {
       }
     }
 
-    // Only now create a new intent
+    // Lock before creating
+    isCreatingIntent.current = true;
     setIsPaymentLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('create-payment-intent', {
@@ -334,11 +346,15 @@ export function BookingSection() {
       toast.error(t('booking.paymentError'));
     } finally {
       setIsPaymentLoading(false);
+      isCreatingIntent.current = false;
     }
   };
 
-  // Initialize Airwallex Drop-in element
+  // Initialize Airwallex Drop-in element (only once per intent)
   const initAirwallexDropIn = async (clientSecret: string, intentId: string) => {
+    // Skip if already initialized for this exact intent
+    if (airwallexInitializedForIntent.current === intentId) return;
+
     try {
       const Airwallex = (window as any).Airwallex;
       if (!Airwallex) {
@@ -361,7 +377,6 @@ export function BookingSection() {
           popupWidth: 400,
           popupHeight: 549,
         },
-        // Mobile: redirect to payment app instead of showing QR code
         ...(isMobileDevice && {
           autoRedirect: true,
           successUrl: `${window.location.origin}/#booking?payment_status=success&payment_intent_id=${intentId}`,
@@ -371,23 +386,36 @@ export function BookingSection() {
 
       const container = paymentContainerRef.current;
       if (container) {
-        // Skip re-init if drop-in is already mounted
-        if (container.children.length > 0) return;
+        container.innerHTML = '';
         element.mount(container);
       }
 
-      // Listen for success
-      window.addEventListener('onSuccess', async (event: any) => {
+      // Remove previous listeners before adding new ones
+      if (successHandlerRef.current) {
+        window.removeEventListener('onSuccess', successHandlerRef.current);
+      }
+      if (errorHandlerRef.current) {
+        window.removeEventListener('onError', errorHandlerRef.current);
+      }
+
+      // Create and store new handlers
+      const successHandler = async (event: any) => {
         setIsPaymentComplete(true);
         toast.success(t('booking.paymentSuccess'));
-        // Auto-advance to confirm
         setCurrentStep('confirm');
-      });
-
-      window.addEventListener('onError', (event: any) => {
+      };
+      const errorHandler = (event: any) => {
         console.error('Payment error:', event.detail);
         toast.error(t('booking.paymentFailed'));
-      });
+      };
+
+      successHandlerRef.current = successHandler;
+      errorHandlerRef.current = errorHandler;
+      window.addEventListener('onSuccess', successHandler);
+      window.addEventListener('onError', errorHandler);
+
+      // Mark as initialized for this intent
+      airwallexInitializedForIntent.current = intentId;
     } catch (error) {
       console.error('Failed to init Airwallex:', error);
       toast.error(t('booking.paymentError'));
