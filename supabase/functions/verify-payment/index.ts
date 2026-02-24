@@ -4,7 +4,7 @@ const corsHeaders = {
     "authorization, x-client-info, apikey, content-type, x-supabase-client-platform, x-supabase-client-platform-version, x-supabase-client-runtime, x-supabase-client-runtime-version",
 };
 
-const AIRWALLEX_BASE_URL = "https://api-demo.airwallex.com/api/v1";
+const AIRWALLEX_BASE_URL = "https://api.airwallex.com/api/v1";
 
 async function getAirwallexToken(): Promise<string> {
   const clientId = Deno.env.get("AIRWALLEX_CLIENT_ID");
