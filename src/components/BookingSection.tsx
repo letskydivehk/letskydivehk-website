@@ -199,6 +199,7 @@ export function BookingSection() {
     setPaymentIntentId(null);
     setPaymentClientSecret(null);
     setIsPaymentComplete(false);
+    sessionStorage.removeItem('booking_payment_intent');
   };
 
   const selectedLocation = useMemo(
@@ -289,9 +290,31 @@ export function BookingSection() {
     else if (currentStep === "confirm") setCurrentStep("payment");
   };
 
-  // Create Airwallex payment intent
+  // Create Airwallex payment intent (with sessionStorage caching to minimize costs)
   const createPaymentIntent = async () => {
-    if (paymentClientSecret) return; // Already created
+    // Check in-memory state first
+    if (paymentClientSecret && paymentIntentId) {
+      initAirwallexDropIn(paymentClientSecret, paymentIntentId);
+      return;
+    }
+
+    // Check sessionStorage for a previously created intent
+    const cached = sessionStorage.getItem('booking_payment_intent');
+    if (cached) {
+      try {
+        const { client_secret, payment_intent_id } = JSON.parse(cached);
+        if (client_secret && payment_intent_id) {
+          setPaymentClientSecret(client_secret);
+          setPaymentIntentId(payment_intent_id);
+          initAirwallexDropIn(client_secret, payment_intent_id);
+          return;
+        }
+      } catch (e) {
+        sessionStorage.removeItem('booking_payment_intent');
+      }
+    }
+
+    // Only now create a new intent
     setIsPaymentLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke('create-payment-intent', {
@@ -300,7 +323,11 @@ export function BookingSection() {
       if (error) throw error;
       setPaymentClientSecret(data.client_secret);
       setPaymentIntentId(data.payment_intent_id);
-      // Initialize Airwallex drop-in after getting client secret
+      // Cache for reuse across navigation/refreshes
+      sessionStorage.setItem('booking_payment_intent', JSON.stringify({
+        client_secret: data.client_secret,
+        payment_intent_id: data.payment_intent_id,
+      }));
       setTimeout(() => initAirwallexDropIn(data.client_secret, data.payment_intent_id), 100);
     } catch (error) {
       console.error('Failed to create payment intent:', error);
@@ -344,8 +371,8 @@ export function BookingSection() {
 
       const container = paymentContainerRef.current;
       if (container) {
-        // Clear previous content
-        container.innerHTML = '';
+        // Skip re-init if drop-in is already mounted
+        if (container.children.length > 0) return;
         element.mount(container);
       }
 
@@ -433,6 +460,8 @@ export function BookingSection() {
         console.error('Failed to send notification email:', notifyError);
       }
 
+      // Clear cached payment intent after successful booking
+      sessionStorage.removeItem('booking_payment_intent');
       setIsComplete(true);
       toast.success(t("booking.submitSuccess"));
     } catch (error) {
