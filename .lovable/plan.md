@@ -1,95 +1,103 @@
 
 
-## Minimize Airwallex Payment Intent Costs
+## Fix Multiple Gateway Fees for FPS/QR Code Payments
 
-### Problem
+### Root Cause
 
-Every time the user reaches the payment step, a new Airwallex Payment Intent is created via the Edge Function. If the user navigates back and forward, or if the component re-renders/remounts, multiple intents can be created -- each potentially incurring Airwallex fees for pending transactions.
+The 5x gateway fee issue stems from multiple problems in the payment initialization flow:
 
-### Current Safeguard
+1. **`Airwallex.createElement('dropIn', ...)` is called every time** the user navigates to the payment step -- even when reusing a cached intent. Each `createElement` call may register as a new payment attempt with Airwallex, incurring fees.
 
-There is already a guard (`if (paymentClientSecret) return;`) that prevents duplicate calls within the same render lifecycle. However, this is insufficient because:
-- Going back to "details" and forward again calls `createPaymentIntent()` again, and while `paymentClientSecret` is still in state it works, the drop-in gets re-initialized
-- A page refresh or component remount loses all state, creating a brand new intent
-- Abandoned intents accumulate on the Airwallex side
+2. **Event listeners accumulate**: `onSuccess` and `onError` listeners are added on every call to `initAirwallexDropIn` but never removed. This causes duplicate event handling.
 
-### Solution: Reuse Existing Payment Intents
+3. **No concurrency guard**: Rapid double-clicks on "Next" can trigger multiple simultaneous `createPaymentIntent` calls before the state updates.
 
-Two changes to minimize unnecessary intent creation:
+### Solution
 
-#### 1. Cache the Payment Intent in `sessionStorage`
+#### 1. Only call `initAirwallexDropIn` once per intent
 
-Store the `payment_intent_id` and `client_secret` in `sessionStorage` when first created. On subsequent visits to the payment step, check `sessionStorage` first and reuse the existing intent instead of creating a new one.
+Track whether the drop-in has already been initialized for the current intent using a `ref`. Skip the entire `createElement` + `mount` + event listener setup if the drop-in is already active for this intent.
 
-This covers:
-- Back/forward navigation within the booking flow
-- Accidental page refreshes during the booking process
+#### 2. Clean up event listeners properly
 
-#### 2. Skip re-initializing the Airwallex Drop-in if already mounted
+Store event listener references and remove them before adding new ones (or skip adding if already attached).
 
-Before calling `initAirwallexDropIn`, check if the payment container already has a mounted element. If the drop-in is already rendered, skip the re-initialization.
+#### 3. Add a concurrency lock to `createPaymentIntent`
+
+Use a `ref`-based lock (`isCreatingIntent`) to prevent concurrent calls from double-clicks or rapid navigation.
 
 ### Files to Modify
 
 | File | Change |
 |---|---|
-| `src/components/BookingSection.tsx` | Add sessionStorage caching for payment intent; skip drop-in re-init if already mounted |
+| `src/components/BookingSection.tsx` | Add drop-in initialization tracking ref, event listener cleanup, and concurrency lock |
 
 ### Technical Detail
 
-**`createPaymentIntent` updated logic:**
+**New refs:**
+
+```typescript
+const airwallexInitializedForIntent = useRef<string | null>(null);
+const isCreatingIntent = useRef(false);
+```
+
+**Updated `createPaymentIntent`:**
 
 ```typescript
 const createPaymentIntent = async () => {
-  // Check in-memory state first
+  // Concurrency lock
+  if (isCreatingIntent.current) return;
+
+  // Check in-memory state -- skip if drop-in already initialized for this intent
   if (paymentClientSecret && paymentIntentId) {
+    if (airwallexInitializedForIntent.current === paymentIntentId) return;
     initAirwallexDropIn(paymentClientSecret, paymentIntentId);
     return;
   }
 
-  // Check sessionStorage for a previously created intent
+  // Check sessionStorage
   const cached = sessionStorage.getItem('booking_payment_intent');
-  if (cached) {
-    const { client_secret, payment_intent_id } = JSON.parse(cached);
-    setPaymentClientSecret(client_secret);
-    setPaymentIntentId(payment_intent_id);
-    initAirwallexDropIn(client_secret, payment_intent_id);
-    return;
-  }
+  if (cached) { ... same logic but also check airwallexInitializedForIntent ... }
 
-  // Only now create a new intent
-  setIsPaymentLoading(true);
-  try {
-    const { data, error } = await supabase.functions.invoke('create-payment-intent', {
-      body: { amount: 500, currency: 'HKD' },
-    });
-    if (error) throw error;
-    setPaymentClientSecret(data.client_secret);
-    setPaymentIntentId(data.payment_intent_id);
-    // Cache for reuse
-    sessionStorage.setItem('booking_payment_intent', JSON.stringify({
-      client_secret: data.client_secret,
-      payment_intent_id: data.payment_intent_id,
-    }));
-    setTimeout(() => initAirwallexDropIn(data.client_secret, data.payment_intent_id), 100);
-  } catch (error) { ... }
+  // Lock before creating
+  isCreatingIntent.current = true;
+  // ... create intent ...
+  // Unlock in finally block
+  isCreatingIntent.current = false;
 };
 ```
 
-**Clear cache on successful booking or full reset:**
+**Updated `initAirwallexDropIn`:**
 
 ```typescript
-// After successful booking submission
-sessionStorage.removeItem('booking_payment_intent');
+const initAirwallexDropIn = async (clientSecret, intentId) => {
+  // Skip if already initialized for this exact intent
+  if (airwallexInitializedForIntent.current === intentId) return;
+
+  // ... existing createElement + mount logic ...
+
+  // Mark as initialized
+  airwallexInitializedForIntent.current = intentId;
+
+  // Remove previous listeners before adding new ones
+  window.removeEventListener('onSuccess', successHandler);
+  window.removeEventListener('onError', errorHandler);
+  window.addEventListener('onSuccess', successHandler);
+  window.addEventListener('onError', errorHandler);
+};
 ```
 
-### What This Does NOT Change
+**Reset tracking on form reset:**
 
-- No database or Edge Function changes needed
-- No changes to the payment verification flow
-- The Airwallex Drop-in configuration stays the same
+```typescript
+airwallexInitializedForIntent.current = null;
+isCreatingIntent.current = false;
+```
 
-### Cost Impact
+### Result
 
-- Users who navigate back/forward or refresh will reuse the same intent instead of creating a new one
-- Only one intent per booking session, regardless of how many times the payment step is visited
+- Only **one** `createElement` call per payment intent, no matter how many times the user navigates back/forward
+- No duplicate event listeners
+- No race conditions from rapid clicks
+- Combined with the existing `sessionStorage` cache, this ensures exactly one payment intent and one drop-in initialization per booking session
+
