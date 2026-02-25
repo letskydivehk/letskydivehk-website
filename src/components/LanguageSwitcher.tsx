@@ -10,9 +10,10 @@ export function LanguageSwitcher() {
   const languages: { code: Language; label: string }[] = [
     { code: 'en', label: 'English' },
     { code: 'zh-TW', label: '繁體中文' },
+    { code: 'zh-CN', label: '简体中文' },
   ];
 
-  const currentLabel = language === 'en' ? 'EN' : '中';
+  const currentLabel = language === 'en' ? 'EN' : language === 'zh-TW' ? '繁' : '简';
 
   return (
     <div className="relative">

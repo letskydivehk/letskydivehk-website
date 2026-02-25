@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 
-export type Language = "en" | "zh-TW";
+export type Language = "en" | "zh-TW" | "zh-CN";
 
 interface LanguageContextType {
   language: Language;
@@ -398,7 +398,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Legal Pages
     "legal.backToHome": "Back to Home",
 
-    // Privacy Policy - English (COMPREHENSIVE VERSION)
+    // Privacy Policy - English
     "privacy.title": "Let's Skydive HK Limited Personal Data (Privacy) Policy Statement",
     "privacy.lastUpdated": "Last Updated",
     "privacy.introduction":
@@ -464,7 +464,7 @@ const translations: Record<Language, Record<string, string>> = {
     "privacy.finalNote":
       "(Note: For the avoidance of doubt, the latest update date of this policy is **1 January 2026**.)<br><br>**(This Privacy Policy Statement shall be governed by the Tradional Chinese version.)**",
 
-    // Terms of Service - English (Updated with your provided content)
+    // Terms of Service - English
     "terms.title": "TERMS AND CONDITIONS",
     "terms.lastUpdated": "Last Updated: January 30, 2026",
 
@@ -504,7 +504,7 @@ const translations: Record<Language, Record<string, string>> = {
     "terms.additionalNotes.content":
       "- To ensure comprehensive protection, the Company recommends that all Participants purchase travel insurance.<br>- The Company reserves the right to modify these Terms. In case of any dispute, the Company's decision shall be final.<br>- These Terms are prepared in the Chinese language version only, which shall be the governing version.<br>- The Company reserves the final right to accept any booking.",
 
-    // Disclaimer - English (COMPLETE WITH ACTUAL CONTENT)
+    // Disclaimer - English
     "disclaimer.title": "COMPREHENSIVE DISCLAIMER FOR LET'S SKYDIVE HK LIMITED",
     "disclaimer.lastUpdated": "Last Updated: 1 January 2026",
     "disclaimer.website": "Website: https://letskydivehk.com/",
@@ -1042,7 +1042,7 @@ const translations: Record<Language, Record<string, string>> = {
     // Legal Pages
     "legal.backToHome": "返回首頁",
 
-    // Privacy Policy - Traditional Chinese (COMPREHENSIVE VERSION)
+    // Privacy Policy - Traditional Chinese
     "privacy.title": "Let's Skydive HK Limited 個人資料（私隱）政策聲明",
     "privacy.lastUpdated": "最後更新",
     "privacy.introduction":
@@ -1104,7 +1104,7 @@ const translations: Record<Language, Record<string, string>> = {
     "privacy.finalNote":
       "（註：為免生疑問，本政策之最新更新日期為 **2026年1月1日**。）<br><br>**（本私隱政策聲明以中文版本為準。）**",
 
-    // Terms of Service - Traditional Chinese (簡化結構)
+    // Terms of Service - Traditional Chinese
     "terms.title": "條款及細則",
     "terms.lastUpdated": "最後修改時間：2026年1月30日",
 
@@ -1144,7 +1144,7 @@ const translations: Record<Language, Record<string, string>> = {
     "terms.additionalNotes.content":
       "• 為使各參加者獲得完善的保障，本公司建議參加者必須購買旅遊保險。<br>• 本公司保留權利修改本細則責任條款。如有任何爭議，本公司保留最終決定權。<br>• 本細則責任條款只備有中文版本，一概以中文版本為準。<br>• 本公司保留接受報名與否之最終權利。",
 
-    // Disclaimer - Traditional Chinese (FIXED WITH ACTUAL CONTENT)
+    // Disclaimer - Traditional Chinese
     "disclaimer.title": "Let's Skydive HK Limited 免責聲明（繁體中文版）",
     "disclaimer.lastUpdated": "最後更新日期：2026年1月1日",
     "disclaimer.website": "網站：https://letskydivehk.com/",
@@ -1273,35 +1273,668 @@ const translations: Record<Language, Record<string, string>> = {
 
     // A-Licence Service Page
     "servicePage.aff.heroTitle": "A級執照課程",
-    "servicePage.aff.heroSubtitle": "透過我們的AFF加速自由落體課程學習獨立跳傘。掌握技能，完成25次跳傘，取得國際認證執照。",
+    "servicePage.aff.heroSubtitle": "透過我們的加速自由落體（AFF）課程學習獨立跳傘。掌握技能，完成25次跳傘，獲得國際執照。",
     "servicePage.aff.heroTagline": "成為持照跳傘員",
     "servicePage.aff.step1.title": "報名 & 註冊",
-    "servicePage.aff.step1.desc": "報名AFF課程，完成體檢及安全表格。",
-    "servicePage.aff.step2.title": "地面學科",
-    "servicePage.aff.step2.desc": "密集課堂訓練，涵蓋空氣動力學、緊急程序和裝備知識。",
-    "servicePage.aff.step3.title": "AFF 1-3級",
-    "servicePage.aff.step3.desc": "與兩名教練一同跳傘，學習基本自由落體技巧和穩定性。",
-    "servicePage.aff.step4.title": "AFF 4-7級",
-    "servicePage.aff.step4.desc": "進階到單教練跳傘。掌握轉向、追蹤和開傘技巧。",
-    "servicePage.aff.step5.title": "獨立跳傘 (8-25次)",
+    "servicePage.aff.step1.desc": "報名AFF課程，完成醫療及安全表格。",
+    "servicePage.aff.step2.title": "地面學校",
+    "servicePage.aff.step2.desc": "密集課堂培訓，涵蓋空氣動力學、緊急程序及裝備知識。",
+    "servicePage.aff.step3.title": "AFF 第1-3級",
+    "servicePage.aff.step3.desc": "與兩名教練一起跳傘，學習基本自由落體技能和穩定性。",
+    "servicePage.aff.step4.title": "AFF 第4-7級",
+    "servicePage.aff.step4.desc": "進階到單教練跳傘。掌握轉彎、追蹤和開傘技術。",
+    "servicePage.aff.step5.title": "獨立跳傘 (8-25)",
     "servicePage.aff.step5.desc": "獨立完成剩餘跳傘次數，精進您的技術。",
     "servicePage.aff.step6.title": "取得執照！🎓",
-    "servicePage.aff.step6.desc": "通過最終評核，獲頒國際認可的A級跳傘執照。",
+    "servicePage.aff.step6.desc": "通過最終評估，獲得國際認可的A級執照。",
     "servicePage.aff.include1": "25次跳傘（A級執照要求）",
-    "servicePage.aff.include2": "地面學科訓練",
-    "servicePage.aff.include3": "提供全套裝備",
+    "servicePage.aff.include2": "地面學校培訓",
+    "servicePage.aff.include3": "提供全部裝備",
     "servicePage.aff.include4": "個人教練指導",
     "servicePage.aff.include5": "免費iFly室內跳傘體驗",
-    "servicePage.aff.testimonial": "AFF課程改變了我的人生。教練非常有耐心和專業。現在我是持照跳傘員，每個週末都在跳！",
+    "servicePage.aff.testimonial": "AFF課程改變了我的人生。教練非常耐心且專業。現在我是持照跳傘員，每個週末都在跳傘！",
     "servicePage.aff.testimonialAuthor": "Mark R.，澳洲",
     "servicePage.aff.faq.q1": "A級執照課程需要多長時間？",
-    "servicePage.aff.faq.a1": "通常需要7-14天，視天氣和您的進度而定。在理想條件下，部分學員最快一週即可完成。",
+    "servicePage.aff.faq.a1": "通常需要7-14天，取決於天氣和您的進度。在理想條件下，有些學員只需一周即可完成。",
     "servicePage.aff.faq.q2": "有什麼先決條件？",
     "servicePage.aff.faq.a2": "您必須年滿18歲，體重100公斤以下，身體健康。無需任何跳傘經驗——AFF課程從零開始教學。",
     "servicePage.aff.faq.q3": "A級執照是國際認可的嗎？",
     "servicePage.aff.faq.a3": "是的！USPA A級執照獲全球認可。取得執照後，您可以在世界各地的跳傘場自由跳傘。",
     "servicePage.aff.faq.q4": "取得A級執照後可以做什麼？",
     "servicePage.aff.faq.a4": "您可以在全球任何跳傘場獨立跳傘！許多畢業學員會繼續考取B、C、D級執照，學習編隊跳傘、翼裝飛行，或成為教練。",
+  },
+  "zh-CN": {
+    // Navigation & Common
+    "nav.services": "服务项目",
+    "nav.locations": "跳伞基地",
+    "nav.about": "关于我们",
+    "nav.booking": "立即体验",
+    "nav.contact": "联系我们",
+    "common.learnMore": "了解更多",
+    "common.bookNow": "立即体验",
+    "common.comingSoon": "即将推出",
+    "common.loading": "加载中...",
+
+    // Hero Section
+    "hero.badge": "香港首选跳伞体验",
+    "hero.title": "一起跳伞吧",
+    "hero.experienceThe": "体验",
+    "hero.ultimateThrill": "极致飞翔",
+    "hero.subtitle":
+      "我们提供专业双人跳伞体验、AFF（Accelerated Freefall）加速自由落体认证课程，并可为企业团体、亲友聚会等量身规划跳伞活动方案。\n\n服务范围遍及亚洲各地景观绝佳的跳伞基地，让您在专业安全保障下，俯瞰壮丽山河，成就非凡时刻。",
+    "hero.cta.book": "立即体验",
+    "hero.cta.explore": "探索服务",
+
+    // Locations Section
+    "locations.badge": "我们的跳伞场",
+    "locations.title": "跳伞基地",
+    "locations.subtitle": "从我们位于泰国和中国的顶级跳伞场中选择，每个场地都提供独特的风景和世界级设施。",
+    "locations.thailand": "🇹🇭 泰国",
+    "locations.china": "🇨🇳 中国",
+    "locations.noLocations": "{country}暂时没有可用的跳伞地点。",
+    "locations.bookHere": "立即体验",
+    "locations.tandem": "双人跳伞",
+    "locations.aff": "AFF课程",
+    "locations.groups": "团体活动",
+    "locations.map.title": "探索我们的跳伞基地",
+    "locations.map.subtitle": "选择一个地点在地图上查看",
+    "locations.map.openGoogleMaps": "在 Google 地图中打开",
+    "locations.viewDetails": "查看详情",
+    "locations.bookHereBtn": "立即体验",
+
+    // Location Detail Page
+    "locationDetail.notFound": "找不到该地点",
+    "locationDetail.backToHome": "返回首页",
+    "locationDetail.highlights": "特色亮点",
+    "locationDetail.fromAirport": "距离机场",
+    "locationDetail.fromCity": "距离市区",
+    "locationDetail.transportation": "交通方式",
+    "locationDetail.photos": "照片集",
+    "locationDetail.servicesHere": "此地点服务",
+    "locationDetail.map": "地图",
+    "locationDetail.readyToJump": "准备好起飞了吗？",
+    "locationDetail.bookHere": "立即体验",
+
+    // Services Section
+    "services.badge": "我们提供的服务",
+    "services.title": "服务项目",
+    "services.subtitle": "从首次跳伞者到有志成为持照跳伞员的学员，我们都有适合您的完美体验。",
+    "services.tandem.title": "双人跳伞",
+    "services.tandem.subtitle": "欢迎首次跳伞者",
+    "services.tandem.description": "与经验丰富的教练一同体验极限自由落体的刺激。无需任何经验——只需带上您的冒险精神！",
+    "services.alicence.title": "A级执照",
+    "services.alicence.subtitle": "学习独立跳伞",
+    "services.alicence.description": "加速自由落体（AFF）课程是您成为持照跳伞员的途径。掌握独立跳伞所需的技能。",
+    "services.group.title": "团体活动",
+    "services.group.subtitle": "团队建设与庆祝活动",
+    "services.group.description": "非常适合企业团队建设、单身派对、生日或任何特殊场合。一起创造难忘的回忆！",
+    "services.popular": "最受欢迎",
+    "services.contactUs": "联系我们",
+    "services.priceVaries": "价格因地而异",
+    "services.whatsIncluded": "包含内容：",
+    "services.safetyNote": "安全第一：",
+    "services.safetyDesc": "所有跳伞均由认证教练使用现代化设备进行",
+    "services.priceFrom": "${price}起",
+    "services.customQuote": "专属跳伞报价",
+
+    // Booking Section
+    "booking.badge": "准备好了吗？",
+    "booking.title": "预约您的冒险",
+    "booking.subtitle": "选择您感兴趣的地点和服务，开始您的跳伞之旅。",
+    "booking.step1": "选择地点",
+    "booking.step2": "选择服务",
+    "booking.step3": "您的资料",
+    "booking.step4": "预览",
+    "booking.step5": "付款",
+    "booking.paymentTitle": "支付订金",
+    "booking.paymentSubtitle": "需支付 HKD $500 订金以确认您的预约",
+    "booking.depositAmount": "订金金额",
+    "booking.paymentProcessing": "正在处理付款...",
+    "booking.paymentSuccess": "付款成功！",
+    "booking.paymentFailed": "付款失败，请重试。",
+    "booking.paymentError": "付款处理过程中发生错误。",
+    "booking.depositNote": "余额将于活动当天收取。",
+    "booking.mobileRedirectNotice": "您将被重新导向至应用程序完成付款。",
+    "booking.selectLocation": "选择地点",
+    "booking.selectService": "选择服务",
+    "booking.form.name": "全名",
+    "booking.form.email": "电子邮件",
+    "booking.form.phone": "电话号码",
+    "booking.form.date": "日期",
+    "booking.form.notes": "备注",
+    "booking.form.submit": "提交预约申请",
+    "booking.filter.showing": "显示提供A级执照培训的地点",
+    "booking.whereJump": "您想在哪里跳伞？",
+    "booking.selectDropzone": "选择您感兴趣的跳伞基地",
+    "booking.showAll": "显示全部",
+    "booking.chooseService": "选择您的体验",
+    "booking.selectPackage": "选择您想选的套餐",
+    "booking.changeLocation": "更换地点",
+    "booking.yourDetails": "您的资料",
+    "booking.fillInfo": "填写您的资料以完成预约",
+    "booking.firstName": "名字",
+    "booking.lastName": "姓氏",
+    "booking.email": "电子邮件",
+    "booking.phone": "电话",
+    "booking.date": "偏好日期",
+    "booking.participants": "参加人数",
+    "booking.notes": "备注（选填）",
+    "booking.notesPlaceholder": "任何特殊要求或需求...",
+    "booking.reviewBooking": "确认您的预约",
+    "booking.confirmDetails": "请确认您的预约详情",
+    "booking.location": "地点",
+    "booking.service": "服务",
+    "booking.price": "价格",
+    "booking.contact": "联系方式",
+    "booking.back": "返回",
+    "booking.next": "下一步",
+    "booking.confirmBooking": "确认预约",
+    "booking.submitting": "提交中...",
+    "booking.success": "预约申请已提交！",
+    "booking.successMessage": "我们已收到您的预约申请。我们会在24小时内联系您确认预约。",
+    "booking.summary": "预约摘要",
+    "booking.bookAnother": "再次预约",
+    "booking.whenJump": "您想什么时候跳伞？",
+    "booking.selectDateDetails": "选择您的日期并填写您的资料",
+    "booking.preferredDate": "日期",
+    "booking.numberOfJumpers": "跳伞人数",
+    "booking.jumper": "位",
+    "booking.jumpers": "位",
+    "booking.contactDetails": "您的联系资料",
+    "booking.firstName.label": "名字",
+    "booking.lastName.label": "姓氏",
+    "booking.email.label": "电子邮件",
+    "booking.phone.label": "电话号码",
+    "booking.specialRequests": "特殊需求（选填）",
+    "booking.specialRequestsPlaceholder": "任何特殊要求或问题...",
+    "booking.selected": "已选择",
+    "booking.noServices": "此地点暂无可用服务。",
+    "booking.noLocations": "此服务类型暂无可用地点。",
+    "booking.more": "更多",
+    "booking.termsDisclaimer": "点击提交即表示您同意我们的预约条款。我们将在24小时内与您联系确认可用性并完成预约。",
+    "booking.fixErrors": "请先修正验证错误再提交",
+    "booking.submitError": "预约提交失败，请重试。",
+    "booking.submitSuccess": "预约提交成功！",
+
+    // Profile
+    "profile.title": "个人资料",
+    "profile.basicInfo": "基本资料",
+    "profile.fullName": "全名",
+    "profile.phone": "电话",
+    "profile.emergencyContact": "紧急联系人",
+    "profile.optional": "选填",
+    "profile.name": "姓名",
+    "profile.relationship": "关系",
+    "profile.relationshipPlaceholder": "例如：配偶、父母、朋友",
+    "profile.save": "保存更改",
+    "profile.saving": "保存中...",
+    "profile.namePlaceholder": "输入您的全名",
+    "profile.phonePlaceholder": "输入您的电话号码",
+    "profile.emergencyNamePlaceholder": "紧急联系人姓名",
+    "profile.emergencyPhonePlaceholder": "紧急联系人电话",
+    "profile.updateSuccess": "个人资料更新成功",
+    "profile.updateError": "保存个人资料失败",
+    "profile.loadError": "加载个人资料失败",
+    "profile.validationError": "输入无效",
+    "profile.myBookings": "我的预约",
+    "profile.noBookings": "尚无预约记录",
+
+    // Credits
+    "credit.title": "我的积分",
+    "credit.balance": "积分余额",
+    "credit.history": "交易记录",
+    "credit.noTransactions": "尚无交易记录",
+    "credit.signup_bonus": "注册奖励",
+    "credit.admin_adjustment": "管理员调整",
+    "credit.redemption": "兑换使用",
+    "credit.refund": "退款",
+    "credit.promotion": "推广优惠",
+    "credit.referral_bonus": "推荐奖励",
+    "credit.pending": "待审核",
+    "credit.approved": "已批准",
+    "credit.rejected": "已拒绝",
+    "credit.pendingBalance": "待审核积分",
+
+    // Referral
+    "referral.title": "我的推荐码",
+    "referral.description": "与朋友分享您的推荐码。当他们预约时，您将获得 $100 积分（待管理员批准）。",
+    "referral.copied": "推荐码已复制！",
+    "referral.label": "推荐码（选填）",
+    "referral.placeholder": "输入推荐码",
+
+    // Admin
+    "admin.title": "管理员 - 积分管理",
+    "admin.pendingReferrals": "待审核推荐",
+    "admin.approve": "批准",
+    "admin.reject": "拒绝",
+    "admin.noPending": "没有待审核的推荐积分",
+
+    // Auth Messages
+    "auth.signInSuccess": "登录成功！",
+    "auth.signUpSuccess": "注册成功！请查看您的电子邮件以验证账户。",
+    "auth.invalidCredentials": "电子邮件或密码无效",
+    "auth.emailAlreadyRegistered": "此电子邮件已注册",
+    "auth.emailNotConfirmed": "请先验证您的电子邮件",
+    "auth.signInFailed": "登录失败",
+    "auth.signUpFailed": "注册失败",
+    "auth.googleSignInFailed": "Google 登录失败，请重试。",
+    "auth.enterEmailPassword": "请输入电子邮件和密码",
+    "auth.passwordsMismatch": "密码不一致",
+    "auth.passwordTooShort": "密码必须至少6个字符",
+    "auth.passwordMinLength": "密码必须至少8个字符",
+    "auth.passwordLowercase": "密码必须包含小写字母",
+    "auth.passwordUppercase": "密码必须包含大写字母",
+    "auth.passwordNumber": "密码必须包含数字",
+    "auth.criteria.length": "至少8个字符",
+    "auth.criteria.lowercase": "一个小写字母",
+    "auth.criteria.uppercase": "一个大写字母",
+    "auth.criteria.number": "一个数字",
+    "auth.forgotPassword": "忘记密码？",
+    "auth.resetPassword": "重置密码",
+    "auth.resetDescription": "输入您的电子邮件地址，我们将向您发送重置密码的链接。",
+    "auth.sendResetLink": "发送重置链接",
+    "auth.resetEmailSent": "重置密码邮件已发送！请查看您的收件箱。",
+    "auth.resetFailed": "发送重置邮件失败",
+    "auth.enterEmail": "请输入您的电子邮件地址",
+
+    // About Section
+    "about.badge": "关于我们",
+    "about.title": "为什么选择 Let's Skydive HK？",
+    "about.subtitle": "我们热衷于与亚洲各地的冒险家分享跳伞的刺激体验。",
+    "about.stats.safeJumps": "安全跳伞次数",
+    "about.stats.yearsExperience": "年经验",
+    "about.stats.locations": "个跳伞地点",
+    "about.stats.safetyRecord": "安全记录",
+    "about.values.safetyFirst.title": "安全第一",
+    "about.values.safetyFirst.desc": "每次跳伞均遵循最高安全标准。我们的设备每日检查，教练均持有完整认证。",
+    "about.values.expertInstructors.title": "专业教练",
+    "about.values.expertInstructors.desc":
+      "我们的双人跳伞教练拥有数千次跳伞经验。从培训到降落，您都在经验丰富的专业人员手中。",
+    "about.values.personalizedExperience.title": "个性化体验",
+    "about.values.personalizedExperience.desc": "无论是您的第一次跳伞还是第一百次，我们都会为您量身打造难忘的体验。",
+    "about.values.passionDriven.title": "热情驱动",
+    "about.values.passionDriven.desc": "我们热爱我们的工作。这份热情转化为每位与我们一起跳伞的客人的绝佳体验。",
+    "about.story.title": "我们的故事",
+    "about.story.paragraph1":
+      "Let's Skydive HK 由一位梦想穿上翼装飞行的年轻人创立。他的愿景是让更多香港人完成人生清单上的重要项目：体验纯粹的飞行快感。我们在亚洲各地提供更近、更优质的选择，将最初的热情转化为遍布泰国和中国的世界级设施网络。",
+    "about.story.paragraph2":
+      "作为香港首家提供全面、有系统跳伞支援服务的机构，我们的整体运营围绕着一个核心优先事项：您的安全。我们制定并维持业界最高的安全标准，确保每一次飞行不仅刺激，更是经过精心管理，让您绝对安心无忧。",
+
+    // Contact Section
+    "contact.badge": "联系我们",
+    "contact.title": "联系我们",
+    "contact.subtitle": "有问题吗？我们随时为您规划跳伞冒险提供帮助。",
+    "contact.email.label": "电子邮件",
+    "contact.email.desc": "预约及查询",
+    "contact.instagram.label": "私信我们的Instagram",
+    "contact.instagram.desc": "24小时内回复",
+    "contact.location.label": "总部",
+    "contact.whatsapp.label": "WhatsApp",
+    "contact.whatsapp.desc": "快速回复",
+    "contact.responseTime": "回复时间",
+    "contact.responseTimeDesc": "我们通常会在24小时内回复所有查询。如有紧急事项，请直接致电或WhatsApp联系我们。",
+    "contact.followUs": "关注我们",
+    "contact.form.name": "姓名 *",
+    "contact.form.namePlaceholder": "您的姓名",
+    "contact.form.email": "电子邮件 *",
+    "contact.form.emailPlaceholder": "your@email.com",
+    "contact.form.phone": "电话（选填）",
+    "contact.form.phonePlaceholder": "+852 6939 1570",
+    "contact.form.subject": "主题 *",
+    "contact.form.message": "消息 *",
+    "contact.form.messagePlaceholder": "请告诉我们您的查询内容...",
+    "contact.form.required": "* 必填字段",
+    "contact.form.submit": "发送消息",
+    "contact.form.sending": "发送中...",
+    "contact.form.success": "消息已发送！",
+    "contact.form.successDesc": "感谢您的来信。我们会在24小时内回复您。",
+    "contact.form.sendAnother": "发送另一条消息",
+    "contact.subject.aff": "A级执照查询",
+    "contact.subject.group": "团体活动",
+    "contact.subject.general": "一般问题",
+
+    // Footer
+    "footer.description": "与亚洲首屈一指的跳伞网络一同体验跳伞的刺激。专业双人跳伞、AFF课程及团体活动遍布泰国和中国。",
+    "footer.quickLinks": "快速链接",
+    "footer.services": "服务项目",
+    "footer.locations": "我们的地点",
+    "footer.privacy": "隐私政策",
+    "footer.terms": "服务条款",
+    "footer.disclaimer": "免责声明",
+    "footer.copyright": "© 2025 Let's Skydive HK. 版权所有。",
+
+    // Auth
+    "auth.signIn": "登录",
+    "auth.signUp": "注册",
+    "auth.signOut": "退出",
+    "auth.profile": "个人资料",
+    "auth.welcomeBack": "欢迎回来",
+    "auth.createAccount": "创建账户",
+    "auth.signInWithGoogle": "使用 Google 登录",
+    "auth.or": "或",
+    "auth.emailAddress": "电子邮件地址",
+    "auth.password": "密码",
+    "auth.confirmPassword": "确认密码",
+    "auth.processing": "处理中...",
+    "auth.noAccount": "还没有账户？",
+    "auth.haveAccount": "已经有账户？",
+    "auth.member": "会员",
+
+    // Gallery Section
+    "gallery.badge": "我们的冒险",
+    "gallery.title": "照片集",
+    "gallery.subtitle": "通过我们跳伞者的照片和视频重温刺激时刻。",
+    "gallery.backToHome": "返回首页",
+    "gallery.upload": "上传",
+    "gallery.empty": "暂时没有照片或视频。",
+    "gallery.uploadFirst": "上传第一个媒体",
+    "gallery.selectItem": "选择项目查看",
+    "gallery.video": "视频",
+    "gallery.deleteSuccess": "项目已成功删除",
+    "gallery.deleteError": "删除项目失败",
+    "gallery.deleteConfirmTitle": "删除此项目？",
+    "gallery.deleteConfirmDesc": "此操作无法撤销。文件将被永久删除。",
+    "gallery.cancel": "取消",
+    "gallery.delete": "删除",
+    "gallery.uploadTitle": "上传媒体",
+    "gallery.invalidFileType": "无效的文件类型。请上传图片或视频。",
+    "gallery.fileTooLarge": "文件太大。最大大小为50MB。",
+    "gallery.dragDrop": "拖放文件至此，或",
+    "gallery.browseFiles": "浏览文件",
+    "gallery.removeFile": "移除",
+    "gallery.titleLabel": "标题（选填）",
+    "gallery.titlePlaceholder": "为您的媒体添加标题...",
+    "gallery.descriptionLabel": "描述（选填）",
+    "gallery.descriptionPlaceholder": "添加描述...",
+    "gallery.uploading": "上传中...",
+    "gallery.uploadBtn": "上传",
+    "gallery.uploadSuccess": "媒体上传成功！",
+    "gallery.uploadError": "上传媒体失败",
+    "nav.gallery": "照片集",
+    "nav.faq": "常见问题",
+    "nav.promotions": "最新优惠",
+
+    // Promotions Page
+    "promo.badge": "限时优惠",
+    "promo.title": "最新优惠",
+    "promo.subtitle": "把握我们的最新限时优惠，节省您的跳伞冒险费用。",
+    "promo.backToHome": "返回首页",
+    "promo.active": "进行中",
+    "promo.termsTitle": "条款及细则",
+    "promo.bookNow": "立即体验",
+    "promo.claimCoupon": "领取优惠券",
+    "promo.perPerson": "每人",
+    "promo.group2.title": "好友同行 — 两人一起跳更划算！",
+    "promo.group2.desc": "约上朋友一起跳，二人同行即享折扣！",
+    "promo.group2.details": "2人同行预约同一场次，每人立减 $100。",
+    "promo.group2.terms":
+      "两位参加者必须预约同一地点的同一场次。优惠仅适用于双人跳伞套餐，不能与其他优惠同时使用，名额有限，先到先得。",
+    "promo.homeBanner": "🔥 好友同行：2人同行，每人减 $100！",
+    "promo.homeBannerCta": "查看详情",
+
+    // Legal Pages
+    "legal.backToHome": "返回首页",
+
+    // Privacy Policy - Simplified Chinese
+    "privacy.title": "Let's Skydive HK Limited 个人资料（隐私）政策声明",
+    "privacy.lastUpdated": "最后更新",
+    "privacy.introduction":
+      "Let's Skydive HK Limited（下称「本公司」、「我们」）致力保障您的个人资料隐私。本隐私政策声明阐述我们如何根据香港法例第486章《个人资料（隐私）条例》（下称「条例」）收集、使用、储存、传输及处理您的个人资料。请仔细阅读本政策，以了解我们处理您个人资料的常规做法。",
+    "privacy.updateNotice":
+      "我们的政策及措施旨在确保在业务运营过程中处理个人资料（定义见下文）时，符合条例的规定。我们可能不时修订本政策，并于本网站公布更新版本。若您于修订后继续使用我们的服务或与我们维持关系，即表示您接受经修订的政策。",
+
+    "privacy.section1.title": "1. 收集的个人资料种类",
+    "privacy.section1.content":
+      "我们可能通过网站、电话、电邮、社交媒体、移动应用程序或亲临办事处等渠道，向您收集为提供服务所必需的个人身份识别资料（「个人资料」），包括但不限于：",
+    "privacy.section1.list":
+      "• 联系资料（如姓名、电话号码、电邮地址、通讯地址）；<br>• 身份证明文件资料（如护照或身份证号码、出生日期）；<br>• 体格健康及医疗相关资料（如体重、过往病史、伤患记录，以评估是否适合参与跳伞活动）；<br>• 付款资料（如信用卡/借记卡号码、持卡人姓名、有效期及账单地址）；<br>• 活动相关资料（如预订的跳伞日期、地点、套餐类型、录影及照片偏好、紧急联系人资料）；<br>• 参与本公司举办的推广活动、比赛或问卷调查时所提供的资料；及<br>• 通讯记录（为确保服务质量及培训，我们可能会记录与客户服务相关的通话或电子消息）。",
+    "privacy.section1.note":
+      "若您选择不提供必要资料，我们可能无法为您提供跳伞活动或相关服务。如您未满18岁，必须事先征得家长或监护人同意方可提供个人资料。",
+
+    "privacy.section2.title": "2. 收集及使用个人资料的目的",
+    "privacy.section2.content": "我们会将您的个人资料用于以下与我们业务及服务相关之目的：",
+    "privacy.section2.list":
+      "• 处理、确认及管理您的跳伞活动预订、报名及付款；<br>• 评估您参与跳伞活动的体格适合性及安全风险；<br>• 就您的预订、查询、意见或投诉与您联络及跟进；<br>• 提供活动前简报、安全指引及相关服务安排；<br>• 处理及制作跳伞活动的照片、视频记录及相关产品；<br>• 管理会员账户（如适用）及提供相关礼遇；<br>• 进行客户服务质量监控、员工培训及处理索赔事宜；<br>• 进行市场研究、分析及服务改善，以提升客户体验；<br>• 在获得您同意的情况下，向您发送关于本公司最新优惠、推广活动及服务信息的直接营销消息；<br>• 履行法律或监管义务，或回应执法机构、政府部门依法提出的要求；<br>• 保障本公司、客户或公众的权利、财产或安全，包括预防欺诈或犯罪活动；及<br>• 与上述任何目的直接相关的其他用途。",
+    "privacy.section2.note": "未经您的事先同意，我们不会将您的个人资料用于上述列明范围之外的其他目的。",
+
+    "privacy.section3.title": "3. 个人资料的披露及转移",
+    "privacy.section3.content": "为达成第2条所述之目的，我们可能在必要情况下将您的个人资料转交予以下类别之第三方：",
+    "privacy.section3.list":
+      "• 提供跳伞活动协作服务的第三方供应商（如跳伞教练、飞机租赁公司、摄影团队）；<br>• 协助处理付款的金融机构及支付服务供应商；<br>• 为我们提供业务支援服务的承办商（如信息科技系统供应商、客户服务中心、邮递服务公司）；<br>• 我们的专业顾问（如律师、保险公司、审计师）；<br>• 在法律要求或授权下，有权索取资料的政府部门、监管机构或执法机关；及<br>• 与我们有合作关系并为您提供相关优惠或服务的商业伙伴（仅在获得您同意的情况下）。",
+    "privacy.section3.note":
+      "部分第三方可能位于香港以外的地方。在转移您的个人资料时，我们会采取合理措施确保资料获得足够的保护，并遵守条例的规定。",
+
+    "privacy.section4.title": "4. 个人资料的保护及保存",
+    "privacy.section4.content":
+      "我们采取符合行业标准的合理技术性及组织性措施（包括加密技术、防火墙及访问权限控制），以保护您提供的个人资料免遭未经授权的查阅、使用、披露、更改或破坏。",
+    "privacy.section4.retention":
+      "我们只会将您的个人资料保存至达致收集目的所需之期限，或为遵守法律义务、解决争议及执行协议所需之合理期限。其后，我们会以安全的方式删除或销毁该等资料。",
+
+    "privacy.section5.title": "5. Cookies及类似技术",
+    "privacy.section5.content":
+      "我们的网站可能使用Cookies及类似技术以增强您的浏览体验、分析网站流量及提供个性化内容。您可通过浏览器设置管理或禁用Cookies，但此举可能会影响网站的部分功能。",
+
+    "privacy.section6.title": "6. 第三方网站链接",
+    "privacy.section6.content":
+      "我们的网站或通讯可能包含第三方网站的链接。该等第三方网站有其独立的隐私政策，我们对其内容及政策概不负责。建议您在使用该等网站前查阅其隐私政策。",
+
+    "privacy.section7.title": "7. 您的权利",
+    "privacy.section7.content": "根据条例，您有权：",
+    "privacy.section7.list":
+      "• 查询我们是否持有您的个人资料及要求查阅该等资料；<br>• 要求更正不准确的个人资料；<br>• 查明我们关于个人资料的政策和做法，并获知我们持有的个人资料种类；<br>• 就我们使用您的个人资料作直接营销提出反对；及<br>• 要求停止使用您的个人资料，但须符合条例规定的条件。",
+    "privacy.section7.note": "有关行使上述权利或对本政策有任何查询，请联络我们的隐私主任（联系方式见第9条）。",
+
+    "privacy.section8.title": "8. 直接营销",
+    "privacy.section8.content":
+      "我们只有在获得您明确同意（表示不反对）的情况下，才会使用您的个人资料（如姓名及联系方式）向您发送关于本公司服务及推广活动的直接营销信息。您可随时通过我们在营销消息中提供的取消订阅方式，或联络我们的隐私主任，免费选择停止接收此类消息。",
+
+    "privacy.section9.title": "9. 联系我们",
+    "privacy.section9.content":
+      "如您对本隐私政策、我们处理个人资料的方式，或欲行使您的个人资料权利有任何疑问、要求或投诉，请通过以下方式联络我们的隐私主任：",
+    "privacy.section9.email": "电邮：letskydivehk@gmail.com",
+    "privacy.section9.phone": "电话：(852) 69391570",
+
+    "privacy.finalNote":
+      "（注：为免生疑问，本政策之最新更新日期为 **2026年1月1日**。）<br><br>**（本隐私政策声明以中文版本为准。）**",
+
+    // Terms of Service - Simplified Chinese
+    "terms.title": "条款及细则",
+    "terms.lastUpdated": "最后修改时间：2026年1月30日",
+
+    "terms.preamble.title": "前言",
+    "terms.preamble.content":
+      "1.1 本《条款及细则》（下称「本条款」）构成阁下（下称「参加者」或「客户」）与Let's Skydive HK Limited（下称「本公司」或「我们」）就提供跳伞活动服务（下称「本服务」）所订立之法律协议。本条款受香港特别行政区法律管辖及解释。<br><br>1.2 阁下通过任何途径确认预订、支付款项或参与本服务，即表示阁下已阅读、理解并无条件接受本条款之全部内容，对阁下具有法律约束力。若阁下为他人代为预订，即被视为已获该等人士之充分授权代表其同意受本条款约束。",
+
+    "terms.article1.title": "第一条：资格、健康与安全",
+    "terms.article1.content":
+      "1.1 参加者必须于活动当日年满18岁，并出示附有照片之有效香港身份证或旅游证件以供核实。<br><br>1.2 参加者之体重必须为100公斤或以下，且身高体重比例须符合本公司所使用安全装备之操作规格。本公司保留于活动当日进行最终测量之权利。若参加者超出此安全限制，本公司有权单方面拒绝其参与，已缴付之所有费用将不予退还。<br><br>1.3 参加者声明其身心健康状况良好，适宜参与高空及高强度之体育活动。<strong>参加者必须确认并保证其并无以下任何状况（包括但不限于）：心脏病、高血压、脊椎或颈部损伤、癫痫、气胸、怀孕或可能怀孕、任何可能因气压变化或剧烈冲击而恶化之病症，以及任何精神状况以致影响其理解安全指示或判断风险之能力。</strong> 本公司强烈建议参加者在预订前咨询合资格医生以评估自身状况。<br><br>1.4 参加者在参与活动前及期间，不得受酒精、非法药物或任何可能损害神志、判断力、协调能力或反应能力之药物影响。本公司职员有绝对酌情权判断参加者是否适合参与，若判断为不适合，有权即时取消其参与资格而不作退款。",
+
+    "terms.article2.title": "第二条：风险确认与责任豁免",
+    "terms.article2.content":
+      "2.1 <strong>固有风险之确认：</strong> 参加者明确知悉、理解并承认，跳伞乃一项具有固有及显著风险之极限运动，此等风险可导致严重身体受伤、永久伤残、甚或死亡。此等风险包括但不限于：起飞、飞行或降落时之航空器事故；跳出航空器、自由坠落、开伞或着陆过程中发生之碰撞；装备故障、失灵或不当使用；天气状况突然变化；教练、参加者、其他人士或第三方之错误判断或疏忽；以及着陆于非预定区域或与障碍物碰撞。<br><br>2.2 <strong>豁免、放弃索赔及赔偿：</strong> 为换取本公司提供本服务，参加者在此代表其本人、其继承人、遗嘱执行人及遗产管理人，作出以下不可撤销之承诺：<br><br>(a) <strong>完全免除、放弃及永久解除</strong> 本公司、其董事、高级职员、雇员、合约教练、代理人、分包商及航空服务供应商（统称「被豁免方」）因本服务引致或与之相关之任何及所有索赔、要求、诉讼因由、损失、法律责任、损害赔偿、费用及开支（包括合理律师费），<strong>无论该等责任因被豁免方之任何疏忽、过失、违反法定责任或其他原因而产生，亦不论是否因本公司所提供之设备、场所或航空器之任何潜在缺陷而引致，但法律明令禁止豁免之故意失当行为或重大过失除外。</strong><br><br>(b) <strong>同意赔偿并使被豁免方免受损害</strong>，保障其免受因参加者参与本服务、违反本条款任何保证或规定、或其任何作为或不作为而直接或间接导致之任何及所有索赔、法律责任、损害及开支。<br><br>2.3 <strong>责任上限：</strong> 在法律允许之最大范围内，本公司因本条款或本服务而对参加者所负之全部责任，不论于合约法、侵权法（包括疏忽）或其他法律原则下产生，其总额均不得超过参加者就该次活动向本公司支付之服务费用。",
+
+    "terms.article3.title": "第三条：预订、付款、取消及改期",
+    "terms.article3.content":
+      "3.1 预订必须于本公司指定之期限内支付订金方告确认。余款须于活动日前指定期限内全数缴清。逾期未付，本公司有权取消预订，已付订金将不予退还。<br><br>3.2 <strong>取消及改期政策：</strong><br><br>(a) <strong>由参加者提出取消：</strong><br>• 于预定活动日 <strong>14天或之前</strong> 通知取消，可免费改期至另一可供预订之日期。<br>• 于预定活动日 <strong>前7至14天内</strong> 通知取消，可获退还已支付费用之 <strong>50%</strong>。<br>• 于预定活动日 <strong>前7天内（含第7天）</strong> 通知取消，或于活动当日未能出席（「No-Show」），<strong>所有已支付费用将概不退还</strong>。<br><br>(b) <strong>由本公司提出取消/改期：</strong><br>• 若因安全理由（包括但不限于恶劣天气、风速过高、能见度不足、云层过低）或任何超出本公司合理控制范围之情况（如航空器故障、维修、空中交通管制、政府指令、疫情限制等）导致活动无法进行，本公司将尽力协助参加者改期。<br>• 若无法改期或参加者不接受建议之改期日期，本公司将全数退还参加者已支付之活动费用。<br>• <strong>在此等情况下，本公司对参加者因此产生之任何附带、衍生或间接损失（包括但不限于交通、住宿、假期损失等）概不负责，参加者亦不得就此提出任何索赔。</strong><br><br>3.3 所有取消或改期要求必须经由本公司指定之联络方式（如电话、电邮）提出并获得书面确认，方为有效。",
+
+    "terms.article4.title": "第四条：活动当日守则与客户责任",
+    "terms.article4.content":
+      "4.1 参加者必须于指定时间到达指定集合地点。迟到者可能导致活动被取消，且不获退款。<br><br>4.2 参加者必须参与强制性的安全简报，并于活动全程严格遵守本公司教练及工作人员之一切指示。任何危害自身或他人安全之行为，将导致即时终止参与资格而不作退款。<br><br>4.3 参加者需自备合适之运动服装及包覆脚踝之运动鞋。本公司将提供所有必要之安全装备（包括跳伞服、头盔、护目镜等）。参加者不得擅自调校或干预任何装备。<br><br>4.4 参加者须自行保管其个人物品。本公司对任何置于本公司场所、车辆或航空器内之财物之损失或损坏概不负责。",
+
+    "terms.article5.title": "第五条：保险与个人资料",
+    "terms.article5.content":
+      "5.1 本公司已购买法律要求之第三者责任保险。<strong>此保险并不涵盖参加者之人身意外伤害。</strong> 本公司强烈建议参加者自行购买足额之个人意外保险，且该保险须明确承保「跳伞」或「高危体育活动」。<br><br>5.2 为遵守《个人资料（隐私）条例》，本公司收集之个人资料将仅用于处理预订、提供服务、安全及内部行政之用。详情请参阅本公司之隐私政策声明。",
+
+    "terms.article6.title": "第六条：影像使用",
+    "terms.article6.content":
+      "本公司或其指定人员可能于活动期间拍摄照片或视频（「影像」）作安全记录、员工培训、品质控制及宣传推广之用。除非参加者于活动前以书面明确反对，否则即被视为授予本公司一项永久、免版税、不可撤销的全球性许可，允许本公司于任何媒体使用及编辑该等包含参加者肖像之影像。",
+
+    "terms.article7.title": "第七条：一般条款",
+    "terms.article7.content":
+      "7.1 <strong>完整性：</strong> 本条款构成双方就本服务之完整协议，取代所有先前之讨论、通讯及协议。<br><br>7.2 <strong>可分割性：</strong> 若本条款任何部分被有管辖权之法院裁定为无效或不可执行，该部分应在最小必要范围内被分割，其余部分仍保持完全效力。<br><br>7.3 <strong>修改权：</strong> 本公司保留随时修订本条款之权利。修订后之条款将公布于本公司官方网站。参加者于修订后继续使用服务，即表示接受经修订之条款。<br><br>7.4 <strong>通知：</strong> 所有通知应以电邮或本公司网站公告方式发出。",
+
+    "terms.additionalNotes.title": "额外注意事项",
+    "terms.additionalNotes.content":
+      "• 为使各参加者获得完善的保障，本公司建议参加者必须购买旅游保险。<br>• 本公司保留权利修改本细则责任条款。如有任何争议，本公司保留最终决定权。<br>• 本细则责任条款只备有中文版本，一概以中文版本为准。<br>• 本公司保留接受报名与否之最终权利。",
+
+    // Disclaimer - Simplified Chinese
+    "disclaimer.title": "Let's Skydive HK Limited 免责声明（简体中文版）",
+    "disclaimer.lastUpdated": "最后更新日期：2026年1月1日",
+    "disclaimer.website": "网站：https://letskydivehk.com/",
+
+    "disclaimer.section1.title": "1. 接受条款",
+    "disclaimer.section1.content":
+      "Let's Skydive HK Limited（以下称「本公司」、「我们」或「我们的」）运营此网站，并在全球范围内组织跳伞体验、培训课程及相关旅行服务。通过访问、浏览或使用本网站，或预订及参与我们组织的任何服务，即表示您确认已阅读、理解并不可撤销地接受本免责声明的所有条款。如您不同意任何部分，必须立即停止使用我们的服务。",
+
+    "disclaimer.section2.title": "2. 极限运动风险认知与责任承担",
+    "disclaimer.section2.subtitle1": "2.1 固有风险：",
+    "disclaimer.section2.content1":
+      "跳伞是一项具有固有、不可避免且重大风险的极限运动，无论采取何种防护措施，这些风险都无法被消除。这些风险包括但不限于：",
+    "disclaimer.section2.risks":
+      "• 人身伤害或死亡：可能因自由落体、开伞、着陆或空中碰撞而导致瘫痪、创伤性脑损伤或死亡。<br>• 设备故障：降落伞、背带、高度计、自动激活装置或飞机的故障或失灵。<br>• 环境危害：恶劣或突变的天气、风况、气流、能见度差、着陆区或降落区的障碍物。<br>• 操作及人为错误：飞行员、教练或地勤人员的判断错误；沟通失误；偏离计划的飞行或跳伞航线。<br>• 健康反应：高空相关疾病、眩晕、意识丧失，或既有身体或心理状况的恶化。",
+    "disclaimer.section2.subtitle2": "2.2 您的责任与风险承担：",
+    "disclaimer.section2.content2": "参与即表示您自愿且明确地承担所有此类风险。您确认：",
+    "disclaimer.section2.responsibilities":
+      "• 您已达法定年龄（18岁或以上），或已获得合法监护人/父母同意。<br>• 您并未怀孕，且身体及精神健康状况良好，无任何可能因跳伞而恶化的心血管、呼吸系统、骨骼/关节、神经系统疾病或其他任何疾病。<br>• 您已如实填写所有要求的健康及责任豁免表格。<br>• 您将毫无例外地遵守本公司代表及第三方教练的所有指示。<br>• 您需自行负责评估自身是否适合参与。",
+
+    "disclaimer.section3.title": "3. 服务模式与第三方责任",
+    "disclaimer.section3.subtitle1": "3.1 代理角色：",
+    "disclaimer.section3.content1":
+      "本公司仅作为预订代理、协调者及促成者。实际的跳伞服务（包括飞机操作、跳伞执行及教学）由独立的、持有牌照的第三方合作跳伞中心、运营商、飞行员及教练（「服务伙伴」）提供。",
+    "disclaimer.section3.subtitle2": "3.2 无连带责任：",
+    "disclaimer.section3.content2":
+      "我们谨慎选择服务伙伴，但并不拥有、控制或直接监督其日常运营。在法律允许的最大范围内，我们明确免除对这些服务伙伴的任何行为、疏忽、过失或故意不当行为（包括违反安全协议）所产生的一切责任。任何与实际跳伞活动相关的索赔必须直接向相关的服务伙伴及其保险公司提出。",
+
+    "disclaimer.section4.title": "4. 预订、取消及不可抗力",
+    "disclaimer.section4.subtitle1": "4.1 天气及安全取消：",
+    "disclaimer.section4.content1":
+      "跳伞活动完全取决于天气及安全条件。本公司或服务伙伴可随时因安全考虑（天气、风速、能见度等）取消或重新安排活动。对于您因此产生的任何相关费用（如交通、住宿），我们概不负责。我们的标准改期政策将适用；并不保证退款。",
+    "disclaimer.section4.subtitle2": "4.2 健康及适用性：",
+    "disclaimer.section4.content2":
+      "服务伙伴有权拒绝任何未通过现场安全简报或健康评估的人士参与。已支付费用将按预订条款处理。",
+    "disclaimer.section4.subtitle3": "4.3 未出席及迟到：",
+    "disclaimer.section4.content3": "未能准时出席已预订的活动时段，将被视为自动取消，不予退款。",
+    "disclaimer.section4.subtitle4": "4.4 不可抗力：",
+    "disclaimer.section4.content4":
+      "对于因超出我们合理控制范围的事件（包括战争、自然灾害、疫情、政府命令、罢工或交通中断）导致我们未能履行服务，我们不承担责任。",
+
+    "disclaimer.section5.title": "5. 保险与责任限制",
+    "disclaimer.section5.subtitle1": "5.1 强制个人保险：",
+    "disclaimer.section5.content1":
+      "您必须购买全面的个人旅行及医疗保险，且该保险必须明确承保跳伞及极限运动。本公司的保险不涵盖您的个人伤害或医疗费用。",
+    "disclaimer.section5.subtitle2": "5.2 公司责任保险：",
+    "disclaimer.section5.content2": "我们依法持有第三方责任保险，其详细内容及限额可根据要求提供。",
+    "disclaimer.section5.subtitle3": "5.3 我们的责任限制：",
+    "disclaimer.section5.content3":
+      "在法律允许的最大范围内，本公司及其董事、雇员和代理人均不对因您使用本网站或参与我们组织的活动而产生的任何直接、间接、附带、特殊、后果性或惩罚性损害承担责任。这包括但不限于人身伤害、死亡、精神困扰、利润损失、数据或乐趣丧失的损害赔偿，即使已被告知可能发生此类损害。",
+    "disclaimer.section5.subtitle4": "5.4 豁免协议：",
+    "disclaimer.section5.content4": "参与活动的前提条件是于活动当天签署服务伙伴提供的正式《风险承担及责任豁免协议》。",
+
+    "disclaimer.section6.title": "6. 网站使用、内容及知识产权",
+    "disclaimer.section6.subtitle1": "6.1 「现状」提供：",
+    "disclaimer.section6.content1":
+      "本网站及其所有内容（信息、价格、描述、媒体）均按「现状」及「可用」状态提供，不附带任何形式的保证。我们力求准确，但不保证内容的完整性、及时性或无错误。所有内容均可能随时更改，恕不另行通知。",
+    "disclaimer.section6.subtitle2": "6.2 非专业建议：",
+    "disclaimer.section6.content2": "教学内容（视频、指南）仅供参考，不能替代持证教练的强制性现场培训。",
+    "disclaimer.section6.subtitle3": "6.3 外部链接：",
+    "disclaimer.section6.content3": "我们不对任何我们链接到的第三方网站的内容、安全性或隐私惯例负责。",
+    "disclaimer.section6.subtitle4": "6.4 知识产权：",
+    "disclaimer.section6.content4":
+      "本网站的所有内容（文字、图形、标志、图像、视频）均为本公司财产或经授权使用，受版权和商标法保护。未经我们事先书面许可，您不得复制、修改或用于任何商业用途。",
+
+    "disclaimer.section7.title": "7. 管辖法律与争议解决",
+    "disclaimer.section7.content":
+      "本免责声明受中华人民共和国香港特别行政区法律管辖并据其解释。任何由此产生的争议均应提交香港法院专属管辖。",
+
+    "disclaimer.section8.title": "8. 修改与联系方式",
+    "disclaimer.section8.subtitle1": "8.1 更新：",
+    "disclaimer.section8.content1":
+      "我们保留随时修改本免责声明的权利。更新后的版本将在此发布，并附上新生效日期。您继续使用即表示接受。",
+    "disclaimer.section8.subtitle2": "8.2 联系：",
+    "disclaimer.section8.content2": "如有关于本免责声明的任何疑问，请使用我们网站上的联系表格。",
+
+    "disclaimer.final.title": "最终确认声明",
+    "disclaimer.final.content":
+      "跳伞活动具有导致严重受伤或死亡的风险。您的参与纯属自愿。您需自行负责了解这些风险、确保自身适合参与并购买合适的保险。进行预订即表示您确认完全且无条件接受本免责声明。",
+
+    // Service Pages - Common
+    "servicePage.backToHome": "返回首页",
+    "servicePage.viewDetails": "查看详情",
+    "servicePage.viewLocations": "查看地点",
+    "servicePage.howItWorks": "流程说明",
+    "servicePage.howItWorksTitle": "体验流程",
+    "servicePage.pricingBadge": "各地点价格",
+    "servicePage.pricingTitle": "选择您的地点",
+    "servicePage.pricingSubtitle": "价格因跳伞场而异。选择您的首选地点进行预约。",
+    "servicePage.faqBadge": "常见问题",
+    "servicePage.faqTitle": "常见问题",
+    "servicePage.ctaTitle": "准备好起跳了吗？",
+    "servicePage.ctaSubtitle": "别只是想想而已，今天就行动吧。",
+
+    // Tandem Service Page
+    "servicePage.tandem.heroTitle": "双人跳伞",
+    "servicePage.tandem.heroSubtitle": "与认证教练一同体验自由落体的极致快感。无需任何经验——带上你的冒险精神就好！",
+    "servicePage.tandem.heroTagline": "零经验即可体验",
+    "servicePage.tandem.step1.title": "抵达 & 报到",
+    "servicePage.tandem.step1.desc": "抵达跳伞场，完成文件手续，认识您的双人跳伞教练。",
+    "servicePage.tandem.step2.title": "地面训练",
+    "servicePage.tandem.step2.desc": "15分钟的身体姿势、安全程序及注意事项简报。",
+    "servicePage.tandem.step3.title": "登机升空",
+    "servicePage.tandem.step3.desc": "穿戴装备，爬升至10,000-15,000呎高空。尽享壮丽景色！",
+    "servicePage.tandem.step4.title": "自由落体！",
+    "servicePage.tandem.step4.desc": "60秒纯粹肾上腺素飙升，以时速200公里与教练安全绑定下坠。",
+    "servicePage.tandem.step5.title": "伞下滑翔",
+    "servicePage.tandem.step5.desc": "5-7分钟在降落伞下宁静滑翔，享受360度全景视野。",
+    "servicePage.tandem.step6.title": "着陆 & 庆祝",
+    "servicePage.tandem.step6.desc": "平稳降落，击掌庆祝，领取您的跳伞证书！",
+    "servicePage.tandem.include1": "专业双人跳伞教练",
+    "servicePage.tandem.include2": "提供全套安全装备",
+    "servicePage.tandem.include3": "地面训练课程",
+    "servicePage.tandem.include4": "60秒自由落体",
+    "servicePage.tandem.include5": "5-7分钟伞下滑翔",
+    "servicePage.tandem.include6": "跳伞证书",
+    "servicePage.tandem.testimonial": "绝对难以置信的体验！团队让我全程感到安全和舒适。这是我做过最棒的决定！",
+    "servicePage.tandem.testimonialAuthor": "Iris，香港",
+    "servicePage.tandem.faq.q1": "需要任何经验吗？",
+    "servicePage.tandem.faq.a1": "完全不需要！双人跳伞专为初次体验者设计。您将与认证教练安全绑定，教练会处理一切。您只需带上冒险精神就好。",
+    "servicePage.tandem.faq.q2": "年龄和体重有限制吗？",
+    "servicePage.tandem.faq.a2": "您必须年满18岁。最大体重限制为100公斤。您的身高体重比也必须符合我们设备的安全范围。",
+    "servicePage.tandem.faq.q3": "可以自己带相机吗？",
+    "servicePage.tandem.faq.a3": "基于安全考量，跳伞过程中不允许携带个人相机。我们提供专业摄影摄录套餐——包括近镜和全景拍摄——让您重温每个精彩瞬间。",
+    "servicePage.tandem.faq.q4": "天气不好怎么办？",
+    "servicePage.tandem.faq.a4": "安全是我们的首要考量。若天气条件不适合，我们将免费为您改期。我们会全程与您保持联系。",
+
+    // A-Licence Service Page
+    "servicePage.aff.heroTitle": "A级执照课程",
+    "servicePage.aff.heroSubtitle": "通过我们的加速自由落体（AFF）课程学习独立跳伞。掌握技能，完成25次跳伞，获得国际执照。",
+    "servicePage.aff.heroTagline": "成为持照跳伞员",
+    "servicePage.aff.step1.title": "报名 & 注册",
+    "servicePage.aff.step1.desc": "报名AFF课程，完成医疗及安全表格。",
+    "servicePage.aff.step2.title": "地面学校",
+    "servicePage.aff.step2.desc": "密集课堂培训，涵盖空气动力学、紧急程序及装备知识。",
+    "servicePage.aff.step3.title": "AFF 第1-3级",
+    "servicePage.aff.step3.desc": "与两名教练一起跳伞，学习基本自由落体技能和稳定性。",
+    "servicePage.aff.step4.title": "AFF 第4-7级",
+    "servicePage.aff.step4.desc": "进阶到单教练跳伞。掌握转弯、追踪和开伞技术。",
+    "servicePage.aff.step5.title": "独立跳伞 (8-25)",
+    "servicePage.aff.step5.desc": "独立完成剩余跳伞次数，精进您的技术。",
+    "servicePage.aff.step6.title": "取得执照！🎓",
+    "servicePage.aff.step6.desc": "通过最终评估，获得国际认可的A级执照。",
+    "servicePage.aff.include1": "25次跳伞（A级执照要求）",
+    "servicePage.aff.include2": "地面学校培训",
+    "servicePage.aff.include3": "提供全部装备",
+    "servicePage.aff.include4": "个人教练指导",
+    "servicePage.aff.include5": "免费iFly室内跳伞体验",
+    "servicePage.aff.testimonial": "AFF课程改变了我的人生。教练非常耐心且专业。现在我是持照跳伞员，每个周末都在跳伞！",
+    "servicePage.aff.testimonialAuthor": "Mark R.，澳洲",
+    "servicePage.aff.faq.q1": "A级执照课程需要多长时间？",
+    "servicePage.aff.faq.a1": "通常需要7-14天，取决于天气和您的进度。在理想条件下，有些学员只需一周即可完成。",
+    "servicePage.aff.faq.q2": "有什么先决条件？",
+    "servicePage.aff.faq.a2": "您必须年满18岁，体重100公斤以下，身体健康。无需任何跳伞经验——AFF课程从零开始教学。",
+    "servicePage.aff.faq.q3": "A级执照是国际认可的吗？",
+    "servicePage.aff.faq.a3": "是的！USPA A级执照获全球认可。取得执照后，您可以在世界各地的跳伞场自由跳伞。",
+    "servicePage.aff.faq.q4": "取得A级执照后可以做什么？",
+    "servicePage.aff.faq.a4": "您可以在全球任何跳伞场独立跳伞！许多毕业学员会继续考取B、C、D级执照，学习编队跳伞、翼装飞行，或成为教练。",
   },
 };
 
@@ -1399,7 +2032,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Service names
     "service.Tandem Skydive with Handicam": "雙人跳傘含手持攝影",
     "service.Tandem Skydive with Video": "雙人跳傘含影片",
-    "service.Tandem Skydive with Ultimate Combo": "雙人跳傘終極組合",
+    "service.Tandem Skydive with Ultimate Combo": "雙人傘終極組合",
     "service.Tandem Skydive with Ultimate Combo (Handicam + Wide shot)": "雙人傘終極組合（包含近鏡 + 全景拍攝）",
     "service.Tandem Skydive with Ultimate Combo (Video + Photos)": "雙人傘終極組合（包含影片 + 照片）",
     "service.A-License Package": "A級執照套餐",
@@ -1428,6 +2061,68 @@ const dataTranslations: Record<Language, Record<string, string>> = {
 
     // Price display
     "price.Custom Quote": "專屬報價",
+  },
+  "zh-CN": {
+    // Location names
+    "location.chiang-mai": "清迈 (Wefly)",
+    "location.pattaya": "芭提雅",
+    "location.hainan": "海南 (蔚蓝)",
+    "location.huizhou": "惠州 (鹰飞)",
+    "location.luoding": "罗定 (鹰飞)",
+    "location.zhuhai": "珠海 (蔚蓝)",
+
+    // Location descriptions
+    "location.chiang-mai.desc": "在泰国北部壮丽的山脉和寺庙上空跳伞。",
+    "location.pattaya.desc": "在芭提雅体验泰国湾的壮丽景色。",
+    "location.hainan.desc": "在热带天堂跳伞，享受清澈的海景。",
+    "location.huizhou.desc": "全年优美的海岸景色和完美的天气条件。",
+    "location.luoding.desc": "广东省的新探险目的地。",
+    "location.zhuhai.desc": "澳门附近的壮丽海岸景色，全年适合跳伞。",
+
+    // Countries
+    "country.Thailand": "泰国",
+    "country.China": "中国",
+
+    // Cities
+    "city.Chiang Mai": "清迈",
+    "city.Pattaya": "芭提雅",
+    "city.Hainan": "海南",
+    "city.Huizhou": "惠州",
+    "city.Luoding": "罗定",
+    "city.Zhuhai": "珠海",
+
+    // Service names
+    "service.Tandem Skydive with Handicam": "双人跳伞含手持摄影",
+    "service.Tandem Skydive with Video": "双人跳伞含视频",
+    "service.Tandem Skydive with Ultimate Combo": "双人伞终极组合",
+    "service.Tandem Skydive with Ultimate Combo (Handicam + Wide shot)": "双人伞终极组合（包含近镜 + 全景拍摄）",
+    "service.Tandem Skydive with Ultimate Combo (Video + Photos)": "双人伞终极组合（包含视频 + 照片）",
+    "service.A-License Package": "A级执照套餐",
+    "service.Group Events": "团体活动",
+
+    // Service types
+    "serviceType.tandem": "双人跳伞",
+    "serviceType.aff": "A级执照",
+    "serviceType.group": "团体活动",
+
+    // Service includes
+    "include.Handicam video recording": "手持摄影录影",
+    "include.Wide shot video": "全景拍摄视频",
+    "include.Certificate of completion": "完成证书",
+    "include.60 seconds of freefall": "45-60秒自由落体",
+    "include.5-7 minute canopy ride": "5-7分钟伞下飞行",
+    "include.Dedicated group coordinator": "专属团体协调员",
+    "include.Private briefing session": "私人简报环节",
+    "include.Group photos & videos": "团体照片及视频",
+    "include.Celebration area access": "庆祝区域使用",
+    "include.A free session of Shenzhen i-Fly experience": "免费一次深圳i-Fly体验",
+    "include.25 Jumps": "25次跳伞",
+    "include.Ground school training": "地面训练",
+    "include.All equipment provided": "所有跳伞装备",
+    "include.Personal instructor guidance": "教练全程手把手教学",
+
+    // Price display
+    "price.Custom Quote": "专属报价",
   },
 };
 
@@ -1526,6 +2221,53 @@ translations["zh-TW"]["faq.q10"] = "學習A級執照課程前應該先去風洞�
 translations["zh-TW"]["faq.a10"] =
   "風洞訓練是可選的，但確實有幫助。在風洞中訓練一小時，相當於約60-80次跳傘的自由落體練習。有些學員喜歡事先訓練以提高效率，有些則直接去跳傘場，等遇到困難時再去風洞練習。我們可以根據您的學習風格提供建議。";
 
+// FAQ Translations - Simplified Chinese
+translations["zh-CN"]["faq.badge"] = "常见问题";
+translations["zh-CN"]["faq.title"] = "常见问题";
+translations["zh-CN"]["faq.subtitle"] = "对跳伞有疑问？以下是我们最常收到的问题解答。";
+translations["zh-CN"]["faq.moreQuestions"] = "还有其他问题？我们随时为您解答！";
+translations["zh-CN"]["faq.contactUs"] = "联系我们";
+
+translations["zh-CN"]["faq.q1"] = "跳伞的年龄和体重限制是什么？";
+translations["zh-CN"]["faq.a1"] =
+  "参加者必须年满18岁（需出示有效身份证明）。体重限制因地而异，通常为40公斤至100公斤。如果您的体重接近上限，请提前与我们联系，部分场地可能可以作特别安排以容纳较高体重的参加者。";
+
+translations["zh-CN"]["faq.q2"] = "双人跳伞需要任何经验吗？";
+translations["zh-CN"]["faq.a2"] =
+  "双人跳伞完全不需要任何经验！您将安全地连接在持证教练身上，由教练负责所有技术操作。我们会在每次跳伞前提供全面培训，包括身体姿势、紧急程序和着陆技巧。";
+
+translations["zh-CN"]["faq.q3"] = "有恐高症可以跳伞吗？";
+translations["zh-CN"]["faq.a3"] =
+  "可以！我们很多客人都有恐高症，但仍然成功完成跳伞。在高空（13,000英尺以上），高度感知与站在高楼上完全不同。当您身处如此高的位置时，没有视觉参照物来触发典型的恐惧反应。许多有恐高症的人会发现跳伞出乎意料地舒适。";
+
+translations["zh-CN"]["faq.q4"] = "跳伞时可以戴眼镜或隐形眼镜吗？";
+translations["zh-CN"]["faq.a4"] =
+  "可以，您可以佩戴眼镜或隐形眼镜。我们提供的护目镜可以舒适地戴在普通眼镜外面。对于佩戴隐形眼镜的人，护目镜也能防止镜片在自由落体期间干燥或移位。";
+
+translations["zh-CN"]["faq.q5"] = "双人跳伞与A级执照课程有什么区别？";
+translations["zh-CN"]["faq.a5"] =
+  "双人跳伞是一次性的体验，您会与教练连接在一起。A级执照（AFF）课程是一个全面的培训计划（通常需要25次跳伞），教您如何独立跳伞。完成课程并通过考试后，您将获得国际认可的执照，可以在全球各地的跳伞场独立跳伞。";
+
+translations["zh-CN"]["faq.q6"] = "整个跳伞体验需要多长时间？";
+translations["zh-CN"]["faq.a6"] =
+  "请预留大约3-4小时。这包括登记、培训（约30分钟）、穿戴装备、飞到指定高度（15-20分钟）、跳伞本身（约1分钟自由落体 + 5-7分钟伞下飞行），以及着陆后庆祝。实际时间可能因天气和跳伞人数而异。";
+
+translations["zh-CN"]["faq.q7"] = "跳伞安全吗？";
+translations["zh-CN"]["faq.a7"] =
+  "在正确的培训和设备下，跳伞在统计上是最安全的极限运动之一。我们所有教练都获得国际组织（USPA/APF）认证，拥有数千次跳伞经验。设备包括多重备份系统，包括自动开伞装置。我们在所有场地保持零事故的安全记录。";
+
+translations["zh-CN"]["faq.q8"] = "跳伞应该穿什么？";
+translations["zh-CN"]["faq.a8"] =
+  "穿着舒适、适合天气且方便活动的衣服。运动服、T恤和长裤都很合适。必须穿着包脚趾的运动鞋（不可穿凉鞋、高跟鞋或松脱的鞋子）。避免佩戴容易缠绕的松散珠宝、围巾等物品。我们会提供跳伞服、安全带、护目镜及所有必要装备。";
+
+translations["zh-CN"]["faq.q9"] = "如果预定跳伞当天天气不好怎么办？";
+translations["zh-CN"]["faq.a9"] =
+  "安全是我们的首要考虑。如果天气条件不适合（强风、下雨、能见度低、雷暴），我们将免费为您重新安排跳伞日期。我们建议预订时在行程中保留一些弹性，以应对可能的天气延误。";
+
+translations["zh-CN"]["faq.q10"] = "学习A级执照课程前应该先去风洞训练吗？";
+translations["zh-CN"]["faq.a10"] =
+  "风洞训练是可选的，但确实有帮助。在风洞中训练一小时，相当于约60-80次跳伞的自由落体练习。有些学员喜欢事先训练以提高效率，有些则直接去跳伞场，等遇到困难时再去风洞练习。我们可以根据您的学习风格提供建议。";
+
 // Testimonials - English
 translations.en["testimonials.badge"] = "What Jumpers Say";
 translations.en["testimonials.title"] = "Happy Jumpers";
@@ -1597,6 +2339,41 @@ translations["zh-TW"]["testimonials.review6.quote"] =
   "作為持照跳傘員，我欣賞他們對安全的重視。一流的設備、維護良好的飛機，跳傘場景色優美。非常棒的跳傘體驗！";
 translations["zh-TW"]["testimonials.review6.service"] = "A級執照";
 
+// Testimonials - Simplified Chinese
+translations["zh-CN"]["testimonials.badge"] = "跳伞者的话";
+translations["zh-CN"]["testimonials.title"] = "快乐的跳伞者";
+translations["zh-CN"]["testimonials.subtitle"] = "听听与我们一起挑战的冒险者们怎么说。";
+translations["zh-CN"]["testimonials.review1.name"] = "呀淇";
+translations["zh-CN"]["testimonials.review1.location"] = "香港";
+translations["zh-CN"]["testimonials.review1.quote"] =
+  "🪂 原来好安全。伴随飞机离地高度增加，自动紧张🥶 原先较多云，但跳下去时万里无云，能见度极高，竟然呆了😱（风景太清晰，反而胆小，没有好好享受在天空的感觉）好快，时间流走，又回到地面。原来，会舍不得在天空的时间。有些遗憾，解决方法：之后要玩多次😆";
+translations["zh-CN"]["testimonials.review1.service"] = "双人跳伞";
+translations["zh-CN"]["testimonials.review2.name"] = "David";
+translations["zh-CN"]["testimonials.review2.location"] = "香港";
+translations["zh-CN"]["testimonials.review2.quote"] =
+  "在Let's Skydive完成了A级执照课程，这是我做过最好的决定。培训非常全面，教练真心关心我的进步。现在我是持照跳伞员了！";
+translations["zh-CN"]["testimonials.review2.service"] = "A级执照";
+translations["zh-CN"]["testimonials.review3.name"] = "Adrian";
+translations["zh-CN"]["testimonials.review3.location"] = "香港";
+translations["zh-CN"]["testimonials.review3.quote"] =
+  "临时应变做得很好，好不容易🥹 即使好多突发情况都没特别影响到体验~ 谢谢你这么细心的安排😆 特别是那间温泉别墅，真的好棒！";
+translations["zh-CN"]["testimonials.review3.service"] = "团体活动";
+translations["zh-CN"]["testimonials.review4.name"] = "Tom";
+translations["zh-CN"]["testimonials.review4.location"] = "香港";
+translations["zh-CN"]["testimonials.review4.quote"] =
+  "整体很好，辛苦了☺️ 懂应变，星期六有意外就多一次模拟跳伞，住的地方👍🏻👍🏻";
+translations["zh-CN"]["testimonials.review4.service"] = "双人跳伞";
+translations["zh-CN"]["testimonials.review5.name"] = "Kaylie";
+translations["zh-CN"]["testimonials.review5.location"] = "香港";
+translations["zh-CN"]["testimonials.review5.quote"] =
+  "谢谢你给了这么好的体验，不说不知道原来大陆也有跳伞，你找的那间温泉旅馆简直无敌🥳🥳🥳谢谢大家「喝」酒的时候给了这么多欢乐😌 开心到够饱两天😂😂😂";
+translations["zh-CN"]["testimonials.review5.service"] = "双人跳伞";
+translations["zh-CN"]["testimonials.review6.name"] = "Mark R.";
+translations["zh-CN"]["testimonials.review6.location"] = "澳洲";
+translations["zh-CN"]["testimonials.review6.quote"] =
+  "作为持照跳伞员，我欣赏他们对安全的重视。一流的设备、维护良好的飞机，跳伞场景色优美。非常棒的跳伞体验！";
+translations["zh-CN"]["testimonials.review6.service"] = "A级执照";
+
 // WhatsApp Widget - English
 translations.en["whatsapp.title"] = "Let's Skydive HK";
 translations.en["whatsapp.subtitle"] = "Typically replies within an hour";
@@ -1620,6 +2397,17 @@ translations["zh-TW"]["whatsapp.quick.group"] = "我對團體活動有興趣";
 translations["zh-TW"]["whatsapp.quick.general"] = "我有一般問題想查詢";
 translations["zh-TW"]["whatsapp.placeholder"] = "輸入訊息...";
 
+// WhatsApp Widget - Simplified Chinese
+translations["zh-CN"]["whatsapp.title"] = "Let's Skydive HK";
+translations["zh-CN"]["whatsapp.subtitle"] = "通常在一小时内回复";
+translations["zh-CN"]["whatsapp.greeting"] = "你好！👋 有什么可以帮到你？选择以下话题或输入你的消息。";
+translations["zh-CN"]["whatsapp.quickOptions"] = "常见问题：";
+translations["zh-CN"]["whatsapp.quick.tandem"] = "我想预约双人跳伞！";
+translations["zh-CN"]["whatsapp.quick.aff"] = "想了解A级执照课程";
+translations["zh-CN"]["whatsapp.quick.group"] = "我对团体活动有兴趣";
+translations["zh-CN"]["whatsapp.quick.general"] = "我有一般问题想咨询";
+translations["zh-CN"]["whatsapp.placeholder"] = "输入消息...";
+
 // Helper function to convert markdown-style bold (**text** or *text*) to HTML
 const formatBoldText = (text: string): string => {
   return text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>");
@@ -1628,7 +2416,7 @@ const formatBoldText = (text: string): string => {
 export function LanguageProvider({ children }: { children: ReactNode }) {
   const [language, setLanguage] = useState<Language>(() => {
     const saved = localStorage.getItem("preferred-language");
-    return saved === "en" || saved === "zh-TW" ? saved : "zh-TW";
+    return saved === "en" || saved === "zh-TW" || saved === "zh-CN" ? saved : "zh-TW";
   });
 
   const handleSetLanguage = (lang: Language) => {
