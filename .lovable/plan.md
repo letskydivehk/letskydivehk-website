@@ -1,89 +1,63 @@
 
 
-## Reorder Booking Steps: Preview Before Payment
+## Add Simplified Chinese (zh-CN) Language Support
 
-### Current Flow
-Location > Service > Details > Payment > Confirmation (submit to DB)
+### Overview
 
-### New Flow
-Location > Service > Details > **Preview** > **Payment** (saves to DB + sends email after payment)
+Add Simplified Chinese as a third language option across the entire website, alongside English and Traditional Chinese.
 
-### What Changes
+### Scope of Changes
 
-#### 1. Swap step order in `src/components/BookingSection.tsx`
+The translation file (`src/contexts/LanguageContext.tsx`) contains approximately 700+ translation keys across two sections:
+- **Static UI translations** (`translations` object): navigation, hero, locations, services, booking, auth, FAQ, legal pages, service pages, testimonials, WhatsApp widget
+- **Dynamic data translations** (`dataTranslations` object): location names, service names, includes, cities, countries
 
-- Rename step IDs: the current "confirm" step becomes "preview" (step 4), and "payment" becomes the final step (step 5)
-- Update the `Step` type to: `"location" | "service" | "details" | "preview" | "payment"`
-- Update the `steps` array so Preview (with Check icon) is step 4 and Payment (with CreditCard icon) is step 5
-- Update `handleNext` navigation: details -> preview -> payment
-- Update `handleBack` navigation: payment -> preview -> details
-- Validation happens when moving from details to preview (same as current details -> payment)
-- Payment intent is created when entering the payment step (step 5 now)
-
-#### 2. Move booking submission into the payment success handler
-
-Currently, `handleSubmit` is called on the confirm step's button. In the new flow:
-- The **preview step** shows the booking summary (the current confirm step UI) with a "Proceed to Payment" button that advances to the payment step
-- The **payment step** is the last step -- after successful payment (`onSuccess` event), the system automatically:
-  1. Verifies payment server-side via `verify-payment`
-  2. Calls `create_booking` RPC to save to the database
-  3. Fires `send-notification` to email the admin
-  4. Shows the success screen
-- No separate "Confirm Booking" button needed -- payment completion triggers everything
-
-#### 3. Update navigation buttons
-
-- On the preview step: show "Next" button leading to payment
-- On the payment step: no "Next" button (payment widget handles completion). Show a "Back" button to return to preview
-- The bottom nav bar on the payment step only shows "Back" (no submit button needed since `onSuccess` handles it)
-
-#### 4. Update `canProceed` logic
-
-- Preview step: always true (it's just a review)
-- Payment step: remove from `canProceed` since there's no manual "Next" from payment
-
-#### 5. Update translation keys in `src/contexts/LanguageContext.tsx`
-
-- Rename step labels: step 4 becomes "Preview" / "預覽", step 5 becomes "Payment" / "付款"
-- Add any new keys needed (e.g., "booking.proceedToPayment")
-
-### Technical Details
-
-**Updated step definitions:**
-```typescript
-type Step = "location" | "service" | "details" | "preview" | "payment";
-
-const steps = [
-  { id: "location", label: t("booking.step1"), icon: MapPin },
-  { id: "service", label: t("booking.step2"), icon: Plane },
-  { id: "details", label: t("booking.step3"), icon: User },
-  { id: "preview", label: t("booking.step4"), icon: Check },      // was "payment"
-  { id: "payment", label: t("booking.step5"), icon: CreditCard },  // was "confirm"
-];
-```
-
-**Payment success handler -- auto-submit booking:**
-```typescript
-const successHandler = async (event: any) => {
-  setIsPaymentComplete(true);
-  toast.success(t('booking.paymentSuccess'));
-  
-  // Auto-submit booking to database
-  await handleSubmit();
-};
-```
-
-**`handleSubmit` changes:**
-- Remove the manual "Confirm Booking" button on the last step
-- `handleSubmit` is called automatically from the payment success handler
-- On success, set `isComplete = true` to show the success screen
-
-**Mobile redirect return handling:**
-- On successful redirect return, after verifying payment, also auto-submit the booking (same as `onSuccess`)
+All keys need Simplified Chinese equivalents (converted from Traditional Chinese with appropriate terminology adjustments).
 
 ### Files to Modify
 
 | File | Change |
 |---|---|
-| `src/components/BookingSection.tsx` | Swap preview/payment step order, move DB submission into payment success handler, update navigation logic |
-| `src/contexts/LanguageContext.tsx` | Update step 4/5 label translations |
+| `src/contexts/LanguageContext.tsx` | Add `"zh-CN"` to `Language` type, add all zh-CN translations to both `translations` and `dataTranslations`, update `LanguageProvider` to accept zh-CN from localStorage |
+| `src/components/LanguageSwitcher.tsx` | Add Simplified Chinese option with label "简体中文", update `currentLabel` logic |
+
+### Technical Details
+
+**1. Update Language type (line 3):**
+```typescript
+export type Language = "en" | "zh-TW" | "zh-CN";
+```
+
+**2. Add zh-CN translations block:**
+- Add a complete `"zh-CN": { ... }` entry to the `translations` object with all ~500+ inline keys
+- Add appended translations (FAQ, testimonials, WhatsApp) using `translations["zh-CN"][key] = value` pattern
+- Add `"zh-CN": { ... }` entry to `dataTranslations` for location names, service names, etc.
+
+**3. Simplified Chinese content approach:**
+- Convert all Traditional Chinese text to Simplified Chinese equivalents
+- Key differences: 繁體 characters mapped to 简体 (e.g., 預約 -> 预约, 體驗 -> 体验, 執照 -> 执照, 歡迎 -> 欢迎)
+- Hong Kong-specific terms remain contextually appropriate
+- Legal documents converted with proper Simplified Chinese legal terminology
+
+**4. Update LanguageSwitcher (lines 10-15):**
+```typescript
+const languages: { code: Language; label: string }[] = [
+  { code: 'en', label: 'English' },
+  { code: 'zh-TW', label: '繁體中文' },
+  { code: 'zh-CN', label: '简体中文' },
+];
+
+const currentLabel = language === 'en' ? 'EN' : language === 'zh-TW' ? '繁' : '简';
+```
+
+**5. Update LanguageProvider localStorage validation (line 1631):**
+```typescript
+return saved === "en" || saved === "zh-TW" || saved === "zh-CN" ? saved : "zh-TW";
+```
+
+### Implementation Notes
+
+- The zh-CN translations will be a complete copy converted from zh-TW, covering all sections: navigation, hero, locations, services, booking flow, authentication, profile, credits, referrals, admin, gallery, promotions, legal pages (privacy, terms, disclaimer), service pages (tandem, A-licence), FAQ, testimonials, and WhatsApp widget
+- The file will grow significantly (~800+ new lines) but maintains the existing flat key-value pattern
+- No changes needed to any component files other than `LanguageSwitcher.tsx` since they all use the `t()` and `translateData()` functions which will automatically resolve zh-CN keys
+
