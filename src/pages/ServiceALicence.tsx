@@ -12,6 +12,7 @@ import { Footer } from '@/components/Footer'
 import { useBooking } from '@/contexts/BookingContext'
 import { useLanguage } from '@/contexts/LanguageContext'
 import heroALicence from '@/assets/hero-a-licence.jpg'
+import affCurriculum from '@/assets/aff-training-curriculum.png'
 
 const affFAQItems = [
   { questionKey: 'servicePage.aff.faq.q1', answerKey: 'servicePage.aff.faq.a1' },
@@ -67,6 +68,36 @@ export default function ServiceALicence() {
         onBookNow={handleBookNow}
       />
       <HowItWorks steps={steps} />
+
+      {/* Training Curriculum Image */}
+      <section className="py-16 sm:py-24 bg-background">
+        <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="text-center mb-10">
+            <div className="inline-flex items-center gap-3 mb-6">
+              <div className="w-3 h-3 bg-accent-orange rounded-full animate-pulse" />
+              <span className="text-sm font-semibold text-muted-foreground">
+                {t('servicePage.aff.curriculumBadge')}
+              </span>
+              <div className="w-3 h-3 bg-accent-blue rounded-full animate-pulse" />
+            </div>
+            <h2 className="text-3xl sm:text-4xl font-black text-foreground mb-4">
+              {t('servicePage.aff.curriculumTitle')}
+            </h2>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              {t('servicePage.aff.curriculumDesc')}
+            </p>
+          </div>
+          <div className="max-w-3xl mx-auto">
+            <img
+              src={affCurriculum}
+              alt={t('servicePage.aff.curriculumAlt')}
+              className="w-full h-auto rounded-2xl shadow-lg"
+              loading="lazy"
+            />
+          </div>
+        </div>
+      </section>
+
       <ServiceIncludes items={includes} />
       <ServicePricing serviceType="aff" />
       <ServiceSocialProof
