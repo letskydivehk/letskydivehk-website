@@ -394,23 +394,27 @@ const translations: Record<Language, Record<string, string>> = {
       "Both participants must book the same session at the same location. Discount applies to tandem skydive packages only. Cannot be combined with other promotions. Subject to availability.",
     "promo.homeBanner": "🔥 Buddy Deal: 2 jump together, each saves $100!",
     "promo.homeBannerCta": "View Details",
-    "promo.off": "Off",
+    "promo.off": "Discount",
     "promo.student.title": "Student Discount",
     "promo.student.desc": "Show your valid student ID and save on your skydiving adventure!",
     "promo.student.details": "Students get $100 off any tandem skydive package with a valid student ID.",
-    "promo.student.terms": "Must present a valid student ID at check-in. Applies to tandem packages only. Cannot be combined with other promotions. One discount per person.",
+    "promo.student.terms":
+      "Must present a valid student ID at check-in. Applies to tandem packages only. Cannot be combined with other promotions. One discount per person.",
     "promo.birthday.title": "Birthday Special",
     "promo.birthday.desc": "Celebrate your birthday with an unforgettable skydive and save!",
     "promo.birthday.details": "Jump during your birthday month and get $100 off any tandem package.",
-    "promo.birthday.terms": "Must jump within your birthday month. Proof of date of birth required. Applies to tandem packages only. Cannot be combined with other promotions.",
+    "promo.birthday.terms":
+      "Must jump within your birthday month. Proof of date of birth required. Applies to tandem packages only. Cannot be combined with other promotions.",
     "promo.earlybird.title": "Early Bird Discount",
     "promo.earlybird.desc": "Plan ahead and save! Book early to lock in a special rate.",
     "promo.earlybird.details": "Book 90+ days in advance and save 10% on any skydiving package.",
-    "promo.earlybird.terms": "Booking must be made at least 90 days before the jump date. Discount applies at checkout. Cannot be combined with other promotions. Subject to availability.",
+    "promo.earlybird.terms":
+      "Booking must be made at least 90 days before the jump date. Discount applies at checkout. Cannot be combined with other promotions. Subject to availability.",
     "promo.repeat.title": "Repeat Jumper Reward",
     "promo.repeat.desc": "Already jumped with us? Come back and save even more!",
     "promo.repeat.details": "Returning customers get $150 off their next jump with us.",
-    "promo.repeat.terms": "Must have a previous completed booking with Let's Skydive HK. Discount applied upon verification of prior booking. Cannot be combined with other promotions.",
+    "promo.repeat.terms":
+      "Must have a previous completed booking with Let's Skydive HK. Discount applied upon verification of prior booking. Cannot be combined with other promotions.",
 
     // Legal Pages
     "legal.backToHome": "Back to Home",
@@ -624,7 +628,8 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Tandem Service Page
     "servicePage.tandem.heroTitle": "Tandem Skydive",
-    "servicePage.tandem.heroSubtitle": "Experience the ultimate thrill of freefall with a certified instructor. No experience needed — just bring your sense of adventure!",
+    "servicePage.tandem.heroSubtitle":
+      "Experience the ultimate thrill of freefall with a certified instructor. No experience needed — just bring your sense of adventure!",
     "servicePage.tandem.heroTagline": "No Experience Required",
     "servicePage.tandem.step1.title": "Arrival & Check-in",
     "servicePage.tandem.step1.desc": "Arrive at the dropzone, complete paperwork, and meet your tandem instructor.",
@@ -644,27 +649,35 @@ const translations: Record<Language, Record<string, string>> = {
     "servicePage.tandem.include4": "60 seconds of freefall",
     "servicePage.tandem.include5": "5-7 minute canopy ride",
     "servicePage.tandem.include6": "Jump certificate",
-    "servicePage.tandem.testimonial": "An absolutely incredible experience! The team made me feel safe and comfortable throughout. Best decision I've ever made!",
+    "servicePage.tandem.testimonial":
+      "An absolutely incredible experience! The team made me feel safe and comfortable throughout. Best decision I've ever made!",
     "servicePage.tandem.testimonialAuthor": "Iris, Hong Kong",
     "servicePage.tandem.faq.q1": "Do I need any prior experience?",
-    "servicePage.tandem.faq.a1": "No! Tandem skydiving is designed for first-timers. You'll be securely attached to a certified instructor who handles everything. All you need is a sense of adventure.",
+    "servicePage.tandem.faq.a1":
+      "No! Tandem skydiving is designed for first-timers. You'll be securely attached to a certified instructor who handles everything. All you need is a sense of adventure.",
     "servicePage.tandem.faq.q2": "What are the age and weight limits?",
-    "servicePage.tandem.faq.a2": "You must be at least 18 years old. The maximum weight is 100kg. Your height-to-weight ratio must also be within the safety limits of our equipment.",
+    "servicePage.tandem.faq.a2":
+      "You must be at least 18 years old. The maximum weight is 100kg. Your height-to-weight ratio must also be within the safety limits of our equipment.",
     "servicePage.tandem.faq.q3": "Can I bring my own camera?",
-    "servicePage.tandem.faq.a3": "For safety reasons, personal cameras are not allowed during the jump. We offer professional video and photo packages — handicam and wide shot options — so you can relive every moment.",
+    "servicePage.tandem.faq.a3":
+      "For safety reasons, personal cameras are not allowed during the jump. We offer professional video and photo packages — handicam and wide shot options — so you can relive every moment.",
     "servicePage.tandem.faq.q4": "What if the weather is bad?",
-    "servicePage.tandem.faq.a4": "Safety is our top priority. If weather conditions are unsuitable, we'll reschedule your jump at no extra cost. We'll keep you informed throughout.",
+    "servicePage.tandem.faq.a4":
+      "Safety is our top priority. If weather conditions are unsuitable, we'll reschedule your jump at no extra cost. We'll keep you informed throughout.",
 
     // A-Licence Service Page
     "servicePage.aff.heroTitle": "A-Licence Course",
-    "servicePage.aff.heroSubtitle": "Learn to skydive solo through our Accelerated Freefall (AFF) program. Master the skills, complete 25 jumps, and earn your international licence.",
+    "servicePage.aff.heroSubtitle":
+      "Learn to skydive solo through our Accelerated Freefall (AFF) program. Master the skills, complete 25 jumps, and earn your international licence.",
     "servicePage.aff.heroTagline": "Become a Licensed Skydiver",
     "servicePage.aff.step1.title": "Enroll & Register",
     "servicePage.aff.step1.desc": "Sign up for the AFF program and complete medical & safety forms.",
     "servicePage.aff.step2.title": "Ground School",
-    "servicePage.aff.step2.desc": "Intensive classroom training covering aerodynamics, emergency procedures, and equipment.",
+    "servicePage.aff.step2.desc":
+      "Intensive classroom training covering aerodynamics, emergency procedures, and equipment.",
     "servicePage.aff.step3.title": "AFF Levels 1-3",
-    "servicePage.aff.step3.desc": "Jump with two instructors who guide you through basic freefall skills and stability.",
+    "servicePage.aff.step3.desc":
+      "Jump with two instructors who guide you through basic freefall skills and stability.",
     "servicePage.aff.step4.title": "AFF Levels 4-7",
     "servicePage.aff.step4.desc": "Progress to one-instructor jumps. Master turns, tracking, and deployment.",
     "servicePage.aff.step5.title": "Solo Jumps (8-25)",
@@ -673,23 +686,30 @@ const translations: Record<Language, Record<string, string>> = {
     "servicePage.aff.step6.desc": "Pass your final assessment and receive your internationally recognized A-Licence.",
     "servicePage.aff.curriculumBadge": "TRAINING CURRICULUM",
     "servicePage.aff.curriculumTitle": "Complete A-Licence Training Path",
-    "servicePage.aff.curriculumDesc": "From ground school to your final assessment — here's the full progression to earning your USPA A-Licence.",
-    "servicePage.aff.curriculumAlt": "A-Licence skydiving training curriculum overview showing all 25 jumps progression",
+    "servicePage.aff.curriculumDesc":
+      "From ground school to your final assessment — here's the full progression to earning your USPA A-Licence.",
+    "servicePage.aff.curriculumAlt":
+      "A-Licence skydiving training curriculum overview showing all 25 jumps progression",
     "servicePage.aff.include1": "25 jumps (as required for A-Licence)",
     "servicePage.aff.include2": "Ground school training",
     "servicePage.aff.include3": "All equipment provided",
     "servicePage.aff.include4": "Personal instructor guidance",
     "servicePage.aff.include5": "Free iFly indoor skydiving session",
-    "servicePage.aff.testimonial": "The AFF program was life-changing. The instructors were incredibly patient and professional. Now I'm a licensed skydiver jumping every weekend!",
+    "servicePage.aff.testimonial":
+      "The AFF program was life-changing. The instructors were incredibly patient and professional. Now I'm a licensed skydiver jumping every weekend!",
     "servicePage.aff.testimonialAuthor": "Mark R., Australia",
     "servicePage.aff.faq.q1": "How long does the A-Licence course take?",
-    "servicePage.aff.faq.a1": "Typically 7-14 days depending on weather and your progression. Some students complete it in as little as a week during ideal conditions.",
+    "servicePage.aff.faq.a1":
+      "Typically 7-14 days depending on weather and your progression. Some students complete it in as little as a week during ideal conditions.",
     "servicePage.aff.faq.q2": "What are the prerequisites?",
-    "servicePage.aff.faq.a2": "You must be at least 18, weigh under 100kg, and be in good physical health. No prior skydiving experience is needed — the AFF course starts from scratch.",
+    "servicePage.aff.faq.a2":
+      "You must be at least 18, weigh under 100kg, and be in good physical health. No prior skydiving experience is needed — the AFF course starts from scratch.",
     "servicePage.aff.faq.q3": "Is the A-Licence internationally recognized?",
-    "servicePage.aff.faq.a3": "Yes! The USPA A-Licence is recognized worldwide. You can jump at dropzones across the globe after earning your licence.",
+    "servicePage.aff.faq.a3":
+      "Yes! The USPA A-Licence is recognized worldwide. You can jump at dropzones across the globe after earning your licence.",
     "servicePage.aff.faq.q4": "What happens after I get my A-Licence?",
-    "servicePage.aff.faq.a4": "You can jump solo at any dropzone worldwide! Many graduates continue to B, C, and D licences, learn formation skydiving, wingsuit flying, or become instructors.",
+    "servicePage.aff.faq.a4":
+      "You can jump solo at any dropzone worldwide! Many graduates continue to B, C, and D licences, learn formation skydiving, wingsuit flying, or become instructors.",
   },
   "zh-TW": {
     // Navigation & Common
@@ -1067,11 +1087,13 @@ const translations: Record<Language, Record<string, string>> = {
     "promo.birthday.title": "生日特惠",
     "promo.birthday.desc": "在生日月份來一次難忘的跳傘，享受專屬優惠！",
     "promo.birthday.details": "於生日當月跳傘，任何雙人跳傘套餐即減 $100。",
-    "promo.birthday.terms": "須於生日當月內完成跳傘，需提供出生日期證明。僅適用於雙人跳傘套餐，不可與其他優惠同時使用。",
+    "promo.birthday.terms":
+      "須於生日當月內完成跳傘，需提供出生日期證明。僅適用於雙人跳傘套餐，不可與其他優惠同時使用。",
     "promo.earlybird.title": "早鳥優惠",
     "promo.earlybird.desc": "提早計劃，鎖定特惠價格！",
     "promo.earlybird.details": "提前 90 天以上預約，任何跳傘套餐享 9 折優惠。",
-    "promo.earlybird.terms": "須於跳傘日期前至少 90 天完成預約。折扣於結帳時適用，不可與其他優惠同時使用，視供應情況而定。",
+    "promo.earlybird.terms":
+      "須於跳傘日期前至少 90 天完成預約。折扣於結帳時適用，不可與其他優惠同時使用，視供應情況而定。",
     "promo.repeat.title": "回頭客獎賞",
     "promo.repeat.desc": "曾經與我們一起跳過？回來再跳更優惠！",
     "promo.repeat.details": "舊客戶下次跳傘即減 $150。",
@@ -1301,17 +1323,20 @@ const translations: Record<Language, Record<string, string>> = {
     "servicePage.tandem.testimonial": "絕對難以置信的體驗！團隊讓我全程感到安全和舒適。這是我做過最棒的決定！",
     "servicePage.tandem.testimonialAuthor": "Iris，香港",
     "servicePage.tandem.faq.q1": "需要任何經驗嗎？",
-    "servicePage.tandem.faq.a1": "完全不需要！雙人跳傘專為初次體驗者設計。您將與認證教練安全綁定，教練會處理一切。您只需帶上冒險精神就好。",
+    "servicePage.tandem.faq.a1":
+      "完全不需要！雙人跳傘專為初次體驗者設計。您將與認證教練安全綁定，教練會處理一切。您只需帶上冒險精神就好。",
     "servicePage.tandem.faq.q2": "年齡和體重有限制嗎？",
     "servicePage.tandem.faq.a2": "您必須年滿18歲。最大體重限制為100公斤。您的身高體重比也必須符合我們設備的安全範圍。",
     "servicePage.tandem.faq.q3": "可以自己帶相機嗎？",
-    "servicePage.tandem.faq.a3": "基於安全考量，跳傘過程中不允許攜帶個人相機。我們提供專業攝影攝錄套餐——包括近鏡和全景拍攝——讓您重溫每個精彩瞬間。",
+    "servicePage.tandem.faq.a3":
+      "基於安全考量，跳傘過程中不允許攜帶個人相機。我們提供專業攝影攝錄套餐——包括近鏡和全景拍攝——讓您重溫每個精彩瞬間。",
     "servicePage.tandem.faq.q4": "天氣不好怎麼辦？",
     "servicePage.tandem.faq.a4": "安全是我們的首要考量。若天氣條件不適合，我們將免費為您改期。我們會全程與您保持聯繫。",
 
     // A-Licence Service Page
     "servicePage.aff.heroTitle": "A級執照課程",
-    "servicePage.aff.heroSubtitle": "透過我們的加速自由落體（AFF）課程學習獨立跳傘。掌握技能，完成25次跳傘，獲得國際執照。",
+    "servicePage.aff.heroSubtitle":
+      "透過我們的加速自由落體（AFF）課程學習獨立跳傘。掌握技能，完成25次跳傘，獲得國際執照。",
     "servicePage.aff.heroTagline": "成為持照跳傘員",
     "servicePage.aff.step1.title": "報名 & 註冊",
     "servicePage.aff.step1.desc": "報名AFF課程，完成醫療及安全表格。",
@@ -1343,7 +1368,8 @@ const translations: Record<Language, Record<string, string>> = {
     "servicePage.aff.faq.q3": "A級執照是國際認可的嗎？",
     "servicePage.aff.faq.a3": "是的！USPA A級執照獲全球認可。取得執照後，您可以在世界各地的跳傘場自由跳傘。",
     "servicePage.aff.faq.q4": "取得A級執照後可以做什麼？",
-    "servicePage.aff.faq.a4": "您可以在全球任何跳傘場獨立跳傘！許多畢業學員會繼續考取B、C、D級執照，學習編隊跳傘、翼裝飛行，或成為教練。",
+    "servicePage.aff.faq.a4":
+      "您可以在全球任何跳傘場獨立跳傘！許多畢業學員會繼續考取B、C、D級執照，學習編隊跳傘、翼裝飛行，或成為教練。",
   },
   "zh-CN": {
     // Navigation & Common
@@ -1721,11 +1747,13 @@ const translations: Record<Language, Record<string, string>> = {
     "promo.birthday.title": "生日特惠",
     "promo.birthday.desc": "在生日月份来一次难忘的跳伞，享受专属优惠！",
     "promo.birthday.details": "于生日当月跳伞，任何双人跳伞套餐立减 $100。",
-    "promo.birthday.terms": "须于生日当月内完成跳伞，需提供出生日期证明。仅适用于双人跳伞套餐，不可与其他优惠同时使用。",
+    "promo.birthday.terms":
+      "须于生日当月内完成跳伞，需提供出生日期证明。仅适用于双人跳伞套餐，不可与其他优惠同时使用。",
     "promo.earlybird.title": "早鸟优惠",
     "promo.earlybird.desc": "提早计划，锁定特惠价格！",
     "promo.earlybird.details": "提前 90 天以上预约，任何跳伞套餐享 9 折优惠。",
-    "promo.earlybird.terms": "须于跳伞日期前至少 90 天完成预约。折扣于结账时适用，不可与其他优惠同时使用，视供应情况而定。",
+    "promo.earlybird.terms":
+      "须于跳伞日期前至少 90 天完成预约。折扣于结账时适用，不可与其他优惠同时使用，视供应情况而定。",
     "promo.repeat.title": "回头客奖励",
     "promo.repeat.desc": "曾经与我们一起跳过？回来再跳更优惠！",
     "promo.repeat.details": "老客户下次跳伞立减 $150。",
@@ -1955,17 +1983,20 @@ const translations: Record<Language, Record<string, string>> = {
     "servicePage.tandem.testimonial": "绝对难以置信的体验！团队让我全程感到安全和舒适。这是我做过最棒的决定！",
     "servicePage.tandem.testimonialAuthor": "Iris，香港",
     "servicePage.tandem.faq.q1": "需要任何经验吗？",
-    "servicePage.tandem.faq.a1": "完全不需要！双人跳伞专为初次体验者设计。您将与认证教练安全绑定，教练会处理一切。您只需带上冒险精神就好。",
+    "servicePage.tandem.faq.a1":
+      "完全不需要！双人跳伞专为初次体验者设计。您将与认证教练安全绑定，教练会处理一切。您只需带上冒险精神就好。",
     "servicePage.tandem.faq.q2": "年龄和体重有限制吗？",
     "servicePage.tandem.faq.a2": "您必须年满18岁。最大体重限制为100公斤。您的身高体重比也必须符合我们设备的安全范围。",
     "servicePage.tandem.faq.q3": "可以自己带相机吗？",
-    "servicePage.tandem.faq.a3": "基于安全考量，跳伞过程中不允许携带个人相机。我们提供专业摄影摄录套餐——包括近镜和全景拍摄——让您重温每个精彩瞬间。",
+    "servicePage.tandem.faq.a3":
+      "基于安全考量，跳伞过程中不允许携带个人相机。我们提供专业摄影摄录套餐——包括近镜和全景拍摄——让您重温每个精彩瞬间。",
     "servicePage.tandem.faq.q4": "天气不好怎么办？",
     "servicePage.tandem.faq.a4": "安全是我们的首要考量。若天气条件不适合，我们将免费为您改期。我们会全程与您保持联系。",
 
     // A-Licence Service Page
     "servicePage.aff.heroTitle": "A级执照课程",
-    "servicePage.aff.heroSubtitle": "通过我们的加速自由落体（AFF）课程学习独立跳伞。掌握技能，完成25次跳伞，获得国际执照。",
+    "servicePage.aff.heroSubtitle":
+      "通过我们的加速自由落体（AFF）课程学习独立跳伞。掌握技能，完成25次跳伞，获得国际执照。",
     "servicePage.aff.heroTagline": "成为持照跳伞员",
     "servicePage.aff.step1.title": "报名 & 注册",
     "servicePage.aff.step1.desc": "报名AFF课程，完成医疗及安全表格。",
@@ -1997,7 +2028,8 @@ const translations: Record<Language, Record<string, string>> = {
     "servicePage.aff.faq.q3": "A级执照是国际认可的吗？",
     "servicePage.aff.faq.a3": "是的！USPA A级执照获全球认可。取得执照后，您可以在世界各地的跳伞场自由跳伞。",
     "servicePage.aff.faq.q4": "取得A级执照后可以做什么？",
-    "servicePage.aff.faq.a4": "您可以在全球任何跳伞场独立跳伞！许多毕业学员会继续考取B、C、D级执照，学习编队跳伞、翼装飞行，或成为教练。",
+    "servicePage.aff.faq.a4":
+      "您可以在全球任何跳伞场独立跳伞！许多毕业学员会继续考取B、C、D级执照，学习编队跳伞、翼装飞行，或成为教练。",
   },
 };
 
