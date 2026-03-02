@@ -344,7 +344,7 @@ export function BookingSection() {
       }));
       setTimeout(() => initAirwallexDropIn(data.client_secret, data.payment_intent_id), 100);
     } catch (error) {
-      console.error('Failed to create payment intent:', error);
+      if (import.meta.env.DEV) console.error('Failed to create payment intent:', error);
       toast.error(t('booking.paymentError'));
     } finally {
       setIsPaymentLoading(false);
@@ -408,7 +408,7 @@ export function BookingSection() {
         await handleSubmit();
       };
       const errorHandler = (event: any) => {
-        console.error('Payment error:', event.detail);
+        if (import.meta.env.DEV) console.error('Payment error:', event.detail);
         toast.error(t('booking.paymentFailed'));
       };
 
@@ -420,7 +420,7 @@ export function BookingSection() {
       // Mark as initialized for this intent
       airwallexInitializedForIntent.current = intentId;
     } catch (error) {
-      console.error('Failed to init Airwallex:', error);
+      if (import.meta.env.DEV) console.error('Failed to init Airwallex:', error);
       toast.error(t('booking.paymentError'));
     }
   };
@@ -458,7 +458,7 @@ export function BookingSection() {
       } as any);
 
       if (error) {
-        console.error('Booking submission error:', error);
+        if (import.meta.env.DEV) console.error('Booking submission error:', error);
         toast.error(t("booking.submitError"));
         return;
       }
@@ -488,7 +488,7 @@ export function BookingSection() {
           }
         });
       } catch (notifyError) {
-        console.error('Failed to send notification email:', notifyError);
+        if (import.meta.env.DEV) console.error('Failed to send notification email:', notifyError);
       }
 
       // Clear cached payment intent after successful booking
@@ -496,7 +496,7 @@ export function BookingSection() {
       setIsComplete(true);
       toast.success(t("booking.submitSuccess"));
     } catch (error) {
-      console.error('Booking submission error:', error);
+      if (import.meta.env.DEV) console.error('Booking submission error:', error);
       toast.error(t("booking.submitError"));
     } finally {
       setIsSubmitting(false);

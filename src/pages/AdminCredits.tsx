@@ -80,7 +80,7 @@ export default function AdminCredits() {
       setMembers(membersWithBalance);
       setFilteredMembers(membersWithBalance);
     } catch (error) {
-      console.error("Error fetching members:", error);
+      if (import.meta.env.DEV) console.error("Error fetching members:", error);
       toast.error("Failed to load members");
     }
   }, []);
@@ -96,7 +96,7 @@ export default function AdminCredits() {
       if (error) throw error;
       setPendingCredits(data || []);
     } catch (error) {
-      console.error("Error fetching pending credits:", error);
+      if (import.meta.env.DEV) console.error("Error fetching pending credits:", error);
     }
   }, []);
 
@@ -173,7 +173,7 @@ export default function AdminCredits() {
         .limit(20);
       setMemberTransactions(txData || []);
     } catch (error: any) {
-      console.error("Error adjusting credit:", error);
+      if (import.meta.env.DEV) console.error("Error adjusting credit:", error);
       toast.error(error.message || "Failed to adjust credit");
     } finally {
       setAdjusting(false);
