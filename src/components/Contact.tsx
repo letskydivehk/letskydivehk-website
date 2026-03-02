@@ -39,7 +39,7 @@ export function Contact() {
       });
       
       if (error) {
-        console.error('Error sending message:', error);
+        if (import.meta.env.DEV) console.error('Error sending message:', error);
         toast.error(t('contact.form.error') || 'Failed to send message. Please try again.');
         return;
       }
@@ -51,7 +51,7 @@ export function Contact() {
         toast.error(data?.error || 'Failed to send message. Please try again.');
       }
     } catch (error) {
-      console.error('Error sending message:', error);
+      if (import.meta.env.DEV) console.error('Error sending message:', error);
       toast.error('Failed to send message. Please try again.');
     } finally {
       setIsSubmitting(false);

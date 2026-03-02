@@ -33,7 +33,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setSession(session);
         setUser(session?.user ?? null);
       } catch (error) {
-        console.error("Error getting session:", error);
+        if (import.meta.env.DEV) console.error("Error getting session:", error);
       } finally {
         setLoading(false);
       }
@@ -62,7 +62,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
                 registrationEmail: user.email,
               }
             }
-          }).catch(err => console.error('Failed to send registration notification:', err));
+          }).catch(err => { if (import.meta.env.DEV) console.error('Failed to send registration notification:', err); });
         }, 0);
       }
     });
@@ -80,7 +80,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         .single();
 
       if (fetchError && fetchError.code !== "PGRST116") {
-        console.error("Error fetching profile:", fetchError);
+        if (import.meta.env.DEV) console.error("Error fetching profile:", fetchError);
         return;
       }
 
@@ -99,7 +99,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           .insert([{ ...userData, created_at: new Date().toISOString() }]);
 
         if (insertError) {
-          console.error("Error creating profile:", insertError);
+          if (import.meta.env.DEV) console.error("Error creating profile:", insertError);
         } else {
           console.log("Profile created successfully");
         }
@@ -111,11 +111,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           .eq("user_id", user.id);
 
         if (updateError) {
-          console.error("Error updating profile:", updateError);
+          if (import.meta.env.DEV) console.error("Error updating profile:", updateError);
         }
       }
     } catch (error) {
-      console.error("Error in createOrUpdateUserProfile:", error);
+      if (import.meta.env.DEV) console.error("Error in createOrUpdateUserProfile:", error);
     }
   };
 
@@ -149,7 +149,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       if (error) {
-        console.error("Google OAuth error:", error);
+        if (import.meta.env.DEV) console.error("Google OAuth error:", error);
         toast.error(`Google Sign-In failed: ${error.message}`);
         throw error;
       }
@@ -180,7 +180,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
       }
     } catch (error: any) {
-      console.error("Sign in with Google failed:", error);
+      if (import.meta.env.DEV) console.error("Sign in with Google failed:", error);
       toast.error(error.message || "Failed to sign in with Google");
       throw error;
     } finally {
@@ -197,7 +197,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       if (error) {
-        console.error("Email sign in error:", error);
+        if (import.meta.env.DEV) console.error("Email sign in error:", error);
 
         let errorMessage = "Sign in failed";
         if (error.message.includes("Invalid login credentials")) {
@@ -236,7 +236,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
 
       if (error) {
-        console.error("Sign up error:", error);
+        if (import.meta.env.DEV) console.error("Sign up error:", error);
 
         let errorMessage = "Sign up failed";
         if (error.message.includes("already registered")) {
@@ -263,7 +263,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       const { error } = await supabase.auth.signOut();
 
       if (error) {
-        console.error("Sign out error:", error);
+        if (import.meta.env.DEV) console.error("Sign out error:", error);
         toast.error("Failed to sign out");
         throw error;
       }

@@ -81,7 +81,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     try {
       await signInWithGoogle();
     } catch (error: any) {
-      console.error("Google Sign-In error:", error);
+      if (import.meta.env.DEV) console.error("Google Sign-In error:", error);
       if (error.message?.includes("popup blocked") || error.message?.includes("third-party cookies")) {
         toast.error(t("auth.allowCookies"));
       } else if (error.message?.includes("access_denied")) {
