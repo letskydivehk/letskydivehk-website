@@ -17,7 +17,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         month: "space-y-4 w-full",
         caption: "flex justify-center pt-1 relative items-center",
         caption_label: "text-sm font-medium",
-        caption_dropdowns: "flex items-center gap-2 justify-center",
+        caption_dropdowns: "flex items-center gap-6 justify-center",
         nav: "space-x-1 flex items-center",
         nav_button: cn(
           buttonVariants({ variant: "outline" }),
@@ -40,7 +40,7 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: C
         day_disabled: "text-muted-foreground opacity-50",
         day_range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
-        vhidden: "sr-only",
+        vhidden: "hidden",
         dropdown: "appearance-none bg-transparent border border-border rounded px-2 py-1 text-sm font-medium cursor-pointer",
         dropdown_month: "mr-1",
         dropdown_year: "ml-1",
