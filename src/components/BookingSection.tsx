@@ -209,7 +209,7 @@ export function BookingSection() {
     setPaymentIntentId(null);
     setPaymentClientSecret(null);
     setIsPaymentComplete(false);
-    sessionStorage.removeItem('booking_payment_intent');
+    sessionStorage.removeItem("booking_payment_intent");
     airwallexInitializedForIntent.current = null;
     isCreatingIntent.current = false;
   };
@@ -289,8 +289,7 @@ export function BookingSection() {
       }
       setValidationErrors({});
       setCurrentStep("preview");
-    }
-    else if (currentStep === "preview") {
+    } else if (currentStep === "preview") {
       setCurrentStep("payment");
       // Create payment intent when entering payment step
       createPaymentIntent();
@@ -317,7 +316,7 @@ export function BookingSection() {
     }
 
     // Check sessionStorage for a previously created intent
-    const cached = sessionStorage.getItem('booking_payment_intent');
+    const cached = sessionStorage.getItem("booking_payment_intent");
     if (cached) {
       try {
         const { client_secret, payment_intent_id } = JSON.parse(cached);
@@ -329,7 +328,7 @@ export function BookingSection() {
           return;
         }
       } catch (e) {
-        sessionStorage.removeItem('booking_payment_intent');
+        sessionStorage.removeItem("booking_payment_intent");
       }
     }
 
@@ -337,21 +336,24 @@ export function BookingSection() {
     isCreatingIntent.current = true;
     setIsPaymentLoading(true);
     try {
-      const { data, error } = await supabase.functions.invoke('create-payment-intent', {
-        body: { amount: 500, currency: 'HKD' },
+      const { data, error } = await supabase.functions.invoke("create-payment-intent", {
+        body: { amount: 500, currency: "HKD" },
       });
       if (error) throw error;
       setPaymentClientSecret(data.client_secret);
       setPaymentIntentId(data.payment_intent_id);
       // Cache for reuse across navigation/refreshes
-      sessionStorage.setItem('booking_payment_intent', JSON.stringify({
-        client_secret: data.client_secret,
-        payment_intent_id: data.payment_intent_id,
-      }));
+      sessionStorage.setItem(
+        "booking_payment_intent",
+        JSON.stringify({
+          client_secret: data.client_secret,
+          payment_intent_id: data.payment_intent_id,
+        }),
+      );
       setTimeout(() => initAirwallexDropIn(data.client_secret, data.payment_intent_id), 100);
     } catch (error) {
-      if (import.meta.env.DEV) console.error('Failed to create payment intent:', error);
-      toast.error(t('booking.paymentError'));
+      if (import.meta.env.DEV) console.error("Failed to create payment intent:", error);
+      toast.error(t("booking.paymentError"));
     } finally {
       setIsPaymentLoading(false);
       isCreatingIntent.current = false;
@@ -366,20 +368,20 @@ export function BookingSection() {
     try {
       const Airwallex = (window as any).Airwallex;
       if (!Airwallex) {
-        console.error('Airwallex SDK not loaded');
-        toast.error(t('booking.paymentError'));
+        console.error("Airwallex SDK not loaded");
+        toast.error(t("booking.paymentError"));
         return;
       }
 
-      Airwallex.init({ env: 'prod', origin: window.location.origin });
+      Airwallex.init({ env: "prod", origin: window.location.origin });
 
       const isMobileDevice = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-      const element = Airwallex.createElement('dropIn', {
+      const element = Airwallex.createElement("dropIn", {
         intent_id: intentId,
         client_secret: clientSecret,
-        currency: 'HKD',
-        mode: 'payment',
+        currency: "HKD",
+        mode: "payment",
         autoCapture: true,
         style: {
           popupWidth: 400,
@@ -394,50 +396,50 @@ export function BookingSection() {
 
       const container = paymentContainerRef.current;
       if (container) {
-        container.innerHTML = '';
+        container.innerHTML = "";
         element.mount(container);
       }
 
       // Remove previous listeners before adding new ones
       if (successHandlerRef.current) {
-        window.removeEventListener('onSuccess', successHandlerRef.current);
+        window.removeEventListener("onSuccess", successHandlerRef.current);
       }
       if (errorHandlerRef.current) {
-        window.removeEventListener('onError', errorHandlerRef.current);
+        window.removeEventListener("onError", errorHandlerRef.current);
       }
 
       // Create and store new handlers
       const successHandler = async (event: any) => {
         setIsPaymentComplete(true);
-        toast.success(t('booking.paymentSuccess'));
+        toast.success(t("booking.paymentSuccess"));
         // Auto-submit booking to database after successful payment
         await handleSubmit();
       };
       const errorHandler = (event: any) => {
-        if (import.meta.env.DEV) console.error('Payment error:', event.detail);
-        toast.error(t('booking.paymentFailed'));
+        if (import.meta.env.DEV) console.error("Payment error:", event.detail);
+        toast.error(t("booking.paymentFailed"));
       };
 
       successHandlerRef.current = successHandler;
       errorHandlerRef.current = errorHandler;
-      window.addEventListener('onSuccess', successHandler);
-      window.addEventListener('onError', errorHandler);
+      window.addEventListener("onSuccess", successHandler);
+      window.addEventListener("onError", errorHandler);
 
       // Mark as initialized for this intent
       airwallexInitializedForIntent.current = intentId;
     } catch (error) {
-      if (import.meta.env.DEV) console.error('Failed to init Airwallex:', error);
-      toast.error(t('booking.paymentError'));
+      if (import.meta.env.DEV) console.error("Failed to init Airwallex:", error);
+      toast.error(t("booking.paymentError"));
     }
   };
 
   const handleSubmit = async () => {
     setIsSubmitting(true);
-    
+
     try {
       // Verify payment server-side before submitting booking
       if (paymentIntentId) {
-        const { data: verifyData, error: verifyError } = await supabase.functions.invoke('verify-payment', {
+        const { data: verifyData, error: verifyError } = await supabase.functions.invoke("verify-payment", {
           body: { payment_intent_id: paymentIntentId },
         });
         if (verifyError || !verifyData?.verified) {
@@ -448,7 +450,7 @@ export function BookingSection() {
       }
 
       // Insert booking via secure RPC function
-      const { data, error } = await supabase.rpc('create_booking', {
+      const { data, error } = await supabase.rpc("create_booking", {
         p_user_id: user?.id || null,
         p_location_id: formData.location,
         p_service_id: formData.service,
@@ -464,7 +466,7 @@ export function BookingSection() {
       } as any);
 
       if (error) {
-        if (import.meta.env.DEV) console.error('Booking submission error:', error);
+        if (import.meta.env.DEV) console.error("Booking submission error:", error);
         toast.error(t("booking.submitError"));
         return;
       }
@@ -477,32 +479,32 @@ export function BookingSection() {
 
       // Send notification email (fire and forget - don't block success)
       try {
-        await supabase.functions.invoke('send-notification', {
+        await supabase.functions.invoke("send-notification", {
           body: {
-            type: 'booking',
+            type: "booking",
             data: {
               firstName: sanitizeText(formData.firstName),
               lastName: sanitizeText(formData.lastName),
               email: formData.email.trim(),
               phone: sanitizeText(formData.phone),
-              locationName: selectedLocation?.Name || 'Unknown Location',
-              serviceName: selectedService?.service_name || 'Unknown Service',
+              locationName: selectedLocation?.Name || "Unknown Location",
+              serviceName: selectedService?.service_name || "Unknown Service",
               preferredDate: formData.date,
               participants: formData.participants,
               specialRequests: formData.notes ? sanitizeText(formData.notes) : undefined,
-            }
-          }
+            },
+          },
         });
       } catch (notifyError) {
-        if (import.meta.env.DEV) console.error('Failed to send notification email:', notifyError);
+        if (import.meta.env.DEV) console.error("Failed to send notification email:", notifyError);
       }
 
       // Clear cached payment intent after successful booking
-      sessionStorage.removeItem('booking_payment_intent');
+      sessionStorage.removeItem("booking_payment_intent");
       setIsComplete(true);
       toast.success(t("booking.submitSuccess"));
     } catch (error) {
-      if (import.meta.env.DEV) console.error('Booking submission error:', error);
+      if (import.meta.env.DEV) console.error("Booking submission error:", error);
       toast.error(t("booking.submitError"));
     } finally {
       setIsSubmitting(false);
@@ -517,42 +519,42 @@ export function BookingSection() {
   // Handle return from mobile payment redirect
   useEffect(() => {
     const hash = window.location.hash;
-    const hashParams = new URLSearchParams(hash.split('?')[1] || '');
-    const redirectPaymentStatus = hashParams.get('payment_status');
-    const redirectPaymentIntentId = hashParams.get('payment_intent_id');
+    const hashParams = new URLSearchParams(hash.split("?")[1] || "");
+    const redirectPaymentStatus = hashParams.get("payment_status");
+    const redirectPaymentIntentId = hashParams.get("payment_intent_id");
 
     if (redirectPaymentStatus && redirectPaymentIntentId) {
       // Clean URL params
-      const cleanHash = hash.split('?')[0];
+      const cleanHash = hash.split("?")[0];
       window.location.hash = cleanHash;
 
-      if (redirectPaymentStatus === 'success') {
+      if (redirectPaymentStatus === "success") {
         // Verify payment server-side
         const verifyRedirectPayment = async () => {
           try {
-            const { data, error } = await supabase.functions.invoke('verify-payment', {
+            const { data, error } = await supabase.functions.invoke("verify-payment", {
               body: { payment_intent_id: redirectPaymentIntentId },
             });
             if (!error && data?.verified) {
               setPaymentIntentId(redirectPaymentIntentId);
               setIsPaymentComplete(true);
-              toast.success(t('booking.paymentSuccess'));
+              toast.success(t("booking.paymentSuccess"));
               // Auto-submit booking after verified redirect payment
               await handleSubmit();
             } else {
-              toast.error(t('booking.paymentFailed'));
-              setCurrentStep('payment');
+              toast.error(t("booking.paymentFailed"));
+              setCurrentStep("payment");
             }
           } catch (err) {
-            console.error('Payment verification failed:', err);
-            toast.error(t('booking.paymentError'));
-            setCurrentStep('payment');
+            console.error("Payment verification failed:", err);
+            toast.error(t("booking.paymentError"));
+            setCurrentStep("payment");
           }
         };
         verifyRedirectPayment();
       } else {
-        toast.error(t('booking.paymentFailed'));
-        setCurrentStep('payment');
+        toast.error(t("booking.paymentFailed"));
+        setCurrentStep("payment");
       }
     }
   }, []); // Run once on mount
@@ -562,9 +564,9 @@ export function BookingSection() {
     if (isComplete) {
       // Small delay to ensure render is complete
       const timer = setTimeout(() => {
-        const bookingSection = document.getElementById('booking');
+        const bookingSection = document.getElementById("booking");
         if (bookingSection) {
-          bookingSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          bookingSection.scrollIntoView({ behavior: "smooth", block: "center" });
         }
       }, 100);
       return () => clearTimeout(timer);
@@ -598,7 +600,7 @@ export function BookingSection() {
                   </p>
                   <p>
                     <span className="font-medium text-foreground">{t("booking.service")}:</span>{" "}
-                    <ServiceNameDisplay name={translatedSelectedService?.service_name || ''} />
+                    <ServiceNameDisplay name={translatedSelectedService?.service_name || ""} />
                   </p>
                   <p>
                     <span className="font-medium text-foreground">{t("booking.date")}:</span> {formData.date}
@@ -715,616 +717,639 @@ export function BookingSection() {
             {/* Content Area */}
             <div className="p-8 lg:p-12 pb-6 flex-1">
               <AnimatePresence mode="wait">
-              {/* Step 1: Location Selection */}
-              {currentStep === "location" && (
-                <motion.div
-                  key="location"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
-                >
-                  <div className="text-center mb-8">
-                    <MapPin className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-foreground">{t("booking.whereJump")}</h3>
-                    <p className="text-muted-foreground">{t("booking.selectDropzone")}</p>
-                  </div>
-
-                  {locationsLoading ? (
-                    <div className="flex items-center justify-center py-12">
-                      <Loader2 className="w-8 h-8 animate-spin text-accent-emerald" />
+                {/* Step 1: Location Selection */}
+                {currentStep === "location" && (
+                  <motion.div
+                    key="location"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="space-y-6"
+                  >
+                    <div className="text-center mb-8">
+                      <MapPin className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold text-foreground">{t("booking.whereJump")}</h3>
+                      <p className="text-muted-foreground">{t("booking.selectDropzone")}</p>
                     </div>
-                  ) : (
-                    <>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {filteredLocations.map((location) => {
-                          const translated = translateLocation(location);
+
+                    {locationsLoading ? (
+                      <div className="flex items-center justify-center py-12">
+                        <Loader2 className="w-8 h-8 animate-spin text-accent-emerald" />
+                      </div>
+                    ) : (
+                      <>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          {filteredLocations.map((location) => {
+                            const translated = translateLocation(location);
+                            return (
+                              <button
+                                key={location.id}
+                                onClick={() => {
+                                  // Clear service selection when changing location
+                                  setFormData({ ...formData, location: location.id, service: "" });
+                                  // Auto-advance to service selection
+                                  setTimeout(() => setCurrentStep("service"), 150);
+                                }}
+                                className={`group overflow-hidden rounded-xl border-2 text-left transition-all cursor-pointer ${
+                                  formData.location === location.id
+                                    ? "border-accent-emerald bg-accent-emerald/5"
+                                    : "border-border hover:border-accent-emerald/50"
+                                }`}
+                              >
+                                {/* Location Image */}
+                                <div className="relative h-32 overflow-hidden">
+                                  <img
+                                    src={location.image_url || "/placeholder.svg"}
+                                    alt={translated.Name}
+                                    className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
+                                  />
+                                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                                  {formData.location === location.id && (
+                                    <div className="absolute top-2 right-2 w-8 h-8 bg-accent-emerald rounded-full flex items-center justify-center">
+                                      <Check className="w-5 h-5 text-white" />
+                                    </div>
+                                  )}
+                                </div>
+                                {/* Location Info */}
+                                <div className="p-4">
+                                  <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1">
+                                    <MapPin className="w-3 h-3" />
+                                    <span>
+                                      {translated.City}, {translated.country}
+                                    </span>
+                                  </div>
+                                  <p className="font-semibold text-foreground">{translated.Name}</p>
+                                </div>
+                              </button>
+                            );
+                          })}
+                          {filteredLocations.length === 0 && (
+                            <div className="col-span-full text-center py-8 text-muted-foreground">
+                              {t("booking.noLocations")}
+                            </div>
+                          )}
+                        </div>
+                      </>
+                    )}
+                  </motion.div>
+                )}
+
+                {/* Step 2: Service Selection */}
+                {currentStep === "service" && (
+                  <motion.div
+                    key="service"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="space-y-6"
+                  >
+                    <div className="text-center mb-8">
+                      <Plane className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold text-foreground">{t("booking.chooseService")}</h3>
+                      <p className="text-muted-foreground">
+                        {t("booking.selectPackage")} - {translatedSelectedLocation?.Name}
+                      </p>
+                    </div>
+
+                    {servicesLoading ? (
+                      <div className="flex items-center justify-center py-12">
+                        <Loader2 className="w-8 h-8 animate-spin text-accent-emerald" />
+                      </div>
+                    ) : (
+                      <div className="space-y-4">
+                        {locationServices?.map((service) => {
+                          const translatedService = translateService(service);
                           return (
                             <button
-                              key={location.id}
+                              key={service.id}
                               onClick={() => {
-                                // Clear service selection when changing location
-                                setFormData({ ...formData, location: location.id, service: "" });
-                                // Auto-advance to service selection
-                                setTimeout(() => setCurrentStep("service"), 150);
+                                setFormData({ ...formData, service: service.id });
+                                // Auto-advance to date & details
+                                setTimeout(() => setCurrentStep("details"), 150);
                               }}
-                              className={`group overflow-hidden rounded-xl border-2 text-left transition-all cursor-pointer ${
-                                formData.location === location.id
+                              className={`w-full p-6 rounded-xl border-2 text-left transition-all cursor-pointer ${
+                                formData.service === service.id
                                   ? "border-accent-emerald bg-accent-emerald/5"
                                   : "border-border hover:border-accent-emerald/50"
                               }`}
                             >
-                              {/* Location Image */}
-                              <div className="relative h-32 overflow-hidden">
-                                <img
-                                  src={location.image_url || "/placeholder.svg"}
-                                  alt={translated.Name}
-                                  className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-110"
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                                {formData.location === location.id && (
-                                  <div className="absolute top-2 right-2 w-8 h-8 bg-accent-emerald rounded-full flex items-center justify-center">
-                                    <Check className="w-5 h-5 text-white" />
-                                  </div>
-                                )}
-                              </div>
-                              {/* Location Info */}
-                              <div className="p-4">
-                                <div className="flex items-center gap-2 text-muted-foreground text-xs mb-1">
-                                  <MapPin className="w-3 h-3" />
-                                  <span>
-                                    {translated.City}, {translated.country}
-                                  </span>
-                                </div>
-                                <p className="font-semibold text-foreground">{translated.Name}</p>
-                              </div>
-                            </button>
-                          );
-                        })}
-                        {filteredLocations.length === 0 && (
-                          <div className="col-span-full text-center py-8 text-muted-foreground">
-                            {t("booking.noLocations")}
-                          </div>
-                        )}
-                      </div>
-                    </>
-                  )}
-                </motion.div>
-              )}
-
-              {/* Step 2: Service Selection */}
-              {currentStep === "service" && (
-                <motion.div
-                  key="service"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
-                >
-                  <div className="text-center mb-8">
-                    <Plane className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-foreground">{t("booking.chooseService")}</h3>
-                    <p className="text-muted-foreground">
-                      {t("booking.selectPackage")} - {translatedSelectedLocation?.Name}
-                    </p>
-                  </div>
-
-                  {servicesLoading ? (
-                    <div className="flex items-center justify-center py-12">
-                      <Loader2 className="w-8 h-8 animate-spin text-accent-emerald" />
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {locationServices?.map((service) => {
-                        const translatedService = translateService(service);
-                        return (
-                          <button
-                            key={service.id}
-                            onClick={() => {
-                              setFormData({ ...formData, service: service.id });
-                              // Auto-advance to date & details
-                              setTimeout(() => setCurrentStep("details"), 150);
-                            }}
-                            className={`w-full p-6 rounded-xl border-2 text-left transition-all cursor-pointer ${
-                              formData.service === service.id
-                                ? "border-accent-emerald bg-accent-emerald/5"
-                                : "border-border hover:border-accent-emerald/50"
-                            }`}
-                          >
-                            <div>
-                              <div className="flex items-center gap-2 mb-1">
-                                <h4 className="font-bold text-foreground text-lg">
-                                  <ServiceNameDisplay name={translatedService.service_name} />
-                                </h4>
-                                {service.is_popular && (
-                                  <span className="bg-accent-orange text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                                    {t("services.popular").toUpperCase()}
-                                  </span>
-                                )}
-                              </div>
-                              <p className="text-2xl font-black text-foreground mb-2">{service.price_display}</p>
-                              {service.description && (
-                                <p className="text-muted-foreground text-sm">{service.description}</p>
-                              )}
-                              {service.includes && service.includes.length > 0 && (
-                                <div className="mt-3 flex flex-wrap gap-2">
-                                  {service.includes.slice(0, 3).map((item, idx) => (
-                                    <span
-                                      key={idx}
-                                      className="text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground"
-                                    >
-                                      {item}
-                                    </span>
-                                  ))}
-                                  {service.includes.length > 3 && (
-                                    <span className="text-xs text-muted-foreground">
-                                      +{service.includes.length - 3} {t("booking.more")}
+                              <div>
+                                <div className="flex items-center gap-2 mb-1">
+                                  <h4 className="font-bold text-foreground text-lg">
+                                    <ServiceNameDisplay name={translatedService.service_name} />
+                                  </h4>
+                                  {service.is_popular && (
+                                    <span className="bg-accent-orange text-white text-xs font-bold px-2 py-0.5 rounded-full">
+                                      {t("services.popular").toUpperCase()}
                                     </span>
                                   )}
                                 </div>
-                              )}
-                            </div>
-                            {formData.service === service.id && (
-                              <div className="mt-4 pt-4 border-t border-border">
-                                <div className="flex items-center gap-2 text-accent-emerald">
-                                  <Check className="w-4 h-4" />
-                                  <span className="text-sm font-medium">{t("booking.selected")}</span>
-                                </div>
+                                <p className="text-2xl font-black text-foreground mb-2">{service.price_display}</p>
+                                {service.description && (
+                                  <p className="text-muted-foreground text-sm">{service.description}</p>
+                                )}
+                                {service.includes && service.includes.length > 0 && (
+                                  <div className="mt-3 flex flex-wrap gap-2">
+                                    {service.includes.slice(0, 3).map((item, idx) => (
+                                      <span
+                                        key={idx}
+                                        className="text-xs bg-muted px-2 py-1 rounded-full text-muted-foreground"
+                                      >
+                                        {item}
+                                      </span>
+                                    ))}
+                                    {service.includes.length > 3 && (
+                                      <span className="text-xs text-muted-foreground">
+                                        +{service.includes.length - 3} {t("booking.more")}
+                                      </span>
+                                    )}
+                                  </div>
+                                )}
                               </div>
-                            )}
-                          </button>
-                        );
-                      })}
-                      {(!locationServices || locationServices.length === 0) && !servicesLoading && (
-                        <div className="text-center py-8">
-                          <p className="text-muted-foreground">{t("booking.noServices")}</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-                </motion.div>
-              )}
-
-              {/* Step 3: Date & Details */}
-              {currentStep === "details" && (
-                <motion.div
-                  key="details"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
-                >
-                  <div className="text-center mb-8">
-                    <CalendarIcon className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-foreground">{t("booking.whenJump")}</h3>
-                    <p className="text-muted-foreground">{t("booking.selectDateDetails")}</p>
-                  </div>
-
-                  {/* Date Selection */}
-                  <div className="overflow-hidden">
-                    <label className="block text-lg font-semibold text-foreground mb-4">
-                      {t("booking.preferredDate")}
-                    </label>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <Button
-                          variant="outline"
-                          className={cn(
-                            "w-full justify-start text-left font-normal h-14 rounded-xl border bg-background text-foreground hover:bg-muted",
-                            !formData.date && "text-muted-foreground",
-                            validationErrors.date ? "border-red-500" : "border-border",
-                          )}
-                        >
-                          <CalendarIcon className="mr-3 h-5 w-5 text-muted-foreground" />
-                          {formData.date ? (
-                            format(new Date(formData.date), "PPP", { locale: language === "zh-TW" ? zhTW : undefined })
-                          ) : (
-                            <span>{t("booking.preferredDate")}</span>
-                          )}
-                        </Button>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-auto p-0 bg-card border border-border shadow-lg z-50" align="start">
-                        <Calendar
-                          mode="single"
-                          selected={formData.date ? new Date(formData.date) : undefined}
-                          onSelect={(date) => {
-                            if (date) {
-                              setFormData({ ...formData, date: format(date, "yyyy-MM-dd") });
-                            }
-                          }}
-                          disabled={(date) => date < new Date()}
-                          initialFocus
-                          className={cn("p-3 pointer-events-auto")}
-                        />
-                      </PopoverContent>
-                    </Popover>
-                    {validationErrors.date && <p className="text-red-500 text-xs mt-1">{validationErrors.date}</p>}
-                  </div>
-
-                  {/* Participants */}
-                  <div>
-                    <label className="block text-lg font-semibold text-foreground mb-4">
-                      {t("booking.numberOfJumpers")}
-                    </label>
-                    <div className="flex items-center gap-4">
-                      <button
-                        onClick={() =>
-                          setFormData({ ...formData, participants: Math.max(1, formData.participants - 1) })
-                        }
-                        className="w-12 h-12 rounded-xl border border-border hover:border-accent-emerald/50 flex items-center justify-center text-xl font-bold cursor-pointer transition-colors"
-                      >
-                        -
-                      </button>
-                      <span className="text-2xl font-bold text-foreground w-12 text-center">
-                        {formData.participants}
-                      </span>
-                      <button
-                        onClick={() =>
-                          setFormData({ ...formData, participants: Math.min(10, formData.participants + 1) })
-                        }
-                        className="w-12 h-12 rounded-xl border border-border hover:border-accent-emerald/50 flex items-center justify-center text-xl font-bold cursor-pointer transition-colors"
-                      >
-                        +
-                      </button>
-                      <span className="text-muted-foreground">
-                        {formData.participants !== 1 ? t("booking.jumpers") : t("booking.jumper")}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="border-t border-border pt-6">
-                    <h4 className="text-lg font-semibold text-foreground mb-4">{t("booking.contactDetails")}</h4>
-
-                    {/* Name */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
-                      <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                          {t("booking.firstName.label")}
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.firstName}
-                          onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
-                          maxLength={50}
-                          className={`w-full px-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
-                            validationErrors.firstName
-                              ? "border-red-500 focus:border-red-500"
-                              : "border-border focus:border-accent-emerald"
-                          }`}
-                          placeholder="John"
-                        />
-                        {validationErrors.firstName && (
-                          <p className="text-red-500 text-xs mt-1">{validationErrors.firstName}</p>
+                              {formData.service === service.id && (
+                                <div className="mt-4 pt-4 border-t border-border">
+                                  <div className="flex items-center gap-2 text-accent-emerald">
+                                    <Check className="w-4 h-4" />
+                                    <span className="text-sm font-medium">{t("booking.selected")}</span>
+                                  </div>
+                                </div>
+                              )}
+                            </button>
+                          );
+                        })}
+                        {(!locationServices || locationServices.length === 0) && !servicesLoading && (
+                          <div className="text-center py-8">
+                            <p className="text-muted-foreground">{t("booking.noServices")}</p>
+                          </div>
                         )}
                       </div>
-                      <div>
-                        <label className="block text-sm font-medium text-foreground mb-2">
-                          {t("booking.lastName.label")}
-                        </label>
-                        <input
-                          type="text"
-                          value={formData.lastName}
-                          onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
-                          maxLength={50}
-                          className={`w-full px-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
-                            validationErrors.lastName
-                              ? "border-red-500 focus:border-red-500"
-                              : "border-border focus:border-accent-emerald"
-                          }`}
-                          placeholder="Chan"
-                        />
-                        {validationErrors.lastName && (
-                          <p className="text-red-500 text-xs mt-1">{validationErrors.lastName}</p>
-                        )}
-                      </div>
+                    )}
+                  </motion.div>
+                )}
+
+                {/* Step 3: Date & Details */}
+                {currentStep === "details" && (
+                  <motion.div
+                    key="details"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="space-y-6"
+                  >
+                    <div className="text-center mb-8">
+                      <CalendarIcon className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold text-foreground">{t("booking.whenJump")}</h3>
+                      <p className="text-muted-foreground">{t("booking.selectDateDetails")}</p>
                     </div>
 
-                    {/* Email */}
-                    <div className="mb-4">
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        {t("booking.email.label")}
-                      </label>
-                      <div className="relative">
-                        <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                        <input
-                          type="email"
-                          value={formData.email}
-                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                          maxLength={255}
-                          className={`w-full pl-12 pr-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
-                            validationErrors.email
-                              ? "border-red-500 focus:border-red-500"
-                              : "border-border focus:border-accent-emerald"
-                          }`}
-                          placeholder="sample@gmail.com"
-                        />
-                      </div>
-                      {validationErrors.email && <p className="text-red-500 text-xs mt-1">{validationErrors.email}</p>}
-                    </div>
-
-                    {/* Phone */}
-                    <div className="mb-4">
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        {t("booking.phone.label")}
-                      </label>
-                      <div className="relative">
-                        <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
-                        <input
-                          type="tel"
-                          value={formData.phone}
-                          onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                          maxLength={20}
-                          className={`w-full pl-12 pr-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
-                            validationErrors.phone
-                              ? "border-red-500 focus:border-red-500"
-                              : "border-border focus:border-accent-emerald"
-                          }`}
-                          placeholder="+852 9876 5432"
-                        />
-                      </div>
-                      {validationErrors.phone && <p className="text-red-500 text-xs mt-1">{validationErrors.phone}</p>}
-                    </div>
-
-                    {/* Notes */}
-                    <div className="mb-4">
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        {t("booking.specialRequests")}
-                      </label>
-                      <textarea
-                        value={formData.notes}
-                        onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                        rows={3}
-                        maxLength={500}
-                        className={`w-full px-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all resize-none ${
-                          validationErrors.notes
-                            ? "border-red-500 focus:border-red-500"
-                            : "border-border focus:border-accent-emerald"
-                        }`}
-                        placeholder={t("booking.specialRequestsPlaceholder")}
-                      />
-                      <div className="flex justify-between mt-1">
-                        {validationErrors.notes ? (
-                          <p className="text-red-500 text-xs">{validationErrors.notes}</p>
-                        ) : (
-                          <span />
-                        )}
-                        <p className="text-muted-foreground text-xs">{formData.notes.length}/500</p>
-                      </div>
-                    </div>
-
-                    {/* Date of Birth */}
-                    <div className="mb-4">
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        {t("booking.dob.label")}
+                    {/* Date Selection */}
+                    <div className="overflow-hidden">
+                      <label className="block text-lg font-semibold text-foreground mb-4">
+                        {t("booking.preferredDate")}
                       </label>
                       <Popover>
                         <PopoverTrigger asChild>
                           <Button
                             variant="outline"
                             className={cn(
-                              "w-full justify-start text-left font-normal h-12 rounded-xl border bg-background text-foreground hover:bg-muted",
-                              !formData.dateOfBirth && "text-muted-foreground",
-                              "border-border"
+                              "w-full justify-start text-left font-normal h-14 rounded-xl border bg-background text-foreground hover:bg-muted",
+                              !formData.date && "text-muted-foreground",
+                              validationErrors.date ? "border-red-500" : "border-border",
                             )}
                           >
                             <CalendarIcon className="mr-3 h-5 w-5 text-muted-foreground" />
-                            {formData.dateOfBirth ? (
-                              format(new Date(formData.dateOfBirth), "PPP", { locale: language === "zh-TW" ? zhTW : undefined })
+                            {formData.date ? (
+                              format(new Date(formData.date), "PPP", {
+                                locale: language === "zh-TW" ? zhTW : undefined,
+                              })
                             ) : (
-                              <span>{t("booking.dob.placeholder")}</span>
+                              <span>{t("booking.preferredDate")}</span>
                             )}
                           </Button>
                         </PopoverTrigger>
-                        <PopoverContent className="w-auto p-0 bg-card border border-border shadow-lg z-50" align="start">
+                        <PopoverContent
+                          className="w-auto p-0 bg-card border border-border shadow-lg z-50"
+                          align="start"
+                        >
                           <Calendar
                             mode="single"
-                            selected={formData.dateOfBirth ? new Date(formData.dateOfBirth) : undefined}
+                            selected={formData.date ? new Date(formData.date) : undefined}
                             onSelect={(date) => {
                               if (date) {
-                                setFormData({ ...formData, dateOfBirth: format(date, "yyyy-MM-dd") });
+                                setFormData({ ...formData, date: format(date, "yyyy-MM-dd") });
                               }
                             }}
-                            disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                            disabled={(date) => date < new Date()}
                             initialFocus
                             className={cn("p-3 pointer-events-auto")}
-                            captionLayout="dropdown-buttons"
-                            fromYear={1940}
-                            toYear={new Date().getFullYear()}
                           />
                         </PopoverContent>
                       </Popover>
-                      <p className="text-xs text-muted-foreground mt-1">{t("booking.dob.hint")}</p>
+                      {validationErrors.date && <p className="text-red-500 text-xs mt-1">{validationErrors.date}</p>}
                     </div>
 
-                    {/* Promotion Selection */}
-                    <div className="mb-4">
-                      <label className="block text-sm font-medium text-foreground mb-3">
-                        {t("booking.promo.label")}
-                      </label>
-                      <div className="space-y-3">
-                        {[
-                          { id: "BUDDY100", labelKey: "promo.group2.title", detail: "$100" },
-                          { id: "STUDENT100", labelKey: "promo.student.title", detail: "$100" },
-                          { id: "BDAY100", labelKey: "promo.birthday.title", detail: "$100" },
-                          { id: "EARLY10", labelKey: "promo.earlybird.title", detail: "10%" },
-                          { id: "RETURN150", labelKey: "promo.repeat.title", detail: "$150" },
-                        ].map((promo) => (
-                          <label
-                            key={promo.id}
-                            className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
-                              formData.selectedPromos.includes(promo.id)
-                                ? "border-accent-emerald bg-accent-emerald/5"
-                                : "border-border hover:border-accent-emerald/30"
-                            }`}
-                          >
-                            <input
-                              type="checkbox"
-                              checked={formData.selectedPromos.includes(promo.id)}
-                              onChange={(e) => {
-                                if (e.target.checked) {
-                                  setFormData({ ...formData, selectedPromos: [...formData.selectedPromos, promo.id] });
-                                } else {
-                                  setFormData({ ...formData, selectedPromos: formData.selectedPromos.filter((p) => p !== promo.id) });
-                                }
-                              }}
-                              className="w-4 h-4 rounded border-border text-accent-emerald focus:ring-accent-emerald accent-[hsl(var(--accent-emerald))]"
-                            />
-                            <span className="flex-1 text-sm font-medium text-foreground">{t(promo.labelKey)}</span>
-                            <span className="text-xs font-bold text-accent-orange">{promo.detail} {t("promo.off")}</span>
-                          </label>
-                        ))}
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-2">{t("booking.promo.hint")}</p>
-                    </div>
-
-                    {/* Referral Code */}
+                    {/* Participants */}
                     <div>
-                      <label className="block text-sm font-medium text-foreground mb-2">
-                        {t("referral.label")}
+                      <label className="block text-lg font-semibold text-foreground mb-4">
+                        {t("booking.numberOfJumpers")}
                       </label>
-                      <input
-                        type="text"
-                        value={formData.referralCode}
-                        onChange={(e) => setFormData({ ...formData, referralCode: e.target.value.toUpperCase() })}
-                        maxLength={8}
-                        className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald outline-none transition-all uppercase tracking-widest"
-                        placeholder={t("referral.placeholder")}
-                      />
-                      <p className="text-xs text-muted-foreground mt-1">
-                        {t("referral.description")}
-                      </p>
-                    </div>
-                  </div>
-                </motion.div>
-              )}
-
-              {/* Step 4: Preview */}
-              {currentStep === "preview" && (
-                <motion.div
-                  key="preview"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
-                >
-                  <div className="text-center mb-8">
-                    <Check className="w-16 h-16 text-accent-emerald mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-foreground">{t("booking.reviewBooking")}</h3>
-                    <p className="text-muted-foreground">{t("booking.confirmDetails")}</p>
-                  </div>
-
-                  <div className="bg-accent-emerald/5 rounded-xl p-6 space-y-4">
-                    <div className="grid grid-cols-2 gap-4 text-sm">
-                      <div>
-                        <p className="text-muted-foreground">{t("booking.location")}</p>
-                        <p className="font-semibold text-foreground">{translatedSelectedLocation?.Name}</p>
-                        <p className="text-xs text-muted-foreground">
-                          {translatedSelectedLocation?.City}, {translatedSelectedLocation?.country}
-                        </p>
-                      </div>
-                      <div>
-                        <p className="text-muted-foreground">{t("booking.service")}</p>
-                        <p className="font-semibold text-foreground"><ServiceNameDisplay name={translatedSelectedService?.service_name || ''} /></p>
-                        <p className="text-xs text-muted-foreground">{selectedService?.price_display}</p>
-                      </div>
-                      <div>
-                        <p className="text-muted-foreground">{t("booking.date")}</p>
-                        <p className="font-semibold text-foreground">{formData.date}</p>
-                      </div>
-                      <div>
-                        <p className="text-muted-foreground">{t("booking.participants")}</p>
-                        <p className="font-semibold text-foreground">
-                          {formData.participants}{" "}
+                      <div className="flex items-center gap-4">
+                        <button
+                          onClick={() =>
+                            setFormData({ ...formData, participants: Math.max(1, formData.participants - 1) })
+                          }
+                          className="w-12 h-12 rounded-xl border border-border hover:border-accent-emerald/50 flex items-center justify-center text-xl font-bold cursor-pointer transition-colors"
+                        >
+                          -
+                        </button>
+                        <span className="text-2xl font-bold text-foreground w-12 text-center">
+                          {formData.participants}
+                        </span>
+                        <button
+                          onClick={() =>
+                            setFormData({ ...formData, participants: Math.min(10, formData.participants + 1) })
+                          }
+                          className="w-12 h-12 rounded-xl border border-border hover:border-accent-emerald/50 flex items-center justify-center text-xl font-bold cursor-pointer transition-colors"
+                        >
+                          +
+                        </button>
+                        <span className="text-muted-foreground">
                           {formData.participants !== 1 ? t("booking.jumpers") : t("booking.jumper")}
-                        </p>
+                        </span>
                       </div>
                     </div>
-                    <div className="border-t border-border pt-4">
-                      <p className="text-muted-foreground text-sm">{t("booking.contact")}</p>
-                      <p className="font-semibold text-foreground">
-                        {formData.firstName} {formData.lastName}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        {formData.email} • {formData.phone}
-                      </p>
-                      {formData.dateOfBirth && (
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {t("booking.dob.label")}: {formData.dateOfBirth}
-                        </p>
-                      )}
-                    </div>
-                    {formData.selectedPromos.length > 0 && (
-                      <div className="border-t border-border pt-4">
-                        <p className="text-muted-foreground text-sm mb-2">{t("booking.promo.label")}</p>
-                        <div className="flex flex-wrap gap-2">
-                          {formData.selectedPromos.map((code) => (
-                            <span key={code} className="text-xs bg-accent-orange/10 text-accent-orange font-bold px-3 py-1 rounded-full">
-                              {code}
-                            </span>
-                          ))}
+
+                    <div className="border-t border-border pt-6">
+                      <h4 className="text-lg font-semibold text-foreground mb-4">{t("booking.contactDetails")}</h4>
+
+                      {/* Name */}
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+                        <div>
+                          <label className="block text-sm font-medium text-foreground mb-2">
+                            {t("booking.firstName.label")}
+                          </label>
+                          <input
+                            type="text"
+                            value={formData.firstName}
+                            onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                            maxLength={50}
+                            className={`w-full px-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
+                              validationErrors.firstName
+                                ? "border-red-500 focus:border-red-500"
+                                : "border-border focus:border-accent-emerald"
+                            }`}
+                            placeholder="John"
+                          />
+                          {validationErrors.firstName && (
+                            <p className="text-red-500 text-xs mt-1">{validationErrors.firstName}</p>
+                          )}
+                        </div>
+                        <div>
+                          <label className="block text-sm font-medium text-foreground mb-2">
+                            {t("booking.lastName.label")}
+                          </label>
+                          <input
+                            type="text"
+                            value={formData.lastName}
+                            onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                            maxLength={50}
+                            className={`w-full px-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
+                              validationErrors.lastName
+                                ? "border-red-500 focus:border-red-500"
+                                : "border-border focus:border-accent-emerald"
+                            }`}
+                            placeholder="Chan"
+                          />
+                          {validationErrors.lastName && (
+                            <p className="text-red-500 text-xs mt-1">{validationErrors.lastName}</p>
+                          )}
                         </div>
                       </div>
+
+                      {/* Date of Birth */}
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium text-foreground mb-2">
+                          {t("booking.dob.label")}
+                        </label>
+                        <Popover>
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="outline"
+                              className={cn(
+                                "w-full justify-start text-left font-normal h-12 rounded-xl border bg-background text-foreground hover:bg-muted",
+                                !formData.dateOfBirth && "text-muted-foreground",
+                                "border-border",
+                              )}
+                            >
+                              <CalendarIcon className="mr-3 h-5 w-5 text-muted-foreground" />
+                              {formData.dateOfBirth ? (
+                                format(new Date(formData.dateOfBirth), "PPP", {
+                                  locale: language === "zh-TW" ? zhTW : undefined,
+                                })
+                              ) : (
+                                <span>{t("booking.dob.placeholder")}</span>
+                              )}
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent
+                            className="w-auto p-0 bg-card border border-border shadow-lg z-50"
+                            align="start"
+                          >
+                            <Calendar
+                              mode="single"
+                              selected={formData.dateOfBirth ? new Date(formData.dateOfBirth) : undefined}
+                              onSelect={(date) => {
+                                if (date) {
+                                  setFormData({ ...formData, dateOfBirth: format(date, "yyyy-MM-dd") });
+                                }
+                              }}
+                              disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                              initialFocus
+                              className={cn("p-3 pointer-events-auto")}
+                              captionLayout="dropdown-buttons"
+                              fromYear={1940}
+                              toYear={new Date().getFullYear()}
+                            />
+                          </PopoverContent>
+                        </Popover>
+                        <p className="text-xs text-muted-foreground mt-1">{t("booking.dob.hint")}</p>
+                      </div>
+
+                      {/* Email */}
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium text-foreground mb-2">
+                          {t("booking.email.label")}
+                        </label>
+                        <div className="relative">
+                          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                          <input
+                            type="email"
+                            value={formData.email}
+                            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                            maxLength={255}
+                            className={`w-full pl-12 pr-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
+                              validationErrors.email
+                                ? "border-red-500 focus:border-red-500"
+                                : "border-border focus:border-accent-emerald"
+                            }`}
+                            placeholder="sample@gmail.com"
+                          />
+                        </div>
+                        {validationErrors.email && (
+                          <p className="text-red-500 text-xs mt-1">{validationErrors.email}</p>
+                        )}
+                      </div>
+
+                      {/* Phone */}
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium text-foreground mb-2">
+                          {t("booking.phone.label")}
+                        </label>
+                        <div className="relative">
+                          <Phone className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                          <input
+                            type="tel"
+                            value={formData.phone}
+                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                            maxLength={20}
+                            className={`w-full pl-12 pr-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all ${
+                              validationErrors.phone
+                                ? "border-red-500 focus:border-red-500"
+                                : "border-border focus:border-accent-emerald"
+                            }`}
+                            placeholder="+852 9876 5432"
+                          />
+                        </div>
+                        {validationErrors.phone && (
+                          <p className="text-red-500 text-xs mt-1">{validationErrors.phone}</p>
+                        )}
+                      </div>
+
+                      {/* Notes */}
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium text-foreground mb-2">
+                          {t("booking.specialRequests")}
+                        </label>
+                        <textarea
+                          value={formData.notes}
+                          onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+                          rows={3}
+                          maxLength={500}
+                          className={`w-full px-4 py-3 rounded-xl border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 outline-none transition-all resize-none ${
+                            validationErrors.notes
+                              ? "border-red-500 focus:border-red-500"
+                              : "border-border focus:border-accent-emerald"
+                          }`}
+                          placeholder={t("booking.specialRequestsPlaceholder")}
+                        />
+                        <div className="flex justify-between mt-1">
+                          {validationErrors.notes ? (
+                            <p className="text-red-500 text-xs">{validationErrors.notes}</p>
+                          ) : (
+                            <span />
+                          )}
+                          <p className="text-muted-foreground text-xs">{formData.notes.length}/500</p>
+                        </div>
+                      </div>
+
+                      {/* Promotion Selection */}
+                      <div className="mb-4">
+                        <label className="block text-sm font-medium text-foreground mb-3">
+                          {t("booking.promo.label")}
+                        </label>
+                        <div className="space-y-3">
+                          {[
+                            { id: "BUDDY100", labelKey: "promo.group2.title", detail: "$100" },
+                            { id: "STUDENT100", labelKey: "promo.student.title", detail: "$100" },
+                            { id: "BDAY100", labelKey: "promo.birthday.title", detail: "$100" },
+                            { id: "EARLY10", labelKey: "promo.earlybird.title", detail: "10%" },
+                            { id: "RETURN150", labelKey: "promo.repeat.title", detail: "$150" },
+                          ].map((promo) => (
+                            <label
+                              key={promo.id}
+                              className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
+                                formData.selectedPromos.includes(promo.id)
+                                  ? "border-accent-emerald bg-accent-emerald/5"
+                                  : "border-border hover:border-accent-emerald/30"
+                              }`}
+                            >
+                              <input
+                                type="checkbox"
+                                checked={formData.selectedPromos.includes(promo.id)}
+                                onChange={(e) => {
+                                  if (e.target.checked) {
+                                    setFormData({
+                                      ...formData,
+                                      selectedPromos: [...formData.selectedPromos, promo.id],
+                                    });
+                                  } else {
+                                    setFormData({
+                                      ...formData,
+                                      selectedPromos: formData.selectedPromos.filter((p) => p !== promo.id),
+                                    });
+                                  }
+                                }}
+                                className="w-4 h-4 rounded border-border text-accent-emerald focus:ring-accent-emerald accent-[hsl(var(--accent-emerald))]"
+                              />
+                              <span className="flex-1 text-sm font-medium text-foreground">{t(promo.labelKey)}</span>
+                              <span className="text-xs font-bold text-accent-orange">
+                                {promo.detail} {t("promo.off")}
+                              </span>
+                            </label>
+                          ))}
+                        </div>
+                        <p className="text-xs text-muted-foreground mt-2">{t("booking.promo.hint")}</p>
+                      </div>
+
+                      {/* Referral Code */}
+                      <div>
+                        <label className="block text-sm font-medium text-foreground mb-2">{t("referral.label")}</label>
+                        <input
+                          type="text"
+                          value={formData.referralCode}
+                          onChange={(e) => setFormData({ ...formData, referralCode: e.target.value.toUpperCase() })}
+                          maxLength={8}
+                          className="w-full px-4 py-3 rounded-xl border border-border bg-background text-foreground focus:ring-2 focus:ring-accent-emerald/20 focus:border-accent-emerald outline-none transition-all uppercase tracking-widest"
+                          placeholder={t("referral.placeholder")}
+                        />
+                        <p className="text-xs text-muted-foreground mt-1">{t("referral.description")}</p>
+                      </div>
+                    </div>
+                  </motion.div>
+                )}
+
+                {/* Step 4: Preview */}
+                {currentStep === "preview" && (
+                  <motion.div
+                    key="preview"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="space-y-6"
+                  >
+                    <div className="text-center mb-8">
+                      <Check className="w-16 h-16 text-accent-emerald mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold text-foreground">{t("booking.reviewBooking")}</h3>
+                      <p className="text-muted-foreground">{t("booking.confirmDetails")}</p>
+                    </div>
+
+                    <div className="bg-accent-emerald/5 rounded-xl p-6 space-y-4">
+                      <div className="grid grid-cols-2 gap-4 text-sm">
+                        <div>
+                          <p className="text-muted-foreground">{t("booking.location")}</p>
+                          <p className="font-semibold text-foreground">{translatedSelectedLocation?.Name}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {translatedSelectedLocation?.City}, {translatedSelectedLocation?.country}
+                          </p>
+                        </div>
+                        <div>
+                          <p className="text-muted-foreground">{t("booking.service")}</p>
+                          <p className="font-semibold text-foreground">
+                            <ServiceNameDisplay name={translatedSelectedService?.service_name || ""} />
+                          </p>
+                          <p className="text-xs text-muted-foreground">{selectedService?.price_display}</p>
+                        </div>
+                        <div>
+                          <p className="text-muted-foreground">{t("booking.date")}</p>
+                          <p className="font-semibold text-foreground">{formData.date}</p>
+                        </div>
+                        <div>
+                          <p className="text-muted-foreground">{t("booking.participants")}</p>
+                          <p className="font-semibold text-foreground">
+                            {formData.participants}{" "}
+                            {formData.participants !== 1 ? t("booking.jumpers") : t("booking.jumper")}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="border-t border-border pt-4">
+                        <p className="text-muted-foreground text-sm">{t("booking.contact")}</p>
+                        <p className="font-semibold text-foreground">
+                          {formData.firstName} {formData.lastName}
+                        </p>
+                        <p className="text-sm text-muted-foreground">
+                          {formData.email} • {formData.phone}
+                        </p>
+                        {formData.dateOfBirth && (
+                          <p className="text-sm text-muted-foreground mt-1">
+                            {t("booking.dob.label")}: {formData.dateOfBirth}
+                          </p>
+                        )}
+                      </div>
+                      {formData.selectedPromos.length > 0 && (
+                        <div className="border-t border-border pt-4">
+                          <p className="text-muted-foreground text-sm mb-2">{t("booking.promo.label")}</p>
+                          <div className="flex flex-wrap gap-2">
+                            {formData.selectedPromos.map((code) => (
+                              <span
+                                key={code}
+                                className="text-xs bg-accent-orange/10 text-accent-orange font-bold px-3 py-1 rounded-full"
+                              >
+                                {code}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <p className="text-sm text-muted-foreground text-center">{t("booking.termsDisclaimer")}</p>
+                  </motion.div>
+                )}
+
+                {/* Step 5: Payment */}
+                {currentStep === "payment" && (
+                  <motion.div
+                    key="payment"
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="space-y-6"
+                  >
+                    <div className="text-center mb-8">
+                      <CreditCard className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
+                      <h3 className="text-2xl font-bold text-foreground">{t("booking.paymentTitle")}</h3>
+                      <p className="text-muted-foreground">{t("booking.paymentSubtitle")}</p>
+                    </div>
+
+                    <div className="bg-accent-emerald/5 rounded-xl p-6 mb-4">
+                      <div className="flex justify-between items-center">
+                        <span className="text-foreground font-medium">{t("booking.depositAmount")}</span>
+                        <span className="text-2xl font-black text-foreground">HKD $500</span>
+                      </div>
+                      <p className="text-sm text-muted-foreground mt-2">{t("booking.depositNote")}</p>
+                    </div>
+
+                    {isPaymentLoading ? (
+                      <div className="flex items-center justify-center py-12">
+                        <Loader2 className="w-8 h-8 animate-spin text-accent-emerald" />
+                        <span className="ml-3 text-muted-foreground">{t("booking.paymentProcessing")}</span>
+                      </div>
+                    ) : (
+                      <div ref={paymentContainerRef} className="min-h-[300px]" />
                     )}
-                  </div>
 
-                  <p className="text-sm text-muted-foreground text-center">{t("booking.termsDisclaimer")}</p>
-                </motion.div>
-              )}
+                    {isPaymentComplete && (
+                      <div className="flex items-center gap-2 text-accent-emerald justify-center">
+                        <Check className="w-5 h-5" />
+                        <span className="font-medium">{t("booking.paymentSuccess")}</span>
+                      </div>
+                    )}
 
-              {/* Step 5: Payment */}
-              {currentStep === "payment" && (
-                <motion.div
-                  key="payment"
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
-                  className="space-y-6"
-                >
-                  <div className="text-center mb-8">
-                    <CreditCard className="w-12 h-12 text-accent-emerald mx-auto mb-4" />
-                    <h3 className="text-2xl font-bold text-foreground">{t("booking.paymentTitle")}</h3>
-                    <p className="text-muted-foreground">{t("booking.paymentSubtitle")}</p>
-                  </div>
-
-                  <div className="bg-accent-emerald/5 rounded-xl p-6 mb-4">
-                    <div className="flex justify-between items-center">
-                      <span className="text-foreground font-medium">{t("booking.depositAmount")}</span>
-                      <span className="text-2xl font-black text-foreground">HKD $500</span>
-                    </div>
-                    <p className="text-sm text-muted-foreground mt-2">{t("booking.depositNote")}</p>
-                  </div>
-
-                  {isPaymentLoading ? (
-                    <div className="flex items-center justify-center py-12">
-                      <Loader2 className="w-8 h-8 animate-spin text-accent-emerald" />
-                      <span className="ml-3 text-muted-foreground">{t("booking.paymentProcessing")}</span>
-                    </div>
-                  ) : (
-                    <div ref={paymentContainerRef} className="min-h-[300px]" />
-                  )}
-
-                  {isPaymentComplete && (
-                    <div className="flex items-center gap-2 text-accent-emerald justify-center">
-                      <Check className="w-5 h-5" />
-                      <span className="font-medium">{t("booking.paymentSuccess")}</span>
-                    </div>
-                  )}
-
-                  {isSubmitting && (
-                    <div className="flex items-center justify-center gap-2 text-muted-foreground">
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      <span>{t("booking.submitting")}</span>
-                    </div>
-                  )}
-                </motion.div>
-              )}
+                    {isSubmitting && (
+                      <div className="flex items-center justify-center gap-2 text-muted-foreground">
+                        <Loader2 className="w-5 h-5 animate-spin" />
+                        <span>{t("booking.submitting")}</span>
+                      </div>
+                    )}
+                  </motion.div>
+                )}
               </AnimatePresence>
             </div>
 
             {/* Navigation Buttons - Always visible at bottom */}
             <div className="flex items-center justify-between p-6 lg:p-8 border-t border-border bg-card rounded-b-3xl">
               {currentStep !== "location" ? (
-              <button
+                <button
                   type="button"
                   onClick={handleBack}
                   className="flex items-center gap-2 px-4 py-2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
@@ -1337,7 +1362,7 @@ export function BookingSection() {
               )}
 
               {currentStep !== "payment" ? (
-              <button
+                <button
                   type="button"
                   onClick={handleNext}
                   disabled={!canProceed()}
