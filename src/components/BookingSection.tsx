@@ -66,6 +66,8 @@ interface BookingFormData {
   phone: string;
   notes: string;
   referralCode: string;
+  dateOfBirth: string;
+  selectedPromos: string[];
 }
 
 type Step = "location" | "service" | "details" | "preview" | "payment";
@@ -83,6 +85,8 @@ export function BookingSection() {
     phone: "",
     notes: "",
     referralCode: "",
+    dateOfBirth: "",
+    selectedPromos: [],
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isComplete, setIsComplete] = useState(false);
@@ -195,6 +199,8 @@ export function BookingSection() {
       phone: "",
       notes: "",
       referralCode: "",
+      dateOfBirth: "",
+      selectedPromos: [],
     });
     setCurrentStep("location");
     setIsComplete(false);
@@ -1060,7 +1066,7 @@ export function BookingSection() {
                     </div>
 
                     {/* Notes */}
-                    <div>
+                    <div className="mb-4">
                       <label className="block text-sm font-medium text-foreground mb-2">
                         {t("booking.specialRequests")}
                       </label>
@@ -1084,6 +1090,91 @@ export function BookingSection() {
                         )}
                         <p className="text-muted-foreground text-xs">{formData.notes.length}/500</p>
                       </div>
+                    </div>
+
+                    {/* Date of Birth */}
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium text-foreground mb-2">
+                        {t("booking.dob.label")}
+                      </label>
+                      <Popover>
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            className={cn(
+                              "w-full justify-start text-left font-normal h-12 rounded-xl border bg-background text-foreground hover:bg-muted",
+                              !formData.dateOfBirth && "text-muted-foreground",
+                              "border-border"
+                            )}
+                          >
+                            <CalendarIcon className="mr-3 h-5 w-5 text-muted-foreground" />
+                            {formData.dateOfBirth ? (
+                              format(new Date(formData.dateOfBirth), "PPP", { locale: language === "zh-TW" ? zhTW : undefined })
+                            ) : (
+                              <span>{t("booking.dob.placeholder")}</span>
+                            )}
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-auto p-0 bg-card border border-border shadow-lg z-50" align="start">
+                          <Calendar
+                            mode="single"
+                            selected={formData.dateOfBirth ? new Date(formData.dateOfBirth) : undefined}
+                            onSelect={(date) => {
+                              if (date) {
+                                setFormData({ ...formData, dateOfBirth: format(date, "yyyy-MM-dd") });
+                              }
+                            }}
+                            disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
+                            initialFocus
+                            className={cn("p-3 pointer-events-auto")}
+                            captionLayout="dropdown-buttons"
+                            fromYear={1940}
+                            toYear={new Date().getFullYear()}
+                          />
+                        </PopoverContent>
+                      </Popover>
+                      <p className="text-xs text-muted-foreground mt-1">{t("booking.dob.hint")}</p>
+                    </div>
+
+                    {/* Promotion Selection */}
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium text-foreground mb-3">
+                        {t("booking.promo.label")}
+                      </label>
+                      <div className="space-y-3">
+                        {[
+                          { id: "BUDDY100", labelKey: "promo.group2.title", detail: "$100" },
+                          { id: "STUDENT100", labelKey: "promo.student.title", detail: "$100" },
+                          { id: "BDAY100", labelKey: "promo.birthday.title", detail: "$100" },
+                          { id: "EARLY10", labelKey: "promo.earlybird.title", detail: "10%" },
+                          { id: "RETURN150", labelKey: "promo.repeat.title", detail: "$150" },
+                        ].map((promo) => (
+                          <label
+                            key={promo.id}
+                            className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
+                              formData.selectedPromos.includes(promo.id)
+                                ? "border-accent-emerald bg-accent-emerald/5"
+                                : "border-border hover:border-accent-emerald/30"
+                            }`}
+                          >
+                            <input
+                              type="checkbox"
+                              checked={formData.selectedPromos.includes(promo.id)}
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setFormData({ ...formData, selectedPromos: [...formData.selectedPromos, promo.id] });
+                                } else {
+                                  setFormData({ ...formData, selectedPromos: formData.selectedPromos.filter((p) => p !== promo.id) });
+                                }
+                              }}
+                              className="w-4 h-4 rounded border-border text-accent-emerald focus:ring-accent-emerald accent-[hsl(var(--accent-emerald))]"
+                            />
+                            <span className="flex-1 text-sm font-medium text-foreground">{t(promo.labelKey)}</span>
+                            <span className="text-xs font-bold text-accent-orange">{promo.detail} {t("promo.off")}</span>
+                          </label>
+                        ))}
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-2">{t("booking.promo.hint")}</p>
                     </div>
 
                     {/* Referral Code */}
@@ -1156,7 +1247,24 @@ export function BookingSection() {
                       <p className="text-sm text-muted-foreground">
                         {formData.email} • {formData.phone}
                       </p>
+                      {formData.dateOfBirth && (
+                        <p className="text-sm text-muted-foreground mt-1">
+                          {t("booking.dob.label")}: {formData.dateOfBirth}
+                        </p>
+                      )}
                     </div>
+                    {formData.selectedPromos.length > 0 && (
+                      <div className="border-t border-border pt-4">
+                        <p className="text-muted-foreground text-sm mb-2">{t("booking.promo.label")}</p>
+                        <div className="flex flex-wrap gap-2">
+                          {formData.selectedPromos.map((code) => (
+                            <span key={code} className="text-xs bg-accent-orange/10 text-accent-orange font-bold px-3 py-1 rounded-full">
+                              {code}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   <p className="text-sm text-muted-foreground text-center">{t("booking.termsDisclaimer")}</p>

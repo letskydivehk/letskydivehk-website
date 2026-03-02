@@ -6,6 +6,7 @@ import { ArrowLeft, Users, Tag, Calendar, ChevronRight, GraduationCap, Cake, Clo
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Footer } from "@/components/Footer";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
+import { toast } from "sonner";
 
 const promotions = [
   {
@@ -17,6 +18,7 @@ const promotions = [
     termsKey: "promo.group2.terms",
     highlight: "$100",
     highlightLabelKey: "promo.perPerson",
+    promoCode: "BUDDY100",
     active: true,
   },
   {
@@ -28,6 +30,7 @@ const promotions = [
     termsKey: "promo.student.terms",
     highlight: "$100",
     highlightLabelKey: "promo.off",
+    promoCode: "STUDENT100",
     active: true,
   },
   {
@@ -39,6 +42,7 @@ const promotions = [
     termsKey: "promo.birthday.terms",
     highlight: "$100",
     highlightLabelKey: "promo.off",
+    promoCode: "BDAY100",
     active: true,
   },
   {
@@ -50,6 +54,7 @@ const promotions = [
     termsKey: "promo.earlybird.terms",
     highlight: "10%",
     highlightLabelKey: "promo.off",
+    promoCode: "EARLY10",
     active: true,
   },
   {
@@ -61,6 +66,7 @@ const promotions = [
     termsKey: "promo.repeat.terms",
     highlight: "$150",
     highlightLabelKey: "promo.off",
+    promoCode: "RETURN150",
     active: true,
   },
 ];
@@ -140,7 +146,7 @@ export default function Promotions() {
                   {/* Coupon Button */}
                   <button
                     onClick={handleClaimCoupon}
-                    className="group block w-full text-left bg-gradient-to-r from-accent-orange/10 to-accent-orange/5 border-2 border-dashed border-accent-orange/40 rounded-xl p-5 mb-6 hover:border-accent-orange hover:from-accent-orange/20 hover:to-accent-orange/10 transition-all duration-300 cursor-pointer"
+                    className="group block w-full text-left bg-gradient-to-r from-accent-orange/10 to-accent-orange/5 border-2 border-dashed border-accent-orange/40 rounded-xl p-5 mb-4 hover:border-accent-orange hover:from-accent-orange/20 hover:to-accent-orange/10 transition-all duration-300 cursor-pointer"
                   >
                     <div className="flex items-center gap-4">
                       <div className="text-4xl sm:text-5xl font-black text-accent-orange">{promo.highlight}</div>
@@ -154,6 +160,23 @@ export default function Promotions() {
                       </div>
                     </div>
                   </button>
+
+                  {/* Promo Code */}
+                  <div className="flex items-center gap-3 mb-6 px-1">
+                    <span className="text-sm text-muted-foreground">{t("promo.code")}:</span>
+                    <code className="bg-muted px-4 py-1.5 rounded-lg font-mono font-bold text-foreground tracking-widest text-sm border border-border">
+                      {promo.promoCode}
+                    </code>
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(promo.promoCode);
+                        toast.success(t("promo.codeCopied"));
+                      }}
+                      className="text-xs text-accent-orange hover:text-accent-orange/80 font-medium transition-colors cursor-pointer"
+                    >
+                      {t("promo.copyCode")}
+                    </button>
+                  </div>
 
                   {/* Terms */}
                 </div>

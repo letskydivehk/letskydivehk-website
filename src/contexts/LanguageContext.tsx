@@ -415,6 +415,16 @@ const translations: Record<Language, Record<string, string>> = {
     "promo.repeat.details": "Returning customers get $150 off their next jump with us.",
     "promo.repeat.terms":
       "Must have a previous completed booking with Let's Skydive HK. Discount applied upon verification of prior booking. Cannot be combined with other promotions.",
+    "promo.code": "Promo Code",
+    "promo.codeCopied": "Promo code copied!",
+    "promo.copyCode": "Copy",
+
+    // Booking - DOB & Promo
+    "booking.dob.label": "Date of Birth",
+    "booking.dob.placeholder": "Select your date of birth",
+    "booking.dob.hint": "Required for birthday promotions and age verification.",
+    "booking.promo.label": "Apply a Promotion (Optional)",
+    "booking.promo.hint": "Select any applicable promotions. Terms & conditions apply.",
 
     // Legal Pages
     "legal.backToHome": "Back to Home",
@@ -1098,6 +1108,14 @@ const translations: Record<Language, Record<string, string>> = {
     "promo.repeat.desc": "曾經與我們一起跳過？回來再跳更優惠！",
     "promo.repeat.details": "舊客戶下次跳傘即減 $150。",
     "promo.repeat.terms": "須曾於 Let's Skydive HK 完成預約。折扣經核實後適用，不可與其他優惠同時使用。",
+    "promo.code": "優惠碼",
+    "promo.codeCopied": "優惠碼已複製！",
+    "promo.copyCode": "複製",
+    "booking.dob.label": "出生日期",
+    "booking.dob.placeholder": "選擇出生日期",
+    "booking.dob.hint": "用於生日優惠及年齡驗證。",
+    "booking.promo.label": "套用優惠（可選）",
+    "booking.promo.hint": "選擇適用的優惠，須符合條款及細則。",
 
     // Legal Pages
     "legal.backToHome": "返回首頁",
@@ -1758,6 +1776,14 @@ const translations: Record<Language, Record<string, string>> = {
     "promo.repeat.desc": "曾经与我们一起跳过？回来再跳更优惠！",
     "promo.repeat.details": "老客户下次跳伞立减 $150。",
     "promo.repeat.terms": "须曾于 Let's Skydive HK 完成预约。折扣经核实后适用，不可与其他优惠同时使用。",
+    "promo.code": "优惠码",
+    "promo.codeCopied": "优惠码已复制！",
+    "promo.copyCode": "复制",
+    "booking.dob.label": "出生日期",
+    "booking.dob.placeholder": "选择出生日期",
+    "booking.dob.hint": "用于生日优惠及年龄验证。",
+    "booking.promo.label": "使用优惠（可选）",
+    "booking.promo.hint": "选择适用的优惠，须符合条款及细则。",
 
     // Legal Pages
     "legal.backToHome": "返回首页",
