@@ -2,7 +2,7 @@ import { SEO } from "@/components/SEO";
 import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Users, Tag, Calendar, ChevronRight } from "lucide-react";
+import { ArrowLeft, Users, Tag, Calendar, ChevronRight, GraduationCap, Cake, Clock, RotateCcw } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Footer } from "@/components/Footer";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
@@ -17,6 +17,50 @@ const promotions = [
     termsKey: "promo.group2.terms",
     highlight: "$100",
     highlightLabelKey: "promo.perPerson",
+    active: true,
+  },
+  {
+    id: "student-discount",
+    icon: GraduationCap,
+    titleKey: "promo.student.title",
+    descKey: "promo.student.desc",
+    detailsKey: "promo.student.details",
+    termsKey: "promo.student.terms",
+    highlight: "$100",
+    highlightLabelKey: "promo.off",
+    active: true,
+  },
+  {
+    id: "birthday-special",
+    icon: Cake,
+    titleKey: "promo.birthday.title",
+    descKey: "promo.birthday.desc",
+    detailsKey: "promo.birthday.details",
+    termsKey: "promo.birthday.terms",
+    highlight: "$100",
+    highlightLabelKey: "promo.off",
+    active: true,
+  },
+  {
+    id: "early-bird",
+    icon: Clock,
+    titleKey: "promo.earlybird.title",
+    descKey: "promo.earlybird.desc",
+    detailsKey: "promo.earlybird.details",
+    termsKey: "promo.earlybird.terms",
+    highlight: "10%",
+    highlightLabelKey: "promo.off",
+    active: true,
+  },
+  {
+    id: "repeat-jumper",
+    icon: RotateCcw,
+    titleKey: "promo.repeat.title",
+    descKey: "promo.repeat.desc",
+    detailsKey: "promo.repeat.details",
+    termsKey: "promo.repeat.terms",
+    highlight: "$150",
+    highlightLabelKey: "promo.off",
     active: true,
   },
 ];
