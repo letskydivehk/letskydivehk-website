@@ -1,5 +1,3 @@
-
-
 ## Add 4 New Promotions to the Promotions Page
 
 ### Overview
@@ -8,20 +6,20 @@ Add four new promotion cards to the existing Promotions page, alongside the curr
 
 ### New Promotions
 
-| # | Promotion | Discount | Condition |
-|---|-----------|----------|-----------|
-| 1 | Student Discount | $100 off | Show valid student ID |
-| 2 | Birthday Special | $100 off | Jump during your birthday month |
-| 3 | Early Bird | 10% off | Book 90+ days in advance |
-| 4 | Repeat Jumper | $150 off | Returning customers |
+| #   | Promotion        | Discount | Condition                       |
+| --- | ---------------- | -------- | ------------------------------- |
+| 1   | Student Discount | $100 off | Show valid student ID           |
+| 2   | Birthday Special | $100 off | Jump during your birthday month |
+| 3   | Early Bird       | 10% off  | Book 90+ days in advance        |
+| 4   | Repeat Jumper    | $150 off | Returning customers             |
 
 ### Files to Modify
 
-| File | Change |
-|---|---|
-| `src/pages/Promotions.tsx` | Add 4 new entries to the `promotions` array with appropriate icons |
-| `src/contexts/LanguageContext.tsx` | Add translation keys for all 4 promotions in EN, zh-TW, and zh-CN |
-| `src/pages/Home.tsx` | Update the homepage banner text to mention multiple deals (optional, keep as-is if you prefer highlighting Buddy Deal only) |
+| File                               | Change                                                                                                                      |
+| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
+| `src/pages/Promotions.tsx`         | Add 4 new entries to the `promotions` array with appropriate icons                                                          |
+| `src/contexts/LanguageContext.tsx` | Add translation keys for all 4 promotions in EN, zh-TW, and zh-CN                                                           |
+| `src/pages/Home.tsx`               | Update the homepage banner text to mention multiple deals (optional, keep as-is if you prefer highlighting Buddy Deal only) |
 
 ### Technical Details
 
@@ -82,7 +80,8 @@ const promotions = [
 **2. Translation keys (all 3 languages):**
 
 English:
-- `promo.off`: "Off"
+
+- `promo.off`: "Discount"
 - `promo.student.title`: "Student Discount"
 - `promo.student.desc`: "Show your valid student ID and save on your skydiving adventure!"
 - `promo.student.details`: "Students get $100 off any tandem skydive package with a valid student ID."
