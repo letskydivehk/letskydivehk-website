@@ -928,7 +928,7 @@ export function BookingSection() {
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent
-                          className="w-auto p-0 bg-card border border-border shadow-lg z-50"
+                          className="w-[var(--radix-popover-trigger-width)] p-0 bg-card border border-border shadow-lg z-50"
                           align="start"
                         >
                           <Calendar
@@ -941,7 +941,7 @@ export function BookingSection() {
                             }}
                             disabled={(date) => date < new Date()}
                             initialFocus
-                            className={cn("p-3 pointer-events-auto")}
+                            className={cn("p-3 pointer-events-auto w-full")}
                           />
                         </PopoverContent>
                       </Popover>
@@ -1052,7 +1052,7 @@ export function BookingSection() {
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent
-                            className="w-auto p-0 bg-card border border-border shadow-lg z-50"
+                            className="w-[var(--radix-popover-trigger-width)] p-0 bg-card border border-border shadow-lg z-50"
                             align="start"
                           >
                             <Calendar
@@ -1065,7 +1065,7 @@ export function BookingSection() {
                               }}
                               disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                               initialFocus
-                              className={cn("p-3 pointer-events-auto")}
+                              className={cn("p-3 pointer-events-auto w-full")}
                               captionLayout="dropdown-buttons"
                               fromYear={1940}
                               toYear={new Date().getFullYear()}
