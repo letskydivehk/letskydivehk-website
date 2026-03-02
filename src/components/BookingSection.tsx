@@ -15,6 +15,7 @@ import {
   Loader2,
   CreditCard,
 } from "lucide-react";
+import { ChevronLeft, ChevronRight, InfoIcon } from "lucide-react";
 import { format } from "date-fns";
 import { zhTW } from "date-fns/locale";
 import { useLocations, type Location } from "@/hooks/useLocations";
@@ -928,7 +929,7 @@ export function BookingSection() {
                           </Button>
                         </PopoverTrigger>
                         <PopoverContent
-                          className="w-[var(--radix-popover-trigger-width)] p-0 bg-card border border-border shadow-lg z-50"
+                          className="w-auto p-0 bg-card border border-border shadow-lg z-50"
                           align="start"
                         >
                           <Calendar
@@ -941,7 +942,7 @@ export function BookingSection() {
                             }}
                             disabled={(date) => date < new Date()}
                             initialFocus
-                            className={cn("p-3 pointer-events-auto w-full")}
+                            className={cn("p-3 pointer-events-auto")}
                           />
                         </PopoverContent>
                       </Popover>
@@ -1027,8 +1028,8 @@ export function BookingSection() {
                       </div>
 
                       {/* Date of Birth */}
-                      <div className="mb-4">
-                        <label className="block text-sm font-medium text-foreground mb-2">
+                      <div className="mb-6">
+                        <label className="block text-sm font-semibold text-foreground mb-2.5 tracking-wide">
                           {t("booking.dob.label")}
                         </label>
                         <Popover>
@@ -1036,24 +1037,35 @@ export function BookingSection() {
                             <Button
                               variant="outline"
                               className={cn(
-                                "w-full justify-start text-left font-normal h-12 rounded-xl border bg-background text-foreground hover:bg-muted",
+                                "w-full justify-start text-left font-normal h-12 px-4 rounded-xl border-2 transition-all duration-200",
+                                "bg-background text-foreground hover:bg-muted hover:border-primary/50 focus:border-primary focus:ring-2 focus:ring-primary/20",
                                 !formData.dateOfBirth && "text-muted-foreground",
-                                "border-border",
+                                formData.dateOfBirth
+                                  ? "border-primary/30 bg-primary/5"
+                                  : "border-border hover:border-muted-foreground/30",
                               )}
                             >
-                              <CalendarIcon className="mr-3 h-5 w-5 text-muted-foreground" />
-                              {formData.dateOfBirth ? (
-                                format(new Date(formData.dateOfBirth), "PPP", {
-                                  locale: language === "zh-TW" ? zhTW : undefined,
-                                })
-                              ) : (
-                                <span>{t("booking.dob.placeholder")}</span>
-                              )}
+                              <CalendarIcon
+                                className={cn(
+                                  "mr-3 h-5 w-5 transition-colors",
+                                  formData.dateOfBirth ? "text-primary" : "text-muted-foreground",
+                                )}
+                              />
+                              <span className="flex-1">
+                                {formData.dateOfBirth ? (
+                                  format(new Date(formData.dateOfBirth), "PPP", {
+                                    locale: language === "zh-TW" ? zhTW : undefined,
+                                  })
+                                ) : (
+                                  <span className="text-muted-foreground/80">{t("booking.dob.placeholder")}</span>
+                                )}
+                              </span>
                             </Button>
                           </PopoverTrigger>
                           <PopoverContent
-                            className="w-[var(--radix-popover-trigger-width)] p-0 bg-card border border-border shadow-lg z-50"
+                            className="w-auto p-0 bg-card border-2 border-border/50 shadow-xl rounded-xl overflow-hidden z-50"
                             align="start"
+                            sideOffset={8}
                           >
                             <Calendar
                               mode="single"
@@ -1065,16 +1077,36 @@ export function BookingSection() {
                               }}
                               disabled={(date) => date > new Date() || date < new Date("1900-01-01")}
                               initialFocus
-                              className={cn("p-3 pointer-events-auto w-full")}
+                              className={cn(
+                                "p-4 pointer-events-auto",
+                                // Custom calendar styling
+                                "[&_.rdp-month]:space-y-2",
+                                "[&_.rdp-caption]:text-foreground [&_.rdp-caption_label]:font-semibold [&_.rdp-caption_label]:text-base",
+                                "[&_.rdp-nav_button]:hover:bg-muted [&_.rdp-nav_button]:rounded-full [&_.rdp-nav_button]:transition-colors",
+                                "[&_.rdp-head_cell]:text-muted-foreground [&_.rdp-head_cell]:font-medium [&_.rdp-head_cell]:text-xs [&_.rdp-head_cell]:uppercase [&_.rdp-head_cell]:tracking-wider",
+                                "[&_.rdp-cell]:text-center",
+                                "[&_.rdp-button]:w-10 [&_.rdp-button]:h-10 [&_.rdp-button]:rounded-full [&_.rdp-button]:transition-all [&_.rdp-button]:duration-200",
+                                "[&_.rdp-button:hover]:bg-primary/10 [&_.rdp-button:hover]:border-primary/30",
+                                "[&_.rdp-button:focus]:bg-primary/10 [&_.rdp-button:focus]:ring-2 [&_.rdp-button:focus]:ring-primary/30 [&_.rdp-button:focus]:outline-none",
+                                "[&_.rdp-day_selected]:bg-primary [&_.rdp-day_selected]:text-primary-foreground [&_.rdp-day_selected]:hover:bg-primary/90 [&_.rdp-day_selected]:font-semibold",
+                                "[&_.rdp-day_today]:border-2 [&_.rdp-day_today]:border-primary [&_.rdp-day_today]:font-bold",
+                                "[&_.rdp-day_disabled]:text-muted-foreground/30 [&_.rdp-day_disabled]:cursor-not-allowed [&_.rdp-day_disabled:hover]:bg-transparent",
+                              )}
                               captionLayout="dropdown-buttons"
                               fromYear={1940}
                               toYear={new Date().getFullYear()}
+                              components={{
+                                IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
+                                IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
+                              }}
                             />
                           </PopoverContent>
                         </Popover>
-                        <p className="text-xs text-muted-foreground mt-1">{t("booking.dob.hint")}</p>
+                        <p className="text-xs text-muted-foreground/80 mt-2.5 italic flex items-center gap-1.5">
+                          <InfoIcon className="h-3.5 w-3.5" />
+                          {t("booking.dob.hint")}
+                        </p>
                       </div>
-
                       {/* Email */}
                       <div className="mb-4">
                         <label className="block text-sm font-medium text-foreground mb-2">
