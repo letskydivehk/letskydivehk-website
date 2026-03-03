@@ -137,35 +137,35 @@ export default function Promotions() {
                   </div>
                 )}
 
-                <div className="p-6 sm:p-8">
-                  {/* Icon + Title */}
-                  <div className="flex items-start gap-4 mb-6">
-                    <div className="flex-shrink-0 w-14 h-14 rounded-xl bg-accent-orange/10 flex items-center justify-center">
-                      <Icon className="w-7 h-7 text-accent-orange" />
-                    </div>
-                    <div className="flex-1">
-                      <h2 className="text-2xl font-bold mb-1">{t(promo.titleKey)}</h2>
-                      <p className="text-muted-foreground">{t(promo.descKey)}</p>
-                    </div>
-                  </div>
-
-                  {/* Coupon Button */}
+                <div className="p-5 sm:p-8">
+                  {/* Mobile: Row 1 - Discount + Claim Button */}
                   <button
                     onClick={handleClaimCoupon}
-                    className="group block w-full text-left bg-gradient-to-r from-accent-orange/10 to-accent-orange/5 border-2 border-dashed border-accent-orange/40 rounded-xl p-5 mb-4 hover:border-accent-orange hover:from-accent-orange/20 hover:to-accent-orange/10 transition-all duration-300 cursor-pointer"
+                    className="group block w-full text-left bg-gradient-to-r from-accent-orange/10 to-accent-orange/5 border-2 border-dashed border-accent-orange/40 rounded-xl p-4 sm:p-5 mb-4 hover:border-accent-orange hover:from-accent-orange/20 hover:to-accent-orange/10 transition-all duration-300 cursor-pointer"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className="text-4xl sm:text-5xl font-black text-accent-orange">{promo.highlight}</div>
-                      <div className="flex-1">
-                        <div className="font-semibold text-foreground text-lg">{t(promo.highlightLabelKey)}</div>
-                        <div className="text-sm text-muted-foreground">{t(promo.detailsKey)}</div>
+                    <div className="flex items-center justify-between gap-3">
+                      <div className="flex items-center gap-3">
+                        <div className="flex-shrink-0 w-10 h-10 sm:w-14 sm:h-14 rounded-xl bg-accent-orange/10 flex items-center justify-center">
+                          <Icon className="w-5 h-5 sm:w-7 sm:h-7 text-accent-orange" />
+                        </div>
+                        <div>
+                          <div className="text-3xl sm:text-5xl font-black text-accent-orange leading-none">{promo.highlight}</div>
+                          <div className="font-semibold text-foreground text-sm sm:text-lg">{t(promo.highlightLabelKey)}</div>
+                        </div>
                       </div>
-                      <div className="flex-shrink-0 bg-accent-orange text-white font-bold px-5 py-2.5 rounded-lg group-hover:scale-105 transition-transform duration-200 flex items-center gap-2">
+                      <div className="flex-shrink-0 bg-accent-orange text-white font-bold px-3 py-2 sm:px-5 sm:py-2.5 rounded-lg group-hover:scale-105 transition-transform duration-200 flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
                         {t("promo.claimCoupon")}
                         <ChevronRight className="w-4 h-4" />
                       </div>
                     </div>
                   </button>
+
+                  {/* Row 2 - Title + Description */}
+                  <div className="mb-4 px-1">
+                    <h2 className="text-xl sm:text-2xl font-bold mb-1">{t(promo.titleKey)}</h2>
+                    <p className="text-sm sm:text-base text-muted-foreground">{t(promo.descKey)}</p>
+                    <p className="text-xs sm:text-sm text-muted-foreground mt-1">{t(promo.detailsKey)}</p>
+                  </div>
 
                   {/* Promo Code */}
                   <div className="flex items-center gap-3 mb-6 px-1">
