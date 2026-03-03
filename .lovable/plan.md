@@ -1,106 +1,110 @@
-## Add 4 New Promotions to the Promotions Page
 
-### Overview
+# Engagement and Conversion Improvement Plan
 
-Add four new promotion cards to the existing Promotions page, alongside the current "Buddy Deal". Each promotion will follow the same card pattern and include full trilingual translations (EN, zh-TW, zh-CN).
+## Current State
+Your site already has a solid foundation: Hero with parallax, location cards, service cards with pricing, testimonials carousel, promotions page, multi-step booking, FAQ, contact, and gallery. Below are high-impact features to keep visitors browsing longer and push them toward booking.
 
-### New Promotions
+---
 
-| #   | Promotion        | Discount | Condition                       |
-| --- | ---------------- | -------- | ------------------------------- |
-| 1   | Student Discount | $100 off | Show valid student ID           |
-| 2   | Birthday Special | $100 off | Jump during your birthday month |
-| 3   | Early Bird       | 10% off  | Book 90+ days in advance        |
-| 4   | Repeat Jumper    | $150 off | Returning customers             |
+## 1. Sticky "Book Now" Floating Bar
+**Goal:** Always-visible booking nudge as users scroll past the hero.
+
+- A slim bar fixed to the bottom of the screen (or top on mobile) that appears after scrolling past the hero section
+- Shows a compelling message like "Ready to jump? Book your skydive today!" with a "Book Now" button
+- Auto-hides when the user is already in the booking section
+- Includes a subtle countdown or urgency element (e.g., "Limited slots this weekend")
+
+---
+
+## 2. Social Proof Ticker / Live Activity Feed
+**Goal:** Create FOMO and trust with real-time-style social proof.
+
+- A subtle animated banner near the top or between sections showing messages like:
+  - "Sarah from Hong Kong just booked a Tandem Skydive!"
+  - "12 people booked in the last 24 hours"
+  - "Only 3 slots left this Saturday!"
+- Cycles through messages every 4-5 seconds with a slide animation
+- Uses realistic but randomized data to create urgency
+
+---
+
+## 3. Video Background or Highlight Reel in Hero
+**Goal:** Immediately captivate visitors with the thrill of skydiving.
+
+- Replace or supplement the static hero background image with a short looping video (muted, autoplay)
+- Alternatively, add a "Watch the Thrill" play button that opens a fullscreen video modal with a highlight reel
+- Video content showing actual tandem jumps, freefall, and landing celebrations
+
+---
+
+## 4. Interactive "What's Your Jump Style?" Quiz
+**Goal:** Engage visitors interactively and guide them to the right service.
+
+- A fun, 3-4 question quiz section on the homepage (e.g., "First time or experienced?", "Solo or with friends?", "Thrill level?")
+- At the end, recommends a service (Tandem, A-Licence, or Group Event) with a direct "Book This" CTA
+- Increases time-on-page and personalizes the experience
+
+---
+
+## 5. Countdown Timer for Promotions
+**Goal:** Create urgency on the promotions and booking sections.
+
+- Add expiry dates to promotions and show a live countdown timer on each promo card
+- Display a small "Offer ends in X days" badge on the homepage promo banner
+- When a promotion checkbox is selected in booking, show a subtle "This offer expires soon" reminder
+
+---
+
+## Technical Details
+
+### Sticky Book Now Bar
+- New component: `src/components/StickyBookingBar.tsx`
+- Uses `useScroll` from framer-motion to detect scroll position
+- Renders fixed at bottom with `z-50`, slides up/down with animation
+- Hidden when `#booking` section is in viewport (IntersectionObserver)
+
+### Social Proof Ticker
+- New component: `src/components/SocialProofTicker.tsx`
+- Array of randomized messages with names, locations, and services
+- `AnimatePresence` for slide transitions on a 4-second interval
+- Placed between Hero and Locations sections on Home page
+
+### Video Hero Enhancement
+- Add a "Play Video" button overlay on the existing Hero
+- New `VideoModal` component using Radix Dialog
+- Embeds a YouTube/Vimeo iframe or self-hosted MP4
+- Falls back gracefully if video fails to load
+
+### Jump Style Quiz
+- New component: `src/components/JumpQuiz.tsx`
+- 3-4 step wizard with animated transitions
+- Maps answers to service recommendations
+- CTA scrolls to booking with pre-selected service type
+- Placed between Services and Booking sections
+
+### Promotion Countdown
+- New component: `src/components/CountdownTimer.tsx`
+- Calculates remaining time from a target date
+- Updates every second using `setInterval`
+- Integrated into `Promotions.tsx` cards and home banner
+
+### Files to Create
+- `src/components/StickyBookingBar.tsx`
+- `src/components/SocialProofTicker.tsx`
+- `src/components/VideoModal.tsx`
+- `src/components/JumpQuiz.tsx`
+- `src/components/CountdownTimer.tsx`
 
 ### Files to Modify
+- `src/pages/Home.tsx` -- Add StickyBookingBar, SocialProofTicker, JumpQuiz, and VideoModal
+- `src/components/Hero.tsx` -- Add "Play Video" button
+- `src/pages/Promotions.tsx` -- Add CountdownTimer to each promo card
+- `src/contexts/LanguageContext.tsx` -- Add translations for all new components (EN, zh-TW, zh-CN)
 
-| File                               | Change                                                                                                                      |
-| ---------------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `src/pages/Promotions.tsx`         | Add 4 new entries to the `promotions` array with appropriate icons                                                          |
-| `src/contexts/LanguageContext.tsx` | Add translation keys for all 4 promotions in EN, zh-TW, and zh-CN                                                           |
-| `src/pages/Home.tsx`               | Update the homepage banner text to mention multiple deals (optional, keep as-is if you prefer highlighting Buddy Deal only) |
-
-### Technical Details
-
-**1. New promotion entries in `Promotions.tsx` (added to the `promotions` array):**
-
-```typescript
-import { GraduationCap, Cake, Clock, RotateCcw } from "lucide-react";
-
-const promotions = [
-  // existing Buddy Deal...
-  {
-    id: "student-discount",
-    icon: GraduationCap,
-    titleKey: "promo.student.title",
-    descKey: "promo.student.desc",
-    detailsKey: "promo.student.details",
-    termsKey: "promo.student.terms",
-    highlight: "$100",
-    highlightLabelKey: "promo.off",
-    active: true,
-  },
-  {
-    id: "birthday-special",
-    icon: Cake,
-    titleKey: "promo.birthday.title",
-    descKey: "promo.birthday.desc",
-    detailsKey: "promo.birthday.details",
-    termsKey: "promo.birthday.terms",
-    highlight: "$100",
-    highlightLabelKey: "promo.off",
-    active: true,
-  },
-  {
-    id: "early-bird",
-    icon: Clock,
-    titleKey: "promo.earlybird.title",
-    descKey: "promo.earlybird.desc",
-    detailsKey: "promo.earlybird.details",
-    termsKey: "promo.earlybird.terms",
-    highlight: "10%",
-    highlightLabelKey: "promo.off",
-    active: true,
-  },
-  {
-    id: "repeat-jumper",
-    icon: RotateCcw,
-    titleKey: "promo.repeat.title",
-    descKey: "promo.repeat.desc",
-    detailsKey: "promo.repeat.details",
-    termsKey: "promo.repeat.terms",
-    highlight: "$150",
-    highlightLabelKey: "promo.off",
-    active: true,
-  },
-];
-```
-
-**2. Translation keys (all 3 languages):**
-
-English:
-
-- `promo.off`: "Discount"
-- `promo.student.title`: "Student Discount"
-- `promo.student.desc`: "Show your valid student ID and save on your skydiving adventure!"
-- `promo.student.details`: "Students get $100 off any tandem skydive package with a valid student ID."
-- `promo.student.terms`: "Must present a valid student ID at check-in. Applies to tandem packages only. Cannot be combined with other promotions. One discount per person."
-- `promo.birthday.title`: "Birthday Special"
-- `promo.birthday.desc`: "Celebrate your birthday with an unforgettable skydive and save!"
-- `promo.birthday.details`: "Jump during your birthday month and get $100 off any tandem package."
-- `promo.birthday.terms`: "Must jump within your birthday month. Proof of date of birth required. Applies to tandem packages only. Cannot be combined with other promotions."
-- `promo.earlybird.title`: "Early Bird Discount"
-- `promo.earlybird.desc`: "Plan ahead and save! Book early to lock in a special rate."
-- `promo.earlybird.details`: "Book 90+ days in advance and save 10% on any skydiving package."
-- `promo.earlybird.terms`: "Booking must be made at least 90 days before the jump date. Discount applies at checkout. Cannot be combined with other promotions. Subject to availability."
-- `promo.repeat.title`: "Repeat Jumper Reward"
-- `promo.repeat.desc`: "Already jumped with us? Come back and save even more!"
-- `promo.repeat.details`: "Returning customers get $150 off their next jump with us."
-- `promo.repeat.terms`: "Must have a previous completed booking with Let's Skydive HK. Discount applied upon verification of prior booking. Cannot be combined with other promotions."
-
-Traditional Chinese (zh-TW) and Simplified Chinese (zh-CN) equivalents will follow the same pattern with appropriate translations.
-
-### Homepage Banner
-
-The homepage banner will remain focused on the Buddy Deal as the headline offer. The promotions page itself will showcase all five deals, encouraging visitors to explore all options once they click through.
+### Priority Recommendation
+For maximum impact with minimum effort, I'd suggest implementing in this order:
+1. **Sticky Book Now Bar** (quick win, direct conversion impact)
+2. **Social Proof Ticker** (builds trust and urgency)
+3. **Countdown Timer** (enhances existing promotions)
+4. **Video Modal** (engagement boost)
+5. **Jump Quiz** (most complex, highest engagement)
