@@ -9,7 +9,7 @@ interface VideoModalProps {
 export function VideoModal({
   open,
   onOpenChange,
-  videoUrl = "https://youtu.be/T-yG-njObAw?si=nrSYf9CvyUAl5fLq",
+  videoUrl = "https://www.youtube.com/embed/T-yG-njObAw",
 }: VideoModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
