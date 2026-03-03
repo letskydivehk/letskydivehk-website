@@ -7,6 +7,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { Footer } from "@/components/Footer";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { toast } from "sonner";
+import { CountdownTimer } from "@/components/CountdownTimer";
 
 const promotions = [
   {
@@ -20,6 +21,7 @@ const promotions = [
     highlightLabelKey: "promo.perPerson",
     promoCode: "BUDDY100",
     active: true,
+    expiresAt: new Date("2026-04-30T23:59:59"),
   },
   {
     id: "student-discount",
@@ -32,6 +34,7 @@ const promotions = [
     highlightLabelKey: "promo.off",
     promoCode: "STUDENT100",
     active: true,
+    expiresAt: new Date("2026-06-30T23:59:59"),
   },
   {
     id: "birthday-special",
@@ -44,6 +47,7 @@ const promotions = [
     highlightLabelKey: "promo.off",
     promoCode: "BDAY100",
     active: true,
+    expiresAt: new Date("2026-05-31T23:59:59"),
   },
   {
     id: "early-bird",
@@ -56,6 +60,7 @@ const promotions = [
     highlightLabelKey: "promo.off",
     promoCode: "EARLY10",
     active: true,
+    expiresAt: new Date("2026-05-15T23:59:59"),
   },
   {
     id: "repeat-jumper",
@@ -68,6 +73,7 @@ const promotions = [
     highlightLabelKey: "promo.off",
     promoCode: "RETURN150",
     active: true,
+    expiresAt: new Date("2026-06-30T23:59:59"),
   },
 ];
 
@@ -177,6 +183,13 @@ export default function Promotions() {
                       {t("promo.copyCode")}
                     </button>
                   </div>
+
+                  {/* Countdown Timer */}
+                  {promo.expiresAt && (
+                    <div className="mb-4">
+                      <CountdownTimer targetDate={promo.expiresAt} />
+                    </div>
+                  )}
 
                   {/* Terms */}
                 </div>

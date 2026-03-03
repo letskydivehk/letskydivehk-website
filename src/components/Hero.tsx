@@ -1,17 +1,19 @@
 'use client';
 
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Menu, X, ChevronDown } from 'lucide-react';
+import { Menu, X, ChevronDown, Play } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthButton } from './AuthButton';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
+import { VideoModal } from './VideoModal';
 
 export function Hero() {
   const { t, language } = useLanguage();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const bgY = useTransform(scrollY, [0, 800], [0, 300]);
@@ -262,6 +264,17 @@ export function Hero() {
             }} className="bg-white/10 backdrop-blur-sm text-white font-semibold px-8 py-4 rounded-lg text-lg border border-white/20 hover:bg-white/20 gentle-animation cursor-pointer w-full sm:w-auto text-center">
               {t('hero.cta.explore')}
             </motion.a>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsVideoOpen(true)}
+              className="flex items-center gap-2 text-white/80 hover:text-white font-semibold text-lg cursor-pointer transition-colors"
+            >
+              <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center">
+                <Play className="w-5 h-5 ml-0.5" />
+              </div>
+              {t('hero.cta.watchVideo')}
+            </motion.button>
           </div>
         </motion.div>
 
@@ -289,6 +302,7 @@ export function Hero() {
           </motion.div>
         </motion.div>
       </motion.div>
+      <VideoModal open={isVideoOpen} onOpenChange={setIsVideoOpen} />
     </div>
   );
 }
