@@ -6,7 +6,11 @@ interface VideoModalProps {
   videoUrl?: string;
 }
 
-export function VideoModal({ open, onOpenChange, videoUrl = "https://www.youtube.com/embed/dYw4meRWGd4?autoplay=1&rel=0" }: VideoModalProps) {
+export function VideoModal({
+  open,
+  onOpenChange,
+  videoUrl = "https://youtu.be/T-yG-njObAw?si=nrSYf9CvyUAl5fLq",
+}: VideoModalProps) {
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl p-0 bg-black border-none overflow-hidden">
