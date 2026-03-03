@@ -2529,6 +2529,120 @@ translations["zh-CN"]["whatsapp.quick.group"] = "我对团体活动有兴趣";
 translations["zh-CN"]["whatsapp.quick.general"] = "我有一般问题想咨询";
 translations["zh-CN"]["whatsapp.placeholder"] = "输入消息...";
 
+// ===== Sticky Booking Bar =====
+translations.en["sticky.message"] = "Ready to jump? Limited slots available this weekend!";
+translations.en["sticky.messageMobile"] = "Book your jump now!";
+translations["zh-TW"]["sticky.message"] = "準備好飛翔了嗎？本週末名額有限！";
+translations["zh-TW"]["sticky.messageMobile"] = "立即預約！";
+translations["zh-CN"]["sticky.message"] = "准备好飞翔了吗？本周末名额有限！";
+translations["zh-CN"]["sticky.messageMobile"] = "立即预约！";
+
+// ===== Social Proof Ticker =====
+translations.en["social.booked"] = "{name} just booked a Tandem Skydive! 🪂";
+translations.en["social.recentCount"] = "{count} people booked in the last 24 hours 🔥";
+translations.en["social.slotsLeft"] = "Only {count} slots left this Saturday! ⏰";
+translations["zh-TW"]["social.booked"] = "{name} 剛剛預約了雙人跳傘！🪂";
+translations["zh-TW"]["social.recentCount"] = "過去24小時有 {count} 人預約 🔥";
+translations["zh-TW"]["social.slotsLeft"] = "本週六僅剩 {count} 個名額！⏰";
+translations["zh-CN"]["social.booked"] = "{name} 刚刚预约了双人跳伞！🪂";
+translations["zh-CN"]["social.recentCount"] = "过去24小时有 {count} 人预约 🔥";
+translations["zh-CN"]["social.slotsLeft"] = "本周六仅剩 {count} 个名额！⏰";
+
+// ===== Countdown Timer =====
+translations.en["countdown.endsIn"] = "Offer ends in";
+translations.en["countdown.daysLeft"] = "{days}d left";
+translations.en["countdown.d"] = "d";
+translations.en["countdown.h"] = "h";
+translations.en["countdown.m"] = "m";
+translations.en["countdown.s"] = "s";
+translations["zh-TW"]["countdown.endsIn"] = "優惠倒數";
+translations["zh-TW"]["countdown.daysLeft"] = "剩餘 {days} 天";
+translations["zh-TW"]["countdown.d"] = "天";
+translations["zh-TW"]["countdown.h"] = "時";
+translations["zh-TW"]["countdown.m"] = "分";
+translations["zh-TW"]["countdown.s"] = "秒";
+translations["zh-CN"]["countdown.endsIn"] = "优惠倒数";
+translations["zh-CN"]["countdown.daysLeft"] = "剩余 {days} 天";
+translations["zh-CN"]["countdown.d"] = "天";
+translations["zh-CN"]["countdown.h"] = "时";
+translations["zh-CN"]["countdown.m"] = "分";
+translations["zh-CN"]["countdown.s"] = "秒";
+
+// ===== Video Hero =====
+translations.en["hero.cta.watchVideo"] = "Watch Video";
+translations["zh-TW"]["hero.cta.watchVideo"] = "觀看影片";
+translations["zh-CN"]["hero.cta.watchVideo"] = "观看视频";
+
+// ===== Jump Quiz =====
+translations.en["quiz.badge"] = "Find Your Jump";
+translations.en["quiz.title"] = "What's Your Jump Style?";
+translations.en["quiz.subtitle"] = "Answer 3 quick questions and we'll recommend the perfect skydiving experience for you.";
+translations.en["quiz.q1"] = "Have you skydived before?";
+translations.en["quiz.q1.a"] = "🆕 No, this is my first time!";
+translations.en["quiz.q1.b"] = "✅ Yes, I've jumped before";
+translations.en["quiz.q2"] = "Who are you jumping with?";
+translations.en["quiz.q2.a"] = "🙋 Just me, solo adventure";
+translations.en["quiz.q2.b"] = "👫 With friends or partner";
+translations.en["quiz.q2.c"] = "🏢 Corporate / team building event";
+translations.en["quiz.q3"] = "What's your thrill level?";
+translations.en["quiz.q3.a"] = "😊 Casual — enjoy the view";
+translations.en["quiz.q3.b"] = "🔥 Full-on adrenaline rush";
+translations.en["quiz.q3.c"] = "🚀 Life-changing — I want my own licence!";
+translations.en["quiz.result.tandem.title"] = "Tandem Skydive";
+translations.en["quiz.result.tandem.desc"] = "Perfect for you! Jump securely with an expert instructor and enjoy the ultimate freefall experience.";
+translations.en["quiz.result.alicence.title"] = "A-Licence Course";
+translations.en["quiz.result.alicence.desc"] = "Ready to fly solo! Our AFF program will take you from student to licensed skydiver.";
+translations.en["quiz.result.group.title"] = "Group Event";
+translations.en["quiz.result.group.desc"] = "The perfect team experience! We'll organize an unforgettable group skydiving day.";
+translations.en["quiz.bookThis"] = "Book This Experience";
+translations.en["quiz.tryAgain"] = "Try Again";
+
+translations["zh-TW"]["quiz.badge"] = "找到你的跳法";
+translations["zh-TW"]["quiz.title"] = "你適合哪種跳傘？";
+translations["zh-TW"]["quiz.subtitle"] = "回答3個簡單問題，我們為你推薦最適合的跳傘體驗。";
+translations["zh-TW"]["quiz.q1"] = "你有跳傘經驗嗎？";
+translations["zh-TW"]["quiz.q1.a"] = "🆕 沒有，這是第一次！";
+translations["zh-TW"]["quiz.q1.b"] = "✅ 有，我之前跳過";
+translations["zh-TW"]["quiz.q2"] = "你和誰一起跳？";
+translations["zh-TW"]["quiz.q2.a"] = "🙋 獨自冒險";
+translations["zh-TW"]["quiz.q2.b"] = "👫 和朋友或伴侶";
+translations["zh-TW"]["quiz.q2.c"] = "🏢 企業/團隊建設活動";
+translations["zh-TW"]["quiz.q3"] = "你的刺激程度？";
+translations["zh-TW"]["quiz.q3.a"] = "😊 輕鬆——享受風景";
+translations["zh-TW"]["quiz.q3.b"] = "🔥 全力腎上腺素飆升";
+translations["zh-TW"]["quiz.q3.c"] = "🚀 改變人生——我要考執照！";
+translations["zh-TW"]["quiz.result.tandem.title"] = "雙人跳傘";
+translations["zh-TW"]["quiz.result.tandem.desc"] = "最適合你！與專業教練安全地體驗極致自由落體。";
+translations["zh-TW"]["quiz.result.alicence.title"] = "A級執照課程";
+translations["zh-TW"]["quiz.result.alicence.desc"] = "準備好獨自飛翔！AFF課程帶你從學員到持照跳傘員。";
+translations["zh-TW"]["quiz.result.group.title"] = "團體活動";
+translations["zh-TW"]["quiz.result.group.desc"] = "完美的團隊體驗！我們為你策劃一場難忘的團體跳傘日。";
+translations["zh-TW"]["quiz.bookThis"] = "預約此體驗";
+translations["zh-TW"]["quiz.tryAgain"] = "重新測試";
+
+translations["zh-CN"]["quiz.badge"] = "找到你的跳法";
+translations["zh-CN"]["quiz.title"] = "你适合哪种跳伞？";
+translations["zh-CN"]["quiz.subtitle"] = "回答3个简单问题，我们为你推荐最适合的跳伞体验。";
+translations["zh-CN"]["quiz.q1"] = "你有跳伞经验吗？";
+translations["zh-CN"]["quiz.q1.a"] = "🆕 没有，这是第一次！";
+translations["zh-CN"]["quiz.q1.b"] = "✅ 有，我之前跳过";
+translations["zh-CN"]["quiz.q2"] = "你和谁一起跳？";
+translations["zh-CN"]["quiz.q2.a"] = "🙋 独自冒险";
+translations["zh-CN"]["quiz.q2.b"] = "👫 和朋友或伴侣";
+translations["zh-CN"]["quiz.q2.c"] = "🏢 企业/团队建设活动";
+translations["zh-CN"]["quiz.q3"] = "你的刺激程度？";
+translations["zh-CN"]["quiz.q3.a"] = "😊 轻松——享受风景";
+translations["zh-CN"]["quiz.q3.b"] = "🔥 全力肾上腺素飙升";
+translations["zh-CN"]["quiz.q3.c"] = "🚀 改变人生——我要考执照！";
+translations["zh-CN"]["quiz.result.tandem.title"] = "双人跳伞";
+translations["zh-CN"]["quiz.result.tandem.desc"] = "最适合你！与专业教练安全地体验极致自由落体。";
+translations["zh-CN"]["quiz.result.alicence.title"] = "A级执照课程";
+translations["zh-CN"]["quiz.result.alicence.desc"] = "准备好独自飞翔！AFF课程带你从学员到持照跳伞员。";
+translations["zh-CN"]["quiz.result.group.title"] = "团体活动";
+translations["zh-CN"]["quiz.result.group.desc"] = "完美的团队体验！我们为你策划一场难忘的团体跳伞日。";
+translations["zh-CN"]["quiz.bookThis"] = "预约此体验";
+translations["zh-CN"]["quiz.tryAgain"] = "重新测试";
+
 // Helper function to convert markdown-style bold (**text** or *text*) to HTML
 const formatBoldText = (text: string): string => {
   return text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>");

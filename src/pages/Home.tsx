@@ -13,6 +13,10 @@ import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { SEO } from "@/components/SEO";
 import { OrganizationJsonLd } from "@/components/JsonLd";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { StickyBookingBar } from "@/components/StickyBookingBar";
+import { SocialProofTicker } from "@/components/SocialProofTicker";
+import { JumpQuiz } from "@/components/JumpQuiz";
+import { CountdownTimer } from "@/components/CountdownTimer";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -27,18 +31,26 @@ export default function Home() {
           <Hero />
         </section>
 
+        {/* Social Proof Ticker */}
+        <SocialProofTicker />
+
         {/* Promotion Banner */}
         <Link
           to="/promotions"
           className="block bg-accent-orange text-white py-10 px-6 text-center font-semibold hover:bg-accent-orange/90 transition-colors"
         >
-          <span className="inline-flex items-center justify-center gap-3 text-2xl sm:text-3xl md:text-4xl min-h-[40px]">
-            {t("promo.homeBanner")}
-            <span className="underline underline-offset-4 inline-flex items-center gap-2">
-              {t("promo.homeBannerCta")}
-              <ChevronRight className="w-5 h-5" />
+          <div className="max-w-4xl mx-auto">
+            <span className="inline-flex items-center justify-center gap-3 text-2xl sm:text-3xl md:text-4xl min-h-[40px]">
+              {t("promo.homeBanner")}
+              <span className="underline underline-offset-4 inline-flex items-center gap-2">
+                {t("promo.homeBannerCta")}
+                <ChevronRight className="w-5 h-5" />
+              </span>
             </span>
-          </span>
+            <div className="mt-3 flex justify-center">
+              <CountdownTimer targetDate={new Date("2026-04-30T23:59:59")} compact />
+            </div>
+          </div>
         </Link>
 
         <section id="locations" aria-label="Locations section">
@@ -47,6 +59,9 @@ export default function Home() {
         <section id="services" aria-label="Services section">
           <Services />
         </section>
+        {/* Jump Quiz */}
+        <JumpQuiz />
+
         <section id="booking" aria-label="Booking section">
           <BookingSection />
         </section>
@@ -64,6 +79,7 @@ export default function Home() {
         </section>
       </main>
       <Footer />
+      <StickyBookingBar />
     </div>
   );
 }
