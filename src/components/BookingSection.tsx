@@ -463,6 +463,7 @@ export function BookingSection() {
         p_special_requests: formData.notes ? sanitizeText(formData.notes) : null,
         p_referral_code: formData.referralCode.trim() || null,
         p_payment_intent_id: paymentIntentId || null,
+        p_selected_promos: formData.selectedPromos.length > 0 ? formData.selectedPromos : [],
       } as any);
 
       if (error) {
@@ -492,6 +493,7 @@ export function BookingSection() {
               preferredDate: formData.date,
               participants: formData.participants,
               specialRequests: formData.notes ? sanitizeText(formData.notes) : undefined,
+              selectedPromos: formData.selectedPromos.length > 0 ? formData.selectedPromos : undefined,
             },
           },
         });
