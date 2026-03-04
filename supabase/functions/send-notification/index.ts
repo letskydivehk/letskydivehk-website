@@ -22,6 +22,7 @@ interface NotificationRequest {
     preferredDate?: string;
     participants?: number;
     specialRequests?: string;
+    selectedPromos?: string[];
     fullName?: string;
     registrationEmail?: string;
   };
@@ -161,6 +162,7 @@ const handler = async (req: Request): Promise<Response> => {
             </table>
           </div>
           ${specialRequests ? `<div style="background: #fff3cd; padding: 20px; border-radius: 8px; margin: 20px 0;"><h2 style="color: #16213e; margin-top: 0;">Special Requests</h2><p style="margin: 0;">${specialRequests}</p></div>` : ""}
+          ${data.selectedPromos && data.selectedPromos.length > 0 ? `<div style="background: #e8f5e9; padding: 20px; border-radius: 8px; margin: 20px 0;"><h2 style="color: #16213e; margin-top: 0;">🎟️ Selected Promotions</h2><ul style="margin: 0; padding-left: 20px;">${data.selectedPromos.map((p: string) => `<li style="padding: 4px 0;">${sanitizeInput(p)}</li>`).join("")}</ul></div>` : ""}
           <p style="color: #666; font-size: 12px; margin-top: 30px;">This is an automated notification from Let's Skydive HK booking system.</p>
         </div>
       `;
