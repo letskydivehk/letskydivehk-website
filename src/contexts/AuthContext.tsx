@@ -52,17 +52,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (event === "SIGNED_IN" && session?.user) {
         // Defer async calls to avoid deadlock in onAuthStateChange
         const user = session.user;
-        setTimeout(() => {
-          createOrUpdateUserProfile(user);
-          supabase.functions.invoke('send-notification', {
-            body: {
-              type: 'registration',
-              data: {
-                fullName: user.user_metadata?.full_name || user.user_metadata?.name || '',
-                registrationEmail: user.email,
+        setTimeout(async () => {
+          const isNewUser = await createOrUpdateUserProfile(user);
+          // Only send registration notification for brand new users
+          if (isNewUser) {
+            supabase.functions.invoke('send-notification', {
+              body: {
+                type: 'registration',
+                data: {
+                  fullName: user.user_metadata?.full_name || user.user_metadata?.name || '',
+                  registrationEmail: user.email,
+                }
               }
-            }
-          }).catch(err => { if (import.meta.env.DEV) console.error('Failed to send registration notification:', err); });
+            }).catch(err => { if (import.meta.env.DEV) console.error('Failed to send registration notification:', err); });
+          }
         }, 0);
       }
     });
@@ -70,8 +73,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     return () => subscription.unsubscribe();
   }, []);
 
-  // Create/update user profile in database
-  const createOrUpdateUserProfile = async (user: User) => {
+  // Create/update user profile in database. Returns true if new profile was created.
+  const createOrUpdateUserProfile = async (user: User): Promise<boolean> => {
     try {
       const { data: profile, error: fetchError } = await supabase
         .from("profiles")
@@ -81,7 +84,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       if (fetchError && fetchError.code !== "PGRST116") {
         if (import.meta.env.DEV) console.error("Error fetching profile:", fetchError);
-        return;
+        return false;
       }
 
       const userData = {
@@ -100,9 +103,10 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
         if (insertError) {
           if (import.meta.env.DEV) console.error("Error creating profile:", insertError);
-        } else {
-          console.log("Profile created successfully");
+          return false;
         }
+        console.log("Profile created successfully");
+        return true;
       } else {
         // Update existing profile
         const { error: updateError } = await supabase
@@ -113,9 +117,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (updateError) {
           if (import.meta.env.DEV) console.error("Error updating profile:", updateError);
         }
+        return false;
       }
     } catch (error) {
       if (import.meta.env.DEV) console.error("Error in createOrUpdateUserProfile:", error);
+      return false;
     }
   };
 

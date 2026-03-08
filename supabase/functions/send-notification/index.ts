@@ -88,18 +88,17 @@ const handler = async (req: Request): Promise<Response> => {
         global: { headers: { Authorization: authHeader } },
       });
 
-      const token = authHeader.replace("Bearer ", "");
-      const { data: claimsData, error: claimsError } = await supabaseClient.auth.getClaims(token);
+      const { data: userData, error: userError } = await supabaseClient.auth.getUser();
 
-      if (claimsError || !claimsData?.claims) {
-        console.error("Auth error:", claimsError);
+      if (userError || !userData?.user) {
+        console.error("Auth error:", userError);
         return new Response(JSON.stringify({ success: false, error: "Invalid token" }), {
           status: 401,
           headers: { "Content-Type": "application/json", ...corsHeaders },
         });
       }
 
-      const tokenEmail = claimsData.claims.email;
+      const tokenEmail = userData.user.email;
       if (tokenEmail !== data.registrationEmail) {
         return new Response(JSON.stringify({ success: false, error: "Email mismatch" }), {
           status: 403,
@@ -198,6 +197,9 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Admin notification email sent successfully:", adminEmailResponse);
 
+    // Delay to avoid Resend rate limit (2 req/sec on free tier)
+    await new Promise(resolve => setTimeout(resolve, 1100));
+
     // Send confirmation email to customer
     let customerEmailResponse = null;
 
@@ -241,8 +243,9 @@ const handler = async (req: Request): Promise<Response> => {
       console.log("Customer booking confirmation email sent:", customerEmailResponse);
     }
 
-    // Send welcome email to new registrations
+    // Send welcome email to new registrations (with rate limit delay)
     if (type === "registration" && data.registrationEmail && isValidEmail(data.registrationEmail)) {
+      await new Promise(resolve => setTimeout(resolve, 1100));
       const welcomeName = sanitizeInput(data.fullName) || "Adventurer";
       const welcomeHtml = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
