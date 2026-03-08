@@ -243,8 +243,9 @@ const handler = async (req: Request): Promise<Response> => {
       console.log("Customer booking confirmation email sent:", customerEmailResponse);
     }
 
-    // Send welcome email to new registrations
+    // Send welcome email to new registrations (with rate limit delay)
     if (type === "registration" && data.registrationEmail && isValidEmail(data.registrationEmail)) {
+      await new Promise(resolve => setTimeout(resolve, 1100));
       const welcomeName = sanitizeInput(data.fullName) || "Adventurer";
       const welcomeHtml = `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; background: #ffffff;">
