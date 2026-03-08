@@ -52,17 +52,20 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (event === "SIGNED_IN" && session?.user) {
         // Defer async calls to avoid deadlock in onAuthStateChange
         const user = session.user;
-        setTimeout(() => {
-          createOrUpdateUserProfile(user);
-          supabase.functions.invoke('send-notification', {
-            body: {
-              type: 'registration',
-              data: {
-                fullName: user.user_metadata?.full_name || user.user_metadata?.name || '',
-                registrationEmail: user.email,
+        setTimeout(async () => {
+          const isNewUser = await createOrUpdateUserProfile(user);
+          // Only send registration notification for brand new users
+          if (isNewUser) {
+            supabase.functions.invoke('send-notification', {
+              body: {
+                type: 'registration',
+                data: {
+                  fullName: user.user_metadata?.full_name || user.user_metadata?.name || '',
+                  registrationEmail: user.email,
+                }
               }
-            }
-          }).catch(err => { if (import.meta.env.DEV) console.error('Failed to send registration notification:', err); });
+            }).catch(err => { if (import.meta.env.DEV) console.error('Failed to send registration notification:', err); });
+          }
         }, 0);
       }
     });
