@@ -197,6 +197,9 @@ const handler = async (req: Request): Promise<Response> => {
 
     console.log("Admin notification email sent successfully:", adminEmailResponse);
 
+    // Delay to avoid Resend rate limit (2 req/sec on free tier)
+    await new Promise(resolve => setTimeout(resolve, 1100));
+
     // Send confirmation email to customer
     let customerEmailResponse = null;
 
