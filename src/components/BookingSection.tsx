@@ -1294,6 +1294,14 @@ export function BookingSection() {
                       )}
                     </div>
 
+                    <div className="bg-accent-orange/10 border border-accent-orange/30 rounded-xl p-4 flex items-start gap-3">
+                      <CreditCard className="w-5 h-5 text-accent-orange mt-0.5 shrink-0" />
+                      <div>
+                        <p className="text-sm font-semibold text-foreground">{t("booking.depositReminder")}</p>
+                        <p className="text-xs text-muted-foreground mt-1">{t("booking.depositReminderNote")}</p>
+                      </div>
+                    </div>
+
                     <p className="text-sm text-muted-foreground text-center">{t("booking.termsDisclaimer")}</p>
                   </motion.div>
                 )}
