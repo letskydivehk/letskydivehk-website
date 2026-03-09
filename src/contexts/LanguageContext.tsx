@@ -167,6 +167,8 @@ const translations: Record<Language, Record<string, string>> = {
     "booking.noServices": "No services available at this location.",
     "booking.noLocations": "No locations available for this service type.",
     "booking.more": "more",
+    "booking.depositReminder": "A HKD $500 deposit is required to confirm your booking.",
+    "booking.depositReminderNote": "After clicking 'Next', you will proceed to the payment page to pay the deposit. The remaining balance will be collected on the activity day.",
     "booking.termsDisclaimer":
       "By clicking submit, you agree to our booking terms. We'll contact you within 24 hours to confirm availability and finalize your booking.",
     "booking.fixErrors": "Please fix the validation errors before submitting",
