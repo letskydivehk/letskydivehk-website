@@ -1541,6 +1541,8 @@ const translations: Record<Language, Record<string, string>> = {
     "booking.noServices": "此地点暂无可用服务。",
     "booking.noLocations": "此服务类型暂无可用地点。",
     "booking.more": "更多",
+    "booking.depositReminder": "确认预约需支付 HKD $500 订金。",
+    "booking.depositReminderNote": "点击「下一步」后，将进入付款页面支付订金。余额将于活动当天收取。",
     "booking.termsDisclaimer": "点击提交即表示您同意我们的预约条款。我们将在24小时内与您联系确认可用性并完成预约。",
     "booking.fixErrors": "请先修正验证错误再提交",
     "booking.submitError": "预约提交失败，请重试。",
