@@ -101,7 +101,7 @@ export function PageNavbar() {
       >
         <div className="flex flex-col h-full">
           <div className="flex justify-end p-4">
-            <button onClick={() => setIsMobileMenuOpen(false)} className="bg-background/10 p-3 rounded-full text-background hover:bg-background/20 transition-all cursor-pointer">
+            <button onClick={() => setIsMobileMenuOpen(false)} className="bg-white/10 p-3 rounded-full text-white hover:bg-white/20 transition-all cursor-pointer">
               <X className="w-5 h-5" />
             </button>
           </div>
