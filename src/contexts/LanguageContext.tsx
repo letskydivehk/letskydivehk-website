@@ -1771,6 +1771,7 @@ const translations: Record<Language, Record<string, string>> = {
     "gallery.refresh": "刷新",
     "gallery.refreshSuccess": "照片集已刷新",
     "gallery.refreshError": "刷新失败",
+    "gallery.loadError": "无法加载图片",
     "nav.gallery": "照片集",
     "nav.faq": "常见问题",
     "nav.promotions": "最新优惠",
