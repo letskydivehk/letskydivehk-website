@@ -1,36 +1,26 @@
 
 
-# Record Selected Promotions in Supabase
+## Fix: Dark navbar visibility on Gallery and Promotions pages
 
-## What We Need
+### Problem
+The `PageNavbar` component uses theme-based colors (`bg-foreground`, `text-background`) and has `fixed` positioning with `z-[110]`. Both Gallery and Promotions wrap it in another `fixed` div at `z-50` with a `container` class that constrains width, creating z-index conflicts and layout issues. The navbar ends up barely visible against the light page background.
 
-Currently, `formData.selectedPromos` (an array of promo codes like `["BUDDY100", "STUDENT100"]`) is collected during booking but never saved to the database. We need to persist this data for follow-up.
+### Solution
+Update `PageNavbar` to use explicit dark colors (`bg-black`, `text-white`) matching the homepage Hero navbar style, and remove the unnecessary wrapper divs in Gallery and Promotions pages.
 
-## Approach
+### Changes
 
-### 1. Add `selected_promos` column to `bookings` table
-- New column: `selected_promos text[] DEFAULT '{}'::text[]`
-- A text array storing the selected promo code IDs
+**1. `src/components/PageNavbar.tsx`**
+- Change `bg-foreground/90` → `bg-black/90` and `bg-foreground/95` → `bg-black/95`
+- Change all `text-background` → `text-white`
+- Change `bg-background/10` → `bg-white/10` and `bg-background/20` → `bg-white/20`
+- Change mobile panel `bg-foreground/95` → `bg-black/95`
+- Change `border-background/10` → `border-white/10`
 
-### 2. Update `create_booking` RPC function
-- Add a new parameter `p_selected_promos text[] DEFAULT '{}'::text[]`
-- Insert the value into the new column
-- Update all 3 overloaded versions of the function (or the primary one used)
+**2. `src/pages/Gallery.tsx`**
+- Remove the wrapper `<div className="fixed top-0 left-0 right-0 z-50">` with its dark background layer
+- Use `<PageNavbar />` directly (it already has its own fixed positioning)
 
-### 3. Update BookingSection.tsx
-- Pass `p_selected_promos: formData.selectedPromos` in the `supabase.rpc("create_booking", ...)` call
-
-### 4. Update notification email
-- Include selected promos in the notification body so admin can see them
-
-## Files to Modify
-- **Database migration**: Add column + update RPC function
-- `src/components/BookingSection.tsx`: Pass `p_selected_promos` to RPC call
-
-## Technical Detail
-The migration SQL will:
-1. `ALTER TABLE bookings ADD COLUMN selected_promos text[] DEFAULT '{}'::text[];`
-2. `CREATE OR REPLACE FUNCTION create_booking(...)` — add the new parameter and include it in the INSERT
-
-No RLS changes needed since the existing INSERT policy doesn't restrict specific columns, and the RPC uses `SECURITY DEFINER`.
+**3. `src/pages/Promotions.tsx`**
+- Same removal of wrapper div, use `<PageNavbar />` directly
 
