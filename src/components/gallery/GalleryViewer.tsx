@@ -88,7 +88,7 @@ export function GalleryViewer({ item, isAdmin, onDelete, direction = 0 }: Galler
         {/* Media Error State */}
         {mediaError ? (
           <div className="w-full h-full flex flex-col items-center justify-center bg-destructive/10 p-8">
-            <p className="text-destructive font-medium mb-2">Failed to load image</p>
+            <p className="text-destructive font-medium mb-2">{t("gallery.loadError")}</p>
             <div className="flex gap-2 mt-4">
               <Button variant="outline" size="sm" onClick={handleRetry}>
                 Retry
