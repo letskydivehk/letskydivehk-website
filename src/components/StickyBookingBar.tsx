@@ -17,15 +17,7 @@ export function StickyBookingBar() {
         const bookingEntry = entries.find((e) => e.target.id === "booking");
 
         if (heroEntry) {
-          // Show bar when hero is NOT in view
-          if (!heroEntry.isIntersecting) {
-            setIsVisible(true);
-          } else {
-            setIsVisible(false);
-          }
-        }
-        if (bookingEntry && bookingEntry.isIntersecting) {
-          setIsVisible(false);
+          setIsVisible(!heroEntry.isIntersecting);
         }
       },
       { threshold: 0.1 }
