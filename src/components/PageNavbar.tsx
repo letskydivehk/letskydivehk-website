@@ -47,7 +47,7 @@ export function PageNavbar() {
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="flex items-center">
-              <span className="font-bagel text-background text-xl tracking-wider">LET'S SKYDIVE HK</span>
+              <span className="font-bagel text-white text-xl tracking-wider">LET'S SKYDIVE HK</span>
             </Link>
 
             {/* Desktop Nav */}
