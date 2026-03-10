@@ -384,6 +384,7 @@ const translations: Record<Language, Record<string, string>> = {
     "gallery.refresh": "Refresh",
     "gallery.refreshSuccess": "Gallery refreshed",
     "gallery.refreshError": "Failed to refresh gallery",
+    "gallery.loadError": "Failed to load image",
     "nav.gallery": "Gallery",
     "nav.faq": "FAQ",
     "nav.promotions": "Promotions",
