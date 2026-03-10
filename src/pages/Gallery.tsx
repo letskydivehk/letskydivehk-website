@@ -72,10 +72,17 @@ export default function Gallery() {
   return (
     <div className="min-h-screen bg-background text-foreground relative">
       <SEO title={t("gallery.title")} description={t("gallery.subtitle")} path="/gallery" />
-      <PageNavbar />
+
+      {/* Fixed navbar with higher z-index and proper background */}
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-sm">
+        <PageNavbar />
+      </div>
+
       <BackgroundDecorations />
+
+      {/* Main content with proper padding to account for fixed navbar */}
       <main className="relative z-10 pt-20">
-        {/* Header Actions */}
+        {/* Header Actions - aligned to the right as in your original */}
         <div className="container mx-auto px-4 pt-8 pb-4">
           <div className="flex items-center justify-end gap-3">
             <Button variant="outline" onClick={handleRefresh} disabled={isRefreshing} className="gap-2">
