@@ -74,7 +74,7 @@ export default function Gallery() {
       <SEO title={t("gallery.title")} description={t("gallery.subtitle")} path="/gallery" />
 
       {/* Fixed navbar with higher z-index and proper background */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-background/0 backdrop-blur-md border-b border-border shadow-sm">
+      <div className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-md border-b border-border shadow-sm">
         <PageNavbar />
       </div>
 
@@ -91,7 +91,7 @@ export default function Gallery() {
             </Button>
 
             {isAdmin && (
-              <Button onClick={() => setShowUpload(true)} className="gap-2 bg-primary hover:bg-primary/90">
+              <Button onClick={() => setShowUpload(true)} className="gap-2 bg-primary hover:bg-primary/10">
                 <Upload className="h-4 w-4" />
                 {t("gallery.upload")}
               </Button>
