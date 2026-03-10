@@ -54,11 +54,11 @@ export function PageNavbar() {
             <div className="hidden md:flex items-center space-x-8">
               {navLinks.map((link) =>
                 link.isRoute ? (
-                  <Link key={link.href} to={link.href} className="text-background hover:text-background/80 font-medium transition-all hover:scale-105">
+                  <Link key={link.href} to={link.href} className="text-white hover:text-white/80 font-medium transition-all hover:scale-105">
                     {link.label}
                   </Link>
                 ) : (
-                  <a key={link.href} href={link.href} className="text-background hover:text-background/80 font-medium transition-all hover:scale-105">
+                  <a key={link.href} href={link.href} className="text-white hover:text-white/80 font-medium transition-all hover:scale-105">
                     {link.label}
                   </a>
                 )
