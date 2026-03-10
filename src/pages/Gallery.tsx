@@ -73,16 +73,7 @@ return (
     <div className="min-h-screen bg-background text-foreground relative">
       <SEO title={t("gallery.title")} description={t("gallery.subtitle")} path="/gallery" />
       
-      {/* Custom dark navbar wrapper */}
-      <div className="fixed top-0 left-0 right-0 z-50">
-        {/* Dark background layer */}
-        <div className="absolute inset-0 bg-black/80 backdrop-blur-md border-b border-white/10" />
-        
-        {/* Content layer */}
-        <div className="relative container mx-auto px-4">
-          <PageNavbar />
-        </div>
-      </div>
+      <PageNavbar />
       
       <BackgroundDecorations />
       

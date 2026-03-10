@@ -106,14 +106,14 @@ export function PageNavbar() {
             </button>
           </div>
           <div className="flex flex-col px-6 pb-6 h-full">
-            <div className="flex flex-col space-y-4 text-background">
+            <div className="flex flex-col space-y-4 text-white">
               {navLinks.map((link) =>
                 link.isRoute ? (
-                  <Link key={link.href} to={link.href} className="px-4 py-3 hover:bg-background/10 rounded-lg font-medium text-lg" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Link key={link.href} to={link.href} className="px-4 py-3 hover:bg-white/10 rounded-lg font-medium text-lg" onClick={() => setIsMobileMenuOpen(false)}>
                     {link.label}
                   </Link>
                 ) : (
-                  <a key={link.href} href={link.href} className="px-4 py-3 hover:bg-background/10 rounded-lg font-medium text-lg" onClick={() => setIsMobileMenuOpen(false)}>
+                  <a key={link.href} href={link.href} className="px-4 py-3 hover:bg-white/10 rounded-lg font-medium text-lg" onClick={() => setIsMobileMenuOpen(false)}>
                     {link.label}
                   </a>
                 )
