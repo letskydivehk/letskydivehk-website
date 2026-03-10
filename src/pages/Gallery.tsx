@@ -69,43 +69,42 @@ export default function Gallery() {
     }
   };
 
-  return (
+return (
     <div className="min-h-screen bg-background text-foreground relative">
       <SEO title={t("gallery.title")} description={t("gallery.subtitle")} path="/gallery" />
-
-      {/* Dark, semi-transparent navbar like the homepage */}
-      <div className="fixed top-0 left-0 right-0 z-50 bg-black/80 backdrop-blur-md border-b border-white/10">
-        <div className="container mx-auto px-4">
+      
+      {/* Custom dark navbar wrapper */}
+      <div className="fixed top-0 left-0 right-0 z-50">
+        {/* Dark background layer */}
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-md border-b border-white/10" />
+        
+        {/* Content layer */}
+        <div className="relative container mx-auto px-4">
           <PageNavbar />
         </div>
       </div>
-
+      
       <BackgroundDecorations />
-
-      {/* Main content with proper padding */}
+      
       <main className="relative z-10 pt-24">
-        {/* Header Actions */}
         <div className="container mx-auto px-4 pt-8 pb-4">
           <div className="flex items-center justify-end gap-3">
-            <Button
-              variant="outline"
-              onClick={handleRefresh}
-              disabled={isRefreshing}
-              className="gap-2 bg-black/20 border-white/10 text-white hover:bg-black/30 hover:text-white"
-            >
+            <Button variant="outline" onClick={handleRefresh} disabled={isRefreshing} className="gap-2">
               {isRefreshing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
               {t("gallery.refresh")}
             </Button>
 
             {isAdmin && (
-              <Button onClick={() => setShowUpload(true)} className="gap-2 bg-primary hover:bg-primary/90 text-white">
+              <Button onClick={() => setShowUpload(true)} className="gap-2 bg-primary hover:bg-primary/90">
                 <Upload className="h-4 w-4" />
                 {t("gallery.upload")}
               </Button>
             )}
           </div>
         </div>
-
+      </main>
+    </div>
+)
         {/* Gallery Title */}
         <div className="container mx-auto px-4 py-8 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
