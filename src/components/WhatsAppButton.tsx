@@ -1,60 +1,60 @@
-'use client'
+"use client";
 
-import { useState, useRef, useEffect } from 'react'
-import { X, Send } from 'lucide-react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { useLanguage } from '@/contexts/LanguageContext'
+import { useState, useRef, useEffect } from "react";
+import { X, Send } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const WHATSAPP_NUMBER = '85269391570'
+const WHATSAPP_NUMBER = "85269391570";
 
 const quickMessages = [
-  { key: 'whatsapp.quick.tandem', icon: '🪂' },
-  { key: 'whatsapp.quick.aff', icon: '🎓' },
-  { key: 'whatsapp.quick.group', icon: '👥' },
-  { key: 'whatsapp.quick.general', icon: '💬' },
-]
+  { key: "whatsapp.quick.tandem", icon: "🪂" },
+  { key: "whatsapp.quick.aff", icon: "🎓" },
+  { key: "whatsapp.quick.group", icon: "👥" },
+  { key: "whatsapp.quick.general", icon: "💬" },
+];
 
 export function WhatsAppButton() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [customMessage, setCustomMessage] = useState('')
-  const panelRef = useRef<HTMLDivElement>(null)
-  const { t } = useLanguage()
+  const [isOpen, setIsOpen] = useState(false);
+  const [customMessage, setCustomMessage] = useState("");
+  const panelRef = useRef<HTMLDivElement>(null);
+  const { t } = useLanguage();
 
   // Close on click outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (panelRef.current && !panelRef.current.contains(e.target as Node)) {
-        setIsOpen(false)
+        setIsOpen(false);
       }
-    }
+    };
     if (isOpen) {
-      document.addEventListener('mousedown', handleClickOutside)
+      document.addEventListener("mousedown", handleClickOutside);
     }
-    return () => document.removeEventListener('mousedown', handleClickOutside)
-  }, [isOpen])
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
 
   const sendMessage = (message: string) => {
-    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`
-    window.open(url, '_blank', 'noopener,noreferrer')
-    setIsOpen(false)
-    setCustomMessage('')
-  }
+    const url = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
+    window.open(url, "_blank", "noopener,noreferrer");
+    setIsOpen(false);
+    setCustomMessage("");
+  };
 
   const handleCustomSend = () => {
     if (customMessage.trim()) {
-      sendMessage(customMessage.trim())
+      sendMessage(customMessage.trim());
     }
-  }
+  };
 
   return (
-    <div className="fixed bottom-6 right-6 z-50" ref={panelRef}>
+    <div className="fixed bottom-24 right-6 z-50" ref={panelRef}>
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: 20, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.9 }}
-            transition={{ duration: 0.25, ease: 'easeOut' }}
+            transition={{ duration: 0.25, ease: "easeOut" }}
             className="absolute bottom-16 right-0 w-80 bg-card rounded-2xl clean-border elevated-shadow overflow-hidden mb-2"
           >
             {/* Header */}
@@ -66,8 +66,8 @@ export function WhatsAppButton() {
                   </svg>
                 </div>
                 <div>
-                  <p className="text-white font-semibold text-sm">{t('whatsapp.title')}</p>
-                  <p className="text-white/80 text-xs">{t('whatsapp.subtitle')}</p>
+                  <p className="text-white font-semibold text-sm">{t("whatsapp.title")}</p>
+                  <p className="text-white/80 text-xs">{t("whatsapp.subtitle")}</p>
                 </div>
               </div>
               <button
@@ -83,15 +83,11 @@ export function WhatsAppButton() {
             <div className="p-4 space-y-3">
               {/* Greeting Bubble */}
               <div className="bg-muted rounded-xl rounded-tl-none px-4 py-3 max-w-[85%]">
-                <p className="text-sm text-foreground">
-                  {t('whatsapp.greeting')}
-                </p>
+                <p className="text-sm text-foreground">{t("whatsapp.greeting")}</p>
               </div>
 
               {/* Quick Messages */}
-              <p className="text-xs text-muted-foreground font-medium pt-1">
-                {t('whatsapp.quickOptions')}
-              </p>
+              <p className="text-xs text-muted-foreground font-medium pt-1">{t("whatsapp.quickOptions")}</p>
               <div className="space-y-2">
                 {quickMessages.map((msg) => (
                   <button
@@ -113,8 +109,8 @@ export function WhatsAppButton() {
                 type="text"
                 value={customMessage}
                 onChange={(e) => setCustomMessage(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && handleCustomSend()}
-                placeholder={t('whatsapp.placeholder')}
+                onKeyDown={(e) => e.key === "Enter" && handleCustomSend()}
+                placeholder={t("whatsapp.placeholder")}
                 className="flex-1 text-sm bg-muted rounded-lg px-3 py-2 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-accent-orange/50"
               />
               <button
@@ -165,5 +161,5 @@ export function WhatsAppButton() {
         </AnimatePresence>
       </motion.button>
     </div>
-  )
+  );
 }
