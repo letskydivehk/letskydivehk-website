@@ -71,7 +71,7 @@ export function PageNavbar() {
               <AuthButton />
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden bg-background/10 p-3 rounded-full text-background hover:bg-background/20 active:bg-background/30 transition-all cursor-pointer z-[120] relative"
+                className="md:hidden bg-white/10 p-3 rounded-full text-white hover:bg-white/20 active:bg-white/30 transition-all cursor-pointer z-[120] relative"
               >
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
