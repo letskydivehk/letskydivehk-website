@@ -42,7 +42,7 @@ export function PageNavbar() {
         className="fixed top-0 left-0 right-0 w-full z-[110]"
       >
         <div className={`w-full px-6 sm:px-8 lg:px-12 py-4 transition-all duration-300 ease-out ${
-          isScrolled ? 'bg-foreground/90 backdrop-blur-xl border-b border-background/10' : 'bg-foreground/70 backdrop-blur-md'
+          isScrolled ? 'bg-foreground/95 backdrop-blur-xl border-b border-background/10' : 'bg-foreground/90 backdrop-blur-xl'
         }`}>
           <div className="flex items-center justify-between">
             {/* Logo */}
