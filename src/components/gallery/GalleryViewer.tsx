@@ -49,10 +49,10 @@ export function GalleryViewer({ item, isAdmin, onDelete, direction = 0 }: Galler
     setShowDeleteDialog(false);
 
     if (result.success) {
-      toast.success("Photo deleted successfully");
+      toast.success(t("gallery.deleteSuccess"));
       onDelete();
     } else {
-      toast.error(result.error || "Failed to delete photo");
+      toast.error(result.error || t("gallery.deleteError"));
     }
   };
 
