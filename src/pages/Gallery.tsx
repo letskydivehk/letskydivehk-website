@@ -4,14 +4,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { Footer } from "@/components/Footer";
+import { PageNavbar } from "@/components/PageNavbar";
 import { GalleryViewer } from "@/components/gallery/GalleryViewer";
 import { GalleryThumbnails } from "@/components/gallery/GalleryThumbnails";
 import { GalleryUpload } from "@/components/gallery/GalleryUpload";
 import { useGallery, GalleryCategory } from "@/hooks/useGallery";
 import { useAuth } from "@/contexts/AuthContext";
-import { ArrowLeft, Upload, Loader2, RefreshCw, Camera, Video, GraduationCap } from "lucide-react";
+import { Upload, Loader2, RefreshCw, Camera, Video, GraduationCap } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -28,12 +28,9 @@ export default function Gallery() {
   const [showUpload, setShowUpload] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
 
-  // Determine current category based on tabs
   const currentCategory: GalleryCategory = activeTab === "photos" ? "photos" : videoSubTab;
-  
   const { items, isLoading, isAdmin, refetch } = useGallery(currentCategory);
 
-  // Scroll to top when page loads
   useEffect(() => {
     window.scrollTo(0, 0);
     const timer = setTimeout(() => {
@@ -42,7 +39,6 @@ export default function Gallery() {
     return () => clearTimeout(timer);
   }, []);
 
-  // Reset selected index when items or category changes
   useEffect(() => {
     setSelectedIndex(0);
     setSlideDirection(0);
@@ -65,9 +61,9 @@ export default function Gallery() {
     setIsRefreshing(true);
     try {
       await refetch();
-      toast.success("Gallery refreshed");
+      toast.success(t("gallery.refreshSuccess"));
     } catch (error) {
-      toast.error("Failed to refresh gallery");
+      toast.error(t("gallery.refreshError"));
     } finally {
       setIsRefreshing(false);
     }
@@ -75,60 +71,49 @@ export default function Gallery() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
-      <SEO title="Gallery" description="Relive the thrill through photos and videos from our skydivers across Asia." path="/gallery" />
+      <SEO title={t("gallery.title")} description={t("gallery.subtitle")} path="/gallery" />
+      <PageNavbar />
       <BackgroundDecorations />
-      <main className="relative z-10">
-        {/* Header */}
+      <main className="relative z-10 pt-20">
+        {/* Header Actions */}
         <div className="container mx-auto px-4 pt-8 pb-4">
-          <div className="flex items-center justify-between">
-            <Link to="/">
-              <Button variant="ghost" className="gap-2">
-                <ArrowLeft className="h-4 w-4" />
-                Back to Home
-              </Button>
-            </Link>
+          <div className="flex items-center justify-end gap-3">
+            <Button variant="outline" onClick={handleRefresh} disabled={isRefreshing} className="gap-2">
+              {isRefreshing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
+              {t("gallery.refresh")}
+            </Button>
 
-            <div className="flex items-center gap-3">
-              <Button variant="outline" onClick={handleRefresh} disabled={isRefreshing} className="gap-2">
-                {isRefreshing ? <Loader2 className="h-4 w-4 animate-spin" /> : <RefreshCw className="h-4 w-4" />}
-                Refresh
+            {isAdmin && (
+              <Button onClick={() => setShowUpload(true)} className="gap-2 bg-primary hover:bg-primary/90">
+                <Upload className="h-4 w-4" />
+                {t("gallery.upload")}
               </Button>
-
-              {isAdmin && (
-                <Button onClick={() => setShowUpload(true)} className="gap-2 bg-primary hover:bg-primary/90">
-                  <Upload className="h-4 w-4" />
-                  Upload
-                </Button>
-              )}
-            </div>
+            )}
           </div>
         </div>
 
         {/* Gallery Title */}
         <div className="container mx-auto px-4 py-8 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">Gallery</h1>
-            <p className="text-muted-foreground max-w-2xl mx-auto">
-              Browse through our collection of photos and videos
-            </p>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">{t("gallery.title")}</h1>
+            <p className="text-muted-foreground max-w-2xl mx-auto">{t("gallery.subtitle")}</p>
           </motion.div>
         </div>
 
-        {/* Main Tabs: Photos / Videos */}
+        {/* Main Tabs */}
         <div className="container mx-auto px-4">
           <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as GalleryTab)} className="w-full">
             <TabsList className="grid w-full max-w-md mx-auto grid-cols-2 mb-8">
               <TabsTrigger value="photos" className="gap-2">
                 <Camera className="h-4 w-4" />
-                Photos
+                {t("gallery.photos")}
               </TabsTrigger>
               <TabsTrigger value="videos" className="gap-2">
                 <Video className="h-4 w-4" />
-                Videos
+                {t("gallery.videos")}
               </TabsTrigger>
             </TabsList>
 
-            {/* Photos Tab */}
             <TabsContent value="photos">
               <GallerySection
                 items={items}
@@ -139,21 +124,22 @@ export default function Gallery() {
                 selectedItem={selectedItem}
                 refetch={refetch}
                 onUpload={() => setShowUpload(true)}
+                emptyMessage={t("gallery.empty")}
                 slideDirection={slideDirection}
+                t={t}
               />
             </TabsContent>
 
-            {/* Videos Tab with Sub-tabs */}
             <TabsContent value="videos">
               <Tabs value={videoSubTab} onValueChange={(v) => setVideoSubTab(v as VideoSubTab)} className="w-full">
                 <TabsList className="grid w-full max-w-lg mx-auto grid-cols-2 mb-6">
                   <TabsTrigger value="daily_videos" className="gap-2">
                     <Video className="h-4 w-4" />
-                    Daily Videos
+                    {t("gallery.dailyVideos")}
                   </TabsTrigger>
                   <TabsTrigger value="aff_videos" className="gap-2">
                     <GraduationCap className="h-4 w-4" />
-                    AFF Course Videos
+                    {t("gallery.affVideos")}
                   </TabsTrigger>
                 </TabsList>
 
@@ -167,8 +153,9 @@ export default function Gallery() {
                     selectedItem={selectedItem}
                     refetch={refetch}
                     onUpload={() => setShowUpload(true)}
-                    emptyMessage="No daily videos yet"
+                    emptyMessage={t("gallery.noDailyVideos")}
                     slideDirection={slideDirection}
+                    t={t}
                   />
                 </TabsContent>
 
@@ -182,8 +169,9 @@ export default function Gallery() {
                     selectedItem={selectedItem}
                     refetch={refetch}
                     onUpload={() => setShowUpload(true)}
-                    emptyMessage="No AFF course videos yet"
+                    emptyMessage={t("gallery.noAffVideos")}
                     slideDirection={slideDirection}
+                    t={t}
                   />
                 </TabsContent>
               </Tabs>
@@ -194,7 +182,6 @@ export default function Gallery() {
 
       <Footer />
 
-      {/* Upload Modal */}
       <AnimatePresence>
         {showUpload && (
           <GalleryUpload
@@ -211,7 +198,6 @@ export default function Gallery() {
   );
 }
 
-// Extracted gallery section component for reuse
 interface GallerySectionProps {
   items: any[];
   isLoading: boolean;
@@ -223,6 +209,7 @@ interface GallerySectionProps {
   onUpload: () => void;
   emptyMessage?: string;
   slideDirection?: number;
+  t: (key: string) => string;
 }
 
 function GallerySection({
@@ -234,8 +221,9 @@ function GallerySection({
   selectedItem,
   refetch,
   onUpload,
-  emptyMessage = "No items in this section yet",
+  emptyMessage,
   slideDirection = 0,
+  t,
 }: GallerySectionProps) {
   if (isLoading) {
     return (
@@ -252,7 +240,7 @@ function GallerySection({
         {isAdmin && (
           <Button onClick={onUpload} className="mt-4 gap-2">
             <Upload className="h-4 w-4" />
-            Upload First Item
+            {t("gallery.uploadFirst")}
           </Button>
         )}
       </div>
@@ -261,7 +249,6 @@ function GallerySection({
 
   return (
     <div className="pb-8">
-      {/* Main Image/Video Viewer */}
       <div className="mb-8">
         <GalleryViewer
           item={selectedItem}
@@ -277,8 +264,6 @@ function GallerySection({
           }}
         />
       </div>
-
-      {/* Thumbnail Gallery at Bottom */}
       <div className="mt-8 pt-8 border-t">
         <GalleryThumbnails items={items} selectedIndex={selectedIndex} onSelect={setSelectedIndex} />
       </div>

@@ -37,7 +37,7 @@ export function GalleryViewer({ item, isAdmin, onDelete, direction = 0 }: Galler
   if (!item) {
     return (
       <div className="aspect-video bg-muted/20 rounded-2xl flex items-center justify-center mb-6">
-        <p className="text-muted-foreground">Select a photo to view</p>
+        <p className="text-muted-foreground">{t("gallery.selectItem")}</p>
       </div>
     );
   }
@@ -49,10 +49,10 @@ export function GalleryViewer({ item, isAdmin, onDelete, direction = 0 }: Galler
     setShowDeleteDialog(false);
 
     if (result.success) {
-      toast.success("Photo deleted successfully");
+      toast.success(t("gallery.deleteSuccess"));
       onDelete();
     } else {
-      toast.error(result.error || "Failed to delete photo");
+      toast.error(result.error || t("gallery.deleteError"));
     }
   };
 
@@ -88,7 +88,7 @@ export function GalleryViewer({ item, isAdmin, onDelete, direction = 0 }: Galler
         {/* Media Error State */}
         {mediaError ? (
           <div className="w-full h-full flex flex-col items-center justify-center bg-destructive/10 p-8">
-            <p className="text-destructive font-medium mb-2">Failed to load image</p>
+            <p className="text-destructive font-medium mb-2">{t("gallery.loadError")}</p>
             <div className="flex gap-2 mt-4">
               <Button variant="outline" size="sm" onClick={handleRetry}>
                 Retry
@@ -165,15 +165,15 @@ export function GalleryViewer({ item, isAdmin, onDelete, direction = 0 }: Galler
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Photo</AlertDialogTitle>
+            <AlertDialogTitle>{t("gallery.deleteConfirmTitle")}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this photo? This action cannot be undone.
+              {t("gallery.deleteConfirmDesc")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("gallery.cancel")}</AlertDialogCancel>
             <AlertDialogAction onClick={handleDelete} className="bg-destructive hover:bg-destructive/90">
-              Delete
+              {t("gallery.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
