@@ -102,9 +102,7 @@ return (
             )}
           </div>
         </div>
-      </main>
-    </div>
-)
+
         {/* Gallery Title */}
         <div className="container mx-auto px-4 py-8 text-center">
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
