@@ -37,7 +37,7 @@ export function GalleryViewer({ item, isAdmin, onDelete, direction = 0 }: Galler
   if (!item) {
     return (
       <div className="aspect-video bg-muted/20 rounded-2xl flex items-center justify-center mb-6">
-        <p className="text-muted-foreground">Select a photo to view</p>
+        <p className="text-muted-foreground">{t("gallery.selectItem")}</p>
       </div>
     );
   }
