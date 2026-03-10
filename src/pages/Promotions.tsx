@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Users, Tag, Calendar, ChevronRight, GraduationCap, Cake, Clock, RotateCcw } from "lucide-react";
+import { PageNavbar } from "@/components/PageNavbar";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Footer } from "@/components/Footer";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
@@ -95,6 +96,15 @@ export default function Promotions() {
   return (
     <div className="min-h-screen bg-background text-foreground relative">
       <SEO title="Promotions" description="Exclusive skydiving deals and group discounts. Save on your next jump with Let's Skydive HK." path="/promotions" />
+      
+      {/* Navbar */}
+      <div className="fixed top-0 left-0 right-0 z-50">
+        <div className="absolute inset-0 bg-black/80 backdrop-blur-md border-b border-white/10" />
+        <div className="relative container mx-auto px-4">
+          <PageNavbar />
+        </div>
+      </div>
+
       <BackgroundDecorations />
       <main className="relative z-10 pt-24 pb-16">
         {/* Header */}
