@@ -96,7 +96,7 @@ export function PageNavbar() {
         initial={{ x: '100%' }}
         animate={{ x: isMobileMenuOpen ? '0%' : '100%' }}
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-        className="md:hidden fixed top-0 right-0 h-full w-72 max-w-[85vw] bg-foreground/95 backdrop-blur-xl border-l border-background/10 z-[90]"
+        className="md:hidden fixed top-0 right-0 h-full w-72 max-w-[85vw] bg-black/95 backdrop-blur-xl border-l border-white/10 z-[90]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col h-full">
