@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Users, Tag, Calendar, ChevronRight, GraduationCap, Cake, Clock, RotateCcw } from "lucide-react";
+import { PageNavbar } from "@/components/PageNavbar";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Footer } from "@/components/Footer";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
