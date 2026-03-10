@@ -1091,6 +1091,7 @@ const translations: Record<Language, Record<string, string>> = {
     "gallery.refresh": "重新整理",
     "gallery.refreshSuccess": "相片集已重新整理",
     "gallery.refreshError": "重新整理失敗",
+    "gallery.loadError": "無法載入圖片",
     "nav.gallery": "相片集",
     "nav.faq": "常見問題",
     "nav.promotions": "最新優惠",
