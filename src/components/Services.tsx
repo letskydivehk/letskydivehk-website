@@ -228,7 +228,7 @@ export function Services() {
                         {service.includes.map((item, idx) => (
                           <li key={idx} className="flex items-start gap-2 text-sm text-muted-foreground">
                             <Check className="w-4 h-4 text-accent-orange mt-0.5 flex-shrink-0" />
-                            <span>{item}</span>
+                            <span>{translateData(`include.${item}`, item)}</span>
                           </li>
                         ))}
                       </ul>
