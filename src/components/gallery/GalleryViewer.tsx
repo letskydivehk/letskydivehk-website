@@ -165,15 +165,15 @@ export function GalleryViewer({ item, isAdmin, onDelete, direction = 0 }: Galler
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Photo</AlertDialogTitle>
+            <AlertDialogTitle>{t("gallery.deleteConfirmTitle")}</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this photo? This action cannot be undone.
+              {t("gallery.deleteConfirmDesc")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
+            <AlertDialogCancel>{t("gallery.cancel")}</AlertDialogCancel>
             <AlertDialogAction onClick={handleDelete} className="bg-destructive hover:bg-destructive/90">
-              Delete
+              {t("gallery.delete")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
