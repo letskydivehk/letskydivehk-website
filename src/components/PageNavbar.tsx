@@ -42,23 +42,23 @@ export function PageNavbar() {
         className="fixed top-0 left-0 right-0 w-full z-[110]"
       >
         <div className={`w-full px-6 sm:px-8 lg:px-12 py-4 transition-all duration-300 ease-out ${
-          isScrolled ? 'bg-foreground/95 backdrop-blur-xl border-b border-background/10' : 'bg-foreground/90 backdrop-blur-xl'
+          isScrolled ? 'bg-black/95 backdrop-blur-xl border-b border-white/10' : 'bg-black/90 backdrop-blur-xl'
         }`}>
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="flex items-center">
-              <span className="font-bagel text-background text-xl tracking-wider">LET'S SKYDIVE HK</span>
+              <span className="font-bagel text-white text-xl tracking-wider">LET'S SKYDIVE HK</span>
             </Link>
 
             {/* Desktop Nav */}
             <div className="hidden md:flex items-center space-x-8">
               {navLinks.map((link) =>
                 link.isRoute ? (
-                  <Link key={link.href} to={link.href} className="text-background hover:text-background/80 font-medium transition-all hover:scale-105">
+                  <Link key={link.href} to={link.href} className="text-white hover:text-white/80 font-medium transition-all hover:scale-105">
                     {link.label}
                   </Link>
                 ) : (
-                  <a key={link.href} href={link.href} className="text-background hover:text-background/80 font-medium transition-all hover:scale-105">
+                  <a key={link.href} href={link.href} className="text-white hover:text-white/80 font-medium transition-all hover:scale-105">
                     {link.label}
                   </a>
                 )
@@ -71,7 +71,7 @@ export function PageNavbar() {
               <AuthButton />
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden bg-background/10 p-3 rounded-full text-background hover:bg-background/20 active:bg-background/30 transition-all cursor-pointer z-[120] relative"
+                className="md:hidden bg-white/10 p-3 rounded-full text-white hover:bg-white/20 active:bg-white/30 transition-all cursor-pointer z-[120] relative"
               >
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -96,24 +96,24 @@ export function PageNavbar() {
         initial={{ x: '100%' }}
         animate={{ x: isMobileMenuOpen ? '0%' : '100%' }}
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-        className="md:hidden fixed top-0 right-0 h-full w-72 max-w-[85vw] bg-foreground/95 backdrop-blur-xl border-l border-background/10 z-[90]"
+        className="md:hidden fixed top-0 right-0 h-full w-72 max-w-[85vw] bg-black/95 backdrop-blur-xl border-l border-white/10 z-[90]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col h-full">
           <div className="flex justify-end p-4">
-            <button onClick={() => setIsMobileMenuOpen(false)} className="bg-background/10 p-3 rounded-full text-background hover:bg-background/20 transition-all cursor-pointer">
+            <button onClick={() => setIsMobileMenuOpen(false)} className="bg-white/10 p-3 rounded-full text-white hover:bg-white/20 transition-all cursor-pointer">
               <X className="w-5 h-5" />
             </button>
           </div>
           <div className="flex flex-col px-6 pb-6 h-full">
-            <div className="flex flex-col space-y-4 text-background">
+            <div className="flex flex-col space-y-4 text-white">
               {navLinks.map((link) =>
                 link.isRoute ? (
-                  <Link key={link.href} to={link.href} className="px-4 py-3 hover:bg-background/10 rounded-lg font-medium text-lg" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Link key={link.href} to={link.href} className="px-4 py-3 hover:bg-white/10 rounded-lg font-medium text-lg" onClick={() => setIsMobileMenuOpen(false)}>
                     {link.label}
                   </Link>
                 ) : (
-                  <a key={link.href} href={link.href} className="px-4 py-3 hover:bg-background/10 rounded-lg font-medium text-lg" onClick={() => setIsMobileMenuOpen(false)}>
+                  <a key={link.href} href={link.href} className="px-4 py-3 hover:bg-white/10 rounded-lg font-medium text-lg" onClick={() => setIsMobileMenuOpen(false)}>
                     {link.label}
                   </a>
                 )
