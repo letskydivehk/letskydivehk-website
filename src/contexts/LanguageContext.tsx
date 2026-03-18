@@ -1138,6 +1138,7 @@ const translations: Record<Language, Record<string, string>> = {
     "blog.category.tips": "貼士",
     "blog.category.news": "消息",
     "blog.readMore": "閱讀更多",
+    "blog.viewAll": "查看所有文章",
     "blog.noPosts": "沒有找到文章。",
     "blog.notFound": "找不到文章",
     "blog.backToList": "返回網誌",
