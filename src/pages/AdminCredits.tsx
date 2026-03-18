@@ -372,6 +372,11 @@ export default function AdminCredits() {
                     </CardContent>
                   </Card>
 
+                  {/* Edit Profile */}
+                  <AdminMemberProfile
+                    member={selectedMember}
+                    onUpdated={() => fetchMembers()}
+                  />
                   {/* Adjust Form */}
                   <Card className="mobile-transparent-card">
                     <CardHeader>
