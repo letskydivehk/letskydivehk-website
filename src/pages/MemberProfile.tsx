@@ -517,6 +517,54 @@ export default function MemberProfile() {
 
             {/* Sidebar */}
             <div className="space-y-4">
+              {/* Membership Tier Card */}
+              {memberTier && (
+                <Card className="mobile-transparent-card border-primary/20 overflow-hidden">
+                  <div className="h-1.5 w-full" style={{ backgroundColor: memberTier.color }} />
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Award className="w-4 h-4" style={{ color: memberTier.color }} />
+                      {t("tiers.membershipTier")}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="text-center py-2">
+                      <p className="text-2xl font-bold" style={{ color: memberTier.color }}>
+                        {language === "zh-TW" ? memberTier.name_zh_tw : language === "zh-CN" ? memberTier.name_zh_cn : memberTier.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {(profile as any)?.total_jumps || 0} {t("tiers.jumpsCompleted")} · {memberTier.credit_multiplier}x {t("tiers.creditMultiplier")}
+                      </p>
+                    </div>
+
+                    {/* Progress to next tier */}
+                    {(() => {
+                      const currentIdx = allTiers.findIndex((t: any) => t.id === memberTier.id);
+                      const nextTier = allTiers[currentIdx + 1];
+                      if (!nextTier) return null;
+                      const totalJumps = (profile as any)?.total_jumps || 0;
+                      const progress = Math.min(100, ((totalJumps - memberTier.min_jumps) / (nextTier.min_jumps - memberTier.min_jumps)) * 100);
+                      const nextName = language === "zh-TW" ? nextTier.name_zh_tw : language === "zh-CN" ? nextTier.name_zh_cn : nextTier.name;
+                      return (
+                        <div>
+                          <div className="flex justify-between text-xs text-muted-foreground mb-1">
+                            <span>{t("tiers.nextTier")}: {nextName}</span>
+                            <span>{nextTier.min_jumps - totalJumps} {t("tiers.jumpsToGo")}</span>
+                          </div>
+                          <Progress value={progress} className="h-2" />
+                        </div>
+                      );
+                    })()}
+
+                    <Link to="/membership/tiers" className="block">
+                      <Button variant="outline" size="sm" className="w-full text-xs">
+                        {t("tiers.viewAllTiers")}
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              )}
+
               {/* Credit Balance Card */}
               <Card className="mobile-transparent-card border-primary/20">
                 <CardHeader className="pb-3">
