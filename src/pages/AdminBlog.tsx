@@ -84,8 +84,8 @@ export default function AdminBlog() {
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ["admin-blog-posts"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("blog_posts" as any)
+      const { data, error } = await (supabase as any)
+        .from("blog_posts")
         .select("*")
         .order("display_order", { ascending: true });
       if (error) throw error;
