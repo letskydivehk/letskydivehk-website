@@ -2272,6 +2272,8 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "include.Certificate of completion": "完成证书",
     "include.60 seconds of freefall": "45-60秒自由落体",
     "include.5-7 minute canopy ride": "5-7分钟伞下飞行",
+    "include.Video recording": "录影",
+    "include.Photos": "照片",
     "include.Dedicated group coordinator": "专属团体协调员",
     "include.Private briefing session": "私人简报环节",
     "include.Group photos & videos": "团体照片及视频",
