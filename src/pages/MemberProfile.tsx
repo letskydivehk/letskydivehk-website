@@ -80,7 +80,7 @@ interface Booking {
 
 export default function MemberProfile() {
   const { user, loading: authLoading } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState<Profile | null>(null);

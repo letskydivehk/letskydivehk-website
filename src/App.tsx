@@ -53,6 +53,10 @@ export default function App() {
                 <Route path="/gallery" element={<Gallery />} />
                 <Route path="/promotions" element={<Promotions />} />
                 <Route path="/admin/credits" element={<AdminCredits />} />
+                <Route path="/admin/blog" element={<AdminBlog />} />
+                <Route path="/blog" element={<Blog />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
+                <Route path="/membership/tiers" element={<MembershipTiers />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/disclaimer" element={<Disclaimer />} />
