@@ -219,6 +219,23 @@ export default function MemberProfile() {
     }
   }, []);
 
+  const fetchTiers = useCallback(async (totalJumps: number) => {
+    try {
+      const { data, error } = await (supabase as any)
+        .from("membership_tiers")
+        .select("*")
+        .order("display_order", { ascending: true });
+      if (error) throw error;
+      const tiers = data || [];
+      setAllTiers(tiers);
+      // Find current tier based on total_jumps
+      const currentTier = [...tiers].reverse().find((t: any) => totalJumps >= t.min_jumps);
+      setMemberTier(currentTier || tiers[0]);
+    } catch (error) {
+      console.error("Error fetching tiers:", error);
+    }
+  }, []);
+
 
   useEffect(() => {
     if (authLoading) return;
