@@ -618,6 +618,20 @@ export type Database = {
         Returns: Json
       }
       admin_reject_credit: { Args: { p_transaction_id: string }; Returns: Json }
+      admin_update_profile: {
+        Args: {
+          p_date_of_birth?: string
+          p_emergency_contact_name?: string
+          p_emergency_contact_phone?: string
+          p_emergency_contact_relationship?: string
+          p_full_name?: string
+          p_phone?: string
+          p_target_user_id: string
+          p_tier_id?: string
+          p_total_jumps?: number
+        }
+        Returns: Json
+      }
       create_booking: {
         Args: {
           p_email?: string

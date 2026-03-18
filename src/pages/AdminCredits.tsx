@@ -12,6 +12,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { toast } from "sonner";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { Footer } from "@/components/Footer";
+import { AdminMemberProfile } from "@/components/admin/AdminMemberProfile";
 
 interface MemberWithBalance {
   user_id: string;
@@ -371,6 +372,11 @@ export default function AdminCredits() {
                     </CardContent>
                   </Card>
 
+                  {/* Edit Profile */}
+                  <AdminMemberProfile
+                    member={selectedMember}
+                    onUpdated={() => fetchMembers()}
+                  />
                   {/* Adjust Form */}
                   <Card className="mobile-transparent-card">
                     <CardHeader>
