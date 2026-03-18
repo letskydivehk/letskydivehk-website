@@ -254,7 +254,8 @@ export default function MemberProfile() {
     fetchBookings(user.id);
     fetchCredits(user.id);
     checkAdminRole(user.id);
-  }, [authLoading, user, navigate, fetchProfile, fetchBookings]);
+    fetchTiers(0); // Will update when profile loads
+  }, [authLoading, user, navigate, fetchProfile, fetchBookings, fetchTiers]);
 
   const handleSave = async () => {
     if (!user) return;
