@@ -388,6 +388,38 @@ const translations: Record<Language, Record<string, string>> = {
     "nav.gallery": "Gallery",
     "nav.faq": "FAQ",
     "nav.promotions": "Promotions",
+    "nav.blog": "Blog",
+
+    // Blog
+    "blog.badge": "Knowledge Base",
+    "blog.title": "Blog",
+    "blog.subtitle": "Skydiving guides, tips, and news to prepare you for the ultimate adventure.",
+    "blog.searchPlaceholder": "Search articles...",
+    "blog.category.all": "All",
+    "blog.category.guide": "Guides",
+    "blog.category.tips": "Tips",
+    "blog.category.news": "News",
+    "blog.readMore": "Read More",
+    "blog.noPosts": "No articles found.",
+    "blog.notFound": "Article not found",
+    "blog.backToList": "Back to Blog",
+    "blog.relatedPosts": "Related Articles",
+    "blog.ctaTitle": "Ready to Jump?",
+    "blog.ctaSubtitle": "Book your skydiving adventure today!",
+
+    // Membership Tiers
+    "tiers.badge": "Loyalty Program",
+    "tiers.title": "Membership Tiers",
+    "tiers.subtitle": "Jump more, earn more. Unlock exclusive perks as you level up.",
+    "tiers.jumps": "jumps",
+    "tiers.jumpsCompleted": "jumps completed",
+    "tiers.creditMultiplier": "credit multiplier",
+    "tiers.membershipTier": "Membership Tier",
+    "tiers.nextTier": "Next tier",
+    "tiers.jumpsToGo": "jumps to go",
+    "tiers.viewAllTiers": "View All Tiers",
+    "tiers.ctaTitle": "Start Your Journey",
+    "tiers.ctaSubtitle": "Every jump brings you closer to the next tier and better rewards!",
 
     // Promotions Page
     "promo.badge": "Limited Offers",
