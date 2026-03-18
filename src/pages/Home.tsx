@@ -17,6 +17,7 @@ import { StickyBookingBar } from "@/components/StickyBookingBar";
 import { SocialProofTicker } from "@/components/SocialProofTicker";
 import { JumpQuiz } from "@/components/JumpQuiz";
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { LatestBlog } from "@/components/LatestBlog";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -70,6 +71,9 @@ export default function Home() {
         </section>
         <section id="about" aria-label="About section">
           <About />
+        </section>
+        <section id="blog" aria-label="Blog section">
+          <LatestBlog />
         </section>
         <section id="faq" aria-label="FAQ section">
           <FAQ />
