@@ -130,7 +130,7 @@ export default function AdminBlog() {
 
   const handleDelete = async (id: string) => {
     if (!confirm("Delete this post?")) return;
-    const { error } = await supabase.from("blog_posts" as any).delete().eq("id", id);
+    const { error } = await (supabase as any).from("blog_posts").delete().eq("id", id);
     if (error) { toast.error("Failed to delete"); return; }
     toast.success("Post deleted");
     queryClient.invalidateQueries({ queryKey: ["admin-blog-posts"] });

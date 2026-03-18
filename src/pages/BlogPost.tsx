@@ -40,8 +40,8 @@ export default function BlogPost() {
   const { data: relatedPosts = [] } = useQuery({
     queryKey: ["blog-related", slug, post?.category],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("blog_posts" as any)
+      const { data, error } = await (supabase as any)
+        .from("blog_posts")
         .select("id, slug, title, title_zh_tw, title_zh_cn, cover_image, published_at, category")
         .eq("is_published", true)
         .eq("category", post?.category)
@@ -49,7 +49,7 @@ export default function BlogPost() {
         .order("published_at", { ascending: false })
         .limit(3);
       if (error) throw error;
-      return data || [];
+      return (data || []) as any[];
     },
     enabled: !!post?.category,
   });

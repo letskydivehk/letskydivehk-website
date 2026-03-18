@@ -28,13 +28,13 @@ export default function Blog() {
   const { data: posts = [], isLoading } = useQuery({
     queryKey: ["blog-posts"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("blog_posts" as any)
+      const { data, error } = await (supabase as any)
+        .from("blog_posts")
         .select("*")
         .eq("is_published", true)
         .order("published_at", { ascending: false });
       if (error) throw error;
-      return data || [];
+      return (data || []) as any[];
     },
   });
 

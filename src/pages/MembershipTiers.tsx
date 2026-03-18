@@ -31,12 +31,12 @@ export default function MembershipTiers() {
   const { data: tiers = [] } = useQuery({
     queryKey: ["membership-tiers"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("membership_tiers" as any)
+      const { data, error } = await (supabase as any)
+        .from("membership_tiers")
         .select("*")
         .order("display_order", { ascending: true });
       if (error) throw error;
-      return data || [];
+      return (data || []) as any[];
     },
   });
 
