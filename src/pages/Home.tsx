@@ -17,6 +17,7 @@ import { StickyBookingBar } from "@/components/StickyBookingBar";
 import { SocialProofTicker } from "@/components/SocialProofTicker";
 import { JumpQuiz } from "@/components/JumpQuiz";
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { LatestBlog } from "@/components/LatestBlog";
 
 export default function Home() {
   const { t } = useLanguage();
