@@ -2148,6 +2148,8 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "include.Certificate of completion": "Certificate of completion",
     "include.60 seconds of freefall": "45-60 seconds of freefall",
     "include.5-7 minute canopy ride": "5-7 minute canopy ride",
+    "include.Video recording": "Video recording",
+    "include.Photos": "Photos",
     "include.Dedicated group coordinator": "Dedicated group coordinator",
     "include.Private briefing session": "Private briefing session",
     "include.Group photos & videos": "Group photos & videos",
