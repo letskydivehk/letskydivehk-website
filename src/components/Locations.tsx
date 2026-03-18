@@ -247,19 +247,10 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
                 e.stopPropagation();
                 onViewDetails();
               }}
-              className="flex-1 py-3 bg-muted text-foreground font-semibold rounded-lg hover:bg-muted/80 transition-colors cursor-pointer flex items-center justify-center gap-2"
+              className="flex-1 py-3 bg-accent-orange text-white font-semibold rounded-lg hover:bg-accent-orange/90 transition-colors cursor-pointer flex items-center justify-center gap-2"
             >
               <Eye className="w-4 h-4" />
               {t("locations.viewDetails")}
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                onBookClick(location.id);
-              }}
-              className="flex-1 py-3 bg-accent-orange text-white font-semibold rounded-lg hover:bg-accent-orange/90 transition-colors cursor-pointer"
-            >
-              {t("locations.bookHereBtn")}
             </button>
           </div>
         ) : (
