@@ -112,9 +112,9 @@ export default function AdminBlog() {
         if (error) throw error;
         toast.success("Post updated");
       } else {
-        const { error } = await supabase
-          .from("blog_posts" as any)
-          .insert(postData as any);
+        const { error } = await (supabase as any)
+          .from("blog_posts")
+          .insert(postData);
         if (error) throw error;
         toast.success("Post created");
       }
