@@ -72,9 +72,6 @@ export default function Home() {
         <section id="about" aria-label="About section">
           <About />
         </section>
-        <section id="blog" aria-label="Blog section">
-          <LatestBlog />
-        </section>
         <section id="faq" aria-label="FAQ section">
           <FAQ />
         </section>
