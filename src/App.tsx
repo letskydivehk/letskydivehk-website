@@ -17,8 +17,12 @@ import Disclaimer from './pages/Disclaimer';
 import NotFound from './pages/NotFound';
 import Promotions from './pages/Promotions';
 import AdminCredits from './pages/AdminCredits';
+import AdminBlog from './pages/AdminBlog';
 import ServiceTandem from './pages/ServiceTandem';
 import ServiceALicence from './pages/ServiceALicence';
+import Blog from './pages/Blog';
+import BlogPost from './pages/BlogPost';
+import MembershipTiers from './pages/MembershipTiers';
 
 const queryClient = new QueryClient({
   defaultOptions: {
