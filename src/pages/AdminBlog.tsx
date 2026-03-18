@@ -105,9 +105,9 @@ export default function AdminBlog() {
       };
 
       if ("id" in editingPost) {
-        const { error } = await supabase
-          .from("blog_posts" as any)
-          .update(postData as any)
+        const { error } = await (supabase as any)
+          .from("blog_posts")
+          .update(postData)
           .eq("id", editingPost.id);
         if (error) throw error;
         toast.success("Post updated");
