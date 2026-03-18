@@ -116,6 +116,9 @@ export function Hero() {
               <Link to="/gallery" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
                 {t('nav.gallery')}
               </Link>
+              <Link to="/blog" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
+                {t('nav.blog')}
+              </Link>
               <Link to="/promotions" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
                 {t('nav.promotions')}
               </Link>
