@@ -400,6 +400,7 @@ const translations: Record<Language, Record<string, string>> = {
     "blog.category.tips": "Tips",
     "blog.category.news": "News",
     "blog.readMore": "Read More",
+    "blog.viewAll": "View All Articles",
     "blog.noPosts": "No articles found.",
     "blog.notFound": "Article not found",
     "blog.backToList": "Back to Blog",
