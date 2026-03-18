@@ -92,6 +92,8 @@ export default function MemberProfile() {
   const [profileLoading, setProfileLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
+  const [memberTier, setMemberTier] = useState<any>(null);
+  const [allTiers, setAllTiers] = useState<any[]>([]);
 
   const [formData, setFormData] = useState({
     full_name: "",
