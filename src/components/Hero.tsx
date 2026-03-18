@@ -116,6 +116,9 @@ export function Hero() {
               <Link to="/gallery" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
                 {t('nav.gallery')}
               </Link>
+              <Link to="/blog" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
+                {t('nav.blog')}
+              </Link>
               <Link to="/promotions" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
                 {t('nav.promotions')}
               </Link>
@@ -189,6 +192,9 @@ export function Hero() {
               </a>
               <Link to="/gallery" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
                 {t('nav.gallery')}
+              </Link>
+              <Link to="/blog" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
+                {t('nav.blog')}
               </Link>
               <Link to="/promotions" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
                 {t('nav.promotions')}
