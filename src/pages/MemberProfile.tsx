@@ -1,7 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, User, Phone, Mail, UserPlus, Save, Loader2, Calendar, MapPin, Coins, TrendingUp, TrendingDown, Shield, Copy, Clock } from "lucide-react";
+import { ArrowLeft, User, Phone, Mail, UserPlus, Save, Loader2, Calendar, MapPin, Coins, TrendingUp, TrendingDown, Shield, Copy, Clock, Award, Star, Crown, Gem, Check } from "lucide-react";
 import { SEO } from "@/components/SEO";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -11,6 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import { z } from "zod";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
@@ -79,7 +80,7 @@ interface Booking {
 
 export default function MemberProfile() {
   const { user, loading: authLoading } = useAuth();
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
 
   const [profile, setProfile] = useState<Profile | null>(null);
@@ -91,6 +92,8 @@ export default function MemberProfile() {
   const [profileLoading, setProfileLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [hasCheckedAuth, setHasCheckedAuth] = useState(false);
+  const [memberTier, setMemberTier] = useState<any>(null);
+  const [allTiers, setAllTiers] = useState<any[]>([]);
 
   const [formData, setFormData] = useState({
     full_name: "",
@@ -216,6 +219,23 @@ export default function MemberProfile() {
     }
   }, []);
 
+  const fetchTiers = useCallback(async (totalJumps: number) => {
+    try {
+      const { data, error } = await (supabase as any)
+        .from("membership_tiers")
+        .select("*")
+        .order("display_order", { ascending: true });
+      if (error) throw error;
+      const tiers = data || [];
+      setAllTiers(tiers);
+      // Find current tier based on total_jumps
+      const currentTier = [...tiers].reverse().find((t: any) => totalJumps >= t.min_jumps);
+      setMemberTier(currentTier || tiers[0]);
+    } catch (error) {
+      console.error("Error fetching tiers:", error);
+    }
+  }, []);
+
 
   useEffect(() => {
     if (authLoading) return;
@@ -234,7 +254,8 @@ export default function MemberProfile() {
     fetchBookings(user.id);
     fetchCredits(user.id);
     checkAdminRole(user.id);
-  }, [authLoading, user, navigate, fetchProfile, fetchBookings]);
+    fetchTiers(0); // Will update when profile loads
+  }, [authLoading, user, navigate, fetchProfile, fetchBookings, fetchTiers]);
 
   const handleSave = async () => {
     if (!user) return;
@@ -496,6 +517,54 @@ export default function MemberProfile() {
 
             {/* Sidebar */}
             <div className="space-y-4">
+              {/* Membership Tier Card */}
+              {memberTier && (
+                <Card className="mobile-transparent-card border-primary/20 overflow-hidden">
+                  <div className="h-1.5 w-full" style={{ backgroundColor: memberTier.color }} />
+                  <CardHeader className="pb-3">
+                    <CardTitle className="text-base flex items-center gap-2">
+                      <Award className="w-4 h-4" style={{ color: memberTier.color }} />
+                      {t("tiers.membershipTier")}
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-3">
+                    <div className="text-center py-2">
+                      <p className="text-2xl font-bold" style={{ color: memberTier.color }}>
+                        {language === "zh-TW" ? memberTier.name_zh_tw : language === "zh-CN" ? memberTier.name_zh_cn : memberTier.name}
+                      </p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        {(profile as any)?.total_jumps || 0} {t("tiers.jumpsCompleted")} · {memberTier.credit_multiplier}x {t("tiers.creditMultiplier")}
+                      </p>
+                    </div>
+
+                    {/* Progress to next tier */}
+                    {(() => {
+                      const currentIdx = allTiers.findIndex((t: any) => t.id === memberTier.id);
+                      const nextTier = allTiers[currentIdx + 1];
+                      if (!nextTier) return null;
+                      const totalJumps = (profile as any)?.total_jumps || 0;
+                      const progress = Math.min(100, ((totalJumps - memberTier.min_jumps) / (nextTier.min_jumps - memberTier.min_jumps)) * 100);
+                      const nextName = language === "zh-TW" ? nextTier.name_zh_tw : language === "zh-CN" ? nextTier.name_zh_cn : nextTier.name;
+                      return (
+                        <div>
+                          <div className="flex justify-between text-xs text-muted-foreground mb-1">
+                            <span>{t("tiers.nextTier")}: {nextName}</span>
+                            <span>{nextTier.min_jumps - totalJumps} {t("tiers.jumpsToGo")}</span>
+                          </div>
+                          <Progress value={progress} className="h-2" />
+                        </div>
+                      );
+                    })()}
+
+                    <Link to="/membership/tiers" className="block">
+                      <Button variant="outline" size="sm" className="w-full text-xs">
+                        {t("tiers.viewAllTiers")}
+                      </Button>
+                    </Link>
+                  </CardContent>
+                </Card>
+              )}
+
               {/* Credit Balance Card */}
               <Card className="mobile-transparent-card border-primary/20">
                 <CardHeader className="pb-3">

@@ -14,6 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          author_name: string | null
+          category: string
+          content: string
+          content_zh_cn: string | null
+          content_zh_tw: string | null
+          cover_image: string | null
+          created_at: string
+          display_order: number
+          excerpt: string | null
+          excerpt_zh_cn: string | null
+          excerpt_zh_tw: string | null
+          id: string
+          is_published: boolean
+          published_at: string | null
+          slug: string
+          tags: string[] | null
+          title: string
+          title_zh_cn: string | null
+          title_zh_tw: string | null
+          updated_at: string
+        }
+        Insert: {
+          author_name?: string | null
+          category?: string
+          content?: string
+          content_zh_cn?: string | null
+          content_zh_tw?: string | null
+          cover_image?: string | null
+          created_at?: string
+          display_order?: number
+          excerpt?: string | null
+          excerpt_zh_cn?: string | null
+          excerpt_zh_tw?: string | null
+          id?: string
+          is_published?: boolean
+          published_at?: string | null
+          slug: string
+          tags?: string[] | null
+          title: string
+          title_zh_cn?: string | null
+          title_zh_tw?: string | null
+          updated_at?: string
+        }
+        Update: {
+          author_name?: string | null
+          category?: string
+          content?: string
+          content_zh_cn?: string | null
+          content_zh_tw?: string | null
+          cover_image?: string | null
+          created_at?: string
+          display_order?: number
+          excerpt?: string | null
+          excerpt_zh_cn?: string | null
+          excerpt_zh_tw?: string | null
+          id?: string
+          is_published?: boolean
+          published_at?: string | null
+          slug?: string
+          tags?: string[] | null
+          title?: string
+          title_zh_cn?: string | null
+          title_zh_tw?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       bookings: {
         Row: {
           access_token: string | null
@@ -342,10 +411,59 @@ export type Database = {
         }
         Relationships: []
       }
+      membership_tiers: {
+        Row: {
+          color: string | null
+          created_at: string
+          credit_multiplier: number
+          display_order: number
+          icon: string | null
+          id: string
+          min_jumps: number
+          name: string
+          name_zh_cn: string | null
+          name_zh_tw: string | null
+          perks: string[] | null
+          perks_zh_cn: string[] | null
+          perks_zh_tw: string[] | null
+        }
+        Insert: {
+          color?: string | null
+          created_at?: string
+          credit_multiplier?: number
+          display_order?: number
+          icon?: string | null
+          id?: string
+          min_jumps?: number
+          name: string
+          name_zh_cn?: string | null
+          name_zh_tw?: string | null
+          perks?: string[] | null
+          perks_zh_cn?: string[] | null
+          perks_zh_tw?: string[] | null
+        }
+        Update: {
+          color?: string | null
+          created_at?: string
+          credit_multiplier?: number
+          display_order?: number
+          icon?: string | null
+          id?: string
+          min_jumps?: number
+          name?: string
+          name_zh_cn?: string | null
+          name_zh_tw?: string | null
+          perks?: string[] | null
+          perks_zh_cn?: string[] | null
+          perks_zh_tw?: string[] | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           avatar_url: string | null
           created_at: string
+          date_of_birth: string | null
           email: string | null
           emergency_contact_name: string | null
           emergency_contact_phone: string | null
@@ -354,12 +472,15 @@ export type Database = {
           id: string
           phone: string | null
           referral_code: string | null
+          tier_id: string | null
+          total_jumps: number
           updated_at: string
           user_id: string
         }
         Insert: {
           avatar_url?: string | null
           created_at?: string
+          date_of_birth?: string | null
           email?: string | null
           emergency_contact_name?: string | null
           emergency_contact_phone?: string | null
@@ -368,12 +489,15 @@ export type Database = {
           id?: string
           phone?: string | null
           referral_code?: string | null
+          tier_id?: string | null
+          total_jumps?: number
           updated_at?: string
           user_id: string
         }
         Update: {
           avatar_url?: string | null
           created_at?: string
+          date_of_birth?: string | null
           email?: string | null
           emergency_contact_name?: string | null
           emergency_contact_phone?: string | null
@@ -382,10 +506,20 @@ export type Database = {
           id?: string
           phone?: string | null
           referral_code?: string | null
+          tier_id?: string | null
+          total_jumps?: number
           updated_at?: string
           user_id?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "profiles_tier_id_fkey"
+            columns: ["tier_id"]
+            isOneToOne: false
+            referencedRelation: "membership_tiers"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       services: {
         Row: {
