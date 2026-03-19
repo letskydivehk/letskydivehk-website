@@ -1,36 +1,55 @@
 
 
-# Record Selected Promotions in Supabase
+# Polish Blog Post Content (3 articles)
 
-## What We Need
+The three blog posts to update are:
+1. **First Time Skydiving: Everything You Need to Know**
+2. **What to Wear Skydiving: A Complete Guide**
+3. **Tandem vs AFF: Which Course is Right for You?**
 
-Currently, `formData.selectedPromos` (an array of promo codes like `["BUDDY100", "STUDENT100"]`) is collected during booking but never saved to the database. We need to persist this data for follow-up.
+The "Skydiving Safety FAQ" is excluded per your request.
 
-## Approach
+---
 
-### 1. Add `selected_promos` column to `bookings` table
-- New column: `selected_promos text[] DEFAULT '{}'::text[]`
-- A text array storing the selected promo code IDs
+## What Will Be Improved
 
-### 2. Update `create_booking` RPC function
-- Add a new parameter `p_selected_promos text[] DEFAULT '{}'::text[]`
-- Insert the value into the new column
-- Update all 3 overloaded versions of the function (or the primary one used)
+Each article will get significantly richer, more engaging content in all three languages (EN, zh-TW, zh-CN):
 
-### 3. Update BookingSection.tsx
-- Pass `p_selected_promos: formData.selectedPromos` in the `supabase.rpc("create_booking", ...)` call
+### 1. First Time Skydiving Guide
+- Add an engaging intro paragraph with emotional hook
+- Expand "Before the Jump" with arrival, paperwork, weather briefing details
+- Add a "Day of Your Jump — Step by Step" timeline section
+- Expand freefall and canopy sections with sensory descriptions
+- Add "After You Land" section (celebrations, media collection)
+- Expand tips section with more practical advice (camera policy, glasses, medical notes)
+- Add a closing CTA paragraph
 
-### 4. Update notification email
-- Include selected promos in the notification body so admin can see them
+### 2. What to Wear Skydiving
+- Add intro explaining why clothing matters for comfort and safety
+- Expand "The Basics" with seasonal advice (summer vs winter)
+- Add "What About Glasses / Contact Lenses?" section
+- Add "What We Provide" section (jumpsuit, goggles, helmet, harness)
+- Expand "Pro Tips" with GoPro/camera mount considerations and post-jump outfit suggestions
+- Add weather-specific dressing advice
 
-## Files to Modify
-- **Database migration**: Add column + update RPC function
-- `src/components/BookingSection.tsx`: Pass `p_selected_promos` to RPC call
+### 3. Tandem vs AFF
+- Add intro explaining the two paths more narratively
+- Expand Tandem section with duration, cost expectations, what's included
+- Expand AFF section with level breakdown, time commitment, progression details
+- Add a comparison table in markdown (Training Time, Solo Flight, Cost, Duration, Certification)
+- Add "Still Not Sure?" section with personality-based recommendation
+- Stronger closing CTA
 
-## Technical Detail
-The migration SQL will:
-1. `ALTER TABLE bookings ADD COLUMN selected_promos text[] DEFAULT '{}'::text[];`
-2. `CREATE OR REPLACE FUNCTION create_booking(...)` — add the new parameter and include it in the INSERT
+---
 
-No RLS changes needed since the existing INSERT policy doesn't restrict specific columns, and the RPC uses `SECURITY DEFINER`.
+## Technical Approach
+
+- Create a new SQL migration that uses `UPDATE` statements to replace the `content`, `content_zh_tw`, `content_zh_cn`, `excerpt`, `excerpt_zh_tw`, and `excerpt_zh_cn` columns for the 3 slugs
+- No frontend code changes needed — the existing `react-markdown` renderer will handle the richer content automatically
+
+### File Changes
+
+| File | Action |
+|------|--------|
+| `supabase/migrations/new_migration.sql` | UPDATE 3 blog posts with polished content |
 
