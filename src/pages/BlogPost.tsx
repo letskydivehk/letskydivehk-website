@@ -157,7 +157,7 @@ export default function BlogPost() {
               prose-headings:text-foreground prose-p:text-foreground/80
               prose-a:text-primary prose-strong:text-foreground
               prose-li:text-foreground/80">
-              <ReactMarkdown>{content}</ReactMarkdown>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
             </div>
 
             {/* Tags */}
