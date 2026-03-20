@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { ArrowLeft, Calendar, User, Tag } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { SEO } from "@/components/SEO";
 import { PageNavbar } from "@/components/PageNavbar";
 import { Footer } from "@/components/Footer";
