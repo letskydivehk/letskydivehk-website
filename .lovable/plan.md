@@ -1,55 +1,61 @@
 
 
-# Polish Blog Post Content (3 articles)
+# Polish Blog Content Page Design
 
-The three blog posts to update are:
-1. **First Time Skydiving: Everything You Need to Know**
-2. **What to Wear Skydiving: A Complete Guide**
-3. **Tandem vs AFF: Which Course is Right for You?**
+## Current Issues
+- Plain white layout with no visual hierarchy
+- Markdown table renders as basic unstyled HTML table
+- No visual separation between sections
+- Cover image has no overlay or depth
+- Content area looks like raw text with minimal styling
+- Related posts and CTA sections are bland
+- No reading progress indicator or table of contents
 
-The "Skydiving Safety FAQ" is excluded per your request.
+## Design Improvements
 
----
+### 1. Hero-Style Cover Image
+- Full-width cover image with gradient overlay at the bottom
+- Title, meta info (date, author, category badge) overlaid on the image
+- Creates a magazine-style header instead of the current flat layout
 
-## What Will Be Improved
+### 2. Enhanced Prose / Content Styling
+- Add custom styles to `index.css` for the blog prose:
+  - Styled `<h2>` headings with left accent border (orange primary color)
+  - Styled `<blockquote>` with sky-blue left border and subtle background
+  - Better table styling: rounded corners, alternating row colors, primary header
+  - Styled list items with custom bullet/checkmark colors
+  - Image styling within content (rounded, shadow)
+  - Better spacing between sections
 
-Each article will get significantly richer, more engaging content in all three languages (EN, zh-TW, zh-CN):
+### 3. Table of Contents Sidebar
+- Auto-generate a sticky TOC from h2/h3 headings in the markdown content
+- Appears as a floating sidebar on desktop (hidden on mobile)
+- Highlights current section on scroll
 
-### 1. First Time Skydiving Guide
-- Add an engaging intro paragraph with emotional hook
-- Expand "Before the Jump" with arrival, paperwork, weather briefing details
-- Add a "Day of Your Jump — Step by Step" timeline section
-- Expand freefall and canopy sections with sensory descriptions
-- Add "After You Land" section (celebrations, media collection)
-- Expand tips section with more practical advice (camera policy, glasses, medical notes)
-- Add a closing CTA paragraph
+### 4. Reading Progress Bar
+- Thin progress bar at the top of the page showing scroll position
+- Uses the primary orange color
 
-### 2. What to Wear Skydiving
-- Add intro explaining why clothing matters for comfort and safety
-- Expand "The Basics" with seasonal advice (summer vs winter)
-- Add "What About Glasses / Contact Lenses?" section
-- Add "What We Provide" section (jumpsuit, goggles, helmet, harness)
-- Expand "Pro Tips" with GoPro/camera mount considerations and post-jump outfit suggestions
-- Add weather-specific dressing advice
+### 5. Enhanced Related Posts Section
+- Cards with hover animations, gradient overlay on images
+- Show category badge and date on each related card
 
-### 3. Tandem vs AFF
-- Add intro explaining the two paths more narratively
-- Expand Tandem section with duration, cost expectations, what's included
-- Expand AFF section with level breakdown, time commitment, progression details
-- Add a comparison table in markdown (Training Time, Solo Flight, Cost, Duration, Certification)
-- Add "Still Not Sure?" section with personality-based recommendation
-- Stronger closing CTA
+### 6. Improved CTA Section
+- Gradient background instead of flat color
+- Add a skydiving icon or illustration
+- Larger, more prominent button
 
----
-
-## Technical Approach
-
-- Create a new SQL migration that uses `UPDATE` statements to replace the `content`, `content_zh_tw`, `content_zh_cn`, `excerpt`, `excerpt_zh_tw`, and `excerpt_zh_cn` columns for the 3 slugs
-- No frontend code changes needed — the existing `react-markdown` renderer will handle the richer content automatically
-
-### File Changes
+## Files to Modify
 
 | File | Action |
 |------|--------|
-| `supabase/migrations/new_migration.sql` | UPDATE 3 blog posts with polished content |
+| `src/pages/BlogPost.tsx` | Major rewrite — hero cover, TOC sidebar, progress bar, enhanced layout |
+| `src/index.css` | Add `.blog-prose` custom styles for tables, headings, blockquotes, lists |
+
+## Implementation Notes
+- No database changes needed
+- Uses existing Tailwind classes + custom CSS for prose enhancements
+- TOC generated client-side by parsing heading elements after render
+- Progress bar uses scroll event listener with `useEffect`
+- Responsive: TOC hidden on mobile, full-width cover on all sizes
 
