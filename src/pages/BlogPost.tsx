@@ -87,20 +87,19 @@ export default function BlogPost() {
   });
 
   const { data: relatedPosts = [] } = useQuery({
-    queryKey: ["blog-related", slug, post?.category],
+    queryKey: ["blog-related", slug],
     queryFn: async () => {
       const { data, error } = await (supabase as any)
         .from("blog_posts")
         .select("id, slug, title, title_zh_tw, title_zh_cn, cover_image, published_at, category")
         .eq("is_published", true)
-        .eq("category", post?.category)
         .neq("slug", slug)
         .order("published_at", { ascending: false })
         .limit(3);
       if (error) throw error;
       return (data || []) as any[];
     },
-    enabled: !!post?.category,
+    enabled: !!slug,
   });
 
   const content = post ? getLocalizedField(post, "content", language) : "";
