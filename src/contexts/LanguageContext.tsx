@@ -168,7 +168,8 @@ const translations: Record<Language, Record<string, string>> = {
     "booking.noLocations": "No locations available for this service type.",
     "booking.more": "more",
     "booking.depositReminder": "A HKD $500 deposit is required to confirm your booking.",
-    "booking.depositReminderNote": "After clicking 'Next', you will proceed to the payment page to pay the deposit. The remaining balance will be collected on the activity day.",
+    "booking.depositReminderNote":
+      "After clicking 'Next', you will proceed to the payment page to pay the deposit. The remaining balance will be collected on the activity day.",
     "booking.termsDisclaimer":
       "By clicking submit, you agree to our booking terms. We'll contact you within 24 hours to confirm availability and finalize your booking.",
     "booking.fixErrors": "Please fix the validation errors before submitting",
@@ -733,9 +734,9 @@ const translations: Record<Language, Record<string, string>> = {
     "servicePage.aff.step3.title": "AFF Levels 1-3",
     "servicePage.aff.step3.desc":
       "Jump with two instructors who guide you through basic freefall skills and stability.",
-    "servicePage.aff.step4.title": "AFF Levels 4-7",
+    "servicePage.aff.step4.title": "AFF Levels 4-8",
     "servicePage.aff.step4.desc": "Progress to one-instructor jumps. Master turns, tracking, and deployment.",
-    "servicePage.aff.step5.title": "Solo Jumps (8-25)",
+    "servicePage.aff.step5.title": "Solo Jumps (9-25)",
     "servicePage.aff.step5.desc": "Complete your remaining jumps independently, perfecting your skills.",
     "servicePage.aff.step6.title": "Get Licensed! 🎓",
     "servicePage.aff.step6.desc": "Pass your final assessment and receive your internationally recognized A-Licence.",
@@ -2709,7 +2710,8 @@ translations["zh-CN"]["hero.cta.watchVideo"] = "观看视频";
 // ===== Jump Quiz =====
 translations.en["quiz.badge"] = "Find Your Jump";
 translations.en["quiz.title"] = "What's Your Jump Style?";
-translations.en["quiz.subtitle"] = "Answer 3 quick questions and we'll recommend the perfect skydiving experience for you.";
+translations.en["quiz.subtitle"] =
+  "Answer 3 quick questions and we'll recommend the perfect skydiving experience for you.";
 translations.en["quiz.q1"] = "Have you skydived before?";
 translations.en["quiz.q1.a"] = "🆕 No, this is my first time!";
 translations.en["quiz.q1.b"] = "✅ Yes, I've jumped before";
@@ -2722,11 +2724,14 @@ translations.en["quiz.q3.a"] = "😊 Casual — enjoy the view";
 translations.en["quiz.q3.b"] = "🔥 Full-on adrenaline rush";
 translations.en["quiz.q3.c"] = "🚀 Life-changing — I want my own licence!";
 translations.en["quiz.result.tandem.title"] = "Tandem Skydive";
-translations.en["quiz.result.tandem.desc"] = "Perfect for you! Jump securely with an expert instructor and enjoy the ultimate freefall experience.";
+translations.en["quiz.result.tandem.desc"] =
+  "Perfect for you! Jump securely with an expert instructor and enjoy the ultimate freefall experience.";
 translations.en["quiz.result.alicence.title"] = "A-Licence Course";
-translations.en["quiz.result.alicence.desc"] = "Ready to fly solo! Our AFF program will take you from student to licensed skydiver.";
+translations.en["quiz.result.alicence.desc"] =
+  "Ready to fly solo! Our AFF program will take you from student to licensed skydiver.";
 translations.en["quiz.result.group.title"] = "Group Event";
-translations.en["quiz.result.group.desc"] = "The perfect team experience! We'll organize an unforgettable group skydiving day.";
+translations.en["quiz.result.group.desc"] =
+  "The perfect team experience! We'll organize an unforgettable group skydiving day.";
 translations.en["quiz.bookThis"] = "Book This Experience";
 translations.en["quiz.tryAgain"] = "Try Again";
 
