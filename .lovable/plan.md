@@ -1,61 +1,38 @@
 
 
-# Polish Blog Content Page Design
+# Update Hainan & Zhuhai for A-Licence Availability
 
-## Current Issues
-- Plain white layout with no visual hierarchy
-- Markdown table renders as basic unstyled HTML table
-- No visual separation between sections
-- Cover image has no overlay or depth
-- Content area looks like raw text with minimal styling
-- Related posts and CTA sections are bland
-- No reading progress indicator or table of contents
+## Changes Needed
 
-## Design Improvements
+### 1. Database Updates (via insert/update tool)
 
-### 1. Hero-Style Cover Image
-- Full-width cover image with gradient overlay at the bottom
-- Title, meta info (date, author, category badge) overlaid on the image
-- Creates a magazine-style header instead of the current flat layout
+**Update `locations` table** — set `has_aff = true` for Hainan and Zhuhai:
+```sql
+UPDATE locations SET has_aff = true WHERE slug IN ('hainan', 'zhuhai');
+```
 
-### 2. Enhanced Prose / Content Styling
-- Add custom styles to `index.css` for the blog prose:
-  - Styled `<h2>` headings with left accent border (orange primary color)
-  - Styled `<blockquote>` with sky-blue left border and subtle background
-  - Better table styling: rounded corners, alternating row colors, primary header
-  - Styled list items with custom bullet/checkmark colors
-  - Image styling within content (rounded, shadow)
-  - Better spacing between sections
+**Insert new `location_services` records** — A-Licence packages with "Coming Soon" pricing:
+```sql
+INSERT INTO location_services (location_id, service_name, service_type, price_display, includes, display_order)
+VALUES
+  ('a417b3cc-3141-4eda-b825-238c9b6a2b05', 'A-License Package', 'aff', 'Coming Soon', 
+   ARRAY['25 Jumps','Ground school training','All equipment provided','Personal instructor guidance','A free session of Shenzhen i-Fly experience'], 10),
+  ('0973c412-ff97-411c-aab4-34bac1878490', 'A-License Package', 'aff', 'Coming Soon',
+   ARRAY['25 Jumps','Ground school training','All equipment provided','Personal instructor guidance','A free session of Shenzhen i-Fly experience'], 10);
+```
 
-### 3. Table of Contents Sidebar
-- Auto-generate a sticky TOC from h2/h3 headings in the markdown content
-- Appears as a floating sidebar on desktop (hidden on mobile)
-- Highlights current section on scroll
+### 2. No Frontend Changes Needed
 
-### 4. Reading Progress Bar
-- Thin progress bar at the top of the page showing scroll position
-- Uses the primary orange color
+- The Locations section already reads `has_aff` dynamically and shows the A-Licence badge
+- The A-Licence service page (`ServicePricing`) already pulls from `location_services` grouped by location — Hainan and Zhuhai will appear automatically
+- The booking flow's A-Licence filter already checks `has_aff` — both locations will now appear when A-Licence is selected
+- "Coming Soon" as the price_display string will show naturally in place of a dollar amount
 
-### 5. Enhanced Related Posts Section
-- Cards with hover animations, gradient overlay on images
-- Show category badge and date on each related card
+### Summary
 
-### 6. Improved CTA Section
-- Gradient background instead of flat color
-- Add a skydiving icon or illustration
-- Larger, more prominent button
-
-## Files to Modify
-
-| File | Action |
+| What | Action |
 |------|--------|
-| `src/pages/BlogPost.tsx` | Major rewrite — hero cover, TOC sidebar, progress bar, enhanced layout |
-| `src/index.css` | Add `.blog-prose` custom styles for tables, headings, blockquotes, lists |
-
-## Implementation Notes
-- No database changes needed
-- Uses existing Tailwind classes + custom CSS for prose enhancements
-- TOC generated client-side by parsing heading elements after render
-- Progress bar uses scroll event listener with `useEffect`
-- Responsive: TOC hidden on mobile, full-width cover on all sizes
+| `locations` table | UPDATE `has_aff = true` for Hainan + Zhuhai |
+| `location_services` table | INSERT 2 new A-Licence rows with "Coming Soon" price |
+| Frontend code | No changes needed — all dynamic |
 
