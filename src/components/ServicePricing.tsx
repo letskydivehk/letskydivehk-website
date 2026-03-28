@@ -89,9 +89,9 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
               <div className="flex items-center gap-3 mb-6">
                 <span className="text-2xl">{countryFlags[location!.country] || '📍'}</span>
                 <div>
-                  <h3 className="text-lg font-bold text-foreground">{location!.Name}</h3>
+                  <h3 className="text-lg font-bold text-foreground">{translateData(`location.${location!.slug}`, location!.Name)}</h3>
                   <p className="text-sm text-muted-foreground flex items-center gap-1">
-                    <MapPin className="w-3 h-3" /> {location!.country}
+                    <MapPin className="w-3 h-3" /> {translateData(`country.${location!.country}`, location!.country)}
                   </p>
                 </div>
               </div>
