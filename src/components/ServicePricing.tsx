@@ -124,7 +124,7 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
                   <ul className="space-y-1">
                     {Array.from(new Set(services.flatMap(s => s.includes || []))).slice(0, 5).map((item, idx) => (
                       <li key={idx} className="text-xs text-muted-foreground flex items-start gap-1.5">
-                        <span className="text-accent-orange mt-0.5">✓</span> {item}
+                        <span className="text-accent-orange mt-0.5">✓</span> {translateData(`include.${item}`, item)}
                       </li>
                     ))}
                   </ul>
