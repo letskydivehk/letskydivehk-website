@@ -89,9 +89,9 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
               <div className="flex items-center gap-3 mb-6">
                 <span className="text-2xl">{countryFlags[location!.country] || '📍'}</span>
                 <div>
-                  <h3 className="text-lg font-bold text-foreground">{location!.Name}</h3>
+                  <h3 className="text-lg font-bold text-foreground">{translateData(`location.${location!.slug}`, location!.Name)}</h3>
                   <p className="text-sm text-muted-foreground flex items-center gap-1">
-                    <MapPin className="w-3 h-3" /> {location!.country}
+                    <MapPin className="w-3 h-3" /> {translateData(`country.${location!.country}`, location!.country)}
                   </p>
                 </div>
               </div>
@@ -124,7 +124,7 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
                   <ul className="space-y-1">
                     {Array.from(new Set(services.flatMap(s => s.includes || []))).slice(0, 5).map((item, idx) => (
                       <li key={idx} className="text-xs text-muted-foreground flex items-start gap-1.5">
-                        <span className="text-accent-orange mt-0.5">✓</span> {item}
+                        <span className="text-accent-orange mt-0.5">✓</span> {translateData(`include.${item}`, item)}
                       </li>
                     ))}
                   </ul>
