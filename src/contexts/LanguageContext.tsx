@@ -2247,6 +2247,9 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "include.Group photos & videos": "Group photos & videos",
     "include.Celebration area access": "Celebration area access",
     "include.A free session of Shenzhen i-Fly experience": "A free session of Shenzhen i-Fly experience",
+    "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Coach fee ¥498)": "Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Coach fee ¥498)",
+    "include.Limited Gift 1: 20 minutes session of Shenzhen i-Fly experience": "Limited Gift 1: 20 minutes session of Shenzhen i-Fly experience",
+    "include.Limited Gift 2: 10 extra Jump tickets valid for 1 year": "Limited Gift 2: 10 extra Jump tickets valid for 1 year",
 
     // Price display
     "price.Custom Quote": "Custom Quote",
