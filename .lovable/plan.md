@@ -1,38 +1,53 @@
 
 
-# Update Hainan & Zhuhai for A-Licence Availability
+# Show Per-Package Includes in Service Pricing
 
-## Changes Needed
+## Current Behavior
+The `ServicePricing` component merges all `includes` from every package at a location into one combined list (deduped, max 5 items). This means users cannot see what's specifically included in each package.
 
-### 1. Database Updates (via insert/update tool)
+## Desired Behavior
+Show includes **per service** instead of merged, so each package row displays its own inclusions:
 
-**Update `locations` table** — set `has_aff = true` for Hainan and Zhuhai:
-```sql
-UPDATE locations SET has_aff = true WHERE slug IN ('hainan', 'zhuhai');
+- **Tandem Skydive with Handicam**: 手持攝影錄影, 完成證書, 45-60秒自由落體, 5-7分鐘傘下飛行
+- **Tandem Skydive with Video** (Pattaya): 錄影, 完成證書, 45-60秒自由落體, 5-7分鐘傘下飛行
+- **Ultimate Combo**: same as Handicam + Wide shot video
+
+The DB already has all the correct data and translations exist. No database changes needed.
+
+## Changes
+
+### `src/components/ServicePricing.tsx`
+
+Restructure the card layout so each service row expands to show its own includes below the service name/price/button row:
+
+```
+┌─────────────────────────────────┐
+│ 🇹🇭 Pattaya, Thailand           │
+│                                 │
+│ Tandem with Video    $7,200 [Book]│
+│   ✓ 錄影                        │
+│   ✓ 完成證書                     │
+│   ✓ 45-60秒自由落體              │
+│   ✓ 5-7分鐘傘下飛行              │
+│                                 │
+│ Ultimate Combo       $9,500 [Book]│
+│   ✓ 錄影                        │
+│   ✓ 照片                        │
+│   ✓ 完成證書                     │
+│   ✓ 45-60秒自由落體              │
+│   ✓ 5-7分鐘傘下飛行              │
+└─────────────────────────────────┘
 ```
 
-**Insert new `location_services` records** — A-Licence packages with "Coming Soon" pricing:
-```sql
-INSERT INTO location_services (location_id, service_name, service_type, price_display, includes, display_order)
-VALUES
-  ('a417b3cc-3141-4eda-b825-238c9b6a2b05', 'A-License Package', 'aff', 'Coming Soon', 
-   ARRAY['25 Jumps','Ground school training','All equipment provided','Personal instructor guidance','A free session of Shenzhen i-Fly experience'], 10),
-  ('0973c412-ff97-411c-aab4-34bac1878490', 'A-License Package', 'aff', 'Coming Soon',
-   ARRAY['25 Jumps','Ground school training','All equipment provided','Personal instructor guidance','A free session of Shenzhen i-Fly experience'], 10);
-```
+- Remove the merged "What's Included" section at the bottom of each card
+- Add per-service includes list directly below each service row
+- Each include item uses `translateData('include.${item}', item)` (already working)
 
-### 2. No Frontend Changes Needed
+### File Changes
 
-- The Locations section already reads `has_aff` dynamically and shows the A-Licence badge
-- The A-Licence service page (`ServicePricing`) already pulls from `location_services` grouped by location — Hainan and Zhuhai will appear automatically
-- The booking flow's A-Licence filter already checks `has_aff` — both locations will now appear when A-Licence is selected
-- "Coming Soon" as the price_display string will show naturally in place of a dollar amount
-
-### Summary
-
-| What | Action |
+| File | Action |
 |------|--------|
-| `locations` table | UPDATE `has_aff = true` for Hainan + Zhuhai |
-| `location_services` table | INSERT 2 new A-Licence rows with "Coming Soon" price |
-| Frontend code | No changes needed — all dynamic |
+| `src/components/ServicePricing.tsx` | Restructure to show per-package includes |
+
+No database or translation changes needed — all data and translations already exist.
 
