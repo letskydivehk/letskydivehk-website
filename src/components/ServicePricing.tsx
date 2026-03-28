@@ -96,40 +96,35 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
                 </div>
               </div>
 
-              {/* Packages */}
-              <div className="space-y-3 mb-6">
+              {/* Packages with per-service includes */}
+              <div className="space-y-4 mb-6">
                 {services.map(service => (
-                  <div key={service.id} className="flex items-center justify-between gap-2 py-2 border-b border-border/50 last:border-0">
-                    <span className="text-sm text-foreground font-medium flex-1">
-                      {translateData(`service.${service.service_name}`, service.service_name)}
-                    </span>
-                    <span className="text-lg font-bold text-accent-orange whitespace-nowrap">{service.price_display}</span>
-                    <button
-                      type="button"
-                      onClick={() => handleBookAtLocation(locationId, service.id)}
-                      className="ml-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-accent-orange text-white hover:bg-accent-orange/90 transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap"
-                    >
-                      {t('common.bookNow')} <ArrowRight className="w-3 h-3" />
-                    </button>
+                  <div key={service.id} className="py-3 border-b border-border/50 last:border-0">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-sm text-foreground font-medium flex-1">
+                        {translateData(`service.${service.service_name}`, service.service_name)}
+                      </span>
+                      <span className="text-lg font-bold text-accent-orange whitespace-nowrap">{service.price_display}</span>
+                      <button
+                        type="button"
+                        onClick={() => handleBookAtLocation(locationId, service.id)}
+                        className="ml-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-accent-orange text-white hover:bg-accent-orange/90 transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                      >
+                        {t('common.bookNow')} <ArrowRight className="w-3 h-3" />
+                      </button>
+                    </div>
+                    {service.includes && service.includes.length > 0 && (
+                      <ul className="mt-2 space-y-1 pl-1">
+                        {service.includes.map((item, idx) => (
+                          <li key={idx} className="text-xs text-muted-foreground flex items-start gap-1.5">
+                            <span className="text-accent-orange mt-0.5">✓</span> {translateData(`include.${item}`, item)}
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 ))}
               </div>
-
-              {/* Includes (if any) */}
-              {services.some(s => s.includes && s.includes.length > 0) && (
-                <div className="mb-6">
-                  <p className="text-xs font-semibold text-muted-foreground mb-2 uppercase tracking-wide">
-                    {t('services.whatsIncluded')}
-                  </p>
-                  <ul className="space-y-1">
-                    {Array.from(new Set(services.flatMap(s => s.includes || []))).slice(0, 5).map((item, idx) => (
-                      <li key={idx} className="text-xs text-muted-foreground flex items-start gap-1.5">
-                        <span className="text-accent-orange mt-0.5">✓</span> {translateData(`include.${item}`, item)}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              )}
 
             </motion.div>
           ))}
