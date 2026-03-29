@@ -2316,6 +2316,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "include.All equipment provided": "所有跳傘裝備",
     "include.Personal instructor guidance": "教練全程手把手教學",
     "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Coach fee ¥498)": "限定禮遇：免費30分鐘深圳i-Fly體驗（教練費¥498）",
+    "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Excluding coach fee ¥498)": "限定禮遇：免費30分鐘深圳i-Fly體驗（不包教練費¥498）",
     "include.Limited Gift 1: 20 minutes session of Shenzhen i-Fly experience": "限定禮遇1：20分鐘深圳i-Fly體驗",
     "include.Limited Gift 2: 10 extra Jump tickets valid for 1 year": "限定禮遇2：額外10次跳傘票（一年有效）",
 
