@@ -225,6 +225,7 @@ export default function Promotions() {
         </div>
       </main>
       <Footer />
+      <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />
     </div>
   );
 }
