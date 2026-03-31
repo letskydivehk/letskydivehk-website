@@ -96,12 +96,17 @@ const promotions = [
 export default function Promotions() {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const [showAuth, setShowAuth] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleClaimCoupon = () => {
+  const handleClaimCoupon = (isSignup?: boolean) => {
+    if (isSignup) {
+      setShowAuth(true);
+      return;
+    }
     navigate("/");
     setTimeout(() => {
       document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
