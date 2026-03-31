@@ -1,5 +1,5 @@
 import { SEO } from "@/components/SEO";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import { ArrowLeft, Users, Tag, Calendar, ChevronRight, GraduationCap, Cake, Clock, RotateCcw, Gift } from "lucide-react";
