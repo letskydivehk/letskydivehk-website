@@ -10,6 +10,12 @@ import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { toast } from "sonner";
 import { CountdownTimer } from "@/components/CountdownTimer";
 import { AuthModal } from "@/components/AuthModal";
+const getExpiryDate = () => {
+  const d = new Date();
+  d.setDate(d.getDate() + 3);
+  d.setHours(23, 59, 59, 0);
+  return d;
+};
 
 const promotions = [
   {
