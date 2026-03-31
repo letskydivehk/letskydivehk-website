@@ -1,16 +1,31 @@
 import { SEO } from "@/components/SEO";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
-import { ArrowLeft, Users, Tag, Calendar, ChevronRight, GraduationCap, Cake, Clock, RotateCcw } from "lucide-react";
+import { ArrowLeft, Users, Tag, Calendar, ChevronRight, GraduationCap, Cake, Clock, RotateCcw, Gift } from "lucide-react";
 import { PageNavbar } from "@/components/PageNavbar";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Footer } from "@/components/Footer";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { toast } from "sonner";
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { AuthModal } from "@/components/AuthModal";
 
 const promotions = [
+  {
+    id: "signup-bonus",
+    icon: Gift,
+    titleKey: "promo.signup.title",
+    descKey: "promo.signup.desc",
+    detailsKey: "promo.signup.details",
+    termsKey: "promo.signup.terms",
+    highlight: "$100",
+    highlightLabelKey: "promo.signup.credit",
+    promoCode: "",
+    active: true,
+    expiresAt: null,
+    isSignup: true,
+  },
   {
     id: "group-discount-2",
     icon: Users,
@@ -81,12 +96,17 @@ const promotions = [
 export default function Promotions() {
   const { t } = useLanguage();
   const navigate = useNavigate();
+  const [showAuth, setShowAuth] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
-  const handleClaimCoupon = () => {
+  const handleClaimCoupon = (isSignup?: boolean) => {
+    if (isSignup) {
+      setShowAuth(true);
+      return;
+    }
     navigate("/");
     setTimeout(() => {
       document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
@@ -144,7 +164,7 @@ export default function Promotions() {
                 <div className="p-5 sm:p-8">
                   {/* Mobile: Row 1 - Discount + Claim Button */}
                   <button
-                    onClick={handleClaimCoupon}
+                    onClick={() => handleClaimCoupon((promo as any).isSignup)}
                     className="group block w-full text-left bg-gradient-to-r from-accent-orange/10 to-accent-orange/5 border-2 border-dashed border-accent-orange/40 rounded-xl p-4 sm:p-5 mb-4 hover:border-accent-orange hover:from-accent-orange/20 hover:to-accent-orange/10 transition-all duration-300 cursor-pointer"
                   >
                     <div className="flex items-center justify-between gap-3">
@@ -158,7 +178,7 @@ export default function Promotions() {
                         </div>
                       </div>
                       <div className="flex-shrink-0 bg-accent-orange text-white font-bold px-3 py-2 sm:px-5 sm:py-2.5 rounded-lg group-hover:scale-105 transition-transform duration-200 flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
-                        {t("promo.claimCoupon")}
+                        {(promo as any).isSignup ? t("promo.signup.cta") : t("promo.claimCoupon")}
                         <ChevronRight className="w-4 h-4" />
                       </div>
                     </div>
@@ -172,21 +192,23 @@ export default function Promotions() {
                   </div>
 
                   {/* Promo Code */}
-                  <div className="flex items-center gap-3 mb-6 px-1">
-                    <span className="text-sm text-muted-foreground">{t("promo.code")}:</span>
-                    <code className="bg-muted px-4 py-1.5 rounded-lg font-mono font-bold text-foreground tracking-widest text-sm border border-border">
-                      {promo.promoCode}
-                    </code>
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(promo.promoCode);
-                        toast.success(t("promo.codeCopied"));
-                      }}
-                      className="text-xs text-accent-orange hover:text-accent-orange/80 font-medium transition-colors cursor-pointer"
-                    >
-                      {t("promo.copyCode")}
-                    </button>
-                  </div>
+                  {promo.promoCode && (
+                    <div className="flex items-center gap-3 mb-6 px-1">
+                      <span className="text-sm text-muted-foreground">{t("promo.code")}:</span>
+                      <code className="bg-muted px-4 py-1.5 rounded-lg font-mono font-bold text-foreground tracking-widest text-sm border border-border">
+                        {promo.promoCode}
+                      </code>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(promo.promoCode);
+                          toast.success(t("promo.codeCopied"));
+                        }}
+                        className="text-xs text-accent-orange hover:text-accent-orange/80 font-medium transition-colors cursor-pointer"
+                      >
+                        {t("promo.copyCode")}
+                      </button>
+                    </div>
+                  )}
 
                   {/* Countdown Timer */}
                   {promo.expiresAt && (
@@ -203,6 +225,7 @@ export default function Promotions() {
         </div>
       </main>
       <Footer />
+      <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />
     </div>
   );
 }
