@@ -10,6 +10,12 @@ import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { toast } from "sonner";
 import { CountdownTimer } from "@/components/CountdownTimer";
 import { AuthModal } from "@/components/AuthModal";
+const getExpiryDate = () => {
+  const d = new Date();
+  d.setDate(d.getDate() + 3);
+  d.setHours(23, 59, 59, 0);
+  return d;
+};
 
 const promotions = [
   {
@@ -37,7 +43,7 @@ const promotions = [
     highlightLabelKey: "promo.perPerson",
     promoCode: "BUDDY100",
     active: true,
-    expiresAt: new Date("2026-04-30T23:59:59"),
+    expiresAt: getExpiryDate(),
   },
   {
     id: "student-discount",
@@ -50,7 +56,7 @@ const promotions = [
     highlightLabelKey: "promo.off",
     promoCode: "STUDENT100",
     active: true,
-    expiresAt: new Date("2026-06-30T23:59:59"),
+    expiresAt: getExpiryDate(),
   },
   {
     id: "birthday-special",
@@ -63,7 +69,7 @@ const promotions = [
     highlightLabelKey: "promo.off",
     promoCode: "BDAY100",
     active: true,
-    expiresAt: new Date("2026-05-31T23:59:59"),
+    expiresAt: getExpiryDate(),
   },
   {
     id: "early-bird",
@@ -76,7 +82,7 @@ const promotions = [
     highlightLabelKey: "promo.off",
     promoCode: "EARLY10",
     active: true,
-    expiresAt: new Date("2026-05-15T23:59:59"),
+    expiresAt: getExpiryDate(),
   },
   {
     id: "repeat-jumper",
@@ -89,7 +95,7 @@ const promotions = [
     highlightLabelKey: "promo.off",
     promoCode: "RETURN150",
     active: true,
-    expiresAt: new Date("2026-06-30T23:59:59"),
+    expiresAt: getExpiryDate(),
   },
 ];
 
