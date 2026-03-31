@@ -52,9 +52,9 @@ export function SocialProofTicker() {
   }, []);
 
   return (
-    <div className="bg-accent-orange/5 border-y border-accent-orange/10 py-3 overflow-hidden">
-      <div className="max-w-5xl mx-auto px-6 flex items-center justify-center gap-3">
-        <Users className="w-4 h-4 text-accent-orange flex-shrink-0" />
+    <div className="bg-accent-orange/5 border-y border-accent-orange/10 py-6 overflow-hidden">
+      <div className="max-w-5xl mx-auto px-6 flex items-center justify-center gap-4">
+        <Users className="w-7 h-7 text-accent-orange flex-shrink-0" />
         <AnimatePresence mode="wait">
           <motion.span
             key={`${index}-${messageType}`}
@@ -62,7 +62,7 @@ export function SocialProofTicker() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.35 }}
-            className="text-sm font-medium text-foreground/80"
+            className="text-lg font-semibold text-foreground/80"
           >
             {getMessage()}
           </motion.span>
