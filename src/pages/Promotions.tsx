@@ -164,7 +164,7 @@ export default function Promotions() {
                 <div className="p-5 sm:p-8">
                   {/* Mobile: Row 1 - Discount + Claim Button */}
                   <button
-                    onClick={handleClaimCoupon}
+                    onClick={() => handleClaimCoupon((promo as any).isSignup)}
                     className="group block w-full text-left bg-gradient-to-r from-accent-orange/10 to-accent-orange/5 border-2 border-dashed border-accent-orange/40 rounded-xl p-4 sm:p-5 mb-4 hover:border-accent-orange hover:from-accent-orange/20 hover:to-accent-orange/10 transition-all duration-300 cursor-pointer"
                   >
                     <div className="flex items-center justify-between gap-3">
