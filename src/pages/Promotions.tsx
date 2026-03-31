@@ -192,21 +192,23 @@ export default function Promotions() {
                   </div>
 
                   {/* Promo Code */}
-                  <div className="flex items-center gap-3 mb-6 px-1">
-                    <span className="text-sm text-muted-foreground">{t("promo.code")}:</span>
-                    <code className="bg-muted px-4 py-1.5 rounded-lg font-mono font-bold text-foreground tracking-widest text-sm border border-border">
-                      {promo.promoCode}
-                    </code>
-                    <button
-                      onClick={() => {
-                        navigator.clipboard.writeText(promo.promoCode);
-                        toast.success(t("promo.codeCopied"));
-                      }}
-                      className="text-xs text-accent-orange hover:text-accent-orange/80 font-medium transition-colors cursor-pointer"
-                    >
-                      {t("promo.copyCode")}
-                    </button>
-                  </div>
+                  {promo.promoCode && (
+                    <div className="flex items-center gap-3 mb-6 px-1">
+                      <span className="text-sm text-muted-foreground">{t("promo.code")}:</span>
+                      <code className="bg-muted px-4 py-1.5 rounded-lg font-mono font-bold text-foreground tracking-widest text-sm border border-border">
+                        {promo.promoCode}
+                      </code>
+                      <button
+                        onClick={() => {
+                          navigator.clipboard.writeText(promo.promoCode);
+                          toast.success(t("promo.codeCopied"));
+                        }}
+                        className="text-xs text-accent-orange hover:text-accent-orange/80 font-medium transition-colors cursor-pointer"
+                      >
+                        {t("promo.copyCode")}
+                      </button>
+                    </div>
+                  )}
 
                   {/* Countdown Timer */}
                   {promo.expiresAt && (
