@@ -56,7 +56,7 @@ const promotions = [
     highlightLabelKey: "promo.off",
     promoCode: "STUDENT100",
     active: true,
-    expiresAt: new Date("2026-06-30T23:59:59"),
+    expiresAt: getExpiryDate(),
   },
   {
     id: "birthday-special",
