@@ -43,7 +43,7 @@ const promotions = [
     highlightLabelKey: "promo.perPerson",
     promoCode: "BUDDY100",
     active: true,
-    expiresAt: new Date("2026-04-30T23:59:59"),
+    expiresAt: getExpiryDate(),
   },
   {
     id: "student-discount",
