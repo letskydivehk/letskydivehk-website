@@ -95,7 +95,7 @@ const promotions = [
     highlightLabelKey: "promo.off",
     promoCode: "RETURN150",
     active: true,
-    expiresAt: new Date("2026-06-30T23:59:59"),
+    expiresAt: getExpiryDate(),
   },
 ];
 
