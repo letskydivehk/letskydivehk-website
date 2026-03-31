@@ -178,7 +178,7 @@ export default function Promotions() {
                         </div>
                       </div>
                       <div className="flex-shrink-0 bg-accent-orange text-white font-bold px-3 py-2 sm:px-5 sm:py-2.5 rounded-lg group-hover:scale-105 transition-transform duration-200 flex items-center gap-1 sm:gap-2 text-sm sm:text-base">
-                        {t("promo.claimCoupon")}
+                        {(promo as any).isSignup ? t("promo.signup.cta") : t("promo.claimCoupon")}
                         <ChevronRight className="w-4 h-4" />
                       </div>
                     </div>
