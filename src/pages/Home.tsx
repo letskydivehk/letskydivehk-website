@@ -49,7 +49,7 @@ export default function Home() {
               </span>
             </span>
             <div className="mt-3 flex justify-center">
-              <CountdownTimer targetDate={new Date("2026-04-30T23:59:59")} compact />
+              <CountdownTimer targetDate={(() => { const d = new Date(); d.setDate(d.getDate() + 3); d.setHours(23, 59, 59, 0); return d; })()} compact />
             </div>
           </div>
         </Link>
