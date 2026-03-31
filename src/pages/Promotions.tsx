@@ -9,8 +9,23 @@ import { Footer } from "@/components/Footer";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { toast } from "sonner";
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { AuthModal } from "@/components/AuthModal";
 
 const promotions = [
+  {
+    id: "signup-bonus",
+    icon: Gift,
+    titleKey: "promo.signup.title",
+    descKey: "promo.signup.desc",
+    detailsKey: "promo.signup.details",
+    termsKey: "promo.signup.terms",
+    highlight: "$100",
+    highlightLabelKey: "promo.signup.credit",
+    promoCode: "",
+    active: true,
+    expiresAt: null,
+    isSignup: true,
+  },
   {
     id: "group-discount-2",
     icon: Users,
