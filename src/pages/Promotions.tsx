@@ -82,7 +82,7 @@ const promotions = [
     highlightLabelKey: "promo.off",
     promoCode: "EARLY10",
     active: true,
-    expiresAt: new Date("2026-05-15T23:59:59"),
+    expiresAt: getExpiryDate(),
   },
   {
     id: "repeat-jumper",
