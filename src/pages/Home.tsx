@@ -38,19 +38,17 @@ export default function Home() {
         {/* Promotion Banner */}
         <Link
           to="/promotions"
-          className="block bg-accent-orange text-white py-10 px-6 text-center font-semibold hover:bg-accent-orange/90 transition-colors"
+          className="block bg-accent-orange text-white py-8 px-6 text-center font-semibold hover:bg-accent-orange/90 transition-colors"
         >
-          <div className="max-w-4xl mx-auto">
-            <span className="inline-flex items-center justify-center gap-3 text-2xl sm:text-3xl md:text-4xl min-h-[40px]">
+          <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-1 whitespace-nowrap">
+            <span className="text-lg sm:text-xl md:text-2xl">
               {t("promo.homeBanner")}
-              <span className="underline underline-offset-4 inline-flex items-center gap-2">
-                {t("promo.homeBannerCta")}
-                <ChevronRight className="w-5 h-5" />
-              </span>
             </span>
-            <div className="mt-3 flex justify-center">
-              <CountdownTimer targetDate={(() => { const d = new Date(); d.setDate(d.getDate() + 3); d.setHours(23, 59, 59, 0); return d; })()} compact />
-            </div>
+            <span className="text-lg sm:text-xl md:text-2xl underline underline-offset-4 inline-flex items-center gap-1">
+              {t("promo.homeBannerCta")}
+              <ChevronRight className="w-5 h-5" />
+            </span>
+            <CountdownTimer targetDate={(() => { const d = new Date(); d.setDate(d.getDate() + 3); d.setHours(23, 59, 59, 0); return d; })()} compact />
           </div>
         </Link>
 
