@@ -1,5 +1,3 @@
-'use client';
-
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { Menu, X, ChevronDown, Play } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';

@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useEffect, useCallback, useMemo } from 'react'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import { Star, ChevronLeft, ChevronRight, Quote } from 'lucide-react'
