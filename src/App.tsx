@@ -65,6 +65,7 @@ export default function App() {
                 <Route path="/disclaimer" element={<Disclaimer />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              </Suspense>
             </BrowserRouter>
             <Toaster />
             <WhatsAppButton />

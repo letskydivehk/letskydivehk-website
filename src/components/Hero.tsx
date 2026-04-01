@@ -303,7 +303,7 @@ export function Hero() {
               behavior: 'smooth'
             });
           }}>
-            <span className="text-sm mb-2">Scroll to explore</span>
+            <span className="text-sm mb-2">{t('hero.scrollToExplore')}</span>
             <ChevronDown className="w-6 h-6" />
           </motion.div>
         </motion.div>

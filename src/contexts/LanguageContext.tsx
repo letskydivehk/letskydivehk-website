@@ -2737,6 +2737,10 @@ translations.en["hero.cta.watchVideo"] = "Watch Video";
 translations["zh-TW"]["hero.cta.watchVideo"] = "觀看影片";
 translations["zh-CN"]["hero.cta.watchVideo"] = "观看视频";
 
+translations.en["hero.scrollToExplore"] = "Scroll to explore";
+translations["zh-TW"]["hero.scrollToExplore"] = "向下滾動探索";
+translations["zh-CN"]["hero.scrollToExplore"] = "向下滚动探索";
+
 // ===== Jump Quiz =====
 translations.en["quiz.badge"] = "Find Your Jump";
 translations.en["quiz.title"] = "What's Your Jump Style?";
