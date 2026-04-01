@@ -1,5 +1,3 @@
-'use client'
-
 import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Plane, GraduationCap, Users, Check, ArrowRight, Loader2, Eye } from 'lucide-react'

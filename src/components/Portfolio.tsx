@@ -1,5 +1,3 @@
-'use client'
-
 import { Play, ExternalLink } from 'lucide-react'
 import { Button } from './ui/button'
 

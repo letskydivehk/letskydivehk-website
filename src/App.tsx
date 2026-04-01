@@ -1,3 +1,4 @@
+import React, { Suspense } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
@@ -7,22 +8,23 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import { Toaster } from './components/ui/sonner';
 import { WhatsAppButton } from './components/WhatsAppButton';
 import Home from './pages/Home';
-import MemberProfile from './pages/MemberProfile';
-import Gallery from './pages/Gallery';
-import LocationDetail from './pages/LocationDetail';
-import AuthCallback from './pages/AuthCallback';
-import Privacy from './pages/Privacy';
-import Terms from './pages/Terms';
-import Disclaimer from './pages/Disclaimer';
-import NotFound from './pages/NotFound';
-import Promotions from './pages/Promotions';
-import AdminCredits from './pages/AdminCredits';
-import AdminBlog from './pages/AdminBlog';
-import ServiceTandem from './pages/ServiceTandem';
-import ServiceALicence from './pages/ServiceALicence';
-import Blog from './pages/Blog';
-import BlogPost from './pages/BlogPost';
-import MembershipTiers from './pages/MembershipTiers';
+
+const MemberProfile = React.lazy(() => import('./pages/MemberProfile'));
+const Gallery = React.lazy(() => import('./pages/Gallery'));
+const LocationDetail = React.lazy(() => import('./pages/LocationDetail'));
+const AuthCallback = React.lazy(() => import('./pages/AuthCallback'));
+const Privacy = React.lazy(() => import('./pages/Privacy'));
+const Terms = React.lazy(() => import('./pages/Terms'));
+const Disclaimer = React.lazy(() => import('./pages/Disclaimer'));
+const NotFound = React.lazy(() => import('./pages/NotFound'));
+const Promotions = React.lazy(() => import('./pages/Promotions'));
+const AdminCredits = React.lazy(() => import('./pages/AdminCredits'));
+const AdminBlog = React.lazy(() => import('./pages/AdminBlog'));
+const ServiceTandem = React.lazy(() => import('./pages/ServiceTandem'));
+const ServiceALicence = React.lazy(() => import('./pages/ServiceALicence'));
+const Blog = React.lazy(() => import('./pages/Blog'));
+const BlogPost = React.lazy(() => import('./pages/BlogPost'));
+const MembershipTiers = React.lazy(() => import('./pages/MembershipTiers'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -43,6 +45,7 @@ export default function App() {
         <AuthProvider>
           <BookingProvider>
             <BrowserRouter>
+              <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>}>
               <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/services/tandem-skydive" element={<ServiceTandem />} />
@@ -62,6 +65,7 @@ export default function App() {
                 <Route path="/disclaimer" element={<Disclaimer />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
+              </Suspense>
             </BrowserRouter>
             <Toaster />
             <WhatsAppButton />
