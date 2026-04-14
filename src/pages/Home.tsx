@@ -17,6 +17,8 @@ import { StickyBookingBar } from "@/components/StickyBookingBar";
 import { SocialProofTicker } from "@/components/SocialProofTicker";
 import { JumpQuiz } from "@/components/JumpQuiz";
 import { CountdownTimer } from "@/components/CountdownTimer";
+import { BackToTopButton } from "@/components/BackToTopButton";
+import { SectionNav } from "@/components/SectionNav";
 
 
 export default function Home() {
@@ -79,6 +81,8 @@ export default function Home() {
       </main>
       <Footer />
       <StickyBookingBar />
+      <BackToTopButton />
+      <SectionNav />
     </div>
   );
 }

@@ -1,5 +1,5 @@
-import { useState, useMemo } from 'react'
-import { motion } from 'framer-motion'
+import { useState, useMemo, useRef } from 'react'
+import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
 import { Plane, GraduationCap, Users, Check, ArrowRight, Loader2, Eye } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useAllLocationServices, type LocationService } from '@/hooks/useLocationServices'
@@ -163,18 +163,13 @@ export function Services() {
               const isHovered = hoveredService === service.type
               
               return (
-                <motion.div
+                <TiltCard
                   key={service.type}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                  whileHover={{ y: -8, transition: { duration: 0.3 } }}
+                  index={index}
+                  isHovered={isHovered}
+                  isPopular={service.isPopular}
                   onMouseEnter={() => setHoveredService(service.type)}
                   onMouseLeave={() => setHoveredService(null)}
-                  className={`relative bg-card rounded-2xl p-8 clean-border transition-all duration-300 mobile-transparent-card ${
-                    isHovered ? 'elevated-shadow' : 'subtle-shadow'
-                  } ${service.isPopular ? 'ring-2 ring-accent-orange' : ''}`}
                 >
                   {/* Hover glow effect */}
                   <div className={`absolute inset-0 bg-gradient-to-br from-accent-orange/0 to-accent-blue/0 transition-all duration-500 ${isHovered ? 'from-accent-orange/5 to-accent-blue/5' : ''}`} />
@@ -256,7 +251,7 @@ export function Services() {
                   )}
                   </div>
                   </div>
-                </motion.div>
+                </TiltCard>
               )
             })}
           </div>
