@@ -271,3 +271,59 @@ export function Services() {
     </section>
   )
 }
+
+// 3D Tilt Card wrapper for service cards
+function TiltCard({
+  children,
+  index,
+  isHovered,
+  isPopular,
+  onMouseEnter,
+  onMouseLeave,
+}: {
+  children: React.ReactNode
+  index: number
+  isHovered: boolean
+  isPopular: boolean
+  onMouseEnter: () => void
+  onMouseLeave: () => void
+}) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const mouseX = useMotionValue(0)
+  const mouseY = useMotionValue(0)
+  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]), { stiffness: 200, damping: 20 })
+  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), { stiffness: 200, damping: 20 })
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    const rect = cardRef.current?.getBoundingClientRect()
+    if (!rect) return
+    mouseX.set((e.clientX - rect.left) / rect.width - 0.5)
+    mouseY.set((e.clientY - rect.top) / rect.height - 0.5)
+  }
+
+  const handleMouseLeave = () => {
+    mouseX.set(0)
+    mouseY.set(0)
+    onMouseLeave()
+  }
+
+  return (
+    <motion.div
+      ref={cardRef}
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.5, delay: index * 0.1 }}
+      whileHover={{ y: -8, transition: { duration: 0.3 } }}
+      onMouseMove={handleMouseMove}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      style={{ rotateX, rotateY, transformPerspective: 800 }}
+      className={`relative bg-card rounded-2xl p-8 clean-border transition-all duration-300 mobile-transparent-card ${
+        isHovered ? 'elevated-shadow' : 'subtle-shadow'
+      } ${isPopular ? 'ring-2 ring-accent-orange' : ''}`}
+    >
+      {children}
+    </motion.div>
+  )
+}
