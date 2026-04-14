@@ -17,8 +17,39 @@ const quickMessages = [
 export function WhatsAppButton() {
   const [isOpen, setIsOpen] = useState(false);
   const [customMessage, setCustomMessage] = useState("");
+  const [showAttention, setShowAttention] = useState(false);
+  const [badgeCount, setBadgeCount] = useState(0);
   const panelRef = useRef<HTMLDivElement>(null);
+  const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { t } = useLanguage();
+
+  // Idle attention animation — bounce after 60s of inactivity
+  useEffect(() => {
+    const resetIdle = () => {
+      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+      setShowAttention(false);
+      idleTimerRef.current = setTimeout(() => {
+        if (!isOpen) {
+          setShowAttention(true);
+          setBadgeCount(1);
+          // Remove animation class after it plays
+          setTimeout(() => setShowAttention(false), 1000);
+        }
+      }, 60000);
+    };
+    const events = ["mousemove", "keydown", "scroll", "touchstart", "click"];
+    events.forEach((e) => window.addEventListener(e, resetIdle, { passive: true }));
+    resetIdle();
+    return () => {
+      events.forEach((e) => window.removeEventListener(e, resetIdle));
+      if (idleTimerRef.current) clearTimeout(idleTimerRef.current);
+    };
+  }, [isOpen]);
+
+  // Clear badge when panel opens
+  useEffect(() => {
+    if (isOpen) setBadgeCount(0);
+  }, [isOpen]);
 
   // Close on click outside
   useEffect(() => {
@@ -131,9 +162,15 @@ export function WhatsAppButton() {
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        className="w-14 h-14 bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-full shadow-lg flex items-center justify-center transition-colors cursor-pointer"
+        className={`relative w-14 h-14 bg-[#25D366] hover:bg-[#20BD5A] text-white rounded-full shadow-lg flex items-center justify-center transition-colors cursor-pointer ${showAttention ? 'animate-attention-bounce' : ''}`}
         aria-label="Chat with us on WhatsApp"
       >
+        {/* Notification badge */}
+        {badgeCount > 0 && !isOpen && (
+          <span className="absolute -top-1 -right-1 w-5 h-5 bg-destructive text-white text-xs font-bold rounded-full flex items-center justify-center">
+            {badgeCount}
+          </span>
+        )}
         <AnimatePresence mode="wait">
           {isOpen ? (
             <motion.div
