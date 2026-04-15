@@ -474,6 +474,15 @@ export function BookingSection() {
 
       // Store access token for anonymous bookings
       const bookingData = data as Record<string, unknown> | null;
+
+      // Update payment status server-side after booking is created
+      if (paymentIntentId && bookingData?.id) {
+        await supabase.functions.invoke("verify-payment", {
+          body: { payment_intent_id: paymentIntentId, booking_id: bookingData.id },
+        });
+      }
+
+      // Store access token for anonymous bookings
       if (!user && bookingData?.access_token) {
         setBookingAccessToken(bookingData.access_token as string);
       }
