@@ -449,7 +449,7 @@ export function BookingSection() {
         }
       }
 
-      // Insert booking via secure RPC function
+      // Insert booking via secure RPC function (payment_status is always NULL here)
       const { data, error } = await supabase.rpc("create_booking", {
         p_user_id: user?.id || null,
         p_location_id: formData.location,
