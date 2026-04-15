@@ -1,3 +1,5 @@
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers":
@@ -38,7 +40,7 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { payment_intent_id } = await req.json();
+    const { payment_intent_id, booking_id } = await req.json();
 
     if (!payment_intent_id || typeof payment_intent_id !== "string") {
       return new Response(
@@ -79,6 +81,23 @@ Deno.serve(async (req) => {
     const intent = await res.json();
     const verified = intent.status === "SUCCEEDED";
 
+    // If payment is verified and booking_id provided, update the booking server-side
+    if (verified && booking_id && typeof booking_id === "string") {
+      const supabaseUrl = Deno.env.get("SUPABASE_URL")!;
+      const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
+      const supabase = createClient(supabaseUrl, serviceRoleKey);
+
+      const { error: updateError } = await supabase
+        .from("bookings")
+        .update({ payment_status: "paid", payment_intent_id })
+        .eq("id", booking_id)
+        .eq("payment_status", null); // Only update if not already paid
+
+      if (updateError) {
+        console.error("Failed to update booking payment status:", updateError.message);
+      }
+    }
+
     return new Response(
       JSON.stringify({
         status: intent.status,
@@ -89,7 +108,7 @@ Deno.serve(async (req) => {
   } catch (error) {
     console.error("Error verifying payment:", error);
     return new Response(
-      JSON.stringify({ error: error.message || "Internal server error", verified: false }),
+      JSON.stringify({ error: "Internal server error", verified: false }),
       { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
     );
   }
