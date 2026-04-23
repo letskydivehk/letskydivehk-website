@@ -23,14 +23,18 @@ export interface GalleryItem {
 }
 
 // Helper function to extract YouTube video ID from various URL formats
+// Supports: watch?v=, youtu.be/, embed/, shorts/, live/, and bare 11-char IDs
 export function extractYouTubeId(url: string): string | null {
+  if (!url) return null;
+  const trimmed = url.trim();
   const patterns = [
-    /(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([^&\s?]+)/,
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/|live\/|v\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/,
+    /[?&]v=([a-zA-Z0-9_-]{11})/, // watch URLs with extra params before v=
     /^([a-zA-Z0-9_-]{11})$/, // Direct video ID
   ];
-  
+
   for (const pattern of patterns) {
-    const match = url.match(pattern);
+    const match = trimmed.match(pattern);
     if (match) return match[1];
   }
   return null;

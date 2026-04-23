@@ -245,10 +245,10 @@ export function GalleryUpload({ onClose, onSuccess, defaultCategory = 'photos' }
                   id="youtube-url"
                   value={youtubeUrl}
                   onChange={(e) => handleYoutubeUrlChange(e.target.value)}
-                  placeholder="https://www.youtube.com/watch?v=..."
+                  placeholder="https://www.youtube.com/watch?v=... or /shorts/..."
                 />
                 <p className="text-xs text-muted-foreground">
-                  Paste a YouTube video link (e.g., youtube.com/watch?v=xxxxx or youtu.be/xxxxx)
+                  Supports regular videos, Shorts, and youtu.be links (e.g., youtube.com/shorts/xxxxx)
                 </p>
               </div>
               
