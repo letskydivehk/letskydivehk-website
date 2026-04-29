@@ -218,6 +218,39 @@ export default function LocationDetail() {
               </motion.div>
             )}
 
+            {/* Weather & Climate */}
+            {(loc?.weather_lat || loc?.climate_summary || loc?.best_months) && (
+              <LocationWeather
+                lat={loc.weather_lat ?? null}
+                lon={loc.weather_lon ?? null}
+                bestMonths={loc.best_months ?? null}
+                climateSummary={loc.climate_summary ?? null}
+              />
+            )}
+
+            {/* Travel Tips & Getting There */}
+            {(loc?.travel_tips || loc?.getting_there_from_hk) && (
+              <LocationTravelTips
+                tips={loc.travel_tips ?? null}
+                gettingThereFromHk={loc.getting_there_from_hk ?? null}
+              />
+            )}
+
+            {/* Accommodations */}
+            {tourism?.accommodations && tourism.accommodations.length > 0 && (
+              <LocationAccommodations items={tourism.accommodations} />
+            )}
+
+            {/* Attractions */}
+            {tourism?.attractions && tourism.attractions.length > 0 && (
+              <LocationAttractions items={tourism.attractions} />
+            )}
+
+            {/* Food */}
+            {tourism?.food && tourism.food.length > 0 && (
+              <LocationFood items={tourism.food} />
+            )}
+
             {/* Photo Gallery */}
             {photos && photos.length > 0 && (
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
