@@ -3,12 +3,18 @@ import { motion } from "framer-motion";
 import { ArrowLeft, MapPin, Plane, Car, Building, Users, GraduationCap, Star, Loader2 } from "lucide-react";
 import { useLocationBySlug, useLocationPhotos } from "@/hooks/useLocationDetail";
 import { useLocationServices } from "@/hooks/useLocationServices";
+import { useLocationTourism } from "@/hooks/useLocationTourism";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useBooking } from "@/contexts/BookingContext";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { ServiceNameDisplay } from "@/components/ServiceNameDisplay";
 import { Footer } from "@/components/Footer";
 import { LocationPhotoGallery } from "@/components/location/LocationPhotoGallery";
+import { LocationWeather } from "@/components/location/LocationWeather";
+import { LocationAccommodations } from "@/components/location/LocationAccommodations";
+import { LocationAttractions } from "@/components/location/LocationAttractions";
+import { LocationFood } from "@/components/location/LocationFood";
+import { LocationTravelTips } from "@/components/location/LocationTravelTips";
 import { SEO } from "@/components/SEO";
 import { LocalBusinessJsonLd } from "@/components/JsonLd";
 
@@ -21,6 +27,9 @@ export default function LocationDetail() {
   const { data: location, isLoading, error } = useLocationBySlug(slug);
   const { data: photos } = useLocationPhotos(location?.id);
   const { data: services } = useLocationServices(location?.id);
+  const { data: tourism } = useLocationTourism(location?.id);
+
+  const loc = location as any;
 
   const translatedName = location ? translateData(`location.${location.slug}`, location.Name) : "";
   const translatedDesc = location ? translateData(`location.${location.slug}.desc`, location.description || "") : "";
