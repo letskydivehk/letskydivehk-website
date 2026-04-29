@@ -1,71 +1,89 @@
+# Add Tourism-Style Destination Details to Location Pages
 
+Enrich each `LocationDetail` page so it feels like a mini travel guide — not just a dropzone listing. Visitors planning a skydive trip will see weather, where to stay, what to do nearby, and how to get there.
 
-# Maximize Website Interaction Interface
+## Reference inspiration
+- **Booking.com / Airbnb destination pages** — "Things to do nearby", curated stays, neighborhood blurbs
+- **Lonely Planet / TripAdvisor** — climate chart, best time to visit, top attractions cards
+- **Skydive Dubai / Skydive Hawaii** — they pair their dropzone with hotel + attraction recommendations
 
-## Current Interactive Elements
-The site already has: sticky booking bar, WhatsApp chat widget, jump quiz, video modal, animated counters, parallax hero, service hover cards, FAQ accordion, contact form, and social proof ticker.
+## New sections on `/location/:slug`
 
-## Proposed Enhancements
+1. **Best Time to Jump & Weather**
+   - Live current weather (temp, condition, wind) via Open-Meteo (free, no key)
+   - "Best months" badge row (e.g. Nov–Feb green, Jun–Sep amber for monsoon)
+   - Short climate summary
 
-### 1. Add "Back to Top" Smooth Scroll Button
-A floating button (bottom-left) that appears after scrolling past the hero, with a smooth scroll-to-top animation. Complements the existing sticky booking bar at the bottom.
+2. **Where to Stay** — 3–4 curated accommodation cards (name, type: Hotel/Resort/Hostel, distance from dropzone, price tier $/$$/$$$, booking link, image)
 
-**File**: New `src/components/BackToTopButton.tsx`
-**File**: `src/pages/Home.tsx` — add the component
+3. **Things to Do Nearby** — 4–6 attraction cards (name, category icon: Beach / Temple / Food / Nature, short description, distance, image)
 
-### 2. Add Hover Tooltip Previews on Location Cards
-When hovering a location card, show a quick-info tooltip with key details (weather, altitude, available services) using the existing Tooltip component. Increases engagement before click-through.
+4. **Local Food & Must-Try** — 3–4 food highlights (dish name, where to try it, image)
 
-**File**: `src/components/Locations.tsx` — wrap cards with tooltip
+5. **Travel Tips** — Currency, language, visa note, plug type, tipping — compact icon grid
 
-### 3. Add Animated Progress Indicator for Booking Steps
-The booking form has multiple steps but no visual progress bar. Add an animated step indicator showing current progress (e.g., Step 2 of 4) with connecting lines that fill as users advance.
+6. **Getting There (expanded)** — keep current Plane/Car cards, add "Recommended route from Hong Kong" text block
 
-**File**: `src/components/BookingSection.tsx` — add progress bar UI above the form steps
+All sections only render if data exists (graceful degradation). Fully localized (EN / zh-TW / zh-CN) via existing `translateData` pattern.
 
-### 4. Add Micro-Interaction Feedback on All CTA Buttons
-Enhance all primary CTA buttons with ripple effects and haptic-style visual feedback on click. Currently some buttons have `whileTap` but not all — standardize across the site.
+## Technical implementation
 
-**File**: New `src/components/RippleButton.tsx` — reusable button with ripple effect
-**Files**: `src/components/Services.tsx`, `src/components/Contact.tsx` — use RippleButton for primary CTAs
+### Database (new migration)
+Add columns to `locations` table:
+- `best_months` (int[]) — e.g. `{11,12,1,2}`
+- `climate_summary` (text)
+- `weather_lat` (numeric), `weather_lon` (numeric) — for Open-Meteo lookup
+- `travel_tips` (jsonb) — `{currency, language, visa, plug, tipping}`
+- `getting_there_from_hk` (text)
 
-### 5. Add Section Navigation Dots (Scroll Spy)
-A vertical dot navigation on the right edge that highlights the current section as the user scrolls. Clicking a dot smooth-scrolls to that section. Common on single-page marketing sites.
+New tables:
+- `location_accommodations` (id, location_id, name, type, distance, price_tier, booking_url, image_url, description, display_order)
+- `location_attractions` (id, location_id, name, category, distance, image_url, description, display_order)
+- `location_food` (id, location_id, dish_name, where_to_try, image_url, description, display_order)
 
-**File**: New `src/components/SectionNav.tsx`
-**File**: `src/pages/Home.tsx` — add the component
+All with RLS: public SELECT for `is_active` parent location; admin INSERT/UPDATE/DELETE via `has_role(auth.uid(),'admin')`.
 
-### 6. Add "Shake to Book" / Auto-Open WhatsApp After Idle
-After 60 seconds of inactivity on the page, gently animate the WhatsApp button with a bounce + notification badge to prompt engagement.
+### Frontend
+- New hook `useLocationTourism.ts` — fetches accommodations / attractions / food in parallel via React Query
+- New hook `useWeather.ts` — calls `https://api.open-meteo.com/v1/forecast?latitude=X&longitude=Y&current=temperature_2m,weather_code,wind_speed_10m` (no key, no edge function needed)
+- New components in `src/components/location/`:
+  - `LocationWeather.tsx` — current temp + best-months strip
+  - `LocationAccommodations.tsx` — card grid
+  - `LocationAttractions.tsx` — card grid with category icons
+  - `LocationFood.tsx` — card grid
+  - `LocationTravelTips.tsx` — icon grid
+- Update `LocationDetail.tsx` to compose these new sections between existing "Distance & Transportation" and "Photo Gallery"
 
-**File**: `src/components/WhatsAppButton.tsx` — add idle timer with attention animation
+### Admin
+- Extend `AdminLocationsPanel` (or create one if missing — I'll check) with tabs to manage accommodations / attractions / food per location, plus the new climate/tips fields
 
-### 7. Add Parallax Tilt Effect on Service Cards
-Service cards already have hover lift (`whileHover: y: -8`). Add a subtle 3D tilt effect that follows the cursor position on hover for a more premium interactive feel.
+### Seed data
+Seed Pattaya, Chiang Mai, Huizhou, Hainan with realistic placeholder content (3 hotels, 4 attractions, 3 dishes each) and Unsplash images so the pages look populated immediately. Luoding & Zhuhai stay sparse (coming soon).
 
-**File**: `src/components/Services.tsx` — add mouse-tracking tilt transform
+### Localization
+Add new translation keys to `LanguageContext.tsx` for all section headers (EN / zh-TW / zh-CN), e.g.:
+- `locationDetail.weather`, `locationDetail.bestMonths`, `locationDetail.stay`, `locationDetail.thingsToDo`, `locationDetail.localFood`, `locationDetail.travelTips`, `locationDetail.gettingThereFromHK`
 
----
+Content fields (hotel names, dish names, descriptions) translated via existing `translateData(key, fallback)` mechanism.
 
-## Summary of New Components
-| Component | Purpose |
-|-----------|---------|
-| `BackToTopButton` | Floating scroll-to-top button |
-| `SectionNav` | Vertical scroll-spy dot navigation |
-| `RippleButton` | Reusable button with click ripple effect |
+## Files to create / modify
 
-## Files Modified
-| File | Change |
-|------|--------|
-| `src/pages/Home.tsx` | Add BackToTopButton + SectionNav |
-| `src/components/WhatsAppButton.tsx` | Add idle attention animation |
-| `src/components/Services.tsx` | Add 3D tilt effect on cards |
-| `src/components/BookingSection.tsx` | Add animated step progress bar |
-| `src/components/Contact.tsx` | Use RippleButton for submit |
+| Action | File |
+|---|---|
+| Create | `supabase/migrations/<ts>_location_tourism.sql` |
+| Create | `src/hooks/useLocationTourism.ts` |
+| Create | `src/hooks/useWeather.ts` |
+| Create | `src/components/location/LocationWeather.tsx` |
+| Create | `src/components/location/LocationAccommodations.tsx` |
+| Create | `src/components/location/LocationAttractions.tsx` |
+| Create | `src/components/location/LocationFood.tsx` |
+| Create | `src/components/location/LocationTravelTips.tsx` |
+| Modify | `src/pages/LocationDetail.tsx` — wire in new sections |
+| Modify | `src/contexts/LanguageContext.tsx` — new translation keys |
+| Modify | Admin locations panel — manage new content (will locate during build) |
+| Seed (insert) | Tourism data for Pattaya, Chiang Mai, Huizhou, Hainan |
 
-## Translation Keys Added
-- `nav.backToTop` (EN/zh-TW/zh-CN)
-- Section labels for dot nav tooltips
-
-All enhancements are non-breaking, purely additive, and fully localized.
-
+## Out of scope (can be added later)
+- User-submitted reviews of hotels/attractions
+- Real-time hotel pricing/availability (would require Booking.com affiliate API)
+- Multi-day itinerary builder
