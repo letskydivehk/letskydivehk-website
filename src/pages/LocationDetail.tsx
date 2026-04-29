@@ -3,12 +3,18 @@ import { motion } from "framer-motion";
 import { ArrowLeft, MapPin, Plane, Car, Building, Users, GraduationCap, Star, Loader2 } from "lucide-react";
 import { useLocationBySlug, useLocationPhotos } from "@/hooks/useLocationDetail";
 import { useLocationServices } from "@/hooks/useLocationServices";
+import { useLocationTourism } from "@/hooks/useLocationTourism";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useBooking } from "@/contexts/BookingContext";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { ServiceNameDisplay } from "@/components/ServiceNameDisplay";
 import { Footer } from "@/components/Footer";
 import { LocationPhotoGallery } from "@/components/location/LocationPhotoGallery";
+import { LocationWeather } from "@/components/location/LocationWeather";
+import { LocationAccommodations } from "@/components/location/LocationAccommodations";
+import { LocationAttractions } from "@/components/location/LocationAttractions";
+import { LocationFood } from "@/components/location/LocationFood";
+import { LocationTravelTips } from "@/components/location/LocationTravelTips";
 import { SEO } from "@/components/SEO";
 import { LocalBusinessJsonLd } from "@/components/JsonLd";
 
@@ -21,6 +27,9 @@ export default function LocationDetail() {
   const { data: location, isLoading, error } = useLocationBySlug(slug);
   const { data: photos } = useLocationPhotos(location?.id);
   const { data: services } = useLocationServices(location?.id);
+  const { data: tourism } = useLocationTourism(location?.id);
+
+  const loc = location as any;
 
   const translatedName = location ? translateData(`location.${location.slug}`, location.Name) : "";
   const translatedDesc = location ? translateData(`location.${location.slug}.desc`, location.description || "") : "";
@@ -207,6 +216,39 @@ export default function LocationDetail() {
                   </div>
                 )}
               </motion.div>
+            )}
+
+            {/* Weather & Climate */}
+            {(loc?.weather_lat || loc?.climate_summary || loc?.best_months) && (
+              <LocationWeather
+                lat={loc.weather_lat ?? null}
+                lon={loc.weather_lon ?? null}
+                bestMonths={loc.best_months ?? null}
+                climateSummary={loc.climate_summary ?? null}
+              />
+            )}
+
+            {/* Travel Tips & Getting There */}
+            {(loc?.travel_tips || loc?.getting_there_from_hk) && (
+              <LocationTravelTips
+                tips={loc.travel_tips ?? null}
+                gettingThereFromHk={loc.getting_there_from_hk ?? null}
+              />
+            )}
+
+            {/* Accommodations */}
+            {tourism?.accommodations && tourism.accommodations.length > 0 && (
+              <LocationAccommodations items={tourism.accommodations} />
+            )}
+
+            {/* Attractions */}
+            {tourism?.attractions && tourism.attractions.length > 0 && (
+              <LocationAttractions items={tourism.attractions} />
+            )}
+
+            {/* Food */}
+            {tourism?.food && tourism.food.length > 0 && (
+              <LocationFood items={tourism.food} />
             )}
 
             {/* Photo Gallery */}
