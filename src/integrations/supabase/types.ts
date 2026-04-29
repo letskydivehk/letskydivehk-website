@@ -257,6 +257,123 @@ export type Database = {
         }
         Relationships: []
       }
+      location_accommodations: {
+        Row: {
+          created_at: string
+          description: string | null
+          display_order: number
+          distance: string | null
+          id: string
+          image_url: string | null
+          location_id: string
+          name: string
+          price_tier: string
+          type: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          distance?: string | null
+          id?: string
+          image_url?: string | null
+          location_id: string
+          name: string
+          price_tier?: string
+          type?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          distance?: string | null
+          id?: string
+          image_url?: string | null
+          location_id?: string
+          name?: string
+          price_tier?: string
+          type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      location_attractions: {
+        Row: {
+          category: string
+          created_at: string
+          description: string | null
+          display_order: number
+          distance: string | null
+          id: string
+          image_url: string | null
+          location_id: string
+          name: string
+          updated_at: string
+        }
+        Insert: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          distance?: string | null
+          id?: string
+          image_url?: string | null
+          location_id: string
+          name: string
+          updated_at?: string
+        }
+        Update: {
+          category?: string
+          created_at?: string
+          description?: string | null
+          display_order?: number
+          distance?: string | null
+          id?: string
+          image_url?: string | null
+          location_id?: string
+          name?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      location_food: {
+        Row: {
+          created_at: string
+          description: string | null
+          dish_name: string
+          display_order: number
+          id: string
+          image_url: string | null
+          location_id: string
+          updated_at: string
+          where_to_try: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          dish_name: string
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          location_id: string
+          updated_at?: string
+          where_to_try?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          dish_name?: string
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          location_id?: string
+          updated_at?: string
+          where_to_try?: string | null
+        }
+        Relationships: []
+      }
       location_photos: {
         Row: {
           caption: string | null
@@ -348,13 +465,16 @@ export type Database = {
       locations: {
         Row: {
           airport_distance: string | null
+          best_months: number[] | null
           City: string | null
           city_distance: string | null
+          climate_summary: string | null
           coming_soon: boolean
           country: string
           created_at: string
           description: string | null
           display_order: number
+          getting_there_from_hk: string | null
           google_maps_embed_url: string | null
           has_aff: boolean
           has_group_events: boolean
@@ -365,17 +485,23 @@ export type Database = {
           Name: string
           slug: string
           transportation: string | null
+          travel_tips: Json | null
           updated_at: string
+          weather_lat: number | null
+          weather_lon: number | null
         }
         Insert: {
           airport_distance?: string | null
+          best_months?: number[] | null
           City?: string | null
           city_distance?: string | null
+          climate_summary?: string | null
           coming_soon?: boolean
           country: string
           created_at?: string
           description?: string | null
           display_order?: number
+          getting_there_from_hk?: string | null
           google_maps_embed_url?: string | null
           has_aff?: boolean
           has_group_events?: boolean
@@ -386,17 +512,23 @@ export type Database = {
           Name: string
           slug: string
           transportation?: string | null
+          travel_tips?: Json | null
           updated_at?: string
+          weather_lat?: number | null
+          weather_lon?: number | null
         }
         Update: {
           airport_distance?: string | null
+          best_months?: number[] | null
           City?: string | null
           city_distance?: string | null
+          climate_summary?: string | null
           coming_soon?: boolean
           country?: string
           created_at?: string
           description?: string | null
           display_order?: number
+          getting_there_from_hk?: string | null
           google_maps_embed_url?: string | null
           has_aff?: boolean
           has_group_events?: boolean
@@ -407,7 +539,10 @@ export type Database = {
           Name?: string
           slug?: string
           transportation?: string | null
+          travel_tips?: Json | null
           updated_at?: string
+          weather_lat?: number | null
+          weather_lon?: number | null
         }
         Relationships: []
       }
