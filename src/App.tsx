@@ -26,6 +26,7 @@ const Blog = React.lazy(() => import('./pages/Blog'));
 const BlogPost = React.lazy(() => import('./pages/BlogPost'));
 const MembershipTiers = React.lazy(() => import('./pages/MembershipTiers'));
 const Quiz = React.lazy(() => import('./pages/Quiz'));
+const QuizResult = React.lazy(() => import('./pages/QuizResult'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -62,6 +63,7 @@ export default function App() {
                 <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/membership/tiers" element={<MembershipTiers />} />
                 <Route path="/quiz" element={<Quiz />} />
+                <Route path="/quiz/result" element={<QuizResult />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/disclaimer" element={<Disclaimer />} />
