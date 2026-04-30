@@ -2984,6 +2984,97 @@ translations["zh-CN"]["quiz.cta.title"] = "60 秒找出最适合你的跳伞";
 translations["zh-CN"]["quiz.cta.subtitle"] = "回答 7 条问题，我们帮你配对最适合的跳点和服务。";
 translations["zh-CN"]["quiz.cta.button"] = "开始测试";
 
+// ===== Quiz result page (dedicated /quiz/result) =====
+// English
+translations.en["quiz.result.empty.title"] = "No quiz answers found";
+translations.en["quiz.result.empty.desc"] = "Take the 60-second quiz to get a personalised recommendation.";
+translations.en["quiz.result.empty.cta"] = "Take the Quiz";
+translations.en["quiz.result.whyMatch"] = "Why this match";
+translations.en["quiz.result.whyMatchTitle"] = "Tailored to your answers";
+translations.en["quiz.result.otherOptions"] = "Other dropzones you might love";
+translations.en["quiz.result.nextSteps"] = "Your next steps";
+translations.en["quiz.result.step1.title"] = "Pick your date";
+translations.en["quiz.result.step1.desc"] = "Browse availability and choose a slot that fits your schedule.";
+translations.en["quiz.result.step2.direct.title"] = "Pay $500 HKD deposit";
+translations.en["quiz.result.step2.direct.desc"] = "Secure your jump instantly via our Airwallex payment gateway.";
+translations.en["quiz.result.step2.contact.title"] = "Submit enquiry";
+translations.en["quiz.result.step2.contact.desc"] = "Our team will contact you within 24 hours to confirm details and pricing.";
+translations.en["quiz.result.step3.title"] = "Show up & jump";
+translations.en["quiz.result.step3.desc"] = "Arrive at the dropzone, complete the briefing, and enjoy the ride of your life.";
+translations.en["quiz.result.share"] = "Share Result";
+translations.en["quiz.result.share.title"] = "My Skydive Quiz Result";
+translations.en["quiz.result.share.copied"] = "Link copied to clipboard!";
+translations.en["quiz.reason.needsAff"] = "Offers full A-Licence training so you can earn your skydiving licence.";
+translations.en["quiz.reason.needsGroup"] = "Equipped to host group bookings and corporate events.";
+translations.en["quiz.reason.proximity"] = "Close to Hong Kong — easy travel for a quick jump weekend.";
+translations.en["quiz.reason.scenery"] = "World-class scenery for unforgettable in-air views.";
+translations.en["quiz.reason.budget"] = "Great value pricing without compromising on safety or experience.";
+translations.en["quiz.reason.season"] = "Climate is ideal during the months you'd like to jump.";
+translations.en["quiz.reason.default"] = "A balanced match across all your preferences.";
+translations.en["quiz.reason.service.tandem"] = "Tandem jumps need zero experience — perfect for first-timers.";
+translations.en["quiz.reason.service.alicence"] = "A-Licence training takes you from beginner to certified solo skydiver.";
+translations.en["quiz.reason.service.group"] = "Group events bundle pricing, logistics and photos for your whole crew.";
+
+// Traditional Chinese
+translations["zh-TW"]["quiz.result.empty.title"] = "未找到測驗答案";
+translations["zh-TW"]["quiz.result.empty.desc"] = "做一次 60 秒測驗，獲取個人化推薦。";
+translations["zh-TW"]["quiz.result.empty.cta"] = "開始測驗";
+translations["zh-TW"]["quiz.result.whyMatch"] = "為何這樣推薦";
+translations["zh-TW"]["quiz.result.whyMatchTitle"] = "根據你的答案量身配對";
+translations["zh-TW"]["quiz.result.otherOptions"] = "其他你可能喜歡嘅跳點";
+translations["zh-TW"]["quiz.result.nextSteps"] = "下一步";
+translations["zh-TW"]["quiz.result.step1.title"] = "揀日期";
+translations["zh-TW"]["quiz.result.step1.desc"] = "瀏覽可預約日子，揀一個啱你時間嘅時段。";
+translations["zh-TW"]["quiz.result.step2.direct.title"] = "繳付 HK$500 訂金";
+translations["zh-TW"]["quiz.result.step2.direct.desc"] = "經 Airwallex 即時付款，鎖定你嘅跳傘體驗。";
+translations["zh-TW"]["quiz.result.step2.contact.title"] = "提交查詢";
+translations["zh-TW"]["quiz.result.step2.contact.desc"] = "我哋團隊會喺 24 小時內聯絡你，確認詳情同價錢。";
+translations["zh-TW"]["quiz.result.step3.title"] = "出發跳傘";
+translations["zh-TW"]["quiz.result.step3.desc"] = "到達跳點、完成簡介，準備迎接人生最難忘嘅一跳。";
+translations["zh-TW"]["quiz.result.share"] = "分享結果";
+translations["zh-TW"]["quiz.result.share.title"] = "我嘅跳傘測驗結果";
+translations["zh-TW"]["quiz.result.share.copied"] = "已複製連結！";
+translations["zh-TW"]["quiz.reason.needsAff"] = "提供完整 A-Licence 訓練課程，可考取跳傘執照。";
+translations["zh-TW"]["quiz.reason.needsGroup"] = "場地配備可容納團體預約及企業活動。";
+translations["zh-TW"]["quiz.reason.proximity"] = "近香港，週末快閃跳傘最方便。";
+translations["zh-TW"]["quiz.reason.scenery"] = "世界級景色，在空中有最難忘嘅視野。";
+translations["zh-TW"]["quiz.reason.budget"] = "性價比超高，安全與體驗一樣不打折。";
+translations["zh-TW"]["quiz.reason.season"] = "你想跳嘅月份正好係當地天氣最理想時段。";
+translations["zh-TW"]["quiz.reason.default"] = "全方位平均符合你嘅喜好。";
+translations["zh-TW"]["quiz.reason.service.tandem"] = "雙人跳傘無需經驗，最啱第一次嘅你。";
+translations["zh-TW"]["quiz.reason.service.alicence"] = "A-Licence 訓練帶你由零開始，成為持證單人跳傘員。";
+translations["zh-TW"]["quiz.reason.service.group"] = "團體活動包含價錢、行程同相片，一次過為團隊安排好。";
+
+// Simplified Chinese
+translations["zh-CN"]["quiz.result.empty.title"] = "未找到测验答案";
+translations["zh-CN"]["quiz.result.empty.desc"] = "做一次 60 秒测验，获取个人化推荐。";
+translations["zh-CN"]["quiz.result.empty.cta"] = "开始测验";
+translations["zh-CN"]["quiz.result.whyMatch"] = "为何这样推荐";
+translations["zh-CN"]["quiz.result.whyMatchTitle"] = "根据你的答案量身配对";
+translations["zh-CN"]["quiz.result.otherOptions"] = "其他你可能喜欢的跳点";
+translations["zh-CN"]["quiz.result.nextSteps"] = "下一步";
+translations["zh-CN"]["quiz.result.step1.title"] = "选日期";
+translations["zh-CN"]["quiz.result.step1.desc"] = "浏览可预约日期，选一个适合你的时段。";
+translations["zh-CN"]["quiz.result.step2.direct.title"] = "支付 HK$500 订金";
+translations["zh-CN"]["quiz.result.step2.direct.desc"] = "通过 Airwallex 即时付款，锁定你的跳伞体验。";
+translations["zh-CN"]["quiz.result.step2.contact.title"] = "提交咨询";
+translations["zh-CN"]["quiz.result.step2.contact.desc"] = "我们团队会在 24 小时内联系你，确认详情和价钱。";
+translations["zh-CN"]["quiz.result.step3.title"] = "出发跳伞";
+translations["zh-CN"]["quiz.result.step3.desc"] = "到达跳点、完成简介，迎接人生最难忘的一跳。";
+translations["zh-CN"]["quiz.result.share"] = "分享结果";
+translations["zh-CN"]["quiz.result.share.title"] = "我的跳伞测验结果";
+translations["zh-CN"]["quiz.result.share.copied"] = "已复制链接！";
+translations["zh-CN"]["quiz.reason.needsAff"] = "提供完整 A-Licence 训练课程，可考取跳伞执照。";
+translations["zh-CN"]["quiz.reason.needsGroup"] = "场地配备可容纳团体预约及企业活动。";
+translations["zh-CN"]["quiz.reason.proximity"] = "靠近香港，周末快闪跳伞最方便。";
+translations["zh-CN"]["quiz.reason.scenery"] = "世界级景色，在空中拥有最难忘的视野。";
+translations["zh-CN"]["quiz.reason.budget"] = "性价比超高，安全与体验一样不打折。";
+translations["zh-CN"]["quiz.reason.season"] = "你想跳的月份正好是当地天气最理想时段。";
+translations["zh-CN"]["quiz.reason.default"] = "全方位平均符合你的喜好。";
+translations["zh-CN"]["quiz.reason.service.tandem"] = "双人跳伞无需经验，最适合第一次的你。";
+translations["zh-CN"]["quiz.reason.service.alicence"] = "A-Licence 训练带你从零开始，成为持证单人跳伞员。";
+translations["zh-CN"]["quiz.reason.service.group"] = "团体活动包含价钱、行程和相片，一次过为团队安排好。";
+
 // Helper function to convert markdown-style bold (**text** or *text*) to HTML
 const formatBoldText = (text: string): string => {
   return text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>");
