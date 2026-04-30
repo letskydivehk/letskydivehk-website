@@ -15,7 +15,7 @@ import { OrganizationJsonLd } from "@/components/JsonLd";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { StickyBookingBar } from "@/components/StickyBookingBar";
 import { SocialProofTicker } from "@/components/SocialProofTicker";
-import { JumpQuiz } from "@/components/JumpQuiz";
+import { QuizCTA } from "@/components/QuizCTA";
 import { CountdownTimer } from "@/components/CountdownTimer";
 import { BackToTopButton } from "@/components/BackToTopButton";
 import { SectionNav } from "@/components/SectionNav";
@@ -60,8 +60,8 @@ export default function Home() {
         <section id="services" aria-label="Services section">
           <Services />
         </section>
-        {/* Jump Quiz */}
-        <JumpQuiz />
+        {/* Quiz CTA → dedicated page */}
+        <QuizCTA />
 
         <section id="booking" aria-label="Booking section">
           <BookingSection />
