@@ -656,6 +656,92 @@ export type Database = {
           },
         ]
       }
+      quiz_options: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          label_en: string
+          label_zh_cn: string
+          label_zh_tw: string
+          location_weights: Json
+          pin_location_slug: string | null
+          question_id: string
+          service_weights: Json
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          label_en?: string
+          label_zh_cn?: string
+          label_zh_tw?: string
+          location_weights?: Json
+          pin_location_slug?: string | null
+          question_id: string
+          service_weights?: Json
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          label_en?: string
+          label_zh_cn?: string
+          label_zh_tw?: string
+          location_weights?: Json
+          pin_location_slug?: string | null
+          question_id?: string
+          service_weights?: Json
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_options_question_id_fkey"
+            columns: ["question_id"]
+            isOneToOne: false
+            referencedRelation: "quiz_questions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quiz_questions: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          is_active: boolean
+          slug: string
+          text_en: string
+          text_zh_cn: string
+          text_zh_tw: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          slug: string
+          text_en?: string
+          text_zh_cn?: string
+          text_zh_tw?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          is_active?: boolean
+          slug?: string
+          text_en?: string
+          text_zh_cn?: string
+          text_zh_tw?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       services: {
         Row: {
           available_everywhere: boolean

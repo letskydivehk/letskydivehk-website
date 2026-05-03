@@ -1,87 +1,7 @@
 import type { Location } from "@/hooks/useLocations";
+import type { DBQuizOption, DBQuizQuestion } from "@/hooks/useQuiz";
 
 export type ServiceKey = "tandem" | "alicence" | "group";
-
-export interface QuestionOption {
-  key: string;
-  service?: Partial<Record<ServiceKey, number>>;
-  loc?: {
-    country?: "Thailand" | "China";
-    proximity?: number;
-    scenery?: number;
-    budget?: number;
-    needsAff?: boolean;
-    needsGroup?: boolean;
-    monthPref?: number[];
-  };
-}
-
-export interface Question {
-  key: string;
-  options: QuestionOption[];
-}
-
-export const QUIZ_QUESTIONS: Question[] = [
-  {
-    key: "quiz.q1",
-    options: [
-      { key: "quiz.q1.a", service: { tandem: 3 } },
-      { key: "quiz.q1.b", service: { tandem: 1, alicence: 2 } },
-      { key: "quiz.q1.c", service: { alicence: 4 } },
-    ],
-  },
-  {
-    key: "quiz.q2",
-    options: [
-      { key: "quiz.q2.a", service: { tandem: 1, alicence: 2 } },
-      { key: "quiz.q2.b", service: { tandem: 3 } },
-      { key: "quiz.q2.c", service: { group: 4, tandem: 1 }, loc: { needsGroup: true } },
-      { key: "quiz.q2.d", service: { alicence: 3 } },
-    ],
-  },
-  {
-    key: "quiz.q3",
-    options: [
-      { key: "quiz.q3.a", service: { tandem: 2 } },
-      { key: "quiz.q3.b", service: { tandem: 3, group: 1 } },
-      { key: "quiz.q3.c", service: { alicence: 4 } },
-    ],
-  },
-  {
-    key: "quiz.q4",
-    options: [
-      { key: "quiz.q4.a", loc: { proximity: 3, country: "China", budget: 1 } },
-      { key: "quiz.q4.b", loc: { proximity: 1, scenery: 2 } },
-      { key: "quiz.q4.c", loc: { proximity: 0, scenery: 3, country: "Thailand" } },
-    ],
-  },
-  {
-    key: "quiz.q5",
-    options: [
-      { key: "quiz.q5.a", loc: { budget: 3, country: "China" } },
-      { key: "quiz.q5.b", loc: { budget: 1 } },
-      { key: "quiz.q5.c", loc: { budget: 0, scenery: 2 } },
-    ],
-  },
-  {
-    key: "quiz.q6",
-    options: [
-      { key: "quiz.q6.a", loc: { scenery: 3, country: "Thailand" } },
-      { key: "quiz.q6.b", loc: { scenery: 2 } },
-      { key: "quiz.q6.c", loc: { proximity: 2, country: "China" } },
-      { key: "quiz.q6.d", loc: { scenery: 3 } },
-    ],
-  },
-  {
-    key: "quiz.q7",
-    options: [
-      { key: "quiz.q7.a", loc: { monthPref: [10, 11, 12] } },
-      { key: "quiz.q7.b", loc: { monthPref: [1, 2, 3] } },
-      { key: "quiz.q7.c", loc: { monthPref: [4, 5, 6, 7, 8, 9] } },
-      { key: "quiz.q7.d", loc: {} },
-    ],
-  },
-];
 
 export interface RankedLocation {
   loc: Location;
@@ -94,7 +14,7 @@ export interface Recommendation {
   primaryLocation: Location | null;
   alternateLocation: Location | null;
   ranked: RankedLocation[];
-  reasons: string[]; // i18n keys
+  reasons: string[];
   agg: {
     proximity: number;
     scenery: number;
@@ -116,16 +36,15 @@ const LOCATION_PROFILE: Record<string, { proximity: number; scenery: number; bud
 };
 
 export function computeRecommendation(
-  selections: QuestionOption[],
+  selections: DBQuizOption[],
   locations: Location[],
 ): Recommendation {
   const sScore: Record<ServiceKey, number> = { tandem: 0, alicence: 0, group: 0 };
   selections.forEach((opt) => {
-    if (opt.service) {
-      (Object.keys(opt.service) as ServiceKey[]).forEach((k) => {
-        sScore[k] += opt.service![k] || 0;
-      });
-    }
+    const sw = opt.service_weights || {};
+    (Object.keys(sw) as ServiceKey[]).forEach((k) => {
+      sScore[k] += Number(sw[k]) || 0;
+    });
   });
   const service =
     (Object.entries(sScore).sort((a, b) => b[1] - a[1])[0][0] as ServiceKey) || "tandem";
@@ -138,10 +57,10 @@ export function computeRecommendation(
     monthPref: new Set<number>(),
     needsAff: service === "alicence",
     needsGroup: false,
+    pinSlugBonus: {} as Record<string, number>,
   };
   selections.forEach((opt) => {
-    const l = opt.loc;
-    if (!l) return;
+    const l = opt.location_weights || {};
     if (l.proximity) agg.proximity += l.proximity;
     if (l.scenery) agg.scenery += l.scenery;
     if (l.budget) agg.budget += l.budget;
@@ -149,6 +68,10 @@ export function computeRecommendation(
     if (l.needsAff) agg.needsAff = true;
     if (l.needsGroup) agg.needsGroup = true;
     if (l.monthPref) l.monthPref.forEach((m) => agg.monthPref.add(m));
+    if (opt.pin_location_slug) {
+      agg.pinSlugBonus[opt.pin_location_slug] =
+        (agg.pinSlugBonus[opt.pin_location_slug] || 0) + 10;
+    }
   });
 
   const candidates = locations
@@ -168,11 +91,11 @@ export function computeRecommendation(
         const overlap = (l.best_months as number[]).filter((m) => agg.monthPref.has(m)).length;
         score += overlap * 1.5;
       }
+      score += agg.pinSlugBonus[l.slug] || 0;
       return { loc: l, score };
     })
     .sort((a, b) => b.score - a.score);
 
-  // Build "why this match" reason keys
   const reasons: string[] = [];
   if (agg.needsAff) reasons.push("quiz.reason.needsAff");
   if (agg.needsGroup) reasons.push("quiz.reason.needsGroup");
@@ -200,27 +123,48 @@ export function computeRecommendation(
   };
 }
 
-// ---- URL encoding for shareable result URLs ----
-// Encode answers as compact string: one letter per question (a/b/c/d) joined.
-// Handles missing questions / future expansion via "-" placeholder.
-export function encodeAnswers(answers: (QuestionOption | null)[]): string {
-  return answers
-    .map((a, i) => {
+// Encode: one letter per question (a/b/c/d/...), "-" if unanswered.
+export function encodeAnswers(
+  questions: DBQuizQuestion[],
+  answers: (DBQuizOption | null)[],
+): string {
+  return questions
+    .map((q, i) => {
+      const a = answers[i];
       if (!a) return "-";
-      const idx = QUIZ_QUESTIONS[i].options.findIndex((o) => o.key === a.key);
+      const idx = q.options.findIndex((o) => o.id === a.id);
       return idx >= 0 ? String.fromCharCode(97 + idx) : "-";
     })
     .join("");
 }
 
-export function decodeAnswers(code: string): QuestionOption[] {
-  const out: QuestionOption[] = [];
-  for (let i = 0; i < QUIZ_QUESTIONS.length && i < code.length; i++) {
+export function decodeAnswers(questions: DBQuizQuestion[], code: string): DBQuizOption[] {
+  const out: DBQuizOption[] = [];
+  for (let i = 0; i < questions.length && i < code.length; i++) {
     const ch = code[i];
     if (ch === "-") continue;
     const idx = ch.charCodeAt(0) - 97;
-    const opt = QUIZ_QUESTIONS[i].options[idx];
+    const opt = questions[i].options[idx];
     if (opt) out.push(opt);
   }
   return out;
+}
+
+// Helper: pick a label in current language
+export function quizLabel(
+  o: { label_en: string; label_zh_tw: string; label_zh_cn: string },
+  lang: string,
+): string {
+  if (lang === "zh-TW") return o.label_zh_tw || o.label_en;
+  if (lang === "zh-CN") return o.label_zh_cn || o.label_en;
+  return o.label_en;
+}
+
+export function quizText(
+  q: { text_en: string; text_zh_tw: string; text_zh_cn: string },
+  lang: string,
+): string {
+  if (lang === "zh-TW") return q.text_zh_tw || q.text_en;
+  if (lang === "zh-CN") return q.text_zh_cn || q.text_en;
+  return q.text_en;
 }

@@ -23,6 +23,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { useLocations } from "@/hooks/useLocations";
 import { useBooking } from "@/contexts/BookingContext";
 import { computeRecommendation, decodeAnswers, type ServiceKey } from "@/lib/quiz";
+import { useQuiz } from "@/hooks/useQuiz";
 import { toast } from "sonner";
 
 const SERVICE_EMOJI: Record<ServiceKey, string> = {
@@ -46,7 +47,8 @@ export default function QuizResult() {
     useBooking();
 
   const code = params.get("a") || "";
-  const selections = useMemo(() => decodeAnswers(code), [code]);
+  const { data: questions = [] } = useQuiz();
+  const selections = useMemo(() => decodeAnswers(questions, code), [questions, code]);
 
   const recommendation = useMemo(() => {
     if (locations.length === 0 || selections.length === 0) return null;

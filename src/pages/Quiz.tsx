@@ -1,47 +1,48 @@
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft, Sparkles } from "lucide-react";
+import { ChevronRight, ChevronLeft, Sparkles, Loader2 } from "lucide-react";
 import { PageNavbar } from "@/components/PageNavbar";
 import { Footer } from "@/components/Footer";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { SEO } from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { QUIZ_QUESTIONS, encodeAnswers, type QuestionOption } from "@/lib/quiz";
+import { useQuiz, type DBQuizOption } from "@/hooks/useQuiz";
+import { encodeAnswers, quizLabel, quizText } from "@/lib/quiz";
 
 export default function Quiz() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const navigate = useNavigate();
+  const { data: questions = [], isLoading } = useQuiz();
 
   const [step, setStep] = useState(0);
-  const [answers, setAnswers] = useState<(QuestionOption | null)[]>(
-    () => Array(QUIZ_QUESTIONS.length).fill(null),
+  const [answersById, setAnswersById] = useState<Record<string, DBQuizOption | null>>({});
+
+  const totalSteps = questions.length;
+  const currentQuestion = questions[step];
+  const currentAnswer = currentQuestion ? answersById[currentQuestion.id] : null;
+  const progress = totalSteps ? ((step + (currentAnswer ? 1 : 0)) / totalSteps) * 100 : 0;
+
+  const orderedAnswers = useMemo(
+    () => questions.map((q) => answersById[q.id] || null),
+    [questions, answersById],
   );
 
-  const totalSteps = QUIZ_QUESTIONS.length;
-  const currentQuestion = QUIZ_QUESTIONS[step];
-  const currentAnswer = answers[step];
-  const progress = ((step + (currentAnswer ? 1 : 0)) / totalSteps) * 100;
-
-  const handleSelect = (option: QuestionOption) => {
-    const next = [...answers];
-    next[step] = option;
-    setAnswers(next);
+  const handleSelect = (option: DBQuizOption) => {
+    if (!currentQuestion) return;
+    setAnswersById({ ...answersById, [currentQuestion.id]: option });
   };
 
   const handleNext = () => {
     if (!currentAnswer) return;
-    if (step < totalSteps - 1) {
-      setStep(step + 1);
-    } else {
-      const code = encodeAnswers(answers);
+    if (step < totalSteps - 1) setStep(step + 1);
+    else {
+      const code = encodeAnswers(questions, orderedAnswers);
       navigate(`/quiz/result?a=${encodeURIComponent(code)}`);
     }
   };
 
-  const handleBack = () => {
-    if (step > 0) setStep(step - 1);
-  };
+  const handleBack = () => step > 0 && setStep(step - 1);
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
@@ -65,77 +66,85 @@ export default function Quiz() {
             <p className="text-muted-foreground max-w-xl mx-auto">{t("quiz.page.subtitle")}</p>
           </motion.div>
 
-          <div className="mb-6">
-            <div className="flex items-center justify-between text-xs text-muted-foreground mb-2 font-medium">
-              <span>
-                {t("quiz.progress")} {step + 1} / {totalSteps}
-              </span>
-              <span>{Math.round(progress)}%</span>
+          {isLoading || !currentQuestion ? (
+            <div className="flex justify-center py-20">
+              <Loader2 className="w-8 h-8 animate-spin text-accent-orange" />
             </div>
-            <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
-              <motion.div
-                className="h-full bg-accent-orange"
-                initial={{ width: 0 }}
-                animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.4 }}
-              />
-            </div>
-          </div>
-
-          <div className="bg-card border border-border rounded-3xl p-6 sm:p-10 shadow-xl min-h-[420px]">
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={step}
-                initial={{ opacity: 0, x: 30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -30 }}
-                transition={{ duration: 0.3 }}
-              >
-                <h2 className="text-2xl font-bold mb-6">{t(currentQuestion.key)}</h2>
-                <div className="flex flex-col gap-3">
-                  {currentQuestion.options.map((option) => {
-                    const selected = currentAnswer?.key === option.key;
-                    return (
-                      <motion.button
-                        key={option.key}
-                        whileHover={{ scale: 1.01 }}
-                        whileTap={{ scale: 0.99 }}
-                        onClick={() => handleSelect(option)}
-                        className={`w-full text-left rounded-xl px-5 py-4 font-medium transition-all border ${
-                          selected
-                            ? "bg-accent-orange/10 border-accent-orange text-foreground"
-                            : "bg-muted/40 border-border hover:bg-accent-orange/5 hover:border-accent-orange/40"
-                        }`}
-                      >
-                        {t(option.key)}
-                      </motion.button>
-                    );
-                  })}
+          ) : (
+            <>
+              <div className="mb-6">
+                <div className="flex items-center justify-between text-xs text-muted-foreground mb-2 font-medium">
+                  <span>
+                    {t("quiz.progress")} {step + 1} / {totalSteps}
+                  </span>
+                  <span>{Math.round(progress)}%</span>
                 </div>
-              </motion.div>
-            </AnimatePresence>
-          </div>
+                <div className="h-2 w-full bg-muted rounded-full overflow-hidden">
+                  <motion.div
+                    className="h-full bg-accent-orange"
+                    initial={{ width: 0 }}
+                    animate={{ width: `${progress}%` }}
+                    transition={{ duration: 0.4 }}
+                  />
+                </div>
+              </div>
 
-          <div className="flex items-center justify-between mt-6">
-            <button
-              onClick={handleBack}
-              disabled={step === 0}
-              className="inline-flex items-center gap-1 px-4 py-2 text-sm font-semibold text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed"
-            >
-              <ChevronLeft className="w-4 h-4" />
-              {t("quiz.back")}
-            </button>
-            <motion.button
-              whileHover={currentAnswer ? { scale: 1.03 } : {}}
-              whileTap={currentAnswer ? { scale: 0.97 } : {}}
-              onClick={handleNext}
-              disabled={!currentAnswer}
-              className="inline-flex items-center gap-1 bg-accent-orange text-white font-bold px-6 py-3 rounded-xl hover:bg-accent-orange/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
-            >
-              {step === totalSteps - 1 ? t("quiz.seeResult") : t("quiz.next")}
-              <ChevronRight className="w-4 h-4" />
-            </motion.button>
-          </div>
+              <div className="bg-card border border-border rounded-3xl p-6 sm:p-10 shadow-xl min-h-[420px]">
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentQuestion.id}
+                    initial={{ opacity: 0, x: 30 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -30 }}
+                    transition={{ duration: 0.3 }}
+                  >
+                    <h2 className="text-2xl font-bold mb-6">{quizText(currentQuestion, language)}</h2>
+                    <div className="flex flex-col gap-3">
+                      {currentQuestion.options.map((option) => {
+                        const selected = currentAnswer?.id === option.id;
+                        return (
+                          <motion.button
+                            key={option.id}
+                            whileHover={{ scale: 1.01 }}
+                            whileTap={{ scale: 0.99 }}
+                            onClick={() => handleSelect(option)}
+                            className={`w-full text-left rounded-xl px-5 py-4 font-medium transition-all border ${
+                              selected
+                                ? "bg-accent-orange/10 border-accent-orange text-foreground"
+                                : "bg-muted/40 border-border hover:bg-accent-orange/5 hover:border-accent-orange/40"
+                            }`}
+                          >
+                            {quizLabel(option, language)}
+                          </motion.button>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+              </div>
+
+              <div className="flex items-center justify-between mt-6">
+                <button
+                  onClick={handleBack}
+                  disabled={step === 0}
+                  className="inline-flex items-center gap-1 px-4 py-2 text-sm font-semibold text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  {t("quiz.back")}
+                </button>
+                <motion.button
+                  whileHover={currentAnswer ? { scale: 1.03 } : {}}
+                  whileTap={currentAnswer ? { scale: 0.97 } : {}}
+                  onClick={handleNext}
+                  disabled={!currentAnswer}
+                  className="inline-flex items-center gap-1 bg-accent-orange text-white font-bold px-6 py-3 rounded-xl hover:bg-accent-orange/90 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  {step === totalSteps - 1 ? t("quiz.seeResult") : t("quiz.next")}
+                  <ChevronRight className="w-4 h-4" />
+                </motion.button>
+              </div>
+            </>
+          )}
         </div>
       </main>
 
