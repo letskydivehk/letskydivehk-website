@@ -69,18 +69,27 @@ export default function Quiz() {
     const selections = orderedAnswers.filter((a): a is DBQuizOption => !!a);
     const rec = computeRecommendation(selections, locations);
     try {
-      await supabase.from("quiz_leads").insert({
-        full_name: parsed.data.full_name,
-        phone: parsed.data.phone,
-        email: parsed.data.email,
-        answer_code: code,
-        recommended_service: rec.service,
-        recommended_location_slug: rec.primaryLocation?.slug || null,
-        language,
-        user_id: user?.id || null,
+      const { data, error } = await supabase.functions.invoke("register-quiz-lead", {
+        body: {
+          full_name: parsed.data.full_name,
+          phone: parsed.data.phone,
+          email: parsed.data.email,
+          answer_code: code,
+          recommended_service: rec.service,
+          recommended_location_slug: rec.primaryLocation?.slug || null,
+          language,
+        },
       });
-    } catch {
-      // proceed even if logging fails
+      if (error) throw error;
+      if (data?.isNew) {
+        toast.success(
+          t("quiz.lead.creditToast") ||
+            "Account created! Check your inbox for your $100 credit and login link.",
+        );
+      }
+    } catch (err) {
+      if (import.meta.env.DEV) console.error("quiz lead submit failed", err);
+      // proceed to result either way
     }
     setSubmitting(false);
     navigate(`/quiz/result?a=${encodeURIComponent(code)}`);

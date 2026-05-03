@@ -1,121 +1,50 @@
 ## Goal
+Treat quiz lead submissions as account registrations so each new lead receives the existing $100 signup credit automatically.
 
-Move the quiz out of hard-coded files (`src/lib/quiz.ts` + `LanguageContext.tsx`) and into Supabase, so that:
+## How it works today
+- `auth.users` insert → trigger `handle_new_user` creates a `profiles` row → trigger `on_profile_created_grant_credit` runs `grant_signup_credit` and inserts a `+100` row in `credit_transactions`.
+- Quiz lead form currently inserts into `quiz_leads` only — no auth user is created, so no credit is granted.
 
-1. You can edit questions, answers, wording, and recommendation logic from an admin page — no code changes.
-2. When you save an English answer, it is **auto-translated** into Traditional Chinese and Simplified Chinese via the Lovable AI Gateway (`LOVABLE_API_KEY` is already set).
-3. Each answer carries weights that drive **which service** (Tandem / A-Licence / Group) and **which dropzone** is recommended at the end.
+## Plan
 
----
+### 1. New edge function: `register-quiz-lead`
+Public function (verify_jwt = false). Validates `full_name`, `phone`, `email` (Zod) plus quiz fields, then:
 
-## 1. Database schema (new tables)
+1. Use the service-role client to look up an existing auth user by email (`auth.admin.listUsers` filtered by email).
+2. If the user does NOT exist:
+   - Call `supabase.auth.admin.createUser({ email, email_confirm: true, user_metadata: { full_name, phone, signup_method: 'quiz' } })`.
+   - This fires `handle_new_user` → profile row → `grant_signup_credit` → $100 credit. No extra DB work needed.
+   - Generate a magic-link / recovery link via `auth.admin.generateLink({ type: 'magiclink', email, options: { redirectTo: <site>/auth/callback } })` and email it through Resend so the user can claim the account and see their credit. Subject in current language ("Your $100 skydiving credit is ready").
+   - If they sign up later through the normal flow with the same email, the trigger has already fired so no double credit.
+3. If the user already exists: do not create, do not grant credit. Optionally send a "welcome back" magic link (same generateLink call) so they can log in and use whatever balance they have.
+4. Insert the `quiz_leads` row (server-side, with the same validation we already have) including `user_id` resolved from step 1/2.
+5. Return `{ ok: true, recommendation: { service, location_slug }, isNew: boolean }`.
 
-### `quiz_questions`
-| column | type | notes |
-|---|---|---|
-| id | uuid PK | |
-| slug | text unique | e.g. `experience`, `group_size` — stable identifier |
-| display_order | int | controls question order |
-| is_active | bool | hide/show without deleting |
-| text_en / text_zh_tw / text_zh_cn | text | the question in 3 languages |
+Secrets: uses existing `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_URL`, `RESEND_API_KEY`. Add `verify_jwt = false` entry in `supabase/config.toml`.
 
-### `quiz_options`
-| column | type | notes |
-|---|---|---|
-| id | uuid PK | |
-| question_id | uuid → quiz_questions.id | |
-| display_order | int | |
-| label_en / label_zh_tw / label_zh_cn | text | the answer text in 3 languages |
-| service_weights | jsonb | `{ "tandem": 3, "alicence": 0, "group": 0 }` |
-| location_weights | jsonb | `{ "proximity": 2, "scenery": 0, "budget": 1, "country": "China", "needsAff": false, "needsGroup": false, "monthPref": [11,12,1,2] }` |
-| pin_location_slug | text nullable | hard pin: if chosen, that dropzone is heavily favoured (e.g. `hainan`) |
+### 2. Quiz.tsx changes
+Replace the direct `supabase.from('quiz_leads').insert(...)` with `supabase.functions.invoke('register-quiz-lead', { body: { ...lead, answer_code, recommended_service, recommended_location_slug, language } })`.
 
-### RLS
-- Public `SELECT` on both tables (the quiz must load for anonymous visitors).
-- `INSERT / UPDATE / DELETE` restricted to admins via `has_role(auth.uid(),'admin')`.
+Update the lead form copy to set expectations:
+- Subtitle becomes (localized): "We'll email you a login link and credit your account with $100 to use on your first booking."
+- A small note under the submit button: "By continuing you agree to create a Let's Skydive HK account."
 
-### Seed
-Migration seeds the current 7 questions and their options with the same weights they have today in `src/lib/quiz.ts`, so behaviour is unchanged on day one.
+After success, navigate to `/quiz/result` exactly as today. If the function returns `isNew: true`, show a toast: "Check your inbox — your $100 credit and login link are on the way."
 
----
+### 3. No DB schema migration required
+- The $100 grant is already wired through `handle_new_user` + `grant_signup_credit`.
+- `quiz_leads` already accepts the same fields; we just keep inserting it from the edge function.
 
-## 2. Auto-translation (English → zh-TW + zh-CN)
+### 4. Anti-abuse
+- Edge function rate-limits by email + IP (in-memory per cold start is fine for now; reuse pattern from `send-notification` if present, otherwise: simple Map with 1 submission / 60s per email).
+- Email format + length checks duplicated server-side via Zod (defence in depth on top of the existing RLS check constraint).
+- We do NOT grant a second credit for emails that already have an account — handled implicitly because we only call `createUser` when none exists.
 
-A new edge function **`translate-quiz`** uses the Lovable AI Gateway (`LOVABLE_API_KEY`, already configured — no new secret, no cost setup).
+### Files touched
+- `supabase/functions/register-quiz-lead/index.ts` (new)
+- `supabase/config.toml` (add `[functions.register-quiz-lead] verify_jwt = false`)
+- `src/pages/Quiz.tsx` (swap insert for function invoke, update copy + toast)
 
-- Input: `{ text: "How far are you willing to travel?" }`
-- Output: `{ zh_tw: "...", zh_cn: "..." }`
-- Model: `google/gemini-2.5-flash` (fast + free during promo period).
-- Prompt instructs: terminology rules from project memory ("A-Licence" never "AFF Course"; Traditional Chinese is authoritative; concise marketing tone).
-
-In the admin UI, when you edit `text_en` or `label_en` and click **Auto-translate**, the function fills both Chinese fields. You can still hand-edit them afterwards.
-
----
-
-## 3. Admin UI — `/admin/quiz`
-
-Added to the existing admin hub (`/admin/credits` sidebar). Layout:
-
-```text
-Quiz Builder
-├── [+ Add question]
-├── Question card (drag to reorder)
-│    ├── EN / 繁中 / 简中  text fields  [🪄 Auto-translate]
-│    ├── Active toggle
-│    └── Options
-│         ├── Option row (drag to reorder)
-│         │    ├── EN / 繁中 / 简中 labels  [🪄 Auto-translate]
-│         │    ├── Service weights:  Tandem [_]  A-Licence [_]  Group [_]
-│         │    ├── Location signals: Proximity [_] Scenery [_] Budget [_]
-│         │    │                     Country [Thailand/China/—]
-│         │    │                     Needs A-Licence ☐   Needs Group ☐
-│         │    │                     Best months [multi-select 1–12]
-│         │    └── Pin to dropzone [dropdown of locations or "None"]
-│         └── [+ Add option]
-└── [Save changes]
-```
-
-A small **"How scoring works"** help panel explains:
-- Highest total `service_weights` wins → that's the recommended service.
-- Location score = `proximity*locProfile.proximity + scenery*locProfile.scenery + budget*locProfile.budget + countryBoost + monthOverlap*1.5`.
-- `pin_location_slug` adds a strong bonus (+10) so that answer almost always wins for that dropzone — the easy way to say *"if user picks this, recommend Hainan"*.
-
----
-
-## 4. Frontend changes
-
-- New hook `src/hooks/useQuiz.ts` — fetches questions+options once, cached via React Query.
-- Replace static `QUIZ_QUESTIONS` import in `src/pages/Quiz.tsx` and `src/pages/QuizResult.tsx` with hook data.
-- Refactor `computeRecommendation` in `src/lib/quiz.ts` to accept the DB shape and honour `pin_location_slug`.
-- Translation lookup: instead of `t(option.key)`, render `option[`label_${lang}`]` directly (falling back to `label_en`).
-- Loading state: skeleton on `/quiz` while questions load (≈100ms).
-
-The current 3-language `quiz.*` keys in `LanguageContext.tsx` can be removed once the DB is the source of truth (UI chrome keys like `quiz.next`, `quiz.back`, `quiz.badge` stay in the language file).
-
----
-
-## 5. Files
-
-| Action | File |
-|---|---|
-| Create | migration: `quiz_questions`, `quiz_options`, RLS, seed from current data |
-| Create | `supabase/functions/translate-quiz/index.ts` |
-| Create | `src/hooks/useQuiz.ts` |
-| Create | `src/pages/AdminQuiz.tsx` |
-| Create | `src/components/admin/AdminQuizPanel.tsx` |
-| Modify | `src/lib/quiz.ts` — accept DB shape, support `pin_location_slug` |
-| Modify | `src/pages/Quiz.tsx`, `src/pages/QuizResult.tsx` — use hook + DB labels |
-| Modify | `src/App.tsx` — add `/admin/quiz` route |
-| Modify | admin hub sidebar — link to Quiz Builder |
-| Modify | `src/contexts/LanguageContext.tsx` — drop now-unused `quiz.q*` keys |
-
----
-
-## What you'll be able to do after this
-
-- Open `/admin/quiz`, edit any question or answer in English, click 🪄 → both Chinese versions are filled automatically.
-- Add or remove questions/options without touching code.
-- For each answer, set weights or just **pin a dropzone** (e.g. "Q4 option C → always recommend Hainan").
-- Changes go live instantly for all users (no deploy).
-
-Approve and I'll build it.
+### Out of scope
+- Changing the credit amount or eligibility rules.
+- Auto-signing-in the browser session (we deliberately email a magic link instead — the form is anonymous and we don't have a password).
