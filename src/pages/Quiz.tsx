@@ -1,14 +1,27 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft, Sparkles, Loader2 } from "lucide-react";
+import { ChevronRight, ChevronLeft, Sparkles, Loader2, Lock } from "lucide-react";
+import { z } from "zod";
 import { PageNavbar } from "@/components/PageNavbar";
 import { Footer } from "@/components/Footer";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { SEO } from "@/components/SEO";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { useLocations } from "@/hooks/useLocations";
 import { useQuiz, type DBQuizOption } from "@/hooks/useQuiz";
-import { encodeAnswers, quizLabel, quizText } from "@/lib/quiz";
+import { computeRecommendation, encodeAnswers, quizLabel, quizText } from "@/lib/quiz";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+const leadSchema = z.object({
+  full_name: z.string().trim().min(1).max(100),
+  phone: z.string().trim().min(6).max(30),
+  email: z.string().trim().email().max(255),
+});
 
 export default function Quiz() {
   const { t, language } = useLanguage();
