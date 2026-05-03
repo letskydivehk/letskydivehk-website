@@ -1,22 +1,40 @@
 import { useState, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronRight, ChevronLeft, Sparkles, Loader2 } from "lucide-react";
+import { ChevronRight, ChevronLeft, Sparkles, Loader2, Lock } from "lucide-react";
+import { z } from "zod";
 import { PageNavbar } from "@/components/PageNavbar";
 import { Footer } from "@/components/Footer";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { SEO } from "@/components/SEO";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useAuth } from "@/contexts/AuthContext";
+import { useLocations } from "@/hooks/useLocations";
 import { useQuiz, type DBQuizOption } from "@/hooks/useQuiz";
-import { encodeAnswers, quizLabel, quizText } from "@/lib/quiz";
+import { computeRecommendation, encodeAnswers, quizLabel, quizText } from "@/lib/quiz";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+const leadSchema = z.object({
+  full_name: z.string().trim().min(1).max(100),
+  phone: z.string().trim().min(6).max(30),
+  email: z.string().trim().email().max(255),
+});
 
 export default function Quiz() {
   const { t, language } = useLanguage();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { data: questions = [], isLoading } = useQuiz();
+  const { data: locations = [] } = useLocations();
 
   const [step, setStep] = useState(0);
   const [answersById, setAnswersById] = useState<Record<string, DBQuizOption | null>>({});
+  const [showLeadForm, setShowLeadForm] = useState(false);
+  const [lead, setLead] = useState({ full_name: "", phone: "", email: "" });
+  const [submitting, setSubmitting] = useState(false);
 
   const totalSteps = questions.length;
   const currentQuestion = questions[step];
@@ -36,13 +54,45 @@ export default function Quiz() {
   const handleNext = () => {
     if (!currentAnswer) return;
     if (step < totalSteps - 1) setStep(step + 1);
-    else {
-      const code = encodeAnswers(questions, orderedAnswers);
-      navigate(`/quiz/result?a=${encodeURIComponent(code)}`);
-    }
+    else setShowLeadForm(true);
   };
 
-  const handleBack = () => step > 0 && setStep(step - 1);
+  const handleSubmitLead = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const parsed = leadSchema.safeParse(lead);
+    if (!parsed.success) {
+      toast.error(t("quiz.lead.invalid") || "Please check your details.");
+      return;
+    }
+    setSubmitting(true);
+    const code = encodeAnswers(questions, orderedAnswers);
+    const selections = orderedAnswers.filter((a): a is DBQuizOption => !!a);
+    const rec = computeRecommendation(selections, locations);
+    try {
+      await supabase.from("quiz_leads").insert({
+        full_name: parsed.data.full_name,
+        phone: parsed.data.phone,
+        email: parsed.data.email,
+        answer_code: code,
+        recommended_service: rec.service,
+        recommended_location_slug: rec.primaryLocation?.slug || null,
+        language,
+        user_id: user?.id || null,
+      });
+    } catch {
+      // proceed even if logging fails
+    }
+    setSubmitting(false);
+    navigate(`/quiz/result?a=${encodeURIComponent(code)}`);
+  };
+
+  const handleBack = () => {
+    if (showLeadForm) {
+      setShowLeadForm(false);
+      return;
+    }
+    if (step > 0) setStep(step - 1);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
@@ -70,6 +120,91 @@ export default function Quiz() {
             <div className="flex justify-center py-20">
               <Loader2 className="w-8 h-8 animate-spin text-accent-orange" />
             </div>
+          ) : showLeadForm ? (
+            <motion.form
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              onSubmit={handleSubmitLead}
+              className="bg-card border border-border rounded-3xl p-6 sm:p-10 shadow-xl"
+            >
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-orange/10 text-accent-orange mb-3">
+                  <Lock className="w-5 h-5" />
+                </div>
+                <h2 className="text-2xl font-bold mb-2">
+                  {t("quiz.lead.title") || "Almost there!"}
+                </h2>
+                <p className="text-muted-foreground text-sm">
+                  {t("quiz.lead.subtitle") ||
+                    "Enter your details to unlock your personalised recommendation."}
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="lead-name">{t("quiz.lead.name") || "Full name"}</Label>
+                  <Input
+                    id="lead-name"
+                    required
+                    maxLength={100}
+                    value={lead.full_name}
+                    onChange={(e) => setLead({ ...lead, full_name: e.target.value })}
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="lead-phone">{t("quiz.lead.phone") || "Mobile number"}</Label>
+                  <Input
+                    id="lead-phone"
+                    required
+                    type="tel"
+                    maxLength={30}
+                    value={lead.phone}
+                    onChange={(e) => setLead({ ...lead, phone: e.target.value })}
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="lead-email">{t("quiz.lead.email") || "Email"}</Label>
+                  <Input
+                    id="lead-email"
+                    required
+                    type="email"
+                    maxLength={255}
+                    value={lead.email}
+                    onChange={(e) => setLead({ ...lead, email: e.target.value })}
+                    className="mt-1"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between mt-8">
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  className="inline-flex items-center gap-1 px-4 py-2 text-sm font-semibold text-muted-foreground hover:text-foreground"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  {t("quiz.back")}
+                </button>
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  type="submit"
+                  disabled={submitting}
+                  className="inline-flex items-center gap-1 bg-accent-orange text-white font-bold px-6 py-3 rounded-xl hover:bg-accent-orange/90 transition-colors disabled:opacity-50"
+                >
+                  {submitting ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      {t("quiz.seeResult")}
+                      <ChevronRight className="w-4 h-4" />
+                    </>
+                  )}
+                </motion.button>
+              </div>
+            </motion.form>
           ) : (
             <>
               <div className="mb-6">
