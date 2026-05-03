@@ -120,6 +120,91 @@ export default function Quiz() {
             <div className="flex justify-center py-20">
               <Loader2 className="w-8 h-8 animate-spin text-accent-orange" />
             </div>
+          ) : showLeadForm ? (
+            <motion.form
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              onSubmit={handleSubmitLead}
+              className="bg-card border border-border rounded-3xl p-6 sm:p-10 shadow-xl"
+            >
+              <div className="text-center mb-6">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-accent-orange/10 text-accent-orange mb-3">
+                  <Lock className="w-5 h-5" />
+                </div>
+                <h2 className="text-2xl font-bold mb-2">
+                  {t("quiz.lead.title") || "Almost there!"}
+                </h2>
+                <p className="text-muted-foreground text-sm">
+                  {t("quiz.lead.subtitle") ||
+                    "Enter your details to unlock your personalised recommendation."}
+                </p>
+              </div>
+
+              <div className="space-y-4">
+                <div>
+                  <Label htmlFor="lead-name">{t("quiz.lead.name") || "Full name"}</Label>
+                  <Input
+                    id="lead-name"
+                    required
+                    maxLength={100}
+                    value={lead.full_name}
+                    onChange={(e) => setLead({ ...lead, full_name: e.target.value })}
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="lead-phone">{t("quiz.lead.phone") || "Mobile number"}</Label>
+                  <Input
+                    id="lead-phone"
+                    required
+                    type="tel"
+                    maxLength={30}
+                    value={lead.phone}
+                    onChange={(e) => setLead({ ...lead, phone: e.target.value })}
+                    className="mt-1"
+                  />
+                </div>
+                <div>
+                  <Label htmlFor="lead-email">{t("quiz.lead.email") || "Email"}</Label>
+                  <Input
+                    id="lead-email"
+                    required
+                    type="email"
+                    maxLength={255}
+                    value={lead.email}
+                    onChange={(e) => setLead({ ...lead, email: e.target.value })}
+                    className="mt-1"
+                  />
+                </div>
+              </div>
+
+              <div className="flex items-center justify-between mt-8">
+                <button
+                  type="button"
+                  onClick={handleBack}
+                  className="inline-flex items-center gap-1 px-4 py-2 text-sm font-semibold text-muted-foreground hover:text-foreground"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  {t("quiz.back")}
+                </button>
+                <motion.button
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  type="submit"
+                  disabled={submitting}
+                  className="inline-flex items-center gap-1 bg-accent-orange text-white font-bold px-6 py-3 rounded-xl hover:bg-accent-orange/90 transition-colors disabled:opacity-50"
+                >
+                  {submitting ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <>
+                      {t("quiz.seeResult")}
+                      <ChevronRight className="w-4 h-4" />
+                    </>
+                  )}
+                </motion.button>
+              </div>
+            </motion.form>
           ) : (
             <>
               <div className="mb-6">
