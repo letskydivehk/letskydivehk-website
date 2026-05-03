@@ -1,89 +1,121 @@
-# Add Tourism-Style Destination Details to Location Pages
+## Goal
 
-Enrich each `LocationDetail` page so it feels like a mini travel guide — not just a dropzone listing. Visitors planning a skydive trip will see weather, where to stay, what to do nearby, and how to get there.
+Move the quiz out of hard-coded files (`src/lib/quiz.ts` + `LanguageContext.tsx`) and into Supabase, so that:
 
-## Reference inspiration
-- **Booking.com / Airbnb destination pages** — "Things to do nearby", curated stays, neighborhood blurbs
-- **Lonely Planet / TripAdvisor** — climate chart, best time to visit, top attractions cards
-- **Skydive Dubai / Skydive Hawaii** — they pair their dropzone with hotel + attraction recommendations
+1. You can edit questions, answers, wording, and recommendation logic from an admin page — no code changes.
+2. When you save an English answer, it is **auto-translated** into Traditional Chinese and Simplified Chinese via the Lovable AI Gateway (`LOVABLE_API_KEY` is already set).
+3. Each answer carries weights that drive **which service** (Tandem / A-Licence / Group) and **which dropzone** is recommended at the end.
 
-## New sections on `/location/:slug`
+---
 
-1. **Best Time to Jump & Weather**
-   - Live current weather (temp, condition, wind) via Open-Meteo (free, no key)
-   - "Best months" badge row (e.g. Nov–Feb green, Jun–Sep amber for monsoon)
-   - Short climate summary
+## 1. Database schema (new tables)
 
-2. **Where to Stay** — 3–4 curated accommodation cards (name, type: Hotel/Resort/Hostel, distance from dropzone, price tier $/$$/$$$, booking link, image)
+### `quiz_questions`
+| column | type | notes |
+|---|---|---|
+| id | uuid PK | |
+| slug | text unique | e.g. `experience`, `group_size` — stable identifier |
+| display_order | int | controls question order |
+| is_active | bool | hide/show without deleting |
+| text_en / text_zh_tw / text_zh_cn | text | the question in 3 languages |
 
-3. **Things to Do Nearby** — 4–6 attraction cards (name, category icon: Beach / Temple / Food / Nature, short description, distance, image)
+### `quiz_options`
+| column | type | notes |
+|---|---|---|
+| id | uuid PK | |
+| question_id | uuid → quiz_questions.id | |
+| display_order | int | |
+| label_en / label_zh_tw / label_zh_cn | text | the answer text in 3 languages |
+| service_weights | jsonb | `{ "tandem": 3, "alicence": 0, "group": 0 }` |
+| location_weights | jsonb | `{ "proximity": 2, "scenery": 0, "budget": 1, "country": "China", "needsAff": false, "needsGroup": false, "monthPref": [11,12,1,2] }` |
+| pin_location_slug | text nullable | hard pin: if chosen, that dropzone is heavily favoured (e.g. `hainan`) |
 
-4. **Local Food & Must-Try** — 3–4 food highlights (dish name, where to try it, image)
+### RLS
+- Public `SELECT` on both tables (the quiz must load for anonymous visitors).
+- `INSERT / UPDATE / DELETE` restricted to admins via `has_role(auth.uid(),'admin')`.
 
-5. **Travel Tips** — Currency, language, visa note, plug type, tipping — compact icon grid
+### Seed
+Migration seeds the current 7 questions and their options with the same weights they have today in `src/lib/quiz.ts`, so behaviour is unchanged on day one.
 
-6. **Getting There (expanded)** — keep current Plane/Car cards, add "Recommended route from Hong Kong" text block
+---
 
-All sections only render if data exists (graceful degradation). Fully localized (EN / zh-TW / zh-CN) via existing `translateData` pattern.
+## 2. Auto-translation (English → zh-TW + zh-CN)
 
-## Technical implementation
+A new edge function **`translate-quiz`** uses the Lovable AI Gateway (`LOVABLE_API_KEY`, already configured — no new secret, no cost setup).
 
-### Database (new migration)
-Add columns to `locations` table:
-- `best_months` (int[]) — e.g. `{11,12,1,2}`
-- `climate_summary` (text)
-- `weather_lat` (numeric), `weather_lon` (numeric) — for Open-Meteo lookup
-- `travel_tips` (jsonb) — `{currency, language, visa, plug, tipping}`
-- `getting_there_from_hk` (text)
+- Input: `{ text: "How far are you willing to travel?" }`
+- Output: `{ zh_tw: "...", zh_cn: "..." }`
+- Model: `google/gemini-2.5-flash` (fast + free during promo period).
+- Prompt instructs: terminology rules from project memory ("A-Licence" never "AFF Course"; Traditional Chinese is authoritative; concise marketing tone).
 
-New tables:
-- `location_accommodations` (id, location_id, name, type, distance, price_tier, booking_url, image_url, description, display_order)
-- `location_attractions` (id, location_id, name, category, distance, image_url, description, display_order)
-- `location_food` (id, location_id, dish_name, where_to_try, image_url, description, display_order)
+In the admin UI, when you edit `text_en` or `label_en` and click **Auto-translate**, the function fills both Chinese fields. You can still hand-edit them afterwards.
 
-All with RLS: public SELECT for `is_active` parent location; admin INSERT/UPDATE/DELETE via `has_role(auth.uid(),'admin')`.
+---
 
-### Frontend
-- New hook `useLocationTourism.ts` — fetches accommodations / attractions / food in parallel via React Query
-- New hook `useWeather.ts` — calls `https://api.open-meteo.com/v1/forecast?latitude=X&longitude=Y&current=temperature_2m,weather_code,wind_speed_10m` (no key, no edge function needed)
-- New components in `src/components/location/`:
-  - `LocationWeather.tsx` — current temp + best-months strip
-  - `LocationAccommodations.tsx` — card grid
-  - `LocationAttractions.tsx` — card grid with category icons
-  - `LocationFood.tsx` — card grid
-  - `LocationTravelTips.tsx` — icon grid
-- Update `LocationDetail.tsx` to compose these new sections between existing "Distance & Transportation" and "Photo Gallery"
+## 3. Admin UI — `/admin/quiz`
 
-### Admin
-- Extend `AdminLocationsPanel` (or create one if missing — I'll check) with tabs to manage accommodations / attractions / food per location, plus the new climate/tips fields
+Added to the existing admin hub (`/admin/credits` sidebar). Layout:
 
-### Seed data
-Seed Pattaya, Chiang Mai, Huizhou, Hainan with realistic placeholder content (3 hotels, 4 attractions, 3 dishes each) and Unsplash images so the pages look populated immediately. Luoding & Zhuhai stay sparse (coming soon).
+```text
+Quiz Builder
+├── [+ Add question]
+├── Question card (drag to reorder)
+│    ├── EN / 繁中 / 简中  text fields  [🪄 Auto-translate]
+│    ├── Active toggle
+│    └── Options
+│         ├── Option row (drag to reorder)
+│         │    ├── EN / 繁中 / 简中 labels  [🪄 Auto-translate]
+│         │    ├── Service weights:  Tandem [_]  A-Licence [_]  Group [_]
+│         │    ├── Location signals: Proximity [_] Scenery [_] Budget [_]
+│         │    │                     Country [Thailand/China/—]
+│         │    │                     Needs A-Licence ☐   Needs Group ☐
+│         │    │                     Best months [multi-select 1–12]
+│         │    └── Pin to dropzone [dropdown of locations or "None"]
+│         └── [+ Add option]
+└── [Save changes]
+```
 
-### Localization
-Add new translation keys to `LanguageContext.tsx` for all section headers (EN / zh-TW / zh-CN), e.g.:
-- `locationDetail.weather`, `locationDetail.bestMonths`, `locationDetail.stay`, `locationDetail.thingsToDo`, `locationDetail.localFood`, `locationDetail.travelTips`, `locationDetail.gettingThereFromHK`
+A small **"How scoring works"** help panel explains:
+- Highest total `service_weights` wins → that's the recommended service.
+- Location score = `proximity*locProfile.proximity + scenery*locProfile.scenery + budget*locProfile.budget + countryBoost + monthOverlap*1.5`.
+- `pin_location_slug` adds a strong bonus (+10) so that answer almost always wins for that dropzone — the easy way to say *"if user picks this, recommend Hainan"*.
 
-Content fields (hotel names, dish names, descriptions) translated via existing `translateData(key, fallback)` mechanism.
+---
 
-## Files to create / modify
+## 4. Frontend changes
+
+- New hook `src/hooks/useQuiz.ts` — fetches questions+options once, cached via React Query.
+- Replace static `QUIZ_QUESTIONS` import in `src/pages/Quiz.tsx` and `src/pages/QuizResult.tsx` with hook data.
+- Refactor `computeRecommendation` in `src/lib/quiz.ts` to accept the DB shape and honour `pin_location_slug`.
+- Translation lookup: instead of `t(option.key)`, render `option[`label_${lang}`]` directly (falling back to `label_en`).
+- Loading state: skeleton on `/quiz` while questions load (≈100ms).
+
+The current 3-language `quiz.*` keys in `LanguageContext.tsx` can be removed once the DB is the source of truth (UI chrome keys like `quiz.next`, `quiz.back`, `quiz.badge` stay in the language file).
+
+---
+
+## 5. Files
 
 | Action | File |
 |---|---|
-| Create | `supabase/migrations/<ts>_location_tourism.sql` |
-| Create | `src/hooks/useLocationTourism.ts` |
-| Create | `src/hooks/useWeather.ts` |
-| Create | `src/components/location/LocationWeather.tsx` |
-| Create | `src/components/location/LocationAccommodations.tsx` |
-| Create | `src/components/location/LocationAttractions.tsx` |
-| Create | `src/components/location/LocationFood.tsx` |
-| Create | `src/components/location/LocationTravelTips.tsx` |
-| Modify | `src/pages/LocationDetail.tsx` — wire in new sections |
-| Modify | `src/contexts/LanguageContext.tsx` — new translation keys |
-| Modify | Admin locations panel — manage new content (will locate during build) |
-| Seed (insert) | Tourism data for Pattaya, Chiang Mai, Huizhou, Hainan |
+| Create | migration: `quiz_questions`, `quiz_options`, RLS, seed from current data |
+| Create | `supabase/functions/translate-quiz/index.ts` |
+| Create | `src/hooks/useQuiz.ts` |
+| Create | `src/pages/AdminQuiz.tsx` |
+| Create | `src/components/admin/AdminQuizPanel.tsx` |
+| Modify | `src/lib/quiz.ts` — accept DB shape, support `pin_location_slug` |
+| Modify | `src/pages/Quiz.tsx`, `src/pages/QuizResult.tsx` — use hook + DB labels |
+| Modify | `src/App.tsx` — add `/admin/quiz` route |
+| Modify | admin hub sidebar — link to Quiz Builder |
+| Modify | `src/contexts/LanguageContext.tsx` — drop now-unused `quiz.q*` keys |
 
-## Out of scope (can be added later)
-- User-submitted reviews of hotels/attractions
-- Real-time hotel pricing/availability (would require Booking.com affiliate API)
-- Multi-day itinerary builder
+---
+
+## What you'll be able to do after this
+
+- Open `/admin/quiz`, edit any question or answer in English, click 🪄 → both Chinese versions are filled automatically.
+- Add or remove questions/options without touching code.
+- For each answer, set weights or just **pin a dropzone** (e.g. "Q4 option C → always recommend Hainan").
+- Changes go live instantly for all users (no deploy).
+
+Approve and I'll build it.
