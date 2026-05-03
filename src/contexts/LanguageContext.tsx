@@ -455,7 +455,8 @@ const translations: Record<Language, Record<string, string>> = {
     "promo.signup.title": "Free Signup Bonus",
     "promo.signup.desc": "Register for free and instantly receive $100 credit to use on your first booking!",
     "promo.signup.details": "New members get $100 credit automatically added to their account upon registration.",
-    "promo.signup.terms": "Limited to one signup bonus per person. Credit can be applied to any skydiving package. Cannot be withdrawn as cash.",
+    "promo.signup.terms":
+      "Limited to one signup bonus per person. Credit can be applied to any skydiving package. Cannot be withdrawn as cash.",
     "promo.signup.credit": "Free Credit",
     "promo.signup.cta": "Sign Up Free",
     "promo.group2.title": "Buddy Deal — Jump Together & Save",
@@ -2322,10 +2323,14 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "include.Group photos & videos": "Group photos & videos",
     "include.Celebration area access": "Celebration area access",
     "include.A free session of Shenzhen i-Fly experience": "A free session of Shenzhen i-Fly experience",
-    "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Coach fee ¥498)": "Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Coach fee ¥498)",
-    "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Excluding coach fee ¥498)": "Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Excluding coach fee ¥498)",
-    "include.Limited Gift 1: 20 minutes session of Shenzhen i-Fly experience": "Limited Gift 1: 20 minutes session of Shenzhen i-Fly experience",
-    "include.Limited Gift 2: 10 extra Jump tickets valid for 1 year": "Limited Gift 2: 10 extra Jump tickets valid for 1 year",
+    "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Coach fee ¥498)":
+      "Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Coach fee ¥498)",
+    "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Excluding coach fee ¥498)":
+      "Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Excluding coach fee ¥498)",
+    "include.Limited Gift 1: 20 minutes session of Shenzhen i-Fly experience":
+      "Limited Gift 1: 20 minutes session of Shenzhen i-Fly experience",
+    "include.Limited Gift 2: 10 extra Jump tickets valid for 1 year":
+      "Limited Gift 2: 10 extra Jump tickets valid for 1 year",
 
     // Price display
     "price.Custom Quote": "Custom Quote",
@@ -2390,8 +2395,10 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "include.Ground school training": "地面訓練",
     "include.All equipment provided": "所有跳傘裝備",
     "include.Personal instructor guidance": "教練全程手把手教學",
-    "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Coach fee ¥498)": "限定禮遇：免費30分鐘深圳i-Fly體驗（教練費¥498）",
-    "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Excluding coach fee ¥498)": "限定禮遇：免費30分鐘深圳i-Fly體驗（不包教練費¥498）",
+    "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Coach fee ¥498)":
+      "限定禮遇：免費30分鐘深圳i-Fly體驗（教練費¥498）",
+    "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Excluding coach fee ¥498)":
+      "限定禮遇：免費30分鐘深圳i-Fly體驗（不包教練費¥498）",
     "include.Limited Gift 1: 20 minutes session of Shenzhen i-Fly experience": "限定禮遇1：20分鐘深圳i-Fly體驗",
     "include.Limited Gift 2: 10 extra Jump tickets valid for 1 year": "限定禮遇2：額外10次跳傘票（一年有效）",
 
@@ -2458,8 +2465,10 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "include.Ground school training": "地面训练",
     "include.All equipment provided": "所有跳伞装备",
     "include.Personal instructor guidance": "教练全程手把手教学",
-    "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Coach fee ¥498)": "限定礼遇：免费30分钟深圳i-Fly体验（教练费¥498）",
-    "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Excluding coach fee ¥498)": "限定礼遇：免费30分钟深圳i-Fly体验（不包教练费¥498）",
+    "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Coach fee ¥498)":
+      "限定礼遇：免费30分钟深圳i-Fly体验（教练费¥498）",
+    "include.Limited Gift: Free 30 minutes session of Shenzhen i-Fly experience (Excluding coach fee ¥498)":
+      "限定礼遇：免费30分钟深圳i-Fly体验（不包教练费¥498）",
     "include.Limited Gift 1: 20 minutes session of Shenzhen i-Fly experience": "限定礼遇1：20分钟深圳i-Fly体验",
     "include.Limited Gift 2: 10 extra Jump tickets valid for 1 year": "限定礼遇2：额外10次跳伞票（一年有效）",
 
@@ -2875,7 +2884,8 @@ translations["zh-CN"]["quiz.tryAgain"] = "重新测试";
 // Extended quiz: dedicated page (destination + service recommender)
 // English
 translations.en["quiz.page.title"] = "Find Your Perfect Jump";
-translations.en["quiz.page.subtitle"] = "Answer 7 quick questions and we'll recommend the best dropzone and service for you.";
+translations.en["quiz.page.subtitle"] =
+  "Answer 7 quick questions and we'll recommend the best dropzone and service for you.";
 translations.en["quiz.progress"] = "Question";
 translations.en["quiz.next"] = "Next";
 translations.en["quiz.back"] = "Back";
@@ -2912,7 +2922,7 @@ translations.en["quiz.cta.button"] = "Take the Quiz";
 
 // Traditional Chinese
 translations["zh-TW"]["quiz.page.title"] = "找出最適合你的跳傘";
-translations["zh-TW"]["quiz.page.subtitle"] = "回答 7 條簡單問題，我們為你推薦最適合的跳點及服務。";
+translations["zh-TW"]["quiz.page.subtitle"] = "回答 7 條簡單問題，我們為你推薦最適合的地點及服務。";
 translations["zh-TW"]["quiz.progress"] = "問題";
 translations["zh-TW"]["quiz.next"] = "下一題";
 translations["zh-TW"]["quiz.back"] = "上一題";
@@ -2943,8 +2953,8 @@ translations["zh-TW"]["quiz.result.viewLocation"] = "了解這個跳點";
 translations["zh-TW"]["quiz.result.alsoConsider"] = "你也可能喜歡";
 translations["zh-TW"]["quiz.result.bookNow"] = "立即預約這個組合";
 translations["zh-TW"]["quiz.cta.badge"] = "唔知點揀好？";
-translations["zh-TW"]["quiz.cta.title"] = "60 秒搵出你最啱嘅跳傘";
-translations["zh-TW"]["quiz.cta.subtitle"] = "回答 7 條問題，我哋幫你配對最啱嘅跳點同服務。";
+translations["zh-TW"]["quiz.cta.title"] = "60 秒搵出最啱你嘅跳傘方案";
+translations["zh-TW"]["quiz.cta.subtitle"] = "回答 7 條問題，我哋幫你配對最啱嘅地點同服務。";
 translations["zh-TW"]["quiz.cta.button"] = "開始測試";
 
 // Simplified Chinese
@@ -2998,9 +3008,11 @@ translations.en["quiz.result.step1.desc"] = "Browse availability and choose a sl
 translations.en["quiz.result.step2.direct.title"] = "Pay $500 HKD deposit";
 translations.en["quiz.result.step2.direct.desc"] = "Secure your jump instantly via our Airwallex payment gateway.";
 translations.en["quiz.result.step2.contact.title"] = "Submit enquiry";
-translations.en["quiz.result.step2.contact.desc"] = "Our team will contact you within 24 hours to confirm details and pricing.";
+translations.en["quiz.result.step2.contact.desc"] =
+  "Our team will contact you within 24 hours to confirm details and pricing.";
 translations.en["quiz.result.step3.title"] = "Show up & jump";
-translations.en["quiz.result.step3.desc"] = "Arrive at the dropzone, complete the briefing, and enjoy the ride of your life.";
+translations.en["quiz.result.step3.desc"] =
+  "Arrive at the dropzone, complete the briefing, and enjoy the ride of your life.";
 translations.en["quiz.result.share"] = "Share Result";
 translations.en["quiz.result.share.title"] = "My Skydive Quiz Result";
 translations.en["quiz.result.share.copied"] = "Link copied to clipboard!";
@@ -3012,7 +3024,8 @@ translations.en["quiz.reason.budget"] = "Great value pricing without compromisin
 translations.en["quiz.reason.season"] = "Climate is ideal during the months you'd like to jump.";
 translations.en["quiz.reason.default"] = "A balanced match across all your preferences.";
 translations.en["quiz.reason.service.tandem"] = "Tandem jumps need zero experience — perfect for first-timers.";
-translations.en["quiz.reason.service.alicence"] = "A-Licence training takes you from beginner to certified solo skydiver.";
+translations.en["quiz.reason.service.alicence"] =
+  "A-Licence training takes you from beginner to certified solo skydiver.";
 translations.en["quiz.reason.service.group"] = "Group events bundle pricing, logistics and photos for your whole crew.";
 
 // Traditional Chinese
