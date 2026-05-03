@@ -26,10 +26,15 @@ const leadSchema = z.object({
 export default function Quiz() {
   const { t, language } = useLanguage();
   const navigate = useNavigate();
+  const { user } = useAuth();
   const { data: questions = [], isLoading } = useQuiz();
+  const { data: locations = [] } = useLocations();
 
   const [step, setStep] = useState(0);
   const [answersById, setAnswersById] = useState<Record<string, DBQuizOption | null>>({});
+  const [showLeadForm, setShowLeadForm] = useState(false);
+  const [lead, setLead] = useState({ full_name: "", phone: "", email: "" });
+  const [submitting, setSubmitting] = useState(false);
 
   const totalSteps = questions.length;
   const currentQuestion = questions[step];
@@ -49,13 +54,45 @@ export default function Quiz() {
   const handleNext = () => {
     if (!currentAnswer) return;
     if (step < totalSteps - 1) setStep(step + 1);
-    else {
-      const code = encodeAnswers(questions, orderedAnswers);
-      navigate(`/quiz/result?a=${encodeURIComponent(code)}`);
-    }
+    else setShowLeadForm(true);
   };
 
-  const handleBack = () => step > 0 && setStep(step - 1);
+  const handleSubmitLead = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const parsed = leadSchema.safeParse(lead);
+    if (!parsed.success) {
+      toast.error(t("quiz.lead.invalid") || "Please check your details.");
+      return;
+    }
+    setSubmitting(true);
+    const code = encodeAnswers(questions, orderedAnswers);
+    const selections = orderedAnswers.filter((a): a is DBQuizOption => !!a);
+    const rec = computeRecommendation(selections, locations);
+    try {
+      await supabase.from("quiz_leads").insert({
+        full_name: parsed.data.full_name,
+        phone: parsed.data.phone,
+        email: parsed.data.email,
+        answer_code: code,
+        recommended_service: rec.service,
+        recommended_location_slug: rec.primaryLocation?.slug || null,
+        language,
+        user_id: user?.id || null,
+      });
+    } catch {
+      // proceed even if logging fails
+    }
+    setSubmitting(false);
+    navigate(`/quiz/result?a=${encodeURIComponent(code)}`);
+  };
+
+  const handleBack = () => {
+    if (showLeadForm) {
+      setShowLeadForm(false);
+      return;
+    }
+    if (step > 0) setStep(step - 1);
+  };
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
