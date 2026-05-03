@@ -145,7 +145,7 @@ export default function Quiz() {
                 </h2>
                 <p className="text-muted-foreground text-sm">
                   {t("quiz.lead.subtitle") ||
-                    "Enter your details to unlock your personalised recommendation."}
+                    "We'll create your account and email you a login link with $100 HKD credit toward your first booking."}
                 </p>
               </div>
 
