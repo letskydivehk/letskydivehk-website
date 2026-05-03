@@ -54,14 +54,15 @@ export default function Home() {
           </div>
         </Link>
 
+        {/* Quiz CTA → dedicated page */}
+        <QuizCTA />
+
         <section id="locations" aria-label="Locations section">
           <Locations />
         </section>
         <section id="services" aria-label="Services section">
           <Services />
         </section>
-        {/* Quiz CTA → dedicated page */}
-        <QuizCTA />
 
         <section id="booking" aria-label="Booking section">
           <BookingSection />
