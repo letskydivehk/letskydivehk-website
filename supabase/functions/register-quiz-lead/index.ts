@@ -1,4 +1,5 @@
-import { createClient, corsHeaders } from "@supabase/supabase-js";
+import { createClient } from "npm:@supabase/supabase-js@2.95.0";
+import { corsHeaders } from "npm:@supabase/supabase-js@2.95.0/cors";
 import { z } from "npm:zod@3.23.8";
 
 const BodySchema = z.object({
