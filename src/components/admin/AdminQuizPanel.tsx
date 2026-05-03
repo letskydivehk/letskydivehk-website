@@ -82,8 +82,8 @@ export function AdminQuizPanel() {
     }
   };
 
-  const translate = async (text: string, key: string) => {
-    if (!text.trim()) return toast.error("Enter English text first");
+  const translate = async (text: string, key: string): Promise<{ zh_tw: string; zh_cn: string } | null> => {
+    if (!text.trim()) { toast.error("Enter English text first"); return null; }
     setTranslating(key);
     try {
       const { data, error } = await supabase.functions.invoke("translate-quiz", { body: { text } });
@@ -91,6 +91,7 @@ export function AdminQuizPanel() {
       return data as { zh_tw: string; zh_cn: string };
     } catch (e: any) {
       toast.error(e?.message || "Translation failed");
+      return null;
     } finally {
       setTranslating(null);
     }
