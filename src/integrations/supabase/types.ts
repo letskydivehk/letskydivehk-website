@@ -656,6 +656,45 @@ export type Database = {
           },
         ]
       }
+      quiz_leads: {
+        Row: {
+          answer_code: string | null
+          created_at: string
+          email: string
+          full_name: string
+          id: string
+          language: string | null
+          phone: string
+          recommended_location_slug: string | null
+          recommended_service: string | null
+          user_id: string | null
+        }
+        Insert: {
+          answer_code?: string | null
+          created_at?: string
+          email: string
+          full_name: string
+          id?: string
+          language?: string | null
+          phone: string
+          recommended_location_slug?: string | null
+          recommended_service?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          answer_code?: string | null
+          created_at?: string
+          email?: string
+          full_name?: string
+          id?: string
+          language?: string | null
+          phone?: string
+          recommended_location_slug?: string | null
+          recommended_service?: string | null
+          user_id?: string | null
+        }
+        Relationships: []
+      }
       quiz_options: {
         Row: {
           created_at: string
