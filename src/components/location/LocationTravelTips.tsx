@@ -16,7 +16,7 @@ interface Props {
 }
 
 export function LocationTravelTips({ tips, gettingThereFromHk }: Props) {
-  const { t } = useLanguage()
+  const { t, translateData } = useLanguage()
   if (!tips && !gettingThereFromHk) return null
 
   const labelMap: Record<keyof TravelTips, string> = {
