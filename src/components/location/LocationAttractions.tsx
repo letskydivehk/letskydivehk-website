@@ -8,7 +8,7 @@ interface Props {
 }
 
 export function LocationAttractions({ items }: Props) {
-  const { t } = useLanguage()
+  const { t, translateData } = useLanguage()
   if (!items.length) return null
 
   return (
