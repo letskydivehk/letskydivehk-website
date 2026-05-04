@@ -88,7 +88,7 @@ export function LocationWeather({ lat, lon, bestMonths, climateSummary }: Props)
       </div>
 
       {climateSummary && (
-        <p className="text-muted-foreground leading-relaxed">{climateSummary}</p>
+        <p className="text-muted-foreground leading-relaxed">{translateData(climateSummary, climateSummary)}</p>
       )}
     </motion.div>
   )
