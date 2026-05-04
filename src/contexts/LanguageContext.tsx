@@ -2892,7 +2892,8 @@ translations.en["quiz.next"] = "Next";
 translations.en["quiz.back"] = "Back";
 translations.en["quiz.seeResult"] = "See My Result";
 translations.en["quiz.lead.title"] = "Almost there!";
-translations.en["quiz.lead.subtitle"] = "We'll create your account and email you a login link with $100 HKD credit toward your first booking.";
+translations.en["quiz.lead.subtitle"] =
+  "We'll create your account and email you a login link with $100 HKD credit toward your first booking.";
 translations.en["quiz.lead.name"] = "Full name";
 translations.en["quiz.lead.phone"] = "Mobile number";
 translations.en["quiz.lead.email"] = "Email";
@@ -2979,7 +2980,7 @@ translations["zh-CN"]["quiz.progress"] = "问题";
 translations["zh-CN"]["quiz.next"] = "下一题";
 translations["zh-CN"]["quiz.back"] = "上一题";
 translations["zh-CN"]["quiz.seeResult"] = "查看我的结果";
-translations["zh-CN"]["quiz.lead.title"] = "差一步就完成！";
+translations["zh-CN"]["quiz.lead.title"] = "差一步就知道哪里最适合你！";
 translations["zh-CN"]["quiz.lead.subtitle"] = "我们会为你创建帐户，并寄出登入链接，附送 $100 HKD 信用额用于首次预订。";
 translations["zh-CN"]["quiz.lead.name"] = "姓名";
 translations["zh-CN"]["quiz.lead.phone"] = "手机号码";
@@ -3133,7 +3134,10 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   // Translate dynamic data from Supabase
   const translateData = (key: string, fallback: string): string => {
-    const normalizedKey = key.replace(/[\r\n]+/g, " ").replace(/\s+/g, " ").trim();
+    const normalizedKey = key
+      .replace(/[\r\n]+/g, " ")
+      .replace(/\s+/g, " ")
+      .trim();
     if (language === "en") {
       return dataTranslations.en[normalizedKey] || dataTranslations.en[key] || fallback;
     }
@@ -3142,7 +3146,12 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
       dataTranslations[language][normalizedKey] ||
       dataTranslations[language][key] ||
       locMap[normalizedKey] ||
-      locMap[fallback?.replace(/[\r\n]+/g, " ").replace(/\s+/g, " ").trim()] ||
+      locMap[
+        fallback
+          ?.replace(/[\r\n]+/g, " ")
+          .replace(/\s+/g, " ")
+          .trim()
+      ] ||
       fallback
     );
   };
