@@ -218,6 +218,48 @@ export default function LocationDetail() {
               </motion.div>
             )}
 
+            {/* Services at this location */}
+            {services && services.length > 0 && (
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.27 }}>
+                <h2 className="text-2xl font-bold text-foreground mb-6">{t("locationDetail.servicesHere")}</h2>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {services.map((service) => {
+                    const translatedServiceName = translateData(
+                      `service.${service.service_name}`,
+                      service.service_name,
+                    );
+                    return (
+                      <div
+                        key={service.id}
+                        onClick={() => handleServiceClick(service.id)}
+                        className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card cursor-pointer hover:border-accent-orange/50 hover:shadow-lg transition-all duration-300 group"
+                      >
+                        <div className="flex items-center justify-between mb-3">
+                          <h3 className="font-bold text-foreground text-lg"><ServiceNameDisplay name={translatedServiceName} /></h3>
+                          {service.is_popular && (
+                            <span className="text-xs font-bold bg-accent-orange text-white px-3 py-1 rounded-full">
+                              {t("services.popular")}
+                            </span>
+                          )}
+                        </div>
+                        <p className="text-2xl font-black text-accent-orange mb-3">{translateData(`price.${service.price_display}`, service.price_display)}</p>
+                        {service.includes && service.includes.length > 0 && (
+                          <ul className="space-y-1">
+                            {service.includes.map((item, i) => (
+                              <li key={i} className="text-sm text-muted-foreground flex items-center gap-2">
+                                <div className="w-1.5 h-1.5 bg-accent-emerald rounded-full" />
+                                {translateData(`include.${item}`, item)}
+                              </li>
+                            ))}
+                          </ul>
+                        )}
+                      </div>
+                    );
+                  })}
+                </div>
+              </motion.div>
+            )}
+
             {/* Weather & Climate */}
             {(loc?.weather_lat || loc?.climate_summary || loc?.best_months) && (
               <LocationWeather
@@ -256,48 +298,6 @@ export default function LocationDetail() {
               <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}>
                 <h2 className="text-2xl font-bold text-foreground mb-6">{t("locationDetail.photos")}</h2>
                 <LocationPhotoGallery photos={photos} />
-              </motion.div>
-            )}
-
-            {/* Services at this location */}
-            {services && services.length > 0 && (
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
-                <h2 className="text-2xl font-bold text-foreground mb-6">{t("locationDetail.servicesHere")}</h2>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {services.map((service) => {
-                    const translatedServiceName = translateData(
-                      `service.${service.service_name}`,
-                      service.service_name,
-                    );
-                    return (
-                      <div
-                        key={service.id}
-                        onClick={() => handleServiceClick(service.id)}
-                        className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card cursor-pointer hover:border-accent-orange/50 hover:shadow-lg transition-all duration-300 group"
-                      >
-                        <div className="flex items-center justify-between mb-3">
-                          <h3 className="font-bold text-foreground text-lg"><ServiceNameDisplay name={translatedServiceName} /></h3>
-                          {service.is_popular && (
-                            <span className="text-xs font-bold bg-accent-orange text-white px-3 py-1 rounded-full">
-                              {t("services.popular")}
-                            </span>
-                          )}
-                        </div>
-                        <p className="text-2xl font-black text-accent-orange mb-3">{translateData(`price.${service.price_display}`, service.price_display)}</p>
-                        {service.includes && service.includes.length > 0 && (
-                          <ul className="space-y-1">
-                            {service.includes.map((item, i) => (
-                              <li key={i} className="text-sm text-muted-foreground flex items-center gap-2">
-                                <div className="w-1.5 h-1.5 bg-accent-emerald rounded-full" />
-                                {translateData(`include.${item}`, item)}
-                              </li>
-                            ))}
-                          </ul>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
               </motion.div>
             )}
 
