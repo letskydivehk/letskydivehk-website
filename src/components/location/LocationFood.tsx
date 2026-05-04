@@ -30,12 +30,12 @@ export function LocationFood({ items }: Props) {
               </div>
             )}
             <div className="p-5 flex flex-col flex-1">
-              <h3 className="font-bold text-foreground text-lg mb-1">{item.dish_name}</h3>
+              <h3 className="font-bold text-foreground text-lg mb-1">{translateData(item.dish_name, item.dish_name)}</h3>
               {item.where_to_try && (
-                <p className="text-xs text-accent-emerald font-medium mb-2">📍 {item.where_to_try}</p>
+                <p className="text-xs text-accent-emerald font-medium mb-2">📍 {translateData(item.where_to_try, item.where_to_try)}</p>
               )}
               {item.description && (
-                <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{translateData(item.description, item.description)}</p>
               )}
             </div>
           </div>
