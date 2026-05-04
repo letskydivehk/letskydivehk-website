@@ -17,7 +17,7 @@ const monthLabels: Record<'en' | 'zh-TW' | 'zh-CN', string[]> = {
 }
 
 export function LocationWeather({ lat, lon, bestMonths, climateSummary }: Props) {
-  const { language, t } = useLanguage()
+  const { language, t, translateData } = useLanguage()
   const { data: weather, isLoading } = useWeather(lat, lon)
   const labels = monthLabels[language]
 
