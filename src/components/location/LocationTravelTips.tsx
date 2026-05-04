@@ -16,7 +16,7 @@ interface Props {
 }
 
 export function LocationTravelTips({ tips, gettingThereFromHk }: Props) {
-  const { t } = useLanguage()
+  const { t, translateData } = useLanguage()
   if (!tips && !gettingThereFromHk) return null
 
   const labelMap: Record<keyof TravelTips, string> = {
@@ -40,7 +40,7 @@ export function LocationTravelTips({ tips, gettingThereFromHk }: Props) {
             <Plane className="w-5 h-5 text-accent-blue" />
             {t('locationDetail.gettingThere')}
           </h3>
-          <p className="text-muted-foreground leading-relaxed">{gettingThereFromHk}</p>
+          <p className="text-muted-foreground leading-relaxed">{translateData(gettingThereFromHk, gettingThereFromHk)}</p>
         </div>
       )}
 
@@ -55,7 +55,7 @@ export function LocationTravelTips({ tips, gettingThereFromHk }: Props) {
               tips[key] ? (
                 <div key={key} className="flex flex-col sm:flex-row sm:gap-3">
                   <dt className="text-sm font-semibold text-foreground sm:w-24 flex-shrink-0">{labelMap[key]}</dt>
-                  <dd className="text-sm text-muted-foreground">{tips[key]}</dd>
+                  <dd className="text-sm text-muted-foreground">{translateData(tips[key]!, tips[key]!)}</dd>
                 </div>
               ) : null,
             )}

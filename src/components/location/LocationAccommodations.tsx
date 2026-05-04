@@ -8,7 +8,7 @@ interface Props {
 }
 
 export function LocationAccommodations({ items }: Props) {
-  const { t } = useLanguage()
+  const { t, translateData } = useLanguage()
   if (!items.length) return null
 
   return (
@@ -29,22 +29,22 @@ export function LocationAccommodations({ items }: Props) {
                 <img src={item.image_url} alt={item.name} loading="lazy" className="w-full h-full object-cover" />
               </div>
             )}
-            <div className="p-5 flex flex-col flex-1">
+              <div className="p-5 flex flex-col flex-1">
               <div className="flex items-start justify-between gap-2 mb-2">
-                <h3 className="font-bold text-foreground text-lg leading-tight">{item.name}</h3>
+                <h3 className="font-bold text-foreground text-lg leading-tight">{translateData(item.name, item.name)}</h3>
                 <span className="text-accent-emerald font-bold text-sm whitespace-nowrap">{item.price_tier}</span>
               </div>
               <div className="flex items-center gap-3 text-xs text-muted-foreground mb-3">
-                <span className="bg-accent-blue/10 text-accent-blue px-2 py-0.5 rounded-full">{item.type}</span>
+                <span className="bg-accent-blue/10 text-accent-blue px-2 py-0.5 rounded-full">{translateData(item.type, item.type)}</span>
                 {item.distance && (
                   <span className="flex items-center gap-1">
                     <MapPin className="w-3 h-3" />
-                    {item.distance}
+                    {translateData(item.distance, item.distance)}
                   </span>
                 )}
               </div>
               {item.description && (
-                <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{translateData(item.description, item.description)}</p>
               )}
             </div>
           </div>

@@ -8,7 +8,7 @@ interface Props {
 }
 
 export function LocationAttractions({ items }: Props) {
-  const { t } = useLanguage()
+  const { t, translateData } = useLanguage()
   if (!items.length) return null
 
   return (
@@ -30,20 +30,20 @@ export function LocationAttractions({ items }: Props) {
               </div>
             )}
             <div className="p-5 flex flex-col flex-1">
-              <h3 className="font-bold text-foreground text-lg mb-2">{item.name}</h3>
+              <h3 className="font-bold text-foreground text-lg mb-2">{translateData(item.name, item.name)}</h3>
               <div className="flex items-center gap-3 text-xs text-muted-foreground mb-2">
                 <span className="bg-accent-orange/10 text-accent-orange px-2 py-0.5 rounded-full capitalize">
-                  {item.category}
+                  {translateData(item.category, item.category)}
                 </span>
                 {item.distance && (
                   <span className="flex items-center gap-1">
                     <MapPin className="w-3 h-3" />
-                    {item.distance}
+                    {translateData(item.distance, item.distance)}
                   </span>
                 )}
               </div>
               {item.description && (
-                <p className="text-sm text-muted-foreground leading-relaxed">{item.description}</p>
+                <p className="text-sm text-muted-foreground leading-relaxed">{translateData(item.description, item.description)}</p>
               )}
             </div>
           </div>

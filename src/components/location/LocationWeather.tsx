@@ -17,7 +17,7 @@ const monthLabels: Record<'en' | 'zh-TW' | 'zh-CN', string[]> = {
 }
 
 export function LocationWeather({ lat, lon, bestMonths, climateSummary }: Props) {
-  const { language, t } = useLanguage()
+  const { language, t, translateData } = useLanguage()
   const { data: weather, isLoading } = useWeather(lat, lon)
   const labels = monthLabels[language]
 
@@ -88,7 +88,7 @@ export function LocationWeather({ lat, lon, bestMonths, climateSummary }: Props)
       </div>
 
       {climateSummary && (
-        <p className="text-muted-foreground leading-relaxed">{climateSummary}</p>
+        <p className="text-muted-foreground leading-relaxed">{translateData(climateSummary, climateSummary)}</p>
       )}
     </motion.div>
   )

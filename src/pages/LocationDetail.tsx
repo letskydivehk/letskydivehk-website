@@ -179,7 +179,7 @@ export default function LocationDetail() {
                   {location.highlights.map((highlight, i) => (
                     <li key={i} className="flex items-start gap-3 text-muted-foreground">
                       <div className="w-2 h-2 bg-accent-orange rounded-full mt-2 flex-shrink-0" />
-                      <span>{highlight}</span>
+                      <span>{translateData(highlight, highlight)}</span>
                     </li>
                   ))}
                 </ul>
@@ -198,21 +198,21 @@ export default function LocationDetail() {
                   <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card text-center">
                     <Plane className="w-8 h-8 text-accent-blue mx-auto mb-3" />
                     <h3 className="font-semibold text-foreground mb-1">{t("locationDetail.fromAirport")}</h3>
-                    <p className="text-muted-foreground">{location.airport_distance}</p>
+                    <p className="text-muted-foreground">{translateData(location.airport_distance, location.airport_distance)}</p>
                   </div>
                 )}
                 {location.city_distance && (
                   <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card text-center">
                     <Building className="w-8 h-8 text-accent-blue mx-auto mb-3" />
                     <h3 className="font-semibold text-foreground mb-1">{t("locationDetail.fromCity")}</h3>
-                    <p className="text-muted-foreground">{location.city_distance}</p>
+                    <p className="text-muted-foreground">{translateData(location.city_distance, location.city_distance)}</p>
                   </div>
                 )}
                 {location.transportation && (
                   <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card text-center">
                     <Car className="w-8 h-8 text-accent-blue mx-auto mb-3" />
                     <h3 className="font-semibold text-foreground mb-1">{t("locationDetail.transportation")}</h3>
-                    <p className="text-muted-foreground">{location.transportation}</p>
+                    <p className="text-muted-foreground">{translateData(location.transportation, location.transportation)}</p>
                   </div>
                 )}
               </motion.div>
