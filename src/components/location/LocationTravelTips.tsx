@@ -40,7 +40,7 @@ export function LocationTravelTips({ tips, gettingThereFromHk }: Props) {
             <Plane className="w-5 h-5 text-accent-blue" />
             {t('locationDetail.gettingThere')}
           </h3>
-          <p className="text-muted-foreground leading-relaxed">{gettingThereFromHk}</p>
+          <p className="text-muted-foreground leading-relaxed">{translateData(gettingThereFromHk, gettingThereFromHk)}</p>
         </div>
       )}
 
