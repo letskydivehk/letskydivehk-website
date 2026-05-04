@@ -3112,8 +3112,18 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 
   // Translate dynamic data from Supabase
   const translateData = (key: string, fallback: string): string => {
-    const normalizedKey = key.replace(/[\r\n]+/g, " ").replace(/\s+/g, " ");
-    return dataTranslations[language][normalizedKey] || dataTranslations[language][key] || fallback;
+    const normalizedKey = key.replace(/[\r\n]+/g, " ").replace(/\s+/g, " ").trim();
+    if (language === "en") {
+      return dataTranslations.en[normalizedKey] || dataTranslations.en[key] || fallback;
+    }
+    const locMap = locationDataTranslations[language] || {};
+    return (
+      dataTranslations[language][normalizedKey] ||
+      dataTranslations[language][key] ||
+      locMap[normalizedKey] ||
+      locMap[fallback?.replace(/[\r\n]+/g, " ").replace(/\s+/g, " ").trim()] ||
+      fallback
+    );
   };
 
   return (
