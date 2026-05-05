@@ -56,8 +56,8 @@ export default function ServiceALicence() {
   return (
     <>
       <SEO
-        title="A-Licence (AFF Course)"
-        description="Get your skydiving A-Licence with Let's Skydive HK. Accelerated Freefall program with 25 jumps to become a licensed solo skydiver."
+        title="A-Licence Course"
+        description="Get your skydiving A-Licence with Let's Skydive HK. Comprehensive 25-jump training program to become a licensed solo skydiver."
         path="/services/a-licence"
       />
       <ServiceHero

@@ -32,7 +32,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.experienceThe": "EXPERIENCE THE",
     "hero.ultimateThrill": "ULTIMATE THRILL",
     "hero.subtitle":
-      "Professional tandem skydiving, AFF courses, and group events across Asia's most stunning dropzones.",
+      "Professional tandem skydiving, A-Licence courses, and group events across Asia's most stunning dropzones.",
     "hero.cta.book": "Book Your Jump",
     "hero.cta.explore": "Explore Services",
 
@@ -46,7 +46,7 @@ const translations: Record<Language, Record<string, string>> = {
     "locations.noLocations": "No locations available in {country} yet.",
     "locations.bookHere": "Book at this location",
     "locations.tandem": "Tandem",
-    "locations.aff": "AFF",
+    "locations.aff": "A-Licence",
     "locations.groups": "Groups",
     "locations.map.title": "Explore Our Dropzones",
     "locations.map.subtitle": "Select a location to view on the map",
@@ -96,7 +96,7 @@ const translations: Record<Language, Record<string, string>> = {
     "services.alicence.title": "A-Licence",
     "services.alicence.subtitle": "Learn to skydive solo",
     "services.alicence.description":
-      "Before getting your first licence, the Accelerated Freefall (AFF) program is your pathway to becoming a licensed skydiver. Master the skills to jump independently.",
+      "The A-Licence course is your pathway to becoming a licensed skydiver. Master the skills to jump independently and earn your international A-Licence.",
     "services.group.title": "Group Events",
     "services.group.subtitle": "Team building & celebrations",
     "services.group.description":
@@ -338,7 +338,7 @@ const translations: Record<Language, Record<string, string>> = {
 
     // Footer
     "footer.description":
-      "Experience the thrill of skydiving with Asia's premier dropzone network. Professional tandem jumps, AFF courses, and group events across Thailand and China.",
+      "Experience the thrill of skydiving with Asia's premier dropzone network. Professional tandem jumps, A-Licence courses, and group events across Thailand and China.",
     "footer.quickLinks": "Quick Links",
     "footer.services": "Services",
     "footer.locations": "Our Locations",
@@ -397,9 +397,9 @@ const translations: Record<Language, Record<string, string>> = {
     "gallery.photos": "Photos",
     "gallery.videos": "Videos",
     "gallery.dailyVideos": "Daily Videos",
-    "gallery.affVideos": "AFF Course Videos",
+    "gallery.affVideos": "A-Licence Course Videos",
     "gallery.noDailyVideos": "No daily videos yet",
-    "gallery.noAffVideos": "No AFF course videos yet",
+    "gallery.noAffVideos": "No A-Licence course videos yet",
     "gallery.refresh": "Refresh",
     "gallery.refreshSuccess": "Gallery refreshed",
     "gallery.refreshError": "Failed to refresh gallery",
@@ -751,17 +751,17 @@ const translations: Record<Language, Record<string, string>> = {
     // A-Licence Service Page
     "servicePage.aff.heroTitle": "A-Licence Course",
     "servicePage.aff.heroSubtitle":
-      "Learn to skydive solo through our Accelerated Freefall (AFF) program. Master the skills, complete 25 jumps, and earn your international licence.",
+      "Learn to skydive solo through our A-Licence course. Master the skills, complete 25 jumps, and earn your international licence.",
     "servicePage.aff.heroTagline": "Become a Licensed Skydiver",
     "servicePage.aff.step1.title": "Enroll & Register",
-    "servicePage.aff.step1.desc": "Sign up for the AFF program and complete medical & safety forms.",
+    "servicePage.aff.step1.desc": "Sign up for the A-Licence course and complete medical & safety forms.",
     "servicePage.aff.step2.title": "Ground School",
     "servicePage.aff.step2.desc":
       "Intensive classroom training covering aerodynamics, emergency procedures, and equipment.",
-    "servicePage.aff.step3.title": "AFF Levels 1-3",
+    "servicePage.aff.step3.title": "A-Licence Levels 1-3",
     "servicePage.aff.step3.desc":
       "Jump with two instructors who guide you through basic freefall skills and stability.",
-    "servicePage.aff.step4.title": "AFF Levels 4-8",
+    "servicePage.aff.step4.title": "A-Licence Levels 4-8",
     "servicePage.aff.step4.desc": "Progress to one-instructor jumps. Master turns, tracking, and deployment.",
     "servicePage.aff.step5.title": "Solo Jumps (9-25)",
     "servicePage.aff.step5.desc": "Complete your remaining jumps independently, perfecting your skills.",
@@ -779,14 +779,14 @@ const translations: Record<Language, Record<string, string>> = {
     "servicePage.aff.include4": "Personal instructor guidance",
     "servicePage.aff.include5": "Free iFly indoor skydiving session",
     "servicePage.aff.testimonial":
-      "The AFF program was life-changing. The instructors were incredibly patient and professional. Now I'm a licensed skydiver jumping every weekend!",
+      "The A-Licence course was life-changing. The instructors were incredibly patient and professional. Now I'm a licensed skydiver jumping every weekend!",
     "servicePage.aff.testimonialAuthor": "Mark R., Australia",
     "servicePage.aff.faq.q1": "How long does the A-Licence course take?",
     "servicePage.aff.faq.a1":
       "Typically 7-14 days depending on weather and your progression. Some students complete it in as little as a week during ideal conditions.",
     "servicePage.aff.faq.q2": "What are the prerequisites?",
     "servicePage.aff.faq.a2":
-      "You must be at least 18, weigh under 100kg, and be in good physical health. No prior skydiving experience is needed — the AFF course starts from scratch.",
+      "You must be at least 18, weigh under 100kg, and be in good physical health. No prior skydiving experience is needed — the A-Licence course starts from scratch.",
     "servicePage.aff.faq.q3": "Is the A-Licence internationally recognized?",
     "servicePage.aff.faq.a3":
       "Yes! The USPA A-Licence is recognized worldwide. You can jump at dropzones across the globe after earning your licence.",
@@ -812,7 +812,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.experienceThe": "體驗",
     "hero.ultimateThrill": "極致飛翔",
     "hero.subtitle":
-      "我們提供專業雙人跳傘體驗、AFF（Accelerated Freefall）加速自由落體認證課程，並可為企業團體、親友聚會等量身規劃跳傘活動專案。\n\n服務範圍遍及亞洲各地景觀絕佳的跳傘基地，讓您在專業安全保障下，俯瞰壯麗山河，成就非凡時刻。",
+      "我們提供專業雙人跳傘體驗、A 級執照（A-Licence）認證課程，並可為企業團體、親友聚會等量身規劃跳傘活動專案。\n\n服務範圍遍及亞洲各地景觀絕佳的跳傘基地，讓您在專業安全保障下，俯瞰壯麗山河，成就非凡時刻。",
     "hero.cta.book": "立即體驗",
     "hero.cta.explore": "探索服務",
 
@@ -825,7 +825,7 @@ const translations: Record<Language, Record<string, string>> = {
     "locations.noLocations": "{country}暫時沒有可用的跳傘地點。",
     "locations.bookHere": "立即體驗",
     "locations.tandem": "雙人跳傘",
-    "locations.aff": "AFF課程",
+    "locations.aff": "A 級執照課程",
     "locations.groups": "團體活動",
     "locations.map.title": "探索我們的跳傘基地",
     "locations.map.subtitle": "選擇一個地點在地圖上查看",
@@ -872,7 +872,7 @@ const translations: Record<Language, Record<string, string>> = {
     "services.tandem.description": "與經驗豐富的教練一同體驗極限自由落體的刺激。無需任何經驗——只需帶上您的冒險精神！",
     "services.alicence.title": "A級執照",
     "services.alicence.subtitle": "學習獨立跳傘",
-    "services.alicence.description": "加速自由落體（AFF）課程是您成為持牌跳傘員的途徑。掌握獨立跳傘所需的技能。",
+    "services.alicence.description": "A 級執照課程是您成為持牌跳傘員的途徑。掌握獨立跳傘所需的技能，獲取國際認可的 A 級執照。",
     "services.group.title": "團體活動",
     "services.group.subtitle": "團隊建設與慶祝活動",
     "services.group.description": "非常適合企業團隊建設、單身派對、生日或任何特殊場合。一起創造難忘的回憶！",
@@ -1104,7 +1104,7 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.subject.general": "一般問題",
 
     // Footer
-    "footer.description": "與亞洲首屈一指的跳傘網絡一同體驗跳傘的刺激。專業雙人跳傘、AFF課程及團體活動遍布泰國和中國。",
+    "footer.description": "與亞洲首屈一指的跳傘網絡一同體驗跳傘的刺激。專業雙人跳傘、A 級執照課程及團體活動遍布泰國和中國。",
     "footer.quickLinks": "快速連結",
     "footer.services": "服務項目",
     "footer.locations": "我們的地點",
@@ -1163,9 +1163,9 @@ const translations: Record<Language, Record<string, string>> = {
     "gallery.photos": "照片",
     "gallery.videos": "影片",
     "gallery.dailyVideos": "每日影片",
-    "gallery.affVideos": "AFF課程影片",
+    "gallery.affVideos": "A 級執照課程影片",
     "gallery.noDailyVideos": "暫時沒有每日影片",
-    "gallery.noAffVideos": "暫時沒有AFF課程影片",
+    "gallery.noAffVideos": "暫時沒有 A 級執照課程影片",
     "gallery.refresh": "重新整理",
     "gallery.refreshSuccess": "相片集已重新整理",
     "gallery.refreshError": "重新整理失敗",
@@ -1493,15 +1493,15 @@ const translations: Record<Language, Record<string, string>> = {
     // A-Licence Service Page
     "servicePage.aff.heroTitle": "A級執照課程",
     "servicePage.aff.heroSubtitle":
-      "透過我們的加速自由落體（AFF）課程學習獨立跳傘。掌握技能，完成25次跳傘，獲得國際執照。",
+      "透過我們的 A 級執照課程學習獨立跳傘。掌握技能，完成25次跳傘，獲得國際認可的 A 級執照。",
     "servicePage.aff.heroTagline": "成為持照跳傘員",
     "servicePage.aff.step1.title": "報名 & 註冊",
-    "servicePage.aff.step1.desc": "報名AFF課程，完成醫療及安全表格。",
+    "servicePage.aff.step1.desc": "報名 A 級執照課程，完成醫療及安全表格。",
     "servicePage.aff.step2.title": "地面學校",
     "servicePage.aff.step2.desc": "密集課堂培訓，涵蓋空氣動力學、緊急程序及裝備知識。",
-    "servicePage.aff.step3.title": "AFF 第1-3級",
+    "servicePage.aff.step3.title": "A 級執照 第1-3級",
     "servicePage.aff.step3.desc": "與兩名教練一起跳傘，學習基本自由落體技能和穩定性。",
-    "servicePage.aff.step4.title": "AFF 第4-8級",
+    "servicePage.aff.step4.title": "A 級執照 第4-8級",
     "servicePage.aff.step4.desc": "進階到單教練跳傘。掌握轉彎、追蹤和開傘技術。",
     "servicePage.aff.step5.title": "獨立跳傘 (9-25)",
     "servicePage.aff.step5.desc": "獨立完成剩餘跳傘次數，精進您的技術。",
@@ -1516,12 +1516,12 @@ const translations: Record<Language, Record<string, string>> = {
     "servicePage.aff.include3": "提供全部裝備",
     "servicePage.aff.include4": "個人教練指導",
     "servicePage.aff.include5": "免費iFly室內跳傘體驗",
-    "servicePage.aff.testimonial": "AFF課程改變了我的人生。教練非常耐心且專業。現在我是持照跳傘員，每個週末都在跳傘！",
+    "servicePage.aff.testimonial": "A 級執照課程改變了我的人生。教練非常耐心且專業。現在我是持照跳傘員，每個週末都在跳傘！",
     "servicePage.aff.testimonialAuthor": "Mark R.，澳洲",
     "servicePage.aff.faq.q1": "A級執照課程需要多長時間？",
     "servicePage.aff.faq.a1": "通常需要7-14天，取決於天氣和您的進度。在理想條件下，有些學員只需一周即可完成。",
     "servicePage.aff.faq.q2": "有什麼先決條件？",
-    "servicePage.aff.faq.a2": "您必須年滿18歲，體重100公斤以下，身體健康。無需任何跳傘經驗——AFF課程從零開始教學。",
+    "servicePage.aff.faq.a2": "您必須年滿18歲，體重100公斤以下，身體健康。無需任何跳傘經驗——A 級執照課程從零開始教學。",
     "servicePage.aff.faq.q3": "A級執照是國際認可的嗎？",
     "servicePage.aff.faq.a3": "是的！USPA A級執照獲全球認可。取得執照後，您可以在世界各地的跳傘場自由跳傘。",
     "servicePage.aff.faq.q4": "取得A級執照後可以做什麼？",
@@ -1546,7 +1546,7 @@ const translations: Record<Language, Record<string, string>> = {
     "hero.experienceThe": "体验",
     "hero.ultimateThrill": "极致飞翔",
     "hero.subtitle":
-      "我们提供专业双人跳伞体验、AFF（Accelerated Freefall）加速自由落体认证课程，并可为企业团体、亲友聚会等量身规划跳伞活动方案。\n\n服务范围遍及亚洲各地景观绝佳的跳伞基地，让您在专业安全保障下，俯瞰壮丽山河，成就非凡时刻。",
+      "我们提供专业双人跳伞体验、A 级执照（A-Licence）认证课程，并可为企业团体、亲友聚会等量身规划跳伞活动方案。\n\n服务范围遍及亚洲各地景观绝佳的跳伞基地，让您在专业安全保障下，俯瞰壮丽山河，成就非凡时刻。",
     "hero.cta.book": "立即体验",
     "hero.cta.explore": "探索服务",
 
@@ -1559,7 +1559,7 @@ const translations: Record<Language, Record<string, string>> = {
     "locations.noLocations": "{country}暂时没有可用的跳伞地点。",
     "locations.bookHere": "立即体验",
     "locations.tandem": "双人跳伞",
-    "locations.aff": "AFF课程",
+    "locations.aff": "A 级执照课程",
     "locations.groups": "团体活动",
     "locations.map.title": "探索我们的跳伞基地",
     "locations.map.subtitle": "选择一个地点在地图上查看",
@@ -1606,7 +1606,7 @@ const translations: Record<Language, Record<string, string>> = {
     "services.tandem.description": "与经验丰富的教练一同体验极限自由落体的刺激。无需任何经验——只需带上您的冒险精神！",
     "services.alicence.title": "A级执照",
     "services.alicence.subtitle": "学习独立跳伞",
-    "services.alicence.description": "加速自由落体（AFF）课程是您成为持照跳伞员的途径。掌握独立跳伞所需的技能。",
+    "services.alicence.description": "A 级执照课程是您成为持照跳伞员的途径。掌握独立跳伞所需的技能，获取国际认可的 A 级执照。",
     "services.group.title": "团体活动",
     "services.group.subtitle": "团队建设与庆祝活动",
     "services.group.description": "非常适合企业团队建设、单身派对、生日或任何特殊场合。一起创造难忘的回忆！",
@@ -1838,7 +1838,7 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.subject.general": "一般问题",
 
     // Footer
-    "footer.description": "与亚洲首屈一指的跳伞网络一同体验跳伞的刺激。专业双人跳伞、AFF课程及团体活动遍布泰国和中国。",
+    "footer.description": "与亚洲首屈一指的跳伞网络一同体验跳伞的刺激。专业双人跳伞、A 级执照课程及团体活动遍布泰国和中国。",
     "footer.quickLinks": "快速链接",
     "footer.services": "服务项目",
     "footer.locations": "我们的地点",
@@ -1897,9 +1897,9 @@ const translations: Record<Language, Record<string, string>> = {
     "gallery.photos": "照片",
     "gallery.videos": "视频",
     "gallery.dailyVideos": "每日视频",
-    "gallery.affVideos": "AFF课程视频",
+    "gallery.affVideos": "A 级执照课程视频",
     "gallery.noDailyVideos": "暂时没有每日视频",
-    "gallery.noAffVideos": "暂时没有AFF课程视频",
+    "gallery.noAffVideos": "暂时没有 A 级执照课程视频",
     "gallery.refresh": "刷新",
     "gallery.refreshSuccess": "照片集已刷新",
     "gallery.refreshError": "刷新失败",
@@ -2227,15 +2227,15 @@ const translations: Record<Language, Record<string, string>> = {
     // A-Licence Service Page
     "servicePage.aff.heroTitle": "A级执照课程",
     "servicePage.aff.heroSubtitle":
-      "通过我们的加速自由落体（AFF）课程学习独立跳伞。掌握技能，完成25次跳伞，获得国际执照。",
+      "通过我们的 A 级执照课程学习独立跳伞。掌握技能，完成25次跳伞，获得国际认可的 A 级执照。",
     "servicePage.aff.heroTagline": "成为持照跳伞员",
     "servicePage.aff.step1.title": "报名 & 注册",
-    "servicePage.aff.step1.desc": "报名AFF课程，完成医疗及安全表格。",
+    "servicePage.aff.step1.desc": "报名 A 级执照课程，完成医疗及安全表格。",
     "servicePage.aff.step2.title": "地面学校",
     "servicePage.aff.step2.desc": "密集课堂培训，涵盖空气动力学、紧急程序及装备知识。",
-    "servicePage.aff.step3.title": "AFF 第1-3级",
+    "servicePage.aff.step3.title": "A 级执照 第1-3级",
     "servicePage.aff.step3.desc": "与两名教练一起跳伞，学习基本自由落体技能和稳定性。",
-    "servicePage.aff.step4.title": "AFF 第4-8级",
+    "servicePage.aff.step4.title": "A 级执照 第4-8级",
     "servicePage.aff.step4.desc": "进阶到单教练跳伞。掌握转弯、追踪和开伞技术。",
     "servicePage.aff.step5.title": "独立跳伞 (9-25)",
     "servicePage.aff.step5.desc": "独立完成剩余跳伞次数，精进您的技术。",
@@ -2250,12 +2250,12 @@ const translations: Record<Language, Record<string, string>> = {
     "servicePage.aff.include3": "提供全部装备",
     "servicePage.aff.include4": "个人教练指导",
     "servicePage.aff.include5": "免费iFly室内跳伞体验",
-    "servicePage.aff.testimonial": "AFF课程改变了我的人生。教练非常耐心且专业。现在我是持照跳伞员，每个周末都在跳伞！",
+    "servicePage.aff.testimonial": "A 级执照课程改变了我的人生。教练非常耐心且专业。现在我是持照跳伞员，每个周末都在跳伞！",
     "servicePage.aff.testimonialAuthor": "Mark R.，澳洲",
     "servicePage.aff.faq.q1": "A级执照课程需要多长时间？",
     "servicePage.aff.faq.a1": "通常需要7-14天，取决于天气和您的进度。在理想条件下，有些学员只需一周即可完成。",
     "servicePage.aff.faq.q2": "有什么先决条件？",
-    "servicePage.aff.faq.a2": "您必须年满18岁，体重100公斤以下，身体健康。无需任何跳伞经验——AFF课程从零开始教学。",
+    "servicePage.aff.faq.a2": "您必须年满18岁，体重100公斤以下，身体健康。无需任何跳伞经验——A 级执照课程从零开始教学。",
     "servicePage.aff.faq.q3": "A级执照是国际认可的吗？",
     "servicePage.aff.faq.a3": "是的！USPA A级执照获全球认可。取得执照后，您可以在世界各地的跳伞场自由跳伞。",
     "servicePage.aff.faq.q4": "取得A级执照后可以做什么？",
@@ -2504,7 +2504,7 @@ translations.en["faq.a4"] =
 
 translations.en["faq.q5"] = "What is the difference between tandem skydiving and the A-Licence course?";
 translations.en["faq.a5"] =
-  "Tandem skydiving is a one-time experience where you're attached to an instructor. The A-Licence (AFF) course is a comprehensive training program (typically 25 jumps) that teaches you to skydive solo. After completing the course and passing the exam, you'll receive an internationally recognized license allowing you to jump independently at dropzones worldwide.";
+  "Tandem skydiving is a one-time experience where you're attached to an instructor. The A-Licence course is a comprehensive training program (typically 25 jumps) that teaches you to skydive solo. After completing the course and passing the exam, you'll receive an internationally recognized A-Licence allowing you to jump independently at dropzones worldwide.";
 
 translations.en["faq.q6"] = "How long does the entire skydiving experience take?";
 translations.en["faq.a6"] =
@@ -2551,7 +2551,7 @@ translations["zh-TW"]["faq.a4"] =
 
 translations["zh-TW"]["faq.q5"] = "雙人跳傘與A級執照課程有什麼分別？";
 translations["zh-TW"]["faq.a5"] =
-  "雙人跳傘是一次性的體驗，您會與教練連接在一起。A級執照（AFF）課程是一個全面的培訓計劃（通常需要25次跳傘），教您如何獨立跳傘。完成課程並通過考試後，您將獲得國際認可的執照，可以在全球各地的跳傘場獨立跳傘。";
+  "雙人跳傘是一次性的體驗，您會與教練連接在一起。A 級執照課程是一個全面的培訓計劃（通常需要25次跳傘），教您如何獨立跳傘。完成課程並通過考試後，您將獲得國際認可的 A 級執照，可以在全球各地的跳傘場獨立跳傘。";
 
 translations["zh-TW"]["faq.q6"] = "整個跳傘體驗需要多長時間？";
 translations["zh-TW"]["faq.a6"] =
@@ -2598,7 +2598,7 @@ translations["zh-CN"]["faq.a4"] =
 
 translations["zh-CN"]["faq.q5"] = "双人跳伞与A级执照课程有什么区别？";
 translations["zh-CN"]["faq.a5"] =
-  "双人跳伞是一次性的体验，您会与教练连接在一起。A级执照（AFF）课程是一个全面的培训计划（通常需要25次跳伞），教您如何独立跳伞。完成课程并通过考试后，您将获得国际认可的执照，可以在全球各地的跳伞场独立跳伞。";
+  "双人跳伞是一次性的体验，您会与教练连接在一起。A 级执照课程是一个全面的培训计划（通常需要25次跳伞），教您如何独立跳伞。完成课程并通过考试后，您将获得国际认可的 A 级执照，可以在全球各地的跳伞场独立跳伞。";
 
 translations["zh-CN"]["faq.q6"] = "整个跳伞体验需要多长时间？";
 translations["zh-CN"]["faq.a6"] =
@@ -2829,7 +2829,7 @@ translations.en["quiz.result.tandem.desc"] =
   "Perfect for you! Jump securely with an expert instructor and enjoy the ultimate freefall experience.";
 translations.en["quiz.result.alicence.title"] = "A-Licence Course";
 translations.en["quiz.result.alicence.desc"] =
-  "Ready to fly solo! Our AFF program will take you from student to licensed skydiver.";
+  "Ready to fly solo! Our A-Licence course will take you from student to licensed skydiver.";
 translations.en["quiz.result.group.title"] = "Group Event";
 translations.en["quiz.result.group.desc"] =
   "The perfect team experience! We'll organize an unforgettable group skydiving day.";
@@ -2853,7 +2853,7 @@ translations["zh-TW"]["quiz.q3.c"] = "🚀 改變人生——我要考執照！"
 translations["zh-TW"]["quiz.result.tandem.title"] = "雙人跳傘";
 translations["zh-TW"]["quiz.result.tandem.desc"] = "最適合你！與專業教練安全地體驗極致自由落體。";
 translations["zh-TW"]["quiz.result.alicence.title"] = "A級執照課程";
-translations["zh-TW"]["quiz.result.alicence.desc"] = "準備好獨自飛翔！AFF課程帶你從學員到持照跳傘員。";
+translations["zh-TW"]["quiz.result.alicence.desc"] = "準備好獨自飛翔！A 級執照課程帶你從學員到持照跳傘員。";
 translations["zh-TW"]["quiz.result.group.title"] = "團體活動";
 translations["zh-TW"]["quiz.result.group.desc"] = "完美的團隊體驗！我們為你策劃一場難忘的團體跳傘日。";
 translations["zh-TW"]["quiz.bookThis"] = "預約此體驗";
@@ -2876,7 +2876,7 @@ translations["zh-CN"]["quiz.q3.c"] = "🚀 改变人生——我要考执照！"
 translations["zh-CN"]["quiz.result.tandem.title"] = "双人跳伞";
 translations["zh-CN"]["quiz.result.tandem.desc"] = "最适合你！与专业教练安全地体验极致自由落体。";
 translations["zh-CN"]["quiz.result.alicence.title"] = "A级执照课程";
-translations["zh-CN"]["quiz.result.alicence.desc"] = "准备好独自飞翔！AFF课程带你从学员到持照跳伞员。";
+translations["zh-CN"]["quiz.result.alicence.desc"] = "准备好独自飞翔！A 级执照课程带你从学员到持照跳伞员。";
 translations["zh-CN"]["quiz.result.group.title"] = "团体活动";
 translations["zh-CN"]["quiz.result.group.desc"] = "完美的团队体验！我们为你策划一场难忘的团体跳伞日。";
 translations["zh-CN"]["quiz.bookThis"] = "预约此体验";
