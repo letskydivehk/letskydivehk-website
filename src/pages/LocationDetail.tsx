@@ -9,6 +9,7 @@ import { useBooking } from "@/contexts/BookingContext";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { ServiceNameDisplay } from "@/components/ServiceNameDisplay";
 import { Footer } from "@/components/Footer";
+import { PageNavbar } from "@/components/PageNavbar";
 import { LocationPhotoGallery } from "@/components/location/LocationPhotoGallery";
 import { LocationWeather } from "@/components/location/LocationWeather";
 import { LocationAccommodations } from "@/components/location/LocationAccommodations";
@@ -95,7 +96,8 @@ export default function LocationDetail() {
         image={location.image_url || undefined}
       />
       <BackgroundDecorations />
-      <main className="relative z-10">
+      <PageNavbar />
+      <main className="relative z-10 pt-20">
         {/* Hero Section */}
         <section className="relative h-[50vh] min-h-[400px] overflow-hidden">
           <img
