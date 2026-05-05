@@ -104,7 +104,7 @@ export function Hero() {
             </motion.div>
 
             {/* Navigation Menu */}
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden lg:flex items-center space-x-8">
               <a href="#services" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
                 {t('nav.services')}
               </a>
@@ -140,7 +140,7 @@ export function Hero() {
               <AuthButton />
 
               {/* Mobile Hamburger Menu Button */}
-              <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="md:hidden glass-effect p-3 rounded-full text-white hover:bg-white/20 active:bg-white/30 gentle-animation cursor-pointer z-[120] relative">
+              <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} className="lg:hidden glass-effect p-3 rounded-full text-white hover:bg-white/20 active:bg-white/30 gentle-animation cursor-pointer z-[120] relative">
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
@@ -158,7 +158,7 @@ export function Hero() {
           opacity: 0
         }} transition={{
           duration: 0.3
-        }} className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-md z-[80] cursor-pointer" onClick={() => setIsMobileMenuOpen(false)} />
+        }} className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-md z-[80] cursor-pointer" onClick={() => setIsMobileMenuOpen(false)} />
       )}
 
       {/* Mobile Menu Panel */}
@@ -170,7 +170,7 @@ export function Hero() {
         type: 'spring',
         damping: 25,
         stiffness: 200
-      }} className="md:hidden fixed top-0 right-0 h-full w-72 max-w-[85vw] bg-black/90 backdrop-blur-xl border-l border-white/10 z-[90] mobile-menu-panel pointer-events-auto" onClick={e => e.stopPropagation()}>
+      }} className="lg:hidden fixed top-0 right-0 h-full w-72 max-w-[85vw] bg-black/90 backdrop-blur-xl border-l border-white/10 z-[90] mobile-menu-panel pointer-events-auto" onClick={e => e.stopPropagation()}>
         <div className="flex flex-col h-full">
           {/* Close Button at the top */}
           <div className="flex justify-end p-4">

@@ -52,7 +52,7 @@ export function PageNavbar() {
             </Link>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center space-x-8">
+            <div className="hidden lg:flex items-center space-x-8">
               {navLinks.map((link) =>
                 link.isRoute ? (
                   <Link key={link.href} to={link.href} className="text-white hover:text-white/80 font-medium transition-all hover:scale-105">
@@ -72,7 +72,7 @@ export function PageNavbar() {
               <AuthButton />
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="md:hidden bg-white/10 p-3 rounded-full text-white hover:bg-white/20 active:bg-white/30 transition-all cursor-pointer z-[120] relative"
+                className="lg:hidden bg-white/10 p-3 rounded-full text-white hover:bg-white/20 active:bg-white/30 transition-all cursor-pointer z-[120] relative"
               >
                 {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
@@ -87,7 +87,7 @@ export function PageNavbar() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="md:hidden fixed inset-0 bg-black/50 backdrop-blur-md z-[80] cursor-pointer"
+          className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-md z-[80] cursor-pointer"
           onClick={() => setIsMobileMenuOpen(false)}
         />
       )}
@@ -97,7 +97,7 @@ export function PageNavbar() {
         initial={{ x: '100%' }}
         animate={{ x: isMobileMenuOpen ? '0%' : '100%' }}
         transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-        className="md:hidden fixed top-0 right-0 h-full w-72 max-w-[85vw] bg-black/95 backdrop-blur-xl border-l border-white/10 z-[90]"
+        className="lg:hidden fixed top-0 right-0 h-full w-72 max-w-[85vw] bg-black/95 backdrop-blur-xl border-l border-white/10 z-[90]"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex flex-col h-full">
