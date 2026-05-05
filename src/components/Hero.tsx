@@ -248,7 +248,10 @@ export function Hero() {
           </h1>
 
           {/* Subtitle */}
-          <p className="text-xl lg:text-2xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed whitespace-pre-line">
+          <p
+            className="text-xl lg:text-2xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed whitespace-pre-line"
+            style={{ textShadow: '0 2px 12px rgba(0,0,0,0.7)' }}
+          >
             {t('hero.subtitle')}
           </p>
 
