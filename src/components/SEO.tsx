@@ -11,7 +11,7 @@ interface SEOProps {
 const SITE_NAME = "Let's Skydive HK";
 const BASE_URL = 'https://letskydivehk.lovable.app';
 const DEFAULT_IMAGE = 'https://storage.googleapis.com/gpt-engineer-file-uploads/YIBNqLgbMzXE1mF8E9QRc5LQB1d2/social-images/social-1769577669200-We operate in.png.PNG';
-const DEFAULT_DESCRIPTION = "Asia's premier skydiving experience. Professional tandem jumps, AFF courses & group events across Thailand and China. Book your adventure today!";
+const DEFAULT_DESCRIPTION = "Asia's premier skydiving experience. Professional tandem jumps, A-Licence courses & group events across Thailand and China. Book your adventure today!";
 
 export function SEO({ title, description, path = '/', image, type = 'website' }: SEOProps) {
   const pageTitle = title ? `${title} | ${SITE_NAME}` : `${SITE_NAME} - Skydiving Adventures Across Asia`;
