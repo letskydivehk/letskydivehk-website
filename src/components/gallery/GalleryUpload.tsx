@@ -210,7 +210,7 @@ export function GalleryUpload({ onClose, onSuccess, defaultCategory = 'photos' }
                 <SelectItem value="aff_videos">
                   <div className="flex items-center gap-2">
                     <GraduationCap className="h-4 w-4" />
-                    <span>AFF Course Videos</span>
+                    <span>A-Licence Course Videos</span>
                   </div>
                 </SelectItem>
               </SelectContent>
