@@ -236,7 +236,7 @@ export function Hero() {
           delay: 0.5
         }} className="max-w-4xl">
           {/* Main Heading */}
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-6" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.6)' }}>
             {language === 'zh-TW' ? (
               <span className="block">{t('hero.experienceThe')}<span className="text-accent-orange">{t('hero.ultimateThrill')}</span></span>
             ) : (
