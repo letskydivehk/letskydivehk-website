@@ -493,6 +493,8 @@ export function BookingSection() {
           body: {
             type: "booking",
             data: {
+              bookingId: bookingData?.id,
+              accessToken: bookingData?.access_token,
               firstName: sanitizeText(formData.firstName),
               lastName: sanitizeText(formData.lastName),
               email: formData.email.trim(),

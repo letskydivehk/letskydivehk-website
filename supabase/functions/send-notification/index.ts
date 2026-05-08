@@ -13,6 +13,8 @@ const corsHeaders = {
 interface NotificationRequest {
   type: "booking" | "registration";
   data: {
+    bookingId?: string;
+    accessToken?: string;
     firstName?: string;
     lastName?: string;
     email?: string;
@@ -107,7 +109,8 @@ const handler = async (req: Request): Promise<Response> => {
       }
     }
 
-    // For booking notifications, validate required fields
+    // For booking notifications, bind the request to a real booking row to prevent
+    // unauthenticated email-spam abuse of this endpoint.
     if (type === "booking") {
       if (!data.email || !isValidEmail(data.email)) {
         return new Response(JSON.stringify({ success: false, error: "Invalid email" }), {
@@ -118,6 +121,39 @@ const handler = async (req: Request): Promise<Response> => {
       if (!data.firstName || !data.lastName) {
         return new Response(JSON.stringify({ success: false, error: "Missing required booking fields" }), {
           status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
+      }
+      if (!data.bookingId || !data.accessToken) {
+        return new Response(JSON.stringify({ success: false, error: "Missing booking reference" }), {
+          status: 400,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
+      }
+
+      // Verify a booking row actually exists with this id + access_token + email.
+      // This requires a real booking to have just been created via create_booking RPC,
+      // preventing arbitrary callers from spamming emails to any address.
+      const adminClient = createClient(
+        Deno.env.get("SUPABASE_URL") ?? "",
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      );
+      const { data: bookingRow, error: bookingErr } = await adminClient
+        .from("bookings")
+        .select("id, email, access_token, created_at")
+        .eq("id", data.bookingId)
+        .eq("access_token", data.accessToken)
+        .maybeSingle();
+
+      if (bookingErr || !bookingRow) {
+        return new Response(JSON.stringify({ success: false, error: "Booking not found" }), {
+          status: 404,
+          headers: { "Content-Type": "application/json", ...corsHeaders },
+        });
+      }
+      if (String(bookingRow.email).toLowerCase() !== String(data.email).toLowerCase()) {
+        return new Response(JSON.stringify({ success: false, error: "Email does not match booking" }), {
+          status: 403,
           headers: { "Content-Type": "application/json", ...corsHeaders },
         });
       }
