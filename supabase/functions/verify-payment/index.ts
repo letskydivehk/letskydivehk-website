@@ -87,11 +87,36 @@ Deno.serve(async (req) => {
       const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
       const supabase = createClient(supabaseUrl, serviceRoleKey);
 
-      const { error: updateError } = await supabase
+      // SECURITY: Verify the booking has this payment_intent_id stored before marking paid
+      // Prevents reusing a single succeeded payment to mark a different booking as paid.
+      const { data: bookingRow, error: fetchErr } = await supabase
         .from("bookings")
-        .update({ payment_status: "paid", payment_intent_id })
+        .select("id, payment_intent_id, payment_status")
         .eq("id", booking_id)
-        .eq("payment_status", null); // Only update if not already paid
+        .maybeSingle();
+
+      if (fetchErr) {
+        console.error("Failed to load booking:", fetchErr.message);
+      } else if (!bookingRow) {
+        console.error("Booking not found for verify-payment:", booking_id);
+      } else if (bookingRow.payment_intent_id !== payment_intent_id) {
+        console.error("Payment intent does not match booking's stored intent");
+        return new Response(
+          JSON.stringify({ error: "Payment intent does not match this booking", verified: false }),
+          { status: 403, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        );
+      } else {
+        const { error: updateError } = await supabase
+          .from("bookings")
+          .update({ payment_status: "paid" })
+          .eq("id", booking_id)
+          .eq("payment_intent_id", payment_intent_id)
+          .is("payment_status", null);
+
+        if (updateError) {
+          console.error("Failed to update booking payment status:", updateError.message);
+        }
+      }
 
       if (updateError) {
         console.error("Failed to update booking payment status:", updateError.message);

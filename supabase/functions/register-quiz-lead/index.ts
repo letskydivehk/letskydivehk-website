@@ -111,7 +111,13 @@ Deno.serve(async (req) => {
     }
     recent.set(input.email, Date.now());
 
-    const origin = req.headers.get("origin") || "https://letskydivehk.com";
+    // SECURITY: Hardcode the redirect URL to prevent open-redirect / phishing via spoofed Origin header.
+    const ALLOWED_ORIGINS = new Set([
+      "https://letskydivehk.com",
+      "https://letskydivehk.lovable.app",
+    ]);
+    const rawOrigin = req.headers.get("origin") || "";
+    const origin = ALLOWED_ORIGINS.has(rawOrigin) ? rawOrigin : "https://letskydivehk.com";
     const redirectTo = `${origin}/auth/callback`;
 
     // 1. Find or create auth user
