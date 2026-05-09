@@ -8,6 +8,7 @@ import { LanguageProvider } from './contexts/LanguageContext';
 import { Toaster } from './components/ui/sonner';
 import { WhatsAppButton } from './components/WhatsAppButton';
 import Home from './pages/Home';
+import { ExitIntentModal } from './components/ExitIntentModal';
 
 const MemberProfile = React.lazy(() => import('./pages/MemberProfile'));
 const Gallery = React.lazy(() => import('./pages/Gallery'));
@@ -27,6 +28,7 @@ const BlogPost = React.lazy(() => import('./pages/BlogPost'));
 const MembershipTiers = React.lazy(() => import('./pages/MembershipTiers'));
 const Quiz = React.lazy(() => import('./pages/Quiz'));
 const QuizResult = React.lazy(() => import('./pages/QuizResult'));
+const LocationCompare = React.lazy(() => import('./pages/LocationCompare'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -64,12 +66,14 @@ export default function App() {
                 <Route path="/membership/tiers" element={<MembershipTiers />} />
                 <Route path="/quiz" element={<Quiz />} />
                 <Route path="/quiz/result" element={<QuizResult />} />
+                <Route path="/compare" element={<LocationCompare />} />
                 <Route path="/privacy" element={<Privacy />} />
                 <Route path="/terms" element={<Terms />} />
                 <Route path="/disclaimer" element={<Disclaimer />} />
                 <Route path="*" element={<NotFound />} />
               </Routes>
               </Suspense>
+              <ExitIntentModal />
             </BrowserRouter>
             <Toaster />
             <WhatsAppButton />
