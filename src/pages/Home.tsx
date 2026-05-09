@@ -19,7 +19,11 @@ import { QuizCTA } from "@/components/QuizCTA";
 import { CountdownTimer } from "@/components/CountdownTimer";
 import { BackToTopButton } from "@/components/BackToTopButton";
 import { SectionNav } from "@/components/SectionNav";
-
+import { SafetySection } from "@/components/SafetySection";
+import { JumpDayTimeline } from "@/components/JumpDayTimeline";
+import { InstructorTeam } from "@/components/InstructorTeam";
+import { ReferralBanner } from "@/components/ReferralBanner";
+import { AlumniPathway } from "@/components/AlumniPathway";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -34,8 +38,13 @@ export default function Home() {
           <Hero />
         </section>
 
-        {/* Social Proof Ticker */}
         <SocialProofTicker />
+
+        {/* REASSURE: safety first */}
+        <SafetySection />
+
+        {/* REASSURE: what jump day looks like */}
+        <JumpDayTimeline />
 
         {/* Promotion Banner */}
         <Link
@@ -43,18 +52,24 @@ export default function Home() {
           className="block bg-accent-orange text-white py-8 px-6 text-center font-semibold hover:bg-accent-orange/90 transition-colors"
         >
           <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-1 whitespace-nowrap">
-            <span className="text-lg sm:text-xl md:text-2xl">
-              {t("promo.homeBanner")}
-            </span>
+            <span className="text-lg sm:text-xl md:text-2xl">{t("promo.homeBanner")}</span>
             <span className="text-lg sm:text-xl md:text-2xl underline underline-offset-4 inline-flex items-center gap-1">
               {t("promo.homeBannerCta")}
               <ChevronRight className="w-5 h-5" />
             </span>
-            <CountdownTimer targetDate={(() => { const d = new Date(); d.setDate(d.getDate() + 3); d.setHours(23, 59, 59, 0); return d; })()} compact />
+            <CountdownTimer
+              targetDate={(() => {
+                const d = new Date();
+                d.setDate(d.getDate() + 3);
+                d.setHours(23, 59, 59, 0);
+                return d;
+              })()}
+              compact
+            />
           </div>
         </Link>
 
-        {/* Quiz CTA → dedicated page */}
+        {/* QUALIFY */}
         <QuizCTA />
 
         <section id="locations" aria-label="Locations section">
@@ -64,12 +79,20 @@ export default function Home() {
           <Services />
         </section>
 
+        {/* TRUST: instructors */}
+        <InstructorTeam />
+
         <section id="booking" aria-label="Booking section">
           <BookingSection />
         </section>
         <section id="testimonials" aria-label="Testimonials section">
           <Testimonials />
         </section>
+
+        {/* RETAIN */}
+        <ReferralBanner />
+        <AlumniPathway />
+
         <section id="about" aria-label="About section">
           <About />
         </section>

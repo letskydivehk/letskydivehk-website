@@ -1,11 +1,13 @@
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { Menu, X, ChevronDown, Play } from 'lucide-react';
+import { Menu, X, ChevronDown, Play, Sparkles } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthButton } from './AuthButton';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { VideoModal } from './VideoModal';
+import { TrustBar } from './TrustBar';
+import { EligibilityChips } from './EligibilityChips';
 
 export function Hero() {
   const { t, language } = useLanguage();
@@ -249,28 +251,33 @@ export function Hero() {
 
           {/* Subtitle */}
           <p
-            className="text-xl lg:text-2xl text-white/90 max-w-2xl mx-auto mb-10 leading-relaxed whitespace-pre-line"
+            className="text-xl lg:text-2xl text-white/90 max-w-2xl mx-auto mb-6 leading-relaxed whitespace-pre-line"
             style={{ textShadow: '0 2px 12px rgba(0,0,0,0.7)' }}
           >
             {t('hero.subtitle')}
           </p>
 
+          {/* Trust signals */}
+          <TrustBar />
+
+          {/* Eligibility quick check */}
+          <EligibilityChips />
+
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <motion.button whileHover={{
-              scale: 1.05
-            }} whileTap={{
-              scale: 0.95
-            }} onClick={scrollToLocations} className="bg-accent-orange text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-accent-orange/90 gentle-animation cursor-pointer w-full sm:w-auto">
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={scrollToLocations} className="bg-accent-orange text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-accent-orange/90 gentle-animation cursor-pointer w-full sm:w-auto">
               {t('hero.cta.book')}
             </motion.button>
-            <motion.a href="#services" whileHover={{
-              scale: 1.05
-            }} whileTap={{
-              scale: 0.95
-            }} className="bg-white/10 backdrop-blur-sm text-white font-semibold px-8 py-4 rounded-lg text-lg border border-white/20 hover:bg-white/20 gentle-animation cursor-pointer w-full sm:w-auto text-center">
-              {t('hero.cta.explore')}
-            </motion.a>
+            <Link to="/quiz" className="w-full sm:w-auto">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm text-white font-semibold px-8 py-4 rounded-lg text-lg border border-white/20 hover:bg-white/20 gentle-animation cursor-pointer w-full"
+              >
+                <Sparkles className="w-5 h-5 text-accent-orange" />
+                {t('hero.cta.quiz')}
+              </motion.div>
+            </Link>
             <motion.button
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
