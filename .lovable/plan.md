@@ -1,63 +1,132 @@
-## Audit Summary
+# Improvement Framework: Let's Skydive HK
 
-I tested the site at mobile (390×844), tablet (820×1180), and inspected key pages. The codebase is mostly solid — translations, quiz lead form, promotions, and location detail all render. Below are the real bugs I found.
+Goal: convert "thought about it but never did it" Hongkongers into booked first-time jumpers, then into A-Licence students and repeat customers.
 
-### Issues found
+The site already has strong foundations (multilingual, booking flow, credits, quiz, blog, dedicated service pages). What's missing is a **psychological conversion system** addressing the four reasons people hesitate: **fear, trust, price, and friction**.
 
-**1. "AFF" / "Accelerated Freefall" wording violates the project rule**
-The memory rule says always use "A-Licence" and never "AFF Course". 30+ user-facing strings still say "AFF" or "Accelerated Freefall (AFF)" in all 3 languages. Examples:
-- Hero description (EN/zh-TW/zh-CN): "AFF (Accelerated Freefall) 加速自由落體認證課程"
-- Footer description: "AFF課程及團體活動"
-- Services / locations pills: "AFF", "AFF課程"
-- ServiceALicence page: hero, steps, FAQs, testimonial all say "AFF"
-- Quiz result description: "AFF program will take you from student to licensed skydiver"
-- Gallery video tab: "AFF Course Videos"
-- SEO meta tags
+---
 
-Internal identifiers (route keys, DB column `has_aff`, asset `aff-training-curriculum.png`, gallery sub-tab key `aff_videos`, translation keys `servicePage.aff.*`) will be left as-is — those are not user-visible.
+## 1. Diagnosis — what the site lacks today
 
-**2. Tablet navbar (768–1024px) overflows badly**
-At 820px width, the desktop nav (`md:flex`) becomes visible with 8 nav links + logo + lang switcher + auth + (no mobile button). Each Chinese link wraps to 2–3 lines, producing a tall, broken header.
+**A. Fear & objection handling (biggest gap)**
+- No dedicated "Is it safe?" / "What if I'm scared?" content above the fold
+- Safety stats (jumps completed, instructor hours, equipment standards, USPA/APF affiliation) are not hero-level
+- No "What actually happens on jump day" walkthrough with timeline + photos
+- No reassurance for common fears: heights, motion sickness, blacking out, weight/age limits
+- FAQ exists but is buried near the bottom
 
-**Fix**: Raise the desktop-nav breakpoint to `lg:` (1024px) and keep the hamburger visible until `lg:`. Apply the same in `Hero.tsx` if it has its own top nav.
+**B. Trust & social proof density**
+- Testimonials exist but feel generic; no video testimonials, no named customers with photos, no Google/Trustpilot rating badge, no press logos
+- No instructor profiles (faces, licences, jump counts) — huge trust lever for tandem
+- No "live" proof: recent jumpers feed, this-month booking count, Instagram reel embed
+- No founder story above the fold linking the brand to a real person
 
-**3. Location detail page has no top navbar**
-`/location/:slug` renders only a "返回首頁" back link — no `PageNavbar`, no language switcher, no auth button. Inconsistent with every other route.
+**C. Pricing transparency & value framing**
+- Price shown as "$X,XXX 起" but the **value stack** (what's included: gear, insurance, video, transport, certificate) isn't visible at decision moment
+- No comparison: HK tandem vs Thailand vs China — why each location, total trip cost
+- No financing / split-payment / group-discount messaging on the home page
+- Deposit ($500) policy isn't reassuringly framed (refund terms, what it covers)
 
-**Fix**: Add `<PageNavbar />` to `src/pages/LocationDetail.tsx` and adjust the top spacing.
+**D. Decision friction**
+- First-time visitor must scroll through many sections to reach the booking CTA
+- No "1-minute jump readiness check" right in the hero (age/weight/health) → instant qualification
+- WhatsApp is present but no proactive "Ask a question, reply in 5 min" promise
+- No exit-intent capture or abandoned-quiz follow-up
+- No clear "compare locations" tool — user has to open each location page
 
-**4. Mobile hero text overlaps the parachuter image**
-On 390px width, the Chinese description spans 3 lines and visually crashes into the falling skydiver illustration behind it. Adding a stronger backdrop (slight dark gradient under the text block, mobile only) restores readability.
+**E. Urgency & scarcity (ethical)**
+- Promo banner exists but isn't tied to real availability
+- No "next available jump date at Pattaya: Sat 17 May, 3 spots left" style live availability
+- No seasonal angle (best months per location, weather windows)
 
-**5. Footer text clipped by floating WhatsApp button on mobile**
-The fixed WhatsApp bubble overlaps footer copy at the bottom of short pages (Quiz, Promotions). Add `pr-16` (or extra bottom padding on `<Footer>` on mobile) so text never sits beneath the button.
+**F. Aspiration & identity**
+- The site sells a service, not an identity transformation. Missing:
+  - "After your first jump" pathway (A-Licence funnel is there but not emotionally connected)
+  - Community: jumper wall, alumni stories, "100 Hongkongers who got their licence"
+  - Bucket-list / before-30 / milestone framing
 
-### Plan
+**G. Content & SEO depth for the "considering" audience**
+- Blog exists but the high-intent queries are likely under-served:
+  - "skydiving from Hong Kong cost"
+  - "is skydiving safe statistics"
+  - "tandem skydive weight limit"
+  - "Pattaya vs Chiang Mai skydive"
+- No comparison pages, no cost calculator, no destination guides with itineraries
 
-1. **Replace AFF copy in `src/contexts/LanguageContext.tsx`** for EN, zh-TW, zh-CN:
-   - "AFF (Accelerated Freefall)" / "Accelerated Freefall (AFF)" / "AFF course" / "AFF program" → "A-Licence course" / "A 級執照課程" / "A级执照课程"
-   - Sentinel locations: lines 35, 49, 99, 341, 400, 402, 754, 757, 761, 764, 782, 789, 815, 828, 875, 1107, 1166, 1168, 1496, 1499, 1502, 1504, 1519, 1524, 1549, 1562, 1609, 1841, 1900, 1902, 2230, 2233, 2236, 2238, 2253, 2258, 2507, 2554, 2601, 2832, 2856, 2879
-   - Also `src/pages/ServiceALicence.tsx` lines 59–60 (hardcoded SEO title/description)
+**H. Mobile experience (user is on 1021px now, but most traffic is mobile)**
+- Sticky booking bar exists — good
+- Need: thumb-reachable primary CTA, swipeable testimonials, collapsed FAQ search, faster hero LCP
 
-2. **Tablet navbar fix** in `src/components/PageNavbar.tsx` and `src/components/Hero.tsx` (if it has nav):
-   - Change `hidden md:flex` → `hidden lg:flex` for desktop links
-   - Change `md:hidden` → `lg:hidden` for the hamburger button + mobile drawer
-   - Verify mobile drawer still appears at 820px
+**I. Post-booking & retention loop**
+- No referral mechanic surfaced on the home page (credits exist but hidden)
+- No "bring a friend, both get $X" front-and-center
+- No membership tier preview on home page
 
-3. **Add `PageNavbar` to LocationDetail**:
-   - Import and render `<PageNavbar />` at top of `src/pages/LocationDetail.tsx`
-   - Add `pt-24` (or matching) to the main content wrapper to clear the fixed nav
-   - Move/remove the standalone "返回首頁" link if redundant (or keep below nav)
+---
 
-4. **Mobile hero readability** in `src/components/Hero.tsx`:
-   - Add a subtle dark overlay or text shadow behind the description paragraph on `sm:` and below
+## 2. Framework — the 5-layer conversion stack
 
-5. **Footer/WhatsApp clearance**:
-   - Add bottom padding to `<Footer>` (`pb-20 md:pb-12`) so text isn't covered by the floating WhatsApp bubble
+Apply in this order; each layer addresses a specific drop-off.
 
-6. **Verify** in preview at 390px and 820px after changes; spot-check zh-TW, zh-CN, EN.
+```text
+Layer 1  ATTRACT     SEO + paid landing pages for "considering" keywords
+Layer 2  REASSURE    Safety, instructor, real-jumper proof above the fold
+Layer 3  QUALIFY     30-second readiness check → personalised recommendation
+Layer 4  CONVERT     Transparent pricing + low-commitment $500 deposit
+Layer 5  RETAIN      Referral, A-Licence pathway, community, membership
+```
 
-### Out of scope
-- Renaming DB columns / asset filenames / translation keys containing `aff` (internal only)
-- Adding new translations beyond the AFF wording fix
-- Restructuring quiz flow or recommendations
+---
+
+## 3. Concrete improvements (prioritised)
+
+### Phase 1 — High-impact, low-effort (week 1–2)
+
+1. **Hero rebuild**
+   - Add 3 trust bars under headline: "X,XXX jumps · USPA/APF certified · 4.9★ Google"
+   - Replace generic CTA with **2 CTAs**: "Book now" + "Take 30-sec readiness quiz"
+   - Add inline mini-eligibility chips: 18+ · ≤100kg · No heart conditions
+2. **"Is it safe?" section** right after hero — stats, equipment, instructor credentials, video
+3. **Jump-day timeline** — visual 6-step "What happens" (arrive → brief → gear → flight → freefall → land)
+4. **Price-value stack** — on each service card, show what's included as checklist, not just price
+5. **Promote referral + credit** to home page (dedicated banner, not just promo page)
+6. **FAQ uplift** — move 3 fear-based questions ("Is it safe?", "What if I panic?", "Weight/age limits") above other questions; add search
+
+### Phase 2 — Trust & content (week 3–4)
+
+7. **Instructor profile section** — photos, jump counts, licences, languages, "meet your instructor"
+8. **Video testimonials** (3–5 short reels), Instagram embed, Google review badge
+9. **Location comparison page** `/compare` — Pattaya vs Chiang Mai vs Hainan vs Zhuhai (price, travel time from HK, best months, view, total trip cost)
+10. **Cost calculator** — pick location + add-ons + group size → total estimate
+11. **Blog content sprint** — 6 cornerstone articles targeting decision-stage keywords
+
+### Phase 3 — Friction & urgency (week 5–6)
+
+12. **Live availability** — show next 3 open jump dates per location on home page
+13. **Exit-intent modal** — "Not ready? Get our free skydive prep guide"
+14. **Abandoned-quiz email sequence** — already capture leads; add 3-email nurture
+15. **WhatsApp response promise** — "Ask anything, reply in 10 minutes (HK office hours)"
+16. **Group / corporate page** — bachelor parties, team-building, milestone birthdays
+
+### Phase 4 — Identity & retention (week 7+)
+
+17. **"After your tandem" pathway** — emotional bridge from tandem → A-Licence with alumni stories
+18. **Community wall** — recent jumpers, hashtag feed, "Join 1,200 HK skydivers"
+19. **Membership tier preview** on home page with clear progression
+20. **Annual "HK Skydive Day" event** — flagship community moment, builds signature brand status
+
+---
+
+## 4. Technical / structural notes
+
+- New sections proposed: `SafetySection`, `JumpDayTimeline`, `InstructorTeam`, `ValueStack` (extend ServicePricing), `LiveAvailability`, `LocationCompare` page, `CostCalculator` component, `ReferralBanner`
+- Hero refactor: split into `HeroHeadline` + `TrustBar` + `EligibilityChips` + `DualCTA` for testability
+- Reorder home page: Hero → SocialProof → **Safety** → **JumpDayTimeline** → Quiz → Locations → Services (with value stack) → **Instructors** → Testimonials (video) → **Referral** → Booking → FAQ → About → Contact
+- All copy goes through `LanguageContext` (zh-TW authoritative, plus en, zh-CN)
+- Track: hero CTA clicks, quiz completion, deposit start vs complete, WhatsApp opens — needed to measure each layer
+
+---
+
+## 5. What to decide next
+
+I can turn any subset of this into an implementation plan. Most leverage typically comes from **Phase 1 (hero + safety + jump-day timeline + value stack)** — that alone usually moves first-jump conversion meaningfully. Tell me which phase (or specific items) to scope into a build plan and I'll prepare it.
