@@ -6,8 +6,6 @@ import { AuthButton } from './AuthButton';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { VideoModal } from './VideoModal';
-import { TrustBar } from './TrustBar';
-import { EligibilityChips } from './EligibilityChips';
 
 export function Hero() {
   const { t, language } = useLanguage();
@@ -238,7 +236,7 @@ export function Hero() {
           delay: 0.5
         }} className="max-w-4xl">
           {/* Main Heading */}
-          <h1 className="text-4xl sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-6" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.6)' }}>
+          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-4 sm:mb-6" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.6)' }}>
             {language === 'zh-TW' ? (
               <span className="block">{t('hero.experienceThe')}<span className="text-accent-orange">{t('hero.ultimateThrill')}</span></span>
             ) : (
@@ -251,17 +249,11 @@ export function Hero() {
 
           {/* Subtitle */}
           <p
-            className="text-xl lg:text-2xl text-white/90 max-w-2xl mx-auto mb-6 leading-relaxed whitespace-pre-line"
+            className="text-base sm:text-xl lg:text-2xl text-white/90 max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed whitespace-pre-line"
             style={{ textShadow: '0 2px 12px rgba(0,0,0,0.7)' }}
           >
             {t('hero.subtitle')}
           </p>
-
-          {/* Trust signals */}
-          <TrustBar />
-
-          {/* Eligibility quick check */}
-          <EligibilityChips />
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">

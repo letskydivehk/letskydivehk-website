@@ -24,6 +24,8 @@ import { JumpDayTimeline } from "@/components/JumpDayTimeline";
 import { InstructorTeam } from "@/components/InstructorTeam";
 import { ReferralBanner } from "@/components/ReferralBanner";
 import { AlumniPathway } from "@/components/AlumniPathway";
+import { TrustBar } from "@/components/TrustBar";
+import { EligibilityChips } from "@/components/EligibilityChips";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -38,13 +40,13 @@ export default function Home() {
           <Hero />
         </section>
 
-        <SocialProofTicker />
-
-        {/* REASSURE: safety first */}
-        <SafetySection />
-
-        {/* REASSURE: what jump day looks like */}
-        <JumpDayTimeline />
+        {/* Trust strip moved out of hero so hero content fits on mobile */}
+        <section aria-label="Trust signals" className="bg-gradient-to-b from-sky-900/90 to-background py-6 px-4">
+          <div className="max-w-5xl mx-auto flex flex-col items-center gap-3">
+            <TrustBar />
+            <EligibilityChips />
+          </div>
+        </section>
 
         {/* Promotion Banner */}
         <Link
@@ -71,6 +73,14 @@ export default function Home() {
 
         {/* QUALIFY */}
         <QuizCTA />
+
+        <SocialProofTicker />
+
+        {/* REASSURE: safety first */}
+        <SafetySection />
+
+        {/* REASSURE: what jump day looks like */}
+        <JumpDayTimeline />
 
         <section id="locations" aria-label="Locations section">
           <Locations />
