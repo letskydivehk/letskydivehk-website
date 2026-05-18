@@ -23,7 +23,7 @@ function TandemPriceDisplay({ priceDisplay, offLabel }: { priceDisplay: string; 
     <span className="flex flex-col items-end leading-tight whitespace-nowrap">
       <span className="flex items-center gap-1.5">
         <span className="text-xs text-muted-foreground line-through">{prefix}{original.toLocaleString()}</span>
-        <span className="text-[10px] font-bold bg-accent-orange text-white px-1.5 py-0.5 rounded">-20% {offLabel}</span>
+        <span className="text-[10px] font-bold bg-accent-orange text-white px-1.5 py-0.5 rounded">{offLabel}</span>
       </span>
       <span className="text-lg font-bold text-accent-orange">{priceDisplay}</span>
     </span>

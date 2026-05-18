@@ -21,7 +21,7 @@ import { BackToTopButton } from "@/components/BackToTopButton";
 import { SectionNav } from "@/components/SectionNav";
 import { SafetySection } from "@/components/SafetySection";
 import { JumpDayTimeline } from "@/components/JumpDayTimeline";
-import { InstructorTeam } from "@/components/InstructorTeam";
+
 import { ReferralBanner } from "@/components/ReferralBanner";
 import { AlumniPathway } from "@/components/AlumniPathway";
 import { TrustBar } from "@/components/TrustBar";

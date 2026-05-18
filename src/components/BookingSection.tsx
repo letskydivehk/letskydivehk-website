@@ -867,7 +867,7 @@ export function BookingSection() {
                                       <div className="flex items-baseline gap-2 mb-2">
                                         <span className="text-sm text-muted-foreground line-through">{prefix}{original.toLocaleString()}</span>
                                         <span className="text-2xl font-black text-foreground">{service.price_display}</span>
-                                        <span className="text-[10px] font-bold bg-accent-orange text-white px-1.5 py-0.5 rounded">-20% {t('pricing.off')}</span>
+                                        <span className="text-[10px] font-bold bg-accent-orange text-white px-1.5 py-0.5 rounded">{t('pricing.off')}</span>
                                       </div>
                                     )
                                   }
