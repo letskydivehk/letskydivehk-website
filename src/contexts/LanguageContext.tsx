@@ -2305,11 +2305,13 @@ const dataTranslations: Record<Language, Record<string, string>> = {
       "Tandem Skydive with Ultimate Combo (Video + Photos)",
     "service.A-License Package": "A-License Package",
     "service.Group Events": "Group Events",
+    "service.Package Tour": "Package Tour",
 
     // Service types
     "serviceType.tandem": "Tandem Skydive",
     "serviceType.aff": "A-Licence",
     "serviceType.group": "Group Events",
+    "serviceType.package": "Package Tour",
 
     // Service includes
     "include.Handicam video recording": "Handicam video recording",
@@ -2332,9 +2334,18 @@ const dataTranslations: Record<Language, Record<string, string>> = {
       "Limited Gift 1: 20 minutes session of Shenzhen i-Fly experience",
     "include.Limited Gift 2: 10 extra Jump tickets valid for 1 year":
       "Limited Gift 2: 10 extra Jump tickets valid for 1 year",
+    "include.Transportation": "Round-trip transportation",
+    "include.Meal": "Meals",
+    "include.Accommodation": "Accommodation",
+    "include.Jump ticket": "Jump ticket",
+    "include.Jump videos": "Jump videos",
 
-    // Price display
+    // Pricing
     "price.Custom Quote": "Custom Quote",
+    "price.Contact for pricing": "Contact for pricing",
+    "pricing.off": "OFF",
+    "pricing.addons": "+ Add-ons available: Insurance, Flight ticket",
+    "common.enquireNow": "Enquire",
   },
   "zh-TW": {
     // Location names
