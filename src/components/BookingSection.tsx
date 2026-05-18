@@ -830,7 +830,7 @@ export function BookingSection() {
                       </div>
                     ) : (
                       <div className="space-y-4">
-                        {locationServices?.map((service) => {
+                        {locationServices?.filter((s) => s.service_type !== 'package').map((service) => {
                           const translatedService = translateService(service);
                           return (
                             <button
@@ -857,7 +857,22 @@ export function BookingSection() {
                                     </span>
                                   )}
                                 </div>
-                                <p className="text-2xl font-black text-foreground mb-2">{service.price_display}</p>
+                                {(() => {
+                                  const cleaned = service.price_display?.replace(/[^0-9.]/g, '') || ''
+                                  const current = parseFloat(cleaned)
+                                  if (service.service_type === 'tandem' && Number.isFinite(current) && current > 0) {
+                                    const original = Math.round(current * 1.25)
+                                    const prefix = service.price_display.match(/^[^\d]+/)?.[0] || '$'
+                                    return (
+                                      <div className="flex items-baseline gap-2 mb-2">
+                                        <span className="text-sm text-muted-foreground line-through">{prefix}{original.toLocaleString()}</span>
+                                        <span className="text-2xl font-black text-foreground">{service.price_display}</span>
+                                        <span className="text-[10px] font-bold bg-accent-orange text-white px-1.5 py-0.5 rounded">-20% {t('pricing.off')}</span>
+                                      </div>
+                                    )
+                                  }
+                                  return <p className="text-2xl font-black text-foreground mb-2">{service.price_display}</p>
+                                })()}
                                 {service.description && (
                                   <p className="text-muted-foreground text-sm">{service.description}</p>
                                 )}

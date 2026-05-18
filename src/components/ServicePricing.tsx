@@ -1,5 +1,34 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, MapPin, Loader2 } from 'lucide-react'
+import { ArrowRight, MapPin, Loader2, MessageCircle } from 'lucide-react'
+
+// Parse "$3399" / "HK$3,399" / "3399" → 3399; returns null when not parseable
+function parsePrice(display: string): number | null {
+  if (!display) return null
+  const cleaned = display.replace(/[^0-9.]/g, '')
+  if (!cleaned) return null
+  const n = parseFloat(cleaned)
+  return Number.isFinite(n) && n > 0 ? n : null
+}
+
+function TandemPriceDisplay({ priceDisplay, offLabel }: { priceDisplay: string; offLabel: string }) {
+  const current = parsePrice(priceDisplay)
+  if (current === null) {
+    return <span className="text-lg font-bold text-accent-orange whitespace-nowrap">{priceDisplay}</span>
+  }
+  const original = Math.round(current * 1.25)
+  // Preserve prefix (e.g. "$") from original display
+  const prefixMatch = priceDisplay.match(/^[^\d]+/)
+  const prefix = prefixMatch ? prefixMatch[0] : '$'
+  return (
+    <span className="flex flex-col items-end leading-tight whitespace-nowrap">
+      <span className="flex items-center gap-1.5">
+        <span className="text-xs text-muted-foreground line-through">{prefix}{original.toLocaleString()}</span>
+        <span className="text-[10px] font-bold bg-accent-orange text-white px-1.5 py-0.5 rounded">-20% {offLabel}</span>
+      </span>
+      <span className="text-lg font-bold text-accent-orange">{priceDisplay}</span>
+    </span>
+  )
+}
 import { useAllLocationServices } from '@/hooks/useLocationServices'
 import { useLocations } from '@/hooks/useLocations'
 import { useBooking } from '@/contexts/BookingContext'
@@ -104,14 +133,31 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
                       <span className="text-sm text-foreground font-medium flex-1">
                         {translateData(`service.${service.service_name}`, service.service_name)}
                       </span>
-                      <span className="text-lg font-bold text-accent-orange whitespace-nowrap">{service.price_display}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleBookAtLocation(locationId, service.id)}
-                        className="ml-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-accent-orange text-white hover:bg-accent-orange/90 transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap"
-                      >
-                        {t('common.bookNow')} <ArrowRight className="w-3 h-3" />
-                      </button>
+                      {service.service_type === 'tandem' ? (
+                        <TandemPriceDisplay priceDisplay={service.price_display} offLabel={t('pricing.off')} />
+                      ) : (
+                        <span className="text-lg font-bold text-accent-orange whitespace-nowrap">{translateData(`price.${service.price_display}`, service.price_display)}</span>
+                      )}
+                      {service.service_type === 'package' ? (
+                        <a
+                          href="#contact"
+                          onClick={(e) => {
+                            e.preventDefault()
+                            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+                          }}
+                          className="ml-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-accent-blue text-white hover:bg-accent-blue/90 transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                        >
+                          {t('common.enquireNow')} <MessageCircle className="w-3 h-3" />
+                        </a>
+                      ) : (
+                        <button
+                          type="button"
+                          onClick={() => handleBookAtLocation(locationId, service.id)}
+                          className="ml-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-accent-orange text-white hover:bg-accent-orange/90 transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                        >
+                          {t('common.bookNow')} <ArrowRight className="w-3 h-3" />
+                        </button>
+                      )}
                     </div>
                     {service.includes && service.includes.length > 0 && (
                       <ul className="mt-2 space-y-1 pl-1">
@@ -121,6 +167,11 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
                           </li>
                         ))}
                       </ul>
+                    )}
+                    {service.service_type === 'package' && (
+                      <p className="mt-2 text-xs text-muted-foreground italic pl-1">
+                        {t('pricing.addons')}
+                      </p>
                     )}
                   </div>
                 ))}

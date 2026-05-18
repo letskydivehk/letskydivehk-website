@@ -2305,11 +2305,13 @@ const dataTranslations: Record<Language, Record<string, string>> = {
       "Tandem Skydive with Ultimate Combo (Video + Photos)",
     "service.A-License Package": "A-License Package",
     "service.Group Events": "Group Events",
+    "service.Package Tour": "Package Tour",
 
     // Service types
     "serviceType.tandem": "Tandem Skydive",
     "serviceType.aff": "A-Licence",
     "serviceType.group": "Group Events",
+    "serviceType.package": "Package Tour",
 
     // Service includes
     "include.Handicam video recording": "Handicam video recording",
@@ -2332,9 +2334,18 @@ const dataTranslations: Record<Language, Record<string, string>> = {
       "Limited Gift 1: 20 minutes session of Shenzhen i-Fly experience",
     "include.Limited Gift 2: 10 extra Jump tickets valid for 1 year":
       "Limited Gift 2: 10 extra Jump tickets valid for 1 year",
+    "include.Transportation": "Round-trip transportation",
+    "include.Meal": "Meals",
+    "include.Accommodation": "Accommodation",
+    "include.Jump ticket": "Jump ticket",
+    "include.Jump videos": "Jump videos",
 
-    // Price display
+    // Pricing
     "price.Custom Quote": "Custom Quote",
+    "price.Contact for pricing": "Contact for pricing",
+    "pricing.off": "OFF",
+    "pricing.addons": "+ Add-ons available: Insurance, Flight ticket",
+    "common.enquireNow": "Enquire",
   },
   "zh-TW": {
     // Location names
@@ -2373,11 +2384,13 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "service.Tandem Skydive with Ultimate Combo (Video + Photos)": "雙人傘終極組合（包含影片 + 照片）",
     "service.A-License Package": "A級執照套餐",
     "service.Group Events": "團體活動",
+    "service.Package Tour": "套票行程",
 
     // Service types
     "serviceType.tandem": "雙人跳傘",
     "serviceType.aff": "A級執照",
     "serviceType.group": "團體活動",
+    "serviceType.package": "套票行程",
 
     // Service includes
     "include.Handicam video recording": "手持攝影錄影",
@@ -2402,9 +2415,18 @@ const dataTranslations: Record<Language, Record<string, string>> = {
       "限定禮遇：免費30分鐘深圳i-Fly體驗（不包教練費¥498）",
     "include.Limited Gift 1: 20 minutes session of Shenzhen i-Fly experience": "限定禮遇1：20分鐘深圳i-Fly體驗",
     "include.Limited Gift 2: 10 extra Jump tickets valid for 1 year": "限定禮遇2：額外10次跳傘票（一年有效）",
+    "include.Transportation": "來回交通",
+    "include.Meal": "膳食",
+    "include.Accommodation": "住宿",
+    "include.Jump ticket": "跳傘門票",
+    "include.Jump videos": "跳傘影片",
 
-    // Price display
+    // Pricing
     "price.Custom Quote": "專屬報價",
+    "price.Contact for pricing": "請聯絡查詢價錢",
+    "pricing.off": "折扣",
+    "pricing.addons": "+ 可加購：保險、機票",
+    "common.enquireNow": "查詢",
   },
   "zh-CN": {
     // Location names
@@ -2443,11 +2465,13 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "service.Tandem Skydive with Ultimate Combo (Video + Photos)": "双人伞终极组合（包含视频 + 照片）",
     "service.A-License Package": "A级执照套餐",
     "service.Group Events": "团体活动",
+    "service.Package Tour": "套票行程",
 
     // Service types
     "serviceType.tandem": "双人跳伞",
     "serviceType.aff": "A级执照",
     "serviceType.group": "团体活动",
+    "serviceType.package": "套票行程",
 
     // Service includes
     "include.Handicam video recording": "手持摄影录影",
@@ -2472,9 +2496,18 @@ const dataTranslations: Record<Language, Record<string, string>> = {
       "限定礼遇：免费30分钟深圳i-Fly体验（不包教练费¥498）",
     "include.Limited Gift 1: 20 minutes session of Shenzhen i-Fly experience": "限定礼遇1：20分钟深圳i-Fly体验",
     "include.Limited Gift 2: 10 extra Jump tickets valid for 1 year": "限定礼遇2：额外10次跳伞票（一年有效）",
+    "include.Transportation": "来回交通",
+    "include.Meal": "膳食",
+    "include.Accommodation": "住宿",
+    "include.Jump ticket": "跳伞门票",
+    "include.Jump videos": "跳伞影片",
 
-    // Price display
+    // Pricing
     "price.Custom Quote": "专属报价",
+    "price.Contact for pricing": "请联络查询价钱",
+    "pricing.off": "折扣",
+    "pricing.addons": "+ 可加购：保险、机票",
+    "common.enquireNow": "查询",
   },
 };
 
