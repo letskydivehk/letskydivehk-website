@@ -6,6 +6,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { useState, useEffect, useRef, useCallback } from "react";
 import { SEO } from "@/components/SEO";
+import { Helmet } from "react-helmet-async";
 import { PageNavbar } from "@/components/PageNavbar";
 import { Footer } from "@/components/Footer";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
@@ -203,6 +204,29 @@ export default function BlogPost() {
         image={post.cover_image || undefined}
         type="article"
       />
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Article",
+          headline: title,
+          description: excerpt,
+          image: post.cover_image || undefined,
+          datePublished: post.published_at || undefined,
+          dateModified: post.updated_at || post.published_at || undefined,
+          author: {
+            "@type": "Person",
+            name: post.author_name || "Let's Skydive HK",
+          },
+          publisher: {
+            "@type": "Organization",
+            name: "Let's Skydive HK",
+          },
+          mainEntityOfPage: {
+            "@type": "WebPage",
+            "@id": `https://letskydivehk.com/blog/${slug}`,
+          },
+        })}</script>
+      </Helmet>
       <PageNavbar />
       <BackgroundDecorations />
 
