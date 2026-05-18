@@ -2343,7 +2343,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Pricing
     "price.Custom Quote": "Custom Quote",
     "price.Contact for pricing": "Contact for pricing",
-    "pricing.off": "OFF",
+    "pricing.off": "Member -20%",
     "pricing.addons": "+ Add-ons available: Insurance, Flight ticket",
     "common.enquireNow": "Enquire",
   },
@@ -2424,7 +2424,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Pricing
     "price.Custom Quote": "專屬報價",
     "price.Contact for pricing": "請聯絡查詢價錢",
-    "pricing.off": "折扣",
+    "pricing.off": "會員 -20%",
     "pricing.addons": "+ 可加購：保險、機票",
     "common.enquireNow": "查詢",
   },
@@ -2505,7 +2505,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Pricing
     "price.Custom Quote": "专属报价",
     "price.Contact for pricing": "请联络查询价钱",
-    "pricing.off": "折扣",
+    "pricing.off": "会员 -20%",
     "pricing.addons": "+ 可加购：保险、机票",
     "common.enquireNow": "查询",
   },
@@ -3269,32 +3269,6 @@ translations["zh-CN"]["timeline.step6.title"] = "开伞 & 着陆";
 translations["zh-CN"]["timeline.step6.body"] = "降落伞打开，天空瞬间宁静。5–7 分钟滑翔，然后轻轻坐下着陆。";
 
 // Instructor team
-translations.en["instructors.badge"] = "Meet your instructors";
-translations.en["instructors.title"] = "The people you'll trust at 13,000 feet";
-translations.en["instructors.subtitle"] = "Every tandem master is internationally certified. Every fun jumper on our team is also a passionate teacher.";
-translations.en["instructors.role.tandem"] = "Tandem Master";
-translations.en["instructors.role.alicence"] = "A-Licence Coach";
-translations.en["instructors.role.videographer"] = "Videographer";
-translations.en["instructors.cert"] = "Internationally certified";
-translations.en["instructors.langs"] = "English · Cantonese · Mandarin";
-
-translations["zh-TW"]["instructors.badge"] = "認識你的教練";
-translations["zh-TW"]["instructors.title"] = "13,000 英尺上你會信任的人";
-translations["zh-TW"]["instructors.subtitle"] = "每位雙人跳教練都持有國際認證。團隊裡每位 fun jumper 同時也是熱誠的導師。";
-translations["zh-TW"]["instructors.role.tandem"] = "雙人跳教練";
-translations["zh-TW"]["instructors.role.alicence"] = "A 級執照導師";
-translations["zh-TW"]["instructors.role.videographer"] = "空中攝影師";
-translations["zh-TW"]["instructors.cert"] = "國際認證";
-translations["zh-TW"]["instructors.langs"] = "英語 · 廣東話 · 普通話";
-
-translations["zh-CN"]["instructors.badge"] = "认识你的教练";
-translations["zh-CN"]["instructors.title"] = "13,000 英尺上你会信任的人";
-translations["zh-CN"]["instructors.subtitle"] = "每位双人跳教练都持有国际认证。团队里每位 fun jumper 同时也是热诚的导师。";
-translations["zh-CN"]["instructors.role.tandem"] = "双人跳教练";
-translations["zh-CN"]["instructors.role.alicence"] = "A 级执照导师";
-translations["zh-CN"]["instructors.role.videographer"] = "空中摄影师";
-translations["zh-CN"]["instructors.cert"] = "国际认证";
-translations["zh-CN"]["instructors.langs"] = "英语 · 广东话 · 普通话";
 
 // Referral banner
 translations.en["referral.banner.title"] = "Bring a friend, both get $100 HKD credit";
