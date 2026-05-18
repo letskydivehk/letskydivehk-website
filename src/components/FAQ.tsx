@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { HelpCircle } from "lucide-react";
+import { Helmet } from "react-helmet-async";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
   Accordion,
@@ -27,8 +28,24 @@ const faqItems = [
 export function FAQ() {
   const { t } = useLanguage();
 
+  const faqJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faqItems.map((item) => ({
+      "@type": "Question",
+      name: t(item.questionKey),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t(item.answerKey),
+      },
+    })),
+  };
+
   return (
     <section id="faq" className="relative py-24 bg-background overflow-hidden">
+      <Helmet>
+        <script type="application/ld+json">{JSON.stringify(faqJsonLd)}</script>
+      </Helmet>
       <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         {/* Header */}
         <div className="text-center mb-16">
