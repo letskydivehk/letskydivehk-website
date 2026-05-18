@@ -1,5 +1,34 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, MapPin, Loader2 } from 'lucide-react'
+import { ArrowRight, MapPin, Loader2, MessageCircle } from 'lucide-react'
+
+// Parse "$3399" / "HK$3,399" / "3399" → 3399; returns null when not parseable
+function parsePrice(display: string): number | null {
+  if (!display) return null
+  const cleaned = display.replace(/[^0-9.]/g, '')
+  if (!cleaned) return null
+  const n = parseFloat(cleaned)
+  return Number.isFinite(n) && n > 0 ? n : null
+}
+
+function TandemPriceDisplay({ priceDisplay, offLabel }: { priceDisplay: string; offLabel: string }) {
+  const current = parsePrice(priceDisplay)
+  if (current === null) {
+    return <span className="text-lg font-bold text-accent-orange whitespace-nowrap">{priceDisplay}</span>
+  }
+  const original = Math.round(current * 1.25)
+  // Preserve prefix (e.g. "$") from original display
+  const prefixMatch = priceDisplay.match(/^[^\d]+/)
+  const prefix = prefixMatch ? prefixMatch[0] : '$'
+  return (
+    <span className="flex flex-col items-end leading-tight whitespace-nowrap">
+      <span className="flex items-center gap-1.5">
+        <span className="text-xs text-muted-foreground line-through">{prefix}{original.toLocaleString()}</span>
+        <span className="text-[10px] font-bold bg-accent-orange text-white px-1.5 py-0.5 rounded">-20% {offLabel}</span>
+      </span>
+      <span className="text-lg font-bold text-accent-orange">{priceDisplay}</span>
+    </span>
+  )
+}
 import { useAllLocationServices } from '@/hooks/useLocationServices'
 import { useLocations } from '@/hooks/useLocations'
 import { useBooking } from '@/contexts/BookingContext'

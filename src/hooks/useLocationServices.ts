@@ -5,7 +5,7 @@ export interface LocationService {
   id: string
   location_id: string
   service_name: string
-  service_type: 'tandem' | 'aff' | 'group'
+  service_type: 'tandem' | 'aff' | 'group' | 'package'
   price_display: string
   description: string | null
   includes: string[]
