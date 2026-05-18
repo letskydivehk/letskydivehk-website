@@ -88,10 +88,6 @@ export default function Home() {
         <section id="services" aria-label="Services section">
           <Services />
         </section>
-
-        {/* TRUST: instructors */}
-        <InstructorTeam />
-
         <section id="booking" aria-label="Booking section">
           <BookingSection />
         </section>
