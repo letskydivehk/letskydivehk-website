@@ -1,0 +1,35 @@
+# Let's Skydive HK
+
+> Hong Kong-based skydiving booking platform offering tandem skydives and A-Licence training at dropzones across Thailand (Pattaya, Chiang Mai) and China (Huizhou, Hainan, Luoding, Zhuhai).
+
+Let's Skydive HK helps Hong Kong jumpers book tandem skydives and progress to a full A-Licence at partner dropzones in Asia. Pricing, schedules, and deposits are managed online with a $500 HKD Airwallex deposit. Participants must be 18+ and under 100kg.
+
+## Pages
+
+- [Home](/): Overview of services, locations, and promotions.
+- [Tandem Skydive](/services/tandem-skydive): First-jump tandem experience, pricing, and what's included.
+- [A-Licence Training](/services/a-licence): Full A-Licence solo skydiving certification course.
+- [Locations](/compare): Compare dropzones across Thailand and China.
+- [Pattaya Dropzone](/location/pattaya): Thailand Pattaya skydiving location details.
+- [Chiang Mai Dropzone](/location/chiang-mai): Thailand Chiang Mai skydiving location details.
+- [Huizhou Dropzone](/location/huizhou): China Huizhou skydiving location details.
+- [Hainan Dropzone](/location/hainan): China Hainan skydiving location details.
+- [Luoding Dropzone](/location/luoding): China Luoding skydiving location details.
+- [Zhuhai Dropzone](/location/zhuhai): China Zhuhai skydiving location details.
+- [Gallery](/gallery): Photos and videos from past jumps.
+- [Promotions](/promotions): Current discount codes and seasonal offers.
+- [Quiz](/quiz): Find the right skydiving experience for you.
+- [Membership Tiers](/membership/tiers): Loyalty program tiers and benefits.
+
+## Blog
+
+- [Tandem vs AFF](/blog/tandem-vs-aff): Comparing tandem skydiving and A-Licence (AFF) training.
+- [First Time Skydiving Guide](/blog/first-time-skydiving-guide): What to expect on your first jump.
+- [Skydiving Safety FAQ](/blog/skydiving-safety-faq): Common safety questions answered.
+- [What to Wear Skydiving](/blog/what-to-wear-skydiving): Clothing and gear recommendations.
+
+## Optional
+
+- [Privacy Policy](/privacy): Privacy practices.
+- [Terms of Service](/terms): Booking terms and conditions.
+- [Disclaimer](/disclaimer): Liability and risk disclosure.
