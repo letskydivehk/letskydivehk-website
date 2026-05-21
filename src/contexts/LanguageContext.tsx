@@ -872,7 +872,8 @@ const translations: Record<Language, Record<string, string>> = {
     "services.tandem.description": "與經驗豐富的教練一同體驗極限自由落體的刺激。無需任何經驗——只需帶上您的冒險精神！",
     "services.alicence.title": "A級執照",
     "services.alicence.subtitle": "學習獨立跳傘",
-    "services.alicence.description": "A 級執照課程是您成為持牌跳傘員的途徑。掌握獨立跳傘所需的技能，獲取國際認可的 A 級執照。",
+    "services.alicence.description":
+      "A 級執照課程是您成為持牌跳傘員的途徑。掌握獨立跳傘所需的技能，獲取國際認可的 A 級執照。",
     "services.group.title": "團體活動",
     "services.group.subtitle": "團隊建設與慶祝活動",
     "services.group.description": "非常適合企業團隊建設、單身派對、生日或任何特殊場合。一起創造難忘的回憶！",
@@ -1104,7 +1105,8 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.subject.general": "一般問題",
 
     // Footer
-    "footer.description": "與亞洲首屈一指的跳傘網絡一同體驗跳傘的刺激。專業雙人跳傘、A 級執照課程及團體活動遍布泰國和中國。",
+    "footer.description":
+      "與亞洲首屈一指的跳傘網絡一同體驗跳傘的刺激。專業雙人跳傘、A 級執照課程及團體活動遍布泰國和中國。",
     "footer.quickLinks": "快速連結",
     "footer.services": "服務項目",
     "footer.locations": "我們的地點",
@@ -1516,7 +1518,8 @@ const translations: Record<Language, Record<string, string>> = {
     "servicePage.aff.include3": "提供全部裝備",
     "servicePage.aff.include4": "個人教練指導",
     "servicePage.aff.include5": "免費iFly室內跳傘體驗",
-    "servicePage.aff.testimonial": "A 級執照課程改變了我的人生。教練非常耐心且專業。現在我是持照跳傘員，每個週末都在跳傘！",
+    "servicePage.aff.testimonial":
+      "A 級執照課程改變了我的人生。教練非常耐心且專業。現在我是持照跳傘員，每個週末都在跳傘！",
     "servicePage.aff.testimonialAuthor": "Mark R.，澳洲",
     "servicePage.aff.faq.q1": "A級執照課程需要多長時間？",
     "servicePage.aff.faq.a1": "通常需要7-14天，取決於天氣和您的進度。在理想條件下，有些學員只需一周即可完成。",
@@ -1606,7 +1609,8 @@ const translations: Record<Language, Record<string, string>> = {
     "services.tandem.description": "与经验丰富的教练一同体验极限自由落体的刺激。无需任何经验——只需带上您的冒险精神！",
     "services.alicence.title": "A级执照",
     "services.alicence.subtitle": "学习独立跳伞",
-    "services.alicence.description": "A 级执照课程是您成为持照跳伞员的途径。掌握独立跳伞所需的技能，获取国际认可的 A 级执照。",
+    "services.alicence.description":
+      "A 级执照课程是您成为持照跳伞员的途径。掌握独立跳伞所需的技能，获取国际认可的 A 级执照。",
     "services.group.title": "团体活动",
     "services.group.subtitle": "团队建设与庆祝活动",
     "services.group.description": "非常适合企业团队建设、单身派对、生日或任何特殊场合。一起创造难忘的回忆！",
@@ -1838,7 +1842,8 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.subject.general": "一般问题",
 
     // Footer
-    "footer.description": "与亚洲首屈一指的跳伞网络一同体验跳伞的刺激。专业双人跳伞、A 级执照课程及团体活动遍布泰国和中国。",
+    "footer.description":
+      "与亚洲首屈一指的跳伞网络一同体验跳伞的刺激。专业双人跳伞、A 级执照课程及团体活动遍布泰国和中国。",
     "footer.quickLinks": "快速链接",
     "footer.services": "服务项目",
     "footer.locations": "我们的地点",
@@ -2250,7 +2255,8 @@ const translations: Record<Language, Record<string, string>> = {
     "servicePage.aff.include3": "提供全部装备",
     "servicePage.aff.include4": "个人教练指导",
     "servicePage.aff.include5": "免费iFly室内跳伞体验",
-    "servicePage.aff.testimonial": "A 级执照课程改变了我的人生。教练非常耐心且专业。现在我是持照跳伞员，每个周末都在跳伞！",
+    "servicePage.aff.testimonial":
+      "A 级执照课程改变了我的人生。教练非常耐心且专业。现在我是持照跳伞员，每个周末都在跳伞！",
     "servicePage.aff.testimonialAuthor": "Mark R.，澳洲",
     "servicePage.aff.faq.q1": "A级执照课程需要多长时间？",
     "servicePage.aff.faq.a1": "通常需要7-14天，取决于天气和您的进度。在理想条件下，有些学员只需一周即可完成。",
@@ -2344,7 +2350,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Pricing
     "price.Custom Quote": "Custom Quote",
     "price.Contact for pricing": "Contact for pricing",
-    "price.From $5700": "From $5,700",
+    "price.From $5699": "From $5,699",
     "pricing.off": "Member -20%",
     "pricing.addons": "+ Add-ons available: Insurance, Flight ticket",
     "common.enquireNow": "Enquire",
@@ -2438,7 +2444,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Pricing
     "price.Custom Quote": "專屬報價",
     "price.Contact for pricing": "請聯絡查詢價錢",
-    "price.From $5700": "$5,700起",
+    "price.From $5699": "$5,699起",
     "pricing.off": "會員 -20%",
     "pricing.addons": "+ 可加購：保險、機票",
     "common.enquireNow": "查詢",
@@ -2532,7 +2538,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Pricing
     "price.Custom Quote": "专属报价",
     "price.Contact for pricing": "请联络查询价钱",
-    "price.From $5700": "$5,700起",
+    "price.From $5699": "$5,699起",
     "pricing.off": "会员 -20%",
     "pricing.addons": "+ 可加购：保险、机票",
     "common.enquireNow": "查询",
@@ -3221,41 +3227,54 @@ translations["zh-CN"]["hero.cta.quiz"] = "30秒测你适合哪种跳伞";
 // Safety section
 translations.en["safety.badge"] = "Is it safe?";
 translations.en["safety.title"] = "Your safety is engineered into every jump";
-translations.en["safety.subtitle"] = "Skydiving feels extreme. The way we run it is anything but. Here's what stands between you and a perfect landing.";
+translations.en["safety.subtitle"] =
+  "Skydiving feels extreme. The way we run it is anything but. Here's what stands between you and a perfect landing.";
 translations.en["safety.pillar1.title"] = "Certified instructors";
-translations.en["safety.pillar1.body"] = "Every tandem master holds international certifications and has logged thousands of jumps. You're literally strapped to a professional.";
+translations.en["safety.pillar1.body"] =
+  "Every tandem master holds international certifications and has logged thousands of jumps. You're literally strapped to a professional.";
 translations.en["safety.pillar2.title"] = "Multi-redundant equipment";
-translations.en["safety.pillar2.body"] = "Main canopy, reserve canopy, and an automatic activation device that deploys the reserve for you if needed. Three layers of safety on every rig.";
+translations.en["safety.pillar2.body"] =
+  "Main canopy, reserve canopy, and an automatic activation device that deploys the reserve for you if needed. Three layers of safety on every rig.";
 translations.en["safety.pillar3.title"] = "Weather-first culture";
-translations.en["safety.pillar3.body"] = "If wind, visibility or cloud cover isn't right, we don't fly. We reschedule at no cost — your jump only happens in green-light conditions.";
+translations.en["safety.pillar3.body"] =
+  "If wind, visibility or cloud cover isn't right, we don't fly. We reschedule at no cost — your jump only happens in green-light conditions.";
 translations.en["safety.pillar4.title"] = "Step-by-step training";
-translations.en["safety.pillar4.body"] = "Before you board, you'll complete a guided briefing covering body position, exit, freefall and landing. Nothing on jump day will surprise you.";
+translations.en["safety.pillar4.body"] =
+  "Before you board, you'll complete a guided briefing covering body position, exit, freefall and landing. Nothing on jump day will surprise you.";
 translations.en["safety.cta"] = "See what jump day actually looks like";
 
 translations["zh-TW"]["safety.badge"] = "安全嗎？";
 translations["zh-TW"]["safety.title"] = "每一跳的安全，都經過嚴格設計";
 translations["zh-TW"]["safety.subtitle"] = "跳傘聽起來極限，但運作方式卻一點都不極限。以下是你與完美著陸之間的保障。";
 translations["zh-TW"]["safety.pillar1.title"] = "認證教練";
-translations["zh-TW"]["safety.pillar1.body"] = "每位雙人跳教練均持有國際認證，並擁有數千次跳傘經驗。你是真真正正綁在一位專業人士身上。";
+translations["zh-TW"]["safety.pillar1.body"] =
+  "每位雙人跳教練均持有國際認證，並擁有數千次跳傘經驗。你是真真正正綁在一位專業人士身上。";
 translations["zh-TW"]["safety.pillar2.title"] = "多重備援裝備";
-translations["zh-TW"]["safety.pillar2.body"] = "主傘、備傘，以及在需要時會自動為你開啟備傘的自動啟動裝置。每套裝備都有三重保障。";
+translations["zh-TW"]["safety.pillar2.body"] =
+  "主傘、備傘，以及在需要時會自動為你開啟備傘的自動啟動裝置。每套裝備都有三重保障。";
 translations["zh-TW"]["safety.pillar3.title"] = "天氣優先文化";
-translations["zh-TW"]["safety.pillar3.body"] = "如果風速、能見度或雲層不適合，我們不會起飛。改期免收費 — 你的跳傘只會在綠燈條件下進行。";
+translations["zh-TW"]["safety.pillar3.body"] =
+  "如果風速、能見度或雲層不適合，我們不會起飛。改期免收費 — 你的跳傘只會在綠燈條件下進行。";
 translations["zh-TW"]["safety.pillar4.title"] = "逐步訓練";
-translations["zh-TW"]["safety.pillar4.body"] = "登機前，你會完成一個引導式簡報，涵蓋身體姿勢、出艙、自由落體與著陸。跳傘當日不會有任何意外。";
+translations["zh-TW"]["safety.pillar4.body"] =
+  "登機前，你會完成一個引導式簡報，涵蓋身體姿勢、出艙、自由落體與著陸。跳傘當日不會有任何意外。";
 translations["zh-TW"]["safety.cta"] = "看看跳傘當日實際情況";
 
 translations["zh-CN"]["safety.badge"] = "安全吗？";
 translations["zh-CN"]["safety.title"] = "每一跳的安全，都经过严格设计";
 translations["zh-CN"]["safety.subtitle"] = "跳伞听起来极限，但运作方式却一点都不极限。以下是你与完美着陆之间的保障。";
 translations["zh-CN"]["safety.pillar1.title"] = "认证教练";
-translations["zh-CN"]["safety.pillar1.body"] = "每位双人跳教练均持有国际认证，并拥有数千次跳伞经验。你是真真正正绑在一位专业人士身上。";
+translations["zh-CN"]["safety.pillar1.body"] =
+  "每位双人跳教练均持有国际认证，并拥有数千次跳伞经验。你是真真正正绑在一位专业人士身上。";
 translations["zh-CN"]["safety.pillar2.title"] = "多重备援装备";
-translations["zh-CN"]["safety.pillar2.body"] = "主伞、备伞，以及在需要时会自动为你开启备伞的自动启动装置。每套装备都有三重保障。";
+translations["zh-CN"]["safety.pillar2.body"] =
+  "主伞、备伞，以及在需要时会自动为你开启备伞的自动启动装置。每套装备都有三重保障。";
 translations["zh-CN"]["safety.pillar3.title"] = "天气优先文化";
-translations["zh-CN"]["safety.pillar3.body"] = "如果风速、能见度或云层不适合，我们不会起飞。改期免收费 — 你的跳伞只会在绿灯条件下进行。";
+translations["zh-CN"]["safety.pillar3.body"] =
+  "如果风速、能见度或云层不适合，我们不会起飞。改期免收费 — 你的跳伞只会在绿灯条件下进行。";
 translations["zh-CN"]["safety.pillar4.title"] = "逐步训练";
-translations["zh-CN"]["safety.pillar4.body"] = "登机前，你会完成一个引导式简报，涵盖身体姿势、出舱、自由落体与着陆。跳伞当日不会有任何意外。";
+translations["zh-CN"]["safety.pillar4.body"] =
+  "登机前，你会完成一个引导式简报，涵盖身体姿势、出舱、自由落体与着陆。跳伞当日不会有任何意外。";
 translations["zh-CN"]["safety.cta"] = "看看跳伞当日实际情况";
 
 // Jump-day timeline
@@ -3265,15 +3284,19 @@ translations.en["timeline.subtitle"] = "No surprises. Here's exactly what your d
 translations.en["timeline.step1.title"] = "Arrive & check in";
 translations.en["timeline.step1.body"] = "Reach the dropzone, sign your waiver, meet the team. We'll get you a coffee.";
 translations.en["timeline.step2.title"] = "Safety briefing";
-translations.en["timeline.step2.body"] = "A guided session on body position, exit, freefall and landing — about 20–30 minutes.";
+translations.en["timeline.step2.body"] =
+  "A guided session on body position, exit, freefall and landing — about 20–30 minutes.";
 translations.en["timeline.step3.title"] = "Gear up";
-translations.en["timeline.step3.body"] = "Jumpsuit, harness, goggles. Your tandem instructor checks every buckle, twice.";
+translations.en["timeline.step3.body"] =
+  "Jumpsuit, harness, goggles. Your tandem instructor checks every buckle, twice.";
 translations.en["timeline.step4.title"] = "Board the aircraft";
 translations.en["timeline.step4.body"] = "A 15–20 minute climb to ~13,000 ft. Window views you'll never forget.";
 translations.en["timeline.step5.title"] = "Freefall";
-translations.en["timeline.step5.body"] = "Door opens. You exit. ~60 seconds of pure freefall at 200 km/h. Yes, you can breathe.";
+translations.en["timeline.step5.body"] =
+  "Door opens. You exit. ~60 seconds of pure freefall at 200 km/h. Yes, you can breathe.";
 translations.en["timeline.step6.title"] = "Canopy & landing";
-translations.en["timeline.step6.body"] = "Parachute opens, the sky goes quiet. 5–7 minutes gliding, then a soft sit-down landing.";
+translations.en["timeline.step6.body"] =
+  "Parachute opens, the sky goes quiet. 5–7 minutes gliding, then a soft sit-down landing.";
 
 translations["zh-TW"]["timeline.badge"] = "跳傘當日流程";
 translations["zh-TW"]["timeline.title"] = "從抵達到著陸，6 步完成";
@@ -3287,7 +3310,8 @@ translations["zh-TW"]["timeline.step3.body"] = "跳傘服、安全帶、護目�
 translations["zh-TW"]["timeline.step4.title"] = "登機";
 translations["zh-TW"]["timeline.step4.body"] = "15–20 分鐘爬升至約 13,000 英尺。窗外風景畢生難忘。";
 translations["zh-TW"]["timeline.step5.title"] = "自由落體";
-translations["zh-TW"]["timeline.step5.body"] = "艙門打開，你跳出去。約 60 秒、時速 200 公里的純粹自由落體。是的，你可以呼吸。";
+translations["zh-TW"]["timeline.step5.body"] =
+  "艙門打開，你跳出去。約 60 秒、時速 200 公里的純粹自由落體。是的，你可以呼吸。";
 translations["zh-TW"]["timeline.step6.title"] = "開傘 & 著陸";
 translations["zh-TW"]["timeline.step6.body"] = "降落傘打開，天空瞬間寧靜。5–7 分鐘滑翔，然後輕輕坐下著陸。";
 
@@ -3303,7 +3327,8 @@ translations["zh-CN"]["timeline.step3.body"] = "跳伞服、安全带、护目�
 translations["zh-CN"]["timeline.step4.title"] = "登机";
 translations["zh-CN"]["timeline.step4.body"] = "15–20 分钟爬升至约 13,000 英尺。窗外风景毕生难忘。";
 translations["zh-CN"]["timeline.step5.title"] = "自由落体";
-translations["zh-CN"]["timeline.step5.body"] = "舱门打开，你跳出去。约 60 秒、时速 200 公里的纯粹自由落体。是的，你可以呼吸。";
+translations["zh-CN"]["timeline.step5.body"] =
+  "舱门打开，你跳出去。约 60 秒、时速 200 公里的纯粹自由落体。是的，你可以呼吸。";
 translations["zh-CN"]["timeline.step6.title"] = "开伞 & 着陆";
 translations["zh-CN"]["timeline.step6.body"] = "降落伞打开，天空瞬间宁静。5–7 分钟滑翔，然后轻轻坐下着陆。";
 
@@ -3311,21 +3336,25 @@ translations["zh-CN"]["timeline.step6.body"] = "降落伞打开，天空瞬间�
 
 // Referral banner
 translations.en["referral.banner.title"] = "Bring a friend, both get $100 HKD credit";
-translations.en["referral.banner.body"] = "Share your unique referral code at checkout. Credits stack with promotions and roll over to future jumps.";
+translations.en["referral.banner.body"] =
+  "Share your unique referral code at checkout. Credits stack with promotions and roll over to future jumps.";
 translations.en["referral.banner.cta"] = "How it works";
 
 translations["zh-TW"]["referral.banner.title"] = "邀請朋友一起跳，雙方各獲 $100 HKD 信用額";
-translations["zh-TW"]["referral.banner.body"] = "結帳時分享你的專屬推薦碼。信用額可與優惠疊加，並可保留至下次跳傘使用。";
+translations["zh-TW"]["referral.banner.body"] =
+  "結帳時分享你的專屬推薦碼。信用額可與優惠疊加，並可保留至下次跳傘使用。";
 translations["zh-TW"]["referral.banner.cta"] = "了解運作方式";
 
 translations["zh-CN"]["referral.banner.title"] = "邀请朋友一起跳，双方各获 $100 HKD 信用额";
-translations["zh-CN"]["referral.banner.body"] = "结帐时分享你的专属推荐码。信用额可与优惠叠加，并可保留至下次跳伞使用。";
+translations["zh-CN"]["referral.banner.body"] =
+  "结帐时分享你的专属推荐码。信用额可与优惠叠加，并可保留至下次跳伞使用。";
 translations["zh-CN"]["referral.banner.cta"] = "了解运作方式";
 
 // Alumni pathway (After your tandem → A-Licence)
 translations.en["pathway.badge"] = "After your first jump";
 translations.en["pathway.title"] = "From thrilled beginner to licensed skydiver";
-translations.en["pathway.subtitle"] = "Many of our tandem guests come back for the A-Licence. It's how a one-time bucket-list moment turns into a lifetime sport.";
+translations.en["pathway.subtitle"] =
+  "Many of our tandem guests come back for the A-Licence. It's how a one-time bucket-list moment turns into a lifetime sport.";
 translations.en["pathway.step1"] = "Tandem skydive";
 translations.en["pathway.step2"] = "A-Licence training";
 translations.en["pathway.step3"] = "Solo jumper";
@@ -3334,7 +3363,8 @@ translations.en["pathway.cta"] = "Explore the A-Licence pathway";
 
 translations["zh-TW"]["pathway.badge"] = "首跳之後";
 translations["zh-TW"]["pathway.title"] = "從興奮的新手，到持證跳傘員";
-translations["zh-TW"]["pathway.subtitle"] = "許多雙人跳客人都會回來修讀 A 級執照。這是把「人生清單一次」變成「終身運動」的方式。";
+translations["zh-TW"]["pathway.subtitle"] =
+  "許多雙人跳客人都會回來修讀 A 級執照。這是把「人生清單一次」變成「終身運動」的方式。";
 translations["zh-TW"]["pathway.step1"] = "雙人跳傘";
 translations["zh-TW"]["pathway.step2"] = "A 級執照訓練";
 translations["zh-TW"]["pathway.step3"] = "獨立跳傘員";
@@ -3343,7 +3373,8 @@ translations["zh-TW"]["pathway.cta"] = "了解 A 級執照路徑";
 
 translations["zh-CN"]["pathway.badge"] = "首跳之后";
 translations["zh-CN"]["pathway.title"] = "从兴奋的新手，到持证跳伞员";
-translations["zh-CN"]["pathway.subtitle"] = "许多双人跳客人都会回来修读 A 级执照。这是把「人生清单一次」变成「终身运动」的方式。";
+translations["zh-CN"]["pathway.subtitle"] =
+  "许多双人跳客人都会回来修读 A 级执照。这是把「人生清单一次」变成「终身运动」的方式。";
 translations["zh-CN"]["pathway.step1"] = "双人跳伞";
 translations["zh-CN"]["pathway.step2"] = "A 级执照训练";
 translations["zh-CN"]["pathway.step3"] = "独立跳伞员";
@@ -3352,23 +3383,27 @@ translations["zh-CN"]["pathway.cta"] = "了解 A 级执照路径";
 
 // Exit-intent modal
 translations.en["exit.title"] = "Wait — not ready to book yet?";
-translations.en["exit.body"] = "Take our 30-second quiz and we'll match you with the right jump, the right location, and a $100 HKD credit toward your first booking.";
+translations.en["exit.body"] =
+  "Take our 30-second quiz and we'll match you with the right jump, the right location, and a $100 HKD credit toward your first booking.";
 translations.en["exit.primary"] = "Take the quiz";
 translations.en["exit.secondary"] = "Maybe later";
 
 translations["zh-TW"]["exit.title"] = "等等 — 還未準備好預訂？";
-translations["zh-TW"]["exit.body"] = "完成 30 秒測驗，我們會為你配對最適合的跳傘類型、地點，並送上 $100 HKD 首次預訂信用額。";
+translations["zh-TW"]["exit.body"] =
+  "完成 30 秒測驗，我們會為你配對最適合的跳傘類型、地點，並送上 $100 HKD 首次預訂信用額。";
 translations["zh-TW"]["exit.primary"] = "立即測驗";
 translations["zh-TW"]["exit.secondary"] = "下次再說";
 
 translations["zh-CN"]["exit.title"] = "等等 — 还未准备好预订？";
-translations["zh-CN"]["exit.body"] = "完成 30 秒测验，我们会为你配对最适合的跳伞类型、地点，并送上 $100 HKD 首次预订信用额。";
+translations["zh-CN"]["exit.body"] =
+  "完成 30 秒测验，我们会为你配对最适合的跳伞类型、地点，并送上 $100 HKD 首次预订信用额。";
 translations["zh-CN"]["exit.primary"] = "立即测验";
 translations["zh-CN"]["exit.secondary"] = "下次再说";
 
 // Location compare page
 translations.en["compare.title"] = "Compare skydive locations";
-translations.en["compare.subtitle"] = "Side by side: travel time from Hong Kong, best months, scenery, and what makes each dropzone special.";
+translations.en["compare.subtitle"] =
+  "Side by side: travel time from Hong Kong, best months, scenery, and what makes each dropzone special.";
 translations.en["compare.col.location"] = "Location";
 translations.en["compare.col.travel"] = "Travel from HK";
 translations.en["compare.col.best"] = "Best months";
