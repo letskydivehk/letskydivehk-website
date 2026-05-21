@@ -1,6 +1,17 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
 
+export interface ItineraryDay {
+  day: number
+  title?: string
+  location?: string
+  accommodation?: string
+  transportation?: string
+  meals?: string
+  activities?: string[]
+  notes?: string
+}
+
 export interface LocationService {
   id: string
   location_id: string
@@ -11,6 +22,8 @@ export interface LocationService {
   includes: string[]
   is_popular: boolean
   display_order: number
+  deposit_amount: number
+  itinerary: ItineraryDay[]
   created_at: string
   updated_at: string
 }
