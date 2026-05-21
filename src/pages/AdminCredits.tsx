@@ -79,6 +79,10 @@ export default function AdminCredits() {
                 <HelpCircle className="w-4 h-4" />
                 Quiz
               </TabsTrigger>
+              <TabsTrigger value="tours" className="gap-2">
+                <Plane className="w-4 h-4" />
+                Tours
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="credits">
@@ -91,6 +95,10 @@ export default function AdminCredits() {
 
             <TabsContent value="quiz">
               {isAdmin && <AdminQuizPanel />}
+            </TabsContent>
+
+            <TabsContent value="tours">
+              {isAdmin && <AdminToursPanel />}
             </TabsContent>
           </Tabs>
         </div>
