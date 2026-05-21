@@ -36,6 +36,7 @@ export function AdminToursPanel() {
       (data || []).map((d: any) => ({
         ...d,
         itinerary: Array.isArray(d.itinerary) ? d.itinerary : [],
+        photos: Array.isArray(d.photos) ? d.photos : [],
         locationName: d.locations?.Name,
       })) as TourRow[],
     );
@@ -95,6 +96,7 @@ export function AdminToursPanel() {
         price_display: row.price_display,
         deposit_amount: row.deposit_amount,
         includes: row.includes,
+        photos: row.photos,
         itinerary: row.itinerary as any,
       })
       .eq("id", row.id);
@@ -169,6 +171,25 @@ export function AdminToursPanel() {
                       updateRow(row.id, { includes: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean) })
                     }
                   />
+                </div>
+
+                <div>
+                  <Label>Photo URLs (one per line)</Label>
+                  <Textarea
+                    rows={4}
+                    placeholder="https://images.unsplash.com/photo-..."
+                    value={(row.photos || []).join("\n")}
+                    onChange={(e) =>
+                      updateRow(row.id, { photos: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean) })
+                    }
+                  />
+                  {row.photos?.length > 0 && (
+                    <div className="flex gap-2 mt-2 flex-wrap">
+                      {row.photos.map((url, i) => (
+                        <img key={i} src={url} alt="" className="w-20 h-16 object-cover rounded border" />
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div>
