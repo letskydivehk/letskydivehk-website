@@ -2491,13 +2491,14 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "service.Tandem Skydive with Ultimate Combo (Video + Photos)": "双人伞终极组合（包含视频 + 照片）",
     "service.A-License Package": "A级执照套餐",
     "service.Group Events": "团体活动",
-    "service.Package Tour": "套票行程",
+    "service.Package Tour": "跳伞团",
+    "service.Skydiving Tour": "跳伞团",
 
     // Service types
     "serviceType.tandem": "双人跳伞",
     "serviceType.aff": "A级执照",
     "serviceType.group": "团体活动",
-    "serviceType.package": "套票行程",
+    "serviceType.package": "跳伞团",
 
     // Service includes
     "include.Handicam video recording": "手持摄影录影",
@@ -2531,9 +2532,21 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Pricing
     "price.Custom Quote": "专属报价",
     "price.Contact for pricing": "请联络查询价钱",
+    "price.From $5700": "$5,700起",
     "pricing.off": "会员 -20%",
     "pricing.addons": "+ 可加购：保险、机票",
     "common.enquireNow": "查询",
+
+    // Tour itinerary
+    "tour.itinerary": "行程",
+    "tour.itineraryComingSoon": "详细行程即将公布 — 欢迎联络我们了解最新安排。",
+    "tour.day": "第",
+    "tour.location": "地点",
+    "tour.accommodation": "住宿",
+    "tour.transportation": "交通",
+    "tour.meals": "膳食",
+    "tour.activities": "活动",
+    "tour.notes": "备注",
   },
 };
 
