@@ -1,60 +1,76 @@
-## Skydiving Tour — fix routing, translations, and add dedicated page
 
-### Problems found
+## Why the "View Details" button is missing
 
-1. **Wrong "View Details" route**: In `src/components/Services.tsx` the link is `service.type === 'tandem' ? '/services/tandem-skydive' : '/services/a-licence'`. Anything that isn't `tandem` (including the new `package`/Skydiving Tour card) falls through to the A‑Licence page.
-2. **Missing tour translations**: `getServiceInfo()` in `Services.tsx` only maps `tandem` / `aff` / `group`. The `package` card renders with empty title/subtitle/description. There are no `services.tour.*` keys in `LanguageContext.tsx` for any of the 3 languages.
-3. **No dedicated tour page** exists yet; itinerary content currently lives only inside the pricing card.
+The Skydiving Tour service card is built by aggregating `location_services` rows with `service_type = 'package'`. The DB currently has **zero** package rows, so the card never renders → no "View Details" button. Seeding tour packages will make it appear automatically (the route + button code already exists in `Services.tsx`).
 
-### Changes
+## 1. Database changes
 
-**1. New page `src/pages/ServiceSkydivingTour.tsx`** (modeled on `ServiceTandem.tsx`)
+Add a `photos` column to `location_services` (so admins can attach a gallery per tour package):
 
-Sections:
-- `PageNavbar` + `SEO` (title + meta in 3 languages)
-- Hero: title "Skydiving Tour / 跳傘團", subtitle, hero image, "Book Now" CTA scrolling to `#booking`
-- Intro: what a tour package includes (skydive + accommodation + transport + sightseeing), 18+/100kg eligibility chip
-- **"Featured Itineraries"** section — at least 2 sample itineraries hard-coded as content (admin can later replace via the Tours admin panel by editing `location_services.itinerary`). Each itinerary rendered as day-by-day cards (location / accommodation / transportation / meals / activities) with localized labels reusing existing `tour.*` keys:
-  - **Pattaya 3D2N** — Day 1 arrival + Pattaya beach, Day 2 tandem skydive at Thai Sky Adventures + sunset on Walking Street, Day 3 brunch + departure.
-  - **Chiang Mai 4D3N** — Day 1 arrival + Old City, Day 2 tandem skydive at Chiang Mai Skydiving, Day 3 Doi Suthep + night market, Day 4 cooking class + departure.
-- Pricing teaser: "From $5,700 · $2,000 deposit"
-- `ServiceCTA` reused at bottom
-- `Footer`
+```sql
+ALTER TABLE location_services
+  ADD COLUMN photos text[] NOT NULL DEFAULT '{}';
+```
 
-Content is localized via a small in-file `itineraries` array keyed by `language` (mirrors how other service pages do it).
+Seed one or two `package` rows per location (except Luoding):
 
-**2. Route registration** in `src/App.tsx`
-- Lazy import `ServiceSkydivingTour`
-- Add `<Route path="/services/skydiving-tour" element={<ServiceSkydivingTour />} />`
+| Location | Packages |
+|---|---|
+| Pattaya | 3D2N, 4D3N |
+| Chiang Mai (Wefly) | 3D2N, 4D3N |
+| Hainan (Weland) | 3D2N, 4D3N |
+| Zhuhai (Weland) | 2D1N |
+| Huizhou (Yingfei) | 2D1N |
+| Luoding | — (excluded) |
 
-**3. Fix `src/components/Services.tsx`**
-- Extend `iconMap` with `package: MapPin` (or `Compass`).
-- Extend `AggregatedService['type']` union to include `'package'`.
-- Add `package` entry to `getServiceInfo()` using new translation keys `services.tour.title|subtitle|description`.
-- Update the View Details `Link` to a small map:
-  ```ts
-  const detailRoutes = { tandem: '/services/tandem-skydive', aff: '/services/a-licence', package: '/services/skydiving-tour' }
-  ```
-  Render the link for any type present in `detailRoutes` (so the tour card gets its own correct link, group stays without one).
-- Sort order: add `package: 4` after group.
+Each row gets `service_type='package'`, a placeholder `price_display`, `deposit_amount=2000`, an `includes[]` list, an `itinerary` JSONB seeded from the current hardcoded plans (Pattaya/Chiang Mai keep existing content; Hainan/Zhuhai/Huizhou get a starter template that admins can refine), and `photos[]` with 2–3 Unsplash placeholders.
 
-**4. Translations in `src/contexts/LanguageContext.tsx`** (en / zh-TW / zh-CN blocks)
+## 2. `src/pages/ServiceSkydivingTour.tsx` — rewrite
 
-Add:
-- `services.tour.title` — "Skydiving Tour" / "跳傘團" / "跳伞团"
-- `services.tour.subtitle` — "Multi-day jump + travel package" / "多日跳傘旅遊套票" / "多日跳伞旅游套票"
-- `services.tour.description` — "An all-in-one trip: tandem skydive, hotel, transfers and local sightseeing — just show up." / 中文對應翻譯 / 中文对应翻译
-- `tour.featuredItineraries` — "Featured Itineraries" / "精選行程" / "精选行程"
-- `tour.bookTour` — "Book this Tour" / "預訂跳傘團" / "预订跳伞团"
-- Per-itinerary content strings (title, day titles, location/accommodation/transportation/meals/activities text) — kept as plain content arrays in the page file rather than i18n keys to keep `LanguageContext.tsx` small; the page picks the array by current `language`.
+Replace the hardcoded itinerary block with a data-driven flow:
 
-### Files touched
+1. **Hero** — keep current hero (intro + price chips + CTA).
+2. **New intro sections** (matching `ServiceTandem`):
+   - `HowItWorks` (6 steps: choose location → consult → book deposit → fly → jump → return)
+   - `ServiceIncludes` (flights, hotel, transfers, tandem jump, video, guide…)
+   - `ServiceSocialProof` (testimonial)
+   - `ServiceFAQ` (4 tour-specific Q&As)
+   - `ServiceCTA`
+3. **Location picker** — pills of all active, non–coming-soon locations that have at least one `service_type='package'` row, **Luoding excluded**. Selecting a pill scrolls to the itinerary panel below.
+4. **Itinerary panel** — for the selected location, render one card per `package` row (1 for Zhuhai/Huizhou, 2 for Pattaya/Chiang Mai/Hainan), showing:
+   - Photo gallery (from `photos[]`, with lightbox or simple carousel)
+   - Title, duration, price, deposit
+   - Includes list
+   - Day-by-day itinerary (existing layout)
+   - "Book this tour" button → preselects service type `package` + the location, then navigates to `#booking`.
+5. Translation keys added for new section copy (en / zh-TW / zh-CN).
 
-- **New**: `src/pages/ServiceSkydivingTour.tsx`
-- **Edited**: `src/App.tsx`, `src/components/Services.tsx`, `src/contexts/LanguageContext.tsx`
+Data source: extend `useLocationServices` query to also return the joined location name/slug (or fetch via `useLocations()` and zip in component).
 
-### Out of scope
+## 3. Admin panel — `src/components/admin/AdminToursPanel.tsx`
 
-- No DB changes (itinerary editor + `location_services.itinerary` already exist for per‑location detail).
-- No change to `ServicePricing` card itinerary collapsible (stays as-is).
-- Hero image: reuse an existing Unsplash URL already used elsewhere in the project rather than generating a new asset.
+Add a **Photos** editor per tour row:
+- Textarea (one URL per line) bound to `photos[]`, OR a small uploader using the existing `gallery` storage bucket (URL-list textarea is simpler and matches current `includes` UX — recommend this for v1).
+- Persist alongside existing fields in the `update` call.
+
+Everything else (price, deposit, includes, itinerary days) is already editable.
+
+## 4. `src/components/Services.tsx`
+
+No code change needed — once package rows exist in DB the card renders with the existing "View Details" link to `/services/skydiving-tour`.
+
+## 5. Translations (`LanguageContext.tsx`)
+
+Add keys for: `tour.chooseLocation`, `tour.selectPlan`, `tour.bookThisTour`, `tour.photos`, plus the new HowItWorks/Includes/FAQ strings (`servicePage.tour.*`).
+
+## Files touched
+
+- new migration: add `photos` column + seed package rows
+- `src/pages/ServiceSkydivingTour.tsx` (rewrite body, keep hero shell)
+- `src/components/admin/AdminToursPanel.tsx` (add photos editor)
+- `src/hooks/useLocationServices.ts` (add `photos: string[]` to interface)
+- `src/contexts/LanguageContext.tsx` (new keys)
+
+## Open question
+
+For photo management in admin: **(A)** simple textarea of URLs (fast, ship now) or **(B)** drag-and-drop uploader to the existing `gallery` bucket (nicer UX, more code). I'll go with **(A)** unless you prefer (B).
