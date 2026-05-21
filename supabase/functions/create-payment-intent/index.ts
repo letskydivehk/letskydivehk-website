@@ -40,14 +40,32 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { amount = 500, currency = "HKD" } = await req.json().catch(() => ({}));
+    const { service_id, currency = "HKD" } = await req.json().catch(() => ({}));
 
-    // Validate amount
-    const depositAmount = Number(amount);
+    // Always determine deposit server-side from the service_id (never trust client amount)
+    let depositAmount = 500;
+    if (service_id && typeof service_id === "string") {
+      const supabase = createClient(
+        Deno.env.get("SUPABASE_URL") ?? "",
+        Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "",
+      );
+      const { data, error } = await supabase
+        .from("location_services")
+        .select("deposit_amount")
+        .eq("id", service_id)
+        .maybeSingle();
+      if (error) {
+        console.error("Failed to load service deposit:", error.message);
+      }
+      if (data?.deposit_amount && Number.isFinite(Number(data.deposit_amount))) {
+        depositAmount = Number(data.deposit_amount);
+      }
+    }
+
     if (!Number.isFinite(depositAmount) || depositAmount < 1 || depositAmount > 100000) {
       return new Response(
         JSON.stringify({ error: "Invalid amount" }),
-        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 400, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
@@ -74,7 +92,7 @@ Deno.serve(async (req) => {
       console.error("Airwallex create payment intent failed:", res.status, body);
       return new Response(
         JSON.stringify({ error: "Failed to create payment intent" }),
-        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+        { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
       );
     }
 
@@ -84,14 +102,15 @@ Deno.serve(async (req) => {
       JSON.stringify({
         client_secret: paymentIntent.client_secret,
         payment_intent_id: paymentIntent.id,
+        amount: depositAmount,
       }),
-      { headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   } catch (error) {
     console.error("Error creating payment intent:", error);
     return new Response(
       JSON.stringify({ error: error.message || "Internal server error" }),
-      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } }
+      { status: 500, headers: { ...corsHeaders, "Content-Type": "application/json" } },
     );
   }
 });
