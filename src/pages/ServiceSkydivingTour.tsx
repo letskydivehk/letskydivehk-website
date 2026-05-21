@@ -30,7 +30,7 @@ interface TourPlan {
   days: ItineraryDay[]
 }
 
-type LangKey = 'en' | 'zh-tw' | 'zh-cn'
+type LangKey = 'en' | 'zh-TW' | 'zh-CN'
 
 const itineraries: Record<LangKey, TourPlan[]> = {
   en: [
