@@ -24,6 +24,7 @@ export interface LocationService {
   display_order: number
   deposit_amount: number
   itinerary: ItineraryDay[]
+  photos: string[]
   created_at: string
   updated_at: string
 }
