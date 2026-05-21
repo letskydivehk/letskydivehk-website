@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, MapPin, Loader2, MessageCircle, Calendar, Hotel, Bus, Utensils, Sparkles } from 'lucide-react'
+import { ArrowRight, MapPin, Loader2, Calendar, Hotel, Bus, Utensils, Sparkles } from 'lucide-react'
 
 // Parse "$3399" / "HK$3,399" / "3399" → 3399; returns null when not parseable
 function parsePrice(display: string): number | null {
