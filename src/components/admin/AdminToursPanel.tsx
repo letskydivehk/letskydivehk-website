@@ -36,6 +36,7 @@ export function AdminToursPanel() {
       (data || []).map((d: any) => ({
         ...d,
         itinerary: Array.isArray(d.itinerary) ? d.itinerary : [],
+        photos: Array.isArray(d.photos) ? d.photos : [],
         locationName: d.locations?.Name,
       })) as TourRow[],
     );
@@ -95,6 +96,7 @@ export function AdminToursPanel() {
         price_display: row.price_display,
         deposit_amount: row.deposit_amount,
         includes: row.includes,
+        photos: row.photos,
         itinerary: row.itinerary as any,
       })
       .eq("id", row.id);
