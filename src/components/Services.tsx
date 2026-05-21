@@ -1,6 +1,6 @@
 import { useState, useMemo, useRef } from 'react'
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
-import { Plane, GraduationCap, Users, Check, ArrowRight, Loader2, Eye } from 'lucide-react'
+import { Plane, GraduationCap, Users, Check, ArrowRight, Loader2, Eye, Compass } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { useAllLocationServices, type LocationService } from '@/hooks/useLocationServices'
 import { useBooking } from '@/contexts/BookingContext'
@@ -10,7 +10,14 @@ import { SectionDecorations } from './SectionDecorations'
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   tandem: Plane,
   aff: GraduationCap,
-  group: Users
+  group: Users,
+  package: Compass,
+}
+
+const detailRoutes: Record<string, string> = {
+  tandem: '/services/tandem-skydive',
+  aff: '/services/a-licence',
+  package: '/services/skydiving-tour',
 }
 
 // Aggregate services by type for display
