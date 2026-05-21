@@ -138,26 +138,13 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
                       ) : (
                         <span className="text-lg font-bold text-accent-orange whitespace-nowrap">{translateData(`price.${service.price_display}`, service.price_display)}</span>
                       )}
-                      {service.service_type === 'package' ? (
-                        <a
-                          href="#contact"
-                          onClick={(e) => {
-                            e.preventDefault()
-                            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
-                          }}
-                          className="ml-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-accent-blue text-white hover:bg-accent-blue/90 transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap"
-                        >
-                          {t('common.enquireNow')} <MessageCircle className="w-3 h-3" />
-                        </a>
-                      ) : (
-                        <button
-                          type="button"
-                          onClick={() => handleBookAtLocation(locationId, service.id)}
-                          className="ml-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-accent-orange text-white hover:bg-accent-orange/90 transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap"
-                        >
-                          {t('common.bookNow')} <ArrowRight className="w-3 h-3" />
-                        </button>
-                      )}
+                      <button
+                        type="button"
+                        onClick={() => handleBookAtLocation(locationId, service.id)}
+                        className="ml-2 px-3 py-1.5 rounded-lg text-xs font-semibold bg-accent-orange text-white hover:bg-accent-orange/90 transition-all flex items-center gap-1 cursor-pointer whitespace-nowrap"
+                      >
+                        {t('common.bookNow')} <ArrowRight className="w-3 h-3" />
+                      </button>
                     </div>
                     {service.includes && service.includes.length > 0 && (
                       <ul className="mt-2 space-y-1 pl-1">
@@ -169,9 +156,45 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
                       </ul>
                     )}
                     {service.service_type === 'package' && (
-                      <p className="mt-2 text-xs text-muted-foreground italic pl-1">
-                        {t('pricing.addons')}
-                      </p>
+                      <div className="mt-3 pl-1">
+                        <details className="group">
+                          <summary className="text-xs font-semibold text-accent-blue cursor-pointer flex items-center gap-1.5 hover:text-accent-blue/80">
+                            <Calendar className="w-3.5 h-3.5" /> {t('tour.itinerary')}
+                          </summary>
+                          <div className="mt-2 space-y-2">
+                            {(!service.itinerary || service.itinerary.length === 0) ? (
+                              <p className="text-xs text-muted-foreground italic">{t('tour.itineraryComingSoon')}</p>
+                            ) : (
+                              service.itinerary.map((day, idx) => (
+                                <div key={idx} className="rounded-lg bg-muted/40 p-2.5 text-xs space-y-1">
+                                  <div className="font-bold text-foreground">
+                                    {t('tour.day')} {day.day}{day.title ? ` — ${day.title}` : ''}
+                                  </div>
+                                  {day.location && (
+                                    <div className="flex items-start gap-1.5 text-muted-foreground"><MapPin className="w-3 h-3 mt-0.5 shrink-0" /><span>{day.location}</span></div>
+                                  )}
+                                  {day.accommodation && (
+                                    <div className="flex items-start gap-1.5 text-muted-foreground"><Hotel className="w-3 h-3 mt-0.5 shrink-0" /><span>{day.accommodation}</span></div>
+                                  )}
+                                  {day.transportation && (
+                                    <div className="flex items-start gap-1.5 text-muted-foreground"><Bus className="w-3 h-3 mt-0.5 shrink-0" /><span>{day.transportation}</span></div>
+                                  )}
+                                  {day.meals && (
+                                    <div className="flex items-start gap-1.5 text-muted-foreground"><Utensils className="w-3 h-3 mt-0.5 shrink-0" /><span>{day.meals}</span></div>
+                                  )}
+                                  {day.activities && day.activities.length > 0 && (
+                                    <div className="flex items-start gap-1.5 text-muted-foreground">
+                                      <Sparkles className="w-3 h-3 mt-0.5 shrink-0" />
+                                      <span>{day.activities.join(' · ')}</span>
+                                    </div>
+                                  )}
+                                  {day.notes && <p className="text-muted-foreground italic">{day.notes}</p>}
+                                </div>
+                              ))
+                            )}
+                          </div>
+                        </details>
+                      </div>
                     )}
                   </div>
                 ))}
