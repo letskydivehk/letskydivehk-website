@@ -1,38 +1,60 @@
-## Findings: Booking notification flow
+## Skydiving Tour rework
 
-I traced the entire booking flow and tested the email function live against Resend. Here is what I found.
+### 1. Database
 
-### Flow today (src/components/BookingSection.tsx, handleSubmit)
-1. `verify-payment` (pre-check)
-2. `create_booking` RPC inserts the booking row
-3. `verify-payment` again to write `payment_status` onto the row — **NOT wrapped in try/catch**
-4. `send-notification` (wrapped in its own try/catch, fire-and-forget)
+**Schema migration (`location_services` + `bookings`):**
+- Add `itinerary jsonb` column to `location_services` (default `'[]'`). Shape per day:
+  ```json
+  { "day": 1, "title": "", "location": "", "accommodation": "",
+    "transportation": "", "meals": "", "activities": [], "notes": "" }
+  ```
+- Add `deposit_amount integer` column to `location_services` (default 500). Tours rows = 2000.
+- Add admin RLS policies on `location_services` so admins can `INSERT/UPDATE/DELETE` (currently locked). Public SELECT stays unchanged.
+- `bookings.deposit_amount` already exists (default 500) — booking flow will read the service's `deposit_amount` and pass it through.
 
-### What I tested
-- Called the deployed `send-notification` function with a real booking row (id `2cd5aefe...`, customer `sputnik5866@gmail.com`).
-- Response: **HTTP 200**, Resend returned message IDs for both the admin email (`letskydivehk@gmail.com`) and the customer email. Resend accepted the sends. `RESEND_API_KEY` is configured.
-- So the edge function and Resend pipeline are working when reached with valid data.
+**Data update (insert tool, separate step):**
+- For all 6 `service_type='package'` rows:
+  - `service_name` → `"Skydiving Tour"`
+  - `price_display` → `"From $5700"`
+  - `deposit_amount` → `2000`
+  - `itinerary` → `[]` (placeholder, admin fills later)
 
-### Why the admin inbox may still look empty
-There are two distinct issues. They are likely both contributing.
+### 2. Translations (`src/contexts/LanguageContext.tsx`)
+- `service.Skydiving Tour` → `Skydiving Tour` / `跳傘團` / `跳伞团`
+- `serviceType.package` → already `Package Tour` / `套票行程` — change to `Skydiving Tour` / `跳傘團` / `跳伞团`
+- `price.From $5700` → `From $5700` / `$5700起` / `$5700起`
+- Itinerary section labels: `tour.itinerary`, `tour.day`, `tour.location`, `tour.accommodation`, `tour.transportation`, `tour.meals`, `tour.activities`, `tour.notes`, `tour.itineraryComingSoon`.
 
-**A. Emails are being sent but not landing in the inbox**
-- Sends from `noreply@letskydivehk.com` will be rejected or junked by Gmail if `letskydivehk.com` is not fully verified in Resend (SPF/DKIM/DMARC). Resend's API still returns 200 + id even if the actual SMTP delivery later fails — delivery failures only show in the Resend dashboard.
-- Even when verified, mail from your own domain landing in your own Gmail often goes to **Spam** or **All Mail**, not Inbox. Worth checking those folders and Resend's "Logs" / "Emails" tab to see delivery vs bounce status.
+### 3. ServicePricing card (`src/components/ServicePricing.tsx`)
+- For `service_type === 'package'`:
+  - Replace "Enquire" button with **Book Now** (same handler as tandem → `handleBookAtLocation`).
+  - Drop the `pricing.addons` line; replace with a collapsible **Itinerary** section. If `itinerary.length === 0` show `t('tour.itineraryComingSoon')`. Otherwise render day cards with location / accommodation / transportation / meals / activities.
 
-**B. The code path can silently skip the notification**
-- Step 3 (`verify-payment` post-booking write) is `await`ed with **no try/catch**. If that call throws (network blip, 5xx, CORS, etc.), execution jumps to the outer catch on line 519 and `send-notification` (step 4) is never invoked. The booking row already exists, so from the user's perspective everything looks fine, but no email ever fires.
-- `send-notification` also requires `bookingData?.id` AND `bookingData?.access_token` to validate. If the RPC ever returns a shape without `access_token`, the function returns 404 "Booking not found" and the email is dropped. (Today the rows do have `access_token`, so this is not currently the cause, but it's fragile.)
+### 4. Booking flow deposit
+- Extend `useLocationServices`/types to include `deposit_amount` and `itinerary`.
+- In booking summary + Airwallex call (`supabase/functions/create-payment-intent`), use `service.deposit_amount` instead of hardcoded 500. Display the dynamic amount on the deposit step.
+- Server-side: `create-payment-intent` reads `deposit_amount` from `location_services` for the chosen service (do not trust client amount). `verify-payment` already keys off intent id, no change needed.
 
-### Proposed fix (for the next build step, not applied yet)
-1. **Wrap the post-booking `verify-payment` call in try/catch** so a failure there cannot prevent `send-notification` from running.
-2. **Move the `send-notification` call so it runs regardless of the post-booking verify result** (it already has its own try/catch).
-3. **Check Resend dashboard** (`Logs` and `Domains`) to confirm `letskydivehk.com` is verified and that recent admin sends were actually delivered, not bounced/blocked. If the domain is not verified, finish DNS verification — that alone explains a silent failure to receive in `letskydivehk@gmail.com`.
-4. **Check `letskydivehk@gmail.com` Spam, All Mail, and Gmail filters** for messages from `noreply@letskydivehk.com` — Gmail very often junks self-domain mail.
-5. Optional hardening: log the Resend message id into `email_send_log` (or a simple `booking_notifications` table) so future "did the email send?" questions are answerable from the DB instead of guessing.
+### 5. Admin panel — "Tours" tab
+New file `src/components/admin/AdminToursPanel.tsx`, mounted as a new tab inside the unified admin hub at `/admin/credits`.
 
-### What I need from you before I implement
-- Can you confirm in the Resend dashboard whether `letskydivehk.com` shows as **Verified** and whether recent admin emails show as **Delivered** or **Bounced/Blocked**?
-- Did you check Spam and All Mail in `letskydivehk@gmail.com`?
+Per-row editor for each `package` service (one per location):
+- Editable fields: `service_name`, `price_display`, `deposit_amount`, `includes[]` (chip editor), `itinerary[]` (day-by-day editor with add/remove/reorder).
+- Itinerary day editor inputs: day #, title, location, accommodation, transportation, meals, activities (list), notes.
+- Save via `supabase.from('location_services').update(...).eq('id', …)` (now permitted by new admin RLS).
+- React Query invalidation for `['location-services', ...]` so the public site refreshes.
 
-Once you confirm those, I'll apply the code hardening in step 1–2 (and optionally 5) in one pass.
+### 6. Out of scope (for this change)
+- No dedicated `/services/skydiving-tour` landing page — itinerary lives inside the existing pricing card. Can be added later once content is ready.
+- No multilingual itinerary fields yet (single-language jsonb). When real content lands we can add `_zh_tw` / `_zh_cn` mirrors.
+
+### Files touched
+- migration (schema only) + insert tool (data rewrite)
+- `src/hooks/useLocationServices.ts` (type)
+- `src/contexts/LanguageContext.tsx` (3 languages)
+- `src/components/ServicePricing.tsx` (button + itinerary block)
+- `src/components/BookingSection.tsx` or relevant booking step (read dynamic deposit)
+- `supabase/functions/create-payment-intent/index.ts` (dynamic deposit)
+- `src/components/admin/AdminToursPanel.tsx` (new)
+- `src/pages/AdminCredits.tsx` (mount new tab)
+- `public/llms.txt` (rename Package Tour → Skydiving Tour entry, if listed)
