@@ -22,7 +22,7 @@ const detailRoutes: Record<string, string> = {
 
 // Aggregate services by type for display
 interface AggregatedService {
-  type: 'tandem' | 'aff' | 'group'
+  type: 'tandem' | 'aff' | 'group' | 'package'
   title: string
   subtitle: string
   description: string
@@ -54,6 +54,11 @@ export function Services() {
         title: t('services.group.title'),
         subtitle: t('services.group.subtitle'),
         description: t('services.group.description')
+      },
+      package: {
+        title: t('services.tour.title'),
+        subtitle: t('services.tour.subtitle'),
+        description: t('services.tour.description')
       }
     }
     return infoMap[type] || { title: type, subtitle: '', description: '' }
@@ -99,7 +104,7 @@ export function Services() {
       }
 
       return {
-        type: type as 'tandem' | 'aff' | 'group',
+        type: type as 'tandem' | 'aff' | 'group' | 'package',
         title: info.title,
         subtitle: info.subtitle,
         description: info.description,
@@ -108,7 +113,7 @@ export function Services() {
         isPopular: data.isPopular
       } as AggregatedService
     }).sort((a, b) => {
-      const order = { tandem: 1, aff: 2, group: 3 }
+      const order: Record<string, number> = { tandem: 1, aff: 2, package: 3, group: 4 }
       return (order[a.type] || 99) - (order[b.type] || 99)
     })
   }, [locationServices, t])
@@ -248,9 +253,9 @@ export function Services() {
                     {service.type !== 'group' ? t('common.bookNow') : t('services.contactUs')}
                     <ArrowRight className="w-4 h-4" />
                   </button>
-                  {service.type !== 'group' && (
+                  {detailRoutes[service.type] && (
                     <Link
-                      to={service.type === 'tandem' ? '/services/tandem-skydive' : '/services/a-licence'}
+                      to={detailRoutes[service.type]}
                       className="w-full py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300 border border-border text-foreground hover:bg-muted cursor-pointer"
                     >
                       <Eye className="w-4 h-4" /> {t('servicePage.viewDetails')}
