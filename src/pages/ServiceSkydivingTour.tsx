@@ -120,7 +120,7 @@ const itineraries: Record<LangKey, TourPlan[]> = {
       ],
     },
   ],
-  'zh-tw': [
+  'zh-TW': [
     {
       slug: 'pattaya-3d2n',
       title: '芭堤雅 3 日 2 夜',
@@ -207,7 +207,7 @@ const itineraries: Record<LangKey, TourPlan[]> = {
       ],
     },
   ],
-  'zh-cn': [
+  'zh-CN': [
     {
       slug: 'pattaya-3d2n',
       title: '芭提雅 3 日 2 夜',
