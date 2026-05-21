@@ -60,7 +60,7 @@ export function useAllLocationServices() {
         .order('display_order', { ascending: true })
 
       if (error) throw error
-      return data as LocationService[]
+      return data as unknown as LocationService[]
     },
     staleTime: 1000 * 60 * 10, // 10 minutes - services rarely change
   })
