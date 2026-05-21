@@ -4,7 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import { HelmetProvider } from 'react-helmet-async';
 import { AuthProvider } from './contexts/AuthContext';
 import { BookingProvider } from './contexts/BookingContext';
-import { LanguageProvider } from './contexts/LanguageContext';
+import { LanguageProvider } from '@/contexts/LanguageContext';
 import { Toaster } from './components/ui/sonner';
 import { WhatsAppButton } from './components/WhatsAppButton';
 import Home from './pages/Home';
