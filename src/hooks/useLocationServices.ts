@@ -44,7 +44,7 @@ export function useLocationServices(locationId?: string) {
       const { data, error } = await query
 
       if (error) throw error
-      return data as LocationService[]
+      return data as unknown as LocationService[]
     },
     enabled: locationId !== undefined
   })
