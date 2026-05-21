@@ -23,6 +23,7 @@ const AdminCredits = React.lazy(() => import('./pages/AdminCredits'));
 const AdminBlog = React.lazy(() => import('./pages/AdminBlog'));
 const ServiceTandem = React.lazy(() => import('./pages/ServiceTandem'));
 const ServiceALicence = React.lazy(() => import('./pages/ServiceALicence'));
+const ServiceSkydivingTour = React.lazy(() => import('./pages/ServiceSkydivingTour'));
 const Blog = React.lazy(() => import('./pages/Blog'));
 const BlogPost = React.lazy(() => import('./pages/BlogPost'));
 const MembershipTiers = React.lazy(() => import('./pages/MembershipTiers'));
@@ -54,6 +55,7 @@ export default function App() {
                 <Route path="/" element={<Home />} />
                 <Route path="/services/tandem-skydive" element={<ServiceTandem />} />
                 <Route path="/services/a-licence" element={<ServiceALicence />} />
+                <Route path="/services/skydiving-tour" element={<ServiceSkydivingTour />} />
                 <Route path="/location/:slug" element={<LocationDetail />} />
                 <Route path="/auth/callback" element={<AuthCallback />} />
                 <Route path="/membership" element={<MemberProfile />} />
