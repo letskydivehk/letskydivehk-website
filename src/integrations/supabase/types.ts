@@ -415,11 +415,13 @@ export type Database = {
       location_services: {
         Row: {
           created_at: string
+          deposit_amount: number
           description: string | null
           display_order: number
           id: string
           includes: string[] | null
           is_popular: boolean
+          itinerary: Json
           location_id: string
           price_display: string
           service_name: string
@@ -428,11 +430,13 @@ export type Database = {
         }
         Insert: {
           created_at?: string
+          deposit_amount?: number
           description?: string | null
           display_order?: number
           id?: string
           includes?: string[] | null
           is_popular?: boolean
+          itinerary?: Json
           location_id: string
           price_display: string
           service_name: string
@@ -441,11 +445,13 @@ export type Database = {
         }
         Update: {
           created_at?: string
+          deposit_amount?: number
           description?: string | null
           display_order?: number
           id?: string
           includes?: string[] | null
           is_popular?: boolean
+          itinerary?: Json
           location_id?: string
           price_display?: string
           service_name?: string
