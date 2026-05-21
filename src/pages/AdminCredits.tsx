@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { ArrowLeft, Coins, FileText, Loader2, HelpCircle } from "lucide-react";
+import { ArrowLeft, Coins, FileText, Loader2, HelpCircle, Plane } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -11,6 +11,7 @@ import { Footer } from "@/components/Footer";
 import { AdminCreditsPanel } from "@/components/admin/AdminCreditsPanel";
 import { AdminBlogPanel } from "@/components/admin/AdminBlogPanel";
 import { AdminQuizPanel } from "@/components/admin/AdminQuizPanel";
+import { AdminToursPanel } from "@/components/admin/AdminToursPanel";
 
 export default function AdminCredits() {
   const { user, loading: authLoading } = useAuth();
@@ -78,6 +79,10 @@ export default function AdminCredits() {
                 <HelpCircle className="w-4 h-4" />
                 Quiz
               </TabsTrigger>
+              <TabsTrigger value="tours" className="gap-2">
+                <Plane className="w-4 h-4" />
+                Tours
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="credits">
@@ -90,6 +95,10 @@ export default function AdminCredits() {
 
             <TabsContent value="quiz">
               {isAdmin && <AdminQuizPanel />}
+            </TabsContent>
+
+            <TabsContent value="tours">
+              {isAdmin && <AdminToursPanel />}
             </TabsContent>
           </Tabs>
         </div>

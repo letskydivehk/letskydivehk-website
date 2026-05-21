@@ -337,7 +337,7 @@ export function BookingSection() {
     setIsPaymentLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("create-payment-intent", {
-        body: { amount: 500, currency: "HKD" },
+        body: { service_id: formData.service, currency: "HKD" },
       });
       if (error) throw error;
       setPaymentClientSecret(data.client_secret);
@@ -1355,7 +1355,7 @@ export function BookingSection() {
                     <div className="bg-accent-emerald/5 rounded-xl p-6 mb-4">
                       <div className="flex justify-between items-center">
                         <span className="text-foreground font-medium">{t("booking.depositAmount")}</span>
-                        <span className="text-2xl font-black text-foreground">HKD $500</span>
+                        <span className="text-2xl font-black text-foreground">HKD ${(selectedService?.deposit_amount ?? 500).toLocaleString()}</span>
                       </div>
                       <p className="text-sm text-muted-foreground mt-2">{t("booking.depositNote")}</p>
                     </div>

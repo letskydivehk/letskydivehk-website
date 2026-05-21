@@ -2305,13 +2305,14 @@ const dataTranslations: Record<Language, Record<string, string>> = {
       "Tandem Skydive with Ultimate Combo (Video + Photos)",
     "service.A-License Package": "A-License Package",
     "service.Group Events": "Group Events",
-    "service.Package Tour": "Package Tour",
+    "service.Package Tour": "Skydiving Tour",
+    "service.Skydiving Tour": "Skydiving Tour",
 
     // Service types
     "serviceType.tandem": "Tandem Skydive",
     "serviceType.aff": "A-Licence",
     "serviceType.group": "Group Events",
-    "serviceType.package": "Package Tour",
+    "serviceType.package": "Skydiving Tour",
 
     // Service includes
     "include.Handicam video recording": "Handicam video recording",
@@ -2343,9 +2344,21 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Pricing
     "price.Custom Quote": "Custom Quote",
     "price.Contact for pricing": "Contact for pricing",
+    "price.From $5700": "From $5,700",
     "pricing.off": "Member -20%",
     "pricing.addons": "+ Add-ons available: Insurance, Flight ticket",
     "common.enquireNow": "Enquire",
+
+    // Tour itinerary
+    "tour.itinerary": "Itinerary",
+    "tour.itineraryComingSoon": "Detailed itinerary coming soon — contact us for the latest schedule.",
+    "tour.day": "Day",
+    "tour.location": "Location",
+    "tour.accommodation": "Accommodation",
+    "tour.transportation": "Transportation",
+    "tour.meals": "Meals",
+    "tour.activities": "Activities",
+    "tour.notes": "Notes",
   },
   "zh-TW": {
     // Location names
@@ -2384,13 +2397,14 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "service.Tandem Skydive with Ultimate Combo (Video + Photos)": "雙人傘終極組合（包含影片 + 照片）",
     "service.A-License Package": "A級執照套餐",
     "service.Group Events": "團體活動",
-    "service.Package Tour": "套票行程",
+    "service.Package Tour": "跳傘團",
+    "service.Skydiving Tour": "跳傘團",
 
     // Service types
     "serviceType.tandem": "雙人跳傘",
     "serviceType.aff": "A級執照",
     "serviceType.group": "團體活動",
-    "serviceType.package": "套票行程",
+    "serviceType.package": "跳傘團",
 
     // Service includes
     "include.Handicam video recording": "手持攝影錄影",
@@ -2424,9 +2438,21 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Pricing
     "price.Custom Quote": "專屬報價",
     "price.Contact for pricing": "請聯絡查詢價錢",
+    "price.From $5700": "$5,700起",
     "pricing.off": "會員 -20%",
     "pricing.addons": "+ 可加購：保險、機票",
     "common.enquireNow": "查詢",
+
+    // Tour itinerary
+    "tour.itinerary": "行程",
+    "tour.itineraryComingSoon": "詳細行程即將公布 — 歡迎聯絡我們了解最新安排。",
+    "tour.day": "第",
+    "tour.location": "地點",
+    "tour.accommodation": "住宿",
+    "tour.transportation": "交通",
+    "tour.meals": "膳食",
+    "tour.activities": "活動",
+    "tour.notes": "備註",
   },
   "zh-CN": {
     // Location names
@@ -2465,13 +2491,14 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "service.Tandem Skydive with Ultimate Combo (Video + Photos)": "双人伞终极组合（包含视频 + 照片）",
     "service.A-License Package": "A级执照套餐",
     "service.Group Events": "团体活动",
-    "service.Package Tour": "套票行程",
+    "service.Package Tour": "跳伞团",
+    "service.Skydiving Tour": "跳伞团",
 
     // Service types
     "serviceType.tandem": "双人跳伞",
     "serviceType.aff": "A级执照",
     "serviceType.group": "团体活动",
-    "serviceType.package": "套票行程",
+    "serviceType.package": "跳伞团",
 
     // Service includes
     "include.Handicam video recording": "手持摄影录影",
@@ -2505,9 +2532,21 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Pricing
     "price.Custom Quote": "专属报价",
     "price.Contact for pricing": "请联络查询价钱",
+    "price.From $5700": "$5,700起",
     "pricing.off": "会员 -20%",
     "pricing.addons": "+ 可加购：保险、机票",
     "common.enquireNow": "查询",
+
+    // Tour itinerary
+    "tour.itinerary": "行程",
+    "tour.itineraryComingSoon": "详细行程即将公布 — 欢迎联络我们了解最新安排。",
+    "tour.day": "第",
+    "tour.location": "地点",
+    "tour.accommodation": "住宿",
+    "tour.transportation": "交通",
+    "tour.meals": "膳食",
+    "tour.activities": "活动",
+    "tour.notes": "备注",
   },
 };
 
