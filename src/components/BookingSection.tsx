@@ -337,7 +337,7 @@ export function BookingSection() {
     setIsPaymentLoading(true);
     try {
       const { data, error } = await supabase.functions.invoke("create-payment-intent", {
-        body: { amount: 500, currency: "HKD" },
+        body: { service_id: formData.service, currency: "HKD" },
       });
       if (error) throw error;
       setPaymentClientSecret(data.client_secret);
