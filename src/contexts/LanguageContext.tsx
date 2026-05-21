@@ -2305,13 +2305,14 @@ const dataTranslations: Record<Language, Record<string, string>> = {
       "Tandem Skydive with Ultimate Combo (Video + Photos)",
     "service.A-License Package": "A-License Package",
     "service.Group Events": "Group Events",
-    "service.Package Tour": "Package Tour",
+    "service.Package Tour": "Skydiving Tour",
+    "service.Skydiving Tour": "Skydiving Tour",
 
     // Service types
     "serviceType.tandem": "Tandem Skydive",
     "serviceType.aff": "A-Licence",
     "serviceType.group": "Group Events",
-    "serviceType.package": "Package Tour",
+    "serviceType.package": "Skydiving Tour",
 
     // Service includes
     "include.Handicam video recording": "Handicam video recording",
@@ -2343,9 +2344,21 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Pricing
     "price.Custom Quote": "Custom Quote",
     "price.Contact for pricing": "Contact for pricing",
+    "price.From $5700": "From $5,700",
     "pricing.off": "Member -20%",
     "pricing.addons": "+ Add-ons available: Insurance, Flight ticket",
     "common.enquireNow": "Enquire",
+
+    // Tour itinerary
+    "tour.itinerary": "Itinerary",
+    "tour.itineraryComingSoon": "Detailed itinerary coming soon — contact us for the latest schedule.",
+    "tour.day": "Day",
+    "tour.location": "Location",
+    "tour.accommodation": "Accommodation",
+    "tour.transportation": "Transportation",
+    "tour.meals": "Meals",
+    "tour.activities": "Activities",
+    "tour.notes": "Notes",
   },
   "zh-TW": {
     // Location names
