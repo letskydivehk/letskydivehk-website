@@ -174,6 +174,25 @@ export function AdminToursPanel() {
                 </div>
 
                 <div>
+                  <Label>Photo URLs (one per line)</Label>
+                  <Textarea
+                    rows={4}
+                    placeholder="https://images.unsplash.com/photo-..."
+                    value={(row.photos || []).join("\n")}
+                    onChange={(e) =>
+                      updateRow(row.id, { photos: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean) })
+                    }
+                  />
+                  {row.photos?.length > 0 && (
+                    <div className="flex gap-2 mt-2 flex-wrap">
+                      {row.photos.map((url, i) => (
+                        <img key={i} src={url} alt="" className="w-20 h-16 object-cover rounded border" />
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <div>
                   <div className="flex items-center justify-between mb-2">
                     <Label className="text-base">Itinerary</Label>
                     <Button type="button" size="sm" variant="outline" onClick={() => addDay(row.id)}>
