@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { MapPin, Hotel, Bus, Utensils, Sparkles, ArrowRight, Compass, Loader2, Check } from 'lucide-react'
+import { MapPin, ArrowRight, Compass, Loader2, Check, Sunrise, Sun, Moon } from 'lucide-react'
 import { SEO } from '@/components/SEO'
 import { PageNavbar } from '@/components/PageNavbar'
 import { HowItWorks } from '@/components/HowItWorks'
@@ -253,47 +253,63 @@ function TourCard({
           </div>
         )}
 
-        <ol className="space-y-3 flex-1">
-          {tour.itinerary.map((day) => (
-            <li key={day.day} className="rounded-lg bg-muted/40 p-4">
-              <div className="font-bold text-foreground mb-2">
-                {t('tour.day')} {day.day}{day.title ? ` — ${translateData(`tour.dayTitle.${day.title}`, day.title)}` : ''}
-              </div>
-              <ul className="space-y-1.5 text-xs">
-                {day.location && (
-                  <li className="flex items-start gap-2 text-muted-foreground">
-                    <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.location')}:</span> {translateData(`tour.field.${day.location}`, day.location)}</span>
-                  </li>
-                )}
-                {day.accommodation && (
-                  <li className="flex items-start gap-2 text-muted-foreground">
-                    <Hotel className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.accommodation')}:</span> {translateData(`tour.field.${day.accommodation}`, day.accommodation)}</span>
-                  </li>
-                )}
-                {day.transportation && (
-                  <li className="flex items-start gap-2 text-muted-foreground">
-                    <Bus className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.transportation')}:</span> {translateData(`tour.field.${day.transportation}`, day.transportation)}</span>
-                  </li>
-                )}
-                {day.meals && (
-                  <li className="flex items-start gap-2 text-muted-foreground">
-                    <Utensils className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.meals')}:</span> {translateData(`tour.field.${day.meals}`, day.meals)}</span>
-                  </li>
-                )}
-                {day.activities && day.activities.length > 0 && (
-                  <li className="flex items-start gap-2 text-muted-foreground">
-                    <Sparkles className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.activities')}:</span> {day.activities.map((a) => translateData(`tour.field.${a}`, a)).join(' · ')}</span>
-                  </li>
-                )}
-
-              </ul>
-            </li>
-          ))}
+        <ol className="space-y-4 flex-1">
+          {tour.itinerary.map((day) => {
+            const segments = Array.isArray(day.segments) && day.segments.length > 0
+              ? day.segments
+              : [
+                  { period: 'morning' as const, items: [] },
+                  { period: 'afternoon' as const, items: [] },
+                  { period: 'evening' as const, items: [] },
+                ]
+            const periodMeta = {
+              morning: { Icon: Sunrise, label: t('tour.morning'), color: 'text-amber-500' },
+              afternoon: { Icon: Sun, label: t('tour.afternoon'), color: 'text-orange-500' },
+              evening: { Icon: Moon, label: t('tour.evening'), color: 'text-indigo-500' },
+            } as const
+            return (
+              <li key={day.day} className="rounded-xl bg-muted/40 p-4">
+                <div className="font-bold text-foreground mb-3 inline-flex items-center gap-2">
+                  <span className="px-2 py-0.5 rounded-md bg-accent-orange text-white text-xs">
+                    {t('tour.day')} {day.day}
+                  </span>
+                  {day.title && (
+                    <span>{translateData(`tour.dayTitle.${day.title}`, day.title)}</span>
+                  )}
+                </div>
+                <div className="relative pl-4 border-l-2 border-accent-orange/30 space-y-3">
+                  {segments.map((seg) => {
+                    if (!seg.items || seg.items.length === 0) return null
+                    const meta = periodMeta[seg.period]
+                    const Icon = meta.Icon
+                    return (
+                      <div key={seg.period} className="relative">
+                        <span className="absolute -left-[1.4rem] top-0.5 w-5 h-5 rounded-full bg-background border-2 border-accent-orange/40 flex items-center justify-center">
+                          <Icon className={`w-3 h-3 ${meta.color}`} />
+                        </span>
+                        <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">
+                          {meta.label}
+                        </div>
+                        <ul className="space-y-1">
+                          {seg.items.map((item, i) => (
+                            <li key={i} className="text-xs text-foreground">
+                              <span className="font-medium">{translateData(`tour.item.${item.title}`, item.title)}</span>
+                              {item.location && (
+                                <span className="ml-1.5 inline-flex items-center gap-0.5 text-muted-foreground">
+                                  <MapPin className="w-3 h-3" />
+                                  {translateData(`tour.item.${item.location}`, item.location)}
+                                </span>
+                              )}
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    )
+                  })}
+                </div>
+              </li>
+            )
+          })}
         </ol>
 
         <button
