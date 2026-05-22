@@ -22,7 +22,7 @@ const detailRoutes: Record<string, string> = {
 
 // Aggregate services by type for display
 interface AggregatedService {
-  type: 'tandem' | 'aff' | 'group' | 'package'
+  type: 'tandem' | 'aff' | 'group' | 'Tour'
   title: string
   subtitle: string
   description: string
@@ -104,7 +104,7 @@ export function Services() {
       }
 
       return {
-        type: type as 'tandem' | 'aff' | 'group' | 'package',
+        type: type as 'tandem' | 'aff' | 'group' | 'Tour',
         title: info.title,
         subtitle: info.subtitle,
         description: info.description,

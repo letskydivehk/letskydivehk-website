@@ -155,7 +155,7 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
                         ))}
                       </ul>
                     )}
-                    {service.service_type === 'package' && (
+                    {service.service_type === 'Tour' && (
                       <div className="mt-3 pl-1">
                         <details className="group">
                           <summary className="text-xs font-semibold text-accent-blue cursor-pointer flex items-center gap-1.5 hover:text-accent-blue/80">
