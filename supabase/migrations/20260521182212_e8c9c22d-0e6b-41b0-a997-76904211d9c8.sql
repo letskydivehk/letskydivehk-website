@@ -11,8 +11,8 @@ DECLARE
   v_hainan uuid;
   v_zhuhai uuid;
   v_huizhou uuid;
-  v_std_includes text[] := ARRAY['Round-trip flights','Hotel accommodation','Airport & dropzone transfers','Tandem skydive from 13,000 ft','HD video & photos','English/Cantonese-speaking guide'];
-  v_cn_includes text[] := ARRAY['Hong Kong–dropzone transport','Hotel accommodation','Dropzone transfers','Tandem skydive','HD video & photos','Cantonese-speaking guide'];
+  v_std_includes text[] := ARRAY['Local transportation','Hotel accommodation','Meals','Tandem skydive from 13,000 ft','HD video & photos','English/Cantonese-speaking guide'];
+  v_cn_includes text[] := ARRAY['Multiple meals','Hotel accommodation','Dropzone transfers','Tandem skydive','HD video & photos','Cantonese-speaking guide'];
 BEGIN
   SELECT id INTO v_pattaya FROM public.locations WHERE slug='pattaya';
   SELECT id INTO v_chiangmai FROM public.locations WHERE slug='chiang-mai';
