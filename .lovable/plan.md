@@ -1,76 +1,102 @@
 
-## Why the "View Details" button is missing
+## Goal
 
-The Skydiving Tour service card is built by aggregating `location_services` rows with `service_type = 'package'`. The DB currently has **zero** package rows, so the card never renders → no "View Details" button. Seeding tour packages will make it appear automatically (the route + button code already exists in `Services.tsx`).
+Replace the current day-field layout (location/accommodation/transportation/meals/activities) with a clean **day-part timeline**: each day is split into Morning / Afternoon / Evening, and each segment holds a list of schedule items with a title and optional location. Build a polished admin editor with drag-to-reorder.
 
-## 1. Database changes
+## New data shape
 
-Add a `photos` column to `location_services` (so admins can attach a gallery per tour package):
+Each `ItineraryDay` becomes:
 
-```sql
-ALTER TABLE location_services
-  ADD COLUMN photos text[] NOT NULL DEFAULT '{}';
+```
+{
+  day: 1,
+  title?: "Arrival & Pattaya Beach",
+  segments: [
+    { period: "morning",   items: [{ title, location? }, ...] },
+    { period: "afternoon", items: [...] },
+    { period: "evening",   items: [...] }
+  ]
+}
 ```
 
-Seed one or two `package` rows per location (except Luoding):
+Old fields (`location`, `accommodation`, `transportation`, `meals`, `activities`, `notes`) are dropped from the UI. They remain readable in the JSON column for backward compatibility but are no longer rendered or edited.
 
-| Location | Packages |
-|---|---|
-| Pattaya | 3D2N, 4D3N |
-| Chiang Mai (Wefly) | 3D2N, 4D3N |
-| Hainan (Weland) | 3D2N, 4D3N |
-| Zhuhai (Weland) | 2D1N |
-| Huizhou (Yingfei) | 2D1N |
-| Luoding | — (excluded) |
+## Migration of existing tour data
 
-Each row gets `service_type='package'`, a placeholder `price_display`, `deposit_amount=2000`, an `includes[]` list, an `itinerary` JSONB seeded from the current hardcoded plans (Pattaya/Chiang Mai keep existing content; Hainan/Zhuhai/Huizhou get a starter template that admins can refine), and `photos[]` with 2–3 Unsplash placeholders.
+A one-time data migration converts every existing day into the new shape:
 
-## 2. `src/pages/ServiceSkydivingTour.tsx` — rewrite
+- `activities[]` → afternoon items (title only)
+- `location`, `accommodation`, `transportation`, `meals` → folded into a single afternoon/evening item each (with sensible defaults: transportation → morning, meals → evening, accommodation → evening, location → morning)
+- Empty fields produce no items
 
-Replace the hardcoded itinerary block with a data-driven flow:
+This runs once via an `UPDATE` against `location_services` where `service_type = 'Tour'`.
 
-1. **Hero** — keep current hero (intro + price chips + CTA).
-2. **New intro sections** (matching `ServiceTandem`):
-   - `HowItWorks` (6 steps: choose location → consult → book deposit → fly → jump → return)
-   - `ServiceIncludes` (flights, hotel, transfers, tandem jump, video, guide…)
-   - `ServiceSocialProof` (testimonial)
-   - `ServiceFAQ` (4 tour-specific Q&As)
-   - `ServiceCTA`
-3. **Location picker** — pills of all active, non–coming-soon locations that have at least one `service_type='package'` row, **Luoding excluded**. Selecting a pill scrolls to the itinerary panel below.
-4. **Itinerary panel** — for the selected location, render one card per `package` row (1 for Zhuhai/Huizhou, 2 for Pattaya/Chiang Mai/Hainan), showing:
-   - Photo gallery (from `photos[]`, with lightbox or simple carousel)
-   - Title, duration, price, deposit
-   - Includes list
-   - Day-by-day itinerary (existing layout)
-   - "Book this tour" button → preselects service type `package` + the location, then navigates to `#booking`.
-5. Translation keys added for new section copy (en / zh-TW / zh-CN).
+## Frontend — `/services/skydiving-tour`
 
-Data source: extend `useLocationServices` query to also return the joined location name/slug (or fetch via `useLocations()` and zip in component).
+Rewrite the itinerary block in `TourCard` (`src/pages/ServiceSkydivingTour.tsx`):
 
-## 3. Admin panel — `src/components/admin/AdminToursPanel.tsx`
+- Vertical timeline with a left accent line in `accent-orange`.
+- For each day: header pill "Day N — Title".
+- Inside the day, three labeled segments (Morning ☀ / Afternoon ⛅ / Evening 🌙) with a small icon and translated label.
+- Each item: dot marker + bold title + optional muted location (📍 prefix).
+- Empty segments are hidden.
+- All values go through `translateData('tour.item.<text>', text)` so Chinese translations keep working.
 
-Add a **Photos** editor per tour row:
-- Textarea (one URL per line) bound to `photos[]`, OR a small uploader using the existing `gallery` storage bucket (URL-list textarea is simpler and matches current `includes` UX — recommend this for v1).
-- Persist alongside existing fields in the `update` call.
+Add translation keys:
 
-Everything else (price, deposit, includes, itinerary days) is already editable.
+```
+tour.morning / tour.afternoon / tour.evening  (en / zh-TW / zh-CN)
+```
 
-## 4. `src/components/Services.tsx`
+## Admin — `AdminToursPanel.tsx`
 
-No code change needed — once package rows exist in DB the card renders with the existing "View Details" link to `/services/skydiving-tour`.
+Rebuild the itinerary editor:
 
-## 5. Translations (`LanguageContext.tsx`)
+- Per day card: title input + "Add day" / delete day at top, day-reorder via up/down arrows on the card.
+- Three segment blocks (Morning / Afternoon / Evening) inside each day.
+- Each segment: a list of inline rows `[drag-handle | title input | location input | delete]`, plus "+ Add item" button at the bottom.
+- Drag-to-reorder items within a segment using `@dnd-kit/core` + `@dnd-kit/sortable` (already lightweight; will be added as deps).
+- Items can also be moved between segments by dragging across, OR via a small segment dropdown on the row (decision: keep cross-segment moves to a dropdown to keep DnD simple).
+- "Save" button per tour writes the full new `itinerary` JSON back to Supabase.
 
-Add keys for: `tour.chooseLocation`, `tour.selectPlan`, `tour.bookThisTour`, `tour.photos`, plus the new HowItWorks/Includes/FAQ strings (`servicePage.tour.*`).
+## Technical details
 
-## Files touched
+Files touched:
 
-- new migration: add `photos` column + seed package rows
-- `src/pages/ServiceSkydivingTour.tsx` (rewrite body, keep hero shell)
-- `src/components/admin/AdminToursPanel.tsx` (add photos editor)
-- `src/hooks/useLocationServices.ts` (add `photos: string[]` to interface)
-- `src/contexts/LanguageContext.tsx` (new keys)
+```
+src/hooks/useLocationServices.ts        ← new ItineraryDay/ItinerarySegment types
+src/pages/ServiceSkydivingTour.tsx      ← new timeline renderer in TourCard
+src/components/admin/AdminToursPanel.tsx ← new segmented editor with dnd-kit
+src/contexts/LanguageContext.tsx        ← morning/afternoon/evening labels
+```
 
-## Open question
+DB migration (data-only, run via insert tool):
 
-For photo management in admin: **(A)** simple textarea of URLs (fast, ship now) or **(B)** drag-and-drop uploader to the existing `gallery` bucket (nicer UX, more code). I'll go with **(A)** unless you prefer (B).
+```sql
+UPDATE public.location_services
+SET itinerary = (
+  SELECT jsonb_agg(
+    jsonb_build_object(
+      'day',   d->>'day',
+      'title', d->>'title',
+      'segments', jsonb_build_array(
+        jsonb_build_object('period','morning',   'items', /* transportation+location items */),
+        jsonb_build_object('period','afternoon', 'items', /* activities items */),
+        jsonb_build_object('period','evening',   'items', /* meals+accommodation items */)
+      )
+    )
+  )
+  FROM jsonb_array_elements(itinerary) d
+)
+WHERE service_type = 'Tour';
+```
+
+New deps: `@dnd-kit/core`, `@dnd-kit/sortable`, `@dnd-kit/utilities`.
+
+Type safety: `ItineraryDay.segments` is required after migration; renderer also tolerates legacy days (no `segments`) by treating them as empty so nothing crashes if older data sneaks in.
+
+## Out of scope
+
+- No changes to booking flow, deposit, or pricing.
+- No changes to other service pages (Tandem, A-Licence).
+- No new Chinese translations for individual schedule item text — they'll fall through `translateData` like today's tour fields, ready for admin-added translations later.
