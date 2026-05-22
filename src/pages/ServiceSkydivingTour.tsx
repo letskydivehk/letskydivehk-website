@@ -257,39 +257,40 @@ function TourCard({
           {tour.itinerary.map((day) => (
             <li key={day.day} className="rounded-lg bg-muted/40 p-4">
               <div className="font-bold text-foreground mb-2">
-                {t('tour.day')} {day.day}{day.title ? ` — ${day.title}` : ''}
+                {t('tour.day')} {day.day}{day.title ? ` — ${translateData(`tour.dayTitle.${day.title}`, day.title)}` : ''}
               </div>
               <ul className="space-y-1.5 text-xs">
                 {day.location && (
                   <li className="flex items-start gap-2 text-muted-foreground">
                     <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.location')}:</span> {day.location}</span>
+                    <span><span className="font-semibold text-foreground">{t('tour.location')}:</span> {translateData(`tour.field.${day.location}`, day.location)}</span>
                   </li>
                 )}
                 {day.accommodation && (
                   <li className="flex items-start gap-2 text-muted-foreground">
                     <Hotel className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.accommodation')}:</span> {day.accommodation}</span>
+                    <span><span className="font-semibold text-foreground">{t('tour.accommodation')}:</span> {translateData(`tour.field.${day.accommodation}`, day.accommodation)}</span>
                   </li>
                 )}
                 {day.transportation && (
                   <li className="flex items-start gap-2 text-muted-foreground">
                     <Bus className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.transportation')}:</span> {day.transportation}</span>
+                    <span><span className="font-semibold text-foreground">{t('tour.transportation')}:</span> {translateData(`tour.field.${day.transportation}`, day.transportation)}</span>
                   </li>
                 )}
                 {day.meals && (
                   <li className="flex items-start gap-2 text-muted-foreground">
                     <Utensils className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.meals')}:</span> {day.meals}</span>
+                    <span><span className="font-semibold text-foreground">{t('tour.meals')}:</span> {translateData(`tour.field.${day.meals}`, day.meals)}</span>
                   </li>
                 )}
                 {day.activities && day.activities.length > 0 && (
                   <li className="flex items-start gap-2 text-muted-foreground">
                     <Sparkles className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.activities')}:</span> {day.activities.join(' · ')}</span>
+                    <span><span className="font-semibold text-foreground">{t('tour.activities')}:</span> {day.activities.map((a) => translateData(`tour.field.${a}`, a)).join(' · ')}</span>
                   </li>
                 )}
+
               </ul>
             </li>
           ))}
