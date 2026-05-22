@@ -192,12 +192,15 @@ function TourCard({
   locationName,
   onBook,
   t,
+  translateData,
 }: {
   tour: LocationService
   locationName: string
   onBook: () => void
   t: (key: string) => string
+  translateData: (key: string, fallback: string) => string
 }) {
+
   const [photoIdx, setPhotoIdx] = useState(0)
   const photos = tour.photos?.length ? tour.photos : ['https://images.unsplash.com/photo-1528181304800-259b08848526?w=1200&q=80']
 
