@@ -168,11 +168,13 @@ export default function ServiceSkydivingTour() {
                         locationName={translateData(`location.${selectedGroup.location.slug}`, selectedGroup.location.Name)}
                         onBook={() => handleBookNow(selectedGroup.location.id)}
                         t={t}
+                        translateData={translateData}
                       />
                     ))}
                   </motion.div>
                 )}
               </AnimatePresence>
+
             </>
           )}
         </div>
