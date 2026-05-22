@@ -168,11 +168,13 @@ export default function ServiceSkydivingTour() {
                         locationName={translateData(`location.${selectedGroup.location.slug}`, selectedGroup.location.Name)}
                         onBook={() => handleBookNow(selectedGroup.location.id)}
                         t={t}
+                        translateData={translateData}
                       />
                     ))}
                   </motion.div>
                 )}
               </AnimatePresence>
+
             </>
           )}
         </div>
@@ -190,12 +192,15 @@ function TourCard({
   locationName,
   onBook,
   t,
+  translateData,
 }: {
   tour: LocationService
   locationName: string
   onBook: () => void
   t: (key: string) => string
+  translateData: (key: string, fallback: string) => string
 }) {
+
   const [photoIdx, setPhotoIdx] = useState(0)
   const photos = tour.photos?.length ? tour.photos : ['https://images.unsplash.com/photo-1528181304800-259b08848526?w=1200&q=80']
 
@@ -216,7 +221,7 @@ function TourCard({
         </div>
         <div className="absolute bottom-3 left-4 right-4 text-white">
           <div className="text-xs opacity-80">{locationName}</div>
-          <h3 className="text-xl font-bold">{tour.service_name}</h3>
+          <h3 className="text-xl font-bold">{translateData(`tour.name.${tour.service_name}`, tour.service_name)}</h3>
         </div>
         {photos.length > 1 && (
           <div className="absolute bottom-3 right-3 flex gap-1">
@@ -240,9 +245,10 @@ function TourCard({
               {tour.includes.map((item, i) => (
                 <li key={i} className="flex items-start gap-1.5 text-xs text-muted-foreground">
                   <Check className="w-3.5 h-3.5 text-accent-orange mt-0.5 shrink-0" />
-                  <span>{item}</span>
+                  <span>{translateData(`include.${item}`, item)}</span>
                 </li>
               ))}
+
             </ul>
           </div>
         )}
@@ -251,39 +257,40 @@ function TourCard({
           {tour.itinerary.map((day) => (
             <li key={day.day} className="rounded-lg bg-muted/40 p-4">
               <div className="font-bold text-foreground mb-2">
-                {t('tour.day')} {day.day}{day.title ? ` — ${day.title}` : ''}
+                {t('tour.day')} {day.day}{day.title ? ` — ${translateData(`tour.dayTitle.${day.title}`, day.title)}` : ''}
               </div>
               <ul className="space-y-1.5 text-xs">
                 {day.location && (
                   <li className="flex items-start gap-2 text-muted-foreground">
                     <MapPin className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.location')}:</span> {day.location}</span>
+                    <span><span className="font-semibold text-foreground">{t('tour.location')}:</span> {translateData(`tour.field.${day.location}`, day.location)}</span>
                   </li>
                 )}
                 {day.accommodation && (
                   <li className="flex items-start gap-2 text-muted-foreground">
                     <Hotel className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.accommodation')}:</span> {day.accommodation}</span>
+                    <span><span className="font-semibold text-foreground">{t('tour.accommodation')}:</span> {translateData(`tour.field.${day.accommodation}`, day.accommodation)}</span>
                   </li>
                 )}
                 {day.transportation && (
                   <li className="flex items-start gap-2 text-muted-foreground">
                     <Bus className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.transportation')}:</span> {day.transportation}</span>
+                    <span><span className="font-semibold text-foreground">{t('tour.transportation')}:</span> {translateData(`tour.field.${day.transportation}`, day.transportation)}</span>
                   </li>
                 )}
                 {day.meals && (
                   <li className="flex items-start gap-2 text-muted-foreground">
                     <Utensils className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.meals')}:</span> {day.meals}</span>
+                    <span><span className="font-semibold text-foreground">{t('tour.meals')}:</span> {translateData(`tour.field.${day.meals}`, day.meals)}</span>
                   </li>
                 )}
                 {day.activities && day.activities.length > 0 && (
                   <li className="flex items-start gap-2 text-muted-foreground">
                     <Sparkles className="w-3.5 h-3.5 mt-0.5 shrink-0 text-accent-orange" />
-                    <span><span className="font-semibold text-foreground">{t('tour.activities')}:</span> {day.activities.join(' · ')}</span>
+                    <span><span className="font-semibold text-foreground">{t('tour.activities')}:</span> {day.activities.map((a) => translateData(`tour.field.${a}`, a)).join(' · ')}</span>
                   </li>
                 )}
+
               </ul>
             </li>
           ))}
