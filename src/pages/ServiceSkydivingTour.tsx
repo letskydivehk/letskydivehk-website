@@ -221,7 +221,7 @@ function TourCard({
         </div>
         <div className="absolute bottom-3 left-4 right-4 text-white">
           <div className="text-xs opacity-80">{locationName}</div>
-          <h3 className="text-xl font-bold">{tour.service_name}</h3>
+          <h3 className="text-xl font-bold">{translateData(`tour.name.${tour.service_name}`, tour.service_name)}</h3>
         </div>
         {photos.length > 1 && (
           <div className="absolute bottom-3 right-3 flex gap-1">
