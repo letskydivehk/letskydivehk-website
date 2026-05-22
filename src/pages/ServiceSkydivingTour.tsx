@@ -245,9 +245,10 @@ function TourCard({
               {tour.includes.map((item, i) => (
                 <li key={i} className="flex items-start gap-1.5 text-xs text-muted-foreground">
                   <Check className="w-3.5 h-3.5 text-accent-orange mt-0.5 shrink-0" />
-                  <span>{item}</span>
+                  <span>{translateData(`include.${item}`, item)}</span>
                 </li>
               ))}
+
             </ul>
           </div>
         )}
