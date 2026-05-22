@@ -25,7 +25,7 @@ export function AdminToursPanel() {
     const { data, error } = await supabase
       .from("location_services")
       .select("*, locations(Name)")
-      .eq("service_type", "package")
+      .eq("service_type", "Tour")
       .order("display_order");
     if (error) {
       toast.error("Failed to load tours");

@@ -11,18 +11,18 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   tandem: Plane,
   aff: GraduationCap,
   group: Users,
-  package: Compass,
+  Tour: Compass,
 }
 
 const detailRoutes: Record<string, string> = {
   tandem: '/services/tandem-skydive',
   aff: '/services/a-licence',
-  package: '/services/skydiving-tour',
+  Tour: '/services/skydiving-tour',
 }
 
 // Aggregate services by type for display
 interface AggregatedService {
-  type: 'tandem' | 'aff' | 'group' | 'package'
+  type: 'tandem' | 'aff' | 'group' | 'Tour'
   title: string
   subtitle: string
   description: string
@@ -55,7 +55,7 @@ export function Services() {
         subtitle: t('services.group.subtitle'),
         description: t('services.group.description')
       },
-      package: {
+      Tour: {
         title: t('services.tour.title'),
         subtitle: t('services.tour.subtitle'),
         description: t('services.tour.description')
@@ -104,7 +104,7 @@ export function Services() {
       }
 
       return {
-        type: type as 'tandem' | 'aff' | 'group' | 'package',
+        type: type as 'tandem' | 'aff' | 'group' | 'Tour',
         title: info.title,
         subtitle: info.subtitle,
         description: info.description,
@@ -113,7 +113,7 @@ export function Services() {
         isPopular: data.isPopular
       } as AggregatedService
     }).sort((a, b) => {
-      const order: Record<string, number> = { tandem: 1, aff: 2, package: 3, group: 4 }
+      const order: Record<string, number> = { tandem: 1, aff: 2, Tour: 3, group: 4 }
       return (order[a.type] || 99) - (order[b.type] || 99)
     })
   }, [locationServices, t])

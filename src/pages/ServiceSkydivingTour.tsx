@@ -39,7 +39,7 @@ export default function ServiceSkydivingTour() {
       .map((l) => ({
         location: l,
         tours: services
-          .filter((s) => s.location_id === l.id && s.service_type === 'package')
+          .filter((s) => s.location_id === l.id && s.service_type === 'Tour')
           .sort((a, b) => a.display_order - b.display_order),
       }))
       .filter((g) => g.tours.length > 0)
@@ -56,7 +56,7 @@ export default function ServiceSkydivingTour() {
   const selectedGroup = locationTours.find((g) => g.location.id === selectedLocId)
 
   const handleBookNow = (locationId?: string) => {
-    setPreselectedServiceType('package')
+    setPreselectedServiceType('Tour')
     if (locationId) setPreselectedLocationId(locationId)
     navigate('/#booking')
     setTimeout(() => {
