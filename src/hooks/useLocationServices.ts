@@ -1,9 +1,23 @@
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
 
+export type ItineraryPeriod = 'morning' | 'afternoon' | 'evening'
+
+export interface ItineraryItem {
+  title: string
+  location?: string | null
+}
+
+export interface ItinerarySegment {
+  period: ItineraryPeriod
+  items: ItineraryItem[]
+}
+
 export interface ItineraryDay {
   day: number
   title?: string
+  segments?: ItinerarySegment[]
+  // legacy fields kept optional for backwards compatibility
   location?: string
   accommodation?: string
   transportation?: string
