@@ -26,6 +26,11 @@ export interface ItineraryDay {
   notes?: string
 }
 
+export interface AddOnItem {
+  name: string
+  price?: string | null
+}
+
 export interface LocationService {
   id: string
   location_id: string
@@ -39,6 +44,7 @@ export interface LocationService {
   deposit_amount: number
   itinerary: ItineraryDay[]
   photos: string[]
+  add_ons: AddOnItem[]
   created_at: string
   updated_at: string
 }

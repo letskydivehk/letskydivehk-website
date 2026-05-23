@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
-import { Loader2, Plus, Trash2, Save, ChevronDown, ChevronUp, GripVertical, ArrowUp, ArrowDown, Sunrise, Sun, Moon } from "lucide-react";
+import { Loader2, Plus, Trash2, Save, ChevronDown, ChevronUp, GripVertical, ArrowUp, ArrowDown, Sunrise, Sun, Moon, X, ImagePlus } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import {
   DndContext,
@@ -23,6 +24,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import type {
+  AddOnItem,
   ItineraryDay,
   ItineraryItem,
   ItineraryPeriod,
@@ -123,6 +125,7 @@ export function AdminToursPanel() {
           segments: ensureSegments(day),
         })),
         photos: Array.isArray(d.photos) ? d.photos : [],
+        add_ons: Array.isArray(d.add_ons) ? d.add_ons : [],
         locationName: d.locations?.Name,
       })) as TourRow[],
     );
@@ -207,7 +210,6 @@ export function AdminToursPanel() {
 
   const save = async (row: TourRow) => {
     setSavingId(row.id);
-    // Strip empty items before save
     const cleanedItinerary = row.itinerary.map((d) => ({
       day: d.day,
       title: d.title || "",
@@ -216,13 +218,19 @@ export function AdminToursPanel() {
         items: s.items.filter((it) => it.title && it.title.trim().length > 0),
       })),
     }));
+    const cleanedAddOns = (row.add_ons || [])
+      .filter((a) => a.name && a.name.trim().length > 0)
+      .map((a) => ({ name: a.name.trim(), price: a.price?.trim() || null }));
+    const cleanedIncludes = (row.includes || []).map((s) => s.trim()).filter(Boolean);
+
     const { error } = await supabase
       .from("location_services")
       .update({
         service_name: row.service_name,
         price_display: row.price_display,
         deposit_amount: row.deposit_amount,
-        includes: row.includes,
+        includes: cleanedIncludes,
+        add_ons: cleanedAddOns as any,
         photos: row.photos,
         itinerary: cleanedItinerary as any,
       })
@@ -249,7 +257,7 @@ export function AdminToursPanel() {
       <div>
         <h2 className="text-xl font-bold">Skydiving Tours</h2>
         <p className="text-sm text-muted-foreground">
-          Edit tour pricing, deposit, includes, and timeline-based itinerary per location.
+          Edit pricing, what's included, optional add-ons, photos, and the timeline-based itinerary per tour.
         </p>
       </div>
       {rows.map((row) => {
@@ -272,219 +280,352 @@ export function AdminToursPanel() {
             </button>
 
             {isOpen && (
-              <div className="p-4 border-t space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
-                  <div>
-                    <Label>Service name</Label>
-                    <Input
-                      value={row.service_name}
-                      onChange={(e) => updateRow(row.id, { service_name: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label>Price display</Label>
-                    <Input
-                      value={row.price_display}
-                      onChange={(e) => updateRow(row.id, { price_display: e.target.value })}
-                    />
-                  </div>
-                  <div>
-                    <Label>Deposit (HKD)</Label>
-                    <Input
-                      type="number"
-                      value={row.deposit_amount}
-                      onChange={(e) => updateRow(row.id, { deposit_amount: Number(e.target.value) || 0 })}
-                    />
-                  </div>
-                </div>
+              <div className="p-4 border-t">
+                <Tabs defaultValue="pricing" className="w-full">
+                  <TabsList className="grid grid-cols-4 w-full mb-4">
+                    <TabsTrigger value="pricing">Pricing</TabsTrigger>
+                    <TabsTrigger value="included">Included & Add-ons</TabsTrigger>
+                    <TabsTrigger value="photos">Photos</TabsTrigger>
+                    <TabsTrigger value="itinerary">Itinerary</TabsTrigger>
+                  </TabsList>
 
-                <div>
-                  <Label>Includes (one per line)</Label>
-                  <Textarea
-                    rows={4}
-                    value={(row.includes || []).join("\n")}
-                    onChange={(e) =>
-                      updateRow(row.id, {
-                        includes: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean),
-                      })
-                    }
-                  />
-                </div>
-
-                <div>
-                  <Label>Photo URLs (one per line)</Label>
-                  <Textarea
-                    rows={4}
-                    placeholder="https://images.unsplash.com/photo-..."
-                    value={(row.photos || []).join("\n")}
-                    onChange={(e) =>
-                      updateRow(row.id, {
-                        photos: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean),
-                      })
-                    }
-                  />
-                  {row.photos?.length > 0 && (
-                    <div className="flex gap-2 mt-2 flex-wrap">
-                      {row.photos.map((url, i) => (
-                        <img key={i} src={url} alt="" className="w-20 h-16 object-cover rounded border" />
-                      ))}
+                  {/* PRICING */}
+                  <TabsContent value="pricing" className="space-y-3">
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
+                      <div>
+                        <Label>Service name</Label>
+                        <Input
+                          value={row.service_name}
+                          onChange={(e) => updateRow(row.id, { service_name: e.target.value })}
+                        />
+                      </div>
+                      <div>
+                        <Label>Price display</Label>
+                        <Input
+                          value={row.price_display}
+                          onChange={(e) => updateRow(row.id, { price_display: e.target.value })}
+                          placeholder="$6,799起"
+                        />
+                        <p className="text-[11px] text-muted-foreground mt-1">
+                          Format hint: use <code>$X,XXX起</code> for "starts from".
+                        </p>
+                      </div>
+                      <div>
+                        <Label>Deposit (HKD)</Label>
+                        <Input
+                          type="number"
+                          value={row.deposit_amount}
+                          onChange={(e) =>
+                            updateRow(row.id, { deposit_amount: Number(e.target.value) || 0 })
+                          }
+                        />
+                      </div>
                     </div>
-                  )}
-                </div>
+                  </TabsContent>
 
-                <div>
-                  <div className="flex items-center justify-between mb-2">
-                    <Label className="text-base">Itinerary timeline</Label>
-                    <Button type="button" size="sm" variant="outline" onClick={() => addDay(row.id)}>
-                      <Plus className="w-3 h-3 mr-1" /> Add day
-                    </Button>
-                  </div>
-
-                  {row.itinerary.length === 0 && (
-                    <p className="text-sm text-muted-foreground italic">
-                      No days yet. Add the first day to begin.
-                    </p>
-                  )}
-
-                  <div className="space-y-4">
-                    {row.itinerary.map((day, dayIdx) => {
-                      const segments = ensureSegments(day);
-                      return (
-                        <div key={dayIdx} className="border rounded-lg p-4 bg-muted/30 space-y-3">
-                          <div className="flex items-center gap-2">
-                            <span className="px-2 py-1 rounded bg-accent-orange text-white text-xs font-semibold whitespace-nowrap">
-                              Day {day.day}
-                            </span>
-                            <Input
-                              placeholder="Day title (e.g. Arrival & Old City)"
-                              value={day.title || ""}
-                              onChange={(e) => updateDay(row.id, dayIdx, { title: e.target.value })}
-                              className="flex-1 h-9"
-                            />
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="ghost"
-                              onClick={() => moveDay(row.id, dayIdx, -1)}
-                              disabled={dayIdx === 0}
-                              className="h-8 w-8 p-0"
-                            >
-                              <ArrowUp className="w-3.5 h-3.5" />
-                            </Button>
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="ghost"
-                              onClick={() => moveDay(row.id, dayIdx, 1)}
-                              disabled={dayIdx === row.itinerary.length - 1}
-                              className="h-8 w-8 p-0"
-                            >
-                              <ArrowDown className="w-3.5 h-3.5" />
-                            </Button>
-                            <Button
-                              type="button"
-                              size="sm"
-                              variant="ghost"
-                              onClick={() => removeDay(row.id, dayIdx)}
-                              className="h-8 w-8 p-0 text-destructive"
-                            >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </Button>
-                          </div>
-
-                          <div className="space-y-3">
-                            {PERIODS.map(({ key, label, Icon, color }) => {
-                              const seg = segments.find((s) => s.period === key)!;
-                              const ids = seg.items.map((_, i) => `${dayIdx}-${key}-${i}`);
-                              const onDragEnd = (e: DragEndEvent) => {
-                                const { active, over } = e;
-                                if (!over || active.id === over.id) return;
-                                const oldIdx = ids.indexOf(String(active.id));
-                                const newIdx = ids.indexOf(String(over.id));
-                                if (oldIdx < 0 || newIdx < 0) return;
-                                updateSegment(row.id, dayIdx, key, arrayMove(seg.items, oldIdx, newIdx));
-                              };
-                              return (
-                                <div key={key} className="rounded-md border bg-background/60 p-3">
-                                  <div className="flex items-center justify-between mb-2">
-                                    <div className="flex items-center gap-2">
-                                      <Icon className={`w-4 h-4 ${color}`} />
-                                      <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-                                        {label}
-                                      </span>
-                                    </div>
-                                    <Button
-                                      type="button"
-                                      size="sm"
-                                      variant="ghost"
-                                      className="h-7 text-xs"
-                                      onClick={() =>
-                                        updateSegment(row.id, dayIdx, key, [
-                                          ...seg.items,
-                                          { title: "", location: "" },
-                                        ])
-                                      }
-                                    >
-                                      <Plus className="w-3 h-3 mr-1" /> Add item
-                                    </Button>
-                                  </div>
-                                  {seg.items.length === 0 ? (
-                                    <p className="text-xs text-muted-foreground italic px-1">No items</p>
-                                  ) : (
-                                    <DndContext
-                                      sensors={sensors}
-                                      collisionDetection={closestCenter}
-                                      onDragEnd={onDragEnd}
-                                    >
-                                      <SortableContext items={ids} strategy={verticalListSortingStrategy}>
-                                        <div className="space-y-2">
-                                          {seg.items.map((item, i) => (
-                                            <SortableItemRow
-                                              key={ids[i]}
-                                              id={ids[i]}
-                                              item={item}
-                                              onChange={(patch) =>
-                                                updateSegment(
-                                                  row.id,
-                                                  dayIdx,
-                                                  key,
-                                                  seg.items.map((it, j) =>
-                                                    j === i ? { ...it, ...patch } : it,
-                                                  ),
-                                                )
-                                              }
-                                              onRemove={() =>
-                                                updateSegment(
-                                                  row.id,
-                                                  dayIdx,
-                                                  key,
-                                                  seg.items.filter((_, j) => j !== i),
-                                                )
-                                              }
-                                            />
-                                          ))}
-                                        </div>
-                                      </SortableContext>
-                                    </DndContext>
-                                  )}
-                                </div>
-                              );
-                            })}
-                          </div>
+                  {/* INCLUDED & ADD-ONS */}
+                  <TabsContent value="included" className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div className="border rounded-lg p-3 bg-emerald-50/30">
+                        <div className="flex items-center justify-between mb-2">
+                          <Label className="text-emerald-700 font-semibold">Included in package</Label>
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            className="h-7 text-xs"
+                            onClick={() =>
+                              updateRow(row.id, { includes: [...(row.includes || []), ""] })
+                            }
+                          >
+                            <Plus className="w-3 h-3 mr-1" /> Add
+                          </Button>
                         </div>
-                      );
-                    })}
-                  </div>
-                </div>
+                        <div className="space-y-2">
+                          {(row.includes || []).map((item, i) => (
+                            <div key={i} className="flex items-center gap-2">
+                              <Input
+                                value={item}
+                                onChange={(e) => {
+                                  const next = [...(row.includes || [])];
+                                  next[i] = e.target.value;
+                                  updateRow(row.id, { includes: next });
+                                }}
+                                className="h-8 text-sm"
+                                placeholder="e.g. Meals"
+                              />
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="ghost"
+                                className="h-8 w-8 p-0 text-destructive"
+                                onClick={() =>
+                                  updateRow(row.id, {
+                                    includes: (row.includes || []).filter((_, j) => j !== i),
+                                  })
+                                }
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </Button>
+                            </div>
+                          ))}
+                          {(row.includes || []).length === 0 && (
+                            <p className="text-xs italic text-muted-foreground">No items yet.</p>
+                          )}
+                        </div>
+                      </div>
 
-                <div className="flex justify-end">
+                      <div className="border rounded-lg p-3 bg-accent-orange/5">
+                        <div className="flex items-center justify-between mb-2">
+                          <Label className="text-accent-orange font-semibold">Optional add-ons</Label>
+                          <Button
+                            type="button"
+                            size="sm"
+                            variant="outline"
+                            className="h-7 text-xs"
+                            onClick={() =>
+                              updateRow(row.id, {
+                                add_ons: [...(row.add_ons || []), { name: "", price: null }],
+                              })
+                            }
+                          >
+                            <Plus className="w-3 h-3 mr-1" /> Add
+                          </Button>
+                        </div>
+                        <div className="space-y-2">
+                          {(row.add_ons || []).map((a, i) => (
+                            <div key={i} className="flex items-center gap-2">
+                              <Input
+                                value={a.name}
+                                onChange={(e) => {
+                                  const next: AddOnItem[] = [...(row.add_ons || [])];
+                                  next[i] = { ...next[i], name: e.target.value };
+                                  updateRow(row.id, { add_ons: next });
+                                }}
+                                className="h-8 text-sm flex-1"
+                                placeholder="e.g. Round-trip flights"
+                              />
+                              <Input
+                                value={a.price || ""}
+                                onChange={(e) => {
+                                  const next: AddOnItem[] = [...(row.add_ons || [])];
+                                  next[i] = { ...next[i], price: e.target.value || null };
+                                  updateRow(row.id, { add_ons: next });
+                                }}
+                                className="h-8 text-sm w-28"
+                                placeholder="Price (opt.)"
+                              />
+                              <Button
+                                type="button"
+                                size="sm"
+                                variant="ghost"
+                                className="h-8 w-8 p-0 text-destructive"
+                                onClick={() =>
+                                  updateRow(row.id, {
+                                    add_ons: (row.add_ons || []).filter((_, j) => j !== i),
+                                  })
+                                }
+                              >
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </Button>
+                            </div>
+                          ))}
+                          {(row.add_ons || []).length === 0 && (
+                            <p className="text-xs italic text-muted-foreground">No add-ons yet.</p>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </TabsContent>
+
+                  {/* PHOTOS */}
+                  <TabsContent value="photos" className="space-y-3">
+                    {row.photos?.length > 0 && (
+                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                        {row.photos.map((url, i) => (
+                          <div key={i} className="relative group rounded-lg overflow-hidden border bg-muted aspect-[4/3]">
+                            <img src={url} alt="" className="w-full h-full object-cover" />
+                            <button
+                              type="button"
+                              onClick={() =>
+                                updateRow(row.id, {
+                                  photos: row.photos.filter((_, j) => j !== i),
+                                })
+                              }
+                              className="absolute top-1 right-1 bg-destructive text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                              aria-label="Remove photo"
+                            >
+                              <X className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                    <div className="flex gap-2">
+                      <Input
+                        placeholder="Paste image URL and press Enter"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            const v = (e.target as HTMLInputElement).value.trim();
+                            if (v) {
+                              updateRow(row.id, { photos: [...(row.photos || []), v] });
+                              (e.target as HTMLInputElement).value = "";
+                            }
+                          }
+                        }}
+                      />
+                      <Button
+                        type="button"
+                        variant="outline"
+                        onClick={(e) => {
+                          const input = (e.currentTarget.parentElement?.querySelector("input") as HTMLInputElement);
+                          const v = input?.value.trim();
+                          if (v) {
+                            updateRow(row.id, { photos: [...(row.photos || []), v] });
+                            input.value = "";
+                          }
+                        }}
+                      >
+                        <ImagePlus className="w-4 h-4 mr-1" /> Add
+                      </Button>
+                    </div>
+                    <details className="text-xs">
+                      <summary className="cursor-pointer text-muted-foreground">Bulk edit URLs</summary>
+                      <Textarea
+                        rows={4}
+                        className="mt-2"
+                        value={(row.photos || []).join("\n")}
+                        onChange={(e) =>
+                          updateRow(row.id, {
+                            photos: e.target.value.split("\n").map((s) => s.trim()).filter(Boolean),
+                          })
+                        }
+                      />
+                    </details>
+                  </TabsContent>
+
+                  {/* ITINERARY */}
+                  <TabsContent value="itinerary" className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <Label className="text-base">Itinerary timeline</Label>
+                      <Button type="button" size="sm" variant="outline" onClick={() => addDay(row.id)}>
+                        <Plus className="w-3 h-3 mr-1" /> Add day
+                      </Button>
+                    </div>
+
+                    {row.itinerary.length === 0 && (
+                      <p className="text-sm text-muted-foreground italic">No days yet. Add the first day to begin.</p>
+                    )}
+
+                    <div className="space-y-4">
+                      {row.itinerary.map((day, dayIdx) => {
+                        const segments = ensureSegments(day);
+                        return (
+                          <div key={dayIdx} className="border rounded-lg p-4 bg-muted/30 space-y-3">
+                            <div className="flex items-center gap-2">
+                              <span className="px-2 py-1 rounded bg-accent-orange text-white text-xs font-semibold whitespace-nowrap">
+                                Day {day.day}
+                              </span>
+                              <Input
+                                placeholder="Day title (e.g. Arrival & Old City)"
+                                value={day.title || ""}
+                                onChange={(e) => updateDay(row.id, dayIdx, { title: e.target.value })}
+                                className="flex-1 h-9"
+                              />
+                              <Button type="button" size="sm" variant="ghost" onClick={() => moveDay(row.id, dayIdx, -1)} disabled={dayIdx === 0} className="h-8 w-8 p-0">
+                                <ArrowUp className="w-3.5 h-3.5" />
+                              </Button>
+                              <Button type="button" size="sm" variant="ghost" onClick={() => moveDay(row.id, dayIdx, 1)} disabled={dayIdx === row.itinerary.length - 1} className="h-8 w-8 p-0">
+                                <ArrowDown className="w-3.5 h-3.5" />
+                              </Button>
+                              <Button type="button" size="sm" variant="ghost" onClick={() => removeDay(row.id, dayIdx)} className="h-8 w-8 p-0 text-destructive">
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </Button>
+                            </div>
+
+                            <div className="space-y-3">
+                              {PERIODS.map(({ key, label, Icon, color }) => {
+                                const seg = segments.find((s) => s.period === key)!;
+                                const ids = seg.items.map((_, i) => `${dayIdx}-${key}-${i}`);
+                                const onDragEnd = (e: DragEndEvent) => {
+                                  const { active, over } = e;
+                                  if (!over || active.id === over.id) return;
+                                  const oldIdx = ids.indexOf(String(active.id));
+                                  const newIdx = ids.indexOf(String(over.id));
+                                  if (oldIdx < 0 || newIdx < 0) return;
+                                  updateSegment(row.id, dayIdx, key, arrayMove(seg.items, oldIdx, newIdx));
+                                };
+                                return (
+                                  <div key={key} className="rounded-md border bg-background/60 p-3">
+                                    <div className="flex items-center justify-between mb-2">
+                                      <div className="flex items-center gap-2">
+                                        <Icon className={`w-4 h-4 ${color}`} />
+                                        <span className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">{label}</span>
+                                      </div>
+                                      <Button
+                                        type="button"
+                                        size="sm"
+                                        variant="ghost"
+                                        className="h-7 text-xs"
+                                        onClick={() => updateSegment(row.id, dayIdx, key, [...seg.items, { title: "", location: "" }])}
+                                      >
+                                        <Plus className="w-3 h-3 mr-1" /> Add item
+                                      </Button>
+                                    </div>
+                                    {seg.items.length === 0 ? (
+                                      <p className="text-xs text-muted-foreground italic px-1">No items</p>
+                                    ) : (
+                                      <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={onDragEnd}>
+                                        <SortableContext items={ids} strategy={verticalListSortingStrategy}>
+                                          <div className="space-y-2">
+                                            {seg.items.map((item, i) => (
+                                              <SortableItemRow
+                                                key={ids[i]}
+                                                id={ids[i]}
+                                                item={item}
+                                                onChange={(patch) =>
+                                                  updateSegment(
+                                                    row.id,
+                                                    dayIdx,
+                                                    key,
+                                                    seg.items.map((it, j) => (j === i ? { ...it, ...patch } : it)),
+                                                  )
+                                                }
+                                                onRemove={() =>
+                                                  updateSegment(
+                                                    row.id,
+                                                    dayIdx,
+                                                    key,
+                                                    seg.items.filter((_, j) => j !== i),
+                                                  )
+                                                }
+                                              />
+                                            ))}
+                                          </div>
+                                        </SortableContext>
+                                      </DndContext>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </TabsContent>
+                </Tabs>
+
+                {/* Sticky save bar */}
+                <div className="sticky bottom-0 -mx-4 -mb-4 mt-4 px-4 py-3 border-t bg-card/95 backdrop-blur flex justify-end">
                   <Button type="button" onClick={() => save(row)} disabled={savingId === row.id}>
                     {savingId === row.id ? (
                       <Loader2 className="w-4 h-4 mr-2 animate-spin" />
                     ) : (
                       <Save className="w-4 h-4 mr-2" />
                     )}
-                    Save
+                    Save changes
                   </Button>
                 </div>
               </div>

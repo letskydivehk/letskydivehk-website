@@ -238,18 +238,38 @@ function TourCard({
       </div>
 
       <div className="p-6 flex-1 flex flex-col">
-        {tour.includes?.length > 0 && (
-          <div className="mb-5">
-            <div className="text-xs font-semibold text-muted-foreground mb-2 uppercase">{t('services.whatsIncluded')}</div>
-            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-3 gap-y-1.5">
-              {tour.includes.map((item, i) => (
-                <li key={i} className="flex items-start gap-1.5 text-xs text-muted-foreground">
-                  <Check className="w-3.5 h-3.5 text-accent-orange mt-0.5 shrink-0" />
-                  <span>{translateData(`include.${item}`, item)}</span>
-                </li>
-              ))}
-
-            </ul>
+        {(tour.includes?.length > 0 || tour.add_ons?.length > 0) && (
+          <div className="mb-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {tour.includes?.length > 0 && (
+              <div>
+                <div className="text-xs font-semibold text-emerald-600 mb-2 uppercase tracking-wider">{t('tour.included')}</div>
+                <ul className="space-y-1.5">
+                  {tour.includes.map((item, i) => (
+                    <li key={i} className="flex items-start gap-1.5 text-xs text-muted-foreground">
+                      <Check className="w-3.5 h-3.5 text-emerald-500 mt-0.5 shrink-0" />
+                      <span>{translateData(`include.${item}`, item)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {tour.add_ons?.length > 0 && (
+              <div>
+                <div className="text-xs font-semibold text-accent-orange mb-2 uppercase tracking-wider">{t('tour.addOns')}</div>
+                <ul className="space-y-1.5">
+                  {tour.add_ons.map((item, i) => (
+                    <li key={i} className="flex items-start gap-1.5 text-xs text-muted-foreground">
+                      <span className="mt-0.5 shrink-0 text-accent-orange font-bold">+</span>
+                      <span className="flex-1">
+                        {translateData(`addon.${item.name}`, item.name)}
+                        {item.price && <span className="ml-1 text-foreground font-medium">· {item.price}</span>}
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="text-[10px] text-muted-foreground/80 mt-1.5 italic">{t('tour.addOnsHint')}</div>
+              </div>
+            )}
           </div>
         )}
 
