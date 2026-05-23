@@ -414,6 +414,7 @@ export type Database = {
       }
       location_services: {
         Row: {
+          add_ons: Json
           created_at: string
           deposit_amount: number
           description: string | null
@@ -430,6 +431,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          add_ons?: Json
           created_at?: string
           deposit_amount?: number
           description?: string | null
@@ -446,6 +448,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          add_ons?: Json
           created_at?: string
           deposit_amount?: number
           description?: string | null

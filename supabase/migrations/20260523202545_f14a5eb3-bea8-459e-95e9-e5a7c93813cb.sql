@@ -1,0 +1,1 @@
+ALTER TABLE public.location_services ADD COLUMN IF NOT EXISTS add_ons jsonb NOT NULL DEFAULT '[]'::jsonb;
