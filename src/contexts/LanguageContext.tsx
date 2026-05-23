@@ -3644,8 +3644,13 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
   };
 
   const t = (key: string): string => {
-    const translation = translations[language][key] || key;
-    return translation;
+    return (
+      translations[language][key] ||
+      dataTranslations[language]?.[key] ||
+      translations.en[key] ||
+      dataTranslations.en?.[key] ||
+      key
+    );
   };
 
   // Translate dynamic data from Supabase
