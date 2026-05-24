@@ -2975,6 +2975,7 @@ translations["zh-CN"]["whatsapp.quickOptions"] = "常见问题：";
 translations["zh-CN"]["whatsapp.quick.tandem"] = "我想预约双人跳伞！";
 translations["zh-CN"]["whatsapp.quick.aff"] = "想了解A级执照课程";
 translations["zh-CN"]["whatsapp.quick.group"] = "我对团体活动有兴趣";
+translations["zh-CN"]["whatsapp.quick.tour"] = "想了解更多跳伞旅游团资讯";
 translations["zh-CN"]["whatsapp.quick.general"] = "我有一般问题想咨询";
 translations["zh-CN"]["whatsapp.placeholder"] = "输入消息...";
 
