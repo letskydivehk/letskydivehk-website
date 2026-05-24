@@ -2951,6 +2951,7 @@ translations.en["whatsapp.quickOptions"] = "Quick questions:";
 translations.en["whatsapp.quick.tandem"] = "I'd like to book a tandem skydive!";
 translations.en["whatsapp.quick.aff"] = "Tell me about A-Licence courses";
 translations.en["whatsapp.quick.group"] = "I'm interested in group events";
+translations.en["whatsapp.quick.tour"] = "I'd like to know more about your skydiving tours";
 translations.en["whatsapp.quick.general"] = "I have a general question";
 translations.en["whatsapp.placeholder"] = "Type a message...";
 
