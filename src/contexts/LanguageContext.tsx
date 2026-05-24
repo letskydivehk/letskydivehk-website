@@ -2951,6 +2951,7 @@ translations.en["whatsapp.quickOptions"] = "Quick questions:";
 translations.en["whatsapp.quick.tandem"] = "I'd like to book a tandem skydive!";
 translations.en["whatsapp.quick.aff"] = "Tell me about A-Licence courses";
 translations.en["whatsapp.quick.group"] = "I'm interested in group events";
+translations.en["whatsapp.quick.tour"] = "I'd like to know more about your skydiving tours";
 translations.en["whatsapp.quick.general"] = "I have a general question";
 translations.en["whatsapp.placeholder"] = "Type a message...";
 
@@ -2962,6 +2963,7 @@ translations["zh-TW"]["whatsapp.quickOptions"] = "常見問題：";
 translations["zh-TW"]["whatsapp.quick.tandem"] = "我想預約雙人跳傘！";
 translations["zh-TW"]["whatsapp.quick.aff"] = "想了解A級執照課程";
 translations["zh-TW"]["whatsapp.quick.group"] = "我對團體活動有興趣";
+translations["zh-TW"]["whatsapp.quick.tour"] = "想了解更多跳傘旅遊團資訊";
 translations["zh-TW"]["whatsapp.quick.general"] = "我有一般問題想查詢";
 translations["zh-TW"]["whatsapp.placeholder"] = "輸入訊息...";
 
@@ -2973,6 +2975,7 @@ translations["zh-CN"]["whatsapp.quickOptions"] = "常见问题：";
 translations["zh-CN"]["whatsapp.quick.tandem"] = "我想预约双人跳伞！";
 translations["zh-CN"]["whatsapp.quick.aff"] = "想了解A级执照课程";
 translations["zh-CN"]["whatsapp.quick.group"] = "我对团体活动有兴趣";
+translations["zh-CN"]["whatsapp.quick.tour"] = "想了解更多跳伞旅游团资讯";
 translations["zh-CN"]["whatsapp.quick.general"] = "我有一般问题想咨询";
 translations["zh-CN"]["whatsapp.placeholder"] = "输入消息...";
 

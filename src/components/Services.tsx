@@ -242,17 +242,31 @@ export function Services() {
 
                   {/* CTA Buttons */}
                   <div className="space-y-3">
-                  <button
-                    onClick={() => service.type === 'group' ? scrollToSection('contact') : scrollToBookingWithServiceType(service.type)}
-                    className={`w-full py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
-                      service.type !== 'group'
-                        ? 'bg-accent-orange text-white hover:bg-accent-orange/90'
-                        : 'bg-foreground text-background hover:bg-foreground/90'
-                    }`}
-                  >
-                    {service.type !== 'group' ? t('common.bookNow') : t('services.contactUs')}
-                    <ArrowRight className="w-4 h-4" />
-                  </button>
+                  {(() => {
+                    const isContact = service.type === 'group' || service.type === 'Tour'
+                    const handleClick = () => {
+                      if (isContact) {
+                        const msgKey = service.type === 'group' ? 'whatsapp.quick.group' : 'whatsapp.quick.tour'
+                        const text = encodeURIComponent(t(msgKey))
+                        window.open(`https://wa.me/85269391570?text=${text}`, '_blank', 'noopener,noreferrer')
+                      } else {
+                        scrollToBookingWithServiceType(service.type)
+                      }
+                    }
+                    return (
+                      <button
+                        onClick={handleClick}
+                        className={`w-full py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer ${
+                          !isContact
+                            ? 'bg-accent-orange text-white hover:bg-accent-orange/90'
+                            : 'bg-foreground text-background hover:bg-foreground/90'
+                        }`}
+                      >
+                        {!isContact ? t('common.bookNow') : t('services.contactUs')}
+                        <ArrowRight className="w-4 h-4" />
+                      </button>
+                    )
+                  })()}
                   {detailRoutes[service.type] && (
                     <Link
                       to={detailRoutes[service.type]}
