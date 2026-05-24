@@ -2963,6 +2963,7 @@ translations["zh-TW"]["whatsapp.quickOptions"] = "常見問題：";
 translations["zh-TW"]["whatsapp.quick.tandem"] = "我想預約雙人跳傘！";
 translations["zh-TW"]["whatsapp.quick.aff"] = "想了解A級執照課程";
 translations["zh-TW"]["whatsapp.quick.group"] = "我對團體活動有興趣";
+translations["zh-TW"]["whatsapp.quick.tour"] = "想了解更多跳傘旅遊團資訊";
 translations["zh-TW"]["whatsapp.quick.general"] = "我有一般問題想查詢";
 translations["zh-TW"]["whatsapp.placeholder"] = "輸入訊息...";
 
