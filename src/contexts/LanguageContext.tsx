@@ -53,6 +53,10 @@ const translations: Record<Language, Record<string, string>> = {
     "locations.map.openGoogleMaps": "Open in Google Maps",
     "locations.viewDetails": "View Details",
     "locations.bookHereBtn": "Book Here",
+    "location.closing.badge": "Closing Soon",
+    "location.closing.lastJumps": "Last jumps: June 2026",
+    "location.closing.banner": "Chiang Mai operations end 1 July 2026. Book before 30 June 2026 to secure your jump.",
+    "location.closing.unavailable": "Chiang Mai is unavailable on or after 1 July 2026. Please pick an earlier date or another location.",
 
     // Location Detail Page
     "locationDetail.notFound": "Location not found",
@@ -838,6 +842,10 @@ const translations: Record<Language, Record<string, string>> = {
     "locations.map.openGoogleMaps": "在 Google 地圖中開啟",
     "locations.viewDetails": "查看詳情",
     "locations.bookHereBtn": "立即體驗",
+    "location.closing.badge": "即將結束營運",
+    "location.closing.lastJumps": "最後跳傘月份：2026 年 6 月",
+    "location.closing.banner": "清邁基地將於 2026 年 7 月 1 日結束營運，請於 2026 年 6 月 30 日前預約您的跳傘體驗。",
+    "location.closing.unavailable": "清邁於 2026 年 7 月 1 日起停止營運，請選擇更早的日期或其他地點。",
 
     // Location Detail Page
     "locationDetail.notFound": "找不到該地點",
@@ -1580,6 +1588,10 @@ const translations: Record<Language, Record<string, string>> = {
     "locations.map.openGoogleMaps": "在 Google 地图中打开",
     "locations.viewDetails": "查看详情",
     "locations.bookHereBtn": "立即体验",
+    "location.closing.badge": "即将结束营运",
+    "location.closing.lastJumps": "最后跳伞月份：2026 年 6 月",
+    "location.closing.banner": "清迈基地将于 2026 年 7 月 1 日结束营运，请于 2026 年 6 月 30 日前预约您的跳伞体验。",
+    "location.closing.unavailable": "清迈于 2026 年 7 月 1 日起停止营运，请选择更早的日期或其他地点。",
 
     // Location Detail Page
     "locationDetail.notFound": "找不到该地点",
