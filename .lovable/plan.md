@@ -1,54 +1,50 @@
-## Goal
-Announce that Chiang Mai dropzone stops operating from **1 July 2026**, and that **June 2026 is the last chance to jump there**.
+# Animated UI Upgrade — Apple-like Premium Motion
 
-## Where to show the announcement
+Scope: Homepage sections, global buttons & cards, and page transitions. Motion intensity 4/5 — confident and cinematic, but smooth easing and restrained timing (no bouncy springs). Respects `prefers-reduced-motion`.
 
-1. **Locations grid card (Chiang Mai)** — `src/components/Locations.tsx` / via data
-   - Add a prominent "Closing Soon" badge (amber/red) replacing the area where "Coming Soon" sits.
-   - Add a short banner line on the card: "Last jumps: June 2026".
+## 1. Motion foundation
 
-2. **Chiang Mai Location Detail page** — `src/pages/LocationDetail.tsx`
-   - Add a highlighted alert banner at the top: "Operations end 1 July 2026 — book your jump before 30 June 2026."
+- Add `framer-motion` (already commonly used in project; reuse if present).
+- Create `src/lib/motion.ts` with shared presets:
+  - Easing: `[0.22, 1, 0.36, 1]` (Apple-style ease-out-expo)
+  - Durations: `fast 0.35s`, `base 0.6s`, `slow 0.9s`
+  - Variants: `fadeUp`, `fadeIn`, `scaleIn`, `staggerContainer`, `revealMask`
+- Add a `useReducedMotion` guard so all variants fall back to instant transitions.
+- Extend `index.css` with utility classes: `.tilt-card`, `.glow-on-hover`, `.shimmer`, `.magnetic` and a soft radial spotlight that follows the cursor on hero/cards.
 
-3. **Locations Map info panel** — `src/components/LocationsMap.tsx`
-   - When Chiang Mai is selected, show the same closing notice chip next to the feature tags.
+## 2. Homepage sections (`src/components/...`)
 
-4. **Booking flow** — soft notice when Chiang Mai is selected for a date ≥ 1 July 2026 (disable / warn). Keep simple: filter out Chiang Mai from selectable locations if preferred date is on/after 2026-07-01.
+Reveal-on-scroll using `whileInView` with `once: true`, 20% threshold, staggered children.
 
-5. **Homepage promo strip (optional)** — small dismissible banner above hero or under navbar for ~1 month leading up to closure. Skipping unless you want it.
+- **Hero** — Headline split into words with a mask reveal (clip-path), subhead fade-up, CTA scale-in with subtle glow pulse. Background image gets a slow parallax (translateY on scroll, max 60px) and a vignette layer that fades in.
+- **Services** — Cards enter with staggered fade-up (80ms gap). On hover: 3D tilt (max 6°), inner image zoom 1.04, gradient border glow, CTA arrow slides right. Click: brief scale-down then route.
+- **Locations** — Grid items reveal in staggered waves. Hover: image Ken-Burns zoom, label slides up from bottom with overlay gradient deepening. "Closing Soon" badge gets a soft pulsing ring.
+- **About / Testimonials / FAQ / Contact** — Section headers use mask reveal; body content fades up. Testimonials carousel transitions cross-fade with slight scale instead of hard slide.
+- **Stats / numbers** (if any) — Count-up animation when in view.
 
-## Data / flag
+## 3. Global buttons & cards
 
-Add a soft flag rather than a schema migration:
-- Use existing `coming_soon` style pattern but introduce a derived `closingNotice` constant in a single config file `src/data/locationNotices.ts`:
-  ```ts
-  export const LOCATION_NOTICES = {
-    'chiang-mai': {
-      type: 'closing',
-      lastOperatingDate: '2026-06-30',
-      message: { en: '...', 'zh-TW': '...', 'zh-CN': '...' }
-    }
-  }
-  ```
-- Components import and check by slug. No DB change needed — fastest, fully reversible.
+- **Button**: extend the shadcn `Button` with a `motion` wrapper. Hover: lift `-2px`, soft shadow grow, gradient sheen sweep (shimmer). Active: scale 0.97. Primary CTAs get a subtle outer glow on hover.
+- **Card**: shared `MotionCard` wrapper (used by Services, Locations, Blog, Promotions). Cursor-tracking spotlight (radial gradient following mouse), 3D tilt via `useMotionValue` + `useTransform`, border-gradient highlight.
+- **Links / nav items**: animated underline (already partially via `.story-link`), refined with easing.
+- **Icons**: hover micro-rotation / translate for arrows, chevrons.
 
-## Translations (add to `src/contexts/LanguageContext.tsx`)
+## 4. Page transitions
 
-- `location.closing.badge` → "Closing Soon" / 即將結束營運 / 即将结束营运
-- `location.closing.lastJumps` → "Last jumps: June 2026" / 最後跳傘月份：2026 年 6 月 / 最后跳伞月份：2026 年 6 月
-- `location.closing.banner` → "Chiang Mai operations end 1 July 2026. Book before 30 June to secure your jump." (+ zh-TW / zh-CN)
+- Wrap routes in `AnimatePresence mode="wait"` inside `App.tsx` around the `<Routes>` block, keyed by `location.pathname`.
+- Page wrapper variant: fade + 12px upward translate, 0.45s ease-out-expo on enter; fade + 8px down on exit. Scroll-to-top on route change preserved.
+- Sub-page navbar appearance unchanged (per existing memory).
 
-## Files to touch
+## 5. Accessibility & performance
 
-- `src/data/locationNotices.ts` (new)
-- `src/components/Locations.tsx` — badge + last-jump line on Chiang Mai card
-- `src/components/LocationsMap.tsx` — chip in info panel
-- `src/pages/LocationDetail.tsx` — top alert banner
-- `src/components/BookingSection.tsx` (or wherever location select lives) — guard for dates ≥ 2026-07-01
-- `src/contexts/LanguageContext.tsx` — translation keys
+- All motion respects `prefers-reduced-motion: reduce` — replaced with instant opacity transitions.
+- Animations use `transform` and `opacity` only (GPU-friendly), no layout thrash.
+- Lazy-mount heavy effects (cursor spotlight) only on `pointer: fine` devices to keep mobile light.
+- Mobile: simpler variants (no 3D tilt, no spotlight), keep scroll reveals and button shimmer.
 
-## Questions before I build
+## Files (technical)
 
-1. Confirm the **final operating date**: 30 June 2026 (last jump) → closed from 1 July 2026?
-2. Do you want the **homepage banner** (dismissible strip) too, or only on the location card / detail page?
-3. Should the booking calendar **block Chiang Mai for dates ≥ 1 July 2026**, or just show a warning?
+- New: `src/lib/motion.ts`, `src/components/ui/motion-card.tsx`, `src/components/ui/reveal.tsx`, `src/components/PageTransition.tsx`
+- Edited: `src/App.tsx` (AnimatePresence), `src/components/Hero.tsx`, `Services.tsx`, `Locations.tsx`, `About.tsx`, `Testimonials.tsx`, `FAQ.tsx`, `Contact.tsx`, `ui/button.tsx`, `index.css`, `tailwind.config.ts` (extra keyframes: shimmer, mask-reveal, glow-pulse)
+
+No backend, schema, or business-logic changes.
