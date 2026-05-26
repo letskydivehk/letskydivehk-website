@@ -972,7 +972,12 @@ export function BookingSection() {
                                 setFormData({ ...formData, date: format(date, "yyyy-MM-dd") });
                               }
                             }}
-                            disabled={(date) => date < new Date()}
+                            disabled={(date) => {
+                              if (date < new Date()) return true;
+                              const notice = getLocationNotice(selectedLocation?.slug);
+                              if (notice?.type === "closing" && date >= new Date(notice.closedFrom)) return true;
+                              return false;
+                            }}
                             initialFocus
                             className={cn("p-3 pointer-events-auto w-full")}
                           />
