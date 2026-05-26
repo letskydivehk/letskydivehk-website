@@ -101,29 +101,7 @@ export default function App() {
           <BookingProvider>
             <BrowserRouter>
               <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" /></div>}>
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/services/tandem-skydive" element={<ServiceTandem />} />
-                <Route path="/services/a-licence" element={<ServiceALicence />} />
-                <Route path="/services/skydiving-tour" element={<ServiceSkydivingTour />} />
-                <Route path="/location/:slug" element={<LocationDetail />} />
-                <Route path="/auth/callback" element={<AuthCallback />} />
-                <Route path="/membership" element={<MemberProfile />} />
-                <Route path="/gallery" element={<Gallery />} />
-                <Route path="/promotions" element={<Promotions />} />
-                <Route path="/admin/credits" element={<AdminCredits />} />
-                <Route path="/admin/blog" element={<AdminBlog />} />
-                <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:slug" element={<BlogPost />} />
-                <Route path="/membership/tiers" element={<MembershipTiers />} />
-                <Route path="/quiz" element={<Quiz />} />
-                <Route path="/quiz/result" element={<QuizResult />} />
-                <Route path="/compare" element={<LocationCompare />} />
-                <Route path="/privacy" element={<Privacy />} />
-                <Route path="/terms" element={<Terms />} />
-                <Route path="/disclaimer" element={<Disclaimer />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
+                <AnimatedRoutes />
               </Suspense>
               <ExitIntentModal />
             </BrowserRouter>
