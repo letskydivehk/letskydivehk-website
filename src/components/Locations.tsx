@@ -8,6 +8,7 @@ import { useLocations, type Location } from "@/hooks/useLocations";
 import { useBooking } from "@/contexts/BookingContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LocationsMap } from "./LocationsMap";
+import { getLocationNotice } from "@/data/locationNotices";
 
 type Country = "Thailand" | "China";
 
@@ -199,6 +200,15 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
           <div className="absolute top-4 right-4">
             <span className="bg-accent-blue text-white text-xs font-bold px-3 py-1 rounded-full">
               {t("common.comingSoon").toUpperCase()}
+            </span>
+          </div>
+        )}
+
+        {/* Closing Soon Badge */}
+        {!location.coming_soon && getLocationNotice(location.slug)?.type === "closing" && (
+          <div className="absolute top-4 right-4">
+            <span className="bg-accent-orange text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+              {t("location.closing.badge").toUpperCase()}
             </span>
           </div>
         )}
