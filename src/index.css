@@ -994,3 +994,119 @@ html {
   border-left-color: var(--primary);
   font-weight: 600;
 }
+/* ===== Premium Motion Utilities (Apple-style) ===== */
+
+/* Shimmer sheen sweep across primary CTAs */
+@keyframes lv-shimmer {
+  0% { transform: translateX(-150%) skewX(-12deg); }
+  100% { transform: translateX(250%) skewX(-12deg); }
+}
+
+.btn-shine {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+.btn-shine::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(
+    100deg,
+    transparent 20%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 80%
+  );
+  transform: translateX(-150%) skewX(-12deg);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+.btn-shine:hover::after {
+  opacity: 1;
+  animation: lv-shimmer 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+/* Glow pulse for hero CTA */
+@keyframes lv-glow-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 hsl(var(--accent-orange) / 0.45); }
+  50% { box-shadow: 0 0 0 14px hsl(var(--accent-orange) / 0); }
+}
+.glow-pulse { animation: lv-glow-pulse 2.4s cubic-bezier(0.22, 1, 0.36, 1) infinite; }
+
+/* Mask-reveal headline */
+@keyframes lv-mask-reveal {
+  from { clip-path: inset(0 100% 0 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+.mask-reveal {
+  animation: lv-mask-reveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Magnetic button — subtle lift + scale on hover, snap on active */
+.magnetic-press {
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+              box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: transform;
+}
+.magnetic-press:hover {
+  transform: translateY(-2px);
+}
+.magnetic-press:active {
+  transform: translateY(0) scale(0.97);
+  transition-duration: 0.12s;
+}
+
+/* Soft border highlight on hover for cards */
+.ring-hover {
+  transition: box-shadow 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ring-hover:hover {
+  box-shadow:
+    0 0 0 1px hsl(var(--accent-blue) / 0.35),
+    0 24px 60px -20px hsl(var(--accent-blue) / 0.35);
+}
+
+/* Animated arrow that slides on hover */
+.arrow-slide { display: inline-block; transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+.group:hover .arrow-slide,
+*:hover > .arrow-slide { transform: translateX(4px); }
+
+/* Image zoom inside hover wrappers */
+.img-zoom { transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+.group:hover .img-zoom { transform: scale(1.06); }
+
+/* Animated underline link */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0; bottom: -2px;
+  width: 100%; height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+/* Respect reduced motion globally */
+@media (prefers-reduced-motion: reduce) {
+  .btn-shine::after,
+  .glow-pulse,
+  .mask-reveal,
+  .magnetic-press,
+  .ring-hover,
+  .arrow-slide,
+  .img-zoom,
+  .link-underline::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
