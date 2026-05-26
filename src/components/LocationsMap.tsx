@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { MapPin, ExternalLink } from "lucide-react";
 import { useLocations } from "@/hooks/useLocations";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { getLocationNotice } from "@/data/locationNotices";
 
 // City coordinates for map markers
 const cityCoordinates: Record<string, { lat: number; lng: number }> = {
