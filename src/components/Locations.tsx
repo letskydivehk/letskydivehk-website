@@ -227,6 +227,11 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
 
       {/* Content */}
       <div className="p-6">
+        {!location.coming_soon && getLocationNotice(location.slug)?.type === "closing" && (
+          <div className="mb-3 px-3 py-2 rounded-lg bg-accent-orange/10 border border-accent-orange/30 text-accent-orange text-xs font-semibold">
+            {t("location.closing.lastJumps")}
+          </div>
+        )}
         <p className="text-muted-foreground mb-4 leading-relaxed">{translatedLocation.description}</p>
 
         {/* Features */}
