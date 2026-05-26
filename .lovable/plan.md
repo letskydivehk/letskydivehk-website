@@ -1,45 +1,54 @@
-# Tours admin + pricing + includes revamp
+## Goal
+Announce that Chiang Mai dropzone stops operating from **1 July 2026**, and that **June 2026 is the last chance to jump there**.
 
-## 1. Data model — add Add-ons
-Add a new `add_ons` JSONB column on `location_services` (default `[]`). Shape:
-```
-[{ "name": "Round-trip flights", "price": null }, { "name": "Travel insurance", "price": null }]
-```
-`price` optional (string) so admin can leave blank or enter "$1,200".
+## Where to show the announcement
 
-## 2. Seed/update existing Tour rows
-For every Tour row, set:
-- **Includes** (replaces current list):
-  - Local transportation (incl. airport / dropzone transfer)
-  - Hotel accommodation
-  - Meals
-  - Tandem skydive
-  - HD video & photos
-  - Cantonese/English-speaking guide
-- **Add-ons**: Round-trip flights, Travel insurance
-- **Pricing** (replaces `price_display`):
-  - Huizhou 2D1N → `$5,899起`
-  - All others (Pattaya 3D2N/4D3N, Chiang Mai 3D2N/4D3N, Hainan 3D2N/4D3N, Zhuhai 2D1N) → `$6,799起`
+1. **Locations grid card (Chiang Mai)** — `src/components/Locations.tsx` / via data
+   - Add a prominent "Closing Soon" badge (amber/red) replacing the area where "Coming Soon" sits.
+   - Add a short banner line on the card: "Last jumps: June 2026".
 
-## 3. Admin panel (`AdminToursPanel.tsx`) — better UI
-Reorganize collapsed editor into clean tabbed sections inside each tour card:
-```
-[ Overview ] [ Pricing ] [ Included & Add-ons ] [ Photos ] [ Itinerary ]
-```
-- **Overview**: service name, short description.
-- **Pricing**: price display, deposit (HKD), with helper hint "use `$X,XXX起` format".
-- **Included & Add-ons**: two side-by-side editable lists with add / remove / drag-reorder rows (reuse the dnd-kit sortable row used in itinerary). Add-ons rows have an optional price input.
-- **Photos**: existing URL list, but rendered as a thumbnail grid with per-thumb remove + add-URL field (no more raw textarea).
-- **Itinerary**: keep the current Morning/Afternoon/Evening timeline editor (already good), just move it under its own tab.
-Sticky Save bar at the bottom of the open card with unsaved-change indicator.
+2. **Chiang Mai Location Detail page** — `src/pages/LocationDetail.tsx`
+   - Add a highlighted alert banner at the top: "Operations end 1 July 2026 — book your jump before 30 June 2026."
 
-## 4. Frontend — Service Skydiving Tour page
-- Rename the "What's Included" section to show two columns: **Included in package** and **Optional add-ons** (uses new `add_ons` data, hidden if empty).
-- Pricing section pulls from updated `price_display` directly — no code change needed besides translations.
-- Add translation keys for `tour.included`, `tour.addOns`, `tour.addOnsHint` in `LanguageContext.tsx` (en / zh-TW / zh-CN).
+3. **Locations Map info panel** — `src/components/LocationsMap.tsx`
+   - When Chiang Mai is selected, show the same closing notice chip next to the feature tags.
 
-## Technical
-- Migration: `ALTER TABLE location_services ADD COLUMN add_ons jsonb NOT NULL DEFAULT '[]';`
-- Data update via insert tool for the 8 Tour rows above.
-- Update `LocationService` type in `useLocationServices.ts` with `add_ons: { name: string; price?: string | null }[]`.
-- Files touched: `useLocationServices.ts`, `AdminToursPanel.tsx`, `ServiceSkydivingTour.tsx`, `LanguageContext.tsx`, plus migration + data update.
+4. **Booking flow** — soft notice when Chiang Mai is selected for a date ≥ 1 July 2026 (disable / warn). Keep simple: filter out Chiang Mai from selectable locations if preferred date is on/after 2026-07-01.
+
+5. **Homepage promo strip (optional)** — small dismissible banner above hero or under navbar for ~1 month leading up to closure. Skipping unless you want it.
+
+## Data / flag
+
+Add a soft flag rather than a schema migration:
+- Use existing `coming_soon` style pattern but introduce a derived `closingNotice` constant in a single config file `src/data/locationNotices.ts`:
+  ```ts
+  export const LOCATION_NOTICES = {
+    'chiang-mai': {
+      type: 'closing',
+      lastOperatingDate: '2026-06-30',
+      message: { en: '...', 'zh-TW': '...', 'zh-CN': '...' }
+    }
+  }
+  ```
+- Components import and check by slug. No DB change needed — fastest, fully reversible.
+
+## Translations (add to `src/contexts/LanguageContext.tsx`)
+
+- `location.closing.badge` → "Closing Soon" / 即將結束營運 / 即将结束营运
+- `location.closing.lastJumps` → "Last jumps: June 2026" / 最後跳傘月份：2026 年 6 月 / 最后跳伞月份：2026 年 6 月
+- `location.closing.banner` → "Chiang Mai operations end 1 July 2026. Book before 30 June to secure your jump." (+ zh-TW / zh-CN)
+
+## Files to touch
+
+- `src/data/locationNotices.ts` (new)
+- `src/components/Locations.tsx` — badge + last-jump line on Chiang Mai card
+- `src/components/LocationsMap.tsx` — chip in info panel
+- `src/pages/LocationDetail.tsx` — top alert banner
+- `src/components/BookingSection.tsx` (or wherever location select lives) — guard for dates ≥ 2026-07-01
+- `src/contexts/LanguageContext.tsx` — translation keys
+
+## Questions before I build
+
+1. Confirm the **final operating date**: 30 June 2026 (last jump) → closed from 1 July 2026?
+2. Do you want the **homepage banner** (dismissible strip) too, or only on the location card / detail page?
+3. Should the booking calendar **block Chiang Mai for dates ≥ 1 July 2026**, or just show a warning?
