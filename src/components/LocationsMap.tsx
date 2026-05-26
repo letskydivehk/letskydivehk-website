@@ -185,6 +185,11 @@ export function LocationsMap() {
                   {t("common.comingSoon")}
                 </span>
               )}
+              {!activeLocation.coming_soon && getLocationNotice(activeLocation.slug)?.type === "closing" && (
+                <span className="inline-flex items-center gap-1 text-xs font-bold bg-accent-orange text-white px-3 py-1 rounded-full">
+                  {t("location.closing.badge")} · {t("location.closing.lastJumps")}
+                </span>
+              )}
             </div>
           </div>
         )}
