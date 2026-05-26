@@ -20,6 +20,7 @@ import { zhTW } from "date-fns/locale";
 import { useLocations, type Location } from "@/hooks/useLocations";
 import { useLocationServices, type LocationService } from "@/hooks/useLocationServices";
 import { useBooking } from "@/contexts/BookingContext";
+import { getLocationNotice } from "@/data/locationNotices";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
