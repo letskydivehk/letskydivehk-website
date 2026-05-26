@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { MapPin, ExternalLink } from "lucide-react";
 import { useLocations } from "@/hooks/useLocations";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { getLocationNotice } from "@/data/locationNotices";
 
 // City coordinates for map markers
 const cityCoordinates: Record<string, { lat: number; lng: number }> = {
@@ -182,6 +183,11 @@ export function LocationsMap() {
               {activeLocation.coming_soon && (
                 <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-blue text-white px-3 py-1 rounded-full">
                   {t("common.comingSoon")}
+                </span>
+              )}
+              {!activeLocation.coming_soon && getLocationNotice(activeLocation.slug)?.type === "closing" && (
+                <span className="inline-flex items-center gap-1 text-xs font-bold bg-accent-orange text-white px-3 py-1 rounded-full">
+                  {t("location.closing.badge")} · {t("location.closing.lastJumps")}
                 </span>
               )}
             </div>

@@ -1,6 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import { ArrowLeft, MapPin, Plane, Car, Building, Users, GraduationCap, Star, Loader2 } from "lucide-react";
+import { ArrowLeft, MapPin, Plane, Car, Building, Users, GraduationCap, Star, Loader2, AlertTriangle } from "lucide-react";
+import { getLocationNotice } from "@/data/locationNotices";
 import { useLocationBySlug, useLocationPhotos } from "@/hooks/useLocationDetail";
 import { useLocationServices } from "@/hooks/useLocationServices";
 import { useLocationTourism } from "@/hooks/useLocationTourism";
@@ -135,6 +136,18 @@ export default function LocationDetail() {
         {/* Content */}
         <div className="container mx-auto px-6 sm:px-8 lg:px-12 py-16">
           <div className="max-w-5xl mx-auto space-y-16">
+            {/* Closing Notice */}
+            {getLocationNotice(location.slug)?.type === "closing" && (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-start gap-3 p-4 rounded-2xl bg-accent-orange/10 border-2 border-accent-orange/40 text-foreground"
+              >
+                <AlertTriangle className="w-5 h-5 text-accent-orange flex-shrink-0 mt-0.5" />
+                <p className="font-semibold leading-relaxed">{t("location.closing.banner")}</p>
+              </motion.div>
+            )}
+
             {/* Description */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
               <p className="text-xl text-muted-foreground leading-relaxed">{translatedDesc}</p>

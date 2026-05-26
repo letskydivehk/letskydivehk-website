@@ -8,6 +8,7 @@ import { useLocations, type Location } from "@/hooks/useLocations";
 import { useBooking } from "@/contexts/BookingContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LocationsMap } from "./LocationsMap";
+import { getLocationNotice } from "@/data/locationNotices";
 
 type Country = "Thailand" | "China";
 
@@ -203,6 +204,15 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
           </div>
         )}
 
+        {/* Closing Soon Badge */}
+        {!location.coming_soon && getLocationNotice(location.slug)?.type === "closing" && (
+          <div className="absolute top-4 right-4">
+            <span className="bg-accent-orange text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+              {t("location.closing.badge").toUpperCase()}
+            </span>
+          </div>
+        )}
+
         {/* Location Name Overlay */}
         <div className="absolute bottom-4 left-4 right-4">
           <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
@@ -217,6 +227,11 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
 
       {/* Content */}
       <div className="p-6">
+        {!location.coming_soon && getLocationNotice(location.slug)?.type === "closing" && (
+          <div className="mb-3 px-3 py-2 rounded-lg bg-accent-orange/10 border border-accent-orange/30 text-accent-orange text-xs font-semibold">
+            {t("location.closing.lastJumps")}
+          </div>
+        )}
         <p className="text-muted-foreground mb-4 leading-relaxed">{translatedLocation.description}</p>
 
         {/* Features */}
