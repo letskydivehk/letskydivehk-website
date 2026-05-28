@@ -21,6 +21,8 @@ import { BackToTopButton } from "@/components/BackToTopButton";
 import { SectionNav } from "@/components/SectionNav";
 import { SafetySection } from "@/components/SafetySection";
 import { JumpDayTimeline } from "@/components/JumpDayTimeline";
+import { LazySection } from "@/components/LazySection";
+import { MobileTabBar } from "@/components/MobileTabBar";
 
 import { ReferralBanner } from "@/components/ReferralBanner";
 import { AlumniPathway } from "@/components/AlumniPathway";
@@ -35,29 +37,30 @@ export default function Home() {
       <SEO path="/" />
       <OrganizationJsonLd />
       <BackgroundDecorations />
-      <main className="relative z-10" role="main">
+      <main className="relative z-10 pb-20 md:pb-0" role="main">
         <section id="hero" aria-label="Hero section">
           <Hero />
         </section>
 
-        {/* Trust strip moved out of hero so hero content fits on mobile */}
-        <section aria-label="Trust signals" className="bg-gradient-to-b from-sky-900/90 to-background py-6 px-4">
-          <div className="max-w-5xl mx-auto flex flex-col items-center gap-3">
+        {/* Trust + eligibility, single tightened band */}
+        <section aria-label="Trust signals" className="bg-gradient-to-b from-sky-900/90 to-background pt-5 pb-4 px-4">
+          <div className="max-w-5xl mx-auto flex flex-col items-center gap-2">
             <TrustBar />
             <EligibilityChips />
           </div>
         </section>
 
-        {/* Promotion Banner */}
+        {/* Slim Promotion Ribbon */}
         <Link
           to="/promotions"
-          className="block bg-accent-orange text-white py-8 px-6 text-center font-semibold hover:bg-accent-orange/90 transition-colors"
+          className="block bg-accent-orange text-white py-2.5 px-4 text-center font-medium hover:bg-accent-orange/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+          aria-label={`${t("promo.homeBanner")} — ${t("promo.homeBannerCta")}`}
         >
-          <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-1 whitespace-nowrap">
-            <span className="text-lg sm:text-xl md:text-2xl">{t("promo.homeBanner")}</span>
-            <span className="text-lg sm:text-xl md:text-2xl underline underline-offset-4 inline-flex items-center gap-1">
+          <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-0.5 text-sm sm:text-base">
+            <span className="truncate max-w-full">{t("promo.homeBanner")}</span>
+            <span className="underline underline-offset-4 inline-flex items-center gap-0.5 whitespace-nowrap">
               {t("promo.homeBannerCta")}
-              <ChevronRight className="w-5 h-5" />
+              <ChevronRight className="w-4 h-4" />
             </span>
             <CountdownTimer
               targetDate={(() => {
@@ -71,17 +74,7 @@ export default function Home() {
           </div>
         </Link>
 
-        {/* QUALIFY */}
-        <QuizCTA />
-
-        <SocialProofTicker />
-
-        {/* REASSURE: safety first */}
-        <SafetySection />
-
-        {/* REASSURE: what jump day looks like */}
-        <JumpDayTimeline />
-
+        {/* Primary path: see options → book */}
         <section id="locations" aria-label="Locations section">
           <Locations />
         </section>
@@ -91,28 +84,56 @@ export default function Home() {
         <section id="booking" aria-label="Booking section">
           <BookingSection />
         </section>
-        <section id="testimonials" aria-label="Testimonials section">
-          <Testimonials />
-        </section>
 
-        {/* RETAIN */}
-        <ReferralBanner />
-        <AlumniPathway />
+        {/* Reassure after intent */}
+        <LazySection minHeight={500}>
+          <SafetySection />
+        </LazySection>
+        <LazySection minHeight={500}>
+          <JumpDayTimeline />
+        </LazySection>
 
-        <section id="about" aria-label="About section">
-          <About />
-        </section>
-        <section id="faq" aria-label="FAQ section">
-          <FAQ />
-        </section>
-        <section id="contact" aria-label="Contact section">
-          <Contact />
-        </section>
+        <LazySection minHeight={500}>
+          <section id="testimonials" aria-label="Testimonials section">
+            <Testimonials />
+          </section>
+        </LazySection>
+
+        {/* Secondary path + retention */}
+        <LazySection minHeight={300}>
+          <QuizCTA />
+        </LazySection>
+        <LazySection minHeight={120}>
+          <SocialProofTicker />
+        </LazySection>
+        <LazySection minHeight={300}>
+          <ReferralBanner />
+        </LazySection>
+        <LazySection minHeight={400}>
+          <AlumniPathway />
+        </LazySection>
+
+        <LazySection minHeight={500}>
+          <section id="about" aria-label="About section">
+            <About />
+          </section>
+        </LazySection>
+        <LazySection minHeight={500}>
+          <section id="faq" aria-label="FAQ section">
+            <FAQ />
+          </section>
+        </LazySection>
+        <LazySection minHeight={500}>
+          <section id="contact" aria-label="Contact section">
+            <Contact />
+          </section>
+        </LazySection>
       </main>
       <Footer />
       <StickyBookingBar />
       <BackToTopButton />
       <SectionNav />
+      <MobileTabBar />
     </div>
   );
 }

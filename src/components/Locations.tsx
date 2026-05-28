@@ -2,7 +2,9 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Users, GraduationCap, Loader2, Eye } from "lucide-react";
+import { MapPin, Users, GraduationCap, Eye } from "lucide-react";
+import { CardGridSkeleton } from "./skeletons/CardSkeleton";
+
 import { useNavigate } from "react-router-dom";
 import { useLocations, type Location } from "@/hooks/useLocations";
 import { useBooking } from "@/contexts/BookingContext";
@@ -107,10 +109,9 @@ export function Locations() {
 
         {/* Loading State */}
         {isLoading && (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-accent-orange" />
-          </div>
+          <CardGridSkeleton count={4} className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto" />
         )}
+
 
         {/* Error State */}
         {error && (

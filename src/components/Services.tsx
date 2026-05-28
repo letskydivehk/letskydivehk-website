@@ -1,6 +1,8 @@
 import { useState, useMemo, useRef } from 'react'
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
-import { Plane, GraduationCap, Users, Check, ArrowRight, Loader2, Eye, Compass } from 'lucide-react'
+import { Plane, GraduationCap, Users, Check, ArrowRight, Eye, Compass } from 'lucide-react'
+import { CardGridSkeleton } from './skeletons/CardSkeleton'
+
 import { Link } from 'react-router-dom'
 import { useAllLocationServices, type LocationService } from '@/hooks/useLocationServices'
 import { useBooking } from '@/contexts/BookingContext'
@@ -154,11 +156,8 @@ export function Services() {
         </div>
 
         {/* Loading State */}
-        {isLoading && (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-accent-orange" />
-          </div>
-        )}
+        {isLoading && <CardGridSkeleton count={3} />}
+
 
         {/* Error State */}
         {error && (

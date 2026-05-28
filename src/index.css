@@ -1110,3 +1110,16 @@ html {
     transition: none !important;
   }
 }
+
+/* Global focus-visible ring (a11y) — only on keyboard focus, not mouse clicks */
+@layer base {
+  :where(a, button, [role="button"], input, textarea, select, [tabindex]):focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+    border-radius: 0.25rem;
+  }
+}
+
+/* iOS safe-area helpers */
+.safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
+.safe-top { padding-top: env(safe-area-inset-top); }

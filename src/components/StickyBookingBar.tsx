@@ -41,7 +41,7 @@ export function StickyBookingBar() {
           animate={{ y: 0, opacity: 1 }}
           exit={{ y: 100, opacity: 0 }}
           transition={{ type: "spring", damping: 25, stiffness: 300 }}
-          className="fixed bottom-0 left-0 right-0 z-50 bg-card/95 backdrop-blur-xl border-t border-border shadow-[0_-4px_30px_rgba(0,0,0,0.15)]"
+          className="fixed bottom-0 left-0 right-0 z-30 bg-card/95 backdrop-blur-xl border-t border-border shadow-[0_-4px_30px_rgba(0,0,0,0.15)] md:block hidden"
         >
           <div className="max-w-5xl mx-auto px-4 py-3 flex items-center justify-between gap-4">
             <div className="hidden sm:flex items-center gap-3 text-foreground">
