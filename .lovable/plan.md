@@ -1,50 +1,116 @@
-# Animated UI Upgrade — Apple-like Premium Motion
+# UI/UX Upgrade Plan — Friendlier Homepage, Navigation & Polish
 
-Scope: Homepage sections, global buttons & cards, and page transitions. Motion intensity 4/5 — confident and cinematic, but smooth easing and restrained timing (no bouncy springs). Respects `prefers-reduced-motion`.
+Three coordinated workstreams. All changes are frontend-only — no schema, no business logic. Builds on the existing motion system (`src/lib/motion.ts`, `PageTransition`, `MotionCard`) and design tokens in `index.css`.
 
-## 1. Motion foundation
+---
 
-- Add `framer-motion` (already commonly used in project; reuse if present).
-- Create `src/lib/motion.ts` with shared presets:
-  - Easing: `[0.22, 1, 0.36, 1]` (Apple-style ease-out-expo)
-  - Durations: `fast 0.35s`, `base 0.6s`, `slow 0.9s`
-  - Variants: `fadeUp`, `fadeIn`, `scaleIn`, `staggerContainer`, `revealMask`
-- Add a `useReducedMotion` guard so all variants fall back to instant transitions.
-- Extend `index.css` with utility classes: `.tilt-card`, `.glow-on-hover`, `.shimmer`, `.magnetic` and a soft radial spotlight that follows the cursor on hero/cards.
+## 1. Homepage Information Architecture
 
-## 2. Homepage sections (`src/components/...`)
+The homepage currently stacks ~15 sections before the user reaches Booking. Goals: reduce noise, get to conversion faster, speed up first paint.
 
-Reveal-on-scroll using `whileInView` with `once: true`, 20% threshold, staggered children.
+**Section reorder** (`src/pages/Home.tsx`):
 
-- **Hero** — Headline split into words with a mask reveal (clip-path), subhead fade-up, CTA scale-in with subtle glow pulse. Background image gets a slow parallax (translateY on scroll, max 60px) and a vignette layer that fades in.
-- **Services** — Cards enter with staggered fade-up (80ms gap). On hover: 3D tilt (max 6°), inner image zoom 1.04, gradient border glow, CTA arrow slides right. Click: brief scale-down then route.
-- **Locations** — Grid items reveal in staggered waves. Hover: image Ken-Burns zoom, label slides up from bottom with overlay gradient deepening. "Closing Soon" badge gets a soft pulsing ring.
-- **About / Testimonials / FAQ / Contact** — Section headers use mask reveal; body content fades up. Testimonials carousel transitions cross-fade with slight scale instead of hard slide.
-- **Stats / numbers** (if any) — Count-up animation when in view.
+```text
+BEFORE                          AFTER
+─────────                       ─────────
+Hero                            Hero
+Trust strip                     Trust strip (merged)
+Promo banner                    Promo ribbon (slim)
+QuizCTA                         Locations
+SocialProofTicker               Services
+SafetySection                   Booking            ← moved up
+JumpDayTimeline                 SafetySection      ← reassure after intent
+Locations                       JumpDayTimeline
+Services                        Testimonials
+Booking                         QuizCTA            ← secondary path
+Testimonials                    SocialProofTicker  ← merged into footer band
+Referral + Alumni               Referral + Alumni
+About / FAQ / Contact           About / FAQ / Contact
+```
 
-## 3. Global buttons & cards
+**Trust signal consolidation**:
+- Merge `TrustBar` + `EligibilityChips` + `SocialProofTicker` headline stats into a single compact band under the hero.
+- Move full ticker into a thin strip above the footer.
 
-- **Button**: extend the shadcn `Button` with a `motion` wrapper. Hover: lift `-2px`, soft shadow grow, gradient sheen sweep (shimmer). Active: scale 0.97. Primary CTAs get a subtle outer glow on hover.
-- **Card**: shared `MotionCard` wrapper (used by Services, Locations, Blog, Promotions). Cursor-tracking spotlight (radial gradient following mouse), 3D tilt via `useMotionValue` + `useTransform`, border-gradient highlight.
-- **Links / nav items**: animated underline (already partially via `.story-link`), refined with easing.
-- **Icons**: hover micro-rotation / translate for arrows, chevrons.
+**Promo banner**: shrink from full-bleed orange block to a single-line ribbon (~40px), keep countdown + CTA, lower visual weight (memory `style/homepage-promotion-banner` already prefers compact).
 
-## 4. Page transitions
+**Lazy-mount below-fold**:
+- Wrap `Testimonials`, `Referral`, `Alumni`, `About`, `FAQ`, `Contact` in a small `<LazySection>` using IntersectionObserver to defer mount until ~200px before viewport. Keeps initial bundle execution lighter.
 
-- Wrap routes in `AnimatePresence mode="wait"` inside `App.tsx` around the `<Routes>` block, keyed by `location.pathname`.
-- Page wrapper variant: fade + 12px upward translate, 0.45s ease-out-expo on enter; fade + 8px down on exit. Scroll-to-top on route change preserved.
-- Sub-page navbar appearance unchanged (per existing memory).
+---
 
-## 5. Accessibility & performance
+## 2. Navigation & Sticky Bars
 
-- All motion respects `prefers-reduced-motion: reduce` — replaced with instant opacity transitions.
-- Animations use `transform` and `opacity` only (GPU-friendly), no layout thrash.
-- Lazy-mount heavy effects (cursor spotlight) only on `pointer: fine` devices to keep mobile light.
-- Mobile: simpler variants (no 3D tilt, no spotlight), keep scroll reveals and button shimmer.
+**Sticky top navbar on homepage** (currently only sub-pages have `PageNavbar`):
+- New `HomeNavbar`: transparent over hero, gains `backdrop-blur` + subtle border after 80px scroll.
+- Logo left, anchor links centre (Locations, Services, Booking, Blog), Language + Auth right.
+- Mobile: hamburger sheet (reuse shadcn `Sheet`).
+
+**Smarter `StickyBookingBar`**:
+- Hide while hero is in view; slide up after.
+- Show: "從 $X,XXX 起 · Tandem 體驗" + primary "立即預訂" + secondary WhatsApp icon.
+- On mobile becomes a true bottom action bar (full-width, safe-area-inset padding).
+
+**Mobile bottom tab bar** (new, mobile-only):
+- 4 tabs: 預訂 / 地點 / 會員 / 聯絡. Always visible, glassmorphism, 56px tall, respects iOS safe area.
+- Hides on scroll-down, reveals on scroll-up.
+
+**Breadcrumbs**: add to `ServiceTandem`, `ServiceALicence`, `ServiceSkydivingTour`, `LocationDetail`, `BlogPost` (shadcn `Breadcrumb`). Improves orientation and SEO.
+
+**`SectionNav` enhancement**: add active-section indicator (already tracks scroll — surface as a filled dot vs ring).
+
+---
+
+## 3. Polish: Microinteractions, A11y, Empty States
+
+**Skeleton loaders** (replace spinners):
+- `Locations`, `Services`, `Gallery`, `Blog`, `MemberProfile.bookings`: use shadcn `Skeleton` matched to final card shape during `useQuery` `isLoading`.
+
+**Empty states**:
+- `MemberProfile` no-bookings → friendly illustration + "Book your first jump" CTA.
+- `Gallery` no-media-in-language → "Switch language to see more" hint.
+- `Blog` no-posts-in-language → fallback to English with banner.
+
+**A11y pass**:
+- Add visible `:focus-visible` ring tokens in `index.css` (2px primary ring + 2px offset).
+- Audit icon-only buttons across `Hero`, `StickyBookingBar`, `WhatsAppButton`, gallery controls, admin panels — add `aria-label`.
+- Replace `h-screen` with `h-dvh` where present (mobile viewport).
+- Ensure `<main>` is single per route (verify on Home + sub-pages).
+
+**Microinteractions** (extend existing motion system):
+- Toast: bottom-centre on mobile, top-right on desktop (configure `Toaster`).
+- Button press: add haptic vibration on touch devices (5ms) — guard with `'vibrate' in navigator`.
+- Form fields: animate label float on focus, success checkmark on valid blur.
+
+**Perceived perf**:
+- `<link rel="preload">` for hero image + Bagel Fat One subset in `index.html`.
+- Defer `WhatsAppButton` mount until `requestIdleCallback`.
+
+---
 
 ## Files (technical)
 
-- New: `src/lib/motion.ts`, `src/components/ui/motion-card.tsx`, `src/components/ui/reveal.tsx`, `src/components/PageTransition.tsx`
-- Edited: `src/App.tsx` (AnimatePresence), `src/components/Hero.tsx`, `Services.tsx`, `Locations.tsx`, `About.tsx`, `Testimonials.tsx`, `FAQ.tsx`, `Contact.tsx`, `ui/button.tsx`, `index.css`, `tailwind.config.ts` (extra keyframes: shimmer, mask-reveal, glow-pulse)
+**New**:
+- `src/components/HomeNavbar.tsx` — sticky top nav for homepage
+- `src/components/MobileTabBar.tsx` — bottom tabs (mobile only)
+- `src/components/LazySection.tsx` — IntersectionObserver-based lazy mount
+- `src/components/empty/` — `EmptyBookings.tsx`, `EmptyGallery.tsx`, `EmptyBlog.tsx`
+- `src/components/skeletons/` — `LocationCardSkeleton.tsx`, `ServiceCardSkeleton.tsx`, `BlogCardSkeleton.tsx`
 
-No backend, schema, or business-logic changes.
+**Edited**:
+- `src/pages/Home.tsx` — reorder sections, wrap below-fold in `LazySection`, add `HomeNavbar` + `MobileTabBar`
+- `src/components/TrustBar.tsx` + `EligibilityChips.tsx` — merge into one compact band
+- `src/components/StickyBookingBar.tsx` — hero-aware visibility, mobile bottom-bar styling
+- `src/components/SectionNav.tsx` — active-state indicator
+- `src/components/Locations.tsx`, `Services.tsx`, `LatestBlog.tsx`, `Testimonials.tsx`, `pages/MemberProfile.tsx`, `pages/Gallery.tsx`, `pages/Blog.tsx` — skeleton + empty states
+- `src/components/ui/sonner.tsx` (Toaster) — responsive position
+- `src/index.css` — focus-visible tokens, slim promo ribbon class, safe-area utilities
+- `src/components/WhatsAppButton.tsx` — idle-mount deferral
+- `index.html` — preload hero image + font
+- Sub-pages (`ServiceTandem`, `ServiceALicence`, `ServiceSkydivingTour`, `LocationDetail`, `BlogPost`) — `Breadcrumb` insert
+
+## Out of scope (for follow-up)
+
+- Booking funnel UX (inline validation, draft auto-save, smarter date picker) — separate plan.
+- Visual redesign of cards/hero — current Apple-like motion + glass aesthetic kept.
+- Backend/schema/translation copy changes.
