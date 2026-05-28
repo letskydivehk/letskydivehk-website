@@ -1114,7 +1114,7 @@ html {
 /* Global focus-visible ring (a11y) — only on keyboard focus, not mouse clicks */
 @layer base {
   :where(a, button, [role="button"], input, textarea, select, [tabindex]):focus-visible {
-    outline: 2px solid hsl(var(--ring));
+    outline: 2px solid var(--ring);
     outline-offset: 2px;
     border-radius: 0.25rem;
   }
