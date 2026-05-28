@@ -154,11 +154,8 @@ export function Services() {
         </div>
 
         {/* Loading State */}
-        {isLoading && (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-accent-orange" />
-          </div>
-        )}
+        {isLoading && <CardGridSkeleton count={3} />}
+
 
         {/* Error State */}
         {error && (

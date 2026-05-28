@@ -107,10 +107,9 @@ export function Locations() {
 
         {/* Loading State */}
         {isLoading && (
-          <div className="flex items-center justify-center py-20">
-            <Loader2 className="w-8 h-8 animate-spin text-accent-orange" />
-          </div>
+          <CardGridSkeleton count={4} className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto" />
         )}
+
 
         {/* Error State */}
         {error && (
