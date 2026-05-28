@@ -107,7 +107,7 @@ export default function App() {
               <ExitIntentModal />
             </BrowserRouter>
             <Toaster />
-            <WhatsAppButton />
+            <IdleMount load={() => import('./components/WhatsAppButton').then(m => ({ default: m.WhatsAppButton }))} />
           </BookingProvider>
         </AuthProvider>
       </LanguageProvider>
