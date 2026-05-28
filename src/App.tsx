@@ -6,11 +6,12 @@ import { AuthProvider } from './contexts/AuthContext';
 import { BookingProvider } from './contexts/BookingContext';
 import { LanguageProvider } from '@/contexts/LanguageContext';
 import { Toaster } from './components/ui/sonner';
-import { WhatsAppButton } from './components/WhatsAppButton';
+import { IdleMount } from './components/IdleMount';
 import Home from './pages/Home';
 import { ExitIntentModal } from './components/ExitIntentModal';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { pageVariants } from '@/lib/motion';
+
 
 function AnimatedRoutes() {
   const location = useLocation();
