@@ -40,12 +40,21 @@ export function MobileTabBar() {
   const bookHref = isHome ? "#booking" : "/#booking";
   const locHref = isHome ? "#locations" : "/#locations";
 
-  const items = [
+  type Item = {
+    key: string;
+    labelKey: string;
+    icon: typeof Calendar;
+    href: string;
+    primary?: boolean;
+    external?: boolean;
+  };
+  const items: Item[] = [
     { key: "book", labelKey: "common.bookNow", icon: Calendar, href: bookHref, primary: true },
     { key: "loc", labelKey: "nav.locations", icon: MapPin, href: locHref },
     { key: "me", labelKey: "profile.title", icon: User, href: "/membership" },
     { key: "chat", labelKey: "whatsapp.title", icon: MessageCircle, href: WHATSAPP_URL, external: true },
-  ] as const;
+  ];
+
 
   return (
     <AnimatePresence>
