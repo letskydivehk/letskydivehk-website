@@ -5,11 +5,14 @@ type ToasterProps = React.ComponentProps<typeof Sonner>;
 
 const Toaster = ({ ...props }: ToasterProps) => {
   const { theme = "system" } = useTheme();
+  const isMobile = typeof window !== "undefined" && window.matchMedia("(max-width: 767px)").matches;
 
   return (
     <Sonner
       theme={theme as ToasterProps["theme"]}
       className="toaster group"
+      position={isMobile ? "bottom-center" : "top-right"}
+      offset={isMobile ? "calc(72px + env(safe-area-inset-bottom))" : undefined}
       toastOptions={{
         classNames: {
           toast:
@@ -23,5 +26,6 @@ const Toaster = ({ ...props }: ToasterProps) => {
     />
   );
 };
+
 
 export { Toaster, toast };

@@ -2,7 +2,9 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPin, Users, GraduationCap, Loader2, Eye } from "lucide-react";
+import { MapPin, Users, GraduationCap, Eye } from "lucide-react";
+import { CardGridSkeleton } from "./skeletons/CardSkeleton";
+
 import { useNavigate } from "react-router-dom";
 import { useLocations, type Location } from "@/hooks/useLocations";
 import { useBooking } from "@/contexts/BookingContext";

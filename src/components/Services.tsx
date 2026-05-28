@@ -1,6 +1,8 @@
 import { useState, useMemo, useRef } from 'react'
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
-import { Plane, GraduationCap, Users, Check, ArrowRight, Loader2, Eye, Compass } from 'lucide-react'
+import { Plane, GraduationCap, Users, Check, ArrowRight, Eye, Compass } from 'lucide-react'
+import { CardGridSkeleton } from './skeletons/CardSkeleton'
+
 import { Link } from 'react-router-dom'
 import { useAllLocationServices, type LocationService } from '@/hooks/useLocationServices'
 import { useBooking } from '@/contexts/BookingContext'
