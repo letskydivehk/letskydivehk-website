@@ -48,15 +48,20 @@ export default function LocationDetail() {
     }
   };
 
-  const handleServiceClick = (serviceId: string) => {
-    if (location) {
-      setPreselectedLocationId(location.id);
-      setPreselectedServiceId(serviceId);
-      navigate("/#booking");
-      setTimeout(() => {
-        document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
-      }, 100);
+  const TOUR_DETAIL_SLUGS = new Set(["pattaya", "huizhou", "hainan", "zhuhai"]);
+
+  const handleServiceClick = (serviceId: string, serviceType?: string) => {
+    if (!location) return;
+    if (serviceType === "Tour" && TOUR_DETAIL_SLUGS.has(location.slug)) {
+      navigate(`/tour/${location.slug}/${serviceId}`);
+      return;
     }
+    setPreselectedLocationId(location.id);
+    setPreselectedServiceId(serviceId);
+    navigate("/#booking");
+    setTimeout(() => {
+      document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+    }, 100);
   };
 
   if (isLoading) {
@@ -246,7 +251,7 @@ export default function LocationDetail() {
                     return (
                       <div
                         key={service.id}
-                        onClick={() => handleServiceClick(service.id)}
+                        onClick={() => handleServiceClick(service.id, service.service_type)}
                         className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card cursor-pointer hover:border-accent-orange/50 hover:shadow-lg transition-all duration-300 group"
                       >
                         <div className="flex items-center justify-between mb-3">
