@@ -338,12 +338,22 @@ function TourCard({
           })}
         </ol>
 
-        <button
-          onClick={onBook}
-          className="mt-6 w-full py-3 bg-accent-orange text-white font-semibold rounded-lg hover:bg-accent-orange/90 transition-all inline-flex items-center justify-center gap-2"
-        >
-          {t('tour.bookTour')} <ArrowRight className="w-4 h-4" />
-        </button>
+        <div className="mt-6 flex flex-col sm:flex-row gap-3">
+          {hasDetailPage && (
+            <button
+              onClick={() => navigate(`/tour/${locationSlug}/${tour.id}`)}
+              className="flex-1 py-3 border-2 border-accent-orange text-accent-orange font-semibold rounded-lg hover:bg-accent-orange/10 transition-all inline-flex items-center justify-center gap-2"
+            >
+              {t('tour.viewDetails') || 'View Details'}
+            </button>
+          )}
+          <button
+            onClick={onBook}
+            className="flex-1 py-3 bg-accent-orange text-white font-semibold rounded-lg hover:bg-accent-orange/90 transition-all inline-flex items-center justify-center gap-2"
+          >
+            {t('tour.bookTour')} <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
       </div>
     </motion.article>
   )
