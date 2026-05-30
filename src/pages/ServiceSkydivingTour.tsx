@@ -166,6 +166,7 @@ export default function ServiceSkydivingTour() {
                         key={tour.id}
                         tour={tour}
                         locationName={translateData(`location.${selectedGroup.location.slug}`, selectedGroup.location.Name)}
+                        locationSlug={selectedGroup.location.slug}
                         onBook={() => handleBookNow(selectedGroup.location.id)}
                         t={t}
                         translateData={translateData}
@@ -190,16 +191,21 @@ export default function ServiceSkydivingTour() {
 function TourCard({
   tour,
   locationName,
+  locationSlug,
   onBook,
   t,
   translateData,
 }: {
   tour: LocationService
   locationName: string
+  locationSlug: string
   onBook: () => void
   t: (key: string) => string
   translateData: (key: string, fallback: string) => string
 }) {
+  const navigate = useNavigate()
+  const TOUR_DETAIL_SLUGS = new Set(['pattaya', 'huizhou', 'hainan', 'zhuhai'])
+  const hasDetailPage = TOUR_DETAIL_SLUGS.has(locationSlug)
 
   const [photoIdx, setPhotoIdx] = useState(0)
   const photos = tour.photos?.length ? tour.photos : ['https://images.unsplash.com/photo-1528181304800-259b08848526?w=1200&q=80']
