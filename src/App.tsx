@@ -24,6 +24,7 @@ function AnimatedRoutes() {
       <Route path="/services/a-licence" element={<ServiceALicence />} />
       <Route path="/services/skydiving-tour" element={<ServiceSkydivingTour />} />
       <Route path="/location/:slug" element={<LocationDetail />} />
+      <Route path="/tour/:locationSlug/:serviceId" element={<TourDetail />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
       <Route path="/membership" element={<MemberProfile />} />
       <Route path="/gallery" element={<Gallery />} />
@@ -75,6 +76,7 @@ const AdminBlog = React.lazy(() => import('./pages/AdminBlog'));
 const ServiceTandem = React.lazy(() => import('./pages/ServiceTandem'));
 const ServiceALicence = React.lazy(() => import('./pages/ServiceALicence'));
 const ServiceSkydivingTour = React.lazy(() => import('./pages/ServiceSkydivingTour'));
+const TourDetail = React.lazy(() => import('./pages/TourDetail'));
 const Blog = React.lazy(() => import('./pages/Blog'));
 const BlogPost = React.lazy(() => import('./pages/BlogPost'));
 const MembershipTiers = React.lazy(() => import('./pages/MembershipTiers'));

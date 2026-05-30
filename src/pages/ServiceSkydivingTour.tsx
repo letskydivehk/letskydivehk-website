@@ -166,6 +166,7 @@ export default function ServiceSkydivingTour() {
                         key={tour.id}
                         tour={tour}
                         locationName={translateData(`location.${selectedGroup.location.slug}`, selectedGroup.location.Name)}
+                        locationSlug={selectedGroup.location.slug}
                         onBook={() => handleBookNow(selectedGroup.location.id)}
                         t={t}
                         translateData={translateData}
@@ -190,16 +191,21 @@ export default function ServiceSkydivingTour() {
 function TourCard({
   tour,
   locationName,
+  locationSlug,
   onBook,
   t,
   translateData,
 }: {
   tour: LocationService
   locationName: string
+  locationSlug: string
   onBook: () => void
   t: (key: string) => string
   translateData: (key: string, fallback: string) => string
 }) {
+  const navigate = useNavigate()
+  const TOUR_DETAIL_SLUGS = new Set(['pattaya', 'huizhou', 'hainan', 'zhuhai'])
+  const hasDetailPage = TOUR_DETAIL_SLUGS.has(locationSlug)
 
   const [photoIdx, setPhotoIdx] = useState(0)
   const photos = tour.photos?.length ? tour.photos : ['https://images.unsplash.com/photo-1528181304800-259b08848526?w=1200&q=80']
@@ -332,12 +338,22 @@ function TourCard({
           })}
         </ol>
 
-        <button
-          onClick={onBook}
-          className="mt-6 w-full py-3 bg-accent-orange text-white font-semibold rounded-lg hover:bg-accent-orange/90 transition-all inline-flex items-center justify-center gap-2"
-        >
-          {t('tour.bookTour')} <ArrowRight className="w-4 h-4" />
-        </button>
+        <div className="mt-6 flex flex-col sm:flex-row gap-3">
+          {hasDetailPage && (
+            <button
+              onClick={() => navigate(`/tour/${locationSlug}/${tour.id}`)}
+              className="flex-1 py-3 border-2 border-accent-orange text-accent-orange font-semibold rounded-lg hover:bg-accent-orange/10 transition-all inline-flex items-center justify-center gap-2"
+            >
+              {t('tour.viewDetails') || 'View Details'}
+            </button>
+          )}
+          <button
+            onClick={onBook}
+            className="flex-1 py-3 bg-accent-orange text-white font-semibold rounded-lg hover:bg-accent-orange/90 transition-all inline-flex items-center justify-center gap-2"
+          >
+            {t('tour.bookTour')} <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
       </div>
     </motion.article>
   )
