@@ -177,10 +177,10 @@ export function BookingSection() {
   // Filter locations based on active service type filter
   const filteredLocations = useMemo(() => {
     if (!locations) return [];
-    if (!activeServiceTypeFilter) return locations.filter((l) => !l.coming_soon);
+    if (!activeServiceTypeFilter) return locations.filter((l) => !isEffectivelyComingSoon(l));
 
     return locations.filter((l) => {
-      if (l.coming_soon) return false;
+      if (isEffectivelyComingSoon(l)) return false;
       if (activeServiceTypeFilter === "aff") return l.has_aff;
       if (activeServiceTypeFilter === "group") return l.has_group_events;
       return true; // tandem is available everywhere
