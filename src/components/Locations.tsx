@@ -10,7 +10,7 @@ import { useLocations, type Location } from "@/hooks/useLocations";
 import { useBooking } from "@/contexts/BookingContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LocationsMap } from "./LocationsMap";
-import { getLocationNotice } from "@/data/locationNotices";
+import { getLocationNotice, isEffectivelyComingSoon } from "@/data/locationNotices";
 
 type Country = "Thailand" | "China";
 
