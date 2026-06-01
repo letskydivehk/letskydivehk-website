@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, MapPin, Plane, Car, Building, Users, GraduationCap, Star, Loader2, AlertTriangle } from "lucide-react";
-import { getLocationNotice } from "@/data/locationNotices";
+import { getLocationNotice, isEffectivelyComingSoon } from "@/data/locationNotices";
 import { useLocationBySlug, useLocationPhotos } from "@/hooks/useLocationDetail";
 import { useLocationServices } from "@/hooks/useLocationServices";
 import { useLocationTourism } from "@/hooks/useLocationTourism";
