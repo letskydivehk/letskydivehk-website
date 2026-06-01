@@ -258,7 +258,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
         </div>
 
         {/* CTAs */}
-        {!location.coming_soon ? (
+        {!comingSoon ? (
           <div className="flex gap-3">
             <button
               onClick={(e) => {
