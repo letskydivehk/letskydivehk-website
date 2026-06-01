@@ -173,6 +173,8 @@ interface LocationCardProps {
 }
 
 function LocationCard({ location, translatedLocation, onBookClick, onViewDetails, t }: LocationCardProps) {
+  const comingSoon = isEffectivelyComingSoon(location);
+  const showClosingBadge = !comingSoon && getLocationNotice(location.slug)?.type === "closing";
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
