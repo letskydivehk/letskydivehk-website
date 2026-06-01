@@ -199,7 +199,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
         {/* Coming Soon Badge */}
-        {location.coming_soon && (
+        {comingSoon && (
           <div className="absolute top-4 right-4">
             <span className="bg-accent-blue text-white text-xs font-bold px-3 py-1 rounded-full">
               {t("common.comingSoon").toUpperCase()}
@@ -208,7 +208,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
         )}
 
         {/* Closing Soon Badge */}
-        {!location.coming_soon && getLocationNotice(location.slug)?.type === "closing" && (
+        {showClosingBadge && (
           <div className="absolute top-4 right-4">
             <span className="bg-accent-orange text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
               {t("location.closing.badge").toUpperCase()}
