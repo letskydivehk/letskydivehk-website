@@ -180,12 +180,12 @@ export function LocationsMap() {
                   {t("locations.groups")}
                 </span>
               )}
-              {activeLocation.coming_soon && (
+              {isEffectivelyComingSoon(activeLocation) && (
                 <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-blue text-white px-3 py-1 rounded-full">
                   {t("common.comingSoon")}
                 </span>
               )}
-              {!activeLocation.coming_soon && getLocationNotice(activeLocation.slug)?.type === "closing" && (
+              {!isEffectivelyComingSoon(activeLocation) && getLocationNotice(activeLocation.slug)?.type === "closing" && (
                 <span className="inline-flex items-center gap-1 text-xs font-bold bg-accent-orange text-white px-3 py-1 rounded-full">
                   {t("location.closing.badge")} · {t("location.closing.lastJumps")}
                 </span>
