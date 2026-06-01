@@ -184,7 +184,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
       onClick={onViewDetails}
       className={`relative bg-card rounded-2xl overflow-hidden clean-border group hover:elevated-shadow transition-all duration-300 mobile-transparent-card cursor-pointer ${
-        location.coming_soon ? "opacity-75" : ""
+        comingSoon ? "opacity-75" : ""
       }`}
     >
       {/* Image */}
