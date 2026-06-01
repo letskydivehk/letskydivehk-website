@@ -1,7 +1,7 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, MapPin, Plane, Car, Building, Users, GraduationCap, Star, Loader2, AlertTriangle } from "lucide-react";
-import { getLocationNotice } from "@/data/locationNotices";
+import { getLocationNotice, isEffectivelyComingSoon } from "@/data/locationNotices";
 import { useLocationBySlug, useLocationPhotos } from "@/hooks/useLocationDetail";
 import { useLocationServices } from "@/hooks/useLocationServices";
 import { useLocationTourism } from "@/hooks/useLocationTourism";
@@ -141,8 +141,17 @@ export default function LocationDetail() {
         {/* Content */}
         <div className="container mx-auto px-6 sm:px-8 lg:px-12 py-16">
           <div className="max-w-5xl mx-auto space-y-16">
-            {/* Closing Notice */}
-            {getLocationNotice(location.slug)?.type === "closing" && (
+            {/* Coming Soon / Closing Notice */}
+            {isEffectivelyComingSoon(location) ? (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="flex items-start gap-3 p-4 rounded-2xl bg-accent-blue/10 border-2 border-accent-blue/40 text-foreground"
+              >
+                <AlertTriangle className="w-5 h-5 text-accent-blue flex-shrink-0 mt-0.5" />
+                <p className="font-semibold leading-relaxed">{t("common.comingSoon")}</p>
+              </motion.div>
+            ) : getLocationNotice(location.slug)?.type === "closing" ? (
               <motion.div
                 initial={{ opacity: 0, y: -10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -151,7 +160,7 @@ export default function LocationDetail() {
                 <AlertTriangle className="w-5 h-5 text-accent-orange flex-shrink-0 mt-0.5" />
                 <p className="font-semibold leading-relaxed">{t("location.closing.banner")}</p>
               </motion.div>
-            )}
+            ) : null}
 
             {/* Description */}
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}>
@@ -248,15 +257,24 @@ export default function LocationDetail() {
                       `service.${service.service_name}`,
                       service.service_name,
                     );
+                    const locationComingSoon = isEffectivelyComingSoon(location);
                     return (
                       <div
                         key={service.id}
-                        onClick={() => handleServiceClick(service.id, service.service_type)}
-                        className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card cursor-pointer hover:border-accent-orange/50 hover:shadow-lg transition-all duration-300 group"
+                        onClick={locationComingSoon ? undefined : () => handleServiceClick(service.id, service.service_type)}
+                        className={`bg-card rounded-2xl p-6 clean-border mobile-transparent-card transition-all duration-300 group ${
+                          locationComingSoon
+                            ? "opacity-60 cursor-not-allowed"
+                            : "cursor-pointer hover:border-accent-orange/50 hover:shadow-lg"
+                        }`}
                       >
                         <div className="flex items-center justify-between mb-3">
                           <h3 className="font-bold text-foreground text-lg"><ServiceNameDisplay name={translatedServiceName} /></h3>
-                          {service.is_popular && (
+                          {locationComingSoon ? (
+                            <span className="text-xs font-bold bg-accent-blue text-white px-3 py-1 rounded-full">
+                              {t("common.comingSoon")}
+                            </span>
+                          ) : service.is_popular && (
                             <span className="text-xs font-bold bg-accent-orange text-white px-3 py-1 rounded-full">
                               {t("services.popular")}
                             </span>
@@ -341,7 +359,7 @@ export default function LocationDetail() {
             )}
 
             {/* Book CTA */}
-            {!location.coming_soon && (
+            {!isEffectivelyComingSoon(location) && (
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}

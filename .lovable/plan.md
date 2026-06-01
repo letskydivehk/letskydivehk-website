@@ -1,61 +1,28 @@
 ## Goal
+Treat Chiang Mai as "Coming Soon" everywhere — since the location is shut down, it should be hidden from booking flows and shown with a Coming Soon badge instead of the orange "Closing Soon" notice.
 
-When a user selects a tour service at Hainan, Huizhou, Zhuhai, or Pattaya, route them to a dedicated tour detail page (hero + price + book CTA + day‑by‑day itinerary) instead of jumping straight to the booking section. Content will be filled in later by you.
+## Approach
+Since the `locations` table in Supabase has `coming_soon = false` for Chiang Mai and we can't write to it from the client (no UPDATE policy), use a frontend override helper that treats Chiang Mai as effectively `coming_soon`.
 
-## New route
+Add a tiny helper in `src/data/locationNotices.ts`:
+- `SHUT_DOWN_SLUGS = new Set(["chiang-mai"])`
+- `isEffectivelyComingSoon(location)` → returns `true` if `location.coming_soon` OR `SHUT_DOWN_SLUGS.has(location.slug)`
 
-`/tour/:locationSlug/:serviceId` → `src/pages/TourDetail.tsx`
+Then replace every `location.coming_soon` check (and the closing-notice branch for Chiang Mai) with this helper.
 
-Why `serviceId`: each of the 4 locations may have multiple Tour rows in `location_services`. Slug + id keeps URLs readable and unambiguous.
-
-Whitelist on the page: `pattaya`, `huizhou`, `hainan`, `zhuhai`. Other slugs fall back to the existing behaviour.
-
-## Page sections (TourDetail.tsx)
-
-1. **PageNavbar** + back link to the location page.
-2. **Hero**
-   - Full‑width tour photo (first item from `location_services.photos`, fallback to location image).
-   - Location name + city/country.
-   - Tour name (`service_name`), price (`price_display`), deposit chip.
-   - Primary **Book This Tour** button → existing booking flow (sets `preselectedLocationId` + `preselectedServiceId`, navigates `/#booking`).
-3. **Quick facts strip** — price, deposit (HKD $500), duration (derived from itinerary length, e.g. "3 Day Tour").
-4. **Day‑by‑day itinerary** — reuse the morning/afternoon/evening timeline already built in `ServiceSkydivingTour.tsx`'s `TourCard` (extract into `src/components/tour/TourItinerary.tsx` so both pages share it).
-5. **Sticky bottom Book CTA** on mobile, inline CTA on desktop.
-6. **Footer**.
-
-Empty‑state copy when itinerary is empty: "Detailed itinerary coming soon — contact us on WhatsApp for the latest plan."
-
-## Routing & entry-point changes
-
-- **`src/App.tsx`** — add lazy route `/tour/:locationSlug/:serviceId` → `TourDetail`.
-- **`src/pages/LocationDetail.tsx`** — `handleServiceClick`: if `service.service_type === 'Tour'` and location slug is in the whitelist, `navigate(\`/tour/${slug}/${serviceId}\`)` instead of jumping to `#booking`. All other service types unchanged.
-- **`src/pages/ServiceSkydivingTour.tsx`** — `TourCard` gets a new "View Tour Details" link (next to the existing Book button) that routes to `/tour/:slug/:id`. Book button keeps current behaviour.
-- **`src/components/Services.tsx`** (homepage Services grid) — for the Skydiving Tour card, change the secondary "View Details" CTA to open `/services/skydiving-tour` (already its detail page); no new homepage link per tour is needed since location is selected there. We will simply make sure the existing "View Details" CTA is prominent. *(If you want individual location quick‑links here, say so and I'll add a 4‑pill picker.)*
-
-## Data source
-
-Already in `location_services` table — no schema changes. Fields used: `service_name`, `price_display`, `deposit_amount`, `description`, `includes`, `photos`, `itinerary`, `add_ons`. New hook helper: `useLocationService(serviceId)` in `src/hooks/useLocationServices.ts`.
-
-## Files
-
-New
-- `src/pages/TourDetail.tsx`
-- `src/components/tour/TourItinerary.tsx` (extracted timeline)
-- `src/components/tour/TourHero.tsx`
-
-Edited
-- `src/App.tsx` (new route)
-- `src/pages/LocationDetail.tsx` (conditional navigation)
-- `src/pages/ServiceSkydivingTour.tsx` (use shared `TourItinerary`, add "View Details" link)
-- `src/hooks/useLocationServices.ts` (add single-service hook)
-- `src/contexts/LanguageContext.tsx` (a handful of new keys: `tour.viewDetails`, `tour.detailsComingSoon`, `tour.bookThisTour`, `tour.duration`)
+## Files to edit
+1. **`src/data/locationNotices.ts`** — add `SHUT_DOWN_SLUGS` + `isEffectivelyComingSoon()` helper. Remove the `chiang-mai` entry from `LOCATION_NOTICES` so the orange "Closing Soon" badge/banner no longer renders.
+2. **`src/components/Locations.tsx`** — use helper in `LocationCard` for badge + CTA (Coming Soon button, disabled).
+3. **`src/components/LocationsMap.tsx`** — use helper for the Coming Soon pill (drop the closing-badge branch for Chiang Mai automatically via step 1).
+4. **`src/components/BookingSection.tsx`** — replace `!l.coming_soon` filters (lines 142, 180, 183) with `!isEffectivelyComingSoon(l)` so Chiang Mai is removed from booking location pickers.
+5. **`src/pages/ServiceSkydivingTour.tsx`** — update the filter (line 38) so Chiang Mai is removed from the tour location picker.
+6. **`src/pages/LocationDetail.tsx`** — replace the closing banner block with a Coming Soon banner when `isEffectivelyComingSoon(location)`; hide booking/services CTAs (line 344 area).
+7. **`src/pages/LocationCompare.tsx`** — use helper in the active filter (line 13).
 
 ## Out of scope
+- No DB migration (admin can later flip `coming_soon` in Supabase to remove the override).
+- No copy changes beyond swapping "Closing Soon" → existing "Coming Soon" translations already in `LanguageContext`.
+- No changes to admin panels, booking funnel logic, payments, or other locations.
 
-- No DB migrations, no admin editor changes — content will be edited via existing `location_services` rows.
-- No changes to booking funnel, payments, or other service pages.
-- No new copywriting; pages render whatever is in the DB (with friendly empty states).
-
-## Open follow‑up (after this lands)
-
-Once the page exists, tell me the tour content per location (name, hero photo URL, price, day‑by‑day itinerary) and I'll seed `location_services` rows via a data migration.
+## Verification
+Load homepage on mobile (430px): Chiang Mai card shows Coming Soon badge + disabled button. Open booking section: Chiang Mai not listed. Visit `/location/chiang-mai`: Coming Soon banner shown, booking CTA hidden.

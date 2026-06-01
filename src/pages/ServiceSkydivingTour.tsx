@@ -12,6 +12,7 @@ import { useBooking } from '@/contexts/BookingContext'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useLocations } from '@/hooks/useLocations'
 import { useAllLocationServices, type LocationService } from '@/hooks/useLocationServices'
+import { isEffectivelyComingSoon } from '@/data/locationNotices'
 
 const tourFAQItems = [
   { questionKey: 'servicePage.tour.faq.q1', answerKey: 'servicePage.tour.faq.a1' },
@@ -35,7 +36,7 @@ export default function ServiceSkydivingTour() {
   const locationTours = useMemo(() => {
     if (!locations || !services) return []
     return locations
-      .filter((l) => !EXCLUDED_SLUGS.has(l.slug) && l.is_active && !l.coming_soon)
+      .filter((l) => !EXCLUDED_SLUGS.has(l.slug) && l.is_active && !isEffectivelyComingSoon(l))
       .map((l) => ({
         location: l,
         tours: services

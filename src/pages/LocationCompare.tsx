@@ -6,11 +6,12 @@ import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { SEO } from "@/components/SEO";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useLocations } from "@/hooks/useLocations";
+import { isEffectivelyComingSoon } from "@/data/locationNotices";
 
 export default function LocationCompare() {
   const { t, translateData } = useLanguage();
   const { data: locations = [] } = useLocations();
-  const active = locations.filter((l: any) => l.is_active && !l.coming_soon);
+  const active = locations.filter((l: any) => l.is_active && !isEffectivelyComingSoon(l));
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">

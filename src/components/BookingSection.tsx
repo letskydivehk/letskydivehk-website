@@ -20,7 +20,7 @@ import { zhTW } from "date-fns/locale";
 import { useLocations, type Location } from "@/hooks/useLocations";
 import { useLocationServices, type LocationService } from "@/hooks/useLocationServices";
 import { useBooking } from "@/contexts/BookingContext";
-import { getLocationNotice } from "@/data/locationNotices";
+import { getLocationNotice, isEffectivelyComingSoon } from "@/data/locationNotices";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -139,7 +139,7 @@ export function BookingSection() {
   // Handle preselected location from Locations component
   useEffect(() => {
     if (preselectedLocationId && locations) {
-      const locationExists = locations.find((l) => l.id === preselectedLocationId && !l.coming_soon);
+      const locationExists = locations.find((l) => l.id === preselectedLocationId && !isEffectivelyComingSoon(l));
       if (locationExists) {
         setFormData((prev) => ({ ...prev, location: preselectedLocationId }));
         setCurrentStep("service");
@@ -177,10 +177,10 @@ export function BookingSection() {
   // Filter locations based on active service type filter
   const filteredLocations = useMemo(() => {
     if (!locations) return [];
-    if (!activeServiceTypeFilter) return locations.filter((l) => !l.coming_soon);
+    if (!activeServiceTypeFilter) return locations.filter((l) => !isEffectivelyComingSoon(l));
 
     return locations.filter((l) => {
-      if (l.coming_soon) return false;
+      if (isEffectivelyComingSoon(l)) return false;
       if (activeServiceTypeFilter === "aff") return l.has_aff;
       if (activeServiceTypeFilter === "group") return l.has_group_events;
       return true; // tandem is available everywhere

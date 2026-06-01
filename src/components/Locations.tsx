@@ -10,7 +10,7 @@ import { useLocations, type Location } from "@/hooks/useLocations";
 import { useBooking } from "@/contexts/BookingContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { LocationsMap } from "./LocationsMap";
-import { getLocationNotice } from "@/data/locationNotices";
+import { getLocationNotice, isEffectivelyComingSoon } from "@/data/locationNotices";
 
 type Country = "Thailand" | "China";
 
@@ -173,6 +173,8 @@ interface LocationCardProps {
 }
 
 function LocationCard({ location, translatedLocation, onBookClick, onViewDetails, t }: LocationCardProps) {
+  const comingSoon = isEffectivelyComingSoon(location);
+  const showClosingBadge = !comingSoon && getLocationNotice(location.slug)?.type === "closing";
   return (
     <motion.div
       initial={{ opacity: 0, y: 30 }}
@@ -182,7 +184,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
       onClick={onViewDetails}
       className={`relative bg-card rounded-2xl overflow-hidden clean-border group hover:elevated-shadow transition-all duration-300 mobile-transparent-card cursor-pointer ${
-        location.coming_soon ? "opacity-75" : ""
+        comingSoon ? "opacity-75" : ""
       }`}
     >
       {/* Image */}
@@ -197,7 +199,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
         {/* Coming Soon Badge */}
-        {location.coming_soon && (
+        {comingSoon && (
           <div className="absolute top-4 right-4">
             <span className="bg-accent-blue text-white text-xs font-bold px-3 py-1 rounded-full">
               {t("common.comingSoon").toUpperCase()}
@@ -206,7 +208,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
         )}
 
         {/* Closing Soon Badge */}
-        {!location.coming_soon && getLocationNotice(location.slug)?.type === "closing" && (
+        {showClosingBadge && (
           <div className="absolute top-4 right-4">
             <span className="bg-accent-orange text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
               {t("location.closing.badge").toUpperCase()}
@@ -228,7 +230,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
 
       {/* Content */}
       <div className="p-6">
-        {!location.coming_soon && getLocationNotice(location.slug)?.type === "closing" && (
+        {showClosingBadge && (
           <div className="mb-3 px-3 py-2 rounded-lg bg-accent-orange/10 border border-accent-orange/30 text-accent-orange text-xs font-semibold">
             {t("location.closing.lastJumps")}
           </div>
@@ -256,7 +258,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
         </div>
 
         {/* CTAs */}
-        {!location.coming_soon ? (
+        {!comingSoon ? (
           <div className="flex gap-3">
             <button
               onClick={(e) => {
