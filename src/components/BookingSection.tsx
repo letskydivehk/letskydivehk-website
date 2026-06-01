@@ -139,7 +139,7 @@ export function BookingSection() {
   // Handle preselected location from Locations component
   useEffect(() => {
     if (preselectedLocationId && locations) {
-      const locationExists = locations.find((l) => l.id === preselectedLocationId && !l.coming_soon);
+      const locationExists = locations.find((l) => l.id === preselectedLocationId && !isEffectivelyComingSoon(l));
       if (locationExists) {
         setFormData((prev) => ({ ...prev, location: preselectedLocationId }));
         setCurrentStep("service");
