@@ -384,6 +384,7 @@ export function BookingSection() {
         currency: "HKD",
         mode: "payment",
         autoCapture: true,
+        methods: ["card", "applepay", "googlepay"],
         style: {
           popupWidth: 400,
           popupHeight: 549,
