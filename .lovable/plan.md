@@ -1,28 +1,46 @@
+
 ## Goal
-Treat Chiang Mai as "Coming Soon" everywhere — since the location is shut down, it should be hidden from booking flows and shown with a Coming Soon badge instead of the orange "Closing Soon" notice.
+Display the supplied 5月24日 day-trip schedule as the standard itinerary on the Zhuhai tandem skydive tour pages (Handicam & Ultimate Combo), fully translated across English / 繁體中文 / 简体中文.
 
-## Approach
-Since the `locations` table in Supabase has `coming_soon = false` for Chiang Mai and we can't write to it from the client (no UPDATE policy), use a frontend override helper that treats Chiang Mai as effectively `coming_soon`.
+## Where it shows up
+`/tour/zhuhai/<service-id>` (rendered by `TourDetail.tsx` → `TourItinerary` component), which reads `location_services.itinerary` from Supabase. Currently both Zhuhai tandem rows have an empty itinerary; the 2D1N "Tour" service already has its own multi-day itinerary and will be left untouched.
 
-Add a tiny helper in `src/data/locationNotices.ts`:
-- `SHUT_DOWN_SLUGS = new Set(["chiang-mai"])`
-- `isEffectivelyComingSoon(location)` → returns `true` if `location.coming_soon` OR `SHUT_DOWN_SLUGS.has(location.slug)`
+## Itinerary content (authoritative 繁中, then EN/简中)
 
-Then replace every `location.coming_soon` check (and the closing-notice branch for Chiang Mai) with this helper.
+Day 1 — `香港 → 珠海 一日跳傘` / `HK → Zhuhai One-Day Skydive` / `香港 → 珠海 一日跳伞`
 
-## Files to edit
-1. **`src/data/locationNotices.ts`** — add `SHUT_DOWN_SLUGS` + `isEffectivelyComingSoon()` helper. Remove the `chiang-mai` entry from `LOCATION_NOTICES` so the orange "Closing Soon" badge/banner no longer renders.
-2. **`src/components/Locations.tsx`** — use helper in `LocationCard` for badge + CTA (Coming Soon button, disabled).
-3. **`src/components/LocationsMap.tsx`** — use helper for the Coming Soon pill (drop the closing-badge branch for Chiang Mai automatically via step 1).
-4. **`src/components/BookingSection.tsx`** — replace `!l.coming_soon` filters (lines 142, 180, 183) with `!isEffectivelyComingSoon(l)` so Chiang Mai is removed from booking location pickers.
-5. **`src/pages/ServiceSkydivingTour.tsx`** — update the filter (line 38) so Chiang Mai is removed from the tour location picker.
-6. **`src/pages/LocationDetail.tsx`** — replace the closing banner block with a Coming Soon banner when `isEffectivelyComingSoon(location)`; hide booking/services CTAs (line 344 area).
-7. **`src/pages/LocationCompare.tsx`** — use helper in the active filter (line 13).
+Morning (上午)
+- 09:00 香港口岸集合（建議預留前往口岸時間） — Meet at HK Port (allow buffer time) — 香港口岸集合（建议预留前往口岸时间） — *location: 港珠澳大橋香港口岸 / HK-Zhuhai-Macao Bridge HK Port*
+- 乘金巴往珠海（約40分鐘） — Gold Bus shuttle to Zhuhai (~40 min) — 乘金巴往珠海（约40分钟）
+- 抵達珠海口岸、過關（約20分鐘） — Arrive Zhuhai Port & immigration (~20 min) — 抵达珠海口岸、过关（约20分钟）
+- 10:10 包車前往跳傘基地（約1小時15分鐘） — 10:10 Private transfer to dropzone (~1h15m) — 10:10 包车前往跳伞基地（约1小时15分钟）
+- 11:25 抵達基地、報到 — 11:25 Arrive dropzone & check-in — 11:25 抵达基地、报到 — *location: Weland Zhuhai Dropzone*
 
-## Out of scope
-- No DB migration (admin can later flip `coming_soon` in Supabase to remove the override).
-- No copy changes beyond swapping "Closing Soon" → existing "Coming Soon" translations already in `LanguageContext`.
-- No changes to admin panels, booking funnel logic, payments, or other locations.
+Afternoon (下午)
+- 跳傘流程講解及培訓 — Skydive briefing & training — 跳伞流程讲解及培训
+- 跳傘活動 — Tandem skydive jump — 跳伞活动
+- 13:45 跳傘完成、領證書、短片 — 13:45 Jump complete, certificate & video handover — 13:45 跳伞完成、领证书、短片
+- 14:30 午餐 — 14:30 Lunch — 14:30 午餐
+- 16:30 乘車返回珠海口岸 — 16:30 Coach back to Zhuhai Port — 16:30 乘车返回珠海口岸
 
-## Verification
-Load homepage on mobile (430px): Chiang Mai card shows Coming Soon badge + disabled button. Open booking section: Chiang Mai not listed. Visit `/location/chiang-mai`: Coming Soon banner shown, booking CTA hidden.
+Evening (傍晚)
+- 17:40 乘金巴返港 — 17:40 Gold Bus shuttle back to HK — 17:40 乘金巴返港
+- 18:30 抵達香港口岸 — 18:30 Arrive HK Port — 18:30 抵达香港口岸 — *location: 港珠澳大橋香港口岸*
+
+Times are embedded as prefixes inside `item.title` so no schema/component change is needed — `TourItinerary` already groups by morning/afternoon/evening with timeline styling.
+
+## Implementation steps
+
+1. **Supabase migration** updating both Zhuhai tandem `location_services` rows (`Tandem Skydive with Handicam` and `Tandem Skydive with Ultimate Combo (Handicam + Wide shot)`) — set `itinerary` JSONB to the single-day structure above using the English title strings as data keys (segments: morning / afternoon / evening, items with `title` + optional `location`).
+
+2. **Translations** in `src/contexts/LanguageContext.tsx`:
+   - Add `tour.dayTitle.HK → Zhuhai One-Day Skydive` for zh-TW and zh-CN.
+   - Add `tour.item.<English title>` entries (zh-TW + zh-CN) for each new item title and the two location strings, mirroring the existing `tour.item.*` pattern used by Pattaya/Huizhou.
+
+3. **Verification**: load `/tour/zhuhai/<handicam-id>` in the preview, language-switch through EN / 繁 / 简 to confirm the timeline renders correctly on desktop and mobile, then mirror-check the Ultimate Combo page.
+
+## Files touched
+- New Supabase migration (one `UPDATE` statement on `location_services`).
+- `src/contexts/LanguageContext.tsx` — translation additions only.
+
+No component, hook, or routing changes required.
