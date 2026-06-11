@@ -3,6 +3,7 @@ import { Menu, X, ChevronDown, Play, Sparkles } from 'lucide-react';
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { AuthButton } from './AuthButton';
+import { CreditPill } from './CreditPill';
 import { LanguageSwitcher } from './LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { VideoModal } from './VideoModal';
@@ -135,7 +136,10 @@ export function Hero() {
             <div className="flex items-center space-x-2 sm:space-x-3 relative">
               {/* Language Switcher */}
               <LanguageSwitcher />
-              
+
+              {/* Credit balance pill */}
+              <CreditPill />
+
               {/* Auth Button */}
               <AuthButton />
 

@@ -3,6 +3,7 @@ import { motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { AuthButton } from './AuthButton'
+import { CreditPill } from './CreditPill'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -69,6 +70,7 @@ export function PageNavbar() {
             {/* Right Side */}
             <div className="flex items-center space-x-2 sm:space-x-3">
               <LanguageSwitcher />
+              <CreditPill />
               <AuthButton />
               <button
                 onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
