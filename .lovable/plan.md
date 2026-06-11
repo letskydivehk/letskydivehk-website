@@ -1,46 +1,85 @@
+# Plan: Maximize Membership System Usage
 
-## Goal
-Display the supplied 5月24日 day-trip schedule as the standard itinerary on the Zhuhai tandem skydive tour pages (Handicam & Ultimate Combo), fully translated across English / 繁體中文 / 简体中文.
+Goal: turn the existing membership/credits/tiers/referral infrastructure into a daily-driver loyalty engine that pulls users back into booking, sharing, and upgrading tiers.
 
-## Where it shows up
-`/tour/zhuhai/<service-id>` (rendered by `TourDetail.tsx` → `TourItinerary` component), which reads `location_services.itinerary` from Supabase. Currently both Zhuhai tandem rows have an empty itinerary; the 2D1N "Tour" service already has its own multi-day itinerary and will be left untouched.
+## Diagnosis (what we already have)
+- Tiers: `membership_tiers` with credit multipliers + perks.
+- Credits: `credit_transactions` (signup bonus 100, referral 100 pending approval, admin adjustments).
+- Referrals: unique `referral_code` per profile, anti-fraud + monthly cap.
+- Profile page (`/membership`), Tiers page, Admin hub.
+- Bookings linked to user + selected_promos.
 
-## Itinerary content (authoritative 繁中, then EN/简中)
+What's underused: visibility of credits, tier progression, referral sharing, re-engagement loops, and credit-driven upsells in the booking funnel.
 
-Day 1 — `香港 → 珠海 一日跳傘` / `HK → Zhuhai One-Day Skydive` / `香港 → 珠海 一日跳伞`
+---
 
-Morning (上午)
-- 09:00 香港口岸集合（建議預留前往口岸時間） — Meet at HK Port (allow buffer time) — 香港口岸集合（建议预留前往口岸时间） — *location: 港珠澳大橋香港口岸 / HK-Zhuhai-Macao Bridge HK Port*
-- 乘金巴往珠海（約40分鐘） — Gold Bus shuttle to Zhuhai (~40 min) — 乘金巴往珠海（约40分钟）
-- 抵達珠海口岸、過關（約20分鐘） — Arrive Zhuhai Port & immigration (~20 min) — 抵达珠海口岸、过关（约20分钟）
-- 10:10 包車前往跳傘基地（約1小時15分鐘） — 10:10 Private transfer to dropzone (~1h15m) — 10:10 包车前往跳伞基地（约1小时15分钟）
-- 11:25 抵達基地、報到 — 11:25 Arrive dropzone & check-in — 11:25 抵达基地、报到 — *location: Weland Zhuhai Dropzone*
+## Phase 1 — Visibility & Activation (highest ROI, low effort)
 
-Afternoon (下午)
-- 跳傘流程講解及培訓 — Skydive briefing & training — 跳伞流程讲解及培训
-- 跳傘活動 — Tandem skydive jump — 跳伞活动
-- 13:45 跳傘完成、領證書、短片 — 13:45 Jump complete, certificate & video handover — 13:45 跳伞完成、领证书、短片
-- 14:30 午餐 — 14:30 Lunch — 14:30 午餐
-- 16:30 乘車返回珠海口岸 — 16:30 Coach back to Zhuhai Port — 16:30 乘车返回珠海口岸
+1. **Global credit pill in navbar** (signed-in only): shows balance + tier badge; click → /membership. Makes credits feel like real money.
+2. **Post-signup welcome modal**: celebrates the $100 signup bonus and shows "$X off your first jump" math + one-click "Book now".
+3. **Booking funnel credit upsell**:
+   - Show "Apply X credits = save $X" toggle at checkout (already partially via promos — formalize as line item).
+   - Show tier multiplier preview: "You'll earn 1.5× credits = +$Y on this booking."
+4. **Sticky tier-progress bar** on /membership: "2 more jumps to Gold — unlock 2× credits."
 
-Evening (傍晚)
-- 17:40 乘金巴返港 — 17:40 Gold Bus shuttle back to HK — 17:40 乘金巴返港
-- 18:30 抵達香港口岸 — 18:30 Arrive HK Port — 18:30 抵达香港口岸 — *location: 港珠澳大橋香港口岸*
+## Phase 2 — Referral Amplification
 
-Times are embedded as prefixes inside `item.title` so no schema/component change is needed — `TourItinerary` already groups by morning/afternoon/evening with timeline styling.
+1. **Share sheet on /membership**: native share + WhatsApp/IG/copy-link with pre-filled Trad-Chinese / EN message and `?ref=CODE` deep link.
+2. **Referral landing treatment**: when `?ref=` present, show banner "Your friend gave you $100 + extra $50 first-jump bonus" and auto-fill code in booking.
+3. **Two-sided reward**: keep referrer $100, add $50 first-booking credit for referee (new `credit_transactions` type `referee_bonus`, granted on first paid booking).
+4. **Referral leaderboard** (monthly, opt-in) on /membership — top 10 referrers win bonus credits; drives virality.
+5. **Email/WhatsApp nudge** via existing Resend function: "You're 1 referral away from a free tandem video upgrade."
 
-## Implementation steps
+## Phase 3 — Retention & Re-engagement
 
-1. **Supabase migration** updating both Zhuhai tandem `location_services` rows (`Tandem Skydive with Handicam` and `Tandem Skydive with Ultimate Combo (Handicam + Wide shot)`) — set `itinerary` JSONB to the single-day structure above using the English title strings as data keys (segments: morning / afternoon / evening, items with `title` + optional `location`).
+1. **Credit expiry policy** (soft): credits expire 12 months after issuance. Show "Expiring soon: $X by DD/MM" → forces re-booking. Implement via `expires_at` column + scheduled edge function reminder.
+2. **Birthday bonus**: $50 credit on `date_of_birth` month (already collected). Cron edge function.
+3. **Win-back campaign**: any user inactive 90 days → email with personal credit code (e.g. $100 one-time).
+4. **Jump anniversary**: 1 year since last jump → "Welcome back" $150 credit.
+5. **Streak rewards**: 3 bookings in 6 months → free handicam upgrade.
 
-2. **Translations** in `src/contexts/LanguageContext.tsx`:
-   - Add `tour.dayTitle.HK → Zhuhai One-Day Skydive` for zh-TW and zh-CN.
-   - Add `tour.item.<English title>` entries (zh-TW + zh-CN) for each new item title and the two location strings, mirroring the existing `tour.item.*` pattern used by Pattaya/Huizhou.
+## Phase 4 — Tier-Driven Upsell
 
-3. **Verification**: load `/tour/zhuhai/<handicam-id>` in the preview, language-switch through EN / 繁 / 简 to confirm the timeline renders correctly on desktop and mobile, then mirror-check the Ultimate Combo page.
+1. **Tier perks made tangible** on every service card: "Gold members save HK$300 on this package."
+2. **Tier-gated promos**: certain promo codes only valid for Silver+; surfaces aspiration to upgrade.
+3. **Fast-track upgrades**: "Buy A-Licence → instant Gold for 12 months" — converts course buyers into loyalty.
+4. **Member-only inventory**: early-access weekend slots for Gold/Platinum at Zhuhai dropzone.
 
-## Files touched
-- New Supabase migration (one `UPDATE` statement on `location_services`).
-- `src/contexts/LanguageContext.tsx` — translation additions only.
+## Phase 5 — Social Proof & Identity
 
-No component, hook, or routing changes required.
+1. **Public member badge**: shareable card "I'm a Gold Skydiver at Let's Skydive HK" (image gen + OG meta) — viral loop.
+2. **Member wall**: avatar grid on homepage of recent jumpers (opt-in) → social proof + member pride.
+3. **Logbook on /membership**: chronological jumps with location photo + downloadable PDF certificate per jump.
+
+## Phase 6 — Measurement
+
+Add analytics events (PostHog-style or simple table):
+- `credit_pill_clicked`, `share_link_copied`, `referral_signup`, `credit_applied_at_checkout`, `tier_upgraded`.
+Track KPIs: % signed-in bookings, credits-applied rate, referrals/month, repeat-booking rate, tier distribution shift.
+
+---
+
+## Suggested execution order (build mode)
+
+| Wave | Items | Why first |
+|------|-------|-----------|
+| 1 | Credit pill, welcome modal, checkout credit upsell, tier progress bar | Unlocks value of existing $100 bonus immediately |
+| 2 | Share sheet, ?ref banner, two-sided reward | Compounding growth loop |
+| 3 | Birthday + win-back + expiry reminders (edge functions) | Retention with minimal UI |
+| 4 | Tier-gated promos, fast-track upgrades, member-only slots | Revenue per member |
+| 5 | Shareable badge, logbook, member wall | Brand & identity |
+
+## Technical notes
+- New columns: `credit_transactions.expires_at timestamptz`, `profiles.last_jump_at date`.
+- New tx types: `referee_bonus`, `birthday_bonus`, `winback_bonus`, `streak_bonus`, `expiry_adjustment`.
+- New edge functions (cron via pg_cron + supabase scheduled): `expire-credits`, `birthday-credits`, `winback-emails`.
+- Reuse Resend for all emails; reuse `send-notification` pattern.
+- Keep all RLS — only admin functions write credits; user reads own via existing policy.
+- i18n: every new string in EN / 繁中 / 簡中 (繁中 authoritative).
+
+## Out of scope (won't touch)
+- Payment provider (Airwallex stays).
+- Existing booking deposit flow.
+- Admin role model.
+
+Reply "go" with any wave number(s) and I'll start building.
