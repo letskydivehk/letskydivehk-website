@@ -50,7 +50,9 @@ export default function ServiceSkydivingTour() {
 
   useEffect(() => {
     if (!selectedLocId && locationTours.length > 0) {
-      setSelectedLocId(locationTours[0].location.id)
+      // Prefer a location that has a popular tour
+      const popular = locationTours.find((g) => g.tours.some((t) => t.is_popular))
+      setSelectedLocId((popular ?? locationTours[0]).location.id)
     }
   }, [locationTours, selectedLocId])
 
