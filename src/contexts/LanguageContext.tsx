@@ -1129,6 +1129,7 @@ const translations: Record<Language, Record<string, string>> = {
       "與亞洲首屈一指的跳傘網絡一同體驗跳傘的刺激。專業雙人跳傘、A 級執照課程及團體活動遍布泰國和中國。",
     "footer.quickLinks": "快速連結",
     "footer.services": "服務項目",
+    "footer.zhuhaiOneDay": "珠海一日跳傘團",
     "footer.locations": "我們的地點",
     "footer.privacy": "隱私政策",
     "footer.terms": "服務條款",
