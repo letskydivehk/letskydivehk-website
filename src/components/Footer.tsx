@@ -108,6 +108,14 @@ export function Footer() {
                   </a>
                 </li>
               ))}
+              <li>
+                <Link
+                  to="/services/skydiving-tour#tour-itineraries"
+                  className="inline-flex items-center gap-1.5 text-accent-orange hover:text-accent-orange/80 transition-colors font-semibold"
+                >
+                  ★ {t("footer.zhuhaiOneDay")}
+                </Link>
+              </li>
             </ul>
           </div>
 
