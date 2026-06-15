@@ -44,13 +44,20 @@ export default function ServiceSkydivingTour() {
           .sort((a, b) => a.display_order - b.display_order),
       }))
       .filter((g) => g.tours.length > 0)
+      .sort((a, b) => {
+        const aPop = a.tours.some((t) => t.is_popular) ? 0 : 1
+        const bPop = b.tours.some((t) => t.is_popular) ? 0 : 1
+        return aPop - bPop
+      })
   }, [locations, services])
 
   const [selectedLocId, setSelectedLocId] = useState<string | null>(null)
 
   useEffect(() => {
     if (!selectedLocId && locationTours.length > 0) {
-      setSelectedLocId(locationTours[0].location.id)
+      // Prefer a location that has a popular tour
+      const popular = locationTours.find((g) => g.tours.some((t) => t.is_popular))
+      setSelectedLocId((popular ?? locationTours[0]).location.id)
     }
   }, [locationTours, selectedLocId])
 
@@ -131,25 +138,60 @@ export default function ServiceSkydivingTour() {
 
           {locationTours.length > 0 && (
             <>
+              {/* Promo banner for one-day express tour */}
+              {locationTours.some((g) => g.tours.some((tt) => tt.is_popular)) && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="max-w-3xl mx-auto mb-8"
+                >
+                  <button
+                    onClick={() => {
+                      const popular = locationTours.find((g) => g.tours.some((tt) => tt.is_popular))
+                      if (popular) setSelectedLocId(popular.location.id)
+                      setTimeout(() => {
+                        document.getElementById('tour-itineraries')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      }, 50)
+                    }}
+                    className="group w-full flex items-center justify-between gap-3 px-5 py-3 rounded-2xl bg-gradient-to-r from-accent-orange/90 to-accent-orange text-white shadow-md hover:shadow-lg transition-all"
+                  >
+                    <span className="text-sm sm:text-base font-semibold text-left">
+                      {t('tour.promoBanner.oneDay')}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold bg-white/15 px-3 py-1 rounded-full whitespace-nowrap group-hover:bg-white/25 transition-colors">
+                      {t('tour.promoBanner.cta')} <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                  </button>
+                </motion.div>
+              )}
+
               {/* Location pills */}
               <div className="flex flex-wrap justify-center gap-3 mb-12">
-                {locationTours.map(({ location }) => {
+                {locationTours.map(({ location, tours }) => {
                   const active = selectedLocId === location.id
+                  const hasPopular = tours.some((tt) => tt.is_popular)
                   return (
                     <button
                       key={location.id}
                       onClick={() => setSelectedLocId(location.id)}
-                      className={`px-5 py-2.5 rounded-full font-semibold transition-all border ${
+                      className={`relative px-5 py-2.5 rounded-full font-semibold transition-all border ${
                         active
                           ? 'bg-accent-orange text-white border-accent-orange shadow-md'
                           : 'bg-card text-foreground border-border hover:border-accent-orange'
                       }`}
                     >
                       {translateData(`location.${location.slug}`, location.Name)}
+                      {hasPopular && (
+                        <span className="absolute -top-2 -right-2 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-white text-accent-orange border border-accent-orange shadow-sm">
+                          ★
+                        </span>
+                      )}
                     </button>
                   )
                 })}
               </div>
+
+
 
               {/* Itineraries */}
               <AnimatePresence mode="wait">
@@ -216,12 +258,24 @@ function TourCard({
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="bg-card rounded-2xl overflow-hidden clean-border mobile-transparent-card subtle-shadow hover:elevated-shadow transition-all flex flex-col"
+      className={`bg-card rounded-2xl overflow-hidden clean-border mobile-transparent-card subtle-shadow hover:elevated-shadow transition-all flex flex-col ${
+        tour.is_popular ? 'ring-2 ring-accent-orange shadow-lg' : ''
+      }`}
     >
       {/* Photo gallery */}
       <div className="relative h-56 overflow-hidden bg-muted">
         <img src={photos[photoIdx]} alt={tour.service_name} className="w-full h-full object-cover" loading="lazy" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+        {tour.is_popular && (
+          <div className="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider bg-accent-orange text-white px-2.5 py-1 rounded-full shadow-md animate-pulse">
+              ★ {t('tour.badge.popular')}
+            </span>
+            <span className="inline-flex items-center text-[11px] font-bold uppercase tracking-wider bg-white text-accent-orange px-2.5 py-1 rounded-full shadow-md">
+              {t('tour.badge.oneDay')}
+            </span>
+          </div>
+        )}
         <div className="absolute top-3 right-3 flex flex-col gap-1 items-end">
           <span className="text-base font-bold text-white bg-accent-orange px-3 py-1 rounded">{tour.price_display}</span>
           <span className="text-xs text-white/90 bg-black/40 px-2 py-0.5 rounded">{t('tour.deposit')}: HKD ${tour.deposit_amount}</span>
