@@ -44,6 +44,11 @@ export default function ServiceSkydivingTour() {
           .sort((a, b) => a.display_order - b.display_order),
       }))
       .filter((g) => g.tours.length > 0)
+      .sort((a, b) => {
+        const aPop = a.tours.some((t) => t.is_popular) ? 0 : 1
+        const bPop = b.tours.some((t) => t.is_popular) ? 0 : 1
+        return aPop - bPop
+      })
   }, [locations, services])
 
   const [selectedLocId, setSelectedLocId] = useState<string | null>(null)
