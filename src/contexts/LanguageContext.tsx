@@ -351,6 +351,7 @@ const translations: Record<Language, Record<string, string>> = {
       "Experience the thrill of skydiving with Asia's premier dropzone network. Professional tandem jumps, A-Licence courses, and group events across Thailand and China.",
     "footer.quickLinks": "Quick Links",
     "footer.services": "Services",
+    "footer.zhuhaiOneDay": "Zhuhai One-Day Skydive Tour",
     "footer.locations": "Our Locations",
     "footer.privacy": "Privacy Policy",
     "footer.terms": "Terms of Service",
