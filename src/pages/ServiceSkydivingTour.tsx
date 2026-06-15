@@ -258,12 +258,24 @@ function TourCard({
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      className="bg-card rounded-2xl overflow-hidden clean-border mobile-transparent-card subtle-shadow hover:elevated-shadow transition-all flex flex-col"
+      className={`bg-card rounded-2xl overflow-hidden clean-border mobile-transparent-card subtle-shadow hover:elevated-shadow transition-all flex flex-col ${
+        tour.is_popular ? 'ring-2 ring-accent-orange shadow-lg' : ''
+      }`}
     >
       {/* Photo gallery */}
       <div className="relative h-56 overflow-hidden bg-muted">
         <img src={photos[photoIdx]} alt={tour.service_name} className="w-full h-full object-cover" loading="lazy" />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
+        {tour.is_popular && (
+          <div className="absolute top-3 left-3 flex flex-col gap-1.5 items-start">
+            <span className="inline-flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider bg-accent-orange text-white px-2.5 py-1 rounded-full shadow-md animate-pulse">
+              ★ {t('tour.badge.popular')}
+            </span>
+            <span className="inline-flex items-center text-[11px] font-bold uppercase tracking-wider bg-white text-accent-orange px-2.5 py-1 rounded-full shadow-md">
+              {t('tour.badge.oneDay')}
+            </span>
+          </div>
+        )}
         <div className="absolute top-3 right-3 flex flex-col gap-1 items-end">
           <span className="text-base font-bold text-white bg-accent-orange px-3 py-1 rounded">{tour.price_display}</span>
           <span className="text-xs text-white/90 bg-black/40 px-2 py-0.5 rounded">{t('tour.deposit')}: HKD ${tour.deposit_amount}</span>
