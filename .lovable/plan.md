@@ -1,85 +1,66 @@
-# Plan: Maximize Membership System Usage
+# Make Zhuhai One-Day Skydive the Main Tour & Promote It
 
-Goal: turn the existing membership/credits/tiers/referral infrastructure into a daily-driver loyalty engine that pulls users back into booking, sharing, and upgrading tiers.
+## Why the site still shows "珠海 2 日 1 夜跳傘團"
 
-## Diagnosis (what we already have)
-- Tiers: `membership_tiers` with credit multipliers + perks.
-- Credits: `credit_transactions` (signup bonus 100, referral 100 pending approval, admin adjustments).
-- Referrals: unique `referral_code` per profile, anti-fraud + monthly cap.
-- Profile page (`/membership`), Tiers page, Admin hub.
-- Bookings linked to user + selected_promos.
+The earlier itinerary update was written onto the two **tandem** services for Zhuhai, not onto the **Tour** service. The only row of type `Tour` for Zhuhai is still `Zhuhai 2D1N Tour` (`a5c3a019-…`), itinerary = HK→Zhuhai+hotel / City Tour & Return. That's what `/services/skydiving-tour` renders.
 
-What's underused: visibility of credits, tier progression, referral sharing, re-engagement loops, and credit-driven upsells in the booking funnel.
+## What I'll change
 
----
+### 1. Convert the Zhuhai Tour record to the one-day trip (data only)
+Update `location_services` row `a5c3a019-f09e-4990-b586-7ea3ef9ddbc5`:
+- `service_name` → `Zhuhai One-Day Skydive Tour`
+- `is_popular` → `true`
+- `price_display` → keep current ($6,799起) unless you give a new price
+- `deposit_amount` → keep `2000` (or change — see open question)
+- `includes` → HK↔Zhuhai golden bus + dropzone transfer, tandem skydive, certificate, short video, lunch
+- `itinerary` → single-day segments matching your schedule:
+  - **Morning** — 09:00 集合 @ HK-Zhuhai-Macao Bridge HK Port · 金巴 (40m) · 過關 (20m) · 10:10 包車往跳傘基地 (1h15m)
+  - **Afternoon** — 11:25 抵達基地、報到、培訓 @ Weland Zhuhai Dropzone · 跳傘活動 · 13:45 領證書+短片 · 14:30 午餐 · 16:30 乘車返珠海口岸
+  - **Evening** — 17:40 金巴返港 · 18:30 抵達香港口岸
 
-## Phase 1 — Visibility & Activation (highest ROI, low effort)
+All `tour.item.*` / `tour.dayTitle.*` translation keys for these strings already exist in `LanguageContext.tsx` from the previous round, so no i18n work needed beyond a new `tour.name.Zhuhai One-Day Skydive Tour` key (EN / 繁 / 簡).
 
-1. **Global credit pill in navbar** (signed-in only): shows balance + tier badge; click → /membership. Makes credits feel like real money.
-2. **Post-signup welcome modal**: celebrates the $100 signup bonus and shows "$X off your first jump" math + one-click "Book now".
-3. **Booking funnel credit upsell**:
-   - Show "Apply X credits = save $X" toggle at checkout (already partially via promos — formalize as line item).
-   - Show tier multiplier preview: "You'll earn 1.5× credits = +$Y on this booking."
-4. **Sticky tier-progress bar** on /membership: "2 more jumps to Gold — unlock 2× credits."
+### 2. Promotion & easier access (frontend)
 
-## Phase 2 — Referral Amplification
+**a. "Most Popular" / "1-Day Express" badge on the tour card**
+`ServiceSkydivingTour.tsx → TourCard`: when `tour.is_popular`, render a ribbon badge top-left over the hero image (`MOST POPULAR · 1-DAY EXPRESS`, accent-orange, animated pulse).
 
-1. **Share sheet on /membership**: native share + WhatsApp/IG/copy-link with pre-filled Trad-Chinese / EN message and `?ref=CODE` deep link.
-2. **Referral landing treatment**: when `?ref=` present, show banner "Your friend gave you $100 + extra $50 first-jump bonus" and auto-fill code in booking.
-3. **Two-sided reward**: keep referrer $100, add $50 first-booking credit for referee (new `credit_transactions` type `referee_bonus`, granted on first paid booking).
-4. **Referral leaderboard** (monthly, opt-in) on /membership — top 10 referrers win bonus credits; drives virality.
-5. **Email/WhatsApp nudge** via existing Resend function: "You're 1 referral away from a free tandem video upgrade."
+**b. Auto-select Zhuhai on the tour landing page**
+In `ServiceSkydivingTour.tsx`, change the default `selectedLocId` logic to prefer the location that has a `is_popular` Tour, falling back to first. Lands users straight on the promoted itinerary.
 
-## Phase 3 — Retention & Re-engagement
+**c. Highlight banner above the location pills**
+Compact gradient banner: "🪂 香港出發 · 一日往返 · 即日完成跳傘" with a "View itinerary" anchor that scrolls to the Zhuhai card.
 
-1. **Credit expiry policy** (soft): credits expire 12 months after issuance. Show "Expiring soon: $X by DD/MM" → forces re-booking. Implement via `expires_at` column + scheduled edge function reminder.
-2. **Birthday bonus**: $50 credit on `date_of_birth` month (already collected). Cron edge function.
-3. **Win-back campaign**: any user inactive 90 days → email with personal credit code (e.g. $100 one-time).
-4. **Jump anniversary**: 1 year since last jump → "Welcome back" $150 credit.
-5. **Streak rewards**: 3 bookings in 6 months → free handicam upgrade.
+**d. Homepage exposure**
+- `Services.tsx`: add a small "NEW · 1-Day Zhuhai Tour" chip on the Tour service card linking to `/services/skydiving-tour#tour-itineraries`.
+- `HomepagePromotionBanner` (existing): add an optional copy variant pointing at the one-day tour (single line, dismissible — uses existing styling per memory `mem://style/homepage-promotion-banner`).
 
-## Phase 4 — Tier-Driven Upsell
+**e. Dedicated detail page already exists**
+`/tour/zhuhai/:id` (`TourDetail.tsx`) is already routed and `TOUR_DETAIL_SLUGS` already includes `zhuhai`, so the "View Details" button on the tour card will open the full one-day itinerary page automatically after the data update — no routing changes.
 
-1. **Tier perks made tangible** on every service card: "Gold members save HK$300 on this package."
-2. **Tier-gated promos**: certain promo codes only valid for Silver+; surfaces aspiration to upgrade.
-3. **Fast-track upgrades**: "Buy A-Licence → instant Gold for 12 months" — converts course buyers into loyalty.
-4. **Member-only inventory**: early-access weekend slots for Gold/Platinum at Zhuhai dropzone.
+**f. Footer Quick Links**
+Add "珠海一日跳傘團" under Services in `Footer.tsx` linking to `/services/skydiving-tour#tour-itineraries`.
 
-## Phase 5 — Social Proof & Identity
+### 3. Translations to add
+- `tour.name.Zhuhai One-Day Skydive Tour` → `珠海一日跳傘團` / `珠海一日跳伞团` / `Zhuhai One-Day Skydive Tour`
+- `tour.badge.popular` → `最受歡迎` / `最受欢迎` / `Most Popular`
+- `tour.badge.oneDay` → `一日往返` / `一日往返` / `1-Day Express`
+- `tour.promoBanner.oneDay` → `🪂 香港出發 · 一日往返 · 即日完成跳傘體驗`
+- `services.tour.newChip` → `新推出` / `新推出` / `NEW`
 
-1. **Public member badge**: shareable card "I'm a Gold Skydiver at Let's Skydive HK" (image gen + OG meta) — viral loop.
-2. **Member wall**: avatar grid on homepage of recent jumpers (opt-in) → social proof + member pride.
-3. **Logbook on /membership**: chronological jumps with location photo + downloadable PDF certificate per jump.
+## Files touched
+- Supabase `location_services` (data update via insert tool — not a migration)
+- `src/contexts/LanguageContext.tsx` (new keys)
+- `src/pages/ServiceSkydivingTour.tsx` (badge, auto-select, banner)
+- `src/components/Services.tsx` (NEW chip on Tour card)
+- `src/components/Footer.tsx` (quick link)
+- (optional) homepage promo banner copy variant
 
-## Phase 6 — Measurement
+## Out of scope
+- Pricing/deposit change (kept as-is unless you tell me otherwise)
+- Other locations' tours
+- Creating a separate 2D1N variant — the existing row is converted in-place. If you want to **keep** 2D1N as a secondary option instead of replacing it, say so and I'll add a new row instead.
 
-Add analytics events (PostHog-style or simple table):
-- `credit_pill_clicked`, `share_link_copied`, `referral_signup`, `credit_applied_at_checkout`, `tier_upgraded`.
-Track KPIs: % signed-in bookings, credits-applied rate, referrals/month, repeat-booking rate, tier distribution shift.
-
----
-
-## Suggested execution order (build mode)
-
-| Wave | Items | Why first |
-|------|-------|-----------|
-| 1 | Credit pill, welcome modal, checkout credit upsell, tier progress bar | Unlocks value of existing $100 bonus immediately |
-| 2 | Share sheet, ?ref banner, two-sided reward | Compounding growth loop |
-| 3 | Birthday + win-back + expiry reminders (edge functions) | Retention with minimal UI |
-| 4 | Tier-gated promos, fast-track upgrades, member-only slots | Revenue per member |
-| 5 | Shareable badge, logbook, member wall | Brand & identity |
-
-## Technical notes
-- New columns: `credit_transactions.expires_at timestamptz`, `profiles.last_jump_at date`.
-- New tx types: `referee_bonus`, `birthday_bonus`, `winback_bonus`, `streak_bonus`, `expiry_adjustment`.
-- New edge functions (cron via pg_cron + supabase scheduled): `expire-credits`, `birthday-credits`, `winback-emails`.
-- Reuse Resend for all emails; reuse `send-notification` pattern.
-- Keep all RLS — only admin functions write credits; user reads own via existing policy.
-- i18n: every new string in EN / 繁中 / 簡中 (繁中 authoritative).
-
-## Out of scope (won't touch)
-- Payment provider (Airwallex stays).
-- Existing booking deposit flow.
-- Admin role model.
-
-Reply "go" with any wave number(s) and I'll start building.
+## Open questions (optional — I have safe defaults)
+1. Keep $6,799起 / $2,000 deposit, or new numbers?
+2. Replace the 2D1N entry (default) **or** keep both and just mark the 1-day as primary?
