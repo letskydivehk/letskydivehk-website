@@ -3607,6 +3607,13 @@ const tourDataTranslations = {
     "include.English/Cantonese-speaking guide": "English/Cantonese-speaking guide",
     "include.Cantonese-speaking guide": "Cantonese-speaking guide",
     "include.Dropzone transfers": "Dropzone transfers",
+    "tour.name.Zhuhai One-Day Skydive Tour": "Zhuhai One-Day Skydive Tour",
+    "include.HK-Zhuhai golden bus (round trip)": "HK–Zhuhai golden bus (round trip)",
+    "include.Dropzone private coach transfer": "Dropzone private coach transfer",
+    "include.Pre-jump briefing & training": "Pre-jump briefing & training",
+    "include.Certificate": "Certificate",
+    "include.Short video": "Short video",
+    "include.Lunch": "Lunch",
   },
   "zh-TW": {
     "tour.name.Pattaya 3D2N Tour": "芭達雅 3 日 2 夜跳傘團",
