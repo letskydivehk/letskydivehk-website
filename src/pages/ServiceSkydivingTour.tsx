@@ -133,25 +133,60 @@ export default function ServiceSkydivingTour() {
 
           {locationTours.length > 0 && (
             <>
+              {/* Promo banner for one-day express tour */}
+              {locationTours.some((g) => g.tours.some((tt) => tt.is_popular)) && (
+                <motion.div
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="max-w-3xl mx-auto mb-8"
+                >
+                  <button
+                    onClick={() => {
+                      const popular = locationTours.find((g) => g.tours.some((tt) => tt.is_popular))
+                      if (popular) setSelectedLocId(popular.location.id)
+                      setTimeout(() => {
+                        document.getElementById('tour-itineraries')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                      }, 50)
+                    }}
+                    className="group w-full flex items-center justify-between gap-3 px-5 py-3 rounded-2xl bg-gradient-to-r from-accent-orange/90 to-accent-orange text-white shadow-md hover:shadow-lg transition-all"
+                  >
+                    <span className="text-sm sm:text-base font-semibold text-left">
+                      {t('tour.promoBanner.oneDay')}
+                    </span>
+                    <span className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold bg-white/15 px-3 py-1 rounded-full whitespace-nowrap group-hover:bg-white/25 transition-colors">
+                      {t('tour.promoBanner.cta')} <ArrowRight className="w-3.5 h-3.5" />
+                    </span>
+                  </button>
+                </motion.div>
+              )}
+
               {/* Location pills */}
               <div className="flex flex-wrap justify-center gap-3 mb-12">
-                {locationTours.map(({ location }) => {
+                {locationTours.map(({ location, tours }) => {
                   const active = selectedLocId === location.id
+                  const hasPopular = tours.some((tt) => tt.is_popular)
                   return (
                     <button
                       key={location.id}
                       onClick={() => setSelectedLocId(location.id)}
-                      className={`px-5 py-2.5 rounded-full font-semibold transition-all border ${
+                      className={`relative px-5 py-2.5 rounded-full font-semibold transition-all border ${
                         active
                           ? 'bg-accent-orange text-white border-accent-orange shadow-md'
                           : 'bg-card text-foreground border-border hover:border-accent-orange'
                       }`}
                     >
                       {translateData(`location.${location.slug}`, location.Name)}
+                      {hasPopular && (
+                        <span className="absolute -top-2 -right-2 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-white text-accent-orange border border-accent-orange shadow-sm">
+                          ★
+                        </span>
+                      )}
                     </button>
                   )
                 })}
               </div>
+
+
 
               {/* Itineraries */}
               <AnimatePresence mode="wait">
