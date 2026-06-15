@@ -1876,6 +1876,7 @@ const translations: Record<Language, Record<string, string>> = {
       "与亚洲首屈一指的跳伞网络一同体验跳伞的刺激。专业双人跳伞、A 级执照课程及团体活动遍布泰国和中国。",
     "footer.quickLinks": "快速链接",
     "footer.services": "服务项目",
+    "footer.zhuhaiOneDay": "珠海一日跳伞团",
     "footer.locations": "我们的地点",
     "footer.privacy": "隐私政策",
     "footer.terms": "服务条款",
