@@ -84,6 +84,10 @@ export default function AdminCredits() {
                 <Plane className="w-4 h-4" />
                 Tours
               </TabsTrigger>
+              <TabsTrigger value="compare" className="gap-2">
+                <GitCompare className="w-4 h-4" />
+                Compare
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="credits">
