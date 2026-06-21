@@ -24,6 +24,7 @@ export function PageNavbar() {
     { label: t('nav.gallery'), href: '/gallery', isRoute: true },
     { label: t('nav.blog'), href: '/blog', isRoute: true },
     { label: t('nav.promotions'), href: '/promotions', isRoute: true },
+    { label: t('nav.souvenirs'), href: '/souvenirs', isRoute: true },
     { label: t('nav.about'), href: '/#about' },
     { label: t('nav.faq'), href: '/#faq' },
     { label: t('nav.contact'), href: '/#contact' },

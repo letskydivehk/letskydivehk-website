@@ -23,6 +23,7 @@ export function Footer() {
     { label: t("nav.about"), href: "#about" },
     { label: t("nav.booking"), href: "#booking" },
     { label: t("nav.contact"), href: "#contact" },
+    { label: t("nav.souvenirs"), href: "/souvenirs" },
   ];
 
   // Service type to translation key mapping
