@@ -186,20 +186,20 @@ export function TourItinerary({ itinerary }: Props) {
                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                         className="overflow-hidden"
                       >
-                        <ul className="px-4 pb-4 pt-1 pl-[3.75rem] space-y-2">
+                        <ul className="px-3 md:px-4 pb-3 md:pb-4 pt-1 pl-[2.75rem] md:pl-[3.75rem] space-y-2">
                           {seg.items.map((item, i) => (
                             <motion.li
                               key={i}
                               initial={{ opacity: 0, x: -6 }}
                               animate={{ opacity: 1, x: 0 }}
                               transition={{ duration: 0.3, delay: 0.05 + i * 0.05 }}
-                              className="relative text-sm text-foreground flex flex-wrap items-center gap-x-2 gap-y-1 before:content-[''] before:absolute before:-left-3 before:top-2 before:w-1.5 before:h-1.5 before:rounded-full before:bg-accent-orange/60"
+                              className="relative text-[13px] md:text-sm text-foreground flex flex-wrap items-center gap-x-2 gap-y-0.5 before:content-[''] before:absolute before:-left-3 before:top-2 before:w-1.5 before:h-1.5 before:rounded-full before:bg-accent-orange/60"
                             >
                               <span className="font-medium">
                                 {translateData(`tour.item.${item.title}`, item.title)}
                               </span>
                               {item.location && (
-                                <span className="inline-flex items-center gap-0.5 text-xs text-muted-foreground">
+                                <span className="inline-flex items-center gap-0.5 text-[11px] md:text-xs text-muted-foreground">
                                   <MapPin className="w-3 h-3" />
                                   {translateData(
                                     `tour.item.${item.location}`,
