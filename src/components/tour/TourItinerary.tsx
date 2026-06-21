@@ -103,14 +103,14 @@ export function TourItinerary({ itinerary }: Props) {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
-          className="rounded-2xl bg-card clean-border mobile-transparent-card p-5 md:p-6"
+          className="rounded-2xl bg-card clean-border mobile-transparent-card p-4 md:p-6"
         >
-          <div className="flex items-center gap-2 mb-4">
-            <span className="px-2.5 py-1 rounded-md bg-accent-orange text-white text-xs font-semibold">
+          <div className="flex items-center gap-2 mb-3 md:mb-4 flex-wrap">
+            <span className="px-2 py-0.5 md:px-2.5 md:py-1 rounded-md bg-accent-orange text-white text-[11px] md:text-xs font-semibold">
               {t("tour.day")} {current.day}
             </span>
             {current.title && (
-              <h3 className="text-base md:text-lg font-bold text-foreground">
+              <h3 className="text-sm md:text-lg font-bold text-foreground">
                 {translateData(`tour.dayTitle.${current.title}`, current.title)}
               </h3>
             )}
