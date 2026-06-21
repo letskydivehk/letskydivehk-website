@@ -139,11 +139,11 @@ export function TourItinerary({ itinerary }: Props) {
                     type="button"
                     onClick={() => toggleSegment(key)}
                     aria-expanded={isOpen}
-                    className="w-full flex items-center gap-3 px-4 py-3 text-left hover:bg-accent-orange/5 transition-colors"
+                    className="w-full flex items-center gap-2.5 md:gap-3 px-3 md:px-4 py-2.5 md:py-3 text-left hover:bg-accent-orange/5 transition-colors"
                   >
                     <span
                       className={cn(
-                        "inline-flex items-center justify-center w-9 h-9 rounded-full ring-2",
+                        "inline-flex items-center justify-center w-8 h-8 md:w-9 md:h-9 rounded-full ring-2 shrink-0",
                         meta.bg,
                         meta.ring
                       )}
@@ -151,10 +151,10 @@ export function TourItinerary({ itinerary }: Props) {
                       <Icon className={cn("w-4 h-4", meta.color)} />
                     </span>
                     <div className="flex-1 min-w-0">
-                      <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
+                      <div className="text-[10px] md:text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                         {meta.label}
                       </div>
-                      <div className="text-sm font-medium text-foreground truncate">
+                      <div className="text-[13px] md:text-sm font-medium text-foreground truncate">
                         {translateData(
                           `tour.item.${seg.items[0].title}`,
                           seg.items[0].title
@@ -170,7 +170,7 @@ export function TourItinerary({ itinerary }: Props) {
                     <motion.span
                       animate={{ rotate: isOpen ? 180 : 0 }}
                       transition={{ duration: 0.25 }}
-                      className="text-muted-foreground"
+                      className="text-muted-foreground shrink-0"
                     >
                       <ChevronDown className="w-4 h-4" />
                     </motion.span>
