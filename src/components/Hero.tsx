@@ -261,7 +261,11 @@ export function Hero() {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={scrollToLocations} className="bg-accent-orange text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-accent-orange/90 gentle-animation cursor-pointer w-full sm:w-auto">
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={scrollToLocations} className="relative bg-accent-orange text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-accent-orange/90 gentle-animation cursor-pointer w-full sm:w-auto shadow-lg shadow-accent-orange/30">
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-white" />
+              </span>
               {t('hero.cta.book')}
             </motion.button>
             <Link to="/quiz" className="w-full sm:w-auto">

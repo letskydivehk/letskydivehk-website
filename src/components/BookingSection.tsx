@@ -687,21 +687,25 @@ export function BookingSection() {
                 return (
                   <div key={step.id} className="flex flex-col items-center relative z-10">
                     {/* Step circle */}
-                    <div
-                      className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 transition-all duration-300 ${
+                    <motion.div
+                      animate={isActive ? { scale: 1.1 } : { scale: 1 }}
+                      transition={{ type: "spring", stiffness: 280, damping: 18 }}
+                      className={`w-12 h-12 rounded-full flex items-center justify-center mb-2 transition-colors duration-300 ${
                         isActive
-                          ? "bg-accent-emerald text-white scale-110 shadow-lg shadow-accent-emerald/30"
+                          ? "bg-accent-emerald text-white shadow-lg shadow-accent-emerald/40 animate-glow-pulse"
                           : isCompleted
                             ? "bg-accent-emerald text-white"
                             : "bg-muted text-muted-foreground"
                       }`}
                     >
                       {isCompleted ? (
-                        <Check className="w-6 h-6" />
+                        <motion.div initial={{ scale: 0, rotate: -90 }} animate={{ scale: 1, rotate: 0 }} transition={{ type: "spring", stiffness: 300, damping: 18 }}>
+                          <Check className="w-6 h-6" />
+                        </motion.div>
                       ) : (
                         <Icon className={`w-6 h-6 ${isActive ? "" : "opacity-80"}`} />
                       )}
-                    </div>
+                    </motion.div>
 
                     {/* Step label */}
                     <span
@@ -714,7 +718,7 @@ export function BookingSection() {
 
                     {/* Step number (optional) */}
                     <div
-                      className={`absolute -top-1 -right-1 w-5 h-5 rounded-full text-xs flex items-center justify-center ${
+                      className={`absolute -top-1 -right-1 w-5 h-5 rounded-full text-xs flex items-center justify-center transition-colors ${
                         isActive
                           ? "bg-accent-blue text-white"
                           : isCompleted
