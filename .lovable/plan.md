@@ -1,55 +1,96 @@
 ## Goal
-Make the site feel more responsive, polished, and easier to act on — without changing business logic. Style: **subtle & premium** (Apple-like). Scope: tour page, homepage, booking flow, global nav.
 
-## Design principles (locked across all areas)
-- Motion: 150–250ms ease-out, spring only on primary CTAs; no bouncy/playful effects.
-- Feedback within 100ms on every tap (haptic-style scale 0.97 + ring).
-- Skeletons over spinners; toast confirmations on every async action.
-- Mobile-first: tap targets ≥44px, thumb-reachable primary actions, safe-area aware.
-- Reuse existing tokens in `index.css` — no hardcoded colors.
+Rewrite the itineraries for the 4 tour packages (Hainan 3D2N, Hainan 4D3N, Pattaya 3D2N, Pattaya 4D3N) stored in `location_services.itinerary`. Each tour gets at least one free day, EGL-style sightseeing flavor, and no specific hotel names (just generic descriptions like "hotel check-in").
 
----
+## Scope
 
-## Wave 1 — Zhuhai One-Day Tour page (`ServiceSkydivingTour.tsx`)
-1. **Sticky mobile CTA bar** ("立即預訂 · $500 訂金") that slides up after scrolling past hero, with credit-aware label if signed in.
-2. **Itinerary upgrade**: convert `TourItinerary` timeline to an animated vertical rail — segments fade/slide in on scroll (IntersectionObserver), active segment highlights as you scroll.
-3. **Promo banner polish**: replace static gradient button with shimmer-on-idle + scale-on-press; add "限時推廣" chip with subtle pulse.
-4. **Location pills**: active state gets soft glow + scale; popular pill shows ★ with gentle bobbing.
-5. **Tour card**: hover lifts 4px with shadow ramp; popular ribbon gets diagonal shine sweep every 6s.
+- Data-only update via `supabase--insert` on the 4 rows in `location_services`.
+- No code changes — `TourItinerary.tsx` already renders this JSON structure (`day → segments[morning/afternoon/evening] → items[title, location?]`).
+- No translations needed; itinerary strings render as stored (matching current English-style entries already in DB).
 
-## Wave 2 — Homepage (`Hero`, `Services`, `Locations`)
-1. **Hero**: refine existing parallax — add gentle scroll-cue chevron, animate headline words with stagger fade (one-time, not loop).
-2. **Service cards** (`Services.tsx`): unified hover (lift + image zoom 1.03), clearer primary "View Details" button with arrow that translates 4px on hover.
-3. **Locations grid**: card hover reveals "View" overlay with backdrop-blur; "popular" badge for Zhuhai.
-4. **Section reveals**: wrap each homepage section in existing `Reveal` component for consistent on-scroll fades.
+## New Itineraries
 
-## Wave 3 — Booking flow (`BookingSection.tsx` + steps)
-1. **Step indicator**: animated progress bar (filled segments + glow on current), step numbers scale on activation.
-2. **Form feedback**: inline validation with green check icon on valid fields; shake + red ring on submit error.
-3. **Async states**: skeleton placeholders for service/date loading; button shows spinner + "處理中…" without layout shift.
-4. **Success state**: replace alert with full-card success animation (check-circle draw-in + confetti-lite single burst — still subtle).
-5. **Mobile**: convert step navigation to bottom sheet with swipe-down to dismiss.
+### Hainan 3D2N (Sanya)
 
-## Wave 4 — Global nav (`PageNavbar.tsx`, `MobileTabBar.tsx`, `CreditPill.tsx`)
-1. **Navbar**: shrink on scroll (80→60px) with backdrop-blur ramp; active link gets underline grow animation.
-2. **CreditPill**: number tweens up when balance increases; brief glow pulse on credit change event.
-3. **MobileTabBar**: active tab icon scales + label fades in; haptic-style tap feedback; safe-area padding.
-4. **AuthButton**: avatar dropdown with smooth height animation, not instant.
+- **Day 1 — Arrival in Sanya**
+  - Morning: Flight HKG → Sanya, private transfer
+  - Afternoon: Check-in, Dadonghai Beach stroll
+  - Evening: Welcome Hainanese seafood dinner
+- **Day 2 — Tandem Skydive Day**
+  - Morning: Shuttle to Weland dropzone, safety briefing
+  - Afternoon: Tandem skydive + HD video & photos
+  - Evening: Celebration dinner at Sanya Bay
+- **Day 3 — Free Day & Departure**
+  - Morning: Free time (optional: Yalong Bay, Luhuitou Park, duty-free shopping)
+  - Afternoon: Private transfer to Sanya airport
+  - Evening: Flight Sanya → HKG
 
----
+### Hainan 4D3N (Sanya)
 
-## Technical notes
-- Animations via existing **framer-motion** (already in `Hero`, `CreditPill`); reuse `src/lib/motion.ts` variants where possible.
-- Add 2 shared hooks: `useScrollDirection()` (for shrinking navbar / showing sticky CTA) and `useInViewOnce()` (for one-shot reveals).
-- Skeletons: extend existing `CardSkeleton.tsx`; add `FormFieldSkeleton`.
-- Toasts via existing `use-toast` — standardize success/error variants.
-- All new strings added to `LanguageContext.tsx` (繁/簡/EN).
-- No DB or business-logic changes.
+- **Day 1 — Arrival**
+  - Morning: Flight HKG → Sanya, private transfer
+  - Afternoon: Coconut-lined Sanya Bay sunset walk
+  - Evening: Welcome seafood dinner
+- **Day 2 — Tandem Skydive Day**
+  - Morning: Shuttle to Weland dropzone, briefing & gear-up
+  - Afternoon: Tandem skydive + HD video & photos
+  - Evening: Celebration dinner
+- **Day 3 — Free Day in Sanya**
+  - Morning: Free — suggested Wuzhizhou Island or Yalong Bay
+  - Afternoon: Free — spa, shopping, or beach time
+  - Evening: Free dinner at own pace
+- **Day 4 — Departure**
+  - Morning: Brunch, last-minute shopping
+  - Afternoon: Private transfer to Sanya airport
+  - Evening: Flight Sanya → HKG
 
-## Out of scope
-- New features, new pages, pricing/deposit changes, color palette overhaul, font swap.
+### Pattaya 3D2N
 
-## Rollout order
-Wave 1 → Wave 4 → Wave 3 → Wave 2 (highest-impact / lowest-risk first: promoted tour page + global nav set the tone, then booking, then homepage breadth).
+- **Day 1 — Arrival in Pattaya**
+  - Morning: Flight HKG → BKK, private transfer to Pattaya
+  - Afternoon: Beachfront check-in, Pattaya Beach sunset
+  - Evening: Welcome Thai seafood dinner, Walking Street stroll
+- **Day 2 — Tandem Skydive Day**
+  - Morning: Shuttle to Thai Sky Adventures dropzone, briefing
+  - Afternoon: Tandem skydive from 13,000 ft + HD video & photos
+  - Evening: Celebration dinner
+- **Day 3 — Free Day & Departure**
+  - Morning: Free time (optional: Koh Larn, Sanctuary of Truth, Terminal 21)
+  - Afternoon: Private transfer BKK
+  - Evening: Flight BKK → HKG
 
-Tell me to proceed, or pick a single wave to start with.
+### Pattaya 4D3N
+
+- **Day 1 — Arrival**
+  - Morning: Flight HKG → BKK, private transfer to Pattaya
+  - Afternoon: Beachfront check-in
+  - Evening: Welcome Thai dinner
+- **Day 2 — Tandem Skydive Day**
+  - Morning: Shuttle to Thai Sky Adventures dropzone, briefing
+  - Afternoon: Tandem skydive + HD video & photos
+  - Evening: Celebration dinner
+- **Day 3 — Free Day in Pattaya**
+  - Morning: Free — suggested Koh Larn snorkeling or Nong Nooch Garden
+  - Afternoon: Free — Thai massage, beach time, or shopping
+  - Evening: Free dinner at own pace
+- **Day 4 — Departure**
+  - Morning: Brunch, souvenir shopping
+  - Afternoon: Private transfer BKK
+  - Evening: Flight BKK → HKG
+
+## Technical Notes
+
+- One `UPDATE location_services SET itinerary = '<json>'::jsonb WHERE id = '<uuid>'` per tour (4 total), wrapped in a single insert-tool call.
+- IDs:
+  - Hainan 3D2N `b7b4784f-a5d2-46ac-afc2-9dc9ce2170de`
+  - Hainan 4D3N `3ad0903a-b4a5-43f4-b072-84f3e9df52b3`
+  - Pattaya 3D2N `14f0dbbb-f186-46d7-b742-94f92e8da94f`
+  - Pattaya 4D3N `d77f6091-45d4-46d2-9c9c-aaeb2894c10e`
+- JSON shape preserved: `[{day, title, segments:[{period, items:[{title, location?}]}]}]`.
+- Hotel names dropped; transfers/dropzones retained as `location` (useful map context, not lodging).
+
+## Out of Scope
+
+- Pricing, deposit, includes, photos.
+- Zhuhai one-day tour (recently redesigned).
+- Frontend rendering tweaks.
