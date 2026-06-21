@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Sunrise, Sun, Moon, ChevronDown } from "lucide-react";
+import { MapPin, Sunrise, Sun, Moon, ChevronDown, Sparkles } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { ItineraryDay } from "@/hooks/useLocationServices";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -13,6 +13,7 @@ export function TourItinerary({ itinerary }: Props) {
   const { t, translateData } = useLanguage();
   const [activeDay, setActiveDay] = useState<number>(itinerary?.[0]?.day ?? 1);
   const [expandedSegment, setExpandedSegment] = useState<string | null>(null);
+  const [collapsedHighlights, setCollapsedHighlights] = useState<Record<number, boolean>>({});
 
   if (!itinerary || itinerary.length === 0) {
     return (
