@@ -220,18 +220,20 @@ export function TourItinerary({ itinerary }: Props) {
                       <div className="text-[10px] md:text-[11px] font-semibold uppercase tracking-wider text-muted-foreground">
                         {meta.label}
                       </div>
-                      <div className="text-[13px] md:text-sm font-medium text-foreground truncate">
-                        {translateData(
-                          `tour.item.${seg.items[0].title}`,
-                          seg.items[0].title
-                        )}
-                        {seg.items.length > 1 && (
-                          <span className="text-muted-foreground font-normal">
-                            {" "}
-                            +{seg.items.length - 1}
-                          </span>
-                        )}
-                      </div>
+                      {!isOpen && (
+                        <div className="text-[13px] md:text-sm font-medium text-foreground truncate">
+                          {translateData(
+                            `tour.item.${seg.items[0].title}`,
+                            seg.items[0].title
+                          )}
+                          {seg.items.length > 1 && (
+                            <span className="text-muted-foreground font-normal">
+                              {" "}
+                              +{seg.items.length - 1}
+                            </span>
+                          )}
+                        </div>
+                      )}
                     </div>
                     <motion.span
                       animate={{ rotate: isOpen ? 180 : 0 }}
