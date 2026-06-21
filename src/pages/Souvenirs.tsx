@@ -46,7 +46,7 @@ export default function Souvenirs() {
             className="inline-flex items-center gap-2 text-foreground/70 hover:text-foreground mb-6 transition-colors"
           >
             <ArrowLeft className="w-4 h-4" />
-            {t("common.backHome")}
+            {t("promo.backToHome")}
           </Link>
 
           <motion.div
