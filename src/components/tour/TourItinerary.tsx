@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { MapPin, Sunrise, Sun, Moon, ChevronDown } from "lucide-react";
+import { MapPin, Sunrise, Sun, Moon, ChevronDown, Sparkles } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { ItineraryDay } from "@/hooks/useLocationServices";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -13,6 +13,7 @@ export function TourItinerary({ itinerary }: Props) {
   const { t, translateData } = useLanguage();
   const [activeDay, setActiveDay] = useState<number>(itinerary?.[0]?.day ?? 1);
   const [expandedSegment, setExpandedSegment] = useState<string | null>(null);
+  const [collapsedHighlights, setCollapsedHighlights] = useState<Record<number, boolean>>({});
 
   if (!itinerary || itinerary.length === 0) {
     return (
@@ -115,6 +116,71 @@ export function TourItinerary({ itinerary }: Props) {
               </h3>
             )}
           </div>
+
+          {(() => {
+            const explicit = current.highlights?.filter(Boolean) ?? [];
+            const derived = explicit.length
+              ? explicit
+              : segments
+                  .filter((s) => s.items && s.items.length > 0)
+                  .map((s) => s.items[0].title)
+                  .slice(0, 3);
+            if (derived.length === 0) return null;
+            const isCollapsed = collapsedHighlights[current.day] === true;
+            return (
+              <div className="mb-3 md:mb-4 rounded-xl border border-accent-orange/20 bg-accent-orange/[0.04] overflow-hidden">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setCollapsedHighlights((s) => ({ ...s, [current.day]: !isCollapsed }))
+                  }
+                  aria-expanded={!isCollapsed}
+                  className="w-full flex items-center gap-2 px-3 md:px-4 py-2.5 md:py-3 text-left hover:bg-accent-orange/[0.06] transition-colors"
+                >
+                  <Sparkles className="w-4 h-4 text-accent-orange shrink-0" />
+                  <span className="text-[11px] md:text-xs font-semibold uppercase tracking-wider text-foreground">
+                    {t("tour.quickHighlights")}
+                  </span>
+                  <span className="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 rounded-full bg-accent-orange/15 text-accent-orange text-[10px] md:text-[11px] font-bold">
+                    {derived.length}
+                  </span>
+                  <motion.span
+                    animate={{ rotate: isCollapsed ? 0 : 180 }}
+                    transition={{ duration: 0.25 }}
+                    className="ml-auto text-muted-foreground"
+                  >
+                    <ChevronDown className="w-4 h-4" />
+                  </motion.span>
+                </button>
+                <AnimatePresence initial={false}>
+                  {!isCollapsed && (
+                    <motion.div
+                      key="hl-content"
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
+                    >
+                      <div className="px-3 md:px-4 pb-3 md:pb-4 pt-0.5 flex flex-wrap gap-1.5 md:gap-2">
+                        {derived.map((label, i) => (
+                          <motion.span
+                            key={`${label}-${i}`}
+                            initial={{ opacity: 0, y: 4 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.25, delay: i * 0.04 }}
+                            className="inline-flex items-center gap-1 px-2.5 md:px-3 py-1 md:py-1.5 rounded-full bg-accent-orange/10 border border-accent-orange/25 text-accent-orange text-[12px] md:text-sm font-medium"
+                          >
+                            {translateData(`tour.highlight.${label}`, label)}
+                          </motion.span>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+            );
+          })()}
 
           <div className="space-y-2.5">
             {segments.map((seg, segIdx) => {

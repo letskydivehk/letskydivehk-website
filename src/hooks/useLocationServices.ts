@@ -17,6 +17,7 @@ export interface ItineraryDay {
   day: number
   title?: string
   segments?: ItinerarySegment[]
+  highlights?: string[]
   // legacy fields kept optional for backwards compatibility
   location?: string
   accommodation?: string
