@@ -1,4 +1,5 @@
 import { MapPin, Sunrise, Sun, Moon } from "lucide-react";
+import { motion } from "framer-motion";
 import type { ItineraryDay } from "@/hooks/useLocationServices";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -42,13 +43,20 @@ export function TourItinerary({ itinerary }: Props) {
               {day.title && <span>{translateData(`tour.dayTitle.${day.title}`, day.title)}</span>}
             </div>
             <div className="relative pl-4 border-l-2 border-accent-orange/30 space-y-3">
-              {segments.map((seg) => {
+              {segments.map((seg, segIdx) => {
                 if (!seg.items || seg.items.length === 0) return null;
                 const meta = periodMeta[seg.period];
                 const Icon = meta.Icon;
                 return (
-                  <div key={seg.period} className="relative">
-                    <span className="absolute -left-[1.4rem] top-0.5 w-5 h-5 rounded-full bg-background border-2 border-accent-orange/40 flex items-center justify-center">
+                  <motion.div
+                    key={seg.period}
+                    initial={{ opacity: 0, x: -12 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-40px" }}
+                    transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1], delay: segIdx * 0.08 }}
+                    className="relative"
+                  >
+                    <span className="absolute -left-[1.4rem] top-0.5 w-5 h-5 rounded-full bg-background border-2 border-accent-orange/40 flex items-center justify-center shadow-sm">
                       <Icon className={`w-3 h-3 ${meta.color}`} />
                     </span>
                     <div className="text-[11px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">
@@ -56,7 +64,14 @@ export function TourItinerary({ itinerary }: Props) {
                     </div>
                     <ul className="space-y-1">
                       {seg.items.map((item, i) => (
-                        <li key={i} className="text-sm text-foreground">
+                        <motion.li
+                          key={i}
+                          initial={{ opacity: 0, y: 4 }}
+                          whileInView={{ opacity: 1, y: 0 }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 0.35, delay: 0.1 + i * 0.04 }}
+                          className="text-sm text-foreground"
+                        >
                           <span className="font-medium">{translateData(`tour.item.${item.title}`, item.title)}</span>
                           {item.location && (
                             <span className="ml-1.5 inline-flex items-center gap-0.5 text-muted-foreground">
@@ -64,10 +79,10 @@ export function TourItinerary({ itinerary }: Props) {
                               {translateData(`tour.item.${item.location}`, item.location)}
                             </span>
                           )}
-                        </li>
+                        </motion.li>
                       ))}
                     </ul>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>
@@ -77,3 +92,4 @@ export function TourItinerary({ itinerary }: Props) {
     </ol>
   );
 }
+

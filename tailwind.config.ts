@@ -125,13 +125,23 @@ export default {
 				'30%': { transform: 'translateY(-8px)' },
 				'50%': { transform: 'translateY(-4px)' },
 				'70%': { transform: 'translateY(-6px)' }
+			},
+			shimmer: {
+				'0%': { transform: 'translateX(-120%) skewX(-20deg)' },
+				'60%, 100%': { transform: 'translateX(420%) skewX(-20deg)' }
+			},
+			'glow-pulse': {
+				'0%, 100%': { boxShadow: '0 0 0 0 rgba(251,191,36,0)' },
+				'50%': { boxShadow: '0 0 0 6px rgba(251,191,36,0.35)' }
 			}
 		},
 		animation: {
 			'accordion-down': 'accordion-down 0.2s ease-out',
 			'accordion-up': 'accordion-up 0.2s ease-out',
 			ripple: 'ripple 0.6s ease-out',
-			'attention-bounce': 'attention-bounce 0.8s ease-in-out'
+			'attention-bounce': 'attention-bounce 0.8s ease-in-out',
+			shimmer: 'shimmer 3.5s ease-in-out infinite',
+			'glow-pulse': 'glow-pulse 1.2s ease-out'
 		},
   		boxShadow: {
   			'2xs': 'var(--shadow-2xs)',
