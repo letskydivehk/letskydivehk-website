@@ -1,64 +1,41 @@
-## Goal
-Add a "Quick highlights" section to each day in the tour itinerary that is visible at a glance and tap-to-expand for full detail. Improves scanability on both mobile and desktop without losing the existing morning/afternoon/evening structure.
+## Souvenirs Page Plan
 
-## What changes for the user
-- Each day card shows 2–4 highlight chips right under the day title (e.g. "Tandem skydive", "Sanctuary of Truth", "Walking Street").
-- A "Highlights" header is tappable — collapses/expands the chips to keep the card compact on small screens.
-- On first load, highlights are expanded; the existing morning/afternoon/evening segments remain below, unchanged.
-- Localized via the existing `translateData("tour.highlight.<key>", ...)` pattern, so EN/繁中/简中 all work.
+### Route
+- New page at `/souvenirs` — add lazy route in `src/App.tsx`.
+- Create `src/pages/Souvenirs.tsx` using existing page conventions (PageNavbar, Footer, SEO, BackgroundDecorations, framer-motion reveal).
 
-## Data model
-Extend `ItineraryDay` with one optional field — no schema migration needed (`itinerary` is already a JSONB array):
+### Page Content
+1. **Hero** — title "Souvenirs" / 「紀念品」/ 「纪念品」, short subtitle ("Take home a piece of the sky").
+2. **Product card — Skydive HK T-shirt**
+   - Placeholder image (`/placeholder.svg`) ready to swap later.
+   - Price: **HK$150**.
+   - Short description (one sentence per language).
+   - Size selector chips: S / M / L / XL / 2XL.
+   - Primary CTA: **Order via WhatsApp** — opens `https://wa.me/<existing number>?text=...` pre-filled with product name, selected size, and price (localized text per language). Reuses the WhatsApp number already used by `WhatsAppButton`/`Contact`.
+3. **Size Chart**
+   - shadcn `Table`, columns: Size | Height (cm) | Weight (kg).
+   - Rows S, M, L, XL, 2XL with placeholder dashes (`—`) so you can fill values later by editing one array constant `SIZE_CHART` at the top of `Souvenirs.tsx`.
+   - Note line: "Measurements are guidelines; contact us if unsure."
+4. **Back link** to home.
 
-```ts
-interface ItineraryDay {
-  ...
-  highlights?: string[]   // 2-4 short labels per day
-}
-```
+### Navigation Links
+- **Main navbar** (`src/components/PageNavbar.tsx`): add "Souvenirs" link (all 3 languages).
+- **Footer** (`src/components/Footer.tsx`): add to Quick Links (all 3 languages).
 
-Backfill the 4 agency-style tours (Hainan 3D2N, Hainan 4D3N, Pattaya 3D2N, Pattaya 4D3N) via a single `UPDATE` on `location_services.itinerary` to add a `highlights` array per day. Example for Pattaya 3D2N Day 2: `["Tandem skydive", "Nong Nooch Garden", "Alcazar Cabaret"]`.
+### Translations
+Add keys to `src/contexts/LanguageContext.tsx` for en / zh-TW / zh-CN:
+- `souvenirs.title`, `souvenirs.subtitle`, `souvenirs.seoTitle`, `souvenirs.seoDesc`
+- `souvenirs.tshirt.name`, `souvenirs.tshirt.desc`, `souvenirs.price`
+- `souvenirs.selectSize`, `souvenirs.orderWhatsapp`, `souvenirs.whatsappMsg` (template with `{size}`)
+- `souvenirs.sizeChart`, `souvenirs.size`, `souvenirs.height`, `souvenirs.weight`, `souvenirs.sizeNote`
+- `nav.souvenirs`, `footer.souvenirs`
 
-For tours without `highlights`, the component falls back to auto-deriving the first item from each populated period — so older itineraries still get a highlights strip.
+Traditional Chinese remains authoritative.
 
-## UI changes (single file: `src/components/tour/TourItinerary.tsx`)
-Inside the active-day card, between the day title and the segments list:
+### Files Touched
+- new: `src/pages/Souvenirs.tsx`
+- edit: `src/App.tsx` (route), `src/components/PageNavbar.tsx`, `src/components/Footer.tsx`, `src/contexts/LanguageContext.tsx`
 
-```text
-┌───────────────────────────────────────────────┐
-│ [Day 2]  Sky & Culture                        │
-│                                               │
-│ ✨ Quick highlights              [chevron]    │  ← tap to collapse
-│ ┌─────────┐ ┌──────────────┐ ┌────────────┐  │
-│ │ Tandem  │ │ Nong Nooch   │ │ Alcazar    │  │
-│ └─────────┘ └──────────────┘ └────────────┘  │
-│                                               │
-│ ☀ Morning  · Tandem skydive over Haitang …   │
-│ ☀ Afternoon · Nong Nooch Tropical Garden     │
-│ 🌙 Evening · Alcazar Cabaret                  │
-└───────────────────────────────────────────────┘
-```
-
-- Chips use accent-orange tinted background, rounded-full, `text-xs md:text-sm`, wrap on mobile.
-- Header row: Sparkles icon + "Quick highlights" label + count badge + animated chevron. Whole row is the toggle button (large tap target).
-- Smooth height/opacity transition via `framer-motion` `AnimatePresence` (matches existing segment transitions).
-- Collapsed state persists per day via local state keyed by day number.
-- Sparkles icon import from `lucide-react`.
-
-## Localization
-- Add 3 translation keys: `tour.quickHighlights`, used in EN/繁中/简中 (`快速亮點` / `快速亮点` / `Quick highlights`).
-- Highlight labels are passed through `translateData("tour.highlight.<label>", label)` so future translations can be added without code changes.
-
-## Implementation steps
-1. Update `ItineraryDay` type in `src/hooks/useLocationServices.ts` to add `highlights?: string[]`.
-2. Update `TourItinerary.tsx`:
-   - Derive `highlights` for the active day (use `current.highlights` or fall back to first item of each non-empty segment, capped at 3).
-   - Insert a collapsible "Quick highlights" block above the segments map.
-   - Per-day collapse state stored in a `Record<number, boolean>`.
-3. Add `tour.quickHighlights` translations in the language context's strings file.
-4. Run an `UPDATE` on `location_services` to attach `highlights` arrays to the 4 agency-style tours (data-only, no schema change).
-
-## Out of scope
-- No DB schema migration (JSONB already supports the new field).
-- No changes to `AdminItineraryComparePanel` or `previousItineraries.ts`.
-- No design changes to the day tab selector or segment rows.
+### Out of Scope
+- No payment integration, no DB table (single static product).
+- Real product image and size measurements to be filled in later by editing `SIZE_CHART` constant and replacing the image import.

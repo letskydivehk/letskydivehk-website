@@ -40,6 +40,7 @@ function AnimatedRoutes() {
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/terms" element={<Terms />} />
       <Route path="/disclaimer" element={<Disclaimer />} />
+      <Route path="/souvenirs" element={<Souvenirs />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
@@ -83,6 +84,7 @@ const MembershipTiers = React.lazy(() => import('./pages/MembershipTiers'));
 const Quiz = React.lazy(() => import('./pages/Quiz'));
 const QuizResult = React.lazy(() => import('./pages/QuizResult'));
 const LocationCompare = React.lazy(() => import('./pages/LocationCompare'));
+const Souvenirs = React.lazy(() => import('./pages/Souvenirs'));
 
 const queryClient = new QueryClient({
   defaultOptions: {
