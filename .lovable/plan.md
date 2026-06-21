@@ -1,96 +1,86 @@
-## Goal
+# Improve Hainan & Pattaya Tour Itineraries (Travel-Agency Style)
 
-Rewrite the itineraries for the 4 tour packages (Hainan 3D2N, Hainan 4D3N, Pattaya 3D2N, Pattaya 4D3N) stored in `location_services.itinerary`. Each tour gets at least one free day, EGL-style sightseeing flavor, and no specific hotel names (just generic descriptions like "hotel check-in").
+Rewrite the four tour itineraries in `location_services` using attractions and pacing from HK travel agency packages (EGL, Wing On, Goldjoy, WWPKG). Keeps the existing JSON shape — no code changes. Skydive stays on Day 2 morning. Each tour has one fully free day. No hotel names.
 
-## Scope
+## What's new vs current itineraries
+- Adds **agency-favorite landmarks** instead of generic placeholders
+- Adds a curated **evening segment** to each day (night markets, shows, viewpoints)
+- Free day reframed as **"Free & Easy"** with 3–4 suggested attractions (mirrors EGL/Wing On format)
+- Skydive day pairs jump with a complementary nearby attraction so the afternoon isn't empty
 
-- Data-only update via `supabase--insert` on the 4 rows in `location_services`.
-- No code changes — `TourItinerary.tsx` already renders this JSON structure (`day → segments[morning/afternoon/evening] → items[title, location?]`).
-- No translations needed; itinerary strings render as stored (matching current English-style entries already in DB).
+---
 
-## New Itineraries
+## Hainan 3D2N (`b7b4784f-…`)
+- **Day 1 — Arrival & Sanya Bay Sunset**
+  - Morning: Flight HKG → Sanya (SYX) · Private transfer to hotel
+  - Afternoon: Coconut Dream Corridor stroll · Dadonghai Beach
+  - Evening: First Market (第一市場) seafood dinner · Luhuitou Park night view
+- **Day 2 — Tandem Skydive & Cultural Icons**
+  - Morning: Tandem skydive over Haitang Bay coastline
+  - Afternoon: Nanshan Cultural Zone (108m Guanyin) · Tianya Haijiao
+  - Evening: Optional *Sanya Romance Show* (千古情) · seaside BBQ
+- **Day 3 — Free & Easy + Departure**
+  - Morning: Free time — choose from Haitang Bay Duty-Free Mall, Yalong Bay Tropical Forest Park (glass bridge), or Atlantis Sanya day-pass
+  - Afternoon: Hainan coffee/snack shopping · transfer to Sanya Phoenix Airport
+  - Evening: Flight SYX → HKG
 
-### Hainan 3D2N (Sanya)
+## Hainan 4D3N (`3ad0903a-…`)
+- **Day 1 — Arrival & Phoenix Island Lights**
+  - Morning: Flight HKG → Sanya · Private transfer
+  - Afternoon: Check-in · Yalong Bay beach walk
+  - Evening: Phoenix Island light show · welcome seafood dinner
+- **Day 2 — Tandem Skydive & Island Day**
+  - Morning: Tandem skydive over Haitang Bay
+  - Afternoon: Wuzhizhou Island (the "Maldives of China") — snorkeling / water sports
+  - Evening: Dadonghai night stroll · local Hainanese dinner
+- **Day 3 — Free & Easy in Sanya**
+  - Morning: Free — Atlantis Aquaventure Waterpark *or* Yanoda Rainforest *or* Binglang Valley (Li & Miao village)
+  - Afternoon: Haitang Bay Duty-Free Mall shopping · spa
+  - Evening: Free dinner at hotel beach or West Island sunset
+- **Day 4 — Final Views & Departure**
+  - Morning: Nanshan Temple *or* Luhuitou Park 360° viewpoint
+  - Afternoon: Last-minute Hainan coffee shopping · airport transfer
+  - Evening: Flight SYX → HKG
 
-- **Day 1 — Arrival in Sanya**
-  - Morning: Flight HKG → Sanya, private transfer
-  - Afternoon: Check-in, Dadonghai Beach stroll
-  - Evening: Welcome Hainanese seafood dinner
-- **Day 2 — Tandem Skydive Day**
-  - Morning: Shuttle to Weland dropzone, safety briefing
-  - Afternoon: Tandem skydive + HD video & photos
-  - Evening: Celebration dinner at Sanya Bay
-- **Day 3 — Free Day & Departure**
-  - Morning: Free time (optional: Yalong Bay, Luhuitou Park, duty-free shopping)
-  - Afternoon: Private transfer to Sanya airport
-  - Evening: Flight Sanya → HKG
-
-### Hainan 4D3N (Sanya)
-
-- **Day 1 — Arrival**
-  - Morning: Flight HKG → Sanya, private transfer
-  - Afternoon: Coconut-lined Sanya Bay sunset walk
-  - Evening: Welcome seafood dinner
-- **Day 2 — Tandem Skydive Day**
-  - Morning: Shuttle to Weland dropzone, briefing & gear-up
-  - Afternoon: Tandem skydive + HD video & photos
-  - Evening: Celebration dinner
-- **Day 3 — Free Day in Sanya**
-  - Morning: Free — suggested Wuzhizhou Island or Yalong Bay
-  - Afternoon: Free — spa, shopping, or beach time
-  - Evening: Free dinner at own pace
-- **Day 4 — Departure**
-  - Morning: Brunch, last-minute shopping
-  - Afternoon: Private transfer to Sanya airport
-  - Evening: Flight Sanya → HKG
-
-### Pattaya 3D2N
-
-- **Day 1 — Arrival in Pattaya**
-  - Morning: Flight HKG → BKK, private transfer to Pattaya
-  - Afternoon: Beachfront check-in, Pattaya Beach sunset
-  - Evening: Welcome Thai seafood dinner, Walking Street stroll
-- **Day 2 — Tandem Skydive Day**
-  - Morning: Shuttle to Thai Sky Adventures dropzone, briefing
-  - Afternoon: Tandem skydive from 13,000 ft + HD video & photos
-  - Evening: Celebration dinner
-- **Day 3 — Free Day & Departure**
-  - Morning: Free time (optional: Koh Larn, Sanctuary of Truth, Terminal 21)
-  - Afternoon: Private transfer BKK
+## Pattaya 3D2N (`14f0dbbb-…`)
+- **Day 1 — Arrival, Sanctuary & Walking Street**
+  - Morning: Flight HKG → BKK · Private transfer to Pattaya (~1.5h)
+  - Afternoon: Sanctuary of Truth (wood-carved seaside temple)
+  - Evening: Terminal 21 Pattaya dinner · Walking Street
+- **Day 2 — Tandem Skydive & Cultural Pattaya**
+  - Morning: Tandem skydive over Pattaya coast
+  - Afternoon: Nong Nooch Tropical Garden (Dinosaur Valley + cultural show)
+  - Evening: Tiffany / Alcazar Cabaret Show · Thai seafood dinner
+- **Day 3 — Free & Easy + Departure**
+  - Morning: Free — Big Buddha (Wat Phra Yai) viewpoint, Pattaya Floating Market, or Art in Paradise 3D
+  - Afternoon: Transfer to Bangkok · Erawan Shrine / Central World quick stop
   - Evening: Flight BKK → HKG
 
-### Pattaya 4D3N
-
-- **Day 1 — Arrival**
-  - Morning: Flight HKG → BKK, private transfer to Pattaya
-  - Afternoon: Beachfront check-in
-  - Evening: Welcome Thai dinner
-- **Day 2 — Tandem Skydive Day**
-  - Morning: Shuttle to Thai Sky Adventures dropzone, briefing
-  - Afternoon: Tandem skydive + HD video & photos
-  - Evening: Celebration dinner
-- **Day 3 — Free Day in Pattaya**
-  - Morning: Free — suggested Koh Larn snorkeling or Nong Nooch Garden
-  - Afternoon: Free — Thai massage, beach time, or shopping
-  - Evening: Free dinner at own pace
-- **Day 4 — Departure**
-  - Morning: Brunch, souvenir shopping
-  - Afternoon: Private transfer BKK
+## Pattaya 4D3N (`d77f6091-…`)
+- **Day 1 — Arrival & Alcazar Night**
+  - Morning: Flight HKG → BKK · Private transfer to Pattaya
+  - Afternoon: Art in Paradise 3D museum · Pattaya Beach
+  - Evening: Alcazar Cabaret Show · Walking Street
+- **Day 2 — Tandem Skydive & Coral Island**
+  - Morning: Tandem skydive
+  - Afternoon: Koh Larn (Coral Island) — snorkeling / parasailing / jet ski
+  - Evening: Pattaya Floating Market dinner & street food
+- **Day 3 — Free & Easy in Pattaya**
+  - Morning: Free — Nong Nooch Garden, Khao Kheow Open Zoo, or Frost Magical Ice
+  - Afternoon: Thai massage · beach time · Terminal 21 Pattaya
+  - Evening: Free seafood dinner (Mimosa / Lan Po seafood market)
+- **Day 4 — Bangkok Shopping & Departure**
+  - Morning: Transfer to Bangkok · Siam / IconSiam shopping
+  - Afternoon: Asiatique or Jodd Fairs · Big C souvenir run
   - Evening: Flight BKK → HKG
 
-## Technical Notes
+---
 
-- One `UPDATE location_services SET itinerary = '<json>'::jsonb WHERE id = '<uuid>'` per tour (4 total), wrapped in a single insert-tool call.
-- IDs:
-  - Hainan 3D2N `b7b4784f-a5d2-46ac-afc2-9dc9ce2170de`
-  - Hainan 4D3N `3ad0903a-b4a5-43f4-b072-84f3e9df52b3`
-  - Pattaya 3D2N `14f0dbbb-f186-46d7-b742-94f92e8da94f`
-  - Pattaya 4D3N `d77f6091-45d4-46d2-9c9c-aaeb2894c10e`
-- JSON shape preserved: `[{day, title, segments:[{period, items:[{title, location?}]}]}]`.
-- Hotel names dropped; transfers/dropzones retained as `location` (useful map context, not lodging).
-
-## Out of Scope
-
-- Pricing, deposit, includes, photos.
-- Zhuhai one-day tour (recently redesigned).
-- Frontend rendering tweaks.
+## Technical notes
+- Single tool call: `supabase--insert` (UPDATE) on 4 rows of `location_services.itinerary` (JSONB column)
+- JSON shape preserved: `[{day, title, segments:[{period, items:[{title, location?}]}]}]`
+- `location` field kept on transfer / skydive / specific venue items so the existing `TourItinerary.tsx` map pins still work
+- No frontend code changes — `TourItinerary.tsx` already renders day pills + expandable segments
+- No translation/i18n keys added (free-text titles, same as today)
+- Pricing, deposits, includes, photos untouched
+- Zhuhai one-day tour untouched
