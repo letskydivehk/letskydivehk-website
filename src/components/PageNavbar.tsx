@@ -6,18 +6,12 @@ import { AuthButton } from './AuthButton'
 import { CreditPill } from './CreditPill'
 import { LanguageSwitcher } from './LanguageSwitcher'
 import { useLanguage } from '@/contexts/LanguageContext'
+import { useScrollDirection } from '@/hooks/useScrollDirection'
 
 export function PageNavbar() {
   const { t } = useLanguage()
-  const [isScrolled, setIsScrolled] = useState(false)
+  const { scrolled: isScrolled } = useScrollDirection(40)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50)
-    window.addEventListener('scroll', handleScroll)
-    handleScroll()
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   useEffect(() => {
     document.body.style.overflow = isMobileMenuOpen ? 'hidden' : 'unset'
@@ -43,24 +37,28 @@ export function PageNavbar() {
         transition={{ duration: 0.8, delay: 0.3 }}
         className="fixed top-0 left-0 right-0 w-full z-[110]"
       >
-        <div className={`w-full px-6 sm:px-8 lg:px-12 py-4 transition-all duration-300 ease-out ${
-          isScrolled ? 'bg-black/95 backdrop-blur-xl border-b border-white/10' : 'bg-black/90 backdrop-blur-xl'
+        <div className={`w-full px-6 sm:px-8 lg:px-12 transition-all duration-300 ease-out ${
+          isScrolled
+            ? 'py-2.5 bg-black/95 backdrop-blur-xl border-b border-white/10 shadow-[0_4px_20px_rgba(0,0,0,0.25)]'
+            : 'py-4 bg-black/85 backdrop-blur-xl'
         }`}>
           <div className="flex items-center justify-between">
             {/* Logo */}
-            <Link to="/" className="flex items-center">
-              <span className="font-bagel text-white text-xl tracking-wider">LET'S SKYDIVE HK</span>
+            <Link to="/" className="flex items-center group">
+              <span className={`font-bagel text-white tracking-wider transition-all duration-300 ${isScrolled ? 'text-base sm:text-lg' : 'text-xl'}`}>
+                LET'S SKYDIVE HK
+              </span>
             </Link>
 
             {/* Desktop Nav */}
             <div className="hidden lg:flex items-center space-x-8">
               {navLinks.map((link) =>
                 link.isRoute ? (
-                  <Link key={link.href} to={link.href} className="text-white hover:text-white/80 font-medium transition-all hover:scale-105">
+                  <Link key={link.href} to={link.href} className="relative text-white font-medium transition-colors hover:text-white/90 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-full after:bg-accent-orange after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100">
                     {link.label}
                   </Link>
                 ) : (
-                  <a key={link.href} href={link.href} className="text-white hover:text-white/80 font-medium transition-all hover:scale-105">
+                  <a key={link.href} href={link.href} className="relative text-white font-medium transition-colors hover:text-white/90 after:content-[''] after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-full after:bg-accent-orange after:scale-x-0 after:origin-left after:transition-transform after:duration-300 hover:after:scale-x-100">
                     {link.label}
                   </a>
                 )

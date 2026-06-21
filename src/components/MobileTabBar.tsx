@@ -70,15 +70,32 @@ export function MobileTabBar() {
         >
           <ul className="grid grid-cols-4 gap-1 px-2 pt-1.5">
             {items.map(({ key, labelKey, icon: Icon, href, primary, external }) => {
+              const isActive =
+                (key === "me" && location.pathname.startsWith("/membership")) ||
+                (key === "loc" && (location.hash === "#locations" || location.pathname.startsWith("/locations"))) ||
+                (key === "book" && location.hash === "#booking");
               const inner = (
-                <span
+                <motion.span
+                  whileTap={{ scale: 0.92 }}
+                  transition={{ type: "spring", stiffness: 400, damping: 22 }}
                   className={`flex flex-col items-center justify-center gap-0.5 py-1.5 px-1 rounded-lg min-h-11 transition-colors ${
-                    primary ? "text-accent-orange" : "text-muted-foreground hover:text-foreground"
+                    primary || isActive ? "text-accent-orange" : "text-muted-foreground hover:text-foreground"
                   }`}
                 >
-                  <Icon className="w-5 h-5" />
-                  <span className="text-[10px] font-medium leading-tight truncate max-w-full">{t(labelKey) || labelKey}</span>
-                </span>
+                  <motion.span
+                    animate={isActive || primary ? { scale: 1.1 } : { scale: 1 }}
+                    transition={{ type: "spring", stiffness: 380, damping: 20 }}
+                    className="relative inline-flex"
+                  >
+                    <Icon className="w-5 h-5" />
+                    {primary && (
+                      <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-accent-orange animate-ping opacity-75" />
+                    )}
+                  </motion.span>
+                  <span className={`text-[10px] leading-tight truncate max-w-full ${isActive || primary ? "font-bold" : "font-medium"}`}>
+                    {t(labelKey) || labelKey}
+                  </span>
+                </motion.span>
               );
               return (
                 <li key={key}>
