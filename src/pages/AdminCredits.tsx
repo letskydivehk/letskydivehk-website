@@ -105,6 +105,10 @@ export default function AdminCredits() {
             <TabsContent value="tours">
               {isAdmin && <AdminToursPanel />}
             </TabsContent>
+
+            <TabsContent value="compare">
+              {isAdmin && <AdminItineraryComparePanel />}
+            </TabsContent>
           </Tabs>
         </div>
       </main>
