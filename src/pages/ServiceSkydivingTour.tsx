@@ -8,6 +8,7 @@ import { HowItWorks } from '@/components/HowItWorks'
 import { ServiceFAQ } from '@/components/ServiceFAQ'
 import { ServiceCTA } from '@/components/ServiceCTA'
 import { Footer } from '@/components/Footer'
+import { StickyTourCTA } from '@/components/StickyTourCTA'
 import { useBooking } from '@/contexts/BookingContext'
 import { useLanguage } from '@/contexts/LanguageContext'
 import { useLocations } from '@/hooks/useLocations'
@@ -143,9 +144,12 @@ export default function ServiceSkydivingTour() {
                 <motion.div
                   initial={{ opacity: 0, y: -10 }}
                   animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
                   className="max-w-3xl mx-auto mb-8"
                 >
-                  <button
+                  <motion.button
+                    whileHover={{ y: -2 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={() => {
                       const popular = locationTours.find((g) => g.tours.some((tt) => tt.is_popular))
                       if (popular) setSelectedLocId(popular.location.id)
@@ -153,15 +157,24 @@ export default function ServiceSkydivingTour() {
                         document.getElementById('tour-itineraries')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
                       }, 50)
                     }}
-                    className="group w-full flex items-center justify-between gap-3 px-5 py-3 rounded-2xl bg-gradient-to-r from-accent-orange/90 to-accent-orange text-white shadow-md hover:shadow-lg transition-all"
+                    className="group relative w-full overflow-hidden flex items-center justify-between gap-3 px-5 py-3.5 rounded-2xl bg-gradient-to-r from-accent-orange/90 via-accent-orange to-amber-500 text-white shadow-md hover:shadow-xl transition-shadow"
                   >
-                    <span className="text-sm sm:text-base font-semibold text-left">
+                    {/* Shimmer sweep */}
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute inset-y-0 -left-1/2 w-1/3 bg-gradient-to-r from-transparent via-white/40 to-transparent skew-x-[-20deg] animate-[shimmer_3.5s_ease-in-out_infinite]"
+                    />
+                    <span className="relative inline-flex items-center gap-2 text-sm sm:text-base font-semibold text-left">
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-full bg-white/20 text-[10px] font-bold uppercase tracking-wider animate-pulse">
+                        {t('tour.badge.popular')}
+                      </span>
                       {t('tour.promoBanner.oneDay')}
                     </span>
-                    <span className="inline-flex items-center gap-1 text-xs sm:text-sm font-bold bg-white/15 px-3 py-1 rounded-full whitespace-nowrap group-hover:bg-white/25 transition-colors">
-                      {t('tour.promoBanner.cta')} <ArrowRight className="w-3.5 h-3.5" />
+                    <span className="relative inline-flex items-center gap-1 text-xs sm:text-sm font-bold bg-white/15 px-3 py-1.5 rounded-full whitespace-nowrap group-hover:bg-white/25 transition-colors">
+                      {t('tour.promoBanner.cta')}
+                      <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" />
                     </span>
-                  </button>
+                  </motion.button>
                 </motion.div>
               )}
 
@@ -171,22 +184,29 @@ export default function ServiceSkydivingTour() {
                   const active = selectedLocId === location.id
                   const hasPopular = tours.some((tt) => tt.is_popular)
                   return (
-                    <button
+                    <motion.button
                       key={location.id}
                       onClick={() => setSelectedLocId(location.id)}
+                      whileTap={{ scale: 0.96 }}
+                      animate={active ? { scale: 1.05 } : { scale: 1 }}
+                      transition={{ type: 'spring', stiffness: 320, damping: 22 }}
                       className={`relative px-5 py-2.5 rounded-full font-semibold transition-all border ${
                         active
-                          ? 'bg-accent-orange text-white border-accent-orange shadow-md'
-                          : 'bg-card text-foreground border-border hover:border-accent-orange'
+                          ? 'bg-accent-orange text-white border-accent-orange shadow-[0_8px_24px_-6px_rgba(234,88,12,0.55)]'
+                          : 'bg-card text-foreground border-border hover:border-accent-orange hover:shadow-sm'
                       }`}
                     >
                       {translateData(`location.${location.slug}`, location.Name)}
                       {hasPopular && (
-                        <span className="absolute -top-2 -right-2 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-white text-accent-orange border border-accent-orange shadow-sm">
+                        <motion.span
+                          animate={{ y: [0, -2, 0] }}
+                          transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+                          className="absolute -top-2 -right-2 text-[10px] font-bold px-1.5 py-0.5 rounded-full bg-white text-accent-orange border border-accent-orange shadow-sm"
+                        >
                           ★
-                        </span>
+                        </motion.span>
                       )}
-                    </button>
+                    </motion.button>
                   )
                 })}
               </div>
@@ -227,6 +247,7 @@ export default function ServiceSkydivingTour() {
       <ServiceFAQ items={tourFAQItems} />
       <ServiceCTA onBookNow={() => handleBookNow()} />
       <Footer />
+      <StickyTourCTA onBook={() => handleBookNow(selectedLocId ?? undefined)} />
     </>
   )
 }
