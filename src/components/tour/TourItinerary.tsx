@@ -42,12 +42,12 @@ export function TourItinerary({ itinerary }: Props) {
     setExpandedSegment((cur) => (cur === key ? null : key));
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-4 md:space-y-5">
       {/* Day selector */}
       <div
         role="tablist"
         aria-label={t("tour.itinerary") || "Itinerary days"}
-        className="flex gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide"
+        className="flex gap-1.5 md:gap-2 overflow-x-auto pb-2 -mx-1 px-1 scrollbar-hide snap-x snap-mandatory"
       >
         {itinerary.map((day) => {
           const isActive = day.day === activeDay;
@@ -61,23 +61,23 @@ export function TourItinerary({ itinerary }: Props) {
                 setExpandedSegment(null);
               }}
               className={cn(
-                "relative shrink-0 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-300",
+                "relative shrink-0 snap-start px-3 py-2 md:px-4 md:py-2.5 rounded-xl text-xs md:text-sm font-medium transition-all duration-300",
                 "border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-orange/60",
                 isActive
                   ? "bg-accent-orange text-white border-accent-orange shadow-md shadow-accent-orange/30 scale-[1.02]"
                   : "bg-card/60 text-foreground border-border hover:border-accent-orange/50 hover:bg-accent-orange/5"
               )}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-1.5 md:gap-2">
                 <span
                   className={cn(
-                    "inline-flex items-center justify-center w-6 h-6 rounded-md text-[11px] font-bold transition-colors",
+                    "inline-flex items-center justify-center w-5 h-5 md:w-6 md:h-6 rounded-md text-[10px] md:text-[11px] font-bold transition-colors",
                     isActive ? "bg-white/20 text-white" : "bg-accent-orange/10 text-accent-orange"
                   )}
                 >
                   {day.day}
                 </span>
-                <span className="whitespace-nowrap">
+                <span className="whitespace-nowrap max-w-[7rem] sm:max-w-none truncate">
                   {day.title
                     ? translateData(`tour.dayTitle.${day.title}`, day.title)
                     : `${t("tour.day")} ${day.day}`}
