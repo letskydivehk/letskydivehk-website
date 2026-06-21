@@ -1,86 +1,64 @@
-# Improve Hainan & Pattaya Tour Itineraries (Travel-Agency Style)
+## Goal
+Add a "Quick highlights" section to each day in the tour itinerary that is visible at a glance and tap-to-expand for full detail. Improves scanability on both mobile and desktop without losing the existing morning/afternoon/evening structure.
 
-Rewrite the four tour itineraries in `location_services` using attractions and pacing from HK travel agency packages (EGL, Wing On, Goldjoy, WWPKG). Keeps the existing JSON shape — no code changes. Skydive stays on Day 2 morning. Each tour has one fully free day. No hotel names.
+## What changes for the user
+- Each day card shows 2–4 highlight chips right under the day title (e.g. "Tandem skydive", "Sanctuary of Truth", "Walking Street").
+- A "Highlights" header is tappable — collapses/expands the chips to keep the card compact on small screens.
+- On first load, highlights are expanded; the existing morning/afternoon/evening segments remain below, unchanged.
+- Localized via the existing `translateData("tour.highlight.<key>", ...)` pattern, so EN/繁中/简中 all work.
 
-## What's new vs current itineraries
-- Adds **agency-favorite landmarks** instead of generic placeholders
-- Adds a curated **evening segment** to each day (night markets, shows, viewpoints)
-- Free day reframed as **"Free & Easy"** with 3–4 suggested attractions (mirrors EGL/Wing On format)
-- Skydive day pairs jump with a complementary nearby attraction so the afternoon isn't empty
+## Data model
+Extend `ItineraryDay` with one optional field — no schema migration needed (`itinerary` is already a JSONB array):
 
----
+```ts
+interface ItineraryDay {
+  ...
+  highlights?: string[]   // 2-4 short labels per day
+}
+```
 
-## Hainan 3D2N (`b7b4784f-…`)
-- **Day 1 — Arrival & Sanya Bay Sunset**
-  - Morning: Flight HKG → Sanya (SYX) · Private transfer to hotel
-  - Afternoon: Coconut Dream Corridor stroll · Dadonghai Beach
-  - Evening: First Market (第一市場) seafood dinner · Luhuitou Park night view
-- **Day 2 — Tandem Skydive & Cultural Icons**
-  - Morning: Tandem skydive over Haitang Bay coastline
-  - Afternoon: Nanshan Cultural Zone (108m Guanyin) · Tianya Haijiao
-  - Evening: Optional *Sanya Romance Show* (千古情) · seaside BBQ
-- **Day 3 — Free & Easy + Departure**
-  - Morning: Free time — choose from Haitang Bay Duty-Free Mall, Yalong Bay Tropical Forest Park (glass bridge), or Atlantis Sanya day-pass
-  - Afternoon: Hainan coffee/snack shopping · transfer to Sanya Phoenix Airport
-  - Evening: Flight SYX → HKG
+Backfill the 4 agency-style tours (Hainan 3D2N, Hainan 4D3N, Pattaya 3D2N, Pattaya 4D3N) via a single `UPDATE` on `location_services.itinerary` to add a `highlights` array per day. Example for Pattaya 3D2N Day 2: `["Tandem skydive", "Nong Nooch Garden", "Alcazar Cabaret"]`.
 
-## Hainan 4D3N (`3ad0903a-…`)
-- **Day 1 — Arrival & Phoenix Island Lights**
-  - Morning: Flight HKG → Sanya · Private transfer
-  - Afternoon: Check-in · Yalong Bay beach walk
-  - Evening: Phoenix Island light show · welcome seafood dinner
-- **Day 2 — Tandem Skydive & Island Day**
-  - Morning: Tandem skydive over Haitang Bay
-  - Afternoon: Wuzhizhou Island (the "Maldives of China") — snorkeling / water sports
-  - Evening: Dadonghai night stroll · local Hainanese dinner
-- **Day 3 — Free & Easy in Sanya**
-  - Morning: Free — Atlantis Aquaventure Waterpark *or* Yanoda Rainforest *or* Binglang Valley (Li & Miao village)
-  - Afternoon: Haitang Bay Duty-Free Mall shopping · spa
-  - Evening: Free dinner at hotel beach or West Island sunset
-- **Day 4 — Final Views & Departure**
-  - Morning: Nanshan Temple *or* Luhuitou Park 360° viewpoint
-  - Afternoon: Last-minute Hainan coffee shopping · airport transfer
-  - Evening: Flight SYX → HKG
+For tours without `highlights`, the component falls back to auto-deriving the first item from each populated period — so older itineraries still get a highlights strip.
 
-## Pattaya 3D2N (`14f0dbbb-…`)
-- **Day 1 — Arrival, Sanctuary & Walking Street**
-  - Morning: Flight HKG → BKK · Private transfer to Pattaya (~1.5h)
-  - Afternoon: Sanctuary of Truth (wood-carved seaside temple)
-  - Evening: Terminal 21 Pattaya dinner · Walking Street
-- **Day 2 — Tandem Skydive & Cultural Pattaya**
-  - Morning: Tandem skydive over Pattaya coast
-  - Afternoon: Nong Nooch Tropical Garden (Dinosaur Valley + cultural show)
-  - Evening: Tiffany / Alcazar Cabaret Show · Thai seafood dinner
-- **Day 3 — Free & Easy + Departure**
-  - Morning: Free — Big Buddha (Wat Phra Yai) viewpoint, Pattaya Floating Market, or Art in Paradise 3D
-  - Afternoon: Transfer to Bangkok · Erawan Shrine / Central World quick stop
-  - Evening: Flight BKK → HKG
+## UI changes (single file: `src/components/tour/TourItinerary.tsx`)
+Inside the active-day card, between the day title and the segments list:
 
-## Pattaya 4D3N (`d77f6091-…`)
-- **Day 1 — Arrival & Alcazar Night**
-  - Morning: Flight HKG → BKK · Private transfer to Pattaya
-  - Afternoon: Art in Paradise 3D museum · Pattaya Beach
-  - Evening: Alcazar Cabaret Show · Walking Street
-- **Day 2 — Tandem Skydive & Coral Island**
-  - Morning: Tandem skydive
-  - Afternoon: Koh Larn (Coral Island) — snorkeling / parasailing / jet ski
-  - Evening: Pattaya Floating Market dinner & street food
-- **Day 3 — Free & Easy in Pattaya**
-  - Morning: Free — Nong Nooch Garden, Khao Kheow Open Zoo, or Frost Magical Ice
-  - Afternoon: Thai massage · beach time · Terminal 21 Pattaya
-  - Evening: Free seafood dinner (Mimosa / Lan Po seafood market)
-- **Day 4 — Bangkok Shopping & Departure**
-  - Morning: Transfer to Bangkok · Siam / IconSiam shopping
-  - Afternoon: Asiatique or Jodd Fairs · Big C souvenir run
-  - Evening: Flight BKK → HKG
+```text
+┌───────────────────────────────────────────────┐
+│ [Day 2]  Sky & Culture                        │
+│                                               │
+│ ✨ Quick highlights              [chevron]    │  ← tap to collapse
+│ ┌─────────┐ ┌──────────────┐ ┌────────────┐  │
+│ │ Tandem  │ │ Nong Nooch   │ │ Alcazar    │  │
+│ └─────────┘ └──────────────┘ └────────────┘  │
+│                                               │
+│ ☀ Morning  · Tandem skydive over Haitang …   │
+│ ☀ Afternoon · Nong Nooch Tropical Garden     │
+│ 🌙 Evening · Alcazar Cabaret                  │
+└───────────────────────────────────────────────┘
+```
 
----
+- Chips use accent-orange tinted background, rounded-full, `text-xs md:text-sm`, wrap on mobile.
+- Header row: Sparkles icon + "Quick highlights" label + count badge + animated chevron. Whole row is the toggle button (large tap target).
+- Smooth height/opacity transition via `framer-motion` `AnimatePresence` (matches existing segment transitions).
+- Collapsed state persists per day via local state keyed by day number.
+- Sparkles icon import from `lucide-react`.
 
-## Technical notes
-- Single tool call: `supabase--insert` (UPDATE) on 4 rows of `location_services.itinerary` (JSONB column)
-- JSON shape preserved: `[{day, title, segments:[{period, items:[{title, location?}]}]}]`
-- `location` field kept on transfer / skydive / specific venue items so the existing `TourItinerary.tsx` map pins still work
-- No frontend code changes — `TourItinerary.tsx` already renders day pills + expandable segments
-- No translation/i18n keys added (free-text titles, same as today)
-- Pricing, deposits, includes, photos untouched
-- Zhuhai one-day tour untouched
+## Localization
+- Add 3 translation keys: `tour.quickHighlights`, used in EN/繁中/简中 (`快速亮點` / `快速亮点` / `Quick highlights`).
+- Highlight labels are passed through `translateData("tour.highlight.<label>", label)` so future translations can be added without code changes.
+
+## Implementation steps
+1. Update `ItineraryDay` type in `src/hooks/useLocationServices.ts` to add `highlights?: string[]`.
+2. Update `TourItinerary.tsx`:
+   - Derive `highlights` for the active day (use `current.highlights` or fall back to first item of each non-empty segment, capped at 3).
+   - Insert a collapsible "Quick highlights" block above the segments map.
+   - Per-day collapse state stored in a `Record<number, boolean>`.
+3. Add `tour.quickHighlights` translations in the language context's strings file.
+4. Run an `UPDATE` on `location_services` to attach `highlights` arrays to the 4 agency-style tours (data-only, no schema change).
+
+## Out of scope
+- No DB schema migration (JSONB already supports the new field).
+- No changes to `AdminItineraryComparePanel` or `previousItineraries.ts`.
+- No design changes to the day tab selector or segment rows.
