@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { ArrowLeft, Coins, FileText, Loader2, HelpCircle, Plane, GitCompare } from "lucide-react";
+import { ArrowLeft, Coins, FileText, Loader2, HelpCircle, Plane, GitCompare, ShoppingBag } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -13,6 +13,7 @@ import { AdminBlogPanel } from "@/components/admin/AdminBlogPanel";
 import { AdminQuizPanel } from "@/components/admin/AdminQuizPanel";
 import { AdminToursPanel } from "@/components/admin/AdminToursPanel";
 import { AdminItineraryComparePanel } from "@/components/admin/AdminItineraryComparePanel";
+import { AdminSouvenirsPanel } from "@/components/admin/AdminSouvenirsPanel";
 
 export default function AdminCredits() {
   const { user, loading: authLoading } = useAuth();
@@ -88,6 +89,10 @@ export default function AdminCredits() {
                 <GitCompare className="w-4 h-4" />
                 Compare
               </TabsTrigger>
+              <TabsTrigger value="souvenirs" className="gap-2">
+                <ShoppingBag className="w-4 h-4" />
+                Souvenirs
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="credits">
@@ -108,6 +113,10 @@ export default function AdminCredits() {
 
             <TabsContent value="compare">
               {isAdmin && <AdminItineraryComparePanel />}
+            </TabsContent>
+
+            <TabsContent value="souvenirs">
+              {isAdmin && <AdminSouvenirsPanel />}
             </TabsContent>
           </Tabs>
         </div>
