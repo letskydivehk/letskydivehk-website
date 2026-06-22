@@ -850,6 +850,95 @@ export type Database = {
         }
         Relationships: []
       }
+      souvenir_sizes: {
+        Row: {
+          created_at: string
+          display_order: number
+          height_range: string
+          id: string
+          size_label: string
+          souvenir_id: string
+          updated_at: string
+          weight_range: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          height_range?: string
+          id?: string
+          size_label: string
+          souvenir_id: string
+          updated_at?: string
+          weight_range?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          height_range?: string
+          id?: string
+          size_label?: string
+          souvenir_id?: string
+          updated_at?: string
+          weight_range?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "souvenir_sizes_souvenir_id_fkey"
+            columns: ["souvenir_id"]
+            isOneToOne: false
+            referencedRelation: "souvenirs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      souvenirs: {
+        Row: {
+          created_at: string
+          description_en: string
+          description_zh_cn: string
+          description_zh_tw: string
+          display_order: number
+          id: string
+          image_url: string | null
+          is_active: boolean
+          name_en: string
+          name_zh_cn: string
+          name_zh_tw: string
+          price: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description_en?: string
+          description_zh_cn?: string
+          description_zh_tw?: string
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name_en?: string
+          name_zh_cn?: string
+          name_zh_tw?: string
+          price?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description_en?: string
+          description_zh_cn?: string
+          description_zh_tw?: string
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name_en?: string
+          name_zh_cn?: string
+          name_zh_tw?: string
+          price?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
