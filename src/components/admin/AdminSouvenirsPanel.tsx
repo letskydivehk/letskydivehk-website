@@ -39,6 +39,34 @@ export function AdminSouvenirsPanel() {
     }));
   };
 
+  const addSize = async (souvenirId: string) => {
+    const current = editing[souvenirId];
+    if (!current) return;
+    const nextOrder = (current.sizes.reduce((m, s) => Math.max(m, s.display_order), 0) || 0) + 1;
+    const { error } = await supabase.from("souvenir_sizes").insert({
+      souvenir_id: souvenirId,
+      size_label: "New",
+      display_order: nextOrder,
+    });
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Size added");
+    refetch();
+  };
+
+  const removeSize = async (sizeId: string) => {
+    if (!confirm("Remove this size?")) return;
+    const { error } = await supabase.from("souvenir_sizes").delete().eq("id", sizeId);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Size removed");
+    refetch();
+  };
+
   const save = async (id: string) => {
     const item = editing[id];
     if (!item) return;
