@@ -38,6 +38,7 @@ export interface LocationService {
   service_name: string
   service_type: 'tandem' | 'aff' | 'group' | 'Tour'
   price_display: string
+  original_price_display?: string | null
   description: string | null
   includes: string[]
   is_popular: boolean

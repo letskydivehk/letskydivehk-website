@@ -10,19 +10,21 @@ function parsePrice(display: string): number | null {
   return Number.isFinite(n) && n > 0 ? n : null
 }
 
-function TandemPriceDisplay({ priceDisplay, offLabel }: { priceDisplay: string; offLabel: string }) {
+function TandemPriceDisplay({ priceDisplay, originalPriceDisplay, offLabel }: { priceDisplay: string; originalPriceDisplay?: string | null; offLabel: string }) {
   const current = parsePrice(priceDisplay)
   if (current === null) {
     return <span className="text-lg font-bold text-accent-orange whitespace-nowrap">{priceDisplay}</span>
   }
-  const original = Math.round(current * 1.25)
-  // Preserve prefix (e.g. "$") from original display
-  const prefixMatch = priceDisplay.match(/^[^\d]+/)
+  // Prefer admin-authored original price; fall back to +25% heuristic
+  const explicitOriginal = originalPriceDisplay ? parsePrice(originalPriceDisplay) : null
+  const original = explicitOriginal ?? Math.round(current * 1.25)
+  const prefixMatch = (originalPriceDisplay || priceDisplay).match(/^[^\d]+/)
   const prefix = prefixMatch ? prefixMatch[0] : '$'
+  const originalDisplay = originalPriceDisplay && explicitOriginal ? originalPriceDisplay : `${prefix}${original.toLocaleString()}`
   return (
     <span className="flex flex-col items-end leading-tight whitespace-nowrap">
       <span className="flex items-center gap-1.5">
-        <span className="text-xs text-muted-foreground line-through">{prefix}{original.toLocaleString()}</span>
+        <span className="text-xs text-muted-foreground line-through">{originalDisplay}</span>
         <span className="text-[10px] font-bold bg-accent-orange text-white px-1.5 py-0.5 rounded">{offLabel}</span>
       </span>
       <span className="text-lg font-bold text-accent-orange">{priceDisplay}</span>
@@ -134,7 +136,7 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
                         {translateData(`service.${service.service_name}`, service.service_name)}
                       </span>
                       {service.service_type === 'tandem' ? (
-                        <TandemPriceDisplay priceDisplay={service.price_display} offLabel={t('pricing.off')} />
+                        <TandemPriceDisplay priceDisplay={service.price_display} originalPriceDisplay={service.original_price_display} offLabel={t('pricing.off')} />
                       ) : (
                         <span className="text-lg font-bold text-accent-orange whitespace-nowrap">{translateData(`price.${service.price_display}`, service.price_display)}</span>
                       )}
