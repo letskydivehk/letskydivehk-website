@@ -318,6 +318,7 @@ export function AdminSouvenirsPanel() {
                   <TableHead>Size</TableHead>
                   <TableHead>Height range</TableHead>
                   <TableHead>Weight range</TableHead>
+                  <TableHead className="w-12"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -344,10 +345,28 @@ export function AdminSouvenirsPanel() {
                         onChange={(e) => updateSize(item.id, sz.id, { weight_range: e.target.value })}
                       />
                     </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeSize(sz.id)}
+                        className="text-destructive"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => addSize(item.id)}
+              className="gap-2 mt-3"
+            >
+              <Plus className="w-4 h-4" /> Add size (e.g. 3XL, 4XL)
+            </Button>
           </div>
 
           <div className="flex justify-end">
