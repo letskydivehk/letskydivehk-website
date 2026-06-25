@@ -115,7 +115,10 @@ function SizeChartCard({ item }: { item: Souvenir }) {
           ))}
         </TableBody>
       </Table>
-      <p className="text-sm text-foreground/60 mt-4">{t("souvenirs.sizeNote")}</p>
+      <div className="mt-4 p-3 rounded-lg bg-accent-orange/10 border border-accent-orange/30 text-sm text-foreground/80">
+        {t("souvenirs.sizeTipBigger")}
+      </div>
+      <p className="text-sm text-foreground/60 mt-3">{t("souvenirs.sizeNote")}</p>
     </Card>
   );
 }
