@@ -1996,6 +1996,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.height": "身高 (cm)",
     "souvenirs.weight": "体重 (kg)",
     "souvenirs.sizeNote": "尺寸仅供参考，如有疑问请 WhatsApp 联系我们。",
+    "souvenirs.sizeTipBigger": "小提示：T恤版型偏窄，建议选购比平时大一个尺码。",
     "blog.badge": "知识库",
     "blog.title": "博客",
     "blog.subtitle": "跳伞指南、贴士和最新消息，为你的冒险做好准备。",
