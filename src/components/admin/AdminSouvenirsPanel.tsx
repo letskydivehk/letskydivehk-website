@@ -39,6 +39,34 @@ export function AdminSouvenirsPanel() {
     }));
   };
 
+  const addSize = async (souvenirId: string) => {
+    const current = editing[souvenirId];
+    if (!current) return;
+    const nextOrder = (current.sizes.reduce((m, s) => Math.max(m, s.display_order), 0) || 0) + 1;
+    const { error } = await supabase.from("souvenir_sizes").insert({
+      souvenir_id: souvenirId,
+      size_label: "New",
+      display_order: nextOrder,
+    });
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Size added");
+    refetch();
+  };
+
+  const removeSize = async (sizeId: string) => {
+    if (!confirm("Remove this size?")) return;
+    const { error } = await supabase.from("souvenir_sizes").delete().eq("id", sizeId);
+    if (error) {
+      toast.error(error.message);
+      return;
+    }
+    toast.success("Size removed");
+    refetch();
+  };
+
   const save = async (id: string) => {
     const item = editing[id];
     if (!item) return;
@@ -290,6 +318,7 @@ export function AdminSouvenirsPanel() {
                   <TableHead>Size</TableHead>
                   <TableHead>Height range</TableHead>
                   <TableHead>Weight range</TableHead>
+                  <TableHead className="w-12"></TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -316,10 +345,28 @@ export function AdminSouvenirsPanel() {
                         onChange={(e) => updateSize(item.id, sz.id, { weight_range: e.target.value })}
                       />
                     </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeSize(sz.id)}
+                        className="text-destructive"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
             </Table>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => addSize(item.id)}
+              className="gap-2 mt-3"
+            >
+              <Plus className="w-4 h-4" /> Add size (e.g. 3XL, 4XL)
+            </Button>
           </div>
 
           <div className="flex justify-end">

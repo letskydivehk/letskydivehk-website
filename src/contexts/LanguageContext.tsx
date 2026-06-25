@@ -437,6 +437,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.height": "Height (cm)",
     "souvenirs.weight": "Weight (kg)",
     "souvenirs.sizeNote": "Measurements are guidelines only. Contact us via WhatsApp if you're unsure.",
+    "souvenirs.sizeTipBigger": "Tip: Our T-shirts run slim — we recommend ordering one size larger than your usual fit.",
 
     // Blog
     "blog.badge": "Knowledge Base",
@@ -1231,6 +1232,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.height": "身高 (cm)",
     "souvenirs.weight": "體重 (kg)",
     "souvenirs.sizeNote": "尺寸僅供參考，如有疑問請 WhatsApp 聯絡我們。",
+    "souvenirs.sizeTipBigger": "小提示：T恤版型偏窄，建議選購比平時大一個尺碼。",
     "blog.badge": "知識庫",
     "blog.title": "網誌",
     "blog.subtitle": "跳傘指南、貼士和最新消息，為你的冒險做好準備。",
@@ -1994,6 +1996,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.height": "身高 (cm)",
     "souvenirs.weight": "体重 (kg)",
     "souvenirs.sizeNote": "尺寸仅供参考，如有疑问请 WhatsApp 联系我们。",
+    "souvenirs.sizeTipBigger": "小提示：T恤版型偏窄，建议选购比平时大一个尺码。",
     "blog.badge": "知识库",
     "blog.title": "博客",
     "blog.subtitle": "跳伞指南、贴士和最新消息，为你的冒险做好准备。",
