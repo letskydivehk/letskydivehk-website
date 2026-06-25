@@ -280,7 +280,28 @@ export default function LocationDetail() {
                             </span>
                           )}
                         </div>
-                        <p className="text-2xl font-black text-accent-orange mb-3">{translateData(`price.${service.price_display}`, service.price_display)}</p>
+                        {(() => {
+                          const parseNum = (s?: string | null) => {
+                            if (!s) return null;
+                            const c = String(s).replace(/[^0-9.]/g, '');
+                            const n = parseFloat(c);
+                            return Number.isFinite(n) && n > 0 ? n : null;
+                          };
+                          const cur = parseNum(service.price_display);
+                          const orig = parseNum(service.original_price_display);
+                          const pct = cur && orig && orig > cur ? Math.round((1 - cur / orig) * 100) : null;
+                          return (
+                            <div className="flex items-baseline gap-2 mb-3 flex-wrap">
+                              <p className="text-2xl font-black text-accent-orange">{translateData(`price.${service.price_display}`, service.price_display)}</p>
+                              {service.original_price_display && (
+                                <span className="text-sm text-muted-foreground line-through">{service.original_price_display}</span>
+                              )}
+                              {pct !== null && (
+                                <span className="text-xs font-bold bg-accent-orange text-white px-2 py-0.5 rounded">-{pct}%</span>
+                              )}
+                            </div>
+                          );
+                        })()}
                         {service.includes && service.includes.length > 0 && (
                           <ul className="space-y-1">
                             {service.includes.map((item, i) => (
