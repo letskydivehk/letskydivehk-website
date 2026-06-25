@@ -406,6 +406,7 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
           </motion.div>
         </motion.div>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   );
 }
