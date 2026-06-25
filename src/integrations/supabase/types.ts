@@ -424,6 +424,7 @@ export type Database = {
           is_popular: boolean
           itinerary: Json
           location_id: string
+          original_price_display: string | null
           photos: string[]
           price_display: string
           service_name: string
@@ -441,6 +442,7 @@ export type Database = {
           is_popular?: boolean
           itinerary?: Json
           location_id: string
+          original_price_display?: string | null
           photos?: string[]
           price_display: string
           service_name: string
@@ -458,6 +460,7 @@ export type Database = {
           is_popular?: boolean
           itinerary?: Json
           location_id?: string
+          original_price_display?: string | null
           photos?: string[]
           price_display?: string
           service_name?: string
