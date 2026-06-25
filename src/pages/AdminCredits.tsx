@@ -68,7 +68,7 @@ export default function AdminCredits() {
           </div>
 
           <Tabs defaultValue="credits" className="w-full">
-            <TabsList className="mb-6">
+            <TabsList className="mb-6 flex flex-wrap h-auto w-full justify-start gap-1">
               <TabsTrigger value="credits" className="gap-2">
                 <Coins className="w-4 h-4" />
                 {t("admin.title") || "Credits"}
@@ -94,6 +94,7 @@ export default function AdminCredits() {
                 Souvenirs
               </TabsTrigger>
             </TabsList>
+
 
             <TabsContent value="credits">
               {isAdmin && <AdminCreditsPanel />}
