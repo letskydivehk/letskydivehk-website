@@ -437,6 +437,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.height": "Height (cm)",
     "souvenirs.weight": "Weight (kg)",
     "souvenirs.sizeNote": "Measurements are guidelines only. Contact us via WhatsApp if you're unsure.",
+    "souvenirs.sizeTipBigger": "Tip: Our T-shirts run slim — we recommend ordering one size larger than your usual fit.",
 
     // Blog
     "blog.badge": "Knowledge Base",
