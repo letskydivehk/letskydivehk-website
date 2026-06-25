@@ -15,17 +15,18 @@ function TandemPriceDisplay({ priceDisplay, originalPriceDisplay, offLabel }: { 
   if (current === null) {
     return <span className="text-lg font-bold text-accent-orange whitespace-nowrap">{priceDisplay}</span>
   }
-  // Prefer admin-authored original price; fall back to +25% heuristic
   const explicitOriginal = originalPriceDisplay ? parsePrice(originalPriceDisplay) : null
   const original = explicitOriginal ?? Math.round(current * 1.25)
   const prefixMatch = (originalPriceDisplay || priceDisplay).match(/^[^\d]+/)
   const prefix = prefixMatch ? prefixMatch[0] : '$'
   const originalDisplay = originalPriceDisplay && explicitOriginal ? originalPriceDisplay : `${prefix}${original.toLocaleString()}`
+  const pct = original > current ? Math.round((1 - current / original) * 100) : null
+  const badge = explicitOriginal && pct ? `-${pct}%` : offLabel
   return (
     <span className="flex flex-col items-end leading-tight whitespace-nowrap">
       <span className="flex items-center gap-1.5">
         <span className="text-xs text-muted-foreground line-through">{originalDisplay}</span>
-        <span className="text-[10px] font-bold bg-accent-orange text-white px-1.5 py-0.5 rounded">{offLabel}</span>
+        <span className="text-[10px] font-bold bg-accent-orange text-white px-1.5 py-0.5 rounded">{badge}</span>
       </span>
       <span className="text-lg font-bold text-accent-orange">{priceDisplay}</span>
     </span>
