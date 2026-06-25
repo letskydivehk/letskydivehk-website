@@ -170,7 +170,6 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
     return mode === "login" ? t("auth.welcomeBack") : t("auth.createAccount");
   };
 
-  return (
   if (typeof document === "undefined") return null;
 
   return createPortal(
