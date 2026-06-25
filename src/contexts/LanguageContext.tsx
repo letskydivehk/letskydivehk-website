@@ -1232,6 +1232,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.height": "身高 (cm)",
     "souvenirs.weight": "體重 (kg)",
     "souvenirs.sizeNote": "尺寸僅供參考，如有疑問請 WhatsApp 聯絡我們。",
+    "souvenirs.sizeTipBigger": "小提示：T恤版型偏窄，建議選購比平時大一個尺碼。",
     "blog.badge": "知識庫",
     "blog.title": "網誌",
     "blog.subtitle": "跳傘指南、貼士和最新消息，為你的冒險做好準備。",
