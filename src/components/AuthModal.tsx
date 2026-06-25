@@ -171,6 +171,9 @@ export function AuthModal({ isOpen, onClose }: AuthModalProps) {
   };
 
   return (
+  if (typeof document === "undefined") return null;
+
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <motion.div
