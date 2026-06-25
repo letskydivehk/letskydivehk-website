@@ -1,54 +1,43 @@
-## Goal
-Let admins manage the T-shirt (photo, price, name, description in 3 languages) and the size chart (S–2XL height/weight ranges) from the admin hub — no code edits.
+# Update Zhuhai Packages
 
-## Database (new migration)
+Replace Zhuhai's existing tandem offerings with the 3 finalized packages. Group Events and A-License entries stay untouched.
 
-**Table `souvenirs`** — one row per product (starts with the T-shirt)
-- `name_en`, `name_zh_tw`, `name_zh_cn` (text)
-- `description_en`, `description_zh_tw`, `description_zh_cn` (text)
-- `price` (integer, HKD)
-- `image_url` (text, nullable)
-- `is_active` (boolean, default true)
-- `display_order` (integer)
-- standard `id`, `created_at`, `updated_at`
+## Mapping
 
-**Table `souvenir_sizes`** — size chart rows
-- `souvenir_id` (FK → souvenirs)
-- `size_label` (text, e.g. "S", "M", "L", "XL", "2XL")
-- `height_range` (text, e.g. "160–170 cm")
-- `weight_range` (text, e.g. "55–65 kg")
-- `display_order` (integer)
 
-**RLS**
-- Public `SELECT` on both tables (anyone can view active souvenirs).
-- Admin-only `INSERT/UPDATE/DELETE` via `has_role(auth.uid(), 'admin')`.
-- Grants: `SELECT` to anon + authenticated; full to service_role + admin via policies.
+| New package                       | Action                      | Existing row                                                                                                              |
+| --------------------------------- | --------------------------- | ------------------------------------------------------------------------------------------------------------------------- |
+| Basic — $3399 (was $3999)         | Update in place             | "Tandem Skydive with Handicam"                                                                                            |
+| Video — $4799 (was $5599)         | Update in place             | "Tandem Skydive with Ultimate Combo (Handicam + Wide shot)"                                                               |
+| Comprehensive — $5999 (was $6999) | Repurpose existing tour row | "Zhuhai One-Day Skydive Tour" (change `service_type` from `Tour` → `tandem`, rename, update price/includes, mark popular) |
 
-**Storage** — reuse existing public `gallery` bucket under a `souvenirs/` prefix (no new bucket needed).
 
-## Admin UI
+## New includes (English source; auto-translated via `translateData`)
 
-New tab **"Souvenirs"** in the existing admin hub (`/admin/credits` page → add `<TabsTrigger value="souvenirs">`), backed by a new `AdminSouvenirsPanel.tsx` component:
-- Product card form: name/description (3 langs), price, active toggle, image uploader (drag-drop → Supabase Storage `gallery/souvenirs/<uuid>.jpg`, saves public URL to `image_url`)
-- Size chart editor: table with 5 editable rows (S, M, L, XL, 2XL) — height range + weight range text inputs, single "Save" button
-- "Add new souvenir" button (future-proof for more products)
+**Basic**
 
-## Frontend changes
+- Ground briefing (~15 min)
+- 1-on-1 coach
+- 40–60 seconds freefall
+- 5–7 minute canopy ride
+- Equipment rental
+- Skydiving certificate
 
-`src/pages/Souvenirs.tsx` — refactor to:
-- Use new `useSouvenirs()` hook (`src/hooks/useSouvenirs.ts`) that fetches active souvenirs + sizes from Supabase
-- Render product image from `image_url` (fallback placeholder if null)
-- Render size chart rows from DB (fallback to "—" if empty)
-- Keep current layout, WhatsApp CTA, translations
+**Video** — Basic items + GoPro close shot, 360° wide shot
 
-Seed the T-shirt row + 5 empty size rows in the migration so the page renders immediately.
+**Comprehensive** — Video items + exclusive ground photographer photo & video, round-trip transportation, post-jump meal, travel insurance, personal guide for whole trip
 
-## Files
+## Technical changes
 
-- **New**: migration, `src/hooks/useSouvenirs.ts`, `src/components/admin/AdminSouvenirsPanel.tsx`
-- **Edited**: `src/pages/Souvenirs.tsx`, `src/pages/AdminCredits.tsx` (add tab), `src/contexts/LanguageContext.tsx` (admin tab label)
+1. **Schema migration** — add `original_price_display TEXT` column to `public.location_services` so the strike-through original price can be authored explicitly (current code auto-computes `current × 1.25`, which doesn't match the user's stated originals like $3999→$3399).
+2. **Data update** (`location_services` table, via insert tool, scoped to the 3 row IDs above):
+  - Update `service_name`, `service_type` (Comprehensive only), `price_display`, `original_price_display`, `includes`, `is_popular` (Comprehensive = true), `display_order` (1 Basic / 2 Video / 3 Comprehensive).
+  - Keep existing `itinerary`, `photos`, `deposit_amount`, `add_ons`, `location_id`.
+3. `**src/components/ServicePricing.tsx**` — `TandemPriceDisplay` reads `original_price_display` from the service when present and falls back to the current `×1.25` heuristic otherwise. Pass the field through from the parent map.
+4. No code changes needed for Chinese — `translateData` handles dynamic translation of `service_name` and `includes` strings.
 
 ## Out of scope
-- Multi-product catalog UI on the public page (still shows one T-shirt; admin can add more later, just won't appear until we extend the public page)
-- Image cropping/resizing (admin uploads at desired size)
-- Order management — WhatsApp inquiry only, same as today
+
+- Group Events and A-License Package rows for Zhuhai (untouched).
+- Other locations' services.
+- Booking flow, deposit, or itinerary editing.
