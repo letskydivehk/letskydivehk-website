@@ -4,12 +4,14 @@ import { Footer } from "@/components/Footer";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSouvenirs, type Souvenir } from "@/hooks/useSouvenirs";
+import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ShoppingBag, Ruler, Loader2 } from "lucide-react";
+import { ArrowLeft, ShoppingBag, Ruler, Loader2, Upload, Check, Sparkles } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { toast } from "sonner";
 
 const WHATSAPP_NUMBER = "85269391570";
 
@@ -23,21 +25,202 @@ function getDesc(item: Souvenir, lang: string) {
   if (lang === "zh-CN") return item.description_zh_cn || item.description_en;
   return item.description_en;
 }
+function getVendorNote(item: Souvenir, lang: string) {
+  if (lang === "zh-TW") return item.vendor_note_zh_tw || item.vendor_note_en;
+  if (lang === "zh-CN") return item.vendor_note_zh_cn || item.vendor_note_en;
+  return item.vendor_note_en;
+}
+
+function BulkPricingTable({ item }: { item: Souvenir }) {
+  const { t } = useLanguage();
+  if (!item.bulk_pricing || item.bulk_pricing.length === 0) return null;
+  const tiers = [...item.bulk_pricing].sort((a, b) => a.qty - b.qty);
+  return (
+    <div className="mb-6">
+      <div className="flex items-center gap-2 text-sm font-semibold text-foreground mb-2">
+        <Sparkles className="w-4 h-4 text-accent-orange" />
+        {t("souvenirs.bulkPricing")}
+      </div>
+      <div className="rounded-lg border border-border overflow-hidden">
+        <Table>
+          <TableHeader>
+            <TableRow className="bg-muted/40">
+              <TableHead className="h-9 text-xs">{t("souvenirs.qty")}</TableHead>
+              <TableHead className="h-9 text-xs">{t("souvenirs.originalPrice")}</TableHead>
+              <TableHead className="h-9 text-xs">{t("souvenirs.salePrice")}</TableHead>
+              <TableHead className="h-9 text-xs text-right">{t("souvenirs.savePrefix")}</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {tiers.map((tier) => {
+              const save = tier.original_price - tier.sale_price;
+              const pct = tier.original_price > 0 ? Math.round((save / tier.original_price) * 100) : 0;
+              const isDiscount = save > 0;
+              return (
+                <TableRow key={tier.qty}>
+                  <TableCell className="font-semibold py-2">
+                    {tier.qty === 1
+                      ? `1 ${t("souvenirs.each")}`
+                      : `${tier.qty}-${t("souvenirs.pack")}`}
+                  </TableCell>
+                  <TableCell className="py-2">
+                    {isDiscount ? (
+                      <span className="line-through text-foreground/50">HK${tier.original_price}</span>
+                    ) : (
+                      <span className="text-foreground/50">—</span>
+                    )}
+                  </TableCell>
+                  <TableCell className="py-2 font-bold text-accent-orange">
+                    HK${tier.sale_price}
+                  </TableCell>
+                  <TableCell className="py-2 text-right">
+                    {isDiscount ? (
+                      <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-700 text-xs font-semibold">
+                        -{pct}%
+                      </span>
+                    ) : (
+                      <span className="text-foreground/40 text-xs">—</span>
+                    )}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </div>
+    </div>
+  );
+}
+
+function PhotoUpload({
+  itemId,
+  onUploaded,
+}: {
+  itemId: string;
+  onUploaded: (url: string | null) => void;
+}) {
+  const { t } = useLanguage();
+  const [uploading, setUploading] = useState(false);
+  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleFile = async (file: File) => {
+    if (file.size > 10 * 1024 * 1024) {
+      toast.error("Max 10 MB");
+      return;
+    }
+    setUploading(true);
+    try {
+      const ext = file.name.split(".").pop() || "jpg";
+      const path = `${itemId}/${crypto.randomUUID()}.${ext}`;
+      const { error } = await supabase.storage
+        .from("souvenir-uploads")
+        .upload(path, file, { cacheControl: "3600", upsert: false });
+      if (error) throw error;
+      // Generate a long-lived signed URL (1 year) so the WhatsApp recipient (admin) can open it
+      const { data, error: signErr } = await supabase.storage
+        .from("souvenir-uploads")
+        .createSignedUrl(path, 60 * 60 * 24 * 365);
+      if (signErr || !data) throw signErr || new Error("Sign failed");
+      setUploadedUrl(data.signedUrl);
+      setPreviewUrl(URL.createObjectURL(file));
+      onUploaded(data.signedUrl);
+      toast.success(t("souvenirs.photoReady"));
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Upload failed");
+      onUploaded(null);
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  return (
+    <div className="mb-6">
+      <div className="text-sm font-semibold text-foreground mb-2">{t("souvenirs.uploadPhoto")}</div>
+      <input
+        ref={inputRef}
+        type="file"
+        accept="image/*"
+        className="hidden"
+        onChange={(e) => {
+          const f = e.target.files?.[0];
+          if (f) handleFile(f);
+        }}
+      />
+      {uploadedUrl ? (
+        <div className="flex items-center gap-3 p-3 rounded-lg border border-emerald-300 bg-emerald-50">
+          {previewUrl && (
+            <img src={previewUrl} alt="" className="w-14 h-14 rounded-md object-cover border" />
+          )}
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-1.5 text-emerald-700 font-semibold text-sm">
+              <Check className="w-4 h-4" /> {t("souvenirs.photoReady")}
+            </div>
+            <button
+              type="button"
+              onClick={() => inputRef.current?.click()}
+              className="text-xs text-foreground/60 hover:text-foreground underline"
+            >
+              {t("souvenirs.replacePhoto")}
+            </button>
+          </div>
+        </div>
+      ) : (
+        <button
+          type="button"
+          onClick={() => inputRef.current?.click()}
+          disabled={uploading}
+          className="w-full flex items-center justify-center gap-2 px-4 py-6 rounded-lg border-2 border-dashed border-border hover:border-accent-orange/60 hover:bg-accent-orange/5 transition-colors text-foreground/70 disabled:opacity-50"
+        >
+          {uploading ? (
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" /> {t("souvenirs.uploading")}
+            </>
+          ) : (
+            <>
+              <Upload className="w-5 h-5" /> {t("souvenirs.uploadPhoto")}
+            </>
+          )}
+        </button>
+      )}
+      <p className="text-xs text-foreground/60 mt-2">{t("souvenirs.uploadHint")}</p>
+    </div>
+  );
+}
 
 function ProductCard({ item }: { item: Souvenir }) {
   const { t, language } = useLanguage();
   const sizes = item.sizes.length > 0 ? item.sizes : [];
-  const [selectedSize, setSelectedSize] = useState<string>(sizes[1]?.size_label || sizes[0]?.size_label || "");
+  const [selectedSize, setSelectedSize] = useState<string>(
+    sizes[1]?.size_label || sizes[0]?.size_label || ""
+  );
+  const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const name = getName(item, language);
   const desc = getDesc(item, language);
+  const vendorNote = getVendorNote(item, language);
 
   const handleOrder = () => {
-    const msg = t("souvenirs.whatsappMsg")
-      .replace("{size}", selectedSize)
-      .replace("Let's Skydive HK T-Shirt", name)
-      .replace("Let's Skydive HK T恤", name);
+    if (item.customisation_required && !photoUrl) {
+      toast.error(t("souvenirs.uploadFirst"));
+      return;
+    }
+    let msg: string;
+    if (item.customisation_required) {
+      msg = t("souvenirs.magnetWhatsappMsg")
+        .replace("{qty}", "1")
+        .replace("{price}", String(item.price))
+        .replace("{photo}", photoUrl || "");
+    } else {
+      msg = t("souvenirs.whatsappMsg")
+        .replace("{size}", selectedSize)
+        .replace("Let's Skydive HK T-Shirt", name)
+        .replace("Let's Skydive HK T恤", name);
+    }
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
   };
+
+  const showOriginal = item.original_price && item.original_price > item.price;
 
   return (
     <Card className="overflow-hidden p-0 mb-10">
@@ -50,9 +233,25 @@ function ProductCard({ item }: { item: Souvenir }) {
           />
         </div>
         <div className="p-6 sm:p-8 flex flex-col">
-          <h2 className="text-2xl font-bold text-foreground mb-2">{name}</h2>
+          <h2 className="text-2xl font-bold text-foreground mb-1">{name}</h2>
+          {vendorNote && (
+            <div className="inline-flex w-fit items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent-orange/10 text-accent-orange text-xs font-semibold mb-3">
+              <Sparkles className="w-3 h-3" />
+              {vendorNote}
+            </div>
+          )}
           <p className="text-foreground/70 mb-4">{desc}</p>
-          <div className="text-3xl font-bold text-accent-orange mb-6">HK${item.price}</div>
+          <div className="flex items-baseline gap-3 mb-6">
+            <div className="text-3xl font-bold text-accent-orange">HK${item.price}</div>
+            {showOriginal && (
+              <div className="text-lg text-foreground/50 line-through">HK${item.original_price}</div>
+            )}
+            {item.customisation_required && (
+              <div className="text-sm text-foreground/60">/ {t("souvenirs.each")}</div>
+            )}
+          </div>
+
+          <BulkPricingTable item={item} />
 
           {sizes.length > 0 && (
             <div className="mb-6">
@@ -73,6 +272,10 @@ function ProductCard({ item }: { item: Souvenir }) {
                 ))}
               </div>
             </div>
+          )}
+
+          {item.customisation_required && (
+            <PhotoUpload itemId={item.id} onUploaded={setPhotoUrl} />
           )}
 
           <button
