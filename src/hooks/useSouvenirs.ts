@@ -10,6 +10,12 @@ export interface SouvenirSize {
   display_order: number;
 }
 
+export interface BulkPricingTier {
+  qty: number;
+  original_price: number;
+  sale_price: number;
+}
+
 export interface Souvenir {
   id: string;
   name_en: string;
@@ -18,7 +24,13 @@ export interface Souvenir {
   description_en: string;
   description_zh_tw: string;
   description_zh_cn: string;
+  vendor_note_en: string | null;
+  vendor_note_zh_tw: string | null;
+  vendor_note_zh_cn: string | null;
   price: number;
+  original_price: number | null;
+  bulk_pricing: BulkPricingTier[];
+  customisation_required: boolean;
   image_url: string | null;
   is_active: boolean;
   display_order: number;
@@ -50,10 +62,18 @@ export function useSouvenirs(opts: { includeInactive?: boolean } = {}) {
       sizes = (sizeRows as SouvenirSize[]) ?? [];
     }
     setItems(
-      souvenirs.map((s) => ({
-        ...(s as Omit<Souvenir, "sizes">),
-        sizes: sizes.filter((sz) => sz.souvenir_id === s.id),
-      }))
+      souvenirs.map((s) => {
+        const rec = s as Record<string, unknown>;
+        const rawBulk = rec.bulk_pricing;
+        const bulk: BulkPricingTier[] = Array.isArray(rawBulk)
+          ? (rawBulk as BulkPricingTier[])
+          : [];
+        return {
+          ...(s as Omit<Souvenir, "sizes" | "bulk_pricing">),
+          bulk_pricing: bulk,
+          sizes: sizes.filter((sz) => sz.souvenir_id === s.id),
+        } as Souvenir;
+      })
     );
     setIsLoading(false);
   }, [opts.includeInactive]);
