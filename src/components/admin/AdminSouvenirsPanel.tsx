@@ -39,6 +39,36 @@ export function AdminSouvenirsPanel() {
     }));
   };
 
+  const updateTier = (id: string, idx: number, patch: Partial<Souvenir["bulk_pricing"][number]>) => {
+    setEditing((prev) => ({
+      ...prev,
+      [id]: {
+        ...prev[id],
+        bulk_pricing: prev[id].bulk_pricing.map((t, i) => (i === idx ? { ...t, ...patch } : t)),
+      },
+    }));
+  };
+
+  const addTier = (id: string) => {
+    setEditing((prev) => ({
+      ...prev,
+      [id]: {
+        ...prev[id],
+        bulk_pricing: [...prev[id].bulk_pricing, { qty: 1, original_price: 0, sale_price: 0 }],
+      },
+    }));
+  };
+
+  const removeTier = (id: string, idx: number) => {
+    setEditing((prev) => ({
+      ...prev,
+      [id]: {
+        ...prev[id],
+        bulk_pricing: prev[id].bulk_pricing.filter((_, i) => i !== idx),
+      },
+    }));
+  };
+
   const addSize = async (souvenirId: string) => {
     const current = editing[souvenirId];
     if (!current) return;
