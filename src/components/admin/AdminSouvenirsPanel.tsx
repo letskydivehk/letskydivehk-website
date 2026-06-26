@@ -112,9 +112,15 @@ export function AdminSouvenirsPanel() {
           description_zh_tw: item.description_zh_tw,
           description_zh_cn: item.description_zh_cn,
           price: item.price,
+          original_price: item.original_price,
           image_url: item.image_url,
           is_active: item.is_active,
           display_order: item.display_order,
+          customisation_required: item.customisation_required,
+          vendor_note_en: item.vendor_note_en,
+          vendor_note_zh_tw: item.vendor_note_zh_tw,
+          vendor_note_zh_cn: item.vendor_note_zh_cn,
+          bulk_pricing: item.bulk_pricing,
         })
         .eq("id", id);
       if (e1) throw e1;
