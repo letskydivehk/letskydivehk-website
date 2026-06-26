@@ -120,7 +120,7 @@ export function AdminSouvenirsPanel() {
           vendor_note_en: item.vendor_note_en,
           vendor_note_zh_tw: item.vendor_note_zh_tw,
           vendor_note_zh_cn: item.vendor_note_zh_cn,
-          bulk_pricing: item.bulk_pricing,
+          bulk_pricing: item.bulk_pricing as unknown as import("@/integrations/supabase/types").Json,
         })
         .eq("id", id);
       if (e1) throw e1;
