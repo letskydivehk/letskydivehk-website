@@ -896,7 +896,9 @@ export type Database = {
       }
       souvenirs: {
         Row: {
+          bulk_pricing: Json
           created_at: string
+          customisation_required: boolean
           description_en: string
           description_zh_cn: string
           description_zh_tw: string
@@ -907,11 +909,17 @@ export type Database = {
           name_en: string
           name_zh_cn: string
           name_zh_tw: string
+          original_price: number | null
           price: number
           updated_at: string
+          vendor_note_en: string | null
+          vendor_note_zh_cn: string | null
+          vendor_note_zh_tw: string | null
         }
         Insert: {
+          bulk_pricing?: Json
           created_at?: string
+          customisation_required?: boolean
           description_en?: string
           description_zh_cn?: string
           description_zh_tw?: string
@@ -922,11 +930,17 @@ export type Database = {
           name_en?: string
           name_zh_cn?: string
           name_zh_tw?: string
+          original_price?: number | null
           price?: number
           updated_at?: string
+          vendor_note_en?: string | null
+          vendor_note_zh_cn?: string | null
+          vendor_note_zh_tw?: string | null
         }
         Update: {
+          bulk_pricing?: Json
           created_at?: string
+          customisation_required?: boolean
           description_en?: string
           description_zh_cn?: string
           description_zh_tw?: string
@@ -937,8 +951,12 @@ export type Database = {
           name_en?: string
           name_zh_cn?: string
           name_zh_tw?: string
+          original_price?: number | null
           price?: number
           updated_at?: string
+          vendor_note_en?: string | null
+          vendor_note_zh_cn?: string | null
+          vendor_note_zh_tw?: string | null
         }
         Relationships: []
       }
