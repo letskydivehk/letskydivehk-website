@@ -335,14 +335,132 @@ export function AdminSouvenirsPanel() {
             </div>
           </div>
 
-          {/* Price */}
-          <div className="max-w-xs">
-            <Label>Price (HKD)</Label>
-            <Input
-              type="number"
-              value={item.price}
-              onChange={(e) => update(item.id, { price: parseInt(e.target.value) || 0 })}
-            />
+          {/* Vendor / collaboration note */}
+          <div className="grid md:grid-cols-3 gap-4">
+            <div>
+              <Label>Vendor note (English)</Label>
+              <Input
+                placeholder="e.g. In collaboration with Bingomagnetic"
+                value={item.vendor_note_en ?? ""}
+                onChange={(e) => update(item.id, { vendor_note_en: e.target.value || null })}
+              />
+            </div>
+            <div>
+              <Label>Vendor note (繁體)</Label>
+              <Input
+                value={item.vendor_note_zh_tw ?? ""}
+                onChange={(e) => update(item.id, { vendor_note_zh_tw: e.target.value || null })}
+              />
+            </div>
+            <div>
+              <Label>Vendor note (简体)</Label>
+              <Input
+                value={item.vendor_note_zh_cn ?? ""}
+                onChange={(e) => update(item.id, { vendor_note_zh_cn: e.target.value || null })}
+              />
+            </div>
+          </div>
+
+          {/* Price + original price + customisation toggle */}
+          <div className="grid md:grid-cols-3 gap-4">
+            <div>
+              <Label>Price (HKD)</Label>
+              <Input
+                type="number"
+                value={item.price}
+                onChange={(e) => update(item.id, { price: parseInt(e.target.value) || 0 })}
+              />
+            </div>
+            <div>
+              <Label>Original price (HKD, optional)</Label>
+              <Input
+                type="number"
+                placeholder="Leave blank for no strike-through"
+                value={item.original_price ?? ""}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  update(item.id, { original_price: v === "" ? null : parseInt(v) || 0 });
+                }}
+              />
+            </div>
+            <div className="flex items-end gap-3">
+              <div className="flex items-center gap-2 pb-2">
+                <Switch
+                  id={`cust-${item.id}`}
+                  checked={item.customisation_required}
+                  onCheckedChange={(c) => update(item.id, { customisation_required: c })}
+                />
+                <Label htmlFor={`cust-${item.id}`}>Require photo upload</Label>
+              </div>
+            </div>
+          </div>
+
+          {/* Bulk pricing tiers */}
+          <div>
+            <Label className="mb-2 block">Bulk pricing tiers</Label>
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Quantity</TableHead>
+                  <TableHead>Original (HKD)</TableHead>
+                  <TableHead>Sale (HKD)</TableHead>
+                  <TableHead className="w-12"></TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {item.bulk_pricing.map((tier, idx) => (
+                  <TableRow key={idx}>
+                    <TableCell>
+                      <Input
+                        type="number"
+                        value={tier.qty}
+                        onChange={(e) => updateTier(item.id, idx, { qty: parseInt(e.target.value) || 0 })}
+                        className="w-24"
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="number"
+                        value={tier.original_price}
+                        onChange={(e) =>
+                          updateTier(item.id, idx, { original_price: parseInt(e.target.value) || 0 })
+                        }
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Input
+                        type="number"
+                        value={tier.sale_price}
+                        onChange={(e) =>
+                          updateTier(item.id, idx, { sale_price: parseInt(e.target.value) || 0 })
+                        }
+                      />
+                    </TableCell>
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() => removeTier(item.id, idx)}
+                        className="text-destructive"
+                      >
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => addTier(item.id)}
+              className="gap-2 mt-3"
+            >
+              <Plus className="w-4 h-4" /> Add tier
+            </Button>
+            <p className="text-xs text-muted-foreground mt-2">
+              Each row becomes a row in the bulk-pricing table on the product card. Set original = sale for "no discount" rows.
+            </p>
           </div>
 
           {/* Size chart */}
