@@ -1,0 +1,1 @@
+update public.souvenirs set image_url = '/__l5e/assets-v1/93f1aaca-7a06-43cd-ab2f-f190605aceb1/magnet-sample.jpeg' where id = '1b24f4bc-f874-4c1a-a163-618c4b6830de';
