@@ -26,6 +26,12 @@ window.addEventListener("unhandledrejection", (e) => {
   if (isChunkLoadError(msg)) tryReloadOnce();
 });
 
+// Clear the reload guard once the app has successfully mounted, so a
+// later stale-chunk error in the same session can also self-recover.
+window.addEventListener("load", () => {
+  setTimeout(() => sessionStorage.removeItem(RELOAD_KEY), 2000);
+});
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <App />
