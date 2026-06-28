@@ -43,14 +43,14 @@ function BulkPricingTable({ item }: { item: Souvenir }) {
         <Sparkles className="w-4 h-4 text-accent-orange" />
         {t("souvenirs.bulkPricing")}
       </div>
-      <div className="rounded-lg border border-border overflow-x-auto">
+      <div className="rounded-lg border border-border">
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/40">
-              <TableHead className="h-9 text-xs">{t("souvenirs.qty")}</TableHead>
-              <TableHead className="h-9 text-xs">{t("souvenirs.originalPrice")}</TableHead>
-              <TableHead className="h-9 text-xs">{t("souvenirs.salePrice")}</TableHead>
-              <TableHead className="h-9 text-xs text-right">{t("souvenirs.savePrefix")}</TableHead>
+              <TableHead className="h-9 text-[11px] px-2">{t("souvenirs.qty")}</TableHead>
+              <TableHead className="h-9 text-[11px] px-2">{t("souvenirs.originalPrice")}</TableHead>
+              <TableHead className="h-9 text-[11px] px-2">{t("souvenirs.salePrice")}</TableHead>
+              <TableHead className="h-9 text-[11px] text-right px-2">{t("souvenirs.savePrefix")}</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
