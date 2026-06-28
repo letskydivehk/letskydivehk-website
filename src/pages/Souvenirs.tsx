@@ -5,12 +5,12 @@ import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { AuthModal } from "@/components/AuthModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useSouvenirs, type Souvenir } from "@/hooks/useSouvenirs";
+import { useSouvenirs, type Souvenir, type SouvenirVariant } from "@/hooks/useSouvenirs";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ShoppingBag, Ruler, Loader2, Upload, Check, Sparkles, BadgePercent } from "lucide-react";
+import { ArrowLeft, ShoppingBag, Ruler, Loader2, Upload, Check, Sparkles, BadgePercent, Minus, Plus } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
@@ -31,6 +31,20 @@ function getVendorNote(item: Souvenir, lang: string) {
   if (lang === "zh-TW") return item.vendor_note_zh_tw || item.vendor_note_en;
   if (lang === "zh-CN") return item.vendor_note_zh_cn || item.vendor_note_en;
   return item.vendor_note_en;
+}
+function getVariantName(v: SouvenirVariant, lang: string) {
+  if (lang === "zh-TW") return v.name_zh_tw || v.name_en;
+  if (lang === "zh-CN") return v.name_zh_cn || v.name_en;
+  return v.name_en;
+}
+function pickTierPrice(item: Souvenir, qty: number): number {
+  if (!item.bulk_pricing || item.bulk_pricing.length === 0) return item.price * qty;
+  const tiers = [...item.bulk_pricing].sort((a, b) => a.qty - b.qty);
+  let unit = item.price;
+  for (const t of tiers) {
+    if (qty >= t.qty) unit = t.sale_price / t.qty;
+  }
+  return Math.round(unit * qty);
 }
 
 function BulkPricingTable({ item }: { item: Souvenir }) {
