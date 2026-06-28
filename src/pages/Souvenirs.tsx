@@ -43,7 +43,7 @@ function BulkPricingTable({ item }: { item: Souvenir }) {
         <Sparkles className="w-4 h-4 text-accent-orange" />
         {t("souvenirs.bulkPricing")}
       </div>
-      <div className="rounded-lg border border-border overflow-hidden">
+      <div className="rounded-lg border border-border overflow-x-auto">
         <Table>
           <TableHeader>
             <TableRow className="bg-muted/40">
@@ -285,14 +285,15 @@ function ProductCard({ item }: { item: Souvenir }) {
   return (
     <Card className="overflow-hidden p-0 mb-10">
       <div className="grid md:grid-cols-2 gap-0">
-        <div className="aspect-square bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center">
+        <div className="aspect-square max-h-[280px] md:max-h-none bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center overflow-hidden">
           <img
             src={item.image_url || "/placeholder.svg"}
             alt={name}
             className="w-full h-full object-cover"
           />
         </div>
-        <div className="p-6 sm:p-8 flex flex-col">
+        <div className="p-4 sm:p-8 flex flex-col min-w-0">
+
           <h2 className="text-2xl font-bold text-foreground mb-1">{name}</h2>
           <div className="flex flex-wrap items-center gap-2 mb-3">
             {vendorNote && (
