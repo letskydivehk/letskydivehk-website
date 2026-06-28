@@ -453,9 +453,15 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.replacePhoto": "Replace photo",
     "souvenirs.uploadFirst": "Please upload your photo first.",
     "souvenirs.magnetWhatsappMsg": "Hi! I'd like to order the Custom Photo Magnet (Quantity: {qty}, HK${price}). My photo: {photo}",
+    "souvenirs.magnetWhatsappMsgNoPhoto": "Hi! I'd like to order the Custom Photo Magnet (Quantity: {qty}, HK${price}). I'll send my photo here in the chat.",
+    "souvenirs.magnetWhatsappMsgMember": "Hi! I'd like to order the Custom Photo Magnet (Quantity: {qty}, HK${price}) and apply my member 10% discount. My photo: {photo}",
     "souvenirs.previewTitle": "Your magnet preview",
-    "souvenirs.previewSubtitle": "This is roughly how your finished magnet will look. Final print colours may vary slightly.",
+    "souvenirs.previewSubtitle": "Finished size: 5 × 5 cm fridge magnet. Print colours may vary slightly from screen.",
     "souvenirs.previewBadge": "Draft preview",
+    "souvenirs.magnetSize": "5 × 5 cm fridge magnet",
+    "souvenirs.memberDiscountGuest": "Members save 10% — sign in to your account to apply the discount.",
+    "souvenirs.memberDiscountApplied": "Member 10% discount will be applied at checkout.",
+    "souvenirs.signInCta": "Sign in",
 
     // Blog
     "blog.badge": "Knowledge Base",
