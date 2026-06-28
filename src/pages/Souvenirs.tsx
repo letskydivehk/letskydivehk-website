@@ -158,7 +158,7 @@ function PhotoUpload({
           if (f) handleFile(f);
         }}
       />
-      {uploadedUrl ? (
+      {hasPhoto ? (
         <div className="space-y-3">
           <div className="flex items-center gap-3 p-3 rounded-lg border border-emerald-300 bg-emerald-50">
             {previewUrl && (
