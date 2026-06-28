@@ -2,13 +2,15 @@ import { SEO } from "@/components/SEO";
 import { PageNavbar } from "@/components/PageNavbar";
 import { Footer } from "@/components/Footer";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
+import { AuthModal } from "@/components/AuthModal";
+import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { useSouvenirs, type Souvenir } from "@/hooks/useSouvenirs";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
 import { useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ShoppingBag, Ruler, Loader2, Upload, Check, Sparkles } from "lucide-react";
+import { ArrowLeft, ShoppingBag, Ruler, Loader2, Upload, Check, Sparkles, BadgePercent } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
@@ -94,14 +96,15 @@ function BulkPricingTable({ item }: { item: Souvenir }) {
 
 function PhotoUpload({
   itemId,
-  onUploaded,
+  onChange,
 }: {
   itemId: string;
-  onUploaded: (url: string | null) => void;
+  onChange: (state: { hasPhoto: boolean; uploadedUrl: string | null }) => void;
 }) {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const [uploading, setUploading] = useState(false);
-  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
+  const [hasPhoto, setHasPhoto] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -110,33 +113,33 @@ function PhotoUpload({
       toast.error("Max 10 MB");
       return;
     }
+    // Always show a local preview first — works for guests and signed-in users alike.
+    const localUrl = URL.createObjectURL(file);
+    setPreviewUrl(localUrl);
+    setHasPhoto(true);
+    onChange({ hasPhoto: true, uploadedUrl: null });
+    toast.success(t("souvenirs.photoReady"));
+
+    // For signed-in users, also upload to storage so we can attach a URL in WhatsApp.
+    if (!user) return;
+
     setUploading(true);
     try {
-      const { data: userData, error: userErr } = await supabase.auth.getUser();
-      if (userErr || !userData?.user) {
-        toast.error("Please sign in to upload a photo.");
-        onUploaded(null);
-        return;
-      }
       const ext = file.name.split(".").pop() || "jpg";
-      // Path must start with the user's auth.uid() to satisfy storage RLS
-      const path = `${userData.user.id}/${itemId}/${crypto.randomUUID()}.${ext}`;
+      // Path must start with the user's auth.uid() to satisfy storage RLS.
+      const path = `${user.id}/${itemId}/${crypto.randomUUID()}.${ext}`;
       const { error } = await supabase.storage
         .from("souvenir-uploads")
         .upload(path, file, { cacheControl: "3600", upsert: false });
       if (error) throw error;
-      // Generate a long-lived signed URL (1 year) so the WhatsApp recipient (admin) can open it
       const { data, error: signErr } = await supabase.storage
         .from("souvenir-uploads")
         .createSignedUrl(path, 60 * 60 * 24 * 365);
       if (signErr || !data) throw signErr || new Error("Sign failed");
-      setUploadedUrl(data.signedUrl);
-      setPreviewUrl(URL.createObjectURL(file));
-      onUploaded(data.signedUrl);
-      toast.success(t("souvenirs.photoReady"));
+      onChange({ hasPhoto: true, uploadedUrl: data.signedUrl });
     } catch (err: unknown) {
+      // Preview still works; just no attachment URL for WhatsApp.
       toast.error(err instanceof Error ? err.message : "Upload failed");
-      onUploaded(null);
     } finally {
       setUploading(false);
     }
@@ -155,7 +158,7 @@ function PhotoUpload({
           if (f) handleFile(f);
         }}
       />
-      {uploadedUrl ? (
+      {hasPhoto ? (
         <div className="space-y-3">
           <div className="flex items-center gap-3 p-3 rounded-lg border border-emerald-300 bg-emerald-50">
             {previewUrl && (
@@ -233,26 +236,41 @@ function PhotoUpload({
 
 function ProductCard({ item }: { item: Souvenir }) {
   const { t, language } = useLanguage();
+  const { user } = useAuth();
   const sizes = item.sizes.length > 0 ? item.sizes : [];
   const [selectedSize, setSelectedSize] = useState<string>(
     sizes[1]?.size_label || sizes[0]?.size_label || ""
   );
+  const [hasPhoto, setHasPhoto] = useState(false);
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
   const name = getName(item, language);
   const desc = getDesc(item, language);
   const vendorNote = getVendorNote(item, language);
 
   const handleOrder = () => {
-    if (item.customisation_required && !photoUrl) {
+    if (item.customisation_required && !hasPhoto) {
       toast.error(t("souvenirs.uploadFirst"));
       return;
     }
     let msg: string;
     if (item.customisation_required) {
-      msg = t("souvenirs.magnetWhatsappMsg")
-        .replace("{qty}", "1")
-        .replace("{price}", String(item.price))
-        .replace("{photo}", photoUrl || "");
+      // Pick template by sign-in state and whether we have an uploaded URL.
+      if (user && photoUrl) {
+        msg = t("souvenirs.magnetWhatsappMsgMember")
+          .replace("{qty}", "1")
+          .replace("{price}", String(item.price))
+          .replace("{photo}", photoUrl);
+      } else if (photoUrl) {
+        msg = t("souvenirs.magnetWhatsappMsg")
+          .replace("{qty}", "1")
+          .replace("{price}", String(item.price))
+          .replace("{photo}", photoUrl);
+      } else {
+        msg = t("souvenirs.magnetWhatsappMsgNoPhoto")
+          .replace("{qty}", "1")
+          .replace("{price}", String(item.price));
+      }
     } else {
       msg = t("souvenirs.whatsappMsg")
         .replace("{size}", selectedSize)
@@ -276,14 +294,22 @@ function ProductCard({ item }: { item: Souvenir }) {
         </div>
         <div className="p-6 sm:p-8 flex flex-col">
           <h2 className="text-2xl font-bold text-foreground mb-1">{name}</h2>
-          {vendorNote && (
-            <div className="inline-flex w-fit items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent-orange/10 text-accent-orange text-xs font-semibold mb-3">
-              <Sparkles className="w-3 h-3" />
-              {vendorNote}
-            </div>
-          )}
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            {vendorNote && (
+              <span className="inline-flex w-fit items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent-orange/10 text-accent-orange text-xs font-semibold">
+                <Sparkles className="w-3 h-3" />
+                {vendorNote}
+              </span>
+            )}
+            {item.customisation_required && (
+              <span className="inline-flex w-fit items-center gap-1.5 px-2.5 py-1 rounded-full bg-sky-100 text-sky-700 text-xs font-semibold">
+                <Ruler className="w-3 h-3" />
+                {t("souvenirs.magnetSize")}
+              </span>
+            )}
+          </div>
           <p className="text-foreground/70 mb-4">{desc}</p>
-          <div className="flex items-baseline gap-3 mb-6">
+          <div className="flex items-baseline gap-3 mb-3">
             <div className="text-3xl font-bold text-accent-orange">HK${item.price}</div>
             {showOriginal && (
               <div className="text-lg text-foreground/50 line-through">HK${item.original_price}</div>
@@ -292,6 +318,32 @@ function ProductCard({ item }: { item: Souvenir }) {
               <div className="text-sm text-foreground/60">/ {t("souvenirs.each")}</div>
             )}
           </div>
+
+          {item.customisation_required && (
+            <div
+              className={`flex items-start gap-2 mb-6 px-3 py-2 rounded-lg border text-sm ${
+                user
+                  ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                  : "border-amber-200 bg-amber-50 text-amber-800"
+              }`}
+            >
+              <BadgePercent className="w-4 h-4 mt-0.5 shrink-0" />
+              {user ? (
+                <span>{t("souvenirs.memberDiscountApplied")}</span>
+              ) : (
+                <span>
+                  {t("souvenirs.memberDiscountGuest")}{" "}
+                  <button
+                    type="button"
+                    onClick={() => setAuthOpen(true)}
+                    className="font-semibold underline underline-offset-2 hover:text-amber-900"
+                  >
+                    {t("souvenirs.signInCta")}
+                  </button>
+                </span>
+              )}
+            </div>
+          )}
 
           <BulkPricingTable item={item} />
 
@@ -317,7 +369,13 @@ function ProductCard({ item }: { item: Souvenir }) {
           )}
 
           {item.customisation_required && (
-            <PhotoUpload itemId={item.id} onUploaded={setPhotoUrl} />
+            <PhotoUpload
+              itemId={item.id}
+              onChange={({ hasPhoto: hp, uploadedUrl }) => {
+                setHasPhoto(hp);
+                setPhotoUrl(uploadedUrl);
+              }}
+            />
           )}
 
           <button
@@ -329,6 +387,7 @@ function ProductCard({ item }: { item: Souvenir }) {
           </button>
         </div>
       </div>
+      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
     </Card>
   );
 }
