@@ -96,14 +96,15 @@ function BulkPricingTable({ item }: { item: Souvenir }) {
 
 function PhotoUpload({
   itemId,
-  onUploaded,
+  onChange,
 }: {
   itemId: string;
-  onUploaded: (url: string | null) => void;
+  onChange: (state: { hasPhoto: boolean; uploadedUrl: string | null }) => void;
 }) {
   const { t } = useLanguage();
+  const { user } = useAuth();
   const [uploading, setUploading] = useState(false);
-  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
+  const [hasPhoto, setHasPhoto] = useState(false);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
@@ -112,33 +113,33 @@ function PhotoUpload({
       toast.error("Max 10 MB");
       return;
     }
+    // Always show a local preview first — works for guests and signed-in users alike.
+    const localUrl = URL.createObjectURL(file);
+    setPreviewUrl(localUrl);
+    setHasPhoto(true);
+    onChange({ hasPhoto: true, uploadedUrl: null });
+    toast.success(t("souvenirs.photoReady"));
+
+    // For signed-in users, also upload to storage so we can attach a URL in WhatsApp.
+    if (!user) return;
+
     setUploading(true);
     try {
-      const { data: userData, error: userErr } = await supabase.auth.getUser();
-      if (userErr || !userData?.user) {
-        toast.error("Please sign in to upload a photo.");
-        onUploaded(null);
-        return;
-      }
       const ext = file.name.split(".").pop() || "jpg";
-      // Path must start with the user's auth.uid() to satisfy storage RLS
-      const path = `${userData.user.id}/${itemId}/${crypto.randomUUID()}.${ext}`;
+      // Path must start with the user's auth.uid() to satisfy storage RLS.
+      const path = `${user.id}/${itemId}/${crypto.randomUUID()}.${ext}`;
       const { error } = await supabase.storage
         .from("souvenir-uploads")
         .upload(path, file, { cacheControl: "3600", upsert: false });
       if (error) throw error;
-      // Generate a long-lived signed URL (1 year) so the WhatsApp recipient (admin) can open it
       const { data, error: signErr } = await supabase.storage
         .from("souvenir-uploads")
         .createSignedUrl(path, 60 * 60 * 24 * 365);
       if (signErr || !data) throw signErr || new Error("Sign failed");
-      setUploadedUrl(data.signedUrl);
-      setPreviewUrl(URL.createObjectURL(file));
-      onUploaded(data.signedUrl);
-      toast.success(t("souvenirs.photoReady"));
+      onChange({ hasPhoto: true, uploadedUrl: data.signedUrl });
     } catch (err: unknown) {
+      // Preview still works; just no attachment URL for WhatsApp.
       toast.error(err instanceof Error ? err.message : "Upload failed");
-      onUploaded(null);
     } finally {
       setUploading(false);
     }
