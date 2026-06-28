@@ -112,8 +112,15 @@ function PhotoUpload({
     }
     setUploading(true);
     try {
+      const { data: userData, error: userErr } = await supabase.auth.getUser();
+      if (userErr || !userData?.user) {
+        toast.error("Please sign in to upload a photo.");
+        onUploaded(null);
+        return;
+      }
       const ext = file.name.split(".").pop() || "jpg";
-      const path = `${itemId}/${crypto.randomUUID()}.${ext}`;
+      // Path must start with the user's auth.uid() to satisfy storage RLS
+      const path = `${userData.user.id}/${itemId}/${crypto.randomUUID()}.${ext}`;
       const { error } = await supabase.storage
         .from("souvenir-uploads")
         .upload(path, file, { cacheControl: "3600", upsert: false });
