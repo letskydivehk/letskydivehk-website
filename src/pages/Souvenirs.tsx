@@ -5,12 +5,12 @@ import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { AuthModal } from "@/components/AuthModal";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { useSouvenirs, type Souvenir } from "@/hooks/useSouvenirs";
+import { useSouvenirs, type Souvenir, type SouvenirVariant } from "@/hooks/useSouvenirs";
 import { supabase } from "@/integrations/supabase/client";
 import { motion } from "framer-motion";
-import { useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { ArrowLeft, ShoppingBag, Ruler, Loader2, Upload, Check, Sparkles, BadgePercent } from "lucide-react";
+import { ArrowLeft, ShoppingBag, Ruler, Loader2, Upload, Check, Sparkles, BadgePercent, Minus, Plus } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
@@ -31,6 +31,20 @@ function getVendorNote(item: Souvenir, lang: string) {
   if (lang === "zh-TW") return item.vendor_note_zh_tw || item.vendor_note_en;
   if (lang === "zh-CN") return item.vendor_note_zh_cn || item.vendor_note_en;
   return item.vendor_note_en;
+}
+function getVariantName(v: SouvenirVariant, lang: string) {
+  if (lang === "zh-TW") return v.name_zh_tw || v.name_en;
+  if (lang === "zh-CN") return v.name_zh_cn || v.name_en;
+  return v.name_en;
+}
+function pickTierPrice(item: Souvenir, qty: number): number {
+  if (!item.bulk_pricing || item.bulk_pricing.length === 0) return item.price * qty;
+  const tiers = [...item.bulk_pricing].sort((a, b) => a.qty - b.qty);
+  let unit = item.price;
+  for (const t of tiers) {
+    if (qty >= t.qty) unit = t.sale_price / t.qty;
+  }
+  return Math.round(unit * qty);
 }
 
 function BulkPricingTable({ item }: { item: Souvenir }) {
@@ -93,6 +107,221 @@ function BulkPricingTable({ item }: { item: Souvenir }) {
     </div>
   );
 }
+
+function QuantityStepper({
+  value,
+  onChange,
+  label,
+  min = 1,
+  max = 999,
+}: {
+  value: number;
+  onChange: (n: number) => void;
+  label?: string;
+  min?: number;
+  max?: number;
+}) {
+  return (
+    <div className="mb-4 flex items-center gap-3">
+      {label && <span className="text-sm font-semibold text-foreground">{label}</span>}
+      <div className="inline-flex items-center rounded-lg border border-border overflow-hidden">
+        <button
+          type="button"
+          onClick={() => onChange(Math.max(min, value - 1))}
+          className="px-3 py-2 hover:bg-muted text-foreground/80 disabled:opacity-40"
+          disabled={value <= min}
+          aria-label="decrease"
+        >
+          <Minus className="w-4 h-4" />
+        </button>
+        <input
+          type="number"
+          value={value}
+          min={min}
+          max={max}
+          onChange={(e) => {
+            const n = parseInt(e.target.value);
+            if (Number.isFinite(n)) onChange(Math.min(max, Math.max(min, n)));
+          }}
+          className="w-14 text-center font-semibold bg-background focus:outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+        />
+        <button
+          type="button"
+          onClick={() => onChange(Math.min(max, value + 1))}
+          className="px-3 py-2 hover:bg-muted text-foreground/80 disabled:opacity-40"
+          disabled={value >= max}
+          aria-label="increase"
+        >
+          <Plus className="w-4 h-4" />
+        </button>
+      </div>
+    </div>
+  );
+}
+
+function EditionMagnetCard({ item }: { item: Souvenir }) {
+  const { t, language } = useLanguage();
+  const { user } = useAuth();
+  const [authOpen, setAuthOpen] = useState(false);
+  const [qtys, setQtys] = useState<Record<string, number>>({});
+
+  const activeVariants = useMemo(
+    () => item.variants.filter((v) => v.is_active).sort((a, b) => a.display_order - b.display_order),
+    [item.variants]
+  );
+
+  const totalQty = useMemo(
+    () => Object.values(qtys).reduce((s, n) => s + (n > 0 ? n : 0), 0),
+    [qtys]
+  );
+  const totalPrice = useMemo(() => pickTierPrice(item, totalQty), [item, totalQty]);
+
+  const setQty = (id: string, n: number) => {
+    setQtys((prev) => {
+      const next = { ...prev };
+      if (n <= 0) delete next[id];
+      else next[id] = n;
+      return next;
+    });
+  };
+
+  const handleOrder = () => {
+    if (totalQty <= 0) {
+      toast.error(t("souvenirs.selectAtLeastOne"));
+      return;
+    }
+    const lines = activeVariants
+      .filter((v) => (qtys[v.id] || 0) > 0)
+      .map((v) => `- ${getVariantName(v, language)} × ${qtys[v.id]}`)
+      .join("\n");
+    const template = user
+      ? t("souvenirs.editionWhatsappMsgMember")
+      : t("souvenirs.editionWhatsappMsg");
+    const msg = template
+      .replace("{lines}", lines)
+      .replace("{totalQty}", String(totalQty))
+      .replace("{totalPrice}", String(totalPrice));
+    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
+  };
+
+  return (
+    <Card className="overflow-hidden p-4 sm:p-8 mb-10">
+      <div className="flex flex-wrap items-center gap-2 mb-2">
+        <h2 className="text-2xl font-bold text-foreground mr-2">{t("souvenirs.editionTitle")}</h2>
+        <span className="inline-flex w-fit items-center gap-1.5 px-2.5 py-1 rounded-full bg-sky-100 text-sky-700 text-xs font-semibold">
+          <Ruler className="w-3 h-3" />
+          {t("souvenirs.magnetSize")}
+        </span>
+      </div>
+      <p className="text-foreground/70 mb-4">{t("souvenirs.editionDesc")}</p>
+
+      <div
+        className={`flex items-start gap-2 mb-6 px-3 py-2 rounded-lg border text-sm ${
+          user
+            ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+            : "border-amber-200 bg-amber-50 text-amber-800"
+        }`}
+      >
+        <BadgePercent className="w-4 h-4 mt-0.5 shrink-0" />
+        {user ? (
+          <span>{t("souvenirs.memberDiscountApplied")}</span>
+        ) : (
+          <span>
+            {t("souvenirs.memberDiscountGuest")}{" "}
+            <button
+              type="button"
+              onClick={() => setAuthOpen(true)}
+              className="font-semibold underline underline-offset-2 hover:text-amber-900"
+            >
+              {t("souvenirs.signInCta")}
+            </button>
+          </span>
+        )}
+      </div>
+
+      <BulkPricingTable item={item} />
+
+      <div className="text-sm font-semibold text-foreground mb-3">
+        {t("souvenirs.selectDesigns")}
+      </div>
+
+      {activeVariants.length === 0 ? (
+        <p className="text-sm text-foreground/60 py-6 text-center">{t("souvenirs.noVariants")}</p>
+      ) : (
+        <div className="grid grid-cols-2 gap-3 sm:gap-4 mb-6">
+          {activeVariants.map((v) => {
+            const qty = qtys[v.id] || 0;
+            const selected = qty > 0;
+            return (
+              <div
+                key={v.id}
+                className={`rounded-xl border-2 overflow-hidden transition-all ${
+                  selected ? "border-accent-orange shadow-md" : "border-border"
+                }`}
+              >
+                <button
+                  type="button"
+                  onClick={() => setQty(v.id, selected ? 0 : 1)}
+                  className="block w-full aspect-square bg-sky-100 overflow-hidden"
+                >
+                  {v.image_url ? (
+                    <img
+                      src={v.image_url}
+                      alt={getVariantName(v, language)}
+                      className="w-full h-full object-cover"
+                    />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-xs text-foreground/50">
+                      —
+                    </div>
+                  )}
+                </button>
+                <div className="p-2 sm:p-3">
+                  <div className="text-xs sm:text-sm font-semibold text-foreground truncate mb-2">
+                    {getVariantName(v, language)}
+                  </div>
+                  <QuantityStepper
+                    value={Math.max(1, qty)}
+                    onChange={(n) => setQty(v.id, selected ? n : Math.max(1, n))}
+                    min={selected ? 1 : 0}
+                  />
+                  {!selected && (
+                    <button
+                      type="button"
+                      onClick={() => setQty(v.id, 1)}
+                      className="w-full text-[11px] text-accent-orange font-semibold py-1 rounded border border-accent-orange/40 hover:bg-accent-orange/10"
+                    >
+                      + Select
+                    </button>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
+      <div className="mb-4 text-sm text-foreground/80">
+        {t("souvenirs.totalLine")
+          .replace("{qty}", String(totalQty))
+          .replace("{price}", String(totalPrice))}
+      </div>
+
+      <button
+        onClick={handleOrder}
+        disabled={activeVariants.length === 0}
+        className="w-full inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
+      >
+        <ShoppingBag className="w-5 h-5" />
+        {t("souvenirs.orderWhatsapp")}
+      </button>
+
+      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
+    </Card>
+  );
+}
+
+
 
 function PhotoUpload({
   itemId,
@@ -244,9 +473,11 @@ function ProductCard({ item }: { item: Souvenir }) {
   const [hasPhoto, setHasPhoto] = useState(false);
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
+  const [quantity, setQuantity] = useState(1);
   const name = getName(item, language);
   const desc = getDesc(item, language);
   const vendorNote = getVendorNote(item, language);
+  const lineTotal = pickTierPrice(item, quantity);
 
   const handleOrder = () => {
     if (item.customisation_required && !hasPhoto) {
@@ -255,21 +486,22 @@ function ProductCard({ item }: { item: Souvenir }) {
     }
     let msg: string;
     if (item.customisation_required) {
-      // Pick template by sign-in state and whether we have an uploaded URL.
+      const qtyStr = String(quantity);
+      const priceStr = String(lineTotal);
       if (user && photoUrl) {
         msg = t("souvenirs.magnetWhatsappMsgMember")
-          .replace("{qty}", "1")
-          .replace("{price}", String(item.price))
+          .replace("{qty}", qtyStr)
+          .replace("{price}", priceStr)
           .replace("{photo}", photoUrl);
       } else if (photoUrl) {
         msg = t("souvenirs.magnetWhatsappMsg")
-          .replace("{qty}", "1")
-          .replace("{price}", String(item.price))
+          .replace("{qty}", qtyStr)
+          .replace("{price}", priceStr)
           .replace("{photo}", photoUrl);
       } else {
         msg = t("souvenirs.magnetWhatsappMsgNoPhoto")
-          .replace("{qty}", "1")
-          .replace("{price}", String(item.price));
+          .replace("{qty}", qtyStr)
+          .replace("{price}", priceStr);
       }
     } else {
       msg = t("souvenirs.whatsappMsg")
@@ -370,13 +602,25 @@ function ProductCard({ item }: { item: Souvenir }) {
           )}
 
           {item.customisation_required && (
-            <PhotoUpload
-              itemId={item.id}
-              onChange={({ hasPhoto: hp, uploadedUrl }) => {
-                setHasPhoto(hp);
-                setPhotoUrl(uploadedUrl);
-              }}
-            />
+            <>
+              <QuantityStepper
+                value={quantity}
+                onChange={setQuantity}
+                label={t("souvenirs.qtyLabel")}
+              />
+              <div className="mb-4 text-sm text-foreground/70">
+                {t("souvenirs.totalLine")
+                  .replace("{qty}", String(quantity))
+                  .replace("{price}", String(lineTotal))}
+              </div>
+              <PhotoUpload
+                itemId={item.id}
+                onChange={({ hasPhoto: hp, uploadedUrl }) => {
+                  setHasPhoto(hp);
+                  setPhotoUrl(uploadedUrl);
+                }}
+              />
+            </>
           )}
 
           <button
@@ -476,6 +720,9 @@ export default function Souvenirs() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
+                {item.customisation_required && item.variants.length > 0 && (
+                  <EditionMagnetCard item={item} />
+                )}
                 <ProductCard item={item} />
                 <SizeChartCard item={item} />
               </motion.div>

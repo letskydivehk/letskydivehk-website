@@ -523,6 +523,13 @@ export function AdminSouvenirsPanel() {
             </Button>
           </div>
 
+          {/* Edition design variants */}
+          {item.customisation_required && (
+            <VariantsEditor souvenirId={item.id} variants={item.variants} onChanged={refetch} />
+          )}
+
+
+
           <div className="flex justify-end">
             <Button onClick={() => save(item.id)} disabled={savingId === item.id} className="gap-2">
               {savingId === item.id ? (
@@ -539,6 +546,179 @@ export function AdminSouvenirsPanel() {
       {items.length === 0 && (
         <p className="text-center text-muted-foreground py-12">No souvenirs yet. Click "Add souvenir" to create one.</p>
       )}
+    </div>
+  );
+}
+
+function VariantsEditor({
+  souvenirId,
+  variants,
+  onChanged,
+}: {
+  souvenirId: string;
+  variants: import("@/hooks/useSouvenirs").SouvenirVariant[];
+  onChanged: () => void;
+}) {
+  type V = import("@/hooks/useSouvenirs").SouvenirVariant;
+  const [draft, setDraft] = useState<Record<string, V>>({});
+  const [savingId, setSavingId] = useState<string | null>(null);
+  const [uploadingId, setUploadingId] = useState<string | null>(null);
+  const sb = supabase as unknown as {
+    from: (t: string) => {
+      insert: (rec: Record<string, unknown>) => Promise<{ error: { message: string } | null }>;
+      update: (rec: Record<string, unknown>) => {
+        eq: (col: string, val: string) => Promise<{ error: { message: string } | null }>;
+      };
+      delete: () => { eq: (col: string, val: string) => Promise<{ error: { message: string } | null }> };
+    };
+  };
+
+  useEffect(() => {
+    const map: Record<string, V> = {};
+    variants.forEach((v) => (map[v.id] = { ...v }));
+    setDraft(map);
+  }, [variants]);
+
+  const set = (id: string, patch: Partial<V>) =>
+    setDraft((prev) => ({ ...prev, [id]: { ...prev[id], ...patch } }));
+
+  const add = async () => {
+    const nextOrder = (variants.reduce((m, v) => Math.max(m, v.display_order), 0) || 0) + 1;
+    const { error } = await sb.from("souvenir_variants").insert({
+      souvenir_id: souvenirId,
+      name_en: `Design ${nextOrder}`,
+      name_zh_tw: `設計 ${nextOrder}`,
+      name_zh_cn: `设计 ${nextOrder}`,
+      display_order: nextOrder,
+    });
+    if (error) return toast.error(error.message);
+    toast.success("Design added");
+    onChanged();
+  };
+
+  const remove = async (id: string) => {
+    if (!confirm("Delete this design?")) return;
+    const { error } = await sb.from("souvenir_variants").delete().eq("id", id);
+    if (error) return toast.error(error.message);
+    toast.success("Deleted");
+    onChanged();
+  };
+
+  const save = async (id: string) => {
+    const v = draft[id];
+    if (!v) return;
+    setSavingId(id);
+    try {
+      const { error } = await sb
+        .from("souvenir_variants")
+        .update({
+          name_en: v.name_en,
+          name_zh_tw: v.name_zh_tw,
+          name_zh_cn: v.name_zh_cn,
+          display_order: v.display_order,
+          is_active: v.is_active,
+        })
+        .eq("id", id);
+      if (error) throw error;
+      toast.success("Saved");
+      onChanged();
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Save failed");
+    } finally {
+      setSavingId(null);
+    }
+  };
+
+  const uploadImage = async (id: string, file: File) => {
+    setUploadingId(id);
+    try {
+      const ext = file.name.split(".").pop() || "jpg";
+      const path = `souvenir-variants/${id}-${Date.now()}.${ext}`;
+      const { error: upErr } = await supabase.storage.from("gallery").upload(path, file, {
+        cacheControl: "3600",
+        upsert: false,
+      });
+      if (upErr) throw upErr;
+      const { data: pub } = supabase.storage.from("gallery").getPublicUrl(path);
+      const { error: dbErr } = await sb
+        .from("souvenir_variants")
+        .update({ image_url: pub.publicUrl })
+        .eq("id", id);
+      if (dbErr) throw dbErr;
+      toast.success("Image uploaded");
+      onChanged();
+    } catch (err: unknown) {
+      toast.error(err instanceof Error ? err.message : "Upload failed");
+    } finally {
+      setUploadingId(null);
+    }
+  };
+
+  const list = Object.values(draft).sort((a, b) => a.display_order - b.display_order);
+
+  return (
+    <div>
+      <Label className="mb-2 block">Edition designs ({list.length}/4)</Label>
+      <p className="text-xs text-muted-foreground mb-3">
+        Upload preset designs (e.g. Skydiving Edition). Customers pick any combination and quantity on the souvenirs page.
+      </p>
+      <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-3">
+        {list.map((v) => (
+          <div key={v.id} className="rounded-lg border p-3 space-y-2 bg-card">
+            <div className="aspect-square rounded-md border bg-muted/30 overflow-hidden flex items-center justify-center">
+              {v.image_url ? (
+                <img src={v.image_url} alt="" className="w-full h-full object-cover" />
+              ) : (
+                <span className="text-xs text-muted-foreground">No image</span>
+              )}
+            </div>
+            <label className="cursor-pointer block">
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (f) uploadImage(v.id, f);
+                }}
+              />
+              <Button asChild variant="outline" size="sm" className="w-full gap-2" disabled={uploadingId === v.id}>
+                <span>
+                  {uploadingId === v.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <Upload className="w-3 h-3" />}
+                  Upload
+                </span>
+              </Button>
+            </label>
+            <Input placeholder="Name (EN)" value={v.name_en} onChange={(e) => set(v.id, { name_en: e.target.value })} />
+            <Input placeholder="名稱 (繁)" value={v.name_zh_tw} onChange={(e) => set(v.id, { name_zh_tw: e.target.value })} />
+            <Input placeholder="名称 (简)" value={v.name_zh_cn} onChange={(e) => set(v.id, { name_zh_cn: e.target.value })} />
+            <div className="flex items-center justify-between gap-2">
+              <div className="flex items-center gap-2">
+                <Switch checked={v.is_active} onCheckedChange={(c) => set(v.id, { is_active: c })} />
+                <span className="text-xs">Active</span>
+              </div>
+              <Input
+                type="number"
+                className="w-16"
+                value={v.display_order}
+                onChange={(e) => set(v.id, { display_order: parseInt(e.target.value) || 0 })}
+              />
+            </div>
+            <div className="flex gap-2">
+              <Button size="sm" className="flex-1 gap-1" onClick={() => save(v.id)} disabled={savingId === v.id}>
+                {savingId === v.id ? <Loader2 className="w-3 h-3 animate-spin" /> : <Save className="w-3 h-3" />}
+                Save
+              </Button>
+              <Button size="sm" variant="ghost" className="text-destructive" onClick={() => remove(v.id)}>
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </div>
+          </div>
+        ))}
+      </div>
+      <Button variant="outline" size="sm" className="gap-2 mt-3" onClick={add} disabled={list.length >= 4}>
+        <Plus className="w-4 h-4" /> Add design slot {list.length >= 4 ? "(max 4)" : ""}
+      </Button>
     </div>
   );
 }
