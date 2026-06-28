@@ -299,7 +299,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const updateProfile = async (data: { display_name?: string; avatar_url?: string }) => {
+  const updateProfile = async (data: { full_name?: string; avatar_url?: string }) => {
     if (!user) throw new Error("No user logged in");
 
     try {
