@@ -236,26 +236,41 @@ function PhotoUpload({
 
 function ProductCard({ item }: { item: Souvenir }) {
   const { t, language } = useLanguage();
+  const { user } = useAuth();
   const sizes = item.sizes.length > 0 ? item.sizes : [];
   const [selectedSize, setSelectedSize] = useState<string>(
     sizes[1]?.size_label || sizes[0]?.size_label || ""
   );
+  const [hasPhoto, setHasPhoto] = useState(false);
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
+  const [authOpen, setAuthOpen] = useState(false);
   const name = getName(item, language);
   const desc = getDesc(item, language);
   const vendorNote = getVendorNote(item, language);
 
   const handleOrder = () => {
-    if (item.customisation_required && !photoUrl) {
+    if (item.customisation_required && !hasPhoto) {
       toast.error(t("souvenirs.uploadFirst"));
       return;
     }
     let msg: string;
     if (item.customisation_required) {
-      msg = t("souvenirs.magnetWhatsappMsg")
-        .replace("{qty}", "1")
-        .replace("{price}", String(item.price))
-        .replace("{photo}", photoUrl || "");
+      // Pick template by sign-in state and whether we have an uploaded URL.
+      if (user && photoUrl) {
+        msg = t("souvenirs.magnetWhatsappMsgMember")
+          .replace("{qty}", "1")
+          .replace("{price}", String(item.price))
+          .replace("{photo}", photoUrl);
+      } else if (photoUrl) {
+        msg = t("souvenirs.magnetWhatsappMsg")
+          .replace("{qty}", "1")
+          .replace("{price}", String(item.price))
+          .replace("{photo}", photoUrl);
+      } else {
+        msg = t("souvenirs.magnetWhatsappMsgNoPhoto")
+          .replace("{qty}", "1")
+          .replace("{price}", String(item.price));
+      }
     } else {
       msg = t("souvenirs.whatsappMsg")
         .replace("{size}", selectedSize)
@@ -279,14 +294,22 @@ function ProductCard({ item }: { item: Souvenir }) {
         </div>
         <div className="p-6 sm:p-8 flex flex-col">
           <h2 className="text-2xl font-bold text-foreground mb-1">{name}</h2>
-          {vendorNote && (
-            <div className="inline-flex w-fit items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent-orange/10 text-accent-orange text-xs font-semibold mb-3">
-              <Sparkles className="w-3 h-3" />
-              {vendorNote}
-            </div>
-          )}
+          <div className="flex flex-wrap items-center gap-2 mb-3">
+            {vendorNote && (
+              <span className="inline-flex w-fit items-center gap-1.5 px-2.5 py-1 rounded-full bg-accent-orange/10 text-accent-orange text-xs font-semibold">
+                <Sparkles className="w-3 h-3" />
+                {vendorNote}
+              </span>
+            )}
+            {item.customisation_required && (
+              <span className="inline-flex w-fit items-center gap-1.5 px-2.5 py-1 rounded-full bg-sky-100 text-sky-700 text-xs font-semibold">
+                <Ruler className="w-3 h-3" />
+                {t("souvenirs.magnetSize")}
+              </span>
+            )}
+          </div>
           <p className="text-foreground/70 mb-4">{desc}</p>
-          <div className="flex items-baseline gap-3 mb-6">
+          <div className="flex items-baseline gap-3 mb-3">
             <div className="text-3xl font-bold text-accent-orange">HK${item.price}</div>
             {showOriginal && (
               <div className="text-lg text-foreground/50 line-through">HK${item.original_price}</div>
@@ -295,6 +318,32 @@ function ProductCard({ item }: { item: Souvenir }) {
               <div className="text-sm text-foreground/60">/ {t("souvenirs.each")}</div>
             )}
           </div>
+
+          {item.customisation_required && (
+            <div
+              className={`flex items-start gap-2 mb-6 px-3 py-2 rounded-lg border text-sm ${
+                user
+                  ? "border-emerald-200 bg-emerald-50 text-emerald-800"
+                  : "border-amber-200 bg-amber-50 text-amber-800"
+              }`}
+            >
+              <BadgePercent className="w-4 h-4 mt-0.5 shrink-0" />
+              {user ? (
+                <span>{t("souvenirs.memberDiscountApplied")}</span>
+              ) : (
+                <span>
+                  {t("souvenirs.memberDiscountGuest")}{" "}
+                  <button
+                    type="button"
+                    onClick={() => setAuthOpen(true)}
+                    className="font-semibold underline underline-offset-2 hover:text-amber-900"
+                  >
+                    {t("souvenirs.signInCta")}
+                  </button>
+                </span>
+              )}
+            </div>
+          )}
 
           <BulkPricingTable item={item} />
 
@@ -320,7 +369,13 @@ function ProductCard({ item }: { item: Souvenir }) {
           )}
 
           {item.customisation_required && (
-            <PhotoUpload itemId={item.id} onUploaded={setPhotoUrl} />
+            <PhotoUpload
+              itemId={item.id}
+              onChange={({ hasPhoto: hp, uploadedUrl }) => {
+                setHasPhoto(hp);
+                setPhotoUrl(uploadedUrl);
+              }}
+            />
           )}
 
           <button
@@ -332,6 +387,7 @@ function ProductCard({ item }: { item: Souvenir }) {
           </button>
         </div>
       </div>
+      <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
     </Card>
   );
 }
