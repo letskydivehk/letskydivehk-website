@@ -60,28 +60,28 @@ function BulkPricingTable({ item }: { item: Souvenir }) {
               const isDiscount = save > 0;
               return (
                 <TableRow key={tier.qty}>
-                  <TableCell className="font-semibold py-2">
+                  <TableCell className="font-semibold py-1.5 px-2 text-[11px]">
                     {tier.qty === 1
                       ? `1 ${t("souvenirs.each")}`
                       : `${tier.qty}-${t("souvenirs.pack")}`}
                   </TableCell>
-                  <TableCell className="py-2">
+                  <TableCell className="py-1.5 px-2 text-[11px]">
                     {isDiscount ? (
                       <span className="line-through text-foreground/50">HK${tier.original_price}</span>
                     ) : (
                       <span className="text-foreground/50">—</span>
                     )}
                   </TableCell>
-                  <TableCell className="py-2 font-bold text-accent-orange">
+                  <TableCell className="py-1.5 px-2 text-[11px] font-bold text-accent-orange">
                     HK${tier.sale_price}
                   </TableCell>
-                  <TableCell className="py-2 text-right">
+                  <TableCell className="py-1.5 px-2 text-right text-[11px]">
                     {isDiscount ? (
-                      <span className="inline-flex items-center px-2 py-0.5 rounded-md bg-emerald-100 text-emerald-700 text-xs font-semibold">
+                      <span className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-emerald-100 text-emerald-700 text-[10px] font-semibold">
                         -{pct}%
                       </span>
                     ) : (
-                      <span className="text-foreground/40 text-xs">—</span>
+                      <span className="text-foreground/40">—</span>
                     )}
                   </TableCell>
                 </TableRow>
