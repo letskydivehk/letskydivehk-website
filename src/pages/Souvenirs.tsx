@@ -258,9 +258,11 @@ function ProductCard({ item }: { item: Souvenir }) {
   const [hasPhoto, setHasPhoto] = useState(false);
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
+  const [quantity, setQuantity] = useState(1);
   const name = getName(item, language);
   const desc = getDesc(item, language);
   const vendorNote = getVendorNote(item, language);
+  const lineTotal = pickTierPrice(item, quantity);
 
   const handleOrder = () => {
     if (item.customisation_required && !hasPhoto) {
