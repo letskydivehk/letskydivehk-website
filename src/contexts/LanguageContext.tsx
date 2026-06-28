@@ -453,6 +453,9 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.replacePhoto": "Replace photo",
     "souvenirs.uploadFirst": "Please upload your photo first.",
     "souvenirs.magnetWhatsappMsg": "Hi! I'd like to order the Custom Photo Magnet (Quantity: {qty}, HK${price}). My photo: {photo}",
+    "souvenirs.previewTitle": "Your magnet preview",
+    "souvenirs.previewSubtitle": "This is roughly how your finished magnet will look. Final print colours may vary slightly.",
+    "souvenirs.previewBadge": "Draft preview",
 
     // Blog
     "blog.badge": "Knowledge Base",
