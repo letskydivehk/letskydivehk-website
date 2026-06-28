@@ -523,6 +523,13 @@ export function AdminSouvenirsPanel() {
             </Button>
           </div>
 
+          {/* Edition design variants */}
+          {item.customisation_required && (
+            <VariantsEditor souvenirId={item.id} variants={item.variants} onChanged={refetch} />
+          )}
+
+
+
           <div className="flex justify-end">
             <Button onClick={() => save(item.id)} disabled={savingId === item.id} className="gap-2">
               {savingId === item.id ? (
