@@ -894,6 +894,53 @@ export type Database = {
           },
         ]
       }
+      souvenir_variants: {
+        Row: {
+          created_at: string
+          display_order: number
+          id: string
+          image_url: string | null
+          is_active: boolean
+          name_en: string
+          name_zh_cn: string
+          name_zh_tw: string
+          souvenir_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name_en?: string
+          name_zh_cn?: string
+          name_zh_tw?: string
+          souvenir_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          display_order?: number
+          id?: string
+          image_url?: string | null
+          is_active?: boolean
+          name_en?: string
+          name_zh_cn?: string
+          name_zh_tw?: string
+          souvenir_id?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "souvenir_variants_souvenir_id_fkey"
+            columns: ["souvenir_id"]
+            isOneToOne: false
+            referencedRelation: "souvenirs"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       souvenirs: {
         Row: {
           bulk_pricing: Json
