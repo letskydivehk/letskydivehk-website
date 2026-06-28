@@ -156,22 +156,57 @@ function PhotoUpload({
         }}
       />
       {uploadedUrl ? (
-        <div className="flex items-center gap-3 p-3 rounded-lg border border-emerald-300 bg-emerald-50">
-          {previewUrl && (
-            <img src={previewUrl} alt="" className="w-14 h-14 rounded-md object-cover border" />
-          )}
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-1.5 text-emerald-700 font-semibold text-sm">
-              <Check className="w-4 h-4" /> {t("souvenirs.photoReady")}
+        <div className="space-y-3">
+          <div className="flex items-center gap-3 p-3 rounded-lg border border-emerald-300 bg-emerald-50">
+            {previewUrl && (
+              <img src={previewUrl} alt="" className="w-14 h-14 rounded-md object-cover border" />
+            )}
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center gap-1.5 text-emerald-700 font-semibold text-sm">
+                <Check className="w-4 h-4" /> {t("souvenirs.photoReady")}
+              </div>
+              <button
+                type="button"
+                onClick={() => inputRef.current?.click()}
+                className="text-xs text-foreground/60 hover:text-foreground underline"
+              >
+                {t("souvenirs.replacePhoto")}
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={() => inputRef.current?.click()}
-              className="text-xs text-foreground/60 hover:text-foreground underline"
-            >
-              {t("souvenirs.replacePhoto")}
-            </button>
           </div>
+
+          {previewUrl && (
+            <div className="rounded-xl border border-border bg-gradient-to-br from-sky-50 to-white p-4 sm:p-5">
+              <div className="flex items-center justify-between mb-3">
+                <div>
+                  <div className="text-sm font-bold text-foreground">{t("souvenirs.previewTitle")}</div>
+                  <p className="text-xs text-foreground/60 mt-0.5">{t("souvenirs.previewSubtitle")}</p>
+                </div>
+                <span className="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-accent-orange/10 text-accent-orange text-[11px] font-semibold whitespace-nowrap">
+                  <Sparkles className="w-3 h-3" />
+                  {t("souvenirs.previewBadge")}
+                </span>
+              </div>
+              <div className="flex justify-center">
+                {/* Magnet mock: square photo with thick white border, rounded corners and soft shadow to mimic a fridge magnet */}
+                <div
+                  className="relative bg-white p-3 rounded-lg shadow-[0_10px_30px_-10px_rgba(0,0,0,0.35)] rotate-[-2deg] transition-transform hover:rotate-0"
+                  style={{ width: "min(260px, 70%)" }}
+                >
+                  <div className="aspect-square overflow-hidden rounded-md bg-sky-100">
+                    <img
+                      src={previewUrl}
+                      alt={t("souvenirs.previewTitle")}
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <div className="mt-2 text-center text-[10px] tracking-wider font-semibold text-foreground/60 uppercase">
+                    Let&apos;s Skydive HK
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       ) : (
         <button
