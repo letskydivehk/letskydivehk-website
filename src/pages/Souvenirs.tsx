@@ -387,13 +387,25 @@ function ProductCard({ item }: { item: Souvenir }) {
           )}
 
           {item.customisation_required && (
-            <PhotoUpload
-              itemId={item.id}
-              onChange={({ hasPhoto: hp, uploadedUrl }) => {
-                setHasPhoto(hp);
-                setPhotoUrl(uploadedUrl);
-              }}
-            />
+            <>
+              <QuantityStepper
+                value={quantity}
+                onChange={setQuantity}
+                label={t("souvenirs.qtyLabel")}
+              />
+              <div className="mb-4 text-sm text-foreground/70">
+                {t("souvenirs.totalLine")
+                  .replace("{qty}", String(quantity))
+                  .replace("{price}", String(lineTotal))}
+              </div>
+              <PhotoUpload
+                itemId={item.id}
+                onChange={({ hasPhoto: hp, uploadedUrl }) => {
+                  setHasPhoto(hp);
+                  setPhotoUrl(uploadedUrl);
+                }}
+              />
+            </>
           )}
 
           <button
