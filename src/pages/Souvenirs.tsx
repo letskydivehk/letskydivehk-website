@@ -271,21 +271,22 @@ function ProductCard({ item }: { item: Souvenir }) {
     }
     let msg: string;
     if (item.customisation_required) {
-      // Pick template by sign-in state and whether we have an uploaded URL.
+      const qtyStr = String(quantity);
+      const priceStr = String(lineTotal);
       if (user && photoUrl) {
         msg = t("souvenirs.magnetWhatsappMsgMember")
-          .replace("{qty}", "1")
-          .replace("{price}", String(item.price))
+          .replace("{qty}", qtyStr)
+          .replace("{price}", priceStr)
           .replace("{photo}", photoUrl);
       } else if (photoUrl) {
         msg = t("souvenirs.magnetWhatsappMsg")
-          .replace("{qty}", "1")
-          .replace("{price}", String(item.price))
+          .replace("{qty}", qtyStr)
+          .replace("{price}", priceStr)
           .replace("{photo}", photoUrl);
       } else {
         msg = t("souvenirs.magnetWhatsappMsgNoPhoto")
-          .replace("{qty}", "1")
-          .replace("{price}", String(item.price));
+          .replace("{qty}", qtyStr)
+          .replace("{price}", priceStr);
       }
     } else {
       msg = t("souvenirs.whatsappMsg")
