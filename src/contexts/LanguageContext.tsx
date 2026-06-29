@@ -431,7 +431,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.tshirt.desc": "Soft cotton tee with the Let's Skydive HK logo. A comfy keepsake from your jump day.",
     "souvenirs.selectSize": "Select size",
     "souvenirs.orderWhatsapp": "Order via WhatsApp",
-    "souvenirs.whatsappMsg": "Hi! I'd like to order the Let's Skydive HK T-Shirt (Size: {size}, HK$150).",
+    "souvenirs.whatsappMsg": "Hi! I'd like to order {qty} × Let's Skydive HK T-Shirt (Size: {size}) — Total HK${price}.",
     "souvenirs.sizeChart": "Size Chart",
     "souvenirs.size": "Size",
     "souvenirs.height": "Height (cm)",
