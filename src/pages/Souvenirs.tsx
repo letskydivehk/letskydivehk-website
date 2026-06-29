@@ -505,37 +505,34 @@ function ProductCard({ item }: { item: Souvenir }) {
   };
 
   const handleOrder = () => {
-    if (item.customisation_required && !hasPhoto) {
-      toast.error(t("souvenirs.uploadFirst"));
+    if (item.customisation_required) {
+      if (!hasPhoto && editionQty <= 0) {
+        toast.error(t("souvenirs.uploadFirst"));
+        return;
+      }
+      const parts: string[] = [];
+      if (hasPhoto) {
+        parts.push(`- ${t("souvenirs.customPhotoLine") || "Custom photo magnet"} × ${quantity}`);
+      }
+      for (const v of activeVariants) {
+        const q = variantQtys[v.id] || 0;
+        if (q > 0) parts.push(`- ${getVariantName(v, language)} × ${q}`);
+      }
+      const lines = parts.join("\n");
+      const totalPrice = String(lineTotal);
+      const totalQty = String(combinedQty);
+      const memberSuffix = user ? ` (${t("souvenirs.memberDiscountApplied")})` : "";
+      const photoSuffix = photoUrl ? `\nPhoto: ${photoUrl}` : "";
+      const msg = `${t("souvenirs.editionTitle")} / ${name}${memberSuffix}\n${lines}\nTotal: ${totalQty} × HK$${totalPrice}${photoSuffix}`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
       return;
     }
-    let msg: string;
-    if (item.customisation_required) {
-      const qtyStr = String(quantity);
-      const priceStr = String(lineTotal);
-      if (user && photoUrl) {
-        msg = t("souvenirs.magnetWhatsappMsgMember")
-          .replace("{qty}", qtyStr)
-          .replace("{price}", priceStr)
-          .replace("{photo}", photoUrl);
-      } else if (photoUrl) {
-        msg = t("souvenirs.magnetWhatsappMsg")
-          .replace("{qty}", qtyStr)
-          .replace("{price}", priceStr)
-          .replace("{photo}", photoUrl);
-      } else {
-        msg = t("souvenirs.magnetWhatsappMsgNoPhoto")
-          .replace("{qty}", qtyStr)
-          .replace("{price}", priceStr);
-      }
-    } else {
-      msg = t("souvenirs.whatsappMsg")
-        .replace("{size}", selectedSize)
-        .replace("{qty}", String(quantity))
-        .replace("{price}", String(lineTotal))
-        .replace("Let's Skydive HK T-Shirt", name)
-        .replace("Let's Skydive HK T恤", name);
-    }
+    const msg = t("souvenirs.whatsappMsg")
+      .replace("{size}", selectedSize)
+      .replace("{qty}", String(quantity))
+      .replace("{price}", String(lineTotal))
+      .replace("Let's Skydive HK T-Shirt", name)
+      .replace("Let's Skydive HK T恤", name);
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
