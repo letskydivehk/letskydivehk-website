@@ -507,6 +507,8 @@ function ProductCard({ item }: { item: Souvenir }) {
     } else {
       msg = t("souvenirs.whatsappMsg")
         .replace("{size}", selectedSize)
+        .replace("{qty}", String(quantity))
+        .replace("{price}", String(lineTotal))
         .replace("Let's Skydive HK T-Shirt", name)
         .replace("Let's Skydive HK T恤", name);
     }
