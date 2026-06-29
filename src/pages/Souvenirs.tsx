@@ -605,20 +605,28 @@ function ProductCard({ item }: { item: Souvenir }) {
             </div>
           )}
 
-          {item.customisation_required && item.variants.filter((v) => v.is_active).length > 0 && (
+          {item.customisation_required && activeVariants.length > 0 && (
             <div className="mb-6">
               <div className="text-sm font-semibold text-foreground mb-1">
-                {t("souvenirs.examplesTitle")}
+                {t("souvenirs.selectDesigns")}
               </div>
               <p className="text-xs text-foreground/60 mb-3">{t("souvenirs.examplesHint")}</p>
-              <div className="grid grid-cols-4 gap-2">
-                {item.variants
-                  .filter((v) => v.is_active)
-                  .sort((a, b) => a.display_order - b.display_order)
-                  .slice(0, 4)
-                  .map((v) => (
-                    <div key={v.id} className="space-y-1">
-                      <div className="aspect-square overflow-hidden rounded-md border border-border bg-sky-100">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {activeVariants.map((v) => {
+                  const qty = variantQtys[v.id] || 0;
+                  const selected = qty > 0;
+                  return (
+                    <div
+                      key={v.id}
+                      className={`rounded-xl border-2 overflow-hidden transition-all ${
+                        selected ? "border-accent-orange shadow-md" : "border-border"
+                      }`}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setVariantQty(v.id, selected ? 0 : 1)}
+                        className="block w-full aspect-square bg-sky-100 overflow-hidden"
+                      >
                         {v.image_url ? (
                           <img
                             src={v.image_url}
@@ -631,12 +639,44 @@ function ProductCard({ item }: { item: Souvenir }) {
                             —
                           </div>
                         )}
-                      </div>
-                      <div className="text-[10px] sm:text-xs text-center text-foreground/70 truncate">
-                        {getVariantName(v, language)}
+                      </button>
+                      <div className="p-2">
+                        <div className="text-[11px] sm:text-xs font-semibold text-foreground truncate mb-1.5">
+                          {getVariantName(v, language)}
+                        </div>
+                        {selected ? (
+                          <div className="flex items-center justify-between gap-1">
+                            <button
+                              type="button"
+                              onClick={() => setVariantQty(v.id, qty - 1)}
+                              className="w-6 h-6 inline-flex items-center justify-center rounded border border-border hover:bg-muted"
+                              aria-label="decrease"
+                            >
+                              <Minus className="w-3 h-3" />
+                            </button>
+                            <span className="text-xs font-bold">{qty}</span>
+                            <button
+                              type="button"
+                              onClick={() => setVariantQty(v.id, qty + 1)}
+                              className="w-6 h-6 inline-flex items-center justify-center rounded border border-border hover:bg-muted"
+                              aria-label="increase"
+                            >
+                              <Plus className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => setVariantQty(v.id, 1)}
+                            className="w-full text-[10px] sm:text-[11px] text-accent-orange font-semibold py-1 rounded border border-accent-orange/40 hover:bg-accent-orange/10"
+                          >
+                            + {t("souvenirs.signInCta") ? "Add" : "Add"}
+                          </button>
+                        )}
                       </div>
                     </div>
-                  ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -666,16 +706,6 @@ function ProductCard({ item }: { item: Souvenir }) {
 
           {item.customisation_required ? (
             <>
-              <QuantityStepper
-                value={quantity}
-                onChange={setQuantity}
-                label={t("souvenirs.qtyLabel")}
-              />
-              <div className="mb-4 text-sm text-foreground/70">
-                {t("souvenirs.totalLine")
-                  .replace("{qty}", String(quantity))
-                  .replace("{price}", String(lineTotal))}
-              </div>
               <PhotoUpload
                 itemId={item.id}
                 onChange={({ hasPhoto: hp, uploadedUrl }) => {
@@ -683,6 +713,18 @@ function ProductCard({ item }: { item: Souvenir }) {
                   setPhotoUrl(uploadedUrl);
                 }}
               />
+              {hasPhoto && (
+                <QuantityStepper
+                  value={quantity}
+                  onChange={setQuantity}
+                  label={t("souvenirs.qtyLabel")}
+                />
+              )}
+              <div className="mb-4 text-sm text-foreground/70">
+                {t("souvenirs.totalLine")
+                  .replace("{qty}", String(combinedQty))
+                  .replace("{price}", String(lineTotal))}
+              </div>
             </>
           ) : (
             <>
