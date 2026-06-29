@@ -4014,7 +4014,16 @@ export function LanguageProvider({ children }: { children: ReactNode }) {
 export function useLanguage() {
   const context = useContext(LanguageContext);
   if (context === undefined) {
-    throw new Error("useLanguage must be used within a LanguageProvider");
+    // Safe fallback to avoid runtime crash during transient HMR/mount states.
+    if (typeof console !== "undefined") {
+      console.warn("useLanguage called outside LanguageProvider — using fallback");
+    }
+    return {
+      language: "zh-TW" as Language,
+      setLanguage: () => {},
+      t: (key: string) => key,
+      translateData: (_key: string, fallback: string) => fallback,
+    };
   }
   return context;
 }
