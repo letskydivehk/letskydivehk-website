@@ -507,6 +507,8 @@ function ProductCard({ item }: { item: Souvenir }) {
     } else {
       msg = t("souvenirs.whatsappMsg")
         .replace("{size}", selectedSize)
+        .replace("{qty}", String(quantity))
+        .replace("{price}", String(lineTotal))
         .replace("Let's Skydive HK T-Shirt", name)
         .replace("Let's Skydive HK T恤", name);
     }
@@ -641,7 +643,7 @@ function ProductCard({ item }: { item: Souvenir }) {
             </div>
           )}
 
-          {item.customisation_required && (
+          {item.customisation_required ? (
             <>
               <QuantityStepper
                 value={quantity}
@@ -660,6 +662,19 @@ function ProductCard({ item }: { item: Souvenir }) {
                   setPhotoUrl(uploadedUrl);
                 }}
               />
+            </>
+          ) : (
+            <>
+              <QuantityStepper
+                value={quantity}
+                onChange={setQuantity}
+                label={t("souvenirs.qtyLabel")}
+              />
+              <div className="mb-4 text-sm text-foreground/70">
+                {t("souvenirs.totalLine")
+                  .replace("{qty}", String(quantity))
+                  .replace("{price}", String(lineTotal))}
+              </div>
             </>
           )}
 
