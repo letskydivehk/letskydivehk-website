@@ -2060,7 +2060,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.tshirt.desc": "舒适纯棉T恤，印有 Let's Skydive HK 标志，记录你的跳伞日。",
     "souvenirs.selectSize": "选择尺码",
     "souvenirs.orderWhatsapp": "WhatsApp 订购",
-    "souvenirs.whatsappMsg": "你好！我想订购 Let's Skydive HK T恤（尺码：{size}，HK$150）。",
+    "souvenirs.whatsappMsg": "你好！我想订购 {qty} 件 Let's Skydive HK T恤（尺码：{size}），总计 HK${price}。",
     "souvenirs.sizeChart": "尺码表",
     "souvenirs.size": "尺码",
     "souvenirs.height": "身高 (cm)",
