@@ -475,10 +475,34 @@ function ProductCard({ item }: { item: Souvenir }) {
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [variantQtys, setVariantQtys] = useState<Record<string, number>>({});
   const name = getName(item, language);
   const desc = getDesc(item, language);
   const vendorNote = getVendorNote(item, language);
-  const lineTotal = pickTierPrice(item, quantity);
+
+  const activeVariants = useMemo(
+    () =>
+      item.variants
+        .filter((v) => v.is_active)
+        .sort((a, b) => a.display_order - b.display_order),
+    [item.variants]
+  );
+  const editionQty = useMemo(
+    () => Object.values(variantQtys).reduce((s, n) => s + (n > 0 ? n : 0), 0),
+    [variantQtys]
+  );
+  const customQty = item.customisation_required ? (hasPhoto ? quantity : 0) : quantity;
+  const combinedQty = item.customisation_required ? customQty + editionQty : quantity;
+  const lineTotal = pickTierPrice(item, Math.max(1, combinedQty));
+
+  const setVariantQty = (id: string, n: number) => {
+    setVariantQtys((prev) => {
+      const next = { ...prev };
+      if (n <= 0) delete next[id];
+      else next[id] = n;
+      return next;
+    });
+  };
 
   const handleOrder = () => {
     if (item.customisation_required && !hasPhoto) {
