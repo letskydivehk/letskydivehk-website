@@ -14,6 +14,7 @@ import { ArrowLeft, ShoppingBag, Ruler, Loader2, Upload, Check, Sparkles, BadgeP
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
+import magnetFridgeMosaic from "@/assets/magnet-fridge-mosaic.jpg";
 
 const WHATSAPP_NUMBER = "85269391570";
 
@@ -519,8 +520,11 @@ function ProductCard({ item }: { item: Souvenir }) {
       <div className="grid md:grid-cols-2 gap-0">
         <div className="aspect-square max-h-[280px] md:max-h-none bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center overflow-hidden">
           <img
-            src={item.image_url || "/placeholder.svg"}
+            src={item.customisation_required ? magnetFridgeMosaic : (item.image_url || "/placeholder.svg")}
             alt={name}
+            width={1024}
+            height={1024}
+            loading="lazy"
             className="w-full h-full object-cover"
           />
         </div>
