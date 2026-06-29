@@ -465,8 +465,6 @@ function PhotoUpload({
 }
 
 function ProductCard({ item }: { item: Souvenir }) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const _editionCardRef = EditionMagnetCard;
   const { t, language } = useLanguage();
   const { user } = useAuth();
   const sizes = item.sizes.length > 0 ? item.sizes : [];
