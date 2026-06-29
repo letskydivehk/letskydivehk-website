@@ -14,6 +14,7 @@ import { ArrowLeft, ShoppingBag, Ruler, Loader2, Upload, Check, Sparkles, BadgeP
 import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
+import magnetFridgeMosaic from "@/assets/magnet-fridge-mosaic.jpg";
 
 const WHATSAPP_NUMBER = "85269391570";
 
@@ -519,8 +520,11 @@ function ProductCard({ item }: { item: Souvenir }) {
       <div className="grid md:grid-cols-2 gap-0">
         <div className="aspect-square max-h-[280px] md:max-h-none bg-gradient-to-br from-sky-100 to-sky-200 flex items-center justify-center overflow-hidden">
           <img
-            src={item.image_url || "/placeholder.svg"}
+            src={item.customisation_required ? magnetFridgeMosaic : (item.image_url || "/placeholder.svg")}
             alt={name}
+            width={1024}
+            height={1024}
+            loading="lazy"
             className="w-full h-full object-cover"
           />
         </div>
@@ -575,6 +579,42 @@ function ProductCard({ item }: { item: Souvenir }) {
                   </button>
                 </span>
               )}
+            </div>
+          )}
+
+          {item.customisation_required && item.variants.filter((v) => v.is_active).length > 0 && (
+            <div className="mb-6">
+              <div className="text-sm font-semibold text-foreground mb-1">
+                {t("souvenirs.examplesTitle")}
+              </div>
+              <p className="text-xs text-foreground/60 mb-3">{t("souvenirs.examplesHint")}</p>
+              <div className="grid grid-cols-4 gap-2">
+                {item.variants
+                  .filter((v) => v.is_active)
+                  .sort((a, b) => a.display_order - b.display_order)
+                  .slice(0, 4)
+                  .map((v) => (
+                    <div key={v.id} className="space-y-1">
+                      <div className="aspect-square overflow-hidden rounded-md border border-border bg-sky-100">
+                        {v.image_url ? (
+                          <img
+                            src={v.image_url}
+                            alt={getVariantName(v, language)}
+                            loading="lazy"
+                            className="w-full h-full object-cover"
+                          />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-[10px] text-foreground/40">
+                            —
+                          </div>
+                        )}
+                      </div>
+                      <div className="text-[10px] sm:text-xs text-center text-foreground/70 truncate">
+                        {getVariantName(v, language)}
+                      </div>
+                    </div>
+                  ))}
+              </div>
             </div>
           )}
 
@@ -720,9 +760,6 @@ export default function Souvenirs() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.1 }}
               >
-                {item.customisation_required && item.variants.length > 0 && (
-                  <EditionMagnetCard item={item} />
-                )}
                 <ProductCard item={item} />
                 <SizeChartCard item={item} />
               </motion.div>
