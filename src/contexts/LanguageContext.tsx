@@ -471,6 +471,8 @@ const translations: Record<Language, Record<string, string>> = {
    "souvenirs.selectAtLeastOne": "Please select at least one design.",
    "souvenirs.editionWhatsappMsg": "Hi! I'd like to order Skydiving Edition Magnets (5 × 5 cm):\n{lines}\nTotal: {totalQty} magnet(s) — HK${totalPrice}",
    "souvenirs.editionWhatsappMsgMember": "Hi! I'd like to order Skydiving Edition Magnets (5 × 5 cm) and apply my member 10% discount:\n{lines}\nTotal: {totalQty} magnet(s) — HK${totalPrice}",
+   "souvenirs.examplesTitle": "Example designs",
+   "souvenirs.examplesHint": "These are just sample designs — upload any photo you like and we'll print it.",
 
     // Blog
     "blog.badge": "Knowledge Base",
@@ -1299,6 +1301,8 @@ const translations: Record<Language, Record<string, string>> = {
    "souvenirs.selectAtLeastOne": "請至少選擇一款設計。",
    "souvenirs.editionWhatsappMsg": "你好！我想訂購跳傘特別版磁石貼（5 × 5 cm）：\n{lines}\n合計：{totalQty} 件 — HK${totalPrice}",
    "souvenirs.editionWhatsappMsgMember": "你好！我想訂購跳傘特別版磁石貼（5 × 5 cm），並使用會員9折優惠：\n{lines}\n合計：{totalQty} 件 — HK${totalPrice}",
+   "souvenirs.examplesTitle": "設計範例",
+   "souvenirs.examplesHint": "以下只是範例設計 — 你可以上載任何相片，我們會為你印製。",
     "blog.badge": "知識庫",
     "blog.title": "網誌",
     "blog.subtitle": "跳傘指南、貼士和最新消息，為你的冒險做好準備。",
@@ -2096,6 +2100,8 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.selectAtLeastOne": "请至少选择一款设计。",
     "souvenirs.editionWhatsappMsg": "你好！我想订购跳伞特别版磁石贴（5 × 5 cm）：\n{lines}\n合计：{totalQty} 件 — HK${totalPrice}",
     "souvenirs.editionWhatsappMsgMember": "你好！我想订购跳伞特别版磁石贴（5 × 5 cm），并使用会员9折优惠：\n{lines}\n合计：{totalQty} 件 — HK${totalPrice}",
+    "souvenirs.examplesTitle": "设计示例",
+    "souvenirs.examplesHint": "以下只是示例设计 — 你可以上传任何照片，我们会为你印制。",
     "blog.badge": "知识库",
     "blog.title": "博客",
     "blog.subtitle": "跳伞指南、贴士和最新消息，为你的冒险做好准备。",
