@@ -475,43 +475,64 @@ function ProductCard({ item }: { item: Souvenir }) {
   const [photoUrl, setPhotoUrl] = useState<string | null>(null);
   const [authOpen, setAuthOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [variantQtys, setVariantQtys] = useState<Record<string, number>>({});
   const name = getName(item, language);
   const desc = getDesc(item, language);
   const vendorNote = getVendorNote(item, language);
-  const lineTotal = pickTierPrice(item, quantity);
+
+  const activeVariants = useMemo(
+    () =>
+      item.variants
+        .filter((v) => v.is_active)
+        .sort((a, b) => a.display_order - b.display_order),
+    [item.variants]
+  );
+  const editionQty = useMemo(
+    () => Object.values(variantQtys).reduce((s, n) => s + (n > 0 ? n : 0), 0),
+    [variantQtys]
+  );
+  const customQty = item.customisation_required ? (hasPhoto ? quantity : 0) : quantity;
+  const combinedQty = item.customisation_required ? customQty + editionQty : quantity;
+  const lineTotal = pickTierPrice(item, Math.max(1, combinedQty));
+
+  const setVariantQty = (id: string, n: number) => {
+    setVariantQtys((prev) => {
+      const next = { ...prev };
+      if (n <= 0) delete next[id];
+      else next[id] = n;
+      return next;
+    });
+  };
 
   const handleOrder = () => {
-    if (item.customisation_required && !hasPhoto) {
-      toast.error(t("souvenirs.uploadFirst"));
+    if (item.customisation_required) {
+      if (!hasPhoto && editionQty <= 0) {
+        toast.error(t("souvenirs.uploadFirst"));
+        return;
+      }
+      const parts: string[] = [];
+      if (hasPhoto) {
+        parts.push(`- ${t("souvenirs.customPhotoLine") || "Custom photo magnet"} × ${quantity}`);
+      }
+      for (const v of activeVariants) {
+        const q = variantQtys[v.id] || 0;
+        if (q > 0) parts.push(`- ${getVariantName(v, language)} × ${q}`);
+      }
+      const lines = parts.join("\n");
+      const totalPrice = String(lineTotal);
+      const totalQty = String(combinedQty);
+      const memberSuffix = user ? ` (${t("souvenirs.memberDiscountApplied")})` : "";
+      const photoSuffix = photoUrl ? `\nPhoto: ${photoUrl}` : "";
+      const msg = `${t("souvenirs.editionTitle")} / ${name}${memberSuffix}\n${lines}\nTotal: ${totalQty} × HK$${totalPrice}${photoSuffix}`;
+      window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
       return;
     }
-    let msg: string;
-    if (item.customisation_required) {
-      const qtyStr = String(quantity);
-      const priceStr = String(lineTotal);
-      if (user && photoUrl) {
-        msg = t("souvenirs.magnetWhatsappMsgMember")
-          .replace("{qty}", qtyStr)
-          .replace("{price}", priceStr)
-          .replace("{photo}", photoUrl);
-      } else if (photoUrl) {
-        msg = t("souvenirs.magnetWhatsappMsg")
-          .replace("{qty}", qtyStr)
-          .replace("{price}", priceStr)
-          .replace("{photo}", photoUrl);
-      } else {
-        msg = t("souvenirs.magnetWhatsappMsgNoPhoto")
-          .replace("{qty}", qtyStr)
-          .replace("{price}", priceStr);
-      }
-    } else {
-      msg = t("souvenirs.whatsappMsg")
-        .replace("{size}", selectedSize)
-        .replace("{qty}", String(quantity))
-        .replace("{price}", String(lineTotal))
-        .replace("Let's Skydive HK T-Shirt", name)
-        .replace("Let's Skydive HK T恤", name);
-    }
+    const msg = t("souvenirs.whatsappMsg")
+      .replace("{size}", selectedSize)
+      .replace("{qty}", String(quantity))
+      .replace("{price}", String(lineTotal))
+      .replace("Let's Skydive HK T-Shirt", name)
+      .replace("Let's Skydive HK T恤", name);
     window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
   };
 
@@ -584,20 +605,28 @@ function ProductCard({ item }: { item: Souvenir }) {
             </div>
           )}
 
-          {item.customisation_required && item.variants.filter((v) => v.is_active).length > 0 && (
+          {item.customisation_required && activeVariants.length > 0 && (
             <div className="mb-6">
               <div className="text-sm font-semibold text-foreground mb-1">
-                {t("souvenirs.examplesTitle")}
+                {t("souvenirs.selectDesigns")}
               </div>
               <p className="text-xs text-foreground/60 mb-3">{t("souvenirs.examplesHint")}</p>
-              <div className="grid grid-cols-4 gap-2">
-                {item.variants
-                  .filter((v) => v.is_active)
-                  .sort((a, b) => a.display_order - b.display_order)
-                  .slice(0, 4)
-                  .map((v) => (
-                    <div key={v.id} className="space-y-1">
-                      <div className="aspect-square overflow-hidden rounded-md border border-border bg-sky-100">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {activeVariants.map((v) => {
+                  const qty = variantQtys[v.id] || 0;
+                  const selected = qty > 0;
+                  return (
+                    <div
+                      key={v.id}
+                      className={`rounded-xl border-2 overflow-hidden transition-all ${
+                        selected ? "border-accent-orange shadow-md" : "border-border"
+                      }`}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setVariantQty(v.id, selected ? 0 : 1)}
+                        className="block w-full aspect-square bg-sky-100 overflow-hidden"
+                      >
                         {v.image_url ? (
                           <img
                             src={v.image_url}
@@ -610,12 +639,44 @@ function ProductCard({ item }: { item: Souvenir }) {
                             —
                           </div>
                         )}
-                      </div>
-                      <div className="text-[10px] sm:text-xs text-center text-foreground/70 truncate">
-                        {getVariantName(v, language)}
+                      </button>
+                      <div className="p-2">
+                        <div className="text-[11px] sm:text-xs font-semibold text-foreground truncate mb-1.5">
+                          {getVariantName(v, language)}
+                        </div>
+                        {selected ? (
+                          <div className="flex items-center justify-between gap-1">
+                            <button
+                              type="button"
+                              onClick={() => setVariantQty(v.id, qty - 1)}
+                              className="w-6 h-6 inline-flex items-center justify-center rounded border border-border hover:bg-muted"
+                              aria-label="decrease"
+                            >
+                              <Minus className="w-3 h-3" />
+                            </button>
+                            <span className="text-xs font-bold">{qty}</span>
+                            <button
+                              type="button"
+                              onClick={() => setVariantQty(v.id, qty + 1)}
+                              className="w-6 h-6 inline-flex items-center justify-center rounded border border-border hover:bg-muted"
+                              aria-label="increase"
+                            >
+                              <Plus className="w-3 h-3" />
+                            </button>
+                          </div>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => setVariantQty(v.id, 1)}
+                            className="w-full text-[10px] sm:text-[11px] text-accent-orange font-semibold py-1 rounded border border-accent-orange/40 hover:bg-accent-orange/10"
+                          >
+                            + {t("souvenirs.signInCta") ? "Add" : "Add"}
+                          </button>
+                        )}
                       </div>
                     </div>
-                  ))}
+                  );
+                })}
               </div>
             </div>
           )}
@@ -645,16 +706,6 @@ function ProductCard({ item }: { item: Souvenir }) {
 
           {item.customisation_required ? (
             <>
-              <QuantityStepper
-                value={quantity}
-                onChange={setQuantity}
-                label={t("souvenirs.qtyLabel")}
-              />
-              <div className="mb-4 text-sm text-foreground/70">
-                {t("souvenirs.totalLine")
-                  .replace("{qty}", String(quantity))
-                  .replace("{price}", String(lineTotal))}
-              </div>
               <PhotoUpload
                 itemId={item.id}
                 onChange={({ hasPhoto: hp, uploadedUrl }) => {
@@ -662,6 +713,18 @@ function ProductCard({ item }: { item: Souvenir }) {
                   setPhotoUrl(uploadedUrl);
                 }}
               />
+              {hasPhoto && (
+                <QuantityStepper
+                  value={quantity}
+                  onChange={setQuantity}
+                  label={t("souvenirs.qtyLabel")}
+                />
+              )}
+              <div className="mb-4 text-sm text-foreground/70">
+                {t("souvenirs.totalLine")
+                  .replace("{qty}", String(combinedQty))
+                  .replace("{price}", String(lineTotal))}
+              </div>
             </>
           ) : (
             <>
