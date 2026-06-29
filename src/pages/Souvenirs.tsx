@@ -643,7 +643,7 @@ function ProductCard({ item }: { item: Souvenir }) {
             </div>
           )}
 
-          {item.customisation_required && (
+          {item.customisation_required ? (
             <>
               <QuantityStepper
                 value={quantity}
@@ -662,6 +662,19 @@ function ProductCard({ item }: { item: Souvenir }) {
                   setPhotoUrl(uploadedUrl);
                 }}
               />
+            </>
+          ) : (
+            <>
+              <QuantityStepper
+                value={quantity}
+                onChange={setQuantity}
+                label={t("souvenirs.qtyLabel")}
+              />
+              <div className="mb-4 text-sm text-foreground/70">
+                {t("souvenirs.totalLine")
+                  .replace("{qty}", String(quantity))
+                  .replace("{price}", String(lineTotal))}
+              </div>
             </>
           )}
 
