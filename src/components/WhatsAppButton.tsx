@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+
 import { X, Send } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -30,8 +30,13 @@ export function WhatsAppButton() {
   const panelRef = useRef<HTMLDivElement>(null);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { t } = useLanguage();
-  const location = useLocation();
-  const quickMessages = location.pathname.startsWith("/souvenirs")
+  const [pathname, setPathname] = useState(typeof window !== "undefined" ? window.location.pathname : "");
+  useEffect(() => {
+    const update = () => setPathname(window.location.pathname);
+    window.addEventListener("popstate", update);
+    return () => window.removeEventListener("popstate", update);
+  }, []);
+  const quickMessages = pathname.startsWith("/souvenirs")
     ? souvenirQuickMessages
     : defaultQuickMessages;
 
