@@ -30,6 +30,10 @@ export function WhatsAppButton() {
   const panelRef = useRef<HTMLDivElement>(null);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { t } = useLanguage();
+  const location = useLocation();
+  const quickMessages = location.pathname.startsWith("/souvenirs")
+    ? souvenirQuickMessages
+    : defaultQuickMessages;
 
   // Idle attention animation — bounce after 60s of inactivity
   useEffect(() => {
