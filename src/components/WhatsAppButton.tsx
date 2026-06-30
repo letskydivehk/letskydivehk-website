@@ -1,16 +1,24 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { X, Send } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const WHATSAPP_NUMBER = "85269391570";
 
-const quickMessages = [
+const defaultQuickMessages = [
   { key: "whatsapp.quick.tandem", icon: "🪂" },
   { key: "whatsapp.quick.aff", icon: "🎓" },
   { key: "whatsapp.quick.group", icon: "👥" },
+  { key: "whatsapp.quick.general", icon: "💬" },
+];
+
+const souvenirQuickMessages = [
+  { key: "whatsapp.quick.souvenirMagnet", icon: "🧲" },
+  { key: "whatsapp.quick.souvenirEdition", icon: "✨" },
+  { key: "whatsapp.quick.souvenirTshirt", icon: "👕" },
   { key: "whatsapp.quick.general", icon: "💬" },
 ];
 
@@ -22,6 +30,10 @@ export function WhatsAppButton() {
   const panelRef = useRef<HTMLDivElement>(null);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const { t } = useLanguage();
+  const location = useLocation();
+  const quickMessages = location.pathname.startsWith("/souvenirs")
+    ? souvenirQuickMessages
+    : defaultQuickMessages;
 
   // Idle attention animation — bounce after 60s of inactivity
   useEffect(() => {

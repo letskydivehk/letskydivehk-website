@@ -510,20 +510,29 @@ function ProductCard({ item }: { item: Souvenir }) {
         toast.error(t("souvenirs.uploadFirst"));
         return;
       }
+      // Per-unit price at the current bulk tier (combined qty drives the tier).
+      const unit = combinedQty > 0 ? Math.round(lineTotal / combinedQty) : item.price;
       const parts: string[] = [];
       if (hasPhoto) {
-        parts.push(`- ${t("souvenirs.customPhotoLine") || "Custom photo magnet"} × ${quantity}`);
+        const label = t("souvenirs.customPhotoLine") || "Custom photo magnet";
+        parts.push(`• ${label} × ${quantity} — HK$${unit * quantity}`);
       }
       for (const v of activeVariants) {
         const q = variantQtys[v.id] || 0;
-        if (q > 0) parts.push(`- ${getVariantName(v, language)} × ${q}`);
+        if (q > 0) {
+          parts.push(`• ${getVariantName(v, language)} × ${q} — HK$${unit * q}`);
+        }
       }
       const lines = parts.join("\n");
-      const totalPrice = String(lineTotal);
-      const totalQty = String(combinedQty);
-      const memberSuffix = user ? ` (${t("souvenirs.memberDiscountApplied")})` : "";
-      const photoSuffix = photoUrl ? `\nPhoto: ${photoUrl}` : "";
-      const msg = `${t("souvenirs.editionTitle")} / ${name}${memberSuffix}\n${lines}\nTotal: ${totalQty} × HK$${totalPrice}${photoSuffix}`;
+      const template = user
+        ? t("souvenirs.editionWhatsappMsgMember")
+        : t("souvenirs.editionWhatsappMsg");
+      const photoSuffix = photoUrl ? `\n📷 ${photoUrl}` : hasPhoto ? `\n📷 ${t("souvenirs.photoSendInChat") || "I'll send my photo here in the chat."}` : "";
+      const msg =
+        template
+          .replace("{lines}", lines)
+          .replace("{totalQty}", String(combinedQty))
+          .replace("{totalPrice}", String(lineTotal)) + photoSuffix;
       window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`, "_blank");
       return;
     }

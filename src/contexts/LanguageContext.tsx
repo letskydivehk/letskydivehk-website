@@ -3193,6 +3193,9 @@ translations.en["whatsapp.quick.aff"] = "Tell me about A-Licence courses";
 translations.en["whatsapp.quick.group"] = "I'm interested in group events";
 translations.en["whatsapp.quick.tour"] = "I'd like to know more about your skydiving tours";
 translations.en["whatsapp.quick.general"] = "I have a general question";
+translations.en["whatsapp.quick.souvenirMagnet"] = "I'd like a custom photo magnet 🧲";
+translations.en["whatsapp.quick.souvenirEdition"] = "Tell me about the limited-edition magnets ✨";
+translations.en["whatsapp.quick.souvenirTshirt"] = "I'd like to order a Let's Skydive HK T-shirt 👕";
 translations.en["whatsapp.placeholder"] = "Type a message...";
 
 // WhatsApp Widget - Traditional Chinese
@@ -3205,6 +3208,9 @@ translations["zh-TW"]["whatsapp.quick.aff"] = "想了解A級執照課程";
 translations["zh-TW"]["whatsapp.quick.group"] = "我對團體活動有興趣";
 translations["zh-TW"]["whatsapp.quick.tour"] = "想了解更多跳傘旅遊團資訊";
 translations["zh-TW"]["whatsapp.quick.general"] = "我有一般問題想查詢";
+translations["zh-TW"]["whatsapp.quick.souvenirMagnet"] = "我想訂製相片磁石貼 🧲";
+translations["zh-TW"]["whatsapp.quick.souvenirEdition"] = "想了解限定版跳傘磁石貼 ✨";
+translations["zh-TW"]["whatsapp.quick.souvenirTshirt"] = "我想訂購 Let's Skydive HK T恤 👕";
 translations["zh-TW"]["whatsapp.placeholder"] = "輸入訊息...";
 
 // WhatsApp Widget - Simplified Chinese
@@ -3217,6 +3223,9 @@ translations["zh-CN"]["whatsapp.quick.aff"] = "想了解A级执照课程";
 translations["zh-CN"]["whatsapp.quick.group"] = "我对团体活动有兴趣";
 translations["zh-CN"]["whatsapp.quick.tour"] = "想了解更多跳伞旅游团资讯";
 translations["zh-CN"]["whatsapp.quick.general"] = "我有一般问题想咨询";
+translations["zh-CN"]["whatsapp.quick.souvenirMagnet"] = "我想订制相片磁石贴 🧲";
+translations["zh-CN"]["whatsapp.quick.souvenirEdition"] = "想了解限定版跳伞磁石贴 ✨";
+translations["zh-CN"]["whatsapp.quick.souvenirTshirt"] = "我想订购 Let's Skydive HK T恤 👕";
 translations["zh-CN"]["whatsapp.placeholder"] = "输入消息...";
 
 // ===== Sticky Booking Bar =====
