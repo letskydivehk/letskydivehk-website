@@ -1,34 +1,35 @@
-## Goal
-Merge the magnet souvenirs into a single section. The "Skydiving Edition" designs are demoted to **examples** of what magnets can look like (shown inside the one magnet card), not a separate product. Replace the main magnet hero image with a newly generated **square fridge-mosaic** photo.
+# Hero Video Background with Skydiver
+
+Replace the Hero section's static Unsplash sky image with an autoplaying, looping, muted background video featuring a skydiver in freefall against a sky/cloud backdrop. All existing buttons, links, nav, copy, parallax, and scroll behavior stay exactly as-is.
 
 ## Changes
 
-### 1. Generate new hero image
-- New asset: `src/assets/magnet-fridge-mosaic.jpg` (square, 1024×1024).
-- Prompt: a stainless-steel fridge door covered with multiple square 5×5 cm skydiving photo magnets arranged in a tidy grid — tandem freefall shots, canopy shots, group jumps, beach landings. Warm natural light, slight perspective, realistic.
-- Used as the single magnet product image (replaces current `magnet-sample.jpeg`-style hero in the magnet card).
+### 1. Generate hero video
+- New asset: `src/assets/hero-skydiver.mp4` via `videogen--generate_video`.
+- Prompt (draft): "Cinematic aerial footage of a tandem skydiver in freefall high above bright white clouds and a deep blue sky, arms spread, camera drifting slowly, natural sunlight, realistic, no text."
+- Config: `aspect_ratio: "16:9"`, `resolution: "1080p"`, `duration: 10`, `camera_fixed: false`.
+- Poster fallback: keep the current Unsplash URL as `poster` for instant first paint and reduced-motion users.
 
-### 2. `src/pages/Souvenirs.tsx` — one magnet section
-- Remove the standalone "Skydiving Edition Magnets" card (`EditionMagnetCard`) and its separate WhatsApp flow.
-- In the remaining magnet card:
-  - Show the new square mosaic image at the top.
-  - Below the description, add an **"Examples / 範例"** strip: the 4 active variants from `souvenir_variants` rendered as small square thumbnails in a row (2×2 on mobile, 1×4 on desktop) with the variant name underneath. Purely illustrative — no select state, no per-variant quantity.
-  - Keep the existing custom-photo upload, quantity stepper, bulk pricing table, and WhatsApp order button exactly as today.
-- WhatsApp message: revert to the single custom-magnet template (`souvenirs.magnetWhatsappMsg*` with `{qty}`); drop the edition-specific `{lines}` template usage on the customer side.
+### 2. `src/components/Hero.tsx`
+- Replace the parallax background `<motion.div>` (currently `backgroundImage: url(...unsplash...)`) with a `<motion.video>`:
+  - `autoPlay`, `loop`, `muted`, `playsInline`, `preload="auto"`, `poster={unsplashUrl}`
+  - Positioned `absolute inset-0`, `object-cover w-full h-full scale-110`
+  - Same parallax transform (`style={{ y: bgY }}`)
+  - `aria-hidden`, `tabIndex={-1}`
+- Keep the dark gradient `<motion.div>` overlay on top (unchanged) so text stays legible.
+- If `window.matchMedia('(prefers-reduced-motion: reduce)').matches`, render the poster image instead of the video.
 
-### 3. `src/contexts/LanguageContext.tsx`
-- Add `souvenirs.examplesTitle` ("Examples" / "範例" / "范例") and `souvenirs.examplesHint` ("These are sample designs — upload any photo you like" / etc.).
-- Keep `souvenirs.editionWhatsappMsg*` keys unused for now (harmless) — no rename needed.
-
-### 4. Admin (`AdminSouvenirsPanel.tsx`)
-- Keep the variant editor as-is so you can still upload/manage the 4 example designs that appear in the new "Examples" strip.
+### Explicitly unchanged
+- "Book Now" button → still calls `scrollToLocations()`.
+- "Take the Quiz" link → still routes to `/quiz`.
+- "Watch Video" button → still opens `VideoModal` (separate YouTube embed, unrelated to background).
+- Navbar, mobile menu, language switcher, auth button, credit pill, scroll indicator — untouched.
 
 ## Out of scope
-- No DB migration (the `souvenir_variants` table stays; it now powers the examples strip instead of a separate product).
-- No changes to t-shirts or other souvenirs.
-- No pricing logic changes.
+- No changes to `VideoModal.tsx` or its YouTube source.
+- No copy, layout, color, or animation-timing changes.
+- No new dependencies.
 
 ## Files touched
-- `src/assets/magnet-fridge-mosaic.jpg` (new, generated)
-- `src/pages/Souvenirs.tsx`
-- `src/contexts/LanguageContext.tsx`
+- `src/assets/hero-skydiver.mp4` (new, generated)
+- `src/components/Hero.tsx`
