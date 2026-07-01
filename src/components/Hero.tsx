@@ -60,6 +60,16 @@ export function Hero() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, [isMobileMenuOpen]);
+
+  // Detect prefers-reduced-motion to skip autoplay video
+  useEffect(() => {
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mql.matches);
+    const onChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
+
   const scrollToLocations = () => {
     const locationsSection = document.getElementById('locations');
     locationsSection?.scrollIntoView({
@@ -68,16 +78,34 @@ export function Hero() {
   };
   return (
     <div ref={heroRef} className="relative h-screen w-full overflow-hidden">
-      {/* Parallax Background Image */}
-      <motion.div 
-        className="absolute inset-0 bg-cover bg-center bg-no-repeat scale-110" 
-        style={{
-          backgroundImage: 'url(https://images.unsplash.com/photo-1601024445121-e5b82f020549?w=1920&h=1080&fit=crop)',
-          y: bgY,
-        }}
+      {/* Parallax Background: skydiver video (with poster fallback) */}
+      <motion.div
+        className="absolute inset-0 scale-110"
+        style={{ y: bgY }}
       >
+        {prefersReducedMotion ? (
+          <img
+            src={HERO_POSTER}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : (
+          <video
+            src={heroSkydiverVideo.url}
+            poster={HERO_POSTER}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            aria-hidden
+            tabIndex={-1}
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        )}
         {/* Dynamic Gradient Overlay */}
-        <motion.div 
+        <motion.div
           className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"
           style={{ opacity: overlayOpacity }}
         />
