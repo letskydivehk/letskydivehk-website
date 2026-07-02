@@ -119,19 +119,25 @@ export function Hero() {
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (
-          <video
-            key={clipIndex}
-            src={HERO_CLIPS[clipIndex]}
-            poster={HERO_POSTER}
-            autoPlay
-            muted
-            playsInline
-            preload="auto"
-            aria-hidden
-            tabIndex={-1}
-            onEnded={() => setClipIndex((i) => (i + 1) % HERO_CLIPS.length)}
-            className="absolute inset-0 w-full h-full object-cover"
-          />
+          <>
+            {[0, 1].map((i) => (
+              <video
+                key={i}
+                ref={videoRefs[i as 0 | 1]}
+                src={layerSrcs[i]}
+                poster={HERO_POSTER}
+                autoPlay={i === 0}
+                muted
+                playsInline
+                preload="auto"
+                aria-hidden
+                tabIndex={-1}
+                onEnded={() => handleClipEnded(i as 0 | 1)}
+                style={{ opacity: activeLayer === i ? 1 : 0, transition: 'opacity 600ms ease-in-out' }}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            ))}
+          </>
         )}
         {/* Dynamic Gradient Overlay */}
         <motion.div
