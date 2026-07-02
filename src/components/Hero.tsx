@@ -21,13 +21,36 @@ export function Hero() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const [clipIndex, setClipIndex] = useState(0);
+  const [activeLayer, setActiveLayer] = useState<0 | 1>(0);
+  const [layerSrcs, setLayerSrcs] = useState<[string, string]>([HERO_CLIPS[0], HERO_CLIPS[1 % HERO_CLIPS.length]]);
+  const clipIndexRef = useRef(0);
+  const videoRefs = [useRef<HTMLVideoElement>(null), useRef<HTMLVideoElement>(null)] as const;
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const bgY = useTransform(scrollY, [0, 800], [0, 300]);
   const overlayOpacity = useTransform(scrollY, [0, 600], [0.4, 0.8]);
   const contentY = useTransform(scrollY, [0, 500], [0, 100]);
   const contentOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+
+  // Crossfade to the next preloaded clip when the active one ends
+  const handleClipEnded = (layer: 0 | 1) => {
+    const nextIdx = (clipIndexRef.current + 1) % HERO_CLIPS.length;
+    const followingIdx = (nextIdx + 1) % HERO_CLIPS.length;
+    clipIndexRef.current = nextIdx;
+    const nextLayer: 0 | 1 = layer === 0 ? 1 : 0;
+    // Ensure the incoming layer is playing from the start
+    const incoming = videoRefs[nextLayer].current;
+    if (incoming) {
+      try { incoming.currentTime = 0; incoming.play().catch(() => {}); } catch { /* noop */ }
+    }
+    setActiveLayer(nextLayer);
+    // Queue the clip that will play *after* the incoming one on the layer we just left
+    setLayerSrcs((prev) => {
+      const copy: [string, string] = [prev[0], prev[1]];
+      copy[layer] = HERO_CLIPS[followingIdx];
+      return copy;
+    });
+  };
 
   // Scroll detection
   useEffect(() => {
