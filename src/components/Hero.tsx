@@ -96,15 +96,16 @@ export function Hero() {
           />
         ) : (
           <video
-            src={heroSkydiverVideo.url}
+            key={clipIndex}
+            src={HERO_CLIPS[clipIndex]}
             poster={HERO_POSTER}
             autoPlay
-            loop
             muted
             playsInline
             preload="auto"
             aria-hidden
             tabIndex={-1}
+            onEnded={() => setClipIndex((i) => (i + 1) % HERO_CLIPS.length)}
             className="absolute inset-0 w-full h-full object-cover"
           />
         )}
