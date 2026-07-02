@@ -8,6 +8,9 @@ import { LanguageSwitcher } from './LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { VideoModal } from './VideoModal';
 import heroSkydiverVideo from '@/assets/hero-skydiver.mp4.asset.json';
+import heroSkydiverVideo2 from '@/assets/hero-skydiver-2.mp4.asset.json';
+
+const HERO_CLIPS = [heroSkydiverVideo.url, heroSkydiverVideo2.url];
 
 const HERO_POSTER = 'https://images.unsplash.com/photo-1601024445121-e5b82f020549?w=1920&h=1080&fit=crop';
 
