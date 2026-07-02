@@ -8,6 +8,9 @@ import { LanguageSwitcher } from './LanguageSwitcher';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { VideoModal } from './VideoModal';
 import heroSkydiverVideo from '@/assets/hero-skydiver.mp4.asset.json';
+import heroSkydiverVideo2 from '@/assets/hero-skydiver-2.mp4.asset.json';
+
+const HERO_CLIPS = [heroSkydiverVideo.url, heroSkydiverVideo2.url];
 
 const HERO_POSTER = 'https://images.unsplash.com/photo-1601024445121-e5b82f020549?w=1920&h=1080&fit=crop';
 
@@ -17,6 +20,7 @@ export function Hero() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [clipIndex, setClipIndex] = useState(0);
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
   const bgY = useTransform(scrollY, [0, 800], [0, 300]);
@@ -92,15 +96,16 @@ export function Hero() {
           />
         ) : (
           <video
-            src={heroSkydiverVideo.url}
+            key={clipIndex}
+            src={HERO_CLIPS[clipIndex]}
             poster={HERO_POSTER}
             autoPlay
-            loop
             muted
             playsInline
             preload="auto"
             aria-hidden
             tabIndex={-1}
+            onEnded={() => setClipIndex((i) => (i + 1) % HERO_CLIPS.length)}
             className="absolute inset-0 w-full h-full object-cover"
           />
         )}
