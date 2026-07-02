@@ -144,7 +144,7 @@ export function Hero() {
                 ref={videoRefs[i as 0 | 1]}
                 src={layerSrcs[i]}
                 poster={HERO_POSTER}
-                autoPlay={i === 0}
+                autoPlay
                 muted
                 playsInline
                 preload="auto"
