@@ -52,6 +52,24 @@ export function Hero() {
     });
   };
 
+  // Safeguard: keep the active video playing (autoplay recovery for mobile / tab refocus)
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    const tryPlay = () => {
+      const v = videoRefs[activeLayer].current;
+      if (v && v.paused) v.play().catch(() => {});
+    };
+    tryPlay();
+    const interval = window.setInterval(tryPlay, 1500);
+    const onVisibility = () => { if (!document.hidden) tryPlay(); };
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      window.clearInterval(interval);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeLayer, prefersReducedMotion, layerSrcs]);
+
   // Scroll detection
   useEffect(() => {
     const handleScroll = () => {
@@ -126,7 +144,7 @@ export function Hero() {
                 ref={videoRefs[i as 0 | 1]}
                 src={layerSrcs[i]}
                 poster={HERO_POSTER}
-                autoPlay={i === 0}
+                autoPlay
                 muted
                 playsInline
                 preload="auto"
