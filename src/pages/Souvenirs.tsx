@@ -16,6 +16,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { toast } from "sonner";
 import magnetFridgeMosaic from "@/assets/magnet-fridge-mosaic.jpg";
 import { SouvenirTestimonials } from "@/components/souvenirs/SouvenirTestimonials";
+import { SouvenirBundles } from "@/components/souvenirs/SouvenirBundles";
 
 const WHATSAPP_NUMBER = "85269391570";
 
@@ -869,17 +870,20 @@ export default function Souvenirs() {
           ) : items.length === 0 ? (
             <p className="text-center text-foreground/60 py-20">Coming soon.</p>
           ) : (
-            items.map((item) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-              >
-                <ProductCard item={item} />
-                <SizeChartCard item={item} />
-              </motion.div>
-            ))
+            <>
+              <SouvenirBundles items={items} />
+              {items.map((item) => (
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  <ProductCard item={item} />
+                  <SizeChartCard item={item} />
+                </motion.div>
+              ))}
+            </>
           )}
 
           {!isLoading && items.length > 0 && <SouvenirTestimonials />}
