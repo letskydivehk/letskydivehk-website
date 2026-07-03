@@ -491,6 +491,18 @@ const translations: Record<Language, Record<string, string>> = {
    "souvenirs.testimonials.q2": "Ordered a 5-pack for my whole family. Print quality is sharp and shipping was fast.",
    "souvenirs.testimonials.n3": "Priya, Tandem — Chiang Mai",
    "souvenirs.testimonials.q3": "The magnet is the perfect size. Way better than a photo lost in my phone.",
+   "souvenirs.bundles.badge": "One-click bundles",
+   "souvenirs.bundles.sectionTitle": "Grab a ready-made souvenir set",
+   "souvenirs.bundles.sectionSubtitle": "Pre-picked combos with member-style savings — checkout in one tap on WhatsApp.",
+   "souvenirs.bundles.buyCta": "Buy in one click",
+   "souvenirs.bundles.save": "You save HK${save}",
+   "souvenirs.bundles.beginner.title": "Beginner Kit",
+   "souvenirs.bundles.beginner.desc": "One custom photo magnet plus a Let's Skydive HK T-shirt — the classic first-jump memento.",
+   "souvenirs.bundles.beginner.chip": "Perfect for your first jump",
+   "souvenirs.bundles.friends.title": "Family & Friends Pack",
+   "souvenirs.bundles.friends.desc": "Five custom photo magnets — one for you and four to give away after your jump day.",
+   "souvenirs.bundles.friends.chip": "Best value — share the memory",
+   "souvenirs.bundles.whatsappMsg": "Hi! I'd like to order the {title}:\n{lines}\nBundle total: HK${price} (save HK${save}).",
 
     // Blog
     "blog.badge": "Knowledge Base",
