@@ -26,6 +26,7 @@ import { MobileTabBar } from "@/components/MobileTabBar";
 
 import { ReferralBanner } from "@/components/ReferralBanner";
 import { AlumniPathway } from "@/components/AlumniPathway";
+import { SouvenirTeaser } from "@/components/SouvenirTeaser";
 import { TrustBar } from "@/components/TrustBar";
 import { EligibilityChips } from "@/components/EligibilityChips";
 
@@ -111,6 +112,9 @@ export default function Home() {
         </LazySection>
         <LazySection minHeight={400}>
           <AlumniPathway />
+        </LazySection>
+        <LazySection minHeight={400}>
+          <SouvenirTeaser />
         </LazySection>
 
         <LazySection minHeight={500}>
