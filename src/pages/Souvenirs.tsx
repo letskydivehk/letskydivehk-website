@@ -873,17 +873,17 @@ export default function Souvenirs() {
             <>
               <SouvenirBundles items={items} />
               {items.map((item) => (
-            items.map((item) => (
-              <motion.div
-                key={item.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: 0.1 }}
-              >
-                <ProductCard item={item} />
-                <SizeChartCard item={item} />
-              </motion.div>
-            ))
+                <motion.div
+                  key={item.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
+                >
+                  <ProductCard item={item} />
+                  <SizeChartCard item={item} />
+                </motion.div>
+              ))}
+            </>
           )}
 
           {!isLoading && items.length > 0 && <SouvenirTestimonials />}
