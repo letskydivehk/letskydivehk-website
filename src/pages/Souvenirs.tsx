@@ -16,6 +16,7 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { toast } from "sonner";
 import magnetFridgeMosaic from "@/assets/magnet-fridge-mosaic.jpg";
 import { SouvenirTestimonials } from "@/components/souvenirs/SouvenirTestimonials";
+import { SouvenirBundles } from "@/components/souvenirs/SouvenirBundles";
 
 const WHATSAPP_NUMBER = "85269391570";
 
@@ -869,6 +870,9 @@ export default function Souvenirs() {
           ) : items.length === 0 ? (
             <p className="text-center text-foreground/60 py-20">Coming soon.</p>
           ) : (
+            <>
+              <SouvenirBundles items={items} />
+              {items.map((item) => (
             items.map((item) => (
               <motion.div
                 key={item.id}
