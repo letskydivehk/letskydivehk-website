@@ -881,6 +881,8 @@ export default function Souvenirs() {
               </motion.div>
             ))
           )}
+
+          {!isLoading && items.length > 0 && <SouvenirTestimonials />}
         </div>
       </main>
 
