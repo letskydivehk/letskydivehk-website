@@ -18,6 +18,7 @@ Let's Skydive HK helps Hong Kong jumpers book tandem skydives and progress to a 
 - [Zhuhai Dropzone](/location/zhuhai): China Zhuhai skydiving location details.
 - [Gallery](/gallery): Photos and videos from past jumps.
 - [Promotions](/promotions): Current discount codes and seasonal offers.
+- [Souvenirs](/souvenirs): Alumni-exclusive custom fridge magnets and skydiving edition merch. Turn your jump photo into a keepsake.
 - [Quiz](/quiz): Find the right skydiving experience for you.
 - [Membership Tiers](/membership/tiers): Loyalty program tiers and benefits.
 

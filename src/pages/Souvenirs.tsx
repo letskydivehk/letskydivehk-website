@@ -15,6 +15,7 @@ import { Card } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { toast } from "sonner";
 import magnetFridgeMosaic from "@/assets/magnet-fridge-mosaic.jpg";
+import { SouvenirTestimonials } from "@/components/souvenirs/SouvenirTestimonials";
 
 const WHATSAPP_NUMBER = "85269391570";
 
@@ -757,6 +758,15 @@ function ProductCard({ item }: { item: Souvenir }) {
             <ShoppingBag className="w-5 h-5" />
             {t("souvenirs.orderWhatsapp")}
           </button>
+          {item.customisation_required && (
+            <a
+              href="/#booking"
+              className="mt-3 inline-flex items-center justify-center gap-2 text-sm text-accent-orange hover:text-accent-orange/80 font-semibold border border-accent-orange/40 hover:bg-accent-orange/5 px-4 py-2.5 rounded-lg transition-colors"
+            >
+              <Sparkles className="w-4 h-4" />
+              {t("souvenirs.card.jumpCta")}
+            </a>
+          )}
         </div>
       </div>
       <AuthModal isOpen={authOpen} onClose={() => setAuthOpen(false)} />
@@ -823,15 +833,34 @@ export default function Souvenirs() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }}
-            className="text-center mb-12"
+            className="text-center mb-8"
           >
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent-orange/10 text-accent-orange text-sm font-semibold mb-4">
               <ShoppingBag className="w-4 h-4" />
               {t("souvenirs.badge")}
             </div>
             <h1 className="text-4xl sm:text-5xl font-bold text-foreground mb-3">{t("souvenirs.title")}</h1>
-            <p className="text-foreground/70 text-lg max-w-xl mx-auto">{t("souvenirs.subtitle")}</p>
+            <p className="text-foreground/70 text-lg max-w-xl mx-auto mb-5">{t("souvenirs.subtitle")}</p>
+            <div className="flex flex-wrap justify-center gap-2 mb-6">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-sky-100 text-sky-700 text-xs font-semibold">
+                <Sparkles className="w-3 h-3" /> {t("souvenirs.hero.chip.alumni")}
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-semibold">
+                {t("souvenirs.hero.chip.minOrder")}
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-100 text-amber-700 text-xs font-semibold">
+                {t("souvenirs.hero.chip.ship")}
+              </span>
+            </div>
+            <a
+              href="/#booking"
+              className="inline-flex items-center gap-2 bg-accent-orange hover:bg-accent-orange/90 text-white font-semibold px-5 py-3 rounded-lg transition-colors text-sm"
+            >
+              {t("souvenirs.hero.ctaBanner")}
+              <ArrowLeft className="w-4 h-4 rotate-180" />
+            </a>
           </motion.div>
+
 
           {isLoading ? (
             <div className="flex justify-center py-20">
@@ -852,6 +881,8 @@ export default function Souvenirs() {
               </motion.div>
             ))
           )}
+
+          {!isLoading && items.length > 0 && <SouvenirTestimonials />}
         </div>
       </main>
 
