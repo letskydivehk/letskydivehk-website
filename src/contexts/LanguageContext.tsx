@@ -3451,12 +3451,12 @@ translations.en["quiz.back"] = "Back";
 translations.en["quiz.seeResult"] = "See My Result";
 translations.en["quiz.lead.title"] = "Almost there!";
 translations.en["quiz.lead.subtitle"] =
-  "We'll create your account and email you a login link with $100 HKD credit toward your first booking.";
+  "We'll create your account and email you a login link with a $200 HKD cash voucher toward your first booking.";
 translations.en["quiz.lead.name"] = "Full name";
 translations.en["quiz.lead.phone"] = "Mobile number";
 translations.en["quiz.lead.email"] = "Email";
 translations.en["quiz.lead.invalid"] = "Please check your details.";
-translations.en["quiz.lead.creditToast"] = "Account created! Check your inbox for your $100 credit and login link.";
+translations.en["quiz.lead.creditToast"] = "Account created! Check your inbox for your $200 cash voucher and login link.";
 translations.en["quiz.q1.c"] = "🎓 Yes, and I want my own licence";
 translations.en["quiz.q2.d"] = "👨‍👩‍👧 Family who'll watch me jump";
 translations.en["quiz.q4"] = "How far are you willing to travel?";
