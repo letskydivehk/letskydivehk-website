@@ -547,8 +547,8 @@ const translations: Record<Language, Record<string, string>> = {
     "promo.claimCoupon": "Claim Coupon",
     "promo.perPerson": "Per Person",
     "promo.signup.title": "Free Signup Bonus",
-    "promo.signup.desc": "Register for free and instantly receive $100 credit to use on your first booking!",
-    "promo.signup.details": "New members get $100 credit automatically added to their account upon registration.",
+    "promo.signup.desc": "Register for free and instantly receive $200 credit to use on your first booking!",
+    "promo.signup.details": "New members get $200 credit automatically added to their account upon registration.",
     "promo.signup.terms":
       "Limited to one signup bonus per person. Credit can be applied to any skydiving package. Cannot be withdrawn as cash.",
     "promo.signup.credit": "Free Credit",
@@ -1403,8 +1403,8 @@ const translations: Record<Language, Record<string, string>> = {
     "promo.claimCoupon": "領取優惠券",
     "promo.perPerson": "每人",
     "promo.signup.title": "免費註冊獎賞",
-    "promo.signup.desc": "免費註冊即送 $100 積分，可用於首次預約！",
-    "promo.signup.details": "新會員註冊後，$100 積分即時自動存入帳戶。",
+    "promo.signup.desc": "免費註冊即送 $200 現金券，可用於首次預約！",
+    "promo.signup.details": "新會員註冊後，$200 現金券即時自動存入帳戶。",
     "promo.signup.terms": "每人限享一次註冊獎賞。積分可用於任何跳傘套餐，不可兌換現金。",
     "promo.signup.credit": "免費積分",
     "promo.signup.cta": "免費註冊",
@@ -2232,8 +2232,8 @@ const translations: Record<Language, Record<string, string>> = {
     "promo.claimCoupon": "领取优惠券",
     "promo.perPerson": "每人",
     "promo.signup.title": "免费注册奖励",
-    "promo.signup.desc": "免费注册即送 $100 积分，可用于首次预约！",
-    "promo.signup.details": "新会员注册后，$100 积分即时自动存入账户。",
+    "promo.signup.desc": "免费注册即送 $200 现金券，可用于首次预约！",
+    "promo.signup.details": "新会员注册后，$200 现金券即时自动存入账户。",
     "promo.signup.terms": "每人限享一次注册奖励。积分可用于任何跳伞套餐，不可兑换现金。",
     "promo.signup.credit": "免费积分",
     "promo.signup.cta": "免费注册",
@@ -3451,12 +3451,12 @@ translations.en["quiz.back"] = "Back";
 translations.en["quiz.seeResult"] = "See My Result";
 translations.en["quiz.lead.title"] = "Almost there!";
 translations.en["quiz.lead.subtitle"] =
-  "We'll create your account and email you a login link with $100 HKD credit toward your first booking.";
+  "We'll create your account and email you a login link with a $200 HKD cash voucher toward your first booking.";
 translations.en["quiz.lead.name"] = "Full name";
 translations.en["quiz.lead.phone"] = "Mobile number";
 translations.en["quiz.lead.email"] = "Email";
 translations.en["quiz.lead.invalid"] = "Please check your details.";
-translations.en["quiz.lead.creditToast"] = "Account created! Check your inbox for your $100 credit and login link.";
+translations.en["quiz.lead.creditToast"] = "Account created! Check your inbox for your $200 cash voucher and login link.";
 translations.en["quiz.q1.c"] = "🎓 Yes, and I want my own licence";
 translations.en["quiz.q2.d"] = "👨‍👩‍👧 Family who'll watch me jump";
 translations.en["quiz.q4"] = "How far are you willing to travel?";
@@ -3495,12 +3495,12 @@ translations["zh-TW"]["quiz.next"] = "下一題";
 translations["zh-TW"]["quiz.back"] = "上一題";
 translations["zh-TW"]["quiz.seeResult"] = "查看我的結果";
 translations["zh-TW"]["quiz.lead.title"] = "差一步就完成！";
-translations["zh-TW"]["quiz.lead.subtitle"] = "我哋會為你建立帳戶，並寄出登入連結，附送 $100 HKD 信用額用於首次預訂。";
+translations["zh-TW"]["quiz.lead.subtitle"] = "我哋會為你建立帳戶，並寄出登入連結，附送 $200 HKD 現金券用於首次預訂。";
 translations["zh-TW"]["quiz.lead.name"] = "姓名";
 translations["zh-TW"]["quiz.lead.phone"] = "手提電話";
 translations["zh-TW"]["quiz.lead.email"] = "電郵";
 translations["zh-TW"]["quiz.lead.invalid"] = "請檢查你嘅資料。";
-translations["zh-TW"]["quiz.lead.creditToast"] = "帳戶已建立！請查閱電郵，領取 $100 信用額及登入連結。";
+translations["zh-TW"]["quiz.lead.creditToast"] = "帳戶已建立！請查閱電郵，領取 $200 現金券及登入連結。";
 translations["zh-TW"]["quiz.q1.c"] = "🎓 有，而且我想考取執照";
 translations["zh-TW"]["quiz.q2.d"] = "👨‍👩‍👧 家人會來看我跳";
 translations["zh-TW"]["quiz.q4"] = "你願意走多遠？";
@@ -3539,12 +3539,12 @@ translations["zh-CN"]["quiz.next"] = "下一题";
 translations["zh-CN"]["quiz.back"] = "上一题";
 translations["zh-CN"]["quiz.seeResult"] = "查看我的结果";
 translations["zh-CN"]["quiz.lead.title"] = "差一步就知道哪里最适合你！";
-translations["zh-CN"]["quiz.lead.subtitle"] = "我们会为你创建帐户，并寄出登入链接，附送 $100 HKD 信用额用于首次预订。";
+translations["zh-CN"]["quiz.lead.subtitle"] = "我们会为你创建帐户，并寄出登入链接，附送 $200 HKD 现金券用于首次预订。";
 translations["zh-CN"]["quiz.lead.name"] = "姓名";
 translations["zh-CN"]["quiz.lead.phone"] = "手机号码";
 translations["zh-CN"]["quiz.lead.email"] = "邮箱";
 translations["zh-CN"]["quiz.lead.invalid"] = "请检查你的资料。";
-translations["zh-CN"]["quiz.lead.creditToast"] = "帐户已创建！请查阅邮件，领取 $100 信用额及登入链接。";
+translations["zh-CN"]["quiz.lead.creditToast"] = "帐户已创建！请查阅邮件，领取 $200 现金券及登入链接。";
 translations["zh-CN"]["quiz.q1.c"] = "🎓 有，而且我想考取执照";
 translations["zh-CN"]["quiz.q2.d"] = "👨‍👩‍👧 家人会来看我跳";
 translations["zh-CN"]["quiz.q4"] = "你愿意走多远？";
@@ -3864,21 +3864,26 @@ translations["zh-CN"]["pathway.cta"] = "了解 A 级执照路径";
 // Exit-intent modal
 translations.en["exit.title"] = "Wait — not ready to book yet?";
 translations.en["exit.body"] =
-  "Take our 30-second quiz and we'll match you with the right jump, the right location, and a $100 HKD credit toward your first booking.";
+  "Take our 30-second quiz and we'll match you with the right jump, the right location, and a $200 HKD cash voucher toward your first booking.";
 translations.en["exit.primary"] = "Take the quiz";
 translations.en["exit.secondary"] = "Maybe later";
 
 translations["zh-TW"]["exit.title"] = "等等 — 還未準備好預訂？";
 translations["zh-TW"]["exit.body"] =
-  "完成 30 秒測驗，我們會為你配對最適合的跳傘類型、地點，並送上 $100 HKD 首次預訂信用額。";
+  "完成 30 秒測驗，我們會為你配對最適合的跳傘類型、地點，並送上 $200 HKD 首次預訂現金券。";
 translations["zh-TW"]["exit.primary"] = "立即測驗";
 translations["zh-TW"]["exit.secondary"] = "下次再說";
 
 translations["zh-CN"]["exit.title"] = "等等 — 还未准备好预订？";
 translations["zh-CN"]["exit.body"] =
-  "完成 30 秒测验，我们会为你配对最适合的跳伞类型、地点，并送上 $100 HKD 首次预订信用额。";
+  "完成 30 秒测验，我们会为你配对最适合的跳伞类型、地点，并送上 $200 HKD 首次预订现金券。";
 translations["zh-CN"]["exit.primary"] = "立即测验";
 translations["zh-CN"]["exit.secondary"] = "下次再说";
+
+// Member profile booking CTA
+translations.en["member.bookNowCta"] = "Book My Skydive Now →";
+translations["zh-TW"]["member.bookNowCta"] = "立即預約跳傘 →";
+translations["zh-CN"]["member.bookNowCta"] = "立即预约跳伞 →";
 
 // Location compare page
 translations.en["compare.title"] = "Compare skydive locations";

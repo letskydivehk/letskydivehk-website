@@ -579,6 +579,14 @@ export default function MemberProfile() {
                     <p className="text-xs text-muted-foreground mt-1">HKD</p>
                   </div>
 
+                  <Button
+                    onClick={() => navigate("/#booking")}
+                    className="w-full mt-3 bg-accent-orange hover:bg-accent-orange/90 text-white font-bold py-5 text-sm shadow-lg"
+                  >
+                    {t("member.bookNowCta") || "立即預約跳傘 →"}
+                  </Button>
+
+
                   {pendingBalance > 0 && (
                     <div className="flex items-center justify-between p-2 bg-yellow-500/10 rounded-md mt-2">
                       <div className="flex items-center gap-2">
