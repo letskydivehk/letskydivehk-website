@@ -3880,6 +3880,11 @@ translations["zh-CN"]["exit.body"] =
 translations["zh-CN"]["exit.primary"] = "立即测验";
 translations["zh-CN"]["exit.secondary"] = "下次再说";
 
+// Member profile booking CTA
+translations.en["member.bookNowCta"] = "Book My Skydive Now →";
+translations["zh-TW"]["member.bookNowCta"] = "立即預約跳傘 →";
+translations["zh-CN"]["member.bookNowCta"] = "立即预约跳伞 →";
+
 // Location compare page
 translations.en["compare.title"] = "Compare skydive locations";
 translations.en["compare.subtitle"] =
