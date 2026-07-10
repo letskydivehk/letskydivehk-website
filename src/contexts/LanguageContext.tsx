@@ -3864,19 +3864,19 @@ translations["zh-CN"]["pathway.cta"] = "了解 A 级执照路径";
 // Exit-intent modal
 translations.en["exit.title"] = "Wait — not ready to book yet?";
 translations.en["exit.body"] =
-  "Take our 30-second quiz and we'll match you with the right jump, the right location, and a $100 HKD credit toward your first booking.";
+  "Take our 30-second quiz and we'll match you with the right jump, the right location, and a $200 HKD cash voucher toward your first booking.";
 translations.en["exit.primary"] = "Take the quiz";
 translations.en["exit.secondary"] = "Maybe later";
 
 translations["zh-TW"]["exit.title"] = "等等 — 還未準備好預訂？";
 translations["zh-TW"]["exit.body"] =
-  "完成 30 秒測驗，我們會為你配對最適合的跳傘類型、地點，並送上 $100 HKD 首次預訂信用額。";
+  "完成 30 秒測驗，我們會為你配對最適合的跳傘類型、地點，並送上 $200 HKD 首次預訂現金券。";
 translations["zh-TW"]["exit.primary"] = "立即測驗";
 translations["zh-TW"]["exit.secondary"] = "下次再說";
 
 translations["zh-CN"]["exit.title"] = "等等 — 还未准备好预订？";
 translations["zh-CN"]["exit.body"] =
-  "完成 30 秒测验，我们会为你配对最适合的跳伞类型、地点，并送上 $100 HKD 首次预订信用额。";
+  "完成 30 秒测验，我们会为你配对最适合的跳伞类型、地点，并送上 $200 HKD 首次预订现金券。";
 translations["zh-CN"]["exit.primary"] = "立即测验";
 translations["zh-CN"]["exit.secondary"] = "下次再说";
 
