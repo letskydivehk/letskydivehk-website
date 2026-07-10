@@ -47,26 +47,28 @@ async function sendMagicEmail(opts: {
   const isZh = (opts.language || "").startsWith("zh");
   const subject = opts.isNew
     ? isZh
-      ? "您的 $100 跳傘信用額已準備好 🎁"
-      : "Your $100 skydiving credit is ready 🎁"
+      ? "您的 $200 現金券已準備好 🎁"
+      : "Your $200 cash voucher is ready 🎁"
     : isZh
       ? "歡迎回來 — 即時登入連結"
       : "Welcome back — your instant login link";
 
   const body = opts.isNew
     ? isZh
-      ? `<p>${opts.fullName} 您好，</p><p>感謝您完成測驗！我們已為您建立帳戶，並存入 <strong>$100 HKD 信用額</strong>，可用於首次預訂。</p><p>點擊下方連結即可登入並查看您的個人化推薦：</p>`
-      : `<p>Hi ${opts.fullName},</p><p>Thanks for taking the quiz! We've created an account for you and credited <strong>$100 HKD</strong> toward your first booking.</p><p>Click below to log in and see your personalised recommendation:</p>`
+      ? `<p>${opts.fullName} 您好，</p><p>感謝您完成測驗！我們已為您建立帳戶，並存入 <strong>$200 HKD 現金券</strong>，可用於首次預訂跳傘。</p><p>點擊下方按鈕即可登入會員專頁，查看您的現金券並預約跳傘：</p>`
+      : `<p>Hi ${opts.fullName},</p><p>Thanks for taking the quiz! We've created an account for you and credited a <strong>$200 HKD cash voucher</strong> toward your first skydive booking.</p><p>Click the button below to log in to your member page, view your voucher and book your jump:</p>`
     : isZh
-      ? `<p>${opts.fullName} 您好，</p><p>歡迎回來！點擊下方連結即可登入您的 Let's Skydive HK 帳戶。</p>`
-      : `<p>Hi ${opts.fullName},</p><p>Welcome back! Click below to log in to your Let's Skydive HK account.</p>`;
+      ? `<p>${opts.fullName} 您好，</p><p>歡迎回來！點擊下方按鈕即可登入您的 Let's Skydive HK 會員專頁。</p>`
+      : `<p>Hi ${opts.fullName},</p><p>Welcome back! Click below to log in to your Let's Skydive HK member page.</p>`;
+
+  const buttonLabel = isZh ? "$200 現金券 — 立即使用" : "$200 Cash Voucher — Redeem Now";
 
   const html = `<!doctype html><html><body style="font-family:Arial,sans-serif;background:#f7fafc;padding:32px;color:#1a202c">
     <div style="max-width:560px;margin:0 auto;background:#fff;border-radius:16px;padding:32px">
       <h1 style="margin:0 0 16px;font-size:22px">${subject}</h1>
       ${body}
       <p style="text-align:center;margin:28px 0">
-        <a href="${opts.link}" style="background:#f97316;color:#fff;text-decoration:none;padding:14px 28px;border-radius:10px;font-weight:bold;display:inline-block">${isZh ? "登入帳戶" : "Log in to my account"}</a>
+        <a href="${opts.link}" style="background:#f97316;color:#fff;text-decoration:none;padding:16px 32px;border-radius:12px;font-weight:bold;display:inline-block;font-size:16px">${buttonLabel}</a>
       </p>
       <p style="font-size:12px;color:#718096">${isZh ? "如果按鈕無效，請複製以下連結到瀏覽器：" : "If the button doesn't work, paste this link into your browser:"}<br><span style="word-break:break-all">${opts.link}</span></p>
       <p style="font-size:12px;color:#a0aec0;margin-top:24px">Let's Skydive HK</p>
