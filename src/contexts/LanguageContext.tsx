@@ -547,8 +547,8 @@ const translations: Record<Language, Record<string, string>> = {
     "promo.claimCoupon": "Claim Coupon",
     "promo.perPerson": "Per Person",
     "promo.signup.title": "Free Signup Bonus",
-    "promo.signup.desc": "Register for free and instantly receive $100 credit to use on your first booking!",
-    "promo.signup.details": "New members get $100 credit automatically added to their account upon registration.",
+    "promo.signup.desc": "Register for free and instantly receive $200 credit to use on your first booking!",
+    "promo.signup.details": "New members get $200 credit automatically added to their account upon registration.",
     "promo.signup.terms":
       "Limited to one signup bonus per person. Credit can be applied to any skydiving package. Cannot be withdrawn as cash.",
     "promo.signup.credit": "Free Credit",
