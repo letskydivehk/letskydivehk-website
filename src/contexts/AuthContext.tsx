@@ -255,6 +255,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         throw new Error(errorMessage);
       }
 
+      // Fire-and-forget welcome email with $200 voucher CTA
+      const language =
+        (typeof window !== "undefined" && localStorage.getItem("language")) || "zh-TW";
+      supabase.functions
+        .invoke("send-welcome-email", { body: { email, language } })
+        .catch((e) => {
+          if (import.meta.env.DEV) console.error("welcome email failed", e);
+        });
+
       toast.success("Check your email to confirm your account!");
     } catch (error: any) {
       throw error;
