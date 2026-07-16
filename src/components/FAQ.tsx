@@ -25,6 +25,29 @@ const faqItems = [
   { questionKey: "faq.q10", answerKey: "faq.a10" },
 ];
 
+// Rewards FAQ appended after the primary list. Trilingual inline.
+const rewardsFaq = {
+  "zh-TW": [
+    { q: "積分會過期嗎？", a: "會的。每筆賺取的積分自到期日起 12 個月有效，逾期自動歸零。我們會在到期前 30 天發送電郵提醒你把握使用。" },
+    { q: "積分可以用來支付訂金嗎？", a: "不可以。訂金必須以現金支付以確保您的行程預訂；但積分可用於尾款、加購攝影／紀念品／聚會門票等。" },
+    { q: "磁石貼可以補領嗎？", a: "磁石貼在每次達成里程碑（第 1／3／5／10 跳）當日由工作人員親手交付。若當日未領取，請聯絡我們，我們會安排下次跳傘時補發。" },
+    { q: "錯過了某階段還能拿到嗎？", a: "可以。系統會依你的累積跳數自動記錄；例如你目前跳了 6 次，代表銀（1）、金（3）、白金（5）三枚磁石貼皆已解鎖，可在下一次到訪時一併領取。" },
+  ],
+  "zh-CN": [
+    { q: "积分会过期吗？", a: "会的。每笔赚取的积分自到期日起 12 个月有效，逾期自动归零。我们会在到期前 30 天发送电邮提醒你把握使用。" },
+    { q: "积分可以用来支付订金吗？", a: "不可以。订金必须以现金支付以确保您的行程预订；但积分可用于尾款、加购摄影／纪念品／聚会门票等。" },
+    { q: "磁石贴可以补领吗？", a: "磁石贴在每次达成里程碑（第 1／3／5／10 跳）当日由工作人员亲手交付。若当日未领取，请联络我们，我们会安排下次跳伞时补发。" },
+    { q: "错过了某阶段还能拿到吗？", a: "可以。系统会依你的累积跳数自动记录；例如你目前跳了 6 次，代表银（1）、金（3）、白金（5）三枚磁石贴皆已解锁，可在下一次到访时一并领取。" },
+  ],
+  en: [
+    { q: "Do points expire?", a: "Yes. Points expire 12 months after they are earned. We email you 30 days before they lapse so you have time to redeem them." },
+    { q: "Can I use points for the booking deposit?", a: "No — the deposit secures your reservation and must be paid in cash. Points can be applied to the final balance and add-ons (photos, souvenirs, gathering tickets)." },
+    { q: "Can I claim a missed magnet?", a: "Magnets are handed out in person on the day of each milestone jump. If you did not receive one, contact us and we will hand it over on your next visit." },
+    { q: "What if I skip a milestone stage?", a: "Nothing lost — your progress is tracked by total jumps. E.g. after 6 jumps you have already unlocked Silver (1), Gold (3) and Platinum (5); we can hand all three magnets over on your next visit." },
+  ],
+} as const;
+
+
 export function FAQ() {
   const { t } = useLanguage();
 
