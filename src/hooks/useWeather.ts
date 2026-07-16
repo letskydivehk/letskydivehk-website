@@ -5,6 +5,7 @@ export interface WeatherData {
   windSpeed: number
   weatherCode: number
   isDay: boolean
+  precipitation: number
 }
 
 const weatherDescriptions: Record<number, { en: string; 'zh-TW': string; 'zh-CN': string }> = {
