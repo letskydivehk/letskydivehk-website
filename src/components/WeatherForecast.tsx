@@ -100,9 +100,13 @@ export function WeatherForecast() {
                   <span className="text-4xl font-black text-foreground">{displayWeather.temperature}°C</span>
                 </div>
                 <p className="text-muted-foreground mb-2">{describeWeather(displayWeather.weatherCode, language)}</p>
-                <p className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
+                <p className="text-sm text-muted-foreground flex items-center gap-2 mb-1">
                   <Wind className="w-4 h-4" />
                   {t("locationDetail.windSpeed")}: {displayWeather.windSpeed} km/h
+                </p>
+                <p className="text-sm text-muted-foreground flex items-center gap-2 mb-4">
+                  <CloudRain className="w-4 h-4" />
+                  {t("weather.precipitation")}: {displayWeather.precipitation} mm
                 </p>
               </>
             ) : (
@@ -147,8 +151,22 @@ export function WeatherForecast() {
           </div>
 
           <div className="bg-card rounded-2xl overflow-hidden clean-border mobile-transparent-card lg:col-span-2">
+            <div className="flex gap-1 p-2 border-b border-border/50">
+              {(["wind", "rain"] as const).map((o) => (
+                <button
+                  key={o}
+                  onClick={() => setOverlay(o)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-semibold transition-colors ${
+                    overlay === o ? "bg-accent-blue text-white" : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  {o === "wind" ? <Wind className="w-3.5 h-3.5" /> : <CloudRain className="w-3.5 h-3.5" />}
+                  {t(o === "wind" ? "weather.overlayWind" : "weather.overlayRain")}
+                </button>
+              ))}
+            </div>
             <iframe
-              key={active.slug}
+              key={`${active.slug}-${overlay}`}
               title={`Windy weather forecast for ${activeName}`}
               src={embedSrc}
               loading="lazy"
