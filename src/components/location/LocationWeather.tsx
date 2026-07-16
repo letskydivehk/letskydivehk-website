@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Cloud, Wind, Thermometer, CalendarDays, Loader2 } from 'lucide-react'
+import { Cloud, Wind, Thermometer, CalendarDays, Loader2, ExternalLink } from 'lucide-react'
 import { useWeather, describeWeather } from '@/hooks/useWeather'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -56,6 +56,15 @@ export function LocationWeather({ lat, lon, bestMonths, climateSummary }: Props)
           ) : (
             <p className="text-muted-foreground text-sm">—</p>
           )}
+          <a
+            href={`https://www.windy.com/?${lat},${lon},9`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-4 inline-flex items-center gap-2 px-4 py-2.5 bg-accent-blue text-white font-semibold rounded-lg hover:bg-accent-blue/90 transition-colors text-sm w-full justify-center"
+          >
+            {t('weather.viewLive')}
+            <ExternalLink className="w-4 h-4" />
+          </a>
         </div>
 
         {/* Best months */}
