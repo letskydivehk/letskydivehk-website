@@ -137,8 +137,26 @@ export function FAQ() {
                   </AccordionContent>
                 </AccordionItem>
               ))}
+              {rewards.map((item, index) => (
+                <AccordionItem
+                  key={`reward-${index}`}
+                  value={`reward-${index}`}
+                  className="border-b border-border/50 last:border-b-0"
+                >
+                  <AccordionTrigger className="text-left text-foreground hover:text-accent-orange transition-colors py-5 text-base sm:text-lg font-medium hover:no-underline">
+                    <div className="flex items-start gap-3">
+                      <HelpCircle className="w-5 h-5 text-accent-orange shrink-0 mt-0.5" />
+                      <span>{item.q}</span>
+                    </div>
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground leading-relaxed pl-8 pr-4 pb-5">
+                    {item.a}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
             </Accordion>
           </div>
+
 
           {/* Contact CTA */}
           <motion.div
