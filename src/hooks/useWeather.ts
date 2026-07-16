@@ -37,6 +37,24 @@ export function describeWeather(code: number, lang: 'en' | 'zh-TW' | 'zh-CN' = '
 
 const ONE_DAY = 1000 * 60 * 60 * 24
 
+const cacheKey = (lat: number, lon: number) => `weather:${lat}:${lon}`
+
+interface CachedWeather {
+  data: WeatherData
+  updatedAt: number
+}
+
+export function readCachedWeather(lat: number | null | undefined, lon: number | null | undefined): CachedWeather | null {
+  if (lat == null || lon == null || typeof window === 'undefined') return null
+  try {
+    const raw = window.localStorage.getItem(cacheKey(lat, lon))
+    if (!raw) return null
+    return JSON.parse(raw) as CachedWeather
+  } catch {
+    return null
+  }
+}
+
 export function useWeather(lat: number | null | undefined, lon: number | null | undefined) {
   return useQuery({
     queryKey: ['weather', lat, lon],
@@ -52,12 +70,20 @@ export function useWeather(lat: number | null | undefined, lon: number | null | 
       const res = await fetch(url)
       if (!res.ok) throw new Error('Weather fetch failed')
       const json = await res.json()
-      return {
+      const data: WeatherData = {
         temperature: Math.round(json.current.temperature_2m),
         windSpeed: Math.round(json.current.wind_speed_10m),
         weatherCode: json.current.weather_code,
         isDay: json.current.is_day === 1,
       }
+      if (typeof window !== 'undefined' && lat != null && lon != null) {
+        try {
+          window.localStorage.setItem(cacheKey(lat, lon), JSON.stringify({ data, updatedAt: Date.now() }))
+        } catch {
+          /* ignore quota */
+        }
+      }
+      return data
     },
   })
 }
