@@ -600,6 +600,9 @@ export default function MemberProfile() {
                     </div>
                   )}
 
+                  <ExpiringCreditsNote />
+
+
                   {creditTransactions.length > 0 && (
                     <div className="mt-4 space-y-2">
                       <h4 className="text-xs font-semibold text-muted-foreground uppercase">
