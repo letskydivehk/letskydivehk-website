@@ -120,6 +120,10 @@ export default function Home() {
           <AlumniPathway />
         </LazySection>
         <LazySection minHeight={400}>
+          <RewardsTeaser />
+        </LazySection>
+
+        <LazySection minHeight={400}>
           <SouvenirTeaser />
         </LazySection>
 
