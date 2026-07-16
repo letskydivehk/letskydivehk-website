@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { AlertTriangle, CalendarDays, Cloud, ExternalLink, Loader2, RefreshCw, Thermometer, Wind } from 'lucide-react'
+import { AlertTriangle, CalendarDays, Cloud, CloudRain, ExternalLink, Loader2, RefreshCw, Thermometer, Wind } from 'lucide-react'
 import { describeWeather, readCachedWeather, useWeather } from '@/hooks/useWeather'
 import { useLanguage } from '@/contexts/LanguageContext'
 
@@ -65,6 +65,10 @@ export function LocationWeather({ lat, lon, bestMonths, climateSummary }: Props)
               <p className="text-sm text-muted-foreground flex items-center gap-2">
                 <Wind className="w-4 h-4" />
                 {t('locationDetail.windSpeed')}: {displayWeather.windSpeed} km/h
+              </p>
+              <p className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
+                <CloudRain className="w-4 h-4" />
+                {t('weather.precipitation')}: {displayWeather.precipitation} mm
               </p>
             </>
           ) : (

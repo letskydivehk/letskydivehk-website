@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { AlertTriangle, Cloud, ExternalLink, Loader2, RefreshCw, Thermometer, Wind } from "lucide-react";
+import { AlertTriangle, Cloud, CloudRain, ExternalLink, Loader2, RefreshCw, Thermometer, Wind } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { describeWeather, readCachedWeather, useWeather } from "@/hooks/useWeather";
 
