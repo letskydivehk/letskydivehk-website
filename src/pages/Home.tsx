@@ -78,6 +78,20 @@ export default function Home() {
           </div>
         </Link>
 
+        {/* Secondary path + retention */}
+        <LazySection minHeight={300}>
+          <QuizCTA />
+        </LazySection>
+        <LazySection minHeight={120}>
+          <SocialProofTicker />
+        </LazySection>
+        <LazySection minHeight={300}>
+          <ReferralBanner />
+        </LazySection>
+        <LazySection minHeight={400}>
+          <RewardsTeaser />
+        </LazySection>
+
         {/* Primary path: see options → book */}
         <section id="locations" aria-label="Locations section">
           <Locations />
@@ -106,21 +120,8 @@ export default function Home() {
           </section>
         </LazySection>
 
-        {/* Secondary path + retention */}
-        <LazySection minHeight={300}>
-          <QuizCTA />
-        </LazySection>
-        <LazySection minHeight={120}>
-          <SocialProofTicker />
-        </LazySection>
-        <LazySection minHeight={300}>
-          <ReferralBanner />
-        </LazySection>
         <LazySection minHeight={400}>
           <AlumniPathway />
-        </LazySection>
-        <LazySection minHeight={400}>
-          <RewardsTeaser />
         </LazySection>
 
         <LazySection minHeight={400}>
