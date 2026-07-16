@@ -61,10 +61,12 @@ const BUNDLES: Bundle[] = [
     titleKey: "souvenirs.bundles.friends.title",
     descKey: "souvenirs.bundles.friends.desc",
     chipKey: "souvenirs.bundles.friends.chip",
-    extraDiscount: 0.9,
+    extraDiscount: 1,
+    fixedPrice: 140,
+    fixedOriginal: 160,
     build: (items) => {
       const magnet = items.find((i) => i.customisation_required);
-      return magnet ? [{ item: magnet, qty: 5 }] : [];
+      return magnet ? [{ item: magnet, qty: 4 }] : [];
     },
   },
 ];
