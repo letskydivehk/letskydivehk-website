@@ -38,6 +38,7 @@ function useRelativeTime() {
 export function WeatherForecast() {
   const { t, translateData, language } = useLanguage();
   const [activeSlug, setActiveSlug] = useState(BASES[0].slug);
+  const [overlay, setOverlay] = useState<"wind" | "rain">("wind");
   const active = BASES.find((b) => b.slug === activeSlug) ?? BASES[0];
   const { data: weather, isLoading, isError, isFetching, refetch, dataUpdatedAt } = useWeather(active.lat, active.lon);
   const relative = useRelativeTime();
@@ -46,7 +47,7 @@ export function WeatherForecast() {
   const displayWeather = weather ?? cached?.data ?? null;
   const displayUpdatedAt = dataUpdatedAt || cached?.updatedAt || 0;
 
-  const embedSrc = `https://embed.windy.com/embed2.html?lat=${active.lat}&lon=${active.lon}&zoom=8&level=surface&overlay=wind&menu=&message=&marker=true&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1`;
+  const embedSrc = `https://embed.windy.com/embed2.html?lat=${active.lat}&lon=${active.lon}&zoom=8&level=surface&overlay=${overlay}&menu=&message=&marker=true&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1`;
   const liveUrl = `https://www.windy.com/?${active.lat},${active.lon},9`;
   const activeName = translateData(active.nameKey, active.fallbackName);
 
