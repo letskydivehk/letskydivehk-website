@@ -529,7 +529,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.bundles.beginner.chip": "Perfect for your first jump",
     "souvenirs.bundles.friends.title": "Family & Friends Pack",
     "souvenirs.bundles.friends.desc":
-      "Four custom photo magnets — one for you and three to give away after your jump day.",
+      "Four custom photo magnets — one for you and three to give away to your family and frineds.",
     "souvenirs.bundles.friends.chip": "Best value — share the memory",
     "souvenirs.bundles.whatsappMsg":
       "Hi! I'd like to order the {title}:\n{lines}\nBundle total: HK${price} (save HK${save}).",
@@ -1409,7 +1409,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.bundles.beginner.desc": "1 塊自訂相片磁石 + 1 件 Let's Skydive HK T恤 — 第一跳的經典紀念。",
     "souvenirs.bundles.beginner.chip": "為你的第一跳而設",
     "souvenirs.bundles.friends.title": "親友分享裝",
-    "souvenirs.bundles.friends.desc": "4 塊自訂相片磁石 — 一塊自己留念，三塊送給跳傘日的親友。",
+    "souvenirs.bundles.friends.desc": "4 塊自訂相片磁石 — 一塊自己留念，三塊送給親友。",
     "souvenirs.bundles.friends.chip": "最抵買．分享回憶",
     "souvenirs.bundles.whatsappMsg": "你好！我想訂購「{title}」：\n{lines}\n套裝總價：HK${price}（即慳 HK${save}）。",
     "blog.badge": "知識庫",
@@ -2257,7 +2257,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.bundles.beginner.desc": "1 块自定义照片磁贴 + 1 件 Let's Skydive HK T恤 — 第一跳的经典纪念。",
     "souvenirs.bundles.beginner.chip": "为你的第一跳而设",
     "souvenirs.bundles.friends.title": "亲友分享装",
-    "souvenirs.bundles.friends.desc": "4 块自定义照片磁贴 — 一块自己留念，三块送给跳伞日的亲友。",
+    "souvenirs.bundles.friends.desc": "4 块自定义照片磁贴 — 一块自己留念，三块送给亲友。",
     "souvenirs.bundles.friends.chip": "最划算．分享回忆",
     "souvenirs.bundles.whatsappMsg": "你好！我想订购「{title}」：\n{lines}\n套装总价：HK${price}（立省 HK${save}）。",
     "blog.badge": "知识库",
