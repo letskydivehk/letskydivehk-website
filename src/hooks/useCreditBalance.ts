@@ -2,28 +2,48 @@ import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { supabase } from "@/integrations/supabase/client";
 
+export interface ExpiringInfo {
+  amount: number;
+  days: number;
+  expiresAt: string;
+}
+
 export function useCreditBalance() {
   const { user } = useAuth();
   const [balance, setBalance] = useState<number | null>(null);
+  const [expiring, setExpiring] = useState<ExpiringInfo | null>(null);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     if (!user) {
       setBalance(null);
+      setExpiring(null);
       return;
     }
     let cancelled = false;
     const load = async () => {
       setLoading(true);
-      const { data } = await supabase.rpc("get_credit_balance", { _user_id: user.id });
-      if (!cancelled) {
-        setBalance(typeof data === "number" ? data : 0);
-        setLoading(false);
+      const [{ data: bal }, { data: exp }] = await Promise.all([
+        supabase.rpc("get_credit_balance", { _user_id: user.id }),
+        (supabase as any).rpc("get_expiring_credits", { _user_id: user.id, _days: 30 }),
+      ]);
+      if (cancelled) return;
+      setBalance(typeof bal === "number" ? bal : 0);
+      if (Array.isArray(exp) && exp.length > 0) {
+        const total = exp.reduce((s: number, r: any) => s + (r.amount || 0), 0);
+        const soonest = exp[0];
+        setExpiring({
+          amount: total,
+          days: soonest.days_remaining ?? 0,
+          expiresAt: soonest.expires_at,
+        });
+      } else {
+        setExpiring(null);
       }
+      setLoading(false);
     };
     load();
 
-    // Live-update when transactions change for this user
     const channel = supabase
       .channel(`credit-balance-${user.id}`)
       .on(
@@ -39,5 +59,5 @@ export function useCreditBalance() {
     };
   }, [user]);
 
-  return { balance, loading };
+  return { balance, expiring, loading };
 }
