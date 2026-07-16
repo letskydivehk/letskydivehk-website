@@ -16,6 +16,9 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { Footer } from "@/components/Footer";
+import { MagnetShowcase } from "@/components/rewards/MagnetShowcase";
+import { ExpiringCreditsNote } from "@/components/rewards/ExpiringCreditsNote";
+
 
 // Validation schema for profile data
 const phoneRegex = /^(\+?[1-9]\d{0,14})?$/;
@@ -597,6 +600,9 @@ export default function MemberProfile() {
                     </div>
                   )}
 
+                  <ExpiringCreditsNote />
+
+
                   {creditTransactions.length > 0 && (
                     <div className="mt-4 space-y-2">
                       <h4 className="text-xs font-semibold text-muted-foreground uppercase">
@@ -632,7 +638,11 @@ export default function MemberProfile() {
                 </CardContent>
               </Card>
 
+              {/* Magnet showcase */}
+              <MagnetShowcase totalJumps={(profile as any)?.total_jumps || 0} />
+
               {/* Referral Code Card */}
+
               {profile?.referral_code && (
                 <Card className="mobile-transparent-card">
                   <CardHeader className="pb-3">

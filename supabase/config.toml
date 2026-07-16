@@ -18,3 +18,7 @@ verify_jwt = false
 [functions.send-welcome-email]
 verify_jwt = false
 
+[functions.expire-credits]
+verify_jwt = false
+
+

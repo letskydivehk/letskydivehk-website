@@ -28,8 +28,10 @@ import { WeatherForecast } from "@/components/WeatherForecast";
 import { ReferralBanner } from "@/components/ReferralBanner";
 import { AlumniPathway } from "@/components/AlumniPathway";
 import { SouvenirTeaser } from "@/components/SouvenirTeaser";
+import { RewardsTeaser } from "@/components/rewards/RewardsTeaser";
 import { TrustBar } from "@/components/TrustBar";
 import { EligibilityChips } from "@/components/EligibilityChips";
+
 
 export default function Home() {
   const { t } = useLanguage();
@@ -117,6 +119,10 @@ export default function Home() {
         <LazySection minHeight={400}>
           <AlumniPathway />
         </LazySection>
+        <LazySection minHeight={400}>
+          <RewardsTeaser />
+        </LazySection>
+
         <LazySection minHeight={400}>
           <SouvenirTeaser />
         </LazySection>
