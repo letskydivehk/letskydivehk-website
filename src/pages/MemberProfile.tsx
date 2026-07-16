@@ -16,6 +16,9 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { Footer } from "@/components/Footer";
+import { MagnetShowcase } from "@/components/rewards/MagnetShowcase";
+import { ExpiringCreditsNote } from "@/components/rewards/ExpiringCreditsNote";
+
 
 // Validation schema for profile data
 const phoneRegex = /^(\+?[1-9]\d{0,14})?$/;
