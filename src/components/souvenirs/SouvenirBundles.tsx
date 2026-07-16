@@ -20,6 +20,10 @@ interface Bundle {
   chipKey: string;
   /** Extra multiplicative discount applied on top of item bulk pricing. 0.9 = 10% off. */
   extraDiscount: number;
+  /** Optional fixed bundle price override (overrides tier + extraDiscount math). */
+  fixedPrice?: number;
+  /** Optional fixed original total override (used for strike-through). */
+  fixedOriginal?: number;
   build: (items: Souvenir[]) => BundleLine[];
 }
 
@@ -57,10 +61,12 @@ const BUNDLES: Bundle[] = [
     titleKey: "souvenirs.bundles.friends.title",
     descKey: "souvenirs.bundles.friends.desc",
     chipKey: "souvenirs.bundles.friends.chip",
-    extraDiscount: 0.9,
+    extraDiscount: 1,
+    fixedPrice: 140,
+    fixedOriginal: 160,
     build: (items) => {
       const magnet = items.find((i) => i.customisation_required);
-      return magnet ? [{ item: magnet, qty: 5 }] : [];
+      return magnet ? [{ item: magnet, qty: 4 }] : [];
     },
   },
 ];
@@ -77,9 +83,10 @@ export function SouvenirBundles({ items }: { items: Souvenir[] }) {
   const cards = useMemo(() => {
     return BUNDLES.map((b) => {
       const lines = b.build(items);
-      const originalTotal = lines.reduce((s, l) => s + l.item.price * l.qty, 0);
+      const rawOriginal = lines.reduce((s, l) => s + l.item.price * l.qty, 0);
+      const originalTotal = b.fixedOriginal ?? rawOriginal;
       const tierTotal = lines.reduce((s, l) => s + Math.round(tierUnitPrice(l.item, l.qty) * l.qty), 0);
-      const bundlePrice = Math.round(tierTotal * b.extraDiscount);
+      const bundlePrice = b.fixedPrice ?? Math.round(tierTotal * b.extraDiscount);
       const save = Math.max(0, originalTotal - bundlePrice);
       const pct = originalTotal > 0 ? Math.round((save / originalTotal) * 100) : 0;
       return { bundle: b, lines, originalTotal, bundlePrice, save, pct };
