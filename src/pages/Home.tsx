@@ -23,6 +23,7 @@ import { SafetySection } from "@/components/SafetySection";
 import { JumpDayTimeline } from "@/components/JumpDayTimeline";
 import { LazySection } from "@/components/LazySection";
 import { MobileTabBar } from "@/components/MobileTabBar";
+import { WeatherForecast } from "@/components/WeatherForecast";
 
 import { ReferralBanner } from "@/components/ReferralBanner";
 import { AlumniPathway } from "@/components/AlumniPathway";
@@ -79,6 +80,9 @@ export default function Home() {
         <section id="locations" aria-label="Locations section">
           <Locations />
         </section>
+        <LazySection minHeight={500}>
+          <WeatherForecast />
+        </LazySection>
         <section id="services" aria-label="Services section">
           <Services />
         </section>
