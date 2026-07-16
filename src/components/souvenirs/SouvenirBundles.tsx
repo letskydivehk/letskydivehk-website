@@ -20,6 +20,10 @@ interface Bundle {
   chipKey: string;
   /** Extra multiplicative discount applied on top of item bulk pricing. 0.9 = 10% off. */
   extraDiscount: number;
+  /** Optional fixed bundle price override (overrides tier + extraDiscount math). */
+  fixedPrice?: number;
+  /** Optional fixed original total override (used for strike-through). */
+  fixedOriginal?: number;
   build: (items: Souvenir[]) => BundleLine[];
 }
 
