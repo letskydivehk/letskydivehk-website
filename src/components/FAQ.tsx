@@ -49,20 +49,26 @@ const rewardsFaq = {
 
 
 export function FAQ() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const rewards = rewardsFaq[language as keyof typeof rewardsFaq] ?? rewardsFaq.en;
 
   const faqJsonLd = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    mainEntity: faqItems.map((item) => ({
-      "@type": "Question",
-      name: t(item.questionKey),
-      acceptedAnswer: {
-        "@type": "Answer",
-        text: t(item.answerKey),
-      },
-    })),
+    mainEntity: [
+      ...faqItems.map((item) => ({
+        "@type": "Question",
+        name: t(item.questionKey),
+        acceptedAnswer: { "@type": "Answer", text: t(item.answerKey) },
+      })),
+      ...rewards.map((r) => ({
+        "@type": "Question",
+        name: r.q,
+        acceptedAnswer: { "@type": "Answer", text: r.a },
+      })),
+    ],
   };
+
 
   return (
     <section id="faq" className="relative py-24 bg-background overflow-hidden">
