@@ -177,8 +177,12 @@ export type Database = {
           created_by: string | null
           description: string | null
           email: string | null
+          expired_at: string | null
+          expires_at: string | null
+          expiry_notified_at: string | null
           full_name: string | null
           id: string
+          related_booking_id: string | null
           status: string
           type: string
           user_id: string
@@ -189,8 +193,12 @@ export type Database = {
           created_by?: string | null
           description?: string | null
           email?: string | null
+          expired_at?: string | null
+          expires_at?: string | null
+          expiry_notified_at?: string | null
           full_name?: string | null
           id?: string
+          related_booking_id?: string | null
           status?: string
           type: string
           user_id: string
@@ -201,8 +209,12 @@ export type Database = {
           created_by?: string | null
           description?: string | null
           email?: string | null
+          expired_at?: string | null
+          expires_at?: string | null
+          expiry_notified_at?: string | null
           full_name?: string | null
           id?: string
+          related_booking_id?: string | null
           status?: string
           type?: string
           user_id?: string
@@ -1007,6 +1019,42 @@ export type Database = {
         }
         Relationships: []
       }
+      user_magnets: {
+        Row: {
+          awarded_at: string
+          coupon_code: string | null
+          coupon_discount: number | null
+          coupon_expires_at: string | null
+          coupon_used_at: string | null
+          id: string
+          jumps_at_award: number
+          tier: string
+          user_id: string
+        }
+        Insert: {
+          awarded_at?: string
+          coupon_code?: string | null
+          coupon_discount?: number | null
+          coupon_expires_at?: string | null
+          coupon_used_at?: string | null
+          id?: string
+          jumps_at_award: number
+          tier: string
+          user_id: string
+        }
+        Update: {
+          awarded_at?: string
+          coupon_code?: string | null
+          coupon_discount?: number | null
+          coupon_expires_at?: string | null
+          coupon_used_at?: string | null
+          id?: string
+          jumps_at_award?: number
+          tier?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       user_roles: {
         Row: {
           created_at: string
@@ -1061,6 +1109,10 @@ export type Database = {
         }
         Returns: Json
       }
+      award_magnets_for_user: {
+        Args: { _total_jumps: number; _user_id: string }
+        Returns: undefined
+      }
       create_booking: {
         Args: {
           p_email?: string
@@ -1080,6 +1132,14 @@ export type Database = {
         Returns: Json
       }
       get_credit_balance: { Args: { _user_id: string }; Returns: number }
+      get_expiring_credits: {
+        Args: { _days?: number; _user_id: string }
+        Returns: {
+          amount: number
+          days_remaining: number
+          expires_at: string
+        }[]
+      }
       get_pending_credit_balance: {
         Args: { _user_id: string }
         Returns: number
