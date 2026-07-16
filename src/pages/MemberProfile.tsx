@@ -638,7 +638,11 @@ export default function MemberProfile() {
                 </CardContent>
               </Card>
 
+              {/* Magnet showcase */}
+              <MagnetShowcase totalJumps={(profile as any)?.total_jumps || 0} />
+
               {/* Referral Code Card */}
+
               {profile?.referral_code && (
                 <Card className="mobile-transparent-card">
                   <CardHeader className="pb-3">
