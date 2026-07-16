@@ -35,11 +35,18 @@ export function describeWeather(code: number, lang: 'en' | 'zh-TW' | 'zh-CN' = '
   return weatherDescriptions[code]?.[lang] ?? '—'
 }
 
+const ONE_DAY = 1000 * 60 * 60 * 24
+
 export function useWeather(lat: number | null | undefined, lon: number | null | undefined) {
   return useQuery({
     queryKey: ['weather', lat, lon],
     enabled: lat != null && lon != null,
-    staleTime: 1000 * 60 * 30,
+    staleTime: ONE_DAY,
+    gcTime: ONE_DAY * 7,
+    refetchInterval: ONE_DAY,
+    refetchIntervalInBackground: false,
+    refetchOnWindowFocus: false,
+    retry: 2,
     queryFn: async (): Promise<WeatherData> => {
       const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,wind_speed_10m,is_day`
       const res = await fetch(url)
