@@ -5,6 +5,7 @@ export interface WeatherData {
   windSpeed: number
   weatherCode: number
   isDay: boolean
+  precipitation: number
 }
 
 const weatherDescriptions: Record<number, { en: string; 'zh-TW': string; 'zh-CN': string }> = {
@@ -66,7 +67,7 @@ export function useWeather(lat: number | null | undefined, lon: number | null | 
     refetchOnWindowFocus: false,
     retry: 2,
     queryFn: async (): Promise<WeatherData> => {
-      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,wind_speed_10m,is_day`
+      const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,weather_code,wind_speed_10m,is_day,precipitation`
       const res = await fetch(url)
       if (!res.ok) throw new Error('Weather fetch failed')
       const json = await res.json()
@@ -75,6 +76,7 @@ export function useWeather(lat: number | null | undefined, lon: number | null | 
         windSpeed: Math.round(json.current.wind_speed_10m),
         weatherCode: json.current.weather_code,
         isDay: json.current.is_day === 1,
+        precipitation: Math.round((json.current.precipitation ?? 0) * 10) / 10,
       }
       if (typeof window !== 'undefined' && lat != null && lon != null) {
         try {
