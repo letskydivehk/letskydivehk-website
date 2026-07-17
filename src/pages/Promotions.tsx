@@ -81,7 +81,7 @@ const promotions = [
     highlight: "10%",
     highlightLabelKey: "promo.off",
     promoCode: "EARLY10",
-    active: true,
+    active: false,
     expiresAt: getExpiryDate(),
   },
   {
@@ -149,7 +149,7 @@ export default function Promotions() {
 
         {/* Promotions List */}
         <div className="max-w-4xl mx-auto px-6 space-y-8">
-          {promotions.map((promo, index) => {
+          {promotions.filter((p) => p.active).map((promo, index) => {
             const Icon = promo.icon;
             return (
               <motion.div
