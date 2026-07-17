@@ -98,12 +98,9 @@ export default function MembershipTiers() {
             onValueChange={(v) => setSearchParams({ tab: v })}
             className="w-full"
           >
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-8 h-auto">
+            <TabsList className="grid w-full max-w-sm mx-auto grid-cols-2 mb-8 h-auto">
               <TabsTrigger value="points" className="py-2.5">
                 {p(rewardsCopy.tabPoints)}
-              </TabsTrigger>
-              <TabsTrigger value="magnets" className="py-2.5">
-                {p(rewardsCopy.tabMagnets)}
               </TabsTrigger>
               <TabsTrigger value="tiers" className="py-2.5">
                 {p(rewardsCopy.tabTiers)}
@@ -112,10 +109,6 @@ export default function MembershipTiers() {
 
             <TabsContent value="points">
               <PointsProgram />
-            </TabsContent>
-
-            <TabsContent value="magnets">
-              <MagnetLadder totalJumps={totalJumps} />
             </TabsContent>
 
             <TabsContent value="tiers">
