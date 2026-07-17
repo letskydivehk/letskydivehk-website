@@ -14,8 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage, Language } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { PointsProgram } from "@/components/rewards/PointsProgram";
-import { MagnetLadder } from "@/components/rewards/MagnetLadder";
-import { rewardsCopy, pick } from "@/lib/rewardsCopy";
+import { rewardsCopy, pick, magnetTiers } from "@/lib/rewardsCopy";
 
 const iconMap: Record<string, any> = { award: Award, star: Star, crown: Crown, gem: Gem };
 
@@ -35,7 +34,8 @@ export default function MembershipTiers() {
   const { t, language } = useLanguage();
   const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
-  const activeTab = searchParams.get("tab") ?? "points";
+  const rawTab = searchParams.get("tab") ?? "points";
+  const activeTab = rawTab === "magnets" ? "tiers" : rawTab;
   const p = (x: any) => pick(x, language);
 
   const { data: tiers = [] } = useQuery({
@@ -98,12 +98,9 @@ export default function MembershipTiers() {
             onValueChange={(v) => setSearchParams({ tab: v })}
             className="w-full"
           >
-            <TabsList className="grid w-full max-w-md mx-auto grid-cols-3 mb-8 h-auto">
+            <TabsList className="grid w-full max-w-sm mx-auto grid-cols-2 mb-8 h-auto">
               <TabsTrigger value="points" className="py-2.5">
                 {p(rewardsCopy.tabPoints)}
-              </TabsTrigger>
-              <TabsTrigger value="magnets" className="py-2.5">
-                {p(rewardsCopy.tabMagnets)}
               </TabsTrigger>
               <TabsTrigger value="tiers" className="py-2.5">
                 {p(rewardsCopy.tabTiers)}
@@ -112,10 +109,6 @@ export default function MembershipTiers() {
 
             <TabsContent value="points">
               <PointsProgram />
-            </TabsContent>
-
-            <TabsContent value="magnets">
-              <MagnetLadder totalJumps={totalJumps} />
             </TabsContent>
 
             <TabsContent value="tiers">
@@ -157,6 +150,24 @@ export default function MembershipTiers() {
                         <p className="text-2xl font-bold text-foreground">{tier.credit_multiplier}x</p>
                         <p className="text-xs text-muted-foreground">{t("tiers.creditMultiplier")}</p>
                       </div>
+
+                      {(() => {
+                        const magnet = magnetTiers.find(
+                          (m) => m.key.toLowerCase() === String(tier.name).toLowerCase()
+                        );
+                        if (!magnet) return null;
+                        return (
+                          <div
+                            className="mb-4 flex items-center gap-2 rounded-lg border px-3 py-2"
+                            style={{ borderColor: `${magnet.color}66`, backgroundColor: `${magnet.color}18` }}
+                          >
+                            <Award className="w-4 h-4 flex-shrink-0" style={{ color: magnet.color }} />
+                            <span className="text-xs font-semibold text-foreground">
+                              {p(magnet.name)} · {p(magnet.jump)}
+                            </span>
+                          </div>
+                        );
+                      })()}
 
                       <ul className="space-y-2">
                         {perks.map((perk: string, i: number) => (

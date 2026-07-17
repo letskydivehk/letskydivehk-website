@@ -181,11 +181,11 @@ export const rewardsCopy = {
     "zh-TW": "每 HKD 20 = 1 分。1 分 = HKD 1 折抵，下次消費即用。積分 12 個月有效。",
     "zh-CN": "每 HKD 20 = 1 分。1 分 = HKD 1 折抵，下次消费即用。积分 12 个月有效。",
   },
-  teaserMagnetsTitle: { en: "Collect the honour magnets", "zh-TW": "收集榮譽磁石貼", "zh-CN": "收集荣誉磁石贴" },
+  teaserMagnetsTitle: { en: "Magnets — your tier rewards", "zh-TW": "磁石貼 — 會員等級獎賞", "zh-CN": "磁石贴 — 会员等级奖赏" },
   teaserMagnetsBody: {
-    en: "Silver → Gold → Platinum → Diamond. Every milestone unlocks a limited magnet and a next-jump coupon.",
-    "zh-TW": "銀 → 金 → 白金 → 鑽石。每個里程碑解鎖限量磁石貼與下次跳傘優惠券。",
-    "zh-CN": "银 → 金 → 白金 → 钻石。每个里程碑解锁限量磁石贴与下次跳伞优惠券。",
+    en: "Silver → Gold → Platinum → Diamond. Reach each member tier and unlock its exclusive magnet plus a next-jump coupon.",
+    "zh-TW": "銀 → 金 → 白金 → 鑽石。每達到一個會員等級，即解鎖該等級的限量磁石貼與下次跳傘優惠券。",
+    "zh-CN": "银 → 金 → 白金 → 钻石。每达到一个会员等级，即解锁该等级的限量磁石贴与下次跳伞优惠券。",
   },
   seeFullPlan: { en: "See full program", "zh-TW": "查看完整計劃", "zh-CN": "查看完整计划" },
 
