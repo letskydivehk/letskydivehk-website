@@ -14,8 +14,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { useLanguage, Language } from "@/contexts/LanguageContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { PointsProgram } from "@/components/rewards/PointsProgram";
-import { MagnetLadder } from "@/components/rewards/MagnetLadder";
-import { rewardsCopy, pick } from "@/lib/rewardsCopy";
+import { rewardsCopy, pick, magnetTiers } from "@/lib/rewardsCopy";
 
 const iconMap: Record<string, any> = { award: Award, star: Star, crown: Crown, gem: Gem };
 
