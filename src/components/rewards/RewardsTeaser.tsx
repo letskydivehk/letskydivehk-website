@@ -17,7 +17,7 @@ export function RewardsTeaser() {
       body: p(c.teaserPointsBody),
     },
     {
-      to: "/membership/tiers?tab=magnets",
+      to: "/membership/tiers?tab=tiers",
       icon: Award,
       color: "from-sky-400 to-indigo-500",
       title: p(c.teaserMagnetsTitle),
