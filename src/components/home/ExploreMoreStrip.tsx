@@ -15,7 +15,7 @@ export function ExploreMoreStrip() {
       iconColor: "text-sky-400",
     },
     {
-      to: "/membership",
+      to: "/promotions",
       icon: Users,
       title: t("referral.banner.title"),
       sub: t("referral.banner.cta"),
