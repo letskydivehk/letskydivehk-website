@@ -210,9 +210,14 @@ export const rewardsCopy = {
   },
 } as const;
 
+import magnetSilver from "@/assets/magnet-silver.png.asset.json";
+import magnetGold from "@/assets/magnet-gold.png.asset.json";
+import magnetPlatinum from "@/assets/magnet-platinum.png.asset.json";
+import magnetDiamond from "@/assets/magnet-diamond.png.asset.json";
+
 export const magnetTiers = [
-  { key: "silver", color: "#C0C0C0", jumps: 1, perk: rewardsCopy.perkSilver, jump: rewardsCopy.jump1st, name: rewardsCopy.silver },
-  { key: "gold", color: "#FFD700", jumps: 3, perk: rewardsCopy.perkGold, jump: rewardsCopy.jump3rd, name: rewardsCopy.gold },
-  { key: "platinum", color: "#E5E4E2", jumps: 5, perk: rewardsCopy.perkPlatinum, jump: rewardsCopy.jump5th, name: rewardsCopy.platinum },
-  { key: "diamond", color: "#B9F2FF", jumps: 10, perk: rewardsCopy.perkDiamond, jump: rewardsCopy.jump10th, name: rewardsCopy.diamond },
+  { key: "silver", color: "#C0C0C0", jumps: 1, image: magnetSilver.url, perk: rewardsCopy.perkSilver, jump: rewardsCopy.jump1st, name: rewardsCopy.silver },
+  { key: "gold", color: "#FFD700", jumps: 3, image: magnetGold.url, perk: rewardsCopy.perkGold, jump: rewardsCopy.jump3rd, name: rewardsCopy.gold },
+  { key: "platinum", color: "#E5E4E2", jumps: 5, image: magnetPlatinum.url, perk: rewardsCopy.perkPlatinum, jump: rewardsCopy.jump5th, name: rewardsCopy.platinum },
+  { key: "diamond", color: "#B9F2FF", jumps: 10, image: magnetDiamond.url, perk: rewardsCopy.perkDiamond, jump: rewardsCopy.jump10th, name: rewardsCopy.diamond },
 ] as const;
