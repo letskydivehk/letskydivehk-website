@@ -3,7 +3,7 @@ import { Compass, Users, Gift, Sparkles, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export function ExploreMoreStrip() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const cards = [
     {
@@ -25,8 +25,8 @@ export function ExploreMoreStrip() {
     {
       to: "/membership/tiers",
       icon: Gift,
-      title: t("rewards.tabTiers") || "Rewards",
-      sub: t("rewards.heroSub") || "",
+      title: language === "en" ? "Rewards & Tiers" : language === "zh-CN" ? "会员奖励" : "會員獎勵",
+      sub: language === "en" ? "Unlock magnets & discounts" : language === "zh-CN" ? "解锁磁石贴与折扣" : "解鎖磁石貼與折扣",
       accent: "from-amber-500/20 to-amber-400/5",
       iconColor: "text-amber-400",
     },
