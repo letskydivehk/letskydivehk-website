@@ -151,6 +151,24 @@ export default function MembershipTiers() {
                         <p className="text-xs text-muted-foreground">{t("tiers.creditMultiplier")}</p>
                       </div>
 
+                      {(() => {
+                        const magnet = magnetTiers.find(
+                          (m) => m.key.toLowerCase() === String(tier.name).toLowerCase()
+                        );
+                        if (!magnet) return null;
+                        return (
+                          <div
+                            className="mb-4 flex items-center gap-2 rounded-lg border px-3 py-2"
+                            style={{ borderColor: `${magnet.color}66`, backgroundColor: `${magnet.color}18` }}
+                          >
+                            <Award className="w-4 h-4 flex-shrink-0" style={{ color: magnet.color }} />
+                            <span className="text-xs font-semibold text-foreground">
+                              {p(magnet.name)} · {p(magnet.jump)}
+                            </span>
+                          </div>
+                        );
+                      })()}
+
                       <ul className="space-y-2">
                         {perks.map((perk: string, i: number) => (
                           <li key={i} className="flex items-start gap-2 text-sm">
