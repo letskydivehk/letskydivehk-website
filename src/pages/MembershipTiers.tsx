@@ -158,11 +158,15 @@ export default function MembershipTiers() {
                         if (!magnet) return null;
                         return (
                           <div
-                            className="mb-4 flex items-center gap-2 rounded-lg border px-3 py-2"
+                            className="mb-4 flex items-center gap-3 rounded-lg border p-2"
                             style={{ borderColor: `${magnet.color}66`, backgroundColor: `${magnet.color}18` }}
                           >
-                            <Award className="w-4 h-4 flex-shrink-0" style={{ color: magnet.color }} />
-                            <span className="text-xs font-semibold text-foreground">
+                            <img
+                              src={magnet.image}
+                              alt={`${p(magnet.name)} magnet`}
+                              className="w-12 h-12 rounded-md object-cover flex-shrink-0 shadow-sm"
+                            />
+                            <span className="text-xs font-semibold text-foreground leading-tight">
                               {p(magnet.name)} · {p(magnet.jump)}
                             </span>
                           </div>
