@@ -81,7 +81,7 @@ const promotions = [
     highlight: "10%",
     highlightLabelKey: "promo.off",
     promoCode: "EARLY10",
-    active: true,
+    active: false,
     expiresAt: getExpiryDate(),
   },
   {
