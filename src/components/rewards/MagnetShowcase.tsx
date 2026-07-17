@@ -30,18 +30,18 @@ export function MagnetShowcase({ totalJumps }: Props) {
             return (
               <div key={t.key} className="text-center">
                 <div
-                  className="mx-auto w-12 h-12 rounded-full flex items-center justify-center border-2 mb-1"
+                  className="mx-auto w-14 h-14 rounded-lg overflow-hidden flex items-center justify-center border-2 mb-1"
                   style={{
-                    backgroundColor: unlocked ? `${t.color}33` : "hsl(var(--muted))",
                     borderColor: unlocked ? t.color : "hsl(var(--border))",
-                    filter: unlocked ? "none" : "grayscale(1)",
+                    filter: unlocked ? "none" : "grayscale(1) opacity(0.5)",
                   }}
                   title={unlocked ? `${p(t.name)} · #${m?.jumps_at_award}` : p(c.locked)}
                 >
-                  {unlocked ? (
-                    <Award className="w-6 h-6" style={{ color: t.color }} />
-                  ) : (
-                    <Lock className="w-4 h-4 text-muted-foreground" />
+                  <img src={t.image} alt={p(t.name)} className="w-full h-full object-cover" />
+                  {!unlocked && (
+                    <div className="absolute">
+                      <Lock className="w-4 h-4 text-muted-foreground" />
+                    </div>
                   )}
                 </div>
                 <p className="text-[10px] font-medium text-foreground">{p(t.name)}</p>
