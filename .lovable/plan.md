@@ -1,35 +1,68 @@
-## Problem (verified via DB query)
+## Goal
 
-The `membership_tiers` row for Platinum has two data issues:
+The homepage currently stacks ~18 full-height sections. Shorten it so the primary path (Hero → Locations → Services → Booking) dominates, and route the rest through compact teaser strips that click into dedicated pages.
 
-1. `name` is stored as `"Platinum "` (with a trailing space). `MembershipTiers.tsx` matches the magnet by `magnet.key.toLowerCase() === tier.name.toLowerCase()` — the space breaks the match, so the Platinum magnet image + "白金色 · 第 5 跳" chip never render.
-2. `perks` array is missing the magnet/coupon reward and still contains `"Free video package"`:
-   - Current: `["2x referral bonus", "VIP priority booking", "Free video package", "Birthday bonus credits", "Exclusive event invitations"]`
+## Current homepage sections (verified from `src/pages/Home.tsx`)
 
-Silver / Gold / Diamond rows already follow the pattern `"Exclusive <Tier> magnet (Nth jump) + X% off next jump coupon"`, so Platinum should match.
+Hero → TrustBar/EligibilityChips → Promo ribbon → **QuizCTA → SocialProofTicker → ReferralBanner → RewardsTeaser** → Locations → WeatherForecast → Services → BookingSection → **SafetySection → JumpDayTimeline** → Testimonials → **AlumniPathway → SouvenirTeaser** → About → FAQ → Contact.
 
-Note: the user's message wrote "限量銀色磁石貼" for Platinum, but every other tier uses its own colour (Silver→silver, Gold→gold, Diamond→diamond) and `rewardsCopy.perkPlatinum` already reads "贈送磁石貼 ＋ 下次跳傘 85 折優惠券". I'll use the Platinum magnet to stay consistent with the pattern — please flag if you actually want the Silver magnet awarded at the Platinum tier.
+## Restructure
 
-## Change
+Keep as full sections (core conversion path):
+- Hero, Trust/Eligibility band, Promo ribbon, **Locations, Services, BookingSection**, Testimonials, FAQ, Contact.
 
-Single data migration on `public.membership_tiers` for the Platinum row:
+Collapse into a single compact "Explore more" strip near the top (one row of 4 clickable cards, ~one viewport tall):
+- QuizCTA → link to `/quiz`
+- ReferralBanner → link to `/referrals` (or existing referral route)
+- RewardsTeaser → link to `/membership/tiers`
+- SouvenirTeaser → link to `/souvenirs`
 
-- Trim `name` → `"Platinum"` (fixes missing magnet image + name chip via the existing lookup).
-- Replace `perks` with:
-  ```
-  [
-    "2x referral bonus",
-    "VIP priority booking",
-    "Birthday bonus credits",
-    "Exclusive event invitations",
-    "Exclusive Platinum magnet (5th jump) + 15% off next jump coupon"
-  ]
-  ```
-  (removes "Free video package"; adds the magnet/coupon perk in the same slot the other tiers use.)
+Collapse into a second compact "Your jump day" strip after Booking (two cards):
+- SafetySection → link to `/safety` (or existing safety page)
+- JumpDayTimeline → link to a dedicated timeline page / `/faq#jump-day`
 
-No code changes — `MembershipTiers.tsx` already renders the magnet image from `magnetTiers` and localizes perk strings via `getLocalizedArray`, and `rewardsCopy.perkPlatinum` already provides the zh-TW / zh-CN translations.
+Move lower-priority content off the homepage:
+- WeatherForecast → keep only a slim "Check today's weather at each dropzone →" button that links to a new `/weather` page (or first location page). Full iframes stay off the home.
+- AlumniPathway → link out from Testimonials footer ("See alumni stories →") instead of its own section.
+- About → replace with a 1-paragraph founder blurb + "About us →" link to `/about`.
+- SocialProofTicker → keep (it's already a thin ticker, low cost).
+
+## New homepage order
+
+```
+Hero
+Trust/Eligibility band
+Promo ribbon
+SocialProofTicker (thin)
+"Explore more" 4-card strip (Quiz, Referrals, Rewards, Souvenirs)
+Locations
+Weather CTA button (1 line)
+Services
+BookingSection
+"Your jump day" 2-card strip (Safety, Timeline)
+Testimonials  (+ "See alumni stories →" link)
+About blurb (compact, links to /about)
+FAQ
+Contact
+```
+
+That removes ~7 full sections from the homepage while preserving every entry point via a click.
+
+## Implementation
+
+1. **New component `src/components/home/ExploreMoreStrip.tsx`** — 4 clickable cards (icon + title + one-line sub + arrow) in a responsive grid (`grid-cols-2 md:grid-cols-4`). Cards link to `/quiz`, `/referrals`, `/membership/tiers`, `/souvenirs`. Reuse translation keys already present in QuizCTA / ReferralBanner / RewardsTeaser / SouvenirTeaser for titles/subs.
+2. **New component `src/components/home/JumpDayStrip.tsx`** — 2 cards for Safety + Jump-day timeline, same visual language, linking to their dedicated pages (or `#faq`).
+3. **New component `src/components/home/WeatherCta.tsx`** — a single-row CTA button ("查看各基地即時天氣 →") linking to a weather page or the locations page's weather anchor. Keep the existing `WeatherForecast` component available at that destination page (not deleted).
+4. **New component `src/components/home/AboutBlurb.tsx`** — 2-3 sentences pulled from existing About copy, with an "About us →" link to `/about`. Keep the full `About` component available on `/about`.
+5. **Edit `src/pages/Home.tsx`** — replace the six sections listed above with the four new strips in the new order. Remove the `LazySection` wrappers for the removed sections. Keep `Testimonials`, `FAQ`, `Contact`, `Locations`, `Services`, `BookingSection` as-is.
+6. **Update `src/components/Testimonials.tsx`** (or add below it in `Home.tsx`) — a small "See alumni stories →" link to the alumni destination that `AlumniPathway` used to expose. If no dedicated alumni page exists, link to the blog category or an anchor on `/about`; verify the target route exists before wiring.
+7. **Route audit** — before wiring links, confirm `/quiz`, `/referrals`, `/membership/tiers`, `/souvenirs`, `/about`, safety page, and weather destination exist in `App.tsx`. For any missing route, fall back to the closest existing anchor (e.g. `/#faq`) and note it in the diff.
+8. **Localization** — reuse existing zh-TW / zh-CN / en strings from the collapsed components; add short new keys only for card sub-copy that doesn't already exist.
+9. **No changes** to booking flow, business logic, DB, or the full-page destinations — this is a homepage composition change only.
 
 ## Verification
 
-- Re-query `membership_tiers` after the migration to confirm `name = 'Platinum'` (no trailing space) and the updated `perks` array.
-- Reload `/membership/tiers?tab=tiers` and confirm the Platinum card shows the Platinum magnet image, the "白金色 · 第 5 跳" chip, and the localized perk line, with no "免費影片套餐".
+- Load `/` and confirm the visible section count drops from ~14 to ~10, with Locations/Services/Booking still the visual anchors.
+- Click each strip card and confirm it navigates to the right route.
+- Switch language to zh-TW, zh-CN, and en; confirm the new strips render without missing-key warnings.
+- Check mobile viewport: strips stack 2×2, `MobileTabBar` still visible, no horizontal scroll.

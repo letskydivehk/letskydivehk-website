@@ -15,7 +15,6 @@ import { OrganizationJsonLd } from "@/components/JsonLd";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { StickyBookingBar } from "@/components/StickyBookingBar";
 import { SocialProofTicker } from "@/components/SocialProofTicker";
-import { QuizCTA } from "@/components/QuizCTA";
 import { CountdownTimer } from "@/components/CountdownTimer";
 import { BackToTopButton } from "@/components/BackToTopButton";
 import { SectionNav } from "@/components/SectionNav";
@@ -23,15 +22,10 @@ import { SafetySection } from "@/components/SafetySection";
 import { JumpDayTimeline } from "@/components/JumpDayTimeline";
 import { LazySection } from "@/components/LazySection";
 import { MobileTabBar } from "@/components/MobileTabBar";
-import { WeatherForecast } from "@/components/WeatherForecast";
-
-import { ReferralBanner } from "@/components/ReferralBanner";
-import { AlumniPathway } from "@/components/AlumniPathway";
-import { SouvenirTeaser } from "@/components/SouvenirTeaser";
-import { RewardsTeaser } from "@/components/rewards/RewardsTeaser";
 import { TrustBar } from "@/components/TrustBar";
 import { EligibilityChips } from "@/components/EligibilityChips";
-
+import { ExploreMoreStrip } from "@/components/home/ExploreMoreStrip";
+import { JumpDayStrip } from "@/components/home/JumpDayStrip";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -46,7 +40,7 @@ export default function Home() {
           <Hero />
         </section>
 
-        {/* Trust + eligibility, single tightened band */}
+        {/* Trust + eligibility */}
         <section aria-label="Trust signals" className="bg-gradient-to-b from-sky-900/90 to-background pt-5 pb-4 px-4">
           <div className="max-w-5xl mx-auto flex flex-col items-center gap-2">
             <TrustBar />
@@ -78,27 +72,17 @@ export default function Home() {
           </div>
         </Link>
 
-        {/* Secondary path + retention */}
-        <LazySection minHeight={300}>
-          <QuizCTA />
-        </LazySection>
-        <LazySection minHeight={120}>
+        <LazySection minHeight={80}>
           <SocialProofTicker />
         </LazySection>
-        <LazySection minHeight={300}>
-          <ReferralBanner />
-        </LazySection>
-        <LazySection minHeight={400}>
-          <RewardsTeaser />
-        </LazySection>
 
-        {/* Primary path: see options → book */}
+        {/* Compact click-through strip — replaces Quiz / Referral / Rewards / Souvenir full sections */}
+        <ExploreMoreStrip />
+
+        {/* Primary path: locations → services → book */}
         <section id="locations" aria-label="Locations section">
           <Locations />
         </section>
-        <LazySection minHeight={500}>
-          <WeatherForecast />
-        </LazySection>
         <section id="services" aria-label="Services section">
           <Services />
         </section>
@@ -106,13 +90,8 @@ export default function Home() {
           <BookingSection />
         </section>
 
-        {/* Reassure after intent */}
-        <LazySection minHeight={500}>
-          <SafetySection />
-        </LazySection>
-        <LazySection minHeight={500}>
-          <JumpDayTimeline />
-        </LazySection>
+        {/* Compact strip → jumps to Safety / Timeline anchors below */}
+        <JumpDayStrip />
 
         <LazySection minHeight={500}>
           <section id="testimonials" aria-label="Testimonials section">
@@ -120,25 +99,30 @@ export default function Home() {
           </section>
         </LazySection>
 
-        <LazySection minHeight={400}>
-          <AlumniPathway />
-        </LazySection>
-
-        <LazySection minHeight={400}>
-          <SouvenirTeaser />
-        </LazySection>
-
-        <LazySection minHeight={500}>
-          <section id="about" aria-label="About section">
-            <About />
-          </section>
-        </LazySection>
         <LazySection minHeight={500}>
           <section id="faq" aria-label="FAQ section">
             <FAQ />
           </section>
         </LazySection>
-        <LazySection minHeight={500}>
+
+        {/* Deep-content anchors kept mounted so strip cards can scroll to them */}
+        <LazySection minHeight={400}>
+          <section id="safety" aria-label="Safety section">
+            <SafetySection />
+          </section>
+        </LazySection>
+        <LazySection minHeight={400}>
+          <section id="timeline" aria-label="Jump day timeline section">
+            <JumpDayTimeline />
+          </section>
+        </LazySection>
+
+        <LazySection minHeight={400}>
+          <section id="about" aria-label="About section">
+            <About />
+          </section>
+        </LazySection>
+        <LazySection minHeight={400}>
           <section id="contact" aria-label="Contact section">
             <Contact />
           </section>
