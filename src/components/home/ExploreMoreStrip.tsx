@@ -3,7 +3,7 @@ import { Compass, Users, Gift, Sparkles, ArrowRight } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export function ExploreMoreStrip() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   const cards = [
     {
