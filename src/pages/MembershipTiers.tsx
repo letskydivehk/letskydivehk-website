@@ -35,7 +35,8 @@ export default function MembershipTiers() {
   const { t, language } = useLanguage();
   const { user } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
-  const activeTab = searchParams.get("tab") ?? "points";
+  const rawTab = searchParams.get("tab") ?? "points";
+  const activeTab = rawTab === "magnets" ? "tiers" : rawTab;
   const p = (x: any) => pick(x, language);
 
   const { data: tiers = [] } = useQuery({
