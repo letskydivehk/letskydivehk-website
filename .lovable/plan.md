@@ -1,49 +1,35 @@
-## Goal
+## Problem (verified via DB query)
 
-Restructure the rewards program so the magnet ladder is presented as **part of the member tier rewards** (not a parallel program), and remove all video / photo / media package perks from the tier benefits.
+The `membership_tiers` row for Platinum has two data issues:
 
-## Current state (verified)
+1. `name` is stored as `"Platinum "` (with a trailing space). `MembershipTiers.tsx` matches the magnet by `magnet.key.toLowerCase() === tier.name.toLowerCase()` — the space breaks the match, so the Platinum magnet image + "白金色 · 第 5 跳" chip never render.
+2. `perks` array is missing the magnet/coupon reward and still contains `"Free video package"`:
+   - Current: `["2x referral bonus", "VIP priority booking", "Free video package", "Birthday bonus credits", "Exclusive event invitations"]`
 
-- `MembershipTiers.tsx` has 3 tabs: **Points / Magnets / Tiers** — Magnets and Tiers are separate.
-- `membership_tiers` rows (queried live) contain these to-be-removed perks:
-  - Gold: `Free photo package upgrade` / `免費相片套餐升級` / `免费相片套餐升级`
-  - Platinum: `Free video package` / `免費影片套餐` / `免费影片套餐`
-  - Diamond: `All media packages included` / `所有媒體套餐` / `所有媒体套餐`
-- Tier names (Silver/Gold/Platinum/Diamond) and jump thresholds (0/3/5/10) already map 1-to-1 to the magnet ladder (1/3/5/10) → natural merge.
-- `RewardsTeaser.tsx` on the homepage links to `?tab=points` and `?tab=magnets`.
+Silver / Gold / Diamond rows already follow the pattern `"Exclusive <Tier> magnet (Nth jump) + X% off next jump coupon"`, so Platinum should match.
 
-## Changes
+Note: the user's message wrote "限量銀色磁石貼" for Platinum, but every other tier uses its own colour (Silver→silver, Gold→gold, Diamond→diamond) and `rewardsCopy.perkPlatinum` already reads "贈送磁石貼 ＋ 下次跳傘 85 折優惠券". I'll use the Platinum magnet to stay consistent with the pattern — please flag if you actually want the Silver magnet awarded at the Platinum tier.
 
-### 1. Database migration — clean & enrich tier perks
-Update `membership_tiers.perks`, `perks_zh_tw`, `perks_zh_cn`:
+## Change
 
-- **Remove** the three media/photo/video lines listed above.
-- **Add** a magnet-reward line to each tier so the ladder lives inside the tier perks:
-  - Silver → "Exclusive Silver magnet (1st jump) + 5% off next jump coupon"
-  - Gold → "Exclusive Gold magnet (3rd jump) + 10% off next jump coupon"
-  - Platinum → "Exclusive Platinum magnet (5th jump) + 15% off next jump coupon"
-  - Diamond → "Exclusive Diamond magnet (10th jump) + Hall of Fame + lifetime 20% off"
+Single data migration on `public.membership_tiers` for the Platinum row:
 
-(Trilingual, wording drawn from existing `rewardsCopy.perkSilver…perkDiamond`.)
+- Trim `name` → `"Platinum"` (fixes missing magnet image + name chip via the existing lookup).
+- Replace `perks` with:
+  ```
+  [
+    "2x referral bonus",
+    "VIP priority booking",
+    "Birthday bonus credits",
+    "Exclusive event invitations",
+    "Exclusive Platinum magnet (5th jump) + 15% off next jump coupon"
+  ]
+  ```
+  (removes "Free video package"; adds the magnet/coupon perk in the same slot the other tiers use.)
 
-### 2. `src/pages/MembershipTiers.tsx` — collapse tabs to 2
-- Remove the **Magnets** tab. Keep **Points** and **Tiers**.
-- Inside each tier card, render a small magnet chip (using `magnetTiers` color + `Award` icon) above the perks list to visually anchor the reward.
-- Redirect any incoming `?tab=magnets` to `?tab=tiers` for backward compat with old links / teaser cards.
+No code changes — `MembershipTiers.tsx` already renders the magnet image from `magnetTiers` and localizes perk strings via `getLocalizedArray`, and `rewardsCopy.perkPlatinum` already provides the zh-TW / zh-CN translations.
 
-### 3. `src/components/rewards/RewardsTeaser.tsx` — repoint the second card
-- Change the "Collect the honour magnets" card link from `?tab=magnets` to `?tab=tiers`.
-- Update `teaserMagnetsBody` copy slightly to make it clear the magnets come **with** each member tier.
+## Verification
 
-### 4. `src/lib/rewardsCopy.ts` — copy tweaks only
-- Update `teaserMagnetsBody` (trilingual) to reference tier rewards.
-- No changes to magnet tier data (`magnetTiers`) or the standalone magnet visuals used on the member profile page (`MagnetShowcase` stays as personal collection view).
-
-### Out of scope (unchanged)
-- `MagnetLadder` component file — kept in repo but no longer routed to. (Not deleting to avoid churn; can remove later if you want.)
-- Member profile page magnet showcase — remains as user's personal collection UI.
-- Points program logic and edge functions.
-
-## Result
-
-The rewards page becomes: **Points** and **Tiers** (with magnets shown inline per tier). Photo/video/media packages disappear from all three languages. Magnet ladder is clearly framed as the reward you unlock by reaching the corresponding member tier.
+- Re-query `membership_tiers` after the migration to confirm `name = 'Platinum'` (no trailing space) and the updated `perks` array.
+- Reload `/membership/tiers?tab=tiers` and confirm the Platinum card shows the Platinum magnet image, the "白金色 · 第 5 跳" chip, and the localized perk line, with no "免費影片套餐".
