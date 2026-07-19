@@ -34,6 +34,37 @@ async function sendMail(to: string, subject: string, html: string) {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
 
+  // Preview mode: send a sample reminder email to a specified address
+  try {
+    if (req.method === "POST") {
+      const ct = req.headers.get("content-type") || "";
+      if (ct.includes("application/json")) {
+        const body = await req.clone().json().catch(() => ({}));
+        if (body?.preview_to) {
+          const to = String(body.preview_to);
+          const amount = Number(body.amount ?? 200);
+          const days = Number(body.days ?? 30);
+          const expiresAt = new Date(Date.now() + days * 86400_000);
+          await sendMail(
+            to,
+            `你的 ${amount} 積分將於 ${days} 天後到期`,
+            `<p>你好，</p>
+             <p>你的 <strong>${amount} 積分</strong>將於 ${expiresAt.toLocaleDateString("zh-HK")} 到期。</p>
+             <p>登入會員帳戶查看並使用積分：<a href="https://letskydivehk.com/membership">letskydivehk.com/membership</a></p>
+             <p>Let's Skydive HK</p>`,
+          );
+          return new Response(JSON.stringify({ ok: true, preview: true, to }), {
+            headers: { ...corsHeaders, "Content-Type": "application/json" },
+          });
+        }
+      }
+    }
+  } catch (e) {
+    console.error("preview send error", e);
+  }
+
+
+
   try {
     // 1) Expire due credits: insert offsetting -amount entry + mark original expired_at
     const { data: dueRows, error: dueErr } = await admin
