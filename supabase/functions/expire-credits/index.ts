@@ -85,13 +85,11 @@ Deno.serve(async (req) => {
           const amount = Number(body.amount ?? 200);
           const days = Number(body.days ?? 30);
           const expiresAt = new Date(Date.now() + days * 86400_000);
+          const fullName = body.full_name ? String(body.full_name) : null;
           await sendMail(
             to,
-            `你的 ${amount} 積分將於 ${days} 天後到期`,
-            `<p>你好，</p>
-             <p>你的 <strong>${amount} 積分</strong>將於 ${expiresAt.toLocaleDateString("zh-HK")} 到期。</p>
-             <p>登入會員帳戶查看並使用積分：<a href="https://letskydivehk.com/membership">letskydivehk.com/membership</a></p>
-             <p>Let's Skydive HK</p>`,
+            "你的跳傘積分就到期啦，快啲預約跳傘用咗佢啦！",
+            renderExpiryEmail({ fullName, amount, expiresAt }),
           );
           return new Response(JSON.stringify({ ok: true, preview: true, to }), {
             headers: { ...corsHeaders, "Content-Type": "application/json" },
