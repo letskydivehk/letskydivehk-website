@@ -157,11 +157,12 @@ Deno.serve(async (req) => {
         );
         await sendMail(
           r.email,
-          `你的 ${r.amount} 積分將於 ${days} 天後到期`,
-          `<p>${r.full_name || ""} 你好，</p>
-           <p>你的 <strong>${r.amount} 積分</strong>將於 ${new Date(r.expires_at).toLocaleDateString("zh-HK")} 到期。</p>
-           <p>登入會員帳戶查看並使用積分：<a href="https://letskydivehk.com/membership">letskydivehk.com/membership</a></p>
-           <p>Let's Skydive HK</p>`,
+          "你的跳傘積分就到期啦，快啲預約跳傘用咗佢啦！",
+          renderExpiryEmail({
+            fullName: r.full_name,
+            amount: r.amount,
+            expiresAt: new Date(r.expires_at),
+          }),
         );
       }
       await admin
