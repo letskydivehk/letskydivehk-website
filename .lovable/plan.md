@@ -1,31 +1,52 @@
 ## 目標
-更新 `expire-credits` edge function 內的積分到期提醒電郵範本，改用新的主旨與繁中口語內文，並加入公司 Logo 及 Hero 圖片以提升可信度。
+當會員的積分有任何更新（新增、扣減、退款、調整等）時，該會員所有未到期的積分自動延展到「最新一次活動日 + 365 天」，並在頁面清楚說明此規則。
 
-## 變更檔案
-只改一個檔案：`supabase/functions/expire-credits/index.ts`
+## 一、資料庫（migration）
 
-### 1. 上傳圖片為 Lovable Asset
-- 將用戶剛上傳的 `Logo_magnet_base.png` 透過 `lovable-assets` CLI 上傳到 CDN，得到穩定 URL（電郵必須用絕對 https URL，不能用本地 import）。
-- Hero 圖片：沿用專案現有的 skydiver 素材。因為現有 hero 是 `.mp4`（電郵不支援影片），會用 `imagegen` 產生一張跳傘 hero 靜態圖（1200×600 JPEG）並上傳為 asset，取得 CDN URL。
+新增觸發器：`credit_transactions` INSERT 後執行。
 
-### 2. 改寫 `sendMail()` HTML 模板
-兩個發送點都會用到同一個新模板（真實排程寄送 + `preview_to` 測試寄送）：
+```sql
+CREATE OR REPLACE FUNCTION public.trg_renew_credit_expiry()
+RETURNS trigger LANGUAGE plpgsql SECURITY DEFINER SET search_path = public AS $$
+BEGIN
+  -- 每次有新的 approved 交易，就把該用戶所有未到期、有 expires_at 的 approved 積分續期至 365 天後
+  IF NEW.status = 'approved' AND NEW.user_id IS NOT NULL THEN
+    UPDATE public.credit_transactions
+    SET expires_at = now() + INTERVAL '365 days',
+        expiry_notified_at = NULL   -- 續期後重置到期提醒，讓下次接近到期時可再通知
+    WHERE user_id = NEW.user_id
+      AND status = 'approved'
+      AND expired_at IS NULL
+      AND expires_at IS NOT NULL
+      AND id <> NEW.id;
+  END IF;
+  RETURN NEW;
+END $$;
 
-- 主旨：`你的跳傘積分就到期啦，快啲預約跳傘用咗佢啦！`
-- 內文結構（table-based email HTML，寬 600px 置中，白底）：
-  1. 頂部：Logo 圖（高約 80px、置中）
-  2. Hero 圖（寬 100%、圓角、alt="Let's Skydive HK"）
-  3. 稱謂：`親愛的 {full_name || "跳傘朋友"}，`
-  4. 主體文案（照用戶提供）：
-     > 你的會員積分中有 **{amount}** 分將於 **{expires_at 格式化為 YYYY年M月D日}** 到期。每 1 分 = $1，可用於下次跳傘尾款或加購服務。立即登入預訂你的下一次冒險！
-  5. CTA 按鈕：`按此登入帳戶` → `https://letskydivehk.com/membership`（藍色底、白字、圓角、置中、內邊距 14×28）
-  6. 頁尾小字：`Let's Skydive HK · letskydivehk.com`
+CREATE TRIGGER credit_tx_renew_expiry
+AFTER INSERT ON public.credit_transactions
+FOR EACH ROW EXECUTE FUNCTION public.trg_renew_credit_expiry();
+```
 
-### 3. 保持不變
-- 每日 cron 排程、30 天提醒判斷、`expiry_notified_at` 去重、積分歸零邏輯完全不動
-- 寄件人 `no-reply@letskydivehk.com`、Reply-To `letskydivehk@gmail.com` 維持
-- `preview_to` 測試路徑改用新模板（方便用戶再發一次到 ianwcc@gmail.com 檢查）
+備註：新插入的 row 本身在 INSERT 時已由既有邏輯設定 12 個月 expires_at，此觸發器只延展「其他既存」積分。若需要，也可讓觸發器把 NEW 自己也標準化到 365 天。
 
-## 驗收
-- 呼叫 `preview_to=ianwcc@gmail.com` 收到新版電郵，包含 Logo、Hero 圖、新文案與可點擊的登入按鈕
-- 日常 cron 執行結果 `ok: true` 不變
+## 二、頁面文案更新（`src/lib/rewardsCopy.ts`）
+
+- `ruleExpiryValue`（三語）改為：
+  - zh-TW：「積分有效期 365 天；每次有積分變動（獲得、使用或調整），全部未到期積分自動延長至活動日後 365 天。」
+  - zh-CN：對應簡體
+  - en：「Points valid for 365 days. Any credit activity (earn, redeem, or adjust) automatically renews all unexpired points to 365 days from the latest activity.」
+- `pointsShort`（第 180 行）尾句「Points valid for 12 months」改為 365 天自動續期版本。
+
+## 三、UI 明示
+
+在會員頁面積分卡下方加入一行 badge 樣式的提示：
+
+- 檔案：`src/components/rewards/ExpiringCreditsNote.tsx` 加入永久顯示的 secondary note（即使沒有即將到期積分也顯示一次規則），或在 `src/pages/MembershipTiers.tsx` PointsProgram 區塊顯著位置加 callout。
+
+顯示文字（zh-TW）：「積分有效期 365 天，只要有任何積分活動即自動續期。」
+
+## 四、驗證
+
+1. Migration 執行後在 SQL editor 手動 INSERT 一筆 `admin_adjustment` 交易，確認同用戶其他 approved rows 的 `expires_at` 被更新為 now()+365d。
+2. 檢視 `/membership` 三語頁面文案顯示正確。
