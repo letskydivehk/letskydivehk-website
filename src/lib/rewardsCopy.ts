@@ -64,9 +64,9 @@ export const rewardsCopy = {
   },
   ruleExpiryLabel: { en: "Validity", "zh-TW": "有效期", "zh-CN": "有效期" },
   ruleExpiryValue: {
-    en: "Points expire 12 months after being earned",
-    "zh-TW": "積分有效期為 12 個月，逾期自動歸零",
-    "zh-CN": "积分有效期为 12 个月，逾期自动归零",
+    en: "Points valid for 365 days. Any credit activity (earn, redeem, or adjust) automatically renews all unexpired points to 365 days from that activity.",
+    "zh-TW": "積分有效期 365 天。每次有積分變動（獲得、使用或調整），全部未到期積分自動延長至活動日後 365 天。",
+    "zh-CN": "积分有效期 365 天。每次有积分变动（获得、使用或调整），全部未到期积分自动延长至活动日后 365 天。",
   },
   ruleRemindLabel: { en: "Expiry reminder", "zh-TW": "到期提醒", "zh-CN": "到期提醒" },
   ruleRemindValue: {
