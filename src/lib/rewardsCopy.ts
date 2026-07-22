@@ -64,9 +64,9 @@ export const rewardsCopy = {
   },
   ruleExpiryLabel: { en: "Validity", "zh-TW": "有效期", "zh-CN": "有效期" },
   ruleExpiryValue: {
-    en: "Points expire 12 months after being earned",
-    "zh-TW": "積分有效期為 12 個月，逾期自動歸零",
-    "zh-CN": "积分有效期为 12 个月，逾期自动归零",
+    en: "Points valid for 365 days. Any credit activity (earn, redeem, or adjust) automatically renews all unexpired points to 365 days from that activity.",
+    "zh-TW": "積分有效期 365 天。每次有積分變動（獲得、使用或調整），全部未到期積分自動延長至活動日後 365 天。",
+    "zh-CN": "积分有效期 365 天。每次有积分变动（获得、使用或调整），全部未到期积分自动延长至活动日后 365 天。",
   },
   ruleRemindLabel: { en: "Expiry reminder", "zh-TW": "到期提醒", "zh-CN": "到期提醒" },
   ruleRemindValue: {
@@ -177,9 +177,9 @@ export const rewardsCopy = {
   // ─── Home teaser & member account ───────────────
   teaserPointsTitle: { en: "Earn points on every jump", "zh-TW": "每次跳傘都賺積分", "zh-CN": "每次跳伞都赚积分" },
   teaserPointsBody: {
-    en: "HKD 20 = 1 point. 1 point = HKD 1 off your next purchase. Points valid for 12 months.",
-    "zh-TW": "每 HKD 20 = 1 分。1 分 = HKD 1 折抵，下次消費即用。積分 12 個月有效。",
-    "zh-CN": "每 HKD 20 = 1 分。1 分 = HKD 1 折抵，下次消费即用。积分 12 个月有效。",
+    en: "HKD 20 = 1 point. 1 point = HKD 1 off your next purchase. Points valid 365 days and auto-renew on every credit activity.",
+    "zh-TW": "每 HKD 20 = 1 分。1 分 = HKD 1 折抵，下次消費即用。積分 365 天有效，每次積分變動即自動續期。",
+    "zh-CN": "每 HKD 20 = 1 分。1 分 = HKD 1 折抵，下次消费即用。积分 365 天有效，每次积分变动即自动续期。",
   },
   teaserMagnetsTitle: { en: "Magnets — your tier rewards", "zh-TW": "磁石貼 — 會員等級獎賞", "zh-CN": "磁石贴 — 会员等级奖赏" },
   teaserMagnetsBody: {
