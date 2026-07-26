@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useLocations, type Location } from "@/hooks/useLocations";
 import { useBooking } from "@/contexts/BookingContext";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { LocationsMap } from "./LocationsMap";
+
 import { getLocationNotice, isEffectivelyComingSoon } from "@/data/locationNotices";
 
 type Country = "Thailand" | "China";
@@ -149,11 +149,9 @@ export function Locations() {
             </motion.div>
           </AnimatePresence>
         )}
-
-        {/* Interactive Map */}
-        <LocationsMap />
       </div>
     </section>
+
   );
 }
 

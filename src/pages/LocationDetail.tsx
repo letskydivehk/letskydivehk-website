@@ -13,6 +13,8 @@ import { Footer } from "@/components/Footer";
 import { PageNavbar } from "@/components/PageNavbar";
 import { LocationPhotoGallery } from "@/components/location/LocationPhotoGallery";
 import { LocationWeather } from "@/components/location/LocationWeather";
+import { LocationMap } from "@/components/location/LocationMap";
+
 import { LocationAccommodations } from "@/components/location/LocationAccommodations";
 import { LocationAttractions } from "@/components/location/LocationAttractions";
 import { LocationFood } from "@/components/location/LocationFood";
@@ -360,24 +362,18 @@ export default function LocationDetail() {
               </motion.div>
             )}
 
-            {/* Google Maps Embed */}
-            {location.google_maps_embed_url && (
-              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
-                <h2 className="text-2xl font-bold text-foreground mb-6">{t("locationDetail.map")}</h2>
-                <div className="rounded-2xl overflow-hidden clean-border aspect-video">
-                  <iframe
-                    src={location.google_maps_embed_url}
-                    width="100%"
-                    height="100%"
-                    style={{ border: 0 }}
-                    allowFullScreen
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    title={`Map of ${translatedName}`}
-                  />
-                </div>
-              </motion.div>
-            )}
+            {/* Location Map */}
+            <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }}>
+              <h2 className="text-2xl font-bold text-foreground mb-6">{t("locationDetail.map")}</h2>
+              <LocationMap
+                city={location.City}
+                name={translatedName}
+                cityLabel={translatedCity}
+                countryLabel={translatedCountry}
+                fallbackEmbedUrl={loc.google_maps_embed_url}
+              />
+            </motion.div>
+
 
             {/* Book CTA */}
             {!isEffectivelyComingSoon(location) && (
