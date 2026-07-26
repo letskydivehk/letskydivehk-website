@@ -149,9 +149,9 @@ export function Locations() {
             </motion.div>
           </AnimatePresence>
         )}
-
-
+      </div>
     </section>
+
   );
 }
 
