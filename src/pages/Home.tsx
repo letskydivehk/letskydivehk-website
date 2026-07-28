@@ -91,7 +91,7 @@ export default function Home() {
           <BookingSection />
         </section>
 
-        <section id="weather" aria-label="Weather forecast section">
+        <section aria-label="Weather forecast section">
           <WeatherForecast />
         </section>
 
