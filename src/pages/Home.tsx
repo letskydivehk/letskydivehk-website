@@ -4,6 +4,7 @@ import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { Locations } from "@/components/Locations";
 import { BookingSection } from "@/components/BookingSection";
+import { WeatherForecast } from "@/components/WeatherForecast";
 import { Testimonials } from "@/components/Testimonials";
 import { About } from "@/components/About";
 import { FAQ } from "@/components/FAQ";
@@ -88,6 +89,10 @@ export default function Home() {
         </section>
         <section id="booking" aria-label="Booking section">
           <BookingSection />
+        </section>
+
+        <section aria-label="Weather forecast section">
+          <WeatherForecast />
         </section>
 
         {/* Compact strip → jumps to Safety / Timeline anchors below */}
