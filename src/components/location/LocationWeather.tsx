@@ -68,6 +68,7 @@ export function LocationWeather({ lat, lon, bestMonths, climateSummary }: Props)
 
   return (
     <motion.div
+      id="weather"
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: 0.22 }}
