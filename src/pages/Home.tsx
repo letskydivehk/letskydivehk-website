@@ -4,6 +4,7 @@ import { Hero } from "@/components/Hero";
 import { Services } from "@/components/Services";
 import { Locations } from "@/components/Locations";
 import { BookingSection } from "@/components/BookingSection";
+import { WeatherForecast } from "@/components/WeatherForecast";
 import { Testimonials } from "@/components/Testimonials";
 import { About } from "@/components/About";
 import { FAQ } from "@/components/FAQ";
