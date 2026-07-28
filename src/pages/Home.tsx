@@ -91,6 +91,10 @@ export default function Home() {
           <BookingSection />
         </section>
 
+        <section id="weather" aria-label="Weather forecast section">
+          <WeatherForecast />
+        </section>
+
         {/* Compact strip → jumps to Safety / Timeline anchors below */}
         <JumpDayStrip />
 
