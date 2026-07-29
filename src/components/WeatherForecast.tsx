@@ -16,9 +16,9 @@ interface Base {
 
 const BASES: Base[] = [
   { slug: "pattaya", nameKey: "location.pattaya", fallbackName: "Pattaya", country: "thailand", lat: 12.9236, lon: 100.8825 },
-  { slug: "huizhou", nameKey: "location.huizhou", fallbackName: "Huizhou", country: "china", lat: 23.1115, lon: 114.416 },
-  { slug: "zhuhai", nameKey: "location.zhuhai", fallbackName: "Zhuhai", country: "china", lat: 22.2711, lon: 113.5767 },
-  { slug: "hainan", nameKey: "location.hainan", fallbackName: "Hainan", country: "china", lat: 19.9, lon: 109.5 },
+  { slug: "huizhou", nameKey: "location.huizhou", fallbackName: "Huizhou", country: "china", lat: 23.318, lon: 114.469 },
+  { slug: "zhuhai", nameKey: "location.zhuhai", fallbackName: "Zhuhai", country: "china", lat: 22.011, lon: 113.103 },
+  { slug: "hainan", nameKey: "location.hainan", fallbackName: "Hainan", country: "china", lat: 19.644, lon: 109.181 },
   { slug: "luoding", nameKey: "location.luoding", fallbackName: "Luoding", country: "china", lat: 22.7686, lon: 111.5698 },
 ];
 
