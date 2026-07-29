@@ -144,7 +144,7 @@ export function WeatherForecast() {
   const displayUpdatedAt = dataUpdatedAt || cached?.updatedAt || 0;
 
   const embedSrc = `https://embed.windy.com/embed2.html?lat=${active.lat}&lon=${active.lon}&zoom=8&level=surface&overlay=${overlay}&menu=&message=&marker=true&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1`;
-  const liveUrl = `https://www.windy.com/?${active.lat},${active.lon},9`;
+  const liveUrl = `https://www.windy.com/?${active.lat},${active.lon},11`;
   const activeName = translateData(active.nameKey, active.fallbackName);
   const jumpScore = calculateJumpScore(displayWeather);
 

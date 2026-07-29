@@ -177,7 +177,7 @@ export function LocationWeather({ lat, lon, bestMonths, climateSummary }: Props)
           ) : null}
 
           <a
-            href={`https://www.windy.com/?${lat},${lon},9`}
+            href={`https://www.windy.com/?${lat},${lon},11`}
             target="_blank"
             rel="noopener noreferrer"
             className="mt-4 inline-flex items-center gap-2 px-4 py-2.5 bg-accent-blue text-white font-semibold rounded-lg hover:bg-accent-blue/90 transition-colors text-sm w-full justify-center"
