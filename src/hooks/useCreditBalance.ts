@@ -73,5 +73,5 @@ export function useCreditBalance() {
     };
   }, [user]);
 
-  return { balance, expiring, loading };
+  return { balance, expiring, nextExpiry, loading };
 }
