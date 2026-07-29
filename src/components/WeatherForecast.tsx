@@ -16,9 +16,9 @@ interface Base {
 
 const BASES: Base[] = [
   { slug: "pattaya", nameKey: "location.pattaya", fallbackName: "Pattaya", country: "thailand", lat: 12.9236, lon: 100.8825 },
-  { slug: "huizhou", nameKey: "location.huizhou", fallbackName: "Huizhou", country: "china", lat: 23.1115, lon: 114.416 },
-  { slug: "zhuhai", nameKey: "location.zhuhai", fallbackName: "Zhuhai", country: "china", lat: 22.2711, lon: 113.5767 },
-  { slug: "hainan", nameKey: "location.hainan", fallbackName: "Hainan", country: "china", lat: 19.9, lon: 109.5 },
+  { slug: "huizhou", nameKey: "location.huizhou", fallbackName: "Huizhou", country: "china", lat: 23.318, lon: 114.469 },
+  { slug: "zhuhai", nameKey: "location.zhuhai", fallbackName: "Zhuhai", country: "china", lat: 22.011, lon: 113.103 },
+  { slug: "hainan", nameKey: "location.hainan", fallbackName: "Hainan", country: "china", lat: 19.644, lon: 109.181 },
   { slug: "luoding", nameKey: "location.luoding", fallbackName: "Luoding", country: "china", lat: 22.7686, lon: 111.5698 },
 ];
 
@@ -144,7 +144,7 @@ export function WeatherForecast() {
   const displayUpdatedAt = dataUpdatedAt || cached?.updatedAt || 0;
 
   const embedSrc = `https://embed.windy.com/embed2.html?lat=${active.lat}&lon=${active.lon}&zoom=8&level=surface&overlay=${overlay}&menu=&message=&marker=true&calendar=now&pressure=&type=map&location=coordinates&detail=&metricWind=default&metricTemp=default&radarRange=-1`;
-  const liveUrl = `https://www.windy.com/?${active.lat},${active.lon},9`;
+  const liveUrl = `https://www.windy.com/?${active.lat},${active.lon},11`;
   const activeName = translateData(active.nameKey, active.fallbackName);
   const jumpScore = calculateJumpScore(displayWeather);
 
