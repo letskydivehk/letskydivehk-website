@@ -321,6 +321,24 @@ export default function LocationDetail() {
                             ))}
                           </ul>
                         )}
+                        {service.add_ons && service.add_ons.length > 0 && (
+                          <div className="mt-4 rounded-xl bg-muted/40 p-3">
+                            <p className="text-xs font-semibold text-foreground mb-2">{t("locationDetail.upgradeOptions")}</p>
+                            <ul className="space-y-1">
+                              {service.add_ons.map((addon, i) => (
+                                <li key={i} className="text-sm text-muted-foreground flex items-start gap-2">
+                                  <span className="text-accent-blue mt-0.5">＋</span>
+                                  <span>
+                                    {translateData(`addon.${addon.name}`, addon.name)}
+                                    {addon.price ? (
+                                      <span className="font-semibold text-accent-orange"> {addon.price}</span>
+                                    ) : null}
+                                  </span>
+                                </li>
+                              ))}
+                            </ul>
+                          </div>
+                        )}
                       </div>
                     );
                   })}
