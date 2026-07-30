@@ -4384,6 +4384,55 @@ Object.assign(dataTranslations["zh-CN"], {
   "All-inclusive: photos, video, certificate and lunch": "一价全包：照片、视频、证书及午餐",
 });
 
+// Shenzhen price + itinerary strings
+const shenzhenItinerary = {
+  en: {
+    "price.$2,280起": "From $2,280",
+    "addon.+$520": "+$520",
+  },
+  "zh-TW": {
+    "price.$2,280起": "$2,280起",
+    "Shenzhen Indoor Skydiving Day Tour": "深圳室內跳傘一日遊",
+    "Wind tunnel flight": "風洞飛行",
+    "One-on-one coaching": "一對一教練指導",
+    "Uniwalk lunch & shopping": "壹方天地午餐及購物",
+    "Meet at Luohu border, private car transfer": "羅湖口岸集合，專車接送",
+    "Arrive at iFLY Shenzhen, check-in & gear fitting": "抵達 iFLY 深圳，登記及裝備配戴",
+    "Professional safety briefing (approx. 15 mins)": "專業安全簡報（約15分鐘）",
+    "2-minute wind tunnel flight with one-on-one instructor": "2分鐘風洞飛行，一對一教練陪同",
+    "GoPro close-ups & ground camera photos": "GoPro 特寫及地面專業相機拍攝",
+    "Signature lunch at Uniwalk": "壹方天地特色午餐",
+    "Free time: shopping & cafes at Uniwalk": "自由時間：壹方天地購物及咖啡店",
+    "Certificate presentation & souvenir collection": "頒發證書及領取紀念品",
+    "Private car back to Luohu border": "專車返回羅湖口岸",
+    "Luohu Port": "羅湖口岸",
+    "Uniwalk": "壹方天地",
+    "iFLY Shenzhen": "iFLY 深圳",
+  },
+  "zh-CN": {
+    "price.$2,280起": "$2,280起",
+    "Shenzhen Indoor Skydiving Day Tour": "深圳室内跳伞一日游",
+    "Wind tunnel flight": "风洞飞行",
+    "One-on-one coaching": "一对一教练指导",
+    "Uniwalk lunch & shopping": "壹方天地午餐及购物",
+    "Meet at Luohu border, private car transfer": "罗湖口岸集合，专车接送",
+    "Arrive at iFLY Shenzhen, check-in & gear fitting": "抵达 iFLY 深圳，登记及装备配戴",
+    "Professional safety briefing (approx. 15 mins)": "专业安全简报（约15分钟）",
+    "2-minute wind tunnel flight with one-on-one instructor": "2分钟风洞飞行，一对一教练陪同",
+    "GoPro close-ups & ground camera photos": "GoPro 特写及地面专业相机拍摄",
+    "Signature lunch at Uniwalk": "壹方天地特色午餐",
+    "Free time: shopping & cafes at Uniwalk": "自由时间：壹方天地购物及咖啡店",
+    "Certificate presentation & souvenir collection": "颁发证书及领取纪念品",
+    "Private car back to Luohu border": "专车返回罗湖口岸",
+    "Luohu Port": "罗湖口岸",
+    "Uniwalk": "壹方天地",
+    "iFLY Shenzhen": "iFLY 深圳",
+  },
+};
+Object.assign(dataTranslations.en, shenzhenItinerary.en);
+Object.assign(dataTranslations["zh-TW"], shenzhenItinerary["zh-TW"]);
+Object.assign(dataTranslations["zh-CN"], shenzhenItinerary["zh-CN"]);
+
 // Helper function to convert markdown-style bold (**text** or *text*) to HTML
 const formatBoldText = (text: string): string => {
   return text.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>").replace(/\*(.+?)\*/g, "<em>$1</em>");
