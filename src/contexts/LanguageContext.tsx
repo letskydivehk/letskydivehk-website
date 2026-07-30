@@ -146,6 +146,11 @@ const translations: Record<Language, Record<string, string>> = {
     "services.tour.subtitle": "Multi-day jump + travel package",
     "services.tour.description":
       "An all-in-one trip: tandem skydive, hotel, transfers and local sightseeing — just show up and enjoy.",
+    "services.indoor.title": "Indoor Skydiving Day Tour",
+    "services.indoor.subtitle": "First-time flyers welcome",
+    "services.indoor.description":
+      "Fly in a top-tier Shenzhen wind tunnel with one-on-one professional coaching. Private car transfer from the Luohu border included — open all year, rain or shine.",
+    "locationDetail.upgradeOptions": "Upgrade options:",
     "tour.featuredItineraries": "Featured Itineraries",
     "tour.bookTour": "Book this Tour",
     "services.popular": "Most Popular",
@@ -1064,6 +1069,11 @@ const translations: Record<Language, Record<string, string>> = {
     "services.tour.title": "跳傘團",
     "services.tour.subtitle": "多日跳傘旅遊套票",
     "services.tour.description": "一站式行程：雙人跳傘、酒店住宿、來回接送與當地觀光，您只需準時出發，盡情享受。",
+    "services.indoor.title": "室內跳傘豪華一日遊",
+    "services.indoor.subtitle": "歡迎首次體驗者",
+    "services.indoor.description":
+      "在深圳頂級風洞設施，享受由專業教練一對一指導的室內飛翔體驗。我們提供從羅湖口岸出發的專車接送，全程無憂，讓您專注感受風洞飛行的極致快感。全年無休，風雨無阻。",
+    "locationDetail.upgradeOptions": "升級選項：",
     "tour.featuredItineraries": "精選行程",
     "tour.bookTour": "預訂跳傘團",
     "services.popular": "最受歡迎",
@@ -1933,6 +1943,11 @@ const translations: Record<Language, Record<string, string>> = {
     "services.tour.title": "跳伞团",
     "services.tour.subtitle": "多日跳伞旅游套票",
     "services.tour.description": "一站式行程：双人跳伞、酒店住宿、往返接送与当地观光，您只需准时出发，尽情享受。",
+    "services.indoor.title": "室内跳伞豪华一日游",
+    "services.indoor.subtitle": "欢迎首次体验者",
+    "services.indoor.description":
+      "在深圳顶级风洞设施，享受由专业教练一对一指导的室内飞翔体验。我们提供从罗湖口岸出发的专车接送，全程无忧，让您专注感受风洞飞行的极致快感。全年无休，风雨无阻。",
+    "locationDetail.upgradeOptions": "升级选项：",
     "tour.featuredItineraries": "精选行程",
     "tour.bookTour": "预订跳伞团",
     "services.popular": "最受欢迎",
