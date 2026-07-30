@@ -841,7 +841,7 @@ export function BookingSection() {
                       </div>
                     ) : (
                       <div className="space-y-4">
-                        {locationServices?.filter((s) => s.service_type !== 'Tour').map((service) => {
+                        {locationServices?.filter((s) => s.service_type !== 'Tour' && s.service_type !== 'indoor').map((service) => {
                           const translatedService = translateService(service);
                           return (
                             <button
