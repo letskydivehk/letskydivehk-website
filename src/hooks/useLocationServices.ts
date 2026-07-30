@@ -36,7 +36,7 @@ export interface LocationService {
   id: string
   location_id: string
   service_name: string
-  service_type: 'tandem' | 'aff' | 'group' | 'Tour'
+  service_type: 'tandem' | 'aff' | 'group' | 'Tour' | 'indoor'
   price_display: string
   original_price_display?: string | null
   description: string | null

@@ -1,72 +1,48 @@
-# 天氣與氣候 UI/UX 互動化優化計劃
+## 目標
 
-## 現況評估
-目前天氣功能已整合：
-- 首頁 `WeatherForecast`：基地切換、風/雨疊加切換、Windy iframe、Open-Meteo 當前天氣。
-- 基地頁 `LocationWeather`：當前天氣、最佳月份標籤、氣候摘要。
-- 數據層 `useWeather.ts`：Open-Meteo API + `localStorage` 緩存。
+新增基地「深圳 (iFLY)」及新服務類型 `indoor`（室內跳傘豪華一日遊，$2,280 起），三種語言（English / 繁體 / 简体）齊備。CTA 為 WhatsApp 洽詢，不入線上預約流程。
 
-互動性仍較靜態：僅有按鈕切換，缺少數據可視化、即時反饋與跳傘情境化建議。
+## 一、資料庫（migration + 資料匯入）
 
-## 優化方向（可選組合實施）
+1. `locations` 新增一筆：
+   - slug `shenzhen-ifly`，Name `Shenzhen (iFLY)`，City `Shenzhen`，country `China`
+   - `is_active = true`、`coming_soon = false`、`has_aff = false`、`has_group_events = true`
+   - description：都市中心室內飛翔、位於壹方天地、全年無休風雨無阻
+   - `highlights`、`airport_distance`、`city_distance`、`transportation`（羅湖口岸專車）、`getting_there_from_hk`、`climate_summary`（強調不受天氣影響）、`weather_lat/lon`、`google_maps_embed_url`、`travel_tips`
+   - 連帶插入 `location_photos`、`location_food`（壹方天地）、`location_attractions`、`location_accommodations` 各數筆，讓基地頁「完整版」不留空白區塊。
+2. `location_services` 新增一筆：
+   - `service_type = 'indoor'`、`service_name = 'Shenzhen Indoor Skydiving Deluxe Day Tour (All-Inclusive)'`
+   - `price_display = '$2,280'`、`is_popular = true`、`deposit_amount` 設 0（洽詢制）
+   - `includes`：專車來回羅湖口岸（4人一車）／教學簡報 15 分鐘／一對一私人教練／2 分鐘風洞飛行／裝備租用／GoPro 特寫／地面專業相機照片（原價 $400）／官方證書／紀念 Tee（原價 $150）／紀念磁石貼（原價 $40）／壹方天地特色午餐／一日旅遊平安保險
+   - `add_ons`：延長至 5 分鐘飛行 +$520
+   - `itinerary`：一日行程（早：羅湖集合→上午：簡報＋飛行→午餐→下午：購物／自由活動→回程）
 
-### 1. 跳傘適宜度評分（Jump Readiness Score）
-- 根據風速、降雨、天氣代碼計算 0–100 分。
-- 分數區間配色：
-  - 80–100 翠綠色（理想）
-  - 50–79 橙色（可跳但需注意）
-  - 0–49 紅色（不建議）
-- 顯示一句跳傘建議，例如「今日風速低，非常適合跳傘」。
-- 檔案：`src/components/WeatherForecast.tsx`、`src/components/location/LocationWeather.tsx`、翻譯檔。
+若 `location_services.service_type` 有 CHECK 限制，migration 會一併放寬以容納 `indoor`。
 
-### 2. 24 小時互動預報時間軸
-- 橫向可捲動的溫度 / 風速 / 降雨預報。
-- 懸停（桌面）或點擊（手機）顯示該小時詳情。
-- 使用 Open-Meteo 免費 `hourly` endpoint，不增加成本。
-- 檔案：`src/hooks/useWeather.ts`（擴充 hourly 資料）、新增 `WeatherTimeline.tsx`。
+## 二、前端
 
-### 3. 動態天氣圖標與微動畫
-- 根據 `weatherCode` 與 `isDay` 顯示對應 SVG/Lottie 動畫：
-  - 晴天、局部多雲、陰天、小雨、大雨、雷暴、有霧。
-- 圖標帶輕微漂浮動畫，強化「天空」主題。
-- 檔案：新增 `WeatherIcon.tsx`，使用現有 `framer-motion`。
+- `src/hooks/useLocationServices.ts`：type 加入 `'indoor'`。
+- `src/components/Services.tsx`：`iconMap` 加 `indoor: Wind`（lucide），排序 order 加入 `indoor: 3`；CTA 走 WhatsApp（與 group / Tour 相同分支）。
+- `src/components/ServicePricing.tsx`：`indoor` 支援 add-ons 顯示（沿用 Tour 分支邏輯）。
+- `src/pages/LocationDetail.tsx`：`indoor` 服務卡的 CTA 改為 WhatsApp 洽詢，不進入預約流程。
+- `src/components/BookingSection.tsx`：過濾條件由 `!== 'Tour'` 改為排除 `Tour` 與 `indoor`。
+- `src/data/locationDataTranslations.ts`：新增深圳基地所有英文自由文本（description、climate、transport、food、attractions…）的繁／簡對照。
 
-### 4. 基地切換卡片化（首頁）
-- 將基地切換按鈕改為小卡片：顯示國旗、基地名、當前溫度與簡短狀態。
-- 點擊後卡片有 active 狀態，內容平滑過渡（`AnimatePresence`）。
-- 手機支援左右滑動切換基地。
-- 檔案：`src/components/WeatherForecast.tsx`。
+## 三、文案與翻譯（三語）
 
-### 5. 最佳月份視覺化熱力圖（基地頁）
-- 將 `bestMonths` 的 12 個方格改為橫向條形圖或熱力圖。
-- 顯示「旺季 / 淡季 / 不建議」三級顏色，並附簡短說明。
-- 檔案：`src/components/location/LocationWeather.tsx`。
+`src/contexts/LanguageContext.tsx` 新增 key：
+- `services.indoor.title` — Indoor Skydiving Day Tour ／ 室內跳傘豪華一日遊 ／ 室内跳伞豪华一日游
+- `services.indoor.subtitle` — 歡迎首次體驗者
+- `services.indoor.description` — 深圳頂級風洞、一對一教練、羅湖專車接送、一價全包
+- `whatsapp.quick.indoor` — 預填 WhatsApp 洽詢訊息
+- `include.*` 對應新包含項目的三語翻譯（配合現有 `translateData('include.…')` 機制）
 
-### 6. 天氣小貼士與最後更新動態提示
-- 根據當前天氣自動生成跳傘穿衣/裝備建議（例如「風大請帶外套」）。
-- 最後更新時間改為「X 分鐘前」動態倒數，並提供手動刷新按鈕。
-- 檔案：翻譯檔 + `WeatherForecast.tsx` / `LocationWeather.tsx`。
+## 四、SEO
 
-## 建議優先順序
-建議分兩階段：
+- `public/llms.txt` 加入 `/location/shenzhen-ifly`
+- `public/sitemap.xml`（由 `scripts/generate-sitemap.ts` 產生）自動包含新 slug
 
-**第一階段（高影響、低風險）：**
-1. 跳傘適宜度評分
-2. 動態天氣圖標
-3. 基地切換卡片化 + 手勢
+## 技術備註
 
-**第二階段（數據可視化）：**
-4. 24 小時預報時間軸
-5. 最佳月份熱力圖
-6. 天氣小貼士
-
-## 技術細節
-- 不新增外部付費 API，繼續使用 Open-Meteo。
-- 使用現有 `framer-motion` 與 Tailwind 設計系統，保持風格一致。
-- 所有文案同步更新繁中 / 簡中 / 英文翻譯。
-- 保持現有 Windy iframe 與「查看即時天氣」按鈕不變。
-
-## 想請你確認
-1. 是否同意以上兩階段優先順序？還是想先只做某幾項？
-2. 動態天氣圖標偏好純 CSS/SVG 動畫，還是可接受輕量 Lottie 檔案？
-3. 首頁基地切換是否保留現有按鈕風格，還是想改成更突出的卡片式？
+- 不新增獨立服務頁（不做 `/services/indoor-skydiving`），資訊集中在首頁服務卡 + 基地頁，減少維護面。
+- 現有 `has_aff` / A-Licence 過濾邏輯不受影響；`indoor` 不會出現在預約流程的服務清單。

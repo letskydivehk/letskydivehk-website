@@ -146,6 +146,11 @@ const translations: Record<Language, Record<string, string>> = {
     "services.tour.subtitle": "Multi-day jump + travel package",
     "services.tour.description":
       "An all-in-one trip: tandem skydive, hotel, transfers and local sightseeing — just show up and enjoy.",
+    "services.indoor.title": "Indoor Skydiving Day Tour",
+    "services.indoor.subtitle": "First-time flyers welcome",
+    "services.indoor.description":
+      "Fly in a top-tier Shenzhen wind tunnel with one-on-one professional coaching. Private car transfer from the Luohu border included — open all year, rain or shine.",
+    "locationDetail.upgradeOptions": "Upgrade options:",
     "tour.featuredItineraries": "Featured Itineraries",
     "tour.bookTour": "Book this Tour",
     "services.popular": "Most Popular",
@@ -1064,6 +1069,11 @@ const translations: Record<Language, Record<string, string>> = {
     "services.tour.title": "跳傘團",
     "services.tour.subtitle": "多日跳傘旅遊套票",
     "services.tour.description": "一站式行程：雙人跳傘、酒店住宿、來回接送與當地觀光，您只需準時出發，盡情享受。",
+    "services.indoor.title": "室內跳傘豪華一日遊",
+    "services.indoor.subtitle": "歡迎首次體驗者",
+    "services.indoor.description":
+      "在深圳頂級風洞設施，享受由專業教練一對一指導的室內飛翔體驗。我們提供從羅湖口岸出發的專車接送，全程無憂，讓您專注感受風洞飛行的極致快感。全年無休，風雨無阻。",
+    "locationDetail.upgradeOptions": "升級選項：",
     "tour.featuredItineraries": "精選行程",
     "tour.bookTour": "預訂跳傘團",
     "services.popular": "最受歡迎",
@@ -1933,6 +1943,11 @@ const translations: Record<Language, Record<string, string>> = {
     "services.tour.title": "跳伞团",
     "services.tour.subtitle": "多日跳伞旅游套票",
     "services.tour.description": "一站式行程：双人跳伞、酒店住宿、往返接送与当地观光，您只需准时出发，尽情享受。",
+    "services.indoor.title": "室内跳伞豪华一日游",
+    "services.indoor.subtitle": "欢迎首次体验者",
+    "services.indoor.description":
+      "在深圳顶级风洞设施，享受由专业教练一对一指导的室内飞翔体验。我们提供从罗湖口岸出发的专车接送，全程无忧，让您专注感受风洞飞行的极致快感。全年无休，风雨无阻。",
+    "locationDetail.upgradeOptions": "升级选项：",
     "tour.featuredItineraries": "精选行程",
     "tour.bookTour": "预订跳伞团",
     "services.popular": "最受欢迎",
@@ -3414,6 +3429,7 @@ translations.en["whatsapp.quick.tandem"] = "I'd like to book a tandem skydive!";
 translations.en["whatsapp.quick.aff"] = "Tell me about A-Licence courses";
 translations.en["whatsapp.quick.group"] = "I'm interested in group events";
 translations.en["whatsapp.quick.tour"] = "I'd like to know more about your skydiving tours";
+translations.en["whatsapp.quick.indoor"] = "I'd like to book the Shenzhen indoor skydiving day tour 🌀";
 translations.en["whatsapp.quick.general"] = "I have a general question";
 translations.en["whatsapp.quick.souvenirMagnet"] = "I'd like a custom photo magnet 🧲";
 translations.en["whatsapp.quick.souvenirEdition"] = "Tell me about the limited-edition magnets ✨";
@@ -3429,6 +3445,7 @@ translations["zh-TW"]["whatsapp.quick.tandem"] = "我想預約雙人跳傘！";
 translations["zh-TW"]["whatsapp.quick.aff"] = "想了解A級執照課程";
 translations["zh-TW"]["whatsapp.quick.group"] = "我對團體活動有興趣";
 translations["zh-TW"]["whatsapp.quick.tour"] = "想了解更多跳傘旅遊團資訊";
+translations["zh-TW"]["whatsapp.quick.indoor"] = "我想預約深圳室內跳傘一日遊 🌀";
 translations["zh-TW"]["whatsapp.quick.general"] = "我有一般問題想查詢";
 translations["zh-TW"]["whatsapp.quick.souvenirMagnet"] = "我想訂製相片磁石貼 🧲";
 translations["zh-TW"]["whatsapp.quick.souvenirEdition"] = "想了解限定版跳傘磁石貼 ✨";
@@ -3444,6 +3461,7 @@ translations["zh-CN"]["whatsapp.quick.tandem"] = "我想预约双人跳伞！";
 translations["zh-CN"]["whatsapp.quick.aff"] = "想了解A级执照课程";
 translations["zh-CN"]["whatsapp.quick.group"] = "我对团体活动有兴趣";
 translations["zh-CN"]["whatsapp.quick.tour"] = "想了解更多跳伞旅游团资讯";
+translations["zh-CN"]["whatsapp.quick.indoor"] = "我想预约深圳室内跳伞一日游 🌀";
 translations["zh-CN"]["whatsapp.quick.general"] = "我有一般问题想咨询";
 translations["zh-CN"]["whatsapp.quick.souvenirMagnet"] = "我想订制相片磁石贴 🧲";
 translations["zh-CN"]["whatsapp.quick.souvenirEdition"] = "想了解限定版跳伞磁石贴 ✨";
@@ -4189,6 +4207,231 @@ const tourDataTranslations = {
 Object.assign(dataTranslations.en, tourDataTranslations.en);
 Object.assign(dataTranslations["zh-TW"], tourDataTranslations["zh-TW"]);
 Object.assign(dataTranslations["zh-CN"], tourDataTranslations["zh-CN"]);
+
+// ===== Shenzhen (iFLY) indoor skydiving data translations =====
+const shenzhenService = "Shenzhen Indoor Skydiving Deluxe Day Tour (All-Inclusive)";
+const shenzhenIncludesEn = [
+  "Private round-trip car from Luohu border (4 guests per car)",
+  "Professional safety briefing (approx. 15 minutes)",
+  "One-on-one private instructor",
+  "2-minute indoor wind tunnel flight",
+  "Professional gear rental",
+  "GoPro close-up footage",
+  "Exclusive ground professional camera photos (worth $400)",
+  "Official indoor skydiving certificate",
+  "Souvenir T-shirt (worth $150)",
+  "Souvenir fridge magnet (worth $40)",
+  "Signature lunch at Uniwalk",
+  "One-day travel accident insurance",
+];
+const shenzhenIncludesZhTw = [
+  "🚘 專車來回羅湖口岸（4人一車）",
+  "📋 專業教學簡報（約15分鐘）",
+  "🤝 一對一私人教練",
+  "🪂 2分鐘室內風洞飛行體驗",
+  "⚙️ 專業裝備租用",
+  "🎥 GoPro特寫鏡頭",
+  "📸 地面專業相機獨家照片（原價$400）",
+  "📜 官方室內跳傘證書",
+  "👕 紀念Tee（原價$150）",
+  "🧲 紀念磁石貼（原價$40）",
+  "🍽️ 壹方天地特色午餐",
+  "✅ 一日旅遊平安保險",
+];
+const shenzhenIncludesZhCn = [
+  "🚘 专车来回罗湖口岸（4人一车）",
+  "📋 专业教学简报（约15分钟）",
+  "🤝 一对一私人教练",
+  "🪂 2分钟室内风洞飞行体验",
+  "⚙️ 专业装备租用",
+  "🎥 GoPro特写镜头",
+  "📸 地面专业相机独家照片（原价$400）",
+  "📜 官方室内跳伞证书",
+  "👕 纪念Tee（原价$150）",
+  "🧲 纪念磁石贴（原价$40）",
+  "🍽️ 壹方天地特色午餐",
+  "✅ 一日旅游平安保险",
+];
+const buildIncludes = (values: string[]) =>
+  shenzhenIncludesEn.reduce<Record<string, string>>((acc, key, i) => {
+    acc[`include.${key}`] = values[i];
+    return acc;
+  }, {});
+
+Object.assign(dataTranslations.en, {
+  "location.shenzhen-ifly": "Shenzhen (iFLY)",
+  "location.shenzhen-ifly.desc": "Indoor flight in the heart of the city — open all year, rain or shine.",
+  "city.Shenzhen": "Shenzhen",
+  [`service.${shenzhenService}`]: "Shenzhen Indoor Skydiving Deluxe Day Tour (All-Inclusive)",
+  "addon.Extend flight time to 5 minutes (+150% air time)": "Extend flight time to 5 minutes (+150% air time)",
+  ...buildIncludes(shenzhenIncludesEn),
+});
+
+Object.assign(dataTranslations["zh-TW"], {
+  "location.shenzhen-ifly": "深圳 (iFLY)",
+  "location.shenzhen-ifly.desc": "在繁華都市中心體驗室內飛翔，全年無休，風雨無阻。",
+  "city.Shenzhen": "深圳",
+  [`service.${shenzhenService}`]: "深圳室內跳傘豪華一日遊（全包無憂版）",
+  "addon.Extend flight time to 5 minutes (+150% air time)": "⏱️ 飛行時間延長至5分鐘（延長150%）",
+  ...buildIncludes(shenzhenIncludesZhTw),
+  // Raw DB free-text
+  "Indoor skydiving in the heart of the city. Located inside Shenzhen Uniwalk (壹方天地), this is one of China's most advanced vertical wind tunnels — open all year, rain or shine, and suitable for all ages.":
+    "在繁華都市中心體驗室內飛翔。場地位於深圳壹方天地購物中心，是中國最先進的室內風洞設施之一。不受天氣限制，全年開放，適合所有年齡層，是結合購物、餐飲與極限運動的一日遊首選。",
+  "Fly in a top-tier Shenzhen wind tunnel with one-on-one professional coaching. Private car transfer from Luohu border included — everything is taken care of so you can focus on the rush of tunnel flight.":
+    "在深圳頂級風洞設施，享受由專業教練一對一指導的室內飛翔體驗。我們提供從羅湖口岸出發的專車接送，全程無憂，讓您專注感受風洞飛行的極致快感。",
+  "Indoors and fully climate-controlled — open 365 days a year, rain or shine. No weather cancellations, no wind holds, no season restrictions.":
+    "全室內恆溫場地——全年365日開放，風雨無阻。不會因天氣取消、不用等風、更沒有季節限制。",
+  "35km (45 mins) from Shenzhen Bao'an Airport": "距深圳寶安機場35公里（約45分鐘）",
+  "8km (20 mins) from Luohu border": "距羅湖口岸8公里（約20分鐘）",
+  "Private chartered car from Luohu border (4 guests per car)": "羅湖口岸專車接送（4人一車）",
+  "From Hong Kong: take the East Rail Line to Lo Wu (about 45 minutes), clear immigration, then our private car takes you to Uniwalk in around 20 minutes. Door-to-door about 1.5 hours.":
+    "由香港出發：乘東鐵線到羅湖站（約45分鐘），過關後由我們的專車接送約20分鐘直達壹方天地。全程約1.5小時。",
+  "Cantonese dim sum": "廣式點心",
+  "Chaoshan beef hotpot": "潮汕牛肉火鍋",
+  "Shenzhen-style roast goose": "深圳燒鵝",
+  "Uniwalk food hall": "壹方天地美食廣場",
+  "Uniwalk restaurant floor": "壹方天地餐飲樓層",
+  "Steamed classics served all day — the easy pre-flight option (light portions recommended).":
+    "全日供應的蒸點經典，飛行前的輕食之選（建議適量）。",
+  "Hand-sliced beef in clear broth, a Shenzhen favourite for the post-flight celebration.":
+    "手打鮮切牛肉配清湯，飛行後慶祝的深圳人氣之選。",
+  "Crispy-skinned roast goose with plum sauce.": "皮脆多汁的燒鵝配酸梅醬。",
+  "Uniwalk (壹方天地)": "壹方天地",
+  "Splendid China Folk Village": "錦繡中華民俗村",
+  "Shenzhen Bay Park": "深圳灣公園",
+  "One of Shenzhen's largest shopping and entertainment complexes — the wind tunnel is inside.":
+    "深圳最大型的購物娛樂綜合體之一，風洞設施就在其中。",
+  "Miniature landmarks and folk culture performances.": "微縮景觀地標及民俗文化表演。",
+  "Waterfront promenade with Hong Kong skyline views.": "海濱長廊，遠眺香港天際線。",
+  "0km (on site)": "0公里（場內）",
+  "25km (35 mins)": "25公里（約35分鐘）",
+  "30km (40 mins)": "30公里（約40分鐘）",
+  "12km (25 mins)": "12公里（約25分鐘）",
+  "0.5km (5 mins)": "0.5公里（約5分鐘）",
+  "8km (20 mins)": "8公里（約20分鐘）",
+  "Uniwalk area business hotel": "壹方天地商務酒店",
+  "Luohu station hotel": "羅湖站酒店",
+  "Shenzhen city-centre resort": "深圳市中心度假酒店",
+  "Walking distance to the wind tunnel, ideal if you extend to an overnight trip.":
+    "步行即達風洞場地，適合延伸為兩日一夜行程。",
+  "Right by the border crossing for an early start.": "緊鄰口岸，方便早出發。",
+  "Full-service resort for a relaxed weekend add-on.": "全套服務度假酒店，適合悠閒週末加遊。",
+  "Vertical wind tunnel flight chamber": "垂直風洞飛行艙",
+  "One-on-one coaching inside the tunnel": "風洞內一對一教練指導",
+  "Shenzhen Uniwalk shopping district": "深圳壹方天地購物區",
+  "Open all year, rain or shine": "全年無休，風雨無阻",
+  "One-on-one private instructor": "一對一私人教練",
+  "2-minute wind tunnel flight (extendable to 5 minutes)": "2分鐘風洞飛行（可延長至5分鐘）",
+  "Private car transfer from Luohu border": "羅湖口岸專車接送",
+  "All-inclusive: photos, video, certificate and lunch": "一價全包：照片、影片、證書及午餐",
+});
+
+Object.assign(dataTranslations["zh-CN"], {
+  "location.shenzhen-ifly": "深圳 (iFLY)",
+  "location.shenzhen-ifly.desc": "在繁华都市中心体验室内飞翔，全年无休，风雨无阻。",
+  "city.Shenzhen": "深圳",
+  [`service.${shenzhenService}`]: "深圳室内跳伞豪华一日游（全包无忧版）",
+  "addon.Extend flight time to 5 minutes (+150% air time)": "⏱️ 飞行时间延长至5分钟（延长150%）",
+  ...buildIncludes(shenzhenIncludesZhCn),
+  "Indoor skydiving in the heart of the city. Located inside Shenzhen Uniwalk (壹方天地), this is one of China's most advanced vertical wind tunnels — open all year, rain or shine, and suitable for all ages.":
+    "在繁华都市中心体验室内飞翔。场地位于深圳壹方天地购物中心，是中国最先进的室内风洞设施之一。不受天气限制，全年开放，适合所有年龄层，是结合购物、餐饮与极限运动的一日游首选。",
+  "Fly in a top-tier Shenzhen wind tunnel with one-on-one professional coaching. Private car transfer from Luohu border included — everything is taken care of so you can focus on the rush of tunnel flight.":
+    "在深圳顶级风洞设施，享受由专业教练一对一指导的室内飞翔体验。我们提供从罗湖口岸出发的专车接送，全程无忧，让您专注感受风洞飞行的极致快感。",
+  "Indoors and fully climate-controlled — open 365 days a year, rain or shine. No weather cancellations, no wind holds, no season restrictions.":
+    "全室内恒温场地——全年365日开放，风雨无阻。不会因天气取消、不用等风，也没有季节限制。",
+  "35km (45 mins) from Shenzhen Bao'an Airport": "距深圳宝安机场35公里（约45分钟）",
+  "8km (20 mins) from Luohu border": "距罗湖口岸8公里（约20分钟）",
+  "Private chartered car from Luohu border (4 guests per car)": "罗湖口岸专车接送（4人一车）",
+  "From Hong Kong: take the East Rail Line to Lo Wu (about 45 minutes), clear immigration, then our private car takes you to Uniwalk in around 20 minutes. Door-to-door about 1.5 hours.":
+    "由香港出发：乘东铁线到罗湖站（约45分钟），过关后由我们的专车接送约20分钟直达壹方天地。全程约1.5小时。",
+  "Cantonese dim sum": "广式点心",
+  "Chaoshan beef hotpot": "潮汕牛肉火锅",
+  "Shenzhen-style roast goose": "深圳烧鹅",
+  "Uniwalk food hall": "壹方天地美食广场",
+  "Uniwalk restaurant floor": "壹方天地餐饮楼层",
+  "Steamed classics served all day — the easy pre-flight option (light portions recommended).":
+    "全日供应的蒸点经典，飞行前的轻食之选（建议适量）。",
+  "Hand-sliced beef in clear broth, a Shenzhen favourite for the post-flight celebration.":
+    "手打鲜切牛肉配清汤，飞行后庆祝的深圳人气之选。",
+  "Crispy-skinned roast goose with plum sauce.": "皮脆多汁的烧鹅配酸梅酱。",
+  "Uniwalk (壹方天地)": "壹方天地",
+  "Splendid China Folk Village": "锦绣中华民俗村",
+  "Shenzhen Bay Park": "深圳湾公园",
+  "One of Shenzhen's largest shopping and entertainment complexes — the wind tunnel is inside.":
+    "深圳最大型的购物娱乐综合体之一，风洞设施就在其中。",
+  "Miniature landmarks and folk culture performances.": "微缩景观地标及民俗文化表演。",
+  "Waterfront promenade with Hong Kong skyline views.": "海滨长廊，远眺香港天际线。",
+  "0km (on site)": "0公里（场内）",
+  "25km (35 mins)": "25公里（约35分钟）",
+  "30km (40 mins)": "30公里（约40分钟）",
+  "12km (25 mins)": "12公里（约25分钟）",
+  "0.5km (5 mins)": "0.5公里（约5分钟）",
+  "8km (20 mins)": "8公里（约20分钟）",
+  "Uniwalk area business hotel": "壹方天地商务酒店",
+  "Luohu station hotel": "罗湖站酒店",
+  "Shenzhen city-centre resort": "深圳市中心度假酒店",
+  "Walking distance to the wind tunnel, ideal if you extend to an overnight trip.":
+    "步行即达风洞场地，适合延伸为两日一夜行程。",
+  "Right by the border crossing for an early start.": "紧邻口岸，方便早出发。",
+  "Full-service resort for a relaxed weekend add-on.": "全套服务度假酒店，适合悠闲周末加游。",
+  "Vertical wind tunnel flight chamber": "垂直风洞飞行舱",
+  "One-on-one coaching inside the tunnel": "风洞内一对一教练指导",
+  "Shenzhen Uniwalk shopping district": "深圳壹方天地购物区",
+  "Open all year, rain or shine": "全年无休，风雨无阻",
+  "One-on-one private instructor": "一对一私人教练",
+  "2-minute wind tunnel flight (extendable to 5 minutes)": "2分钟风洞飞行（可延长至5分钟）",
+  "Private car transfer from Luohu border": "罗湖口岸专车接送",
+  "All-inclusive: photos, video, certificate and lunch": "一价全包：照片、视频、证书及午餐",
+});
+
+// Shenzhen price + itinerary strings
+const shenzhenItinerary = {
+  en: {
+    "price.$2,280起": "From $2,280",
+    "addon.+$520": "+$520",
+  },
+  "zh-TW": {
+    "price.$2,280起": "$2,280起",
+    "Shenzhen Indoor Skydiving Day Tour": "深圳室內跳傘一日遊",
+    "Wind tunnel flight": "風洞飛行",
+    "One-on-one coaching": "一對一教練指導",
+    "Uniwalk lunch & shopping": "壹方天地午餐及購物",
+    "Meet at Luohu border, private car transfer": "羅湖口岸集合，專車接送",
+    "Arrive at iFLY Shenzhen, check-in & gear fitting": "抵達 iFLY 深圳，登記及裝備配戴",
+    "Professional safety briefing (approx. 15 mins)": "專業安全簡報（約15分鐘）",
+    "2-minute wind tunnel flight with one-on-one instructor": "2分鐘風洞飛行，一對一教練陪同",
+    "GoPro close-ups & ground camera photos": "GoPro 特寫及地面專業相機拍攝",
+    "Signature lunch at Uniwalk": "壹方天地特色午餐",
+    "Free time: shopping & cafes at Uniwalk": "自由時間：壹方天地購物及咖啡店",
+    "Certificate presentation & souvenir collection": "頒發證書及領取紀念品",
+    "Private car back to Luohu border": "專車返回羅湖口岸",
+    "Luohu Port": "羅湖口岸",
+    "Uniwalk": "壹方天地",
+    "iFLY Shenzhen": "iFLY 深圳",
+  },
+  "zh-CN": {
+    "price.$2,280起": "$2,280起",
+    "Shenzhen Indoor Skydiving Day Tour": "深圳室内跳伞一日游",
+    "Wind tunnel flight": "风洞飞行",
+    "One-on-one coaching": "一对一教练指导",
+    "Uniwalk lunch & shopping": "壹方天地午餐及购物",
+    "Meet at Luohu border, private car transfer": "罗湖口岸集合，专车接送",
+    "Arrive at iFLY Shenzhen, check-in & gear fitting": "抵达 iFLY 深圳，登记及装备配戴",
+    "Professional safety briefing (approx. 15 mins)": "专业安全简报（约15分钟）",
+    "2-minute wind tunnel flight with one-on-one instructor": "2分钟风洞飞行，一对一教练陪同",
+    "GoPro close-ups & ground camera photos": "GoPro 特写及地面专业相机拍摄",
+    "Signature lunch at Uniwalk": "壹方天地特色午餐",
+    "Free time: shopping & cafes at Uniwalk": "自由时间：壹方天地购物及咖啡店",
+    "Certificate presentation & souvenir collection": "颁发证书及领取纪念品",
+    "Private car back to Luohu border": "专车返回罗湖口岸",
+    "Luohu Port": "罗湖口岸",
+    "Uniwalk": "壹方天地",
+    "iFLY Shenzhen": "iFLY 深圳",
+  },
+};
+Object.assign(dataTranslations.en, shenzhenItinerary.en);
+Object.assign(dataTranslations["zh-TW"], shenzhenItinerary["zh-TW"]);
+Object.assign(dataTranslations["zh-CN"], shenzhenItinerary["zh-CN"]);
 
 // Helper function to convert markdown-style bold (**text** or *text*) to HTML
 const formatBoldText = (text: string): string => {
