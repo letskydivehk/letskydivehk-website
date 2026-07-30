@@ -1,6 +1,6 @@
 import { useState, useMemo, useRef } from 'react'
 import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
-import { Plane, GraduationCap, Users, Check, ArrowRight, Eye, Compass } from 'lucide-react'
+import { Plane, GraduationCap, Users, Check, ArrowRight, Eye, Compass, Wind } from 'lucide-react'
 import { CardGridSkeleton } from './skeletons/CardSkeleton'
 
 import { Link } from 'react-router-dom'
@@ -14,6 +14,7 @@ const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   aff: GraduationCap,
   group: Users,
   Tour: Compass,
+  indoor: Wind,
 }
 
 const detailRoutes: Record<string, string> = {
