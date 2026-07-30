@@ -25,7 +25,7 @@ const detailRoutes: Record<string, string> = {
 
 // Aggregate services by type for display
 interface AggregatedService {
-  type: 'tandem' | 'aff' | 'group' | 'Tour'
+  type: 'tandem' | 'aff' | 'group' | 'Tour' | 'indoor'
   title: string
   subtitle: string
   description: string
@@ -62,6 +62,11 @@ export function Services() {
         title: t('services.tour.title'),
         subtitle: t('services.tour.subtitle'),
         description: t('services.tour.description')
+      },
+      indoor: {
+        title: t('services.indoor.title'),
+        subtitle: t('services.indoor.subtitle'),
+        description: t('services.indoor.description')
       }
     }
     return infoMap[type] || { title: type, subtitle: '', description: '' }
@@ -107,7 +112,7 @@ export function Services() {
       }
 
       return {
-        type: type as 'tandem' | 'aff' | 'group' | 'Tour',
+        type: type as 'tandem' | 'aff' | 'group' | 'Tour' | 'indoor',
         title: info.title,
         subtitle: info.subtitle,
         description: info.description,
@@ -116,7 +121,7 @@ export function Services() {
         isPopular: data.isPopular
       } as AggregatedService
     }).sort((a, b) => {
-      const order: Record<string, number> = { tandem: 1, aff: 2, Tour: 3, group: 4 }
+      const order: Record<string, number> = { tandem: 1, aff: 2, indoor: 3, Tour: 4, group: 5 }
       return (order[a.type] || 99) - (order[b.type] || 99)
     })
   }, [locationServices, t])
@@ -243,10 +248,15 @@ export function Services() {
                   {/* CTA Buttons */}
                   <div className="space-y-3">
                   {(() => {
-                    const isContact = service.type === 'group' || service.type === 'Tour'
+                    const isContact = service.type === 'group' || service.type === 'Tour' || service.type === 'indoor'
                     const handleClick = () => {
                       if (isContact) {
-                        const msgKey = service.type === 'group' ? 'whatsapp.quick.group' : 'whatsapp.quick.tour'
+                        const msgKey =
+                          service.type === 'group'
+                            ? 'whatsapp.quick.group'
+                            : service.type === 'indoor'
+                              ? 'whatsapp.quick.indoor'
+                              : 'whatsapp.quick.tour'
                         const text = encodeURIComponent(t(msgKey))
                         window.open(`https://wa.me/85269391570?text=${text}`, '_blank', 'noopener,noreferrer')
                       } else {
