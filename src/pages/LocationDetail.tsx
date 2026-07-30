@@ -58,6 +58,13 @@ export default function LocationDetail() {
       navigate(`/tour/${location.slug}/${serviceId}`);
       return;
     }
+    if (serviceType === "indoor" || serviceType === "group") {
+      const text = encodeURIComponent(
+        `${t(serviceType === "indoor" ? "whatsapp.quick.indoor" : "whatsapp.quick.group")} (${translatedName})`,
+      );
+      window.open(`https://wa.me/85269391570?text=${text}`, "_blank", "noopener,noreferrer");
+      return;
+    }
     setPreselectedLocationId(location.id);
     setPreselectedServiceId(serviceId);
     navigate("/#booking");
