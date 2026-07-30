@@ -98,39 +98,27 @@ export default function Home() {
         {/* Compact strip → jumps to Safety / Timeline anchors below */}
         <JumpDayStrip />
 
-        <LazySection minHeight={500}>
-          <section id="testimonials" aria-label="Testimonials section">
-            <Testimonials />
-          </section>
+        <LazySection minHeight={500} id="testimonials" aria-label="Testimonials section">
+          <Testimonials />
         </LazySection>
 
-        <LazySection minHeight={500}>
-          <section id="faq" aria-label="FAQ section">
-            <FAQ />
-          </section>
+        <LazySection minHeight={500} id="faq" aria-label="FAQ section">
+          <FAQ />
         </LazySection>
 
         {/* Deep-content anchors kept mounted so strip cards can scroll to them */}
-        <LazySection minHeight={400}>
-          <section id="safety" aria-label="Safety section">
-            <SafetySection />
-          </section>
+        <LazySection minHeight={400} id="safety" aria-label="Safety section">
+          <SafetySection />
         </LazySection>
-        <LazySection minHeight={400}>
-          <section id="timeline" aria-label="Jump day timeline section">
-            <JumpDayTimeline />
-          </section>
+        <LazySection minHeight={400} id="timeline" aria-label="Jump day timeline section">
+          <JumpDayTimeline />
         </LazySection>
 
-        <LazySection minHeight={400}>
-          <section id="about" aria-label="About section">
-            <About />
-          </section>
+        <LazySection minHeight={400} id="about" aria-label="About section">
+          <About />
         </LazySection>
-        <LazySection minHeight={400}>
-          <section id="contact" aria-label="Contact section">
-            <Contact />
-          </section>
+        <LazySection minHeight={400} id="contact" aria-label="Contact section">
+          <Contact />
         </LazySection>
       </main>
       <Footer />

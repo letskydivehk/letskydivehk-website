@@ -7,6 +7,9 @@ interface LazySectionProps {
   /** Estimated height before mount so layout doesn't jump. */
   minHeight?: number | string;
   className?: string;
+  /** Anchor id kept on the always-rendered wrapper so hash links work before mount. */
+  id?: string;
+  "aria-label"?: string;
 }
 
 /**
@@ -18,6 +21,8 @@ export function LazySection({
   rootMargin = "300px",
   minHeight = 200,
   className,
+  id,
+  "aria-label": ariaLabel,
 }: LazySectionProps) {
   const ref = useRef<HTMLDivElement | null>(null);
   const [visible, setVisible] = useState(false);
@@ -43,9 +48,17 @@ export function LazySection({
     return () => io.disconnect();
   }, [rootMargin, visible]);
 
+  // When mounted via a hash link, the anchor target must exist immediately.
+  useEffect(() => {
+    if (!id || visible) return;
+    if (window.location.hash === `#${id}`) setVisible(true);
+  }, [id, visible]);
+
   return (
     <div
       ref={ref}
+      id={id}
+      aria-label={ariaLabel}
       className={className}
       style={!visible ? { minHeight: typeof minHeight === "number" ? `${minHeight}px` : minHeight } : undefined}
     >
