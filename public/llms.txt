@@ -16,6 +16,7 @@ Let's Skydive HK helps Hong Kong jumpers book tandem skydives and progress to a 
 - [Hainan Dropzone](/location/hainan): China Hainan skydiving location details.
 - [Luoding Dropzone](/location/luoding): China Luoding skydiving location details.
 - [Zhuhai Dropzone](/location/zhuhai): China Zhuhai skydiving location details.
+- [Shenzhen iFLY Indoor Skydiving](/location/shenzhen-ifly): Shenzhen indoor wind tunnel day tour, all-inclusive with transfers from the Luohu border.
 - [Gallery](/gallery): Photos and videos from past jumps.
 - [Promotions](/promotions): Current discount codes and seasonal offers.
 - [Souvenirs](/souvenirs): Alumni-exclusive custom fridge magnets and skydiving edition merch. Turn your jump photo into a keepsake.
