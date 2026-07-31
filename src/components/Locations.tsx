@@ -181,12 +181,12 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
       transition={{ duration: 0.5 }}
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
       onClick={onViewDetails}
-      className={`relative bg-card rounded-2xl overflow-hidden clean-border group hover:elevated-shadow transition-all duration-300 mobile-transparent-card cursor-pointer ${
+      className={`relative h-full w-full flex flex-col bg-card rounded-2xl overflow-hidden clean-border group hover:elevated-shadow transition-all duration-300 mobile-transparent-card cursor-pointer ${
         comingSoon ? "opacity-75" : ""
       }`}
     >
       {/* Image */}
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative h-48 shrink-0 overflow-hidden">
         <img
           src={location.image_url || "/placeholder.svg"}
           alt={translatedLocation.Name}
