@@ -227,7 +227,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
       </div>
 
       {/* Content */}
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-1">
         {showClosingBadge && (
           <div className="mb-3 px-3 py-2 rounded-lg bg-accent-orange/10 border border-accent-orange/30 text-accent-orange text-xs font-semibold">
             {t("location.closing.lastJumps")}
