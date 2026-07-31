@@ -129,7 +129,7 @@ export function Locations() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto justify-items-center"
+              className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto justify-items-stretch items-stretch"
             >
               {currentLocations.map((location) => (
                 <LocationCard
@@ -181,12 +181,12 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
       transition={{ duration: 0.5 }}
       whileHover={{ y: -8, transition: { duration: 0.3 } }}
       onClick={onViewDetails}
-      className={`relative bg-card rounded-2xl overflow-hidden clean-border group hover:elevated-shadow transition-all duration-300 mobile-transparent-card cursor-pointer ${
+      className={`relative h-full w-full flex flex-col bg-card rounded-2xl overflow-hidden clean-border group hover:elevated-shadow transition-all duration-300 mobile-transparent-card cursor-pointer ${
         comingSoon ? "opacity-75" : ""
       }`}
     >
       {/* Image */}
-      <div className="relative h-48 overflow-hidden">
+      <div className="relative h-48 shrink-0 overflow-hidden">
         <img
           src={location.image_url || "/placeholder.svg"}
           alt={translatedLocation.Name}
@@ -227,7 +227,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
       </div>
 
       {/* Content */}
-      <div className="p-6">
+      <div className="p-6 flex flex-col flex-1">
         {showClosingBadge && (
           <div className="mb-3 px-3 py-2 rounded-lg bg-accent-orange/10 border border-accent-orange/30 text-accent-orange text-xs font-semibold">
             {t("location.closing.lastJumps")}
@@ -236,7 +236,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
         <p className="text-muted-foreground mb-4 leading-relaxed">{translatedLocation.description}</p>
 
         {/* Features */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-2 mb-6 mt-auto">
           <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-orange/10 text-accent-orange px-3 py-1 rounded-full">
             <Users className="w-3 h-3" />
             {t("locations.tandem")}
