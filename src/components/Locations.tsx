@@ -236,7 +236,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
         <p className="text-muted-foreground mb-4 leading-relaxed">{translatedLocation.description}</p>
 
         {/* Features */}
-        <div className="flex flex-wrap gap-2 mb-6">
+        <div className="flex flex-wrap gap-2 mb-6 mt-auto">
           <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-orange/10 text-accent-orange px-3 py-1 rounded-full">
             <Users className="w-3 h-3" />
             {t("locations.tandem")}
