@@ -4282,10 +4282,10 @@ Object.assign(dataTranslations["zh-TW"], {
   "Indoors and fully climate-controlled — open 365 days a year, rain or shine. No weather cancellations, no wind holds, no season restrictions.":
     "全室內恆溫場地——全年365日開放，風雨無阻。不會因天氣取消、不用等風、更沒有季節限制。",
   "35km (45 mins) from Shenzhen Bao'an Airport": "距深圳寶安機場35公里（約45分鐘）",
-  "8km (20 mins) from Luohu border": "距羅湖口岸8公里（約20分鐘）",
+  "20km (50 mins) from Luohu border": "距離羅湖口岸20公里（50分鐘）",
   "Private chartered car from Luohu border (4 guests per car)": "羅湖口岸專車接送（4人一車）",
-  "From Hong Kong: take the East Rail Line to Lo Wu (about 45 minutes), clear immigration, then our private car takes you to Uniwalk in around 20 minutes. Door-to-door about 1.5 hours.":
-    "由香港出發：乘東鐵線到羅湖站（約45分鐘），過關後由我們的專車接送約20分鐘直達壹方天地。全程約1.5小時。",
+  "From Hong Kong: take the East Rail Line to Lo Wu (about 45 minutes), clear immigration, then our private car takes you to Uniwalk in around 50 minutes. Door-to-door about 1.5 hours.":
+    "由香港出發：乘東鐵線到羅湖站（約45分鐘），過關後由我們的專車接送約50分鐘直達壹方天地。全程約1.5小時。",
   "Cantonese dim sum": "廣式點心",
   "Chaoshan beef hotpot": "潮汕牛肉火鍋",
   "Shenzhen-style roast goose": "深圳燒鵝",
@@ -4340,10 +4340,10 @@ Object.assign(dataTranslations["zh-CN"], {
   "Indoors and fully climate-controlled — open 365 days a year, rain or shine. No weather cancellations, no wind holds, no season restrictions.":
     "全室内恒温场地——全年365日开放，风雨无阻。不会因天气取消、不用等风，也没有季节限制。",
   "35km (45 mins) from Shenzhen Bao'an Airport": "距深圳宝安机场35公里（约45分钟）",
-  "8km (20 mins) from Luohu border": "距罗湖口岸8公里（约20分钟）",
+  "20km (50 mins) from Luohu border": "距离罗湖口岸20公里（50分钟）",
   "Private chartered car from Luohu border (4 guests per car)": "罗湖口岸专车接送（4人一车）",
-  "From Hong Kong: take the East Rail Line to Lo Wu (about 45 minutes), clear immigration, then our private car takes you to Uniwalk in around 20 minutes. Door-to-door about 1.5 hours.":
-    "由香港出发：乘东铁线到罗湖站（约45分钟），过关后由我们的专车接送约20分钟直达壹方天地。全程约1.5小时。",
+  "From Hong Kong: take the East Rail Line to Lo Wu (about 45 minutes), clear immigration, then our private car takes you to Uniwalk in around 50 minutes. Door-to-door about 1.5 hours.":
+    "由香港出发：乘东铁线到罗湖站（约45分钟），过关后由我们的专车接送约50分钟直达壹方天地。全程约1.5小时。",
   "Cantonese dim sum": "广式点心",
   "Chaoshan beef hotpot": "潮汕牛肉火锅",
   "Shenzhen-style roast goose": "深圳烧鹅",
