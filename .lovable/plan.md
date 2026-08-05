@@ -1,29 +1,31 @@
-## 目標
-1. 修正 `20km (50 mins) from Luohu border` 的繁中/簡中翻譯為「距離羅湖口岸20公里（50分鐘）」。
-2. 把「羅湖口岸 → 壹方天地」的車程時間統一改成 50 分鐘（目前英文描述仍寫 20 分鐘）。
+# 三語翻譯檢查與同步修正
 
-## 現況確認
-- DB `locations.city_distance` 已為 `20km (50 mins) from Luohu border`。
-- DB `locations.getting_there_from_hk` 仍寫 `... our private car takes you to Uniwalk in around 20 minutes ...`。
-- `src/contexts/LanguageContext.tsx` 裡只有舊 key：`"8km (20 mins) from Luohu border"` 及對應的 20 分鐘描述翻譯，缺少新 key。
+## 現況（已用工具核實）
 
-## 執行步驟
-1. **更新 DB 英文原文**
-   - 把 `locations.getting_there_from_hk`（shenzhen-ifly）裡的 `around 20 minutes` 改為 `around 50 minutes`，讓英文與距離欄位一致。
+`src/contexts/LanguageContext.tsx` 內 `translations` 有三個語言字典（en / zh-TW / zh-CN），另有多段以 `translations["zh-TW"]["key"] = ...` 形式後補的補丁。
 
-2. **更新 `src/contexts/LanguageContext.tsx` 翻譯對照**
-   - **繁中（zh-TW）**
-     - 將 `"8km (20 mins) from Luohu border"` 改為 `"20km (50 mins) from Luohu border"`，值改為 `"距離羅湖口岸20公里（50分鐘）"`。
-     - 將 `"From Hong Kong: take the East Rail Line to Lo Wu (about 45 minutes), clear immigration, then our private car takes you to Uniwalk in around 20 minutes. Door-to-door about 1.5 hours."` 裡的 `around 20 minutes` 改為 `around 50 minutes`，繁中翻譯同步改為「約50分鐘直達壹方天地」。
-   - **簡中（zh-CN）**
-     - 對應 key 與值同步修改為「距离罗湖口岸20公里（50分钟）」及「约50分钟直达壹方天地」。
+實際掃描全部 `src/**/*.tsx|ts` 中的 `t("...")` 用法後：
 
-3. **驗證**
-   - 在預覽以繁中/簡中開啟 `/location/shenzhen-ifly`。
-   - 確認「距離」卡片顯示「距離羅湖口岸20公里（50分鐘）」。
-   - 確認「前往方法」卡片顯示 50 分鐘車程，且無英文 fallback。
+- **英文版缺 156 個鍵**：這些鍵只在 zh-TW / zh-CN 補丁段補過，英文完全沒有。切到 English 時畫面會直接顯示原始鍵名（例如 `faq.title`、`quiz.page.title`、`safety.badge`、`timeline.title`、`instructors.title`）。
+- **三語全缺 60 個鍵**：無論任何語言都顯示鍵名，主要集中在：
+  - 一日遊／行程：`tour.*`（morning/afternoon/evening/day/itinerary/deposit/price/duration/included/addOns/badge.*/promoBanner.*/noTours/viewDetails/chooseLocation*/quickHighlights/itineraryComingSoon）
+  - 一日遊服務頁步驟：`servicePage.tour.step1–6.title/desc`
+  - 教練團隊：`instructors.title/subtitle/badge/cert/langs`
+  - 紀念品：`souvenirs.customPhotoLine`、`souvenirs.photoSendInChat`
+  - 定價／CTA：`pricing.off`、`credits.label`
+  - 管理後台：`admin.*`（15 個）、`auth.accessDenied`、`auth.allowCookies`、`contact.form.error`
+- zh-TW 與 zh-CN 之間鍵覆蓋一致（各 968–969 個），沒有互相缺漏。
 
-## 不會改動的範圍
-- 不改變其他地點的距離/時間翻譯。
-- 不改變 `8km (20 mins)` 這個通用 key（它用於 Luohu station hotel 到場地，非羅湖口岸到壹方天地）。
-- 不改變行程細節或價格。
+## 修正方案
+
+1. **補齊英文 156 個鍵**：為所有只有中文的鍵新增對應英文文案，語氣與現有英文段落一致（簡潔行銷語）。
+2. **補齊三語全缺的 60 個鍵**：為每個鍵撰寫 en / zh-TW / zh-CN 三個版本，中文以繁體為權威版本，再轉出簡體（依既有用詞規則，例如「跳傘／跳伞」、「一日遊／一日游」）。
+3. **統一整理結構**：把散落在檔案末端的補丁式賦值（`translations["zh-TW"][...] = ...`）合併回三個主字典，讓三語並排、日後易於比對；不改動 `dataTranslations`、`tourDataTranslations` 等動態資料字典的行為。
+4. **加入開發期檢查**：在 `LanguageContext` 內（僅 `import.meta.env.DEV`）新增一次性比對，若三語鍵集合不一致就在 console 列出缺漏鍵，避免日後再度失同步。
+5. **驗證**：以 Playwright 逐一開啟主要頁面（首頁、/service/skydiving-tour、/souvenirs、/membership/tiers、/quiz、/location/shenzhen-ifly、/promotions）在三種語言下截圖，並掃描頁面文字是否仍出現 `xxx.yyy` 形態的原始鍵名。
+
+## 技術細節
+
+- 只修改 `src/contexts/LanguageContext.tsx`（新增／整理翻譯鍵）＋必要時修正個別元件誤用的鍵名。
+- 不改任何業務邏輯、資料庫或 UI 版面。
+- 完成後執行 typecheck 確認無錯。
