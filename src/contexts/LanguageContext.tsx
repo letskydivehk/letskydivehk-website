@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { locationDataTranslations } from "@/data/locationDataTranslations";
+import { missingTranslations } from "@/contexts/translationsMissing";
 
 export type Language = "en" | "zh-TW" | "zh-CN";
 
