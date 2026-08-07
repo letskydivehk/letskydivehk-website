@@ -4071,7 +4071,7 @@ translations["zh-CN"]["compare.metaTitle"] = "比较跳伞地点 | Let's Skydive
 
 // Fill in keys that were missing in one or more languages (existing values always win).
 (Object.keys(missingTranslations) as Language[]).forEach((lang) => {
-  Object.entries(missingTranslations[lang]).forEach(([key, value]) => {
+  (Object.entries(missingTranslations[lang]) as [string, string][]).forEach(([key, value]) => {
     if (translations[lang][key] === undefined) {
       translations[lang][key] = value;
     }
