@@ -4068,6 +4068,29 @@ translations["zh-CN"]["compare.col.action"] = "";
 translations["zh-CN"]["compare.viewDetails"] = "查看详情";
 translations["zh-CN"]["compare.metaTitle"] = "比较跳伞地点 | Let's Skydive HK";
 
+// Fill in keys that were missing in one or more languages (existing values always win).
+(Object.keys(missingTranslations) as Language[]).forEach((lang) => {
+  Object.entries(missingTranslations[lang]).forEach(([key, value]) => {
+    if (translations[lang][key] === undefined) {
+      translations[lang][key] = value;
+    }
+  });
+});
+
+// Dev-only parity check so the three languages never drift apart again.
+if (import.meta.env.DEV) {
+  const langs: Language[] = ["en", "zh-TW", "zh-CN"];
+  const all = new Set(langs.flatMap((l) => Object.keys(translations[l])));
+  langs.forEach((l) => {
+    const missing = [...all].filter((k) => translations[l][k] === undefined);
+    if (missing.length) {
+      console.warn(`[i18n] ${l} is missing ${missing.length} keys:`, missing);
+    }
+  });
+}
+
+
+
 // Tour data translations (service names, day titles, includes)
 const tourDataTranslations = {
   en: {
