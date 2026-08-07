@@ -15,7 +15,7 @@ import { getLocationNotice, isEffectivelyComingSoon } from "@/data/locationNotic
 type Country = "Thailand" | "China";
 
 export function Locations() {
-  const [activeCountry, setActiveCountry] = useState<Country>("Thailand");
+  const [activeCountry, setActiveCountry] = useState<Country>("China");
   const { data: locations, isLoading, error } = useLocations();
   const { t, translateData } = useLanguage();
   const navigate = useNavigate();
