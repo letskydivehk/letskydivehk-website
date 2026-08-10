@@ -7,6 +7,8 @@ interface BookingContextType {
   setPreselectedServiceId: (id: string | null) => void
   preselectedServiceType: string | null
   setPreselectedServiceType: (type: string | null) => void
+  preselectedDate: string | null
+  setPreselectedDate: (date: string | null) => void
   activeServiceTypeFilter: string | null
   setActiveServiceTypeFilter: (type: string | null) => void
 }
@@ -17,6 +19,7 @@ export function BookingProvider({ children }: { children: ReactNode }) {
   const [preselectedLocationId, setPreselectedLocationId] = useState<string | null>(null)
   const [preselectedServiceId, setPreselectedServiceId] = useState<string | null>(null)
   const [preselectedServiceType, setPreselectedServiceType] = useState<string | null>(null)
+  const [preselectedDate, setPreselectedDate] = useState<string | null>(null)
   const [activeServiceTypeFilter, setActiveServiceTypeFilter] = useState<string | null>(null)
 
   return (
@@ -27,6 +30,8 @@ export function BookingProvider({ children }: { children: ReactNode }) {
       setPreselectedServiceId,
       preselectedServiceType,
       setPreselectedServiceType,
+      preselectedDate,
+      setPreselectedDate,
       activeServiceTypeFilter,
       setActiveServiceTypeFilter
     }}>
