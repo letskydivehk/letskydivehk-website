@@ -877,7 +877,7 @@ export function BookingSection() {
                       </div>
                     ) : (
                       <div className="space-y-4">
-                        {locationServices?.filter((s) => s.service_type !== 'Tour' && s.service_type !== 'indoor').map((service) => {
+                        {locationServices?.filter((s) => s.service_type !== 'Tour').map((service) => {
                           const translatedService = translateService(service);
                           return (
                             <button
@@ -1016,6 +1016,7 @@ export function BookingSection() {
                             }}
                             disabled={(date) => {
                               if (date < new Date()) return true;
+                              if (isIndoorService) return !bookableDateSet.has(format(date, "yyyy-MM-dd"));
                               const notice = getLocationNotice(selectedLocation?.slug);
                               if (notice?.type === "closing" && date >= new Date(notice.closedFrom)) return true;
                               return false;
@@ -1047,7 +1048,7 @@ export function BookingSection() {
                         </span>
                         <button
                           onClick={() =>
-                            setFormData({ ...formData, participants: Math.min(10, formData.participants + 1) })
+                            setFormData({ ...formData, participants: Math.min(maxParticipants, formData.participants + 1) })
                           }
                           className="w-12 h-12 rounded-xl border border-border hover:border-accent-emerald/50 flex items-center justify-center text-xl font-bold cursor-pointer transition-colors"
                         >
