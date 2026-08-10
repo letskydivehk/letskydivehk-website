@@ -112,6 +112,8 @@ export function BookingSection() {
     setPreselectedServiceId,
     preselectedServiceType,
     setPreselectedServiceType,
+    preselectedDate,
+    setPreselectedDate,
     activeServiceTypeFilter,
     setActiveServiceTypeFilter,
   } = useBooking();
@@ -229,7 +231,39 @@ export function BookingSection() {
 
   const translatedSelectedService = selectedService ? translateService(selectedService) : null;
 
-  const steps: { id: Step; label: string; icon: React.ElementType }[] = [
+  // Scheduled departures (indoor skydiving runs on fixed dates only)
+  const isIndoorService = selectedService?.service_type === "indoor";
+  const { data: serviceDepartures } = useServiceDepartures(isIndoorService ? formData.service : undefined);
+  const bookableDepartures = useMemo(
+    () => (serviceDepartures ?? []).filter(isBookable),
+    [serviceDepartures],
+  );
+  const bookableDateSet = useMemo(
+    () => new Set(bookableDepartures.map((d) => d.departure_date)),
+    [bookableDepartures],
+  );
+  const selectedDeparture = useMemo(
+    () => bookableDepartures.find((d) => d.departure_date === formData.date),
+    [bookableDepartures, formData.date],
+  );
+  const maxParticipants = isIndoorService ? Math.max(1, selectedDeparture?.seats_left ?? 8) : 10;
+
+  // Handle a departure date preselected from the location page
+  useEffect(() => {
+    if (preselectedDate) {
+      setFormData((prev) => ({ ...prev, date: preselectedDate }));
+      setPreselectedDate(null);
+    }
+  }, [preselectedDate, setPreselectedDate]);
+
+  // Keep participants within the remaining seats for indoor departures
+  useEffect(() => {
+    if (isIndoorService && formData.participants > maxParticipants) {
+      setFormData((prev) => ({ ...prev, participants: maxParticipants }));
+    }
+  }, [isIndoorService, maxParticipants, formData.participants]);
+
+
     { id: "location", label: t("booking.step1"), icon: MapPin },
     { id: "service", label: t("booking.step2"), icon: Plane },
     { id: "details", label: t("booking.step3"), icon: User },
