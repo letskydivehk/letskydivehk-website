@@ -36,6 +36,8 @@ export default function LocationDetail() {
 
   const loc = location as any;
 
+  const indoorService = services?.find((s) => s.service_type === "indoor");
+
   const translatedName = location ? translateData(`location.${location.slug}`, location.Name) : "";
   const translatedDesc = location ? translateData(`location.${location.slug}.desc`, location.description || "") : "";
   const translatedCity = location ? translateData(`city.${location.City}`, location.City || "") : "";
@@ -59,10 +61,8 @@ export default function LocationDetail() {
       navigate(`/tour/${location.slug}/${serviceId}`);
       return;
     }
-    if (serviceType === "indoor" || serviceType === "group") {
-      const text = encodeURIComponent(
-        `${t(serviceType === "indoor" ? "whatsapp.quick.indoor" : "whatsapp.quick.group")} (${translatedName})`,
-      );
+    if (serviceType === "group") {
+      const text = encodeURIComponent(`${t("whatsapp.quick.group")} (${translatedName})`);
       window.open(`https://wa.me/85269391570?text=${text}`, "_blank", "noopener,noreferrer");
       return;
     }
