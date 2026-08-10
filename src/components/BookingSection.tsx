@@ -264,6 +264,7 @@ export function BookingSection() {
   }, [isIndoorService, maxParticipants, formData.participants]);
 
 
+  const steps: { id: Step; label: string; icon: React.ElementType }[] = [
     { id: "location", label: t("booking.step1"), icon: MapPin },
     { id: "service", label: t("booking.step2"), icon: Plane },
     { id: "details", label: t("booking.step3"), icon: User },
