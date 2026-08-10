@@ -27,6 +27,7 @@ import { TrustBar } from "@/components/TrustBar";
 import { EligibilityChips } from "@/components/EligibilityChips";
 import { ExploreMoreStrip } from "@/components/home/ExploreMoreStrip";
 import { JumpDayStrip } from "@/components/home/JumpDayStrip";
+import { NextDepartureBanner } from "@/components/home/NextDepartureBanner";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -76,6 +77,9 @@ export default function Home() {
         <LazySection minHeight={80}>
           <SocialProofTicker />
         </LazySection>
+
+        {/* Featured scheduled departures (Shenzhen indoor skydiving) */}
+        <NextDepartureBanner />
 
         {/* Compact click-through strip — replaces Quiz / Referral / Rewards / Souvenir full sections */}
         <ExploreMoreStrip />

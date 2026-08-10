@@ -19,6 +19,7 @@ import { format } from "date-fns";
 import { zhTW } from "date-fns/locale";
 import { useLocations, type Location } from "@/hooks/useLocations";
 import { useLocationServices, type LocationService } from "@/hooks/useLocationServices";
+import { useServiceDepartures, isBookable } from "@/hooks/useServiceDepartures";
 import { useBooking } from "@/contexts/BookingContext";
 import { getLocationNotice, isEffectivelyComingSoon } from "@/data/locationNotices";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -112,6 +113,8 @@ export function BookingSection() {
     setPreselectedServiceId,
     preselectedServiceType,
     setPreselectedServiceType,
+    preselectedDate,
+    setPreselectedDate,
     activeServiceTypeFilter,
     setActiveServiceTypeFilter,
   } = useBooking();
@@ -228,6 +231,39 @@ export function BookingSection() {
   );
 
   const translatedSelectedService = selectedService ? translateService(selectedService) : null;
+
+  // Scheduled departures (indoor skydiving runs on fixed dates only)
+  const isIndoorService = selectedService?.service_type === "indoor";
+  const { data: serviceDepartures } = useServiceDepartures(isIndoorService ? formData.service : undefined);
+  const bookableDepartures = useMemo(
+    () => (serviceDepartures ?? []).filter(isBookable),
+    [serviceDepartures],
+  );
+  const bookableDateSet = useMemo(
+    () => new Set(bookableDepartures.map((d) => d.departure_date)),
+    [bookableDepartures],
+  );
+  const selectedDeparture = useMemo(
+    () => bookableDepartures.find((d) => d.departure_date === formData.date),
+    [bookableDepartures, formData.date],
+  );
+  const maxParticipants = isIndoorService ? Math.max(1, selectedDeparture?.seats_left ?? 8) : 10;
+
+  // Handle a departure date preselected from the location page
+  useEffect(() => {
+    if (preselectedDate) {
+      setFormData((prev) => ({ ...prev, date: preselectedDate }));
+      setPreselectedDate(null);
+    }
+  }, [preselectedDate, setPreselectedDate]);
+
+  // Keep participants within the remaining seats for indoor departures
+  useEffect(() => {
+    if (isIndoorService && formData.participants > maxParticipants) {
+      setFormData((prev) => ({ ...prev, participants: maxParticipants }));
+    }
+  }, [isIndoorService, maxParticipants, formData.participants]);
+
 
   const steps: { id: Step; label: string; icon: React.ElementType }[] = [
     { id: "location", label: t("booking.step1"), icon: MapPin },
@@ -841,7 +877,7 @@ export function BookingSection() {
                       </div>
                     ) : (
                       <div className="space-y-4">
-                        {locationServices?.filter((s) => s.service_type !== 'Tour' && s.service_type !== 'indoor').map((service) => {
+                        {locationServices?.filter((s) => s.service_type !== 'Tour').map((service) => {
                           const translatedService = translateService(service);
                           return (
                             <button
@@ -980,6 +1016,7 @@ export function BookingSection() {
                             }}
                             disabled={(date) => {
                               if (date < new Date()) return true;
+                              if (isIndoorService) return !bookableDateSet.has(format(date, "yyyy-MM-dd"));
                               const notice = getLocationNotice(selectedLocation?.slug);
                               if (notice?.type === "closing" && date >= new Date(notice.closedFrom)) return true;
                               return false;
@@ -990,6 +1027,14 @@ export function BookingSection() {
                         </PopoverContent>
                       </Popover>
                       {validationErrors.date && <p className="text-red-500 text-xs mt-1">{validationErrors.date}</p>}
+                      {isIndoorService && (
+                        <p className="text-xs text-muted-foreground mt-2">
+                          {t("departures.subtitle")}{" "}
+                          {t("departures.minNotice")
+                            .replace("{n}", String(serviceDepartures?.[0]?.min_participants ?? 3))
+                            .replace("{d}", String(serviceDepartures?.[0]?.cutoff_days ?? 5))}
+                        </p>
+                      )}
                     </div>
 
                     {/* Participants */}
@@ -1011,7 +1056,7 @@ export function BookingSection() {
                         </span>
                         <button
                           onClick={() =>
-                            setFormData({ ...formData, participants: Math.min(10, formData.participants + 1) })
+                            setFormData({ ...formData, participants: Math.min(maxParticipants, formData.participants + 1) })
                           }
                           className="w-12 h-12 rounded-xl border border-border hover:border-accent-emerald/50 flex items-center justify-center text-xl font-bold cursor-pointer transition-colors"
                         >

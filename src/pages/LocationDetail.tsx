@@ -14,6 +14,7 @@ import { PageNavbar } from "@/components/PageNavbar";
 import { LocationPhotoGallery } from "@/components/location/LocationPhotoGallery";
 import { LocationWeather } from "@/components/location/LocationWeather";
 import { LocationMap } from "@/components/location/LocationMap";
+import { DepartureSchedule } from "@/components/DepartureSchedule";
 
 import { LocationAccommodations } from "@/components/location/LocationAccommodations";
 import { LocationAttractions } from "@/components/location/LocationAttractions";
@@ -26,7 +27,7 @@ export default function LocationDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { t, translateData } = useLanguage();
-  const { setPreselectedLocationId, setPreselectedServiceId } = useBooking();
+  const { setPreselectedLocationId, setPreselectedServiceId, setPreselectedDate } = useBooking();
 
   const { data: location, isLoading, error } = useLocationBySlug(slug);
   const { data: photos } = useLocationPhotos(location?.id);
@@ -34,6 +35,8 @@ export default function LocationDetail() {
   const { data: tourism } = useLocationTourism(location?.id);
 
   const loc = location as any;
+
+  const indoorService = services?.find((s) => s.service_type === "indoor");
 
   const translatedName = location ? translateData(`location.${location.slug}`, location.Name) : "";
   const translatedDesc = location ? translateData(`location.${location.slug}.desc`, location.description || "") : "";
@@ -58,10 +61,8 @@ export default function LocationDetail() {
       navigate(`/tour/${location.slug}/${serviceId}`);
       return;
     }
-    if (serviceType === "indoor" || serviceType === "group") {
-      const text = encodeURIComponent(
-        `${t(serviceType === "indoor" ? "whatsapp.quick.indoor" : "whatsapp.quick.group")} (${translatedName})`,
-      );
+    if (serviceType === "group") {
+      const text = encodeURIComponent(`${t("whatsapp.quick.group")} (${translatedName})`);
       window.open(`https://wa.me/85269391570?text=${text}`, "_blank", "noopener,noreferrer");
       return;
     }
@@ -253,6 +254,25 @@ export default function LocationDetail() {
                     <p className="text-muted-foreground">{translateData(location.transportation, location.transportation)}</p>
                   </div>
                 )}
+              </motion.div>
+            )}
+
+            {/* Scheduled departures (indoor skydiving) */}
+            {indoorService && (
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.26 }}>
+                <DepartureSchedule
+                  serviceId={indoorService.id}
+                  locationName={translatedName}
+                  onBook={(departure) => {
+                    setPreselectedLocationId(location.id);
+                    setPreselectedServiceId(indoorService.id);
+                    setPreselectedDate(departure.departure_date);
+                    navigate("/#booking");
+                    setTimeout(() => {
+                      document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+                    }, 100);
+                  }}
+                />
               </motion.div>
             )}
 

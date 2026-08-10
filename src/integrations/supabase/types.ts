@@ -808,6 +808,53 @@ export type Database = {
         }
         Relationships: []
       }
+      service_departures: {
+        Row: {
+          capacity: number
+          created_at: string
+          cutoff_days: number
+          departure_date: string
+          id: string
+          location_service_id: string
+          min_participants: number
+          notes: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          capacity?: number
+          created_at?: string
+          cutoff_days?: number
+          departure_date: string
+          id?: string
+          location_service_id: string
+          min_participants?: number
+          notes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          capacity?: number
+          created_at?: string
+          cutoff_days?: number
+          departure_date?: string
+          id?: string
+          location_service_id?: string
+          min_participants?: number
+          notes?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "service_departures_location_service_id_fkey"
+            columns: ["location_service_id"]
+            isOneToOne: false
+            referencedRelation: "location_services"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       services: {
         Row: {
           available_everywhere: boolean
@@ -1132,6 +1179,21 @@ export type Database = {
         Returns: Json
       }
       get_credit_balance: { Args: { _user_id: string }; Returns: number }
+      get_departure_availability: {
+        Args: { _service_id: string }
+        Returns: {
+          capacity: number
+          cutoff_days: number
+          departure_date: string
+          id: string
+          is_closed: boolean
+          is_full: boolean
+          min_participants: number
+          seats_left: number
+          seats_taken: number
+          status: string
+        }[]
+      }
       get_expiring_credits: {
         Args: { _days?: number; _user_id: string }
         Returns: {
