@@ -248,15 +248,10 @@ export function Services() {
                   {/* CTA Buttons */}
                   <div className="space-y-3">
                   {(() => {
-                    const isContact = service.type === 'group' || service.type === 'Tour' || service.type === 'indoor'
+                    const isContact = service.type === 'group' || service.type === 'Tour'
                     const handleClick = () => {
                       if (isContact) {
-                        const msgKey =
-                          service.type === 'group'
-                            ? 'whatsapp.quick.group'
-                            : service.type === 'indoor'
-                              ? 'whatsapp.quick.indoor'
-                              : 'whatsapp.quick.tour'
+                        const msgKey = service.type === 'group' ? 'whatsapp.quick.group' : 'whatsapp.quick.tour'
                         const text = encodeURIComponent(t(msgKey))
                         window.open(`https://wa.me/85269391570?text=${text}`, '_blank', 'noopener,noreferrer')
                       } else {
@@ -277,13 +272,22 @@ export function Services() {
                       </button>
                     )
                   })()}
-                  {detailRoutes[service.type] && (
+                  {service.type === 'indoor' ? (
                     <Link
-                      to={detailRoutes[service.type]}
+                      to="/location/shenzhen-ifly"
                       className="w-full py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300 border border-border text-foreground hover:bg-muted cursor-pointer"
                     >
-                      <Eye className="w-4 h-4" /> {t('servicePage.viewDetails')}
+                      <Eye className="w-4 h-4" /> {t('departures.viewAll')}
                     </Link>
+                  ) : (
+                    detailRoutes[service.type] && (
+                      <Link
+                        to={detailRoutes[service.type]}
+                        className="w-full py-3 px-6 rounded-lg font-semibold flex items-center justify-center gap-2 transition-all duration-300 border border-border text-foreground hover:bg-muted cursor-pointer"
+                      >
+                        <Eye className="w-4 h-4" /> {t('servicePage.viewDetails')}
+                      </Link>
+                    )
                   )}
                   </div>
                   </div>
