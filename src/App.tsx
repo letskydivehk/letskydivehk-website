@@ -11,6 +11,8 @@ import Home from './pages/Home';
 import { ExitIntentModal } from './components/ExitIntentModal';
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
 import { pageVariants } from '@/lib/motion';
+import { lazyWithRetry } from '@/lib/lazyWithRetry';
+
 
 
 function AnimatedRoutes() {
@@ -63,28 +65,29 @@ function AnimatedRoutes() {
   );
 }
 
-const MemberProfile = React.lazy(() => import('./pages/MemberProfile'));
-const Gallery = React.lazy(() => import('./pages/Gallery'));
-const LocationDetail = React.lazy(() => import('./pages/LocationDetail'));
-const AuthCallback = React.lazy(() => import('./pages/AuthCallback'));
-const Privacy = React.lazy(() => import('./pages/Privacy'));
-const Terms = React.lazy(() => import('./pages/Terms'));
-const Disclaimer = React.lazy(() => import('./pages/Disclaimer'));
-const NotFound = React.lazy(() => import('./pages/NotFound'));
-const Promotions = React.lazy(() => import('./pages/Promotions'));
-const AdminCredits = React.lazy(() => import('./pages/AdminCredits'));
-const AdminBlog = React.lazy(() => import('./pages/AdminBlog'));
-const ServiceTandem = React.lazy(() => import('./pages/ServiceTandem'));
-const ServiceALicence = React.lazy(() => import('./pages/ServiceALicence'));
-const ServiceSkydivingTour = React.lazy(() => import('./pages/ServiceSkydivingTour'));
-const TourDetail = React.lazy(() => import('./pages/TourDetail'));
-const Blog = React.lazy(() => import('./pages/Blog'));
-const BlogPost = React.lazy(() => import('./pages/BlogPost'));
-const MembershipTiers = React.lazy(() => import('./pages/MembershipTiers'));
-const Quiz = React.lazy(() => import('./pages/Quiz'));
-const QuizResult = React.lazy(() => import('./pages/QuizResult'));
-const LocationCompare = React.lazy(() => import('./pages/LocationCompare'));
-const Souvenirs = React.lazy(() => import('./pages/Souvenirs'));
+const MemberProfile = lazyWithRetry(() => import('./pages/MemberProfile'));
+const Gallery = lazyWithRetry(() => import('./pages/Gallery'));
+const LocationDetail = lazyWithRetry(() => import('./pages/LocationDetail'));
+const AuthCallback = lazyWithRetry(() => import('./pages/AuthCallback'));
+const Privacy = lazyWithRetry(() => import('./pages/Privacy'));
+const Terms = lazyWithRetry(() => import('./pages/Terms'));
+const Disclaimer = lazyWithRetry(() => import('./pages/Disclaimer'));
+const NotFound = lazyWithRetry(() => import('./pages/NotFound'));
+const Promotions = lazyWithRetry(() => import('./pages/Promotions'));
+const AdminCredits = lazyWithRetry(() => import('./pages/AdminCredits'));
+const AdminBlog = lazyWithRetry(() => import('./pages/AdminBlog'));
+const ServiceTandem = lazyWithRetry(() => import('./pages/ServiceTandem'));
+const ServiceALicence = lazyWithRetry(() => import('./pages/ServiceALicence'));
+const ServiceSkydivingTour = lazyWithRetry(() => import('./pages/ServiceSkydivingTour'));
+const TourDetail = lazyWithRetry(() => import('./pages/TourDetail'));
+const Blog = lazyWithRetry(() => import('./pages/Blog'));
+const BlogPost = lazyWithRetry(() => import('./pages/BlogPost'));
+const MembershipTiers = lazyWithRetry(() => import('./pages/MembershipTiers'));
+const Quiz = lazyWithRetry(() => import('./pages/Quiz'));
+const QuizResult = lazyWithRetry(() => import('./pages/QuizResult'));
+const LocationCompare = lazyWithRetry(() => import('./pages/LocationCompare'));
+const Souvenirs = lazyWithRetry(() => import('./pages/Souvenirs'));
+
 
 const queryClient = new QueryClient({
   defaultOptions: {
