@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import { locationDataTranslations } from "@/data/locationDataTranslations";
 import { missingTranslations } from "@/contexts/translationsMissing";
+import { departureTranslations } from "@/contexts/translationsDepartures";
 
 export type Language = "en" | "zh-TW" | "zh-CN";
 
@@ -4077,6 +4078,15 @@ translations["zh-CN"]["compare.metaTitle"] = "比较跳伞地点 | Let's Skydive
     }
   });
 });
+
+// Scheduled departures (Shenzhen iFLY) copy.
+(Object.keys(departureTranslations) as Language[]).forEach((lang) => {
+  (Object.entries(departureTranslations[lang]) as [string, string][]).forEach(([key, value]) => {
+    translations[lang][key] = value;
+  });
+});
+
+
 
 // Dev-only parity check so the three languages never drift apart again.
 if (import.meta.env.DEV) {

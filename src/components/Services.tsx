@@ -121,7 +121,7 @@ export function Services() {
         isPopular: data.isPopular
       } as AggregatedService
     }).sort((a, b) => {
-      const order: Record<string, number> = { tandem: 1, aff: 2, indoor: 3, Tour: 4, group: 5 }
+      const order: Record<string, number> = { indoor: 1, tandem: 2, aff: 3, Tour: 4, group: 5 }
       return (order[a.type] || 99) - (order[b.type] || 99)
     })
   }, [locationServices, t])
