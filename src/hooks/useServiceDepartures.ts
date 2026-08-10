@@ -23,7 +23,7 @@ export function useServiceDepartures(serviceId?: string) {
     queryKey: ['service-departures', serviceId],
     queryFn: async () => {
       const { data, error } = await supabase.rpc('get_departure_availability', {
-        p_service_id: serviceId!,
+        _service_id: serviceId!,
       })
       if (error) throw error
       return (data ?? []) as unknown as DepartureAvailability[]
