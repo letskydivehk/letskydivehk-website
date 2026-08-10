@@ -1027,6 +1027,14 @@ export function BookingSection() {
                         </PopoverContent>
                       </Popover>
                       {validationErrors.date && <p className="text-red-500 text-xs mt-1">{validationErrors.date}</p>}
+                      {isIndoorService && (
+                        <p className="text-xs text-muted-foreground mt-2">
+                          {t("departures.subtitle")}{" "}
+                          {t("departures.minNotice")
+                            .replace("{n}", String(serviceDepartures?.[0]?.min_participants ?? 3))
+                            .replace("{d}", String(serviceDepartures?.[0]?.cutoff_days ?? 5))}
+                        </p>
+                      )}
                     </div>
 
                     {/* Participants */}
