@@ -19,6 +19,7 @@ import { format } from "date-fns";
 import { zhTW } from "date-fns/locale";
 import { useLocations, type Location } from "@/hooks/useLocations";
 import { useLocationServices, type LocationService } from "@/hooks/useLocationServices";
+import { useServiceDepartures, isBookable } from "@/hooks/useServiceDepartures";
 import { useBooking } from "@/contexts/BookingContext";
 import { getLocationNotice, isEffectivelyComingSoon } from "@/data/locationNotices";
 import { useLanguage } from "@/contexts/LanguageContext";
