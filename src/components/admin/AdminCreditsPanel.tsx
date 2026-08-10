@@ -83,6 +83,12 @@ export function AdminCreditsPanel() {
     }
   }, [searchQuery, members]);
 
+  const memberLabel = (userId: string | null) => {
+    if (!userId) return "Unknown";
+    const m = members.find((x) => x.user_id === userId);
+    return m?.full_name || m?.email || "Unknown";
+  };
+
   const selectMember = async (member: MemberWithBalance) => {
     setSelectedMember(member);
     const { data } = await supabase
@@ -179,7 +185,7 @@ export function AdminCreditsPanel() {
               {pendingCredits.map((tx) => (
                 <div key={tx.id} className="flex items-center justify-between p-3 bg-yellow-500/5 rounded-lg border border-yellow-500/20">
                   <div className="flex-1 min-w-0">
-                    <p className="text-sm font-medium">{tx.full_name || tx.email || "Unknown"}</p>
+                    <p className="text-sm font-medium">{memberLabel(tx.user_id)}</p>
                     <p className="text-xs text-muted-foreground truncate">{tx.description}</p>
                     <p className="text-xs text-muted-foreground">{new Date(tx.created_at).toLocaleString()}</p>
                   </div>
