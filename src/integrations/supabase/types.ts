@@ -176,11 +176,9 @@ export type Database = {
           created_at: string
           created_by: string | null
           description: string | null
-          email: string | null
           expired_at: string | null
           expires_at: string | null
           expiry_notified_at: string | null
-          full_name: string | null
           id: string
           related_booking_id: string | null
           status: string
@@ -192,11 +190,9 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           description?: string | null
-          email?: string | null
           expired_at?: string | null
           expires_at?: string | null
           expiry_notified_at?: string | null
-          full_name?: string | null
           id?: string
           related_booking_id?: string | null
           status?: string
@@ -208,11 +204,9 @@ export type Database = {
           created_at?: string
           created_by?: string | null
           description?: string | null
-          email?: string | null
           expired_at?: string | null
           expires_at?: string | null
           expiry_notified_at?: string | null
-          full_name?: string | null
           id?: string
           related_booking_id?: string | null
           status?: string
