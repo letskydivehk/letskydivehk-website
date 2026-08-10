@@ -139,7 +139,7 @@ Deno.serve(async (req) => {
     const in30 = new Date(Date.now() + 30 * 86400_000).toISOString();
     const { data: soonRows } = await admin
       .from("credit_transactions")
-      .select("id, user_id, amount, expires_at, email, full_name")
+      .select("id, user_id, amount, expires_at")
       .eq("status", "approved")
       .is("expired_at", null)
       .is("expiry_notified_at", null)
@@ -148,18 +148,28 @@ Deno.serve(async (req) => {
       .gt("expires_at", new Date().toISOString())
       .lte("expires_at", in30);
 
+    // Look up contact details from profiles (single source of truth for PII)
+    const userIds = [...new Set((soonRows ?? []).map((r) => r.user_id).filter(Boolean))];
+    const contacts = new Map<string, { email: string | null; full_name: string | null }>();
+    if (userIds.length > 0) {
+      const { data: profs } = await admin
+        .from("profiles")
+        .select("user_id, email, full_name")
+        .in("user_id", userIds);
+      for (const p of profs ?? []) {
+        contacts.set(p.user_id, { email: p.email, full_name: p.full_name });
+      }
+    }
+
     let notified = 0;
     for (const r of soonRows ?? []) {
-      if (r.email) {
-        const days = Math.max(
-          1,
-          Math.round((new Date(r.expires_at).getTime() - Date.now()) / 86400_000),
-        );
+      const contact = contacts.get(r.user_id);
+      if (contact?.email) {
         await sendMail(
-          r.email,
+          contact.email,
           "你的跳傘積分就到期啦，快啲預約跳傘用咗佢啦！",
           renderExpiryEmail({
-            fullName: r.full_name,
+            fullName: contact.full_name,
             amount: r.amount,
             expiresAt: new Date(r.expires_at),
           }),
