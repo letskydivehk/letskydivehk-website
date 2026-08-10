@@ -14,6 +14,7 @@ import { PageNavbar } from "@/components/PageNavbar";
 import { LocationPhotoGallery } from "@/components/location/LocationPhotoGallery";
 import { LocationWeather } from "@/components/location/LocationWeather";
 import { LocationMap } from "@/components/location/LocationMap";
+import { DepartureSchedule } from "@/components/DepartureSchedule";
 
 import { LocationAccommodations } from "@/components/location/LocationAccommodations";
 import { LocationAttractions } from "@/components/location/LocationAttractions";
@@ -26,7 +27,7 @@ export default function LocationDetail() {
   const { slug } = useParams<{ slug: string }>();
   const navigate = useNavigate();
   const { t, translateData } = useLanguage();
-  const { setPreselectedLocationId, setPreselectedServiceId } = useBooking();
+  const { setPreselectedLocationId, setPreselectedServiceId, setPreselectedDate } = useBooking();
 
   const { data: location, isLoading, error } = useLocationBySlug(slug);
   const { data: photos } = useLocationPhotos(location?.id);
@@ -253,6 +254,25 @@ export default function LocationDetail() {
                     <p className="text-muted-foreground">{translateData(location.transportation, location.transportation)}</p>
                   </div>
                 )}
+              </motion.div>
+            )}
+
+            {/* Scheduled departures (indoor skydiving) */}
+            {indoorService && (
+              <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.26 }}>
+                <DepartureSchedule
+                  serviceId={indoorService.id}
+                  locationName={translatedName}
+                  onBook={(departure) => {
+                    setPreselectedLocationId(location.id);
+                    setPreselectedServiceId(indoorService.id);
+                    setPreselectedDate(departure.departure_date);
+                    navigate("/#booking");
+                    setTimeout(() => {
+                      document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+                    }, 100);
+                  }}
+                />
               </motion.div>
             )}
 
