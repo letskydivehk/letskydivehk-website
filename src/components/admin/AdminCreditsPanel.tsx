@@ -83,6 +83,12 @@ export function AdminCreditsPanel() {
     }
   }, [searchQuery, members]);
 
+  const memberLabel = (userId: string | null) => {
+    if (!userId) return "Unknown";
+    const m = members.find((x) => x.user_id === userId);
+    return m?.full_name || m?.email || "Unknown";
+  };
+
   const selectMember = async (member: MemberWithBalance) => {
     setSelectedMember(member);
     const { data } = await supabase
