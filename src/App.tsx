@@ -43,6 +43,7 @@ function AnimatedRoutes() {
       <Route path="/terms" element={<Terms />} />
       <Route path="/disclaimer" element={<Disclaimer />} />
       <Route path="/souvenirs" element={<Souvenirs />} />
+      <Route path="/unsubscribe" element={<Unsubscribe />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
@@ -87,6 +88,7 @@ const Quiz = lazyWithRetry(() => import('./pages/Quiz'));
 const QuizResult = lazyWithRetry(() => import('./pages/QuizResult'));
 const LocationCompare = lazyWithRetry(() => import('./pages/LocationCompare'));
 const Souvenirs = lazyWithRetry(() => import('./pages/Souvenirs'));
+const Unsubscribe = lazyWithRetry(() => import('./pages/Unsubscribe'));
 
 
 const queryClient = new QueryClient({

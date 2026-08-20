@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { ArrowLeft, Coins, FileText, Loader2, HelpCircle, Plane, GitCompare, ShoppingBag, CalendarDays } from "lucide-react";
+import { ArrowLeft, Coins, FileText, Loader2, HelpCircle, Plane, GitCompare, ShoppingBag, CalendarDays, Mail } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -15,6 +15,7 @@ import { AdminToursPanel } from "@/components/admin/AdminToursPanel";
 import { AdminItineraryComparePanel } from "@/components/admin/AdminItineraryComparePanel";
 import { AdminSouvenirsPanel } from "@/components/admin/AdminSouvenirsPanel";
 import { AdminDeparturesPanel } from "@/components/admin/AdminDeparturesPanel";
+import { AdminNewsletterPanel } from "@/components/admin/AdminNewsletterPanel";
 
 export default function AdminCredits() {
   const { user, loading: authLoading } = useAuth();
@@ -98,6 +99,10 @@ export default function AdminCredits() {
                 <CalendarDays className="w-4 h-4" />
                 Departures
               </TabsTrigger>
+              <TabsTrigger value="newsletter" className="gap-2">
+                <Mail className="w-4 h-4" />
+                {t("admin.newsletter.tab")}
+              </TabsTrigger>
             </TabsList>
 
 
@@ -127,6 +132,10 @@ export default function AdminCredits() {
 
             <TabsContent value="departures">
               {isAdmin && <AdminDeparturesPanel />}
+            </TabsContent>
+
+            <TabsContent value="newsletter">
+              {isAdmin && <AdminNewsletterPanel />}
             </TabsContent>
           </Tabs>
         </div>

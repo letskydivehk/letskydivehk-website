@@ -2,6 +2,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 import { locationDataTranslations } from "@/data/locationDataTranslations";
 import { missingTranslations } from "@/contexts/translationsMissing";
 import { departureTranslations } from "@/contexts/translationsDepartures";
+import { newsletterTranslations } from "@/contexts/translationsNewsletter";
 
 export type Language = "en" | "zh-TW" | "zh-CN";
 
@@ -4086,6 +4087,12 @@ translations["zh-CN"]["compare.metaTitle"] = "比较跳伞地点 | Let's Skydive
   });
 });
 
+// Newsletter (admin panel, member opt-in, unsubscribe page) copy.
+(Object.keys(newsletterTranslations) as Language[]).forEach((lang) => {
+  (Object.entries(newsletterTranslations[lang]) as [string, string][]).forEach(([key, value]) => {
+    translations[lang][key] = value;
+  });
+});
 
 
 // Dev-only parity check so the three languages never drift apart again.
