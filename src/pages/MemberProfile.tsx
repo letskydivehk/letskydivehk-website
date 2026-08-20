@@ -666,6 +666,10 @@ export default function MemberProfile() {
                 </Card>
               )}
 
+              {/* Newsletter preference */}
+              <NewsletterPreferenceCard />
+
+
               {/* Admin Link */}
               {isAdmin && (
                 <Link to="/admin/credits">
