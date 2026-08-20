@@ -18,6 +18,7 @@ import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { Footer } from "@/components/Footer";
 import { MagnetShowcase } from "@/components/rewards/MagnetShowcase";
 import { ExpiringCreditsNote } from "@/components/rewards/ExpiringCreditsNote";
+import { NewsletterPreferenceCard } from "@/components/rewards/NewsletterPreferenceCard";
 
 
 // Validation schema for profile data
