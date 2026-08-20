@@ -2,6 +2,7 @@ import { createContext, useContext, useState, ReactNode } from "react";
 import { locationDataTranslations } from "@/data/locationDataTranslations";
 import { missingTranslations } from "@/contexts/translationsMissing";
 import { departureTranslations } from "@/contexts/translationsDepartures";
+import { newsletterTranslations } from "@/contexts/translationsNewsletter";
 
 export type Language = "en" | "zh-TW" | "zh-CN";
 
