@@ -37,7 +37,7 @@ export default function Unsubscribe() {
 
   return (
     <div className="min-h-screen relative">
-      <SEO title={t("newsletter.unsub.metaTitle")} description={t("newsletter.unsub.metaDesc")} noIndex />
+      <SEO title={t("newsletter.unsub.metaTitle")} description={t("newsletter.unsub.metaDesc")} />
       <BackgroundDecorations />
       <PageNavbar />
       <main className="relative z-10 max-w-lg mx-auto px-4 pt-28 pb-20 text-center">
