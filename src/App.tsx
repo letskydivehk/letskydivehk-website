@@ -43,6 +43,7 @@ function AnimatedRoutes() {
       <Route path="/terms" element={<Terms />} />
       <Route path="/disclaimer" element={<Disclaimer />} />
       <Route path="/souvenirs" element={<Souvenirs />} />
+      <Route path="/unsubscribe" element={<Unsubscribe />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
   );
