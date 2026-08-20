@@ -615,6 +615,134 @@ export type Database = {
         }
         Relationships: []
       }
+      newsletter_articles: {
+        Row: {
+          body_en: string
+          body_zh_tw: string
+          created_at: string
+          created_by: string | null
+          hero_image_url: string | null
+          id: string
+          queue_position: number
+          recipients_count: number
+          scheduled_for: string | null
+          sent_at: string | null
+          status: string
+          subject_en: string
+          subject_zh_tw: string
+          topic: string | null
+          updated_at: string
+        }
+        Insert: {
+          body_en?: string
+          body_zh_tw?: string
+          created_at?: string
+          created_by?: string | null
+          hero_image_url?: string | null
+          id?: string
+          queue_position?: number
+          recipients_count?: number
+          scheduled_for?: string | null
+          sent_at?: string | null
+          status?: string
+          subject_en?: string
+          subject_zh_tw?: string
+          topic?: string | null
+          updated_at?: string
+        }
+        Update: {
+          body_en?: string
+          body_zh_tw?: string
+          created_at?: string
+          created_by?: string | null
+          hero_image_url?: string | null
+          id?: string
+          queue_position?: number
+          recipients_count?: number
+          scheduled_for?: string | null
+          sent_at?: string | null
+          status?: string
+          subject_en?: string
+          subject_zh_tw?: string
+          topic?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      newsletter_job_state: {
+        Row: {
+          consecutive_failures: number
+          id: number
+          last_run_at: string | null
+          last_sent_article_at: string | null
+          lease_expires_at: string | null
+          pause_reason: string | null
+          paused: boolean
+          updated_at: string
+        }
+        Insert: {
+          consecutive_failures?: number
+          id?: number
+          last_run_at?: string | null
+          last_sent_article_at?: string | null
+          lease_expires_at?: string | null
+          pause_reason?: string | null
+          paused?: boolean
+          updated_at?: string
+        }
+        Update: {
+          consecutive_failures?: number
+          id?: number
+          last_run_at?: string | null
+          last_sent_article_at?: string | null
+          lease_expires_at?: string | null
+          pause_reason?: string | null
+          paused?: boolean
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      newsletter_sends: {
+        Row: {
+          article_id: string
+          created_at: string
+          email: string
+          error: string | null
+          id: string
+          sent_at: string
+          status: string
+          user_id: string | null
+        }
+        Insert: {
+          article_id: string
+          created_at?: string
+          email: string
+          error?: string | null
+          id?: string
+          sent_at?: string
+          status?: string
+          user_id?: string | null
+        }
+        Update: {
+          article_id?: string
+          created_at?: string
+          email?: string
+          error?: string | null
+          id?: string
+          sent_at?: string
+          status?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "newsletter_sends_article_id_fkey"
+            columns: ["article_id"]
+            isOneToOne: false
+            referencedRelation: "newsletter_articles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -626,10 +754,12 @@ export type Database = {
           emergency_contact_relationship: string | null
           full_name: string | null
           id: string
+          newsletter_opt_in: boolean
           phone: string | null
           referral_code: string | null
           tier_id: string | null
           total_jumps: number
+          unsubscribe_token: string
           updated_at: string
           user_id: string
         }
@@ -643,10 +773,12 @@ export type Database = {
           emergency_contact_relationship?: string | null
           full_name?: string | null
           id?: string
+          newsletter_opt_in?: boolean
           phone?: string | null
           referral_code?: string | null
           tier_id?: string | null
           total_jumps?: number
+          unsubscribe_token?: string
           updated_at?: string
           user_id: string
         }
@@ -660,10 +792,12 @@ export type Database = {
           emergency_contact_relationship?: string | null
           full_name?: string | null
           id?: string
+          newsletter_opt_in?: boolean
           phone?: string | null
           referral_code?: string | null
           tier_id?: string | null
           total_jumps?: number
+          unsubscribe_token?: string
           updated_at?: string
           user_id?: string
         }
@@ -1207,6 +1341,8 @@ export type Database = {
         }
         Returns: boolean
       }
+      newsletter_subscriber_count: { Args: never; Returns: number }
+      newsletter_unsubscribe: { Args: { _token: string }; Returns: Json }
       process_referral_credit: {
         Args: { p_booking_id: string; p_referral_code: string }
         Returns: Json
