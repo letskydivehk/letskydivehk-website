@@ -15,6 +15,7 @@ import { AdminToursPanel } from "@/components/admin/AdminToursPanel";
 import { AdminItineraryComparePanel } from "@/components/admin/AdminItineraryComparePanel";
 import { AdminSouvenirsPanel } from "@/components/admin/AdminSouvenirsPanel";
 import { AdminDeparturesPanel } from "@/components/admin/AdminDeparturesPanel";
+import { AdminNewsletterPanel } from "@/components/admin/AdminNewsletterPanel";
 
 export default function AdminCredits() {
   const { user, loading: authLoading } = useAuth();
