@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { ArrowLeft, Coins, FileText, Loader2, HelpCircle, Plane, GitCompare, ShoppingBag, CalendarDays } from "lucide-react";
+import { ArrowLeft, Coins, FileText, Loader2, HelpCircle, Plane, GitCompare, ShoppingBag, CalendarDays, Mail } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
