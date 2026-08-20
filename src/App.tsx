@@ -88,6 +88,7 @@ const Quiz = lazyWithRetry(() => import('./pages/Quiz'));
 const QuizResult = lazyWithRetry(() => import('./pages/QuizResult'));
 const LocationCompare = lazyWithRetry(() => import('./pages/LocationCompare'));
 const Souvenirs = lazyWithRetry(() => import('./pages/Souvenirs'));
+const Unsubscribe = lazyWithRetry(() => import('./pages/Unsubscribe'));
 
 
 const queryClient = new QueryClient({
