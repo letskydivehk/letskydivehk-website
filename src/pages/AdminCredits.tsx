@@ -98,6 +98,10 @@ export default function AdminCredits() {
                 <CalendarDays className="w-4 h-4" />
                 Departures
               </TabsTrigger>
+              <TabsTrigger value="newsletter" className="gap-2">
+                <Mail className="w-4 h-4" />
+                {t("admin.newsletter.tab")}
+              </TabsTrigger>
             </TabsList>
 
 
