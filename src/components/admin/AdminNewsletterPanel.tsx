@@ -408,6 +408,14 @@ export function AdminNewsletterPanel() {
                     <Send className="w-4 h-4 mr-2" />
                     {t("admin.newsletter.sendTest")}
                   </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => setPreviewArticle({ ...a, ...(drafts[a.id] || {}) } as Article)}
+                  >
+                    <Eye className="w-4 h-4 mr-2" />
+                    {t("admin.newsletter.preview")}
+                  </Button>
                 </div>
               </CardContent>
             </Card>
