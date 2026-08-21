@@ -67,7 +67,7 @@ export default function LocationDetail() {
     const orig = parsePriceNum(originalDisplay);
     if (cur && orig && orig > cur) {
       const pct = Math.round((1 - cur / orig) * 100);
-      return `${price}（${t("pricing.originalPrice")} ${originalDisplay}, -${pct}%）`;
+      return `${price} (${originalDisplay} → -${pct}%)`;
     }
     return price;
   };
