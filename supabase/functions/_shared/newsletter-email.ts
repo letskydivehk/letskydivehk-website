@@ -59,7 +59,7 @@ export function renderNewsletterEmail(opts: {
     <tr><td align="center">
       <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden;box-shadow:0 4px 16px rgba(0,0,0,0.06);">
         <tr><td align="center" style="padding:28px 24px 8px 24px;">
-          <img src="${LOGO_URL}" alt="Let's Skydive HK" height="72" style="height:72px;width:auto;display:block;" />
+          <img src="${LOGO_URL}" alt="Let's Skydive HK" width="552" style="width:100%;max-width:552px;height:auto;display:block;" />
         </td></tr>
         <tr><td style="padding:12px 24px 0 24px;">
           <img src="${hero}" alt="Skydive HK" width="552" style="width:100%;max-width:552px;height:auto;display:block;border-radius:8px;" />
