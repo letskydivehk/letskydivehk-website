@@ -234,6 +234,12 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     "servicePage.tour.step5.desc": "Briefing, gear-up, and your skydive with a certified instructor.",
     "servicePage.tour.step6.title": "Take the memories home",
     "servicePage.tour.step6.desc": "Photos, video and your certificate — plus your souvenir magnet.",
+
+    // Location service cards — WhatsApp booking
+    "locationDetail.whatsappBook": "Book via WhatsApp",
+    "locationDetail.whatsappBookMsg":
+      "Hi! I'd like to book \"{service}\" at {location}. Price: {price}. Which dates are available?",
+    "locationDetail.viewItinerary": "View itinerary",
   },
 
   "zh-TW": {
@@ -310,6 +316,12 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     "servicePage.tour.step5.desc": "簡介、穿戴裝備，然後與持證教練一同起跳。",
     "servicePage.tour.step6.title": "帶走回憶",
     "servicePage.tour.step6.desc": "照片、影片及證書，再加上你的紀念磁石貼。",
+
+    // 基地服務卡 — WhatsApp 預約
+    "locationDetail.whatsappBook": "WhatsApp 預約",
+    "locationDetail.whatsappBookMsg":
+      "你好！我想預約 {location} 的「{service}」，價格 {price}，請問可以安排哪些日期？",
+    "locationDetail.viewItinerary": "查看行程",
   },
 
   "zh-CN": {
@@ -386,5 +398,11 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     "servicePage.tour.step5.desc": "简介、穿戴装备，然后与持证教练一同起跳。",
     "servicePage.tour.step6.title": "带走回忆",
     "servicePage.tour.step6.desc": "照片、视频及证书，再加上你的纪念磁石贴。",
+
+    // 基地服务卡 — WhatsApp 预约
+    "locationDetail.whatsappBook": "WhatsApp 预约",
+    "locationDetail.whatsappBookMsg":
+      "你好！我想预约 {location} 的「{service}」，价格 {price}，请问可以安排哪些日期？",
+    "locationDetail.viewItinerary": "查看行程",
   },
 };

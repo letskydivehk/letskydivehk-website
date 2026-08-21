@@ -55,24 +55,37 @@ export default function LocationDetail() {
 
   const TOUR_DETAIL_SLUGS = new Set(["pattaya", "huizhou", "hainan", "zhuhai"]);
 
-  const handleServiceClick = (serviceId: string, serviceType?: string) => {
-    if (!location) return;
-    if (serviceType === "Tour" && TOUR_DETAIL_SLUGS.has(location.slug)) {
-      navigate(`/tour/${location.slug}/${serviceId}`);
-      return;
-    }
-    if (serviceType === "group") {
-      const text = encodeURIComponent(`${t("whatsapp.quick.group")} (${translatedName})`);
-      window.open(`https://wa.me/85269391570?text=${text}`, "_blank", "noopener,noreferrer");
-      return;
-    }
-    setPreselectedLocationId(location.id);
-    setPreselectedServiceId(serviceId);
-    navigate("/#booking");
-    setTimeout(() => {
-      document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+  const parsePriceNum = (s?: string | null) => {
+    if (!s) return null;
+    const n = parseFloat(String(s).replace(/[^0-9.]/g, ""));
+    return Number.isFinite(n) && n > 0 ? n : null;
   };
+
+  const buildPriceText = (priceDisplay?: string | null, originalDisplay?: string | null) => {
+    const price = priceDisplay ? translateData(`price.${priceDisplay}`, priceDisplay) : "";
+    const cur = parsePriceNum(priceDisplay);
+    const orig = parsePriceNum(originalDisplay);
+    if (cur && orig && orig > cur) {
+      const pct = Math.round((1 - cur / orig) * 100);
+      return `${price} (${originalDisplay} → -${pct}%)`;
+    }
+    return price;
+  };
+
+  const handleWhatsAppBook = (service: any) => {
+    if (!location) return;
+    const serviceName = translateData(`service.${service.service_name}`, service.service_name);
+    const message = t("locationDetail.whatsappBookMsg")
+      .replace("{service}", serviceName)
+      .replace("{location}", translatedName)
+      .replace("{price}", buildPriceText(service.price_display, service.original_price_display));
+    window.open(
+      `https://wa.me/85269391570?text=${encodeURIComponent(message)}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
+  };
+
 
   if (isLoading) {
     return (
@@ -290,13 +303,13 @@ export default function LocationDetail() {
                     return (
                       <div
                         key={service.id}
-                        onClick={locationComingSoon ? undefined : () => handleServiceClick(service.id, service.service_type)}
                         className={`bg-card rounded-2xl p-6 clean-border mobile-transparent-card transition-all duration-300 group ${
                           locationComingSoon
-                            ? "opacity-60 cursor-not-allowed"
-                            : "cursor-pointer hover:border-accent-orange/50 hover:shadow-lg"
+                            ? "opacity-60"
+                            : "hover:border-accent-orange/50 hover:shadow-lg"
                         }`}
                       >
+
                         <div className="flex items-center justify-between mb-3">
                           <h3 className="font-bold text-foreground text-lg"><ServiceNameDisplay name={translatedServiceName} /></h3>
                           {locationComingSoon ? (
@@ -359,7 +372,31 @@ export default function LocationDetail() {
                             </ul>
                           </div>
                         )}
+                        {!locationComingSoon && (
+                          <div className="mt-5 flex flex-col sm:flex-row gap-2">
+                            <button
+                              type="button"
+                              onClick={() => handleWhatsAppBook(service)}
+                              className="flex-1 inline-flex items-center justify-center gap-2 bg-[#25D366] hover:bg-[#20BD5A] text-white font-semibold px-4 py-2.5 rounded-lg transition-colors text-sm cursor-pointer"
+                            >
+                              <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" />
+                              </svg>
+                              {t("locationDetail.whatsappBook")}
+                            </button>
+                            {service.service_type === "Tour" && TOUR_DETAIL_SLUGS.has(location.slug) && (
+                              <button
+                                type="button"
+                                onClick={() => navigate(`/tour/${location.slug}/${service.id}`)}
+                                className="inline-flex items-center justify-center gap-2 border border-border text-foreground hover:bg-muted font-semibold px-4 py-2.5 rounded-lg transition-colors text-sm cursor-pointer"
+                              >
+                                {t("locationDetail.viewItinerary")}
+                              </button>
+                            )}
+                          </div>
+                        )}
                       </div>
+
                     );
                   })}
                 </div>
