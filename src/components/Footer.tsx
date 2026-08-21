@@ -49,6 +49,7 @@ export function Footer() {
               {/* Instagram */}
               <a
                 href="https://www.instagram.com/lets_skydive_hk/"
+                aria-label="Instagram"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-background/10 rounded-full flex items-center justify-center hover:bg-background/20 transition-colors"
@@ -61,6 +62,7 @@ export function Footer() {
               {/* Facebook */}
               <a
                 href="https://facebook.com/letsskydivehk"
+                aria-label="Facebook"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-background/10 rounded-full flex items-center justify-center hover:bg-background/20 transition-colors"
@@ -73,6 +75,7 @@ export function Footer() {
               {/* YouTube */}
               <a
                 href="https://youtube.com/@letsskydivehk"
+                aria-label="YouTube"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-10 h-10 bg-background/10 rounded-full flex items-center justify-center hover:bg-background/20 transition-colors"
