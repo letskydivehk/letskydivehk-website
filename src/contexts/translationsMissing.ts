@@ -398,5 +398,11 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     "servicePage.tour.step5.desc": "简介、穿戴装备，然后与持证教练一同起跳。",
     "servicePage.tour.step6.title": "带走回忆",
     "servicePage.tour.step6.desc": "照片、视频及证书，再加上你的纪念磁石贴。",
+
+    // 基地服务卡 — WhatsApp 预约
+    "locationDetail.whatsappBook": "WhatsApp 预约",
+    "locationDetail.whatsappBookMsg":
+      "你好！我想预约 {location} 的「{service}」，价格 {price}，请问可以安排哪些日期？",
+    "locationDetail.viewItinerary": "查看行程",
   },
 };
