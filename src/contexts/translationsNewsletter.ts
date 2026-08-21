@@ -156,6 +156,11 @@ export const newsletterTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<str
     "admin.newsletter.recipients": "位收件人",
     "admin.newsletter.skipped": "没有发送",
     "admin.newsletter.sentBatch": "已发送一批",
+    "admin.newsletter.preview": "预览",
+    "admin.newsletter.previewTitle": "邮件预览",
+    "admin.newsletter.previewHint": "这就是会员收到的邮件外观。",
+    "admin.newsletter.close": "关闭",
+    "admin.newsletter.historyHint": "点击记录即可预览已发送的内容。",
 
     "profile.newsletter.title": "跳伞知识邮件",
     "profile.newsletter.desc": "每 2 星期收到安全提示、装备知识及跳伞邀请。",
