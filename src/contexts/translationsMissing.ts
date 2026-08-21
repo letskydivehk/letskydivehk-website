@@ -234,6 +234,12 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     "servicePage.tour.step5.desc": "Briefing, gear-up, and your skydive with a certified instructor.",
     "servicePage.tour.step6.title": "Take the memories home",
     "servicePage.tour.step6.desc": "Photos, video and your certificate — plus your souvenir magnet.",
+
+    // Location service cards — WhatsApp booking
+    "locationDetail.whatsappBook": "Book via WhatsApp",
+    "locationDetail.whatsappBookMsg":
+      "Hi! I'd like to book \"{service}\" at {location}. Price: {price}. Which dates are available?",
+    "locationDetail.viewItinerary": "View itinerary",
   },
 
   "zh-TW": {
