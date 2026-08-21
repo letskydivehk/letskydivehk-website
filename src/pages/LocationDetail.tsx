@@ -55,24 +55,37 @@ export default function LocationDetail() {
 
   const TOUR_DETAIL_SLUGS = new Set(["pattaya", "huizhou", "hainan", "zhuhai"]);
 
-  const handleServiceClick = (serviceId: string, serviceType?: string) => {
-    if (!location) return;
-    if (serviceType === "Tour" && TOUR_DETAIL_SLUGS.has(location.slug)) {
-      navigate(`/tour/${location.slug}/${serviceId}`);
-      return;
-    }
-    if (serviceType === "group") {
-      const text = encodeURIComponent(`${t("whatsapp.quick.group")} (${translatedName})`);
-      window.open(`https://wa.me/85269391570?text=${text}`, "_blank", "noopener,noreferrer");
-      return;
-    }
-    setPreselectedLocationId(location.id);
-    setPreselectedServiceId(serviceId);
-    navigate("/#booking");
-    setTimeout(() => {
-      document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
-    }, 100);
+  const parsePriceNum = (s?: string | null) => {
+    if (!s) return null;
+    const n = parseFloat(String(s).replace(/[^0-9.]/g, ""));
+    return Number.isFinite(n) && n > 0 ? n : null;
   };
+
+  const buildPriceText = (priceDisplay?: string | null, originalDisplay?: string | null) => {
+    const price = priceDisplay ? translateData(`price.${priceDisplay}`, priceDisplay) : "";
+    const cur = parsePriceNum(priceDisplay);
+    const orig = parsePriceNum(originalDisplay);
+    if (cur && orig && orig > cur) {
+      const pct = Math.round((1 - cur / orig) * 100);
+      return `${price}（${t("pricing.originalPrice")} ${originalDisplay}, -${pct}%）`;
+    }
+    return price;
+  };
+
+  const handleWhatsAppBook = (service: any) => {
+    if (!location) return;
+    const serviceName = translateData(`service.${service.service_name}`, service.service_name);
+    const message = t("locationDetail.whatsappBookMsg")
+      .replace("{service}", serviceName)
+      .replace("{location}", translatedName)
+      .replace("{price}", buildPriceText(service.price_display, service.original_price_display));
+    window.open(
+      `https://wa.me/85269391570?text=${encodeURIComponent(message)}`,
+      "_blank",
+      "noopener,noreferrer",
+    );
+  };
+
 
   if (isLoading) {
     return (
