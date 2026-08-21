@@ -105,7 +105,7 @@ export default function Quiz() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
-      <SEO path="/quiz" />
+      <SEO path="/quiz" title="Skydiving Readiness Quiz" description="Take our 2-minute quiz to find the skydiving experience, dropzone and package that fits you best." />
       <BackgroundDecorations />
       <PageNavbar />
 

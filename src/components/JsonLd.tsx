@@ -5,7 +5,7 @@ export function OrganizationJsonLd() {
     '@context': 'https://schema.org',
     '@type': 'Organization',
     name: "Let's Skydive HK",
-    url: 'https://letskydivehk.lovable.app',
+    url: 'https://letskydivehk.com',
     logo: 'https://storage.googleapis.com/gpt-engineer-file-uploads/YIBNqLgbMzXE1mF8E9QRc5LQB1d2/uploads/1769564707933-We operate in.png.PNG',
     description: "Asia's premier skydiving experience provider. Professional tandem jumps, A-Licence courses & group events across Thailand and China.",
     sameAs: [

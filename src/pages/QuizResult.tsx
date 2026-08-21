@@ -59,7 +59,7 @@ export default function QuizResult() {
   if (!isLoading && (!recommendation || selections.length === 0)) {
     return (
       <div className="min-h-screen bg-background text-foreground relative">
-        <SEO path="/quiz/result" />
+        <SEO path="/quiz/result" title="Your Skydiving Quiz Result" description="See your personalised skydiving recommendation — suggested jump type, dropzone and next steps." />
         <BackgroundDecorations />
         <PageNavbar />
         <main className="relative z-10 pt-32 pb-20 px-6">
@@ -123,7 +123,7 @@ export default function QuizResult() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
-      <SEO path="/quiz/result" />
+      <SEO path="/quiz/result" title="Your Skydiving Quiz Result" description="See your personalised skydiving recommendation — suggested jump type, dropzone and next steps." />
       <BackgroundDecorations />
       <PageNavbar />
 
