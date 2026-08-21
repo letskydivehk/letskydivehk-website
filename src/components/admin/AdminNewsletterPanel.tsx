@@ -12,6 +12,7 @@ import {
   Users,
   Pause,
   Play,
+  Eye,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -21,6 +22,14 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { NewsletterPreview } from "./NewsletterPreview";
 import { toast } from "sonner";
 
 interface Article {
@@ -30,6 +39,7 @@ interface Article {
   subject_en: string;
   body_zh_tw: string;
   body_en: string;
+  hero_image_url: string | null;
   queue_position: number;
   status: string;
   sent_at: string | null;
@@ -51,6 +61,7 @@ export function AdminNewsletterPanel() {
   const [topicHint, setTopicHint] = useState("");
   const [testEmail, setTestEmail] = useState("");
   const [drafts, setDrafts] = useState<Record<string, Partial<Article>>>({});
+  const [previewArticle, setPreviewArticle] = useState<Article | null>(null);
 
   const load = useCallback(async () => {
     const [artRes, countRes, stateRes] = await Promise.all([
@@ -397,6 +408,14 @@ export function AdminNewsletterPanel() {
                     <Send className="w-4 h-4 mr-2" />
                     {t("admin.newsletter.sendTest")}
                   </Button>
+                  <Button
+                    size="sm"
+                    variant="ghost"
+                    onClick={() => setPreviewArticle({ ...a, ...(drafts[a.id] || {}) } as Article)}
+                  >
+                    <Eye className="w-4 h-4 mr-2" />
+                    {t("admin.newsletter.preview")}
+                  </Button>
                 </div>
               </CardContent>
             </Card>
@@ -409,23 +428,52 @@ export function AdminNewsletterPanel() {
         <Card className="mobile-transparent-card">
           <CardHeader>
             <CardTitle className="text-base">{t("admin.newsletter.history")}</CardTitle>
+            <p className="text-xs text-muted-foreground">{t("admin.newsletter.historyHint")}</p>
           </CardHeader>
           <CardContent className="space-y-2">
             {history.map((a) => (
-              <div
+              <button
                 key={a.id}
-                className="flex flex-wrap items-center justify-between gap-2 border-b border-border/50 pb-2 text-sm last:border-0"
+                type="button"
+                onClick={() => setPreviewArticle(a)}
+                className="w-full text-left flex flex-wrap items-center justify-between gap-2 border-b border-border/50 pb-2 text-sm last:border-0 hover:bg-muted/40 rounded-md px-2 -mx-2 py-1 transition-colors"
               >
-                <span className="font-medium">{a.subject_zh_tw || a.subject_en}</span>
+                <span className="font-medium flex items-center gap-2">
+                  <Eye className="w-3.5 h-3.5 text-muted-foreground" />
+                  {a.subject_zh_tw || a.subject_en}
+                </span>
                 <span className="text-muted-foreground text-xs">
                   {a.sent_at ? new Date(a.sent_at).toLocaleDateString() : "—"} ·{" "}
                   {a.recipients_count} {t("admin.newsletter.recipients")}
                 </span>
-              </div>
+              </button>
             ))}
           </CardContent>
         </Card>
       )}
+
+      {/* Preview dialog */}
+      <Dialog open={!!previewArticle} onOpenChange={(o) => !o && setPreviewArticle(null)}>
+        <DialogContent className="max-w-[680px] max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{t("admin.newsletter.previewTitle")}</DialogTitle>
+            <DialogDescription>
+              {previewArticle?.sent_at
+                ? `${new Date(previewArticle.sent_at).toLocaleString()} · ${previewArticle.recipients_count} ${t("admin.newsletter.recipients")}`
+                : t("admin.newsletter.previewHint")}
+            </DialogDescription>
+          </DialogHeader>
+          {previewArticle && (
+            <NewsletterPreview
+              subjectZh={previewArticle.subject_zh_tw}
+              subjectEn={previewArticle.subject_en}
+              bodyZh={previewArticle.body_zh_tw}
+              bodyEn={previewArticle.body_en}
+              heroImageUrl={previewArticle.hero_image_url}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
