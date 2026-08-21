@@ -419,23 +419,52 @@ export function AdminNewsletterPanel() {
         <Card className="mobile-transparent-card">
           <CardHeader>
             <CardTitle className="text-base">{t("admin.newsletter.history")}</CardTitle>
+            <p className="text-xs text-muted-foreground">{t("admin.newsletter.historyHint")}</p>
           </CardHeader>
           <CardContent className="space-y-2">
             {history.map((a) => (
-              <div
+              <button
                 key={a.id}
-                className="flex flex-wrap items-center justify-between gap-2 border-b border-border/50 pb-2 text-sm last:border-0"
+                type="button"
+                onClick={() => setPreviewArticle(a)}
+                className="w-full text-left flex flex-wrap items-center justify-between gap-2 border-b border-border/50 pb-2 text-sm last:border-0 hover:bg-muted/40 rounded-md px-2 -mx-2 py-1 transition-colors"
               >
-                <span className="font-medium">{a.subject_zh_tw || a.subject_en}</span>
+                <span className="font-medium flex items-center gap-2">
+                  <Eye className="w-3.5 h-3.5 text-muted-foreground" />
+                  {a.subject_zh_tw || a.subject_en}
+                </span>
                 <span className="text-muted-foreground text-xs">
                   {a.sent_at ? new Date(a.sent_at).toLocaleDateString() : "—"} ·{" "}
                   {a.recipients_count} {t("admin.newsletter.recipients")}
                 </span>
-              </div>
+              </button>
             ))}
           </CardContent>
         </Card>
       )}
+
+      {/* Preview dialog */}
+      <Dialog open={!!previewArticle} onOpenChange={(o) => !o && setPreviewArticle(null)}>
+        <DialogContent className="max-w-[680px] max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{t("admin.newsletter.previewTitle")}</DialogTitle>
+            <DialogDescription>
+              {previewArticle?.sent_at
+                ? `${new Date(previewArticle.sent_at).toLocaleString()} · ${previewArticle.recipients_count} ${t("admin.newsletter.recipients")}`
+                : t("admin.newsletter.previewHint")}
+            </DialogDescription>
+          </DialogHeader>
+          {previewArticle && (
+            <NewsletterPreview
+              subjectZh={previewArticle.subject_zh_tw}
+              subjectEn={previewArticle.subject_en}
+              bodyZh={previewArticle.body_zh_tw}
+              bodyEn={previewArticle.body_en}
+              heroImageUrl={previewArticle.hero_image_url}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
