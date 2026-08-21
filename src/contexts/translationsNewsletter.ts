@@ -99,6 +99,11 @@ export const newsletterTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<str
     "admin.newsletter.recipients": "位收件人",
     "admin.newsletter.skipped": "沒有發送",
     "admin.newsletter.sentBatch": "已發送一批",
+    "admin.newsletter.preview": "預覽",
+    "admin.newsletter.previewTitle": "電郵預覽",
+    "admin.newsletter.previewHint": "這就是會員收到的電郵外觀。",
+    "admin.newsletter.close": "關閉",
+    "admin.newsletter.historyHint": "按下記錄即可預覽已發送的內容。",
 
     "profile.newsletter.title": "跳傘知識電郵",
     "profile.newsletter.desc": "每 2 星期收到安全貼士、裝備知識及跳傘邀請。",
