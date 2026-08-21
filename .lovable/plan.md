@@ -1,0 +1,34 @@
+# 基地服務項目改為 WhatsApp 預約
+
+在每個基地頁（`/location/<slug>`）的「此基地服務」卡片上，改用 WhatsApp 預約按鈕，取代現時「點擊卡片跳去預約表格」的行為。
+
+## 改動內容
+
+1. **移除整張卡片的跳轉**
+   目前點卡片任何位置都會設定預選基地／服務並跳到首頁 `/#booking`。改為卡片本身不再可點，改由卡片內的按鈕操作。
+
+2. **每張卡片加入「WhatsApp 預約」按鈕**
+   - 綠色 WhatsApp 樣式按鈕，位於卡片底部（在「包含項目」與「升級選項」之後）。
+   - 開啟 `wa.me/85269391570`，預填訊息包含：服務名稱、價格（有原價時附折扣）、基地名稱／城市。
+   - 例（繁中）：`你好！我想預約 珠海 的「雙人跳傘（3000米）」，價格 $3,399（原價 $4,299，-21%），請問可以安排哪些日期？`
+   - 語言跟隨網站當前語言（繁中／英／簡中）。
+
+3. **旅遊團（Tour）卡片**
+   保留一個次要的「查看行程」連結去 `/tour/<slug>/<serviceId>`（屬資訊瀏覽，不是預約跳轉），主按鈕同樣是 WhatsApp 預約。
+
+4. **即將開放的基地**
+   維持現狀：卡片淡化、不顯示 WhatsApp 按鈕。
+
+5. **不改動的部分**
+   - 頁頂「在此預約」主 CTA、深圳 iFLY 出團日程表的預約按鈕、首頁服務卡、`/service/*` 價目表（ServicePricing）維持現有流程。
+
+## 技術細節
+
+- 檔案：`src/pages/LocationDetail.tsx`
+  - 移除 `services.map` 卡片上的 `onClick`／`cursor-pointer`；`handleServiceClick` 改為 `handleWhatsAppBook(service)`，統一組裝訊息並 `window.open(..., "_blank", "noopener,noreferrer")`。
+  - 價格／折扣字串重用卡片內已有的 `parseNum` 折扣計算邏輯，抽成一個小 helper 供訊息與顯示共用。
+- 翻譯：在 `src/contexts/translationsMissing.ts` 新增三語 key
+  - `locationDetail.whatsappBook`（按鈕文字，如「WhatsApp 預約」）
+  - `locationDetail.whatsappBookMsg`（訊息模板，含 `{service}` `{price}` `{location}` 佔位符）
+  - `locationDetail.viewItinerary`（Tour 次要連結文字，若現有 key 可用則沿用）
+- 驗證：以 `/location/zhuhai`、`/location/shenzhen-ifly`（含 Tour 與 group 類型）檢查按鈕、訊息內容與三語顯示。
