@@ -61,6 +61,7 @@ export function AdminNewsletterPanel() {
   const [topicHint, setTopicHint] = useState("");
   const [testEmail, setTestEmail] = useState("");
   const [drafts, setDrafts] = useState<Record<string, Partial<Article>>>({});
+  const [previewArticle, setPreviewArticle] = useState<Article | null>(null);
 
   const load = useCallback(async () => {
     const [artRes, countRes, stateRes] = await Promise.all([
