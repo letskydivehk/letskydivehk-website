@@ -41,6 +41,11 @@ export const newsletterTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<str
     "admin.newsletter.recipients": "recipients",
     "admin.newsletter.skipped": "Nothing sent",
     "admin.newsletter.sentBatch": "Batch sent",
+    "admin.newsletter.preview": "Preview",
+    "admin.newsletter.previewTitle": "Email preview",
+    "admin.newsletter.previewHint": "This is exactly how the email looks to members.",
+    "admin.newsletter.close": "Close",
+    "admin.newsletter.historyHint": "Click a record to preview what was sent.",
 
     "profile.newsletter.title": "Skydiving knowledge emails",
     "profile.newsletter.desc": "Safety tips, gear guides and jump invitations every 2 weeks.",
