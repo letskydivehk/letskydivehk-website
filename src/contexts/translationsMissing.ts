@@ -316,6 +316,12 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     "servicePage.tour.step5.desc": "簡介、穿戴裝備，然後與持證教練一同起跳。",
     "servicePage.tour.step6.title": "帶走回憶",
     "servicePage.tour.step6.desc": "照片、影片及證書，再加上你的紀念磁石貼。",
+
+    // 基地服務卡 — WhatsApp 預約
+    "locationDetail.whatsappBook": "WhatsApp 預約",
+    "locationDetail.whatsappBookMsg":
+      "你好！我想預約 {location} 的「{service}」，價格 {price}，請問可以安排哪些日期？",
+    "locationDetail.viewItinerary": "查看行程",
   },
 
   "zh-CN": {
