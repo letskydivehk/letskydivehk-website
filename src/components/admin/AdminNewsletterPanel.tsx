@@ -12,6 +12,7 @@ import {
   Users,
   Pause,
   Play,
+  Eye,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -21,6 +22,14 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { NewsletterPreview } from "./NewsletterPreview";
 import { toast } from "sonner";
 
 interface Article {
@@ -30,6 +39,7 @@ interface Article {
   subject_en: string;
   body_zh_tw: string;
   body_en: string;
+  hero_image_url: string | null;
   queue_position: number;
   status: string;
   sent_at: string | null;
