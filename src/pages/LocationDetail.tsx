@@ -303,13 +303,13 @@ export default function LocationDetail() {
                     return (
                       <div
                         key={service.id}
-                        onClick={locationComingSoon ? undefined : () => handleServiceClick(service.id, service.service_type)}
                         className={`bg-card rounded-2xl p-6 clean-border mobile-transparent-card transition-all duration-300 group ${
                           locationComingSoon
-                            ? "opacity-60 cursor-not-allowed"
-                            : "cursor-pointer hover:border-accent-orange/50 hover:shadow-lg"
+                            ? "opacity-60"
+                            : "hover:border-accent-orange/50 hover:shadow-lg"
                         }`}
                       >
+
                         <div className="flex items-center justify-between mb-3">
                           <h3 className="font-bold text-foreground text-lg"><ServiceNameDisplay name={translatedServiceName} /></h3>
                           {locationComingSoon ? (
