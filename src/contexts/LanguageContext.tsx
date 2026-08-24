@@ -4094,6 +4094,14 @@ translations["zh-CN"]["compare.metaTitle"] = "比较跳伞地点 | Let's Skydive
   });
 });
 
+// Daily WhatsApp group broadcast (admin panel) copy.
+(Object.keys(broadcastTranslations) as Language[]).forEach((lang) => {
+  (Object.entries(broadcastTranslations[lang]) as [string, string][]).forEach(([key, value]) => {
+    translations[lang][key] = value;
+  });
+});
+
+
 
 // Dev-only parity check so the three languages never drift apart again.
 if (import.meta.env.DEV) {
