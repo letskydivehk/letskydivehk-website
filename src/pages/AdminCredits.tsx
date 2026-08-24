@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { ArrowLeft, Coins, FileText, Loader2, HelpCircle, Plane, GitCompare, ShoppingBag, CalendarDays, Mail } from "lucide-react";
+import { ArrowLeft, Coins, FileText, Loader2, HelpCircle, Plane, GitCompare, ShoppingBag, CalendarDays, Mail, MessageCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -16,6 +16,7 @@ import { AdminItineraryComparePanel } from "@/components/admin/AdminItineraryCom
 import { AdminSouvenirsPanel } from "@/components/admin/AdminSouvenirsPanel";
 import { AdminDeparturesPanel } from "@/components/admin/AdminDeparturesPanel";
 import { AdminNewsletterPanel } from "@/components/admin/AdminNewsletterPanel";
+import { AdminDailyBroadcastPanel } from "@/components/admin/AdminDailyBroadcastPanel";
 
 export default function AdminCredits() {
   const { user, loading: authLoading } = useAuth();
@@ -103,6 +104,10 @@ export default function AdminCredits() {
                 <Mail className="w-4 h-4" />
                 {t("admin.newsletter.tab")}
               </TabsTrigger>
+              <TabsTrigger value="broadcast" className="gap-2">
+                <MessageCircle className="w-4 h-4" />
+                {t("admin.broadcast.tab")}
+              </TabsTrigger>
             </TabsList>
 
 
@@ -136,6 +141,10 @@ export default function AdminCredits() {
 
             <TabsContent value="newsletter">
               {isAdmin && <AdminNewsletterPanel />}
+            </TabsContent>
+
+            <TabsContent value="broadcast">
+              {isAdmin && <AdminDailyBroadcastPanel />}
             </TabsContent>
           </Tabs>
         </div>

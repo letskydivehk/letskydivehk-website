@@ -3,6 +3,7 @@ import { locationDataTranslations } from "@/data/locationDataTranslations";
 import { missingTranslations } from "@/contexts/translationsMissing";
 import { departureTranslations } from "@/contexts/translationsDepartures";
 import { newsletterTranslations } from "@/contexts/translationsNewsletter";
+import { broadcastTranslations } from "@/contexts/translationsBroadcast";
 
 export type Language = "en" | "zh-TW" | "zh-CN";
 
@@ -4093,6 +4094,14 @@ translations["zh-CN"]["compare.metaTitle"] = "比较跳伞地点 | Let's Skydive
     translations[lang][key] = value;
   });
 });
+
+// Daily WhatsApp group broadcast (admin panel) copy.
+(Object.keys(broadcastTranslations) as Language[]).forEach((lang) => {
+  (Object.entries(broadcastTranslations[lang]) as [string, string][]).forEach(([key, value]) => {
+    translations[lang][key] = value;
+  });
+});
+
 
 
 // Dev-only parity check so the three languages never drift apart again.

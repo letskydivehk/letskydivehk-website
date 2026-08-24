@@ -215,6 +215,72 @@ export type Database = {
         }
         Relationships: []
       }
+      daily_broadcast_settings: {
+        Row: {
+          created_at: string
+          enabled: boolean
+          id: number
+          include_en: boolean
+          send_hour: number
+          updated_at: string
+          weekday_topics: Json
+        }
+        Insert: {
+          created_at?: string
+          enabled?: boolean
+          id?: number
+          include_en?: boolean
+          send_hour?: number
+          updated_at?: string
+          weekday_topics?: Json
+        }
+        Update: {
+          created_at?: string
+          enabled?: boolean
+          id?: number
+          include_en?: boolean
+          send_hour?: number
+          updated_at?: string
+          weekday_topics?: Json
+        }
+        Relationships: []
+      }
+      daily_broadcasts: {
+        Row: {
+          body_en: string
+          body_zh_tw: string
+          broadcast_date: string
+          created_at: string
+          id: string
+          posted_at: string | null
+          status: string
+          topic: string | null
+          updated_at: string
+        }
+        Insert: {
+          body_en?: string
+          body_zh_tw?: string
+          broadcast_date: string
+          created_at?: string
+          id?: string
+          posted_at?: string | null
+          status?: string
+          topic?: string | null
+          updated_at?: string
+        }
+        Update: {
+          body_en?: string
+          body_zh_tw?: string
+          broadcast_date?: string
+          created_at?: string
+          id?: string
+          posted_at?: string | null
+          status?: string
+          topic?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       gallery_items: {
         Row: {
           category: string
