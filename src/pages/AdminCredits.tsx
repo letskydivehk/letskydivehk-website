@@ -104,6 +104,10 @@ export default function AdminCredits() {
                 <Mail className="w-4 h-4" />
                 {t("admin.newsletter.tab")}
               </TabsTrigger>
+              <TabsTrigger value="broadcast" className="gap-2">
+                <MessageCircle className="w-4 h-4" />
+                {t("admin.broadcast.tab")}
+              </TabsTrigger>
             </TabsList>
 
 
