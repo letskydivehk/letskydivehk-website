@@ -3,6 +3,7 @@ import { locationDataTranslations } from "@/data/locationDataTranslations";
 import { missingTranslations } from "@/contexts/translationsMissing";
 import { departureTranslations } from "@/contexts/translationsDepartures";
 import { newsletterTranslations } from "@/contexts/translationsNewsletter";
+import { broadcastTranslations } from "@/contexts/translationsBroadcast";
 
 export type Language = "en" | "zh-TW" | "zh-CN";
 
