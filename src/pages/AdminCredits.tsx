@@ -142,6 +142,10 @@ export default function AdminCredits() {
             <TabsContent value="newsletter">
               {isAdmin && <AdminNewsletterPanel />}
             </TabsContent>
+
+            <TabsContent value="broadcast">
+              {isAdmin && <AdminDailyBroadcastPanel />}
+            </TabsContent>
           </Tabs>
         </div>
       </main>
