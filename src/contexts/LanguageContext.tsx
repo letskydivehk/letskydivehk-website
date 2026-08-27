@@ -2324,7 +2324,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.card.jumpCta": "想把自己的跳伞照片做成磁贴？先预约跳伞 →",
     "souvenirs.testimonials.title": "贴在香港家家户户的冰箱上",
     "souvenirs.testimonials.subtitle": "真实磁贴．真实跳伞者。",
-    "souvenirs.testimonials.n1": "Karen — 芭提雅 Tandem",
+    "souvenirs.testimonials.n1": "Karen — 芭堤雅 Tandem",
     "souvenirs.testimonials.q1": "史上最棒的纪念品。每天打开冰箱，都会记起自己真的跳过。",
     "souvenirs.testimonials.n2": "Marcus — 珠海 A-Licence",
     "souvenirs.testimonials.q2": "订了 5 件磁贴送家人。印刷清晰、寄得又快。",
@@ -2862,7 +2862,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
   "zh-TW": {
     // Location names
     "location.chiang-mai": "清邁 (Wefly)",
-    "location.pattaya": "芭達雅",
+    "location.pattaya": "芭堤雅",
     "location.hainan": "海南 (蔚藍)",
     "location.huizhou": "惠州 (鷹飛)",
     "location.luoding": "羅定 (鷹飛)",
@@ -2870,7 +2870,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
 
     // Location descriptions
     "location.chiang-mai.desc": "在泰國北部壯麗的山脈和寺廟上空跳傘。",
-    "location.pattaya.desc": "在芭達雅體驗泰國灣的壯麗景色。",
+    "location.pattaya.desc": "在芭堤雅體驗泰國灣的壯麗景色。",
     "location.hainan.desc": "在熱帶天堂跳傘，享受清澈的海景。",
     "location.huizhou.desc": "全年優美的海岸景色和完美的天氣條件。",
     "location.luoding.desc": "廣東省的新探險目的地。",
@@ -2882,7 +2882,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
 
     // Cities
     "city.Chiang Mai": "清邁",
-    "city.Pattaya": "芭達雅",
+    "city.Pattaya": "芭堤雅",
     "city.Hainan": "海南",
     "city.Huizhou": "惠州",
     "city.Luoding": "羅定",
@@ -2996,7 +2996,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "addon.Round-trip flights": "來回機票",
     "addon.Travel insurance": "旅遊保險",
     "servicePage.tour.step1.title": "選擇目的地",
-    "servicePage.tour.step1.desc": "芭達雅、清邁、海南、珠海或惠州。",
+    "servicePage.tour.step1.desc": "芭堤雅、清邁、海南、珠海或惠州。",
     "servicePage.tour.step2.title": "選擇行程",
     "servicePage.tour.step2.desc": "按目的地選 2 日 1 夜、3 日 2 夜或 4 日 3 夜。",
     "servicePage.tour.step3.title": "支付訂金",
@@ -3019,7 +3019,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
   "zh-CN": {
     // Location names
     "location.chiang-mai": "清迈 (Wefly)",
-    "location.pattaya": "芭提雅",
+    "location.pattaya": "芭堤雅",
     "location.hainan": "海南 (蔚蓝)",
     "location.huizhou": "惠州 (鹰飞)",
     "location.luoding": "罗定 (鹰飞)",
@@ -3027,7 +3027,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
 
     // Location descriptions
     "location.chiang-mai.desc": "在泰国北部壮丽的山脉和寺庙上空跳伞。",
-    "location.pattaya.desc": "在芭提雅体验泰国湾的壮丽景色。",
+    "location.pattaya.desc": "在芭堤雅体验泰国湾的壮丽景色。",
     "location.hainan.desc": "在热带天堂跳伞，享受清澈的海景。",
     "location.huizhou.desc": "全年优美的海岸景色和完美的天气条件。",
     "location.luoding.desc": "广东省的新探险目的地。",
@@ -3039,7 +3039,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
 
     // Cities
     "city.Chiang Mai": "清迈",
-    "city.Pattaya": "芭提雅",
+    "city.Pattaya": "芭堤雅",
     "city.Hainan": "海南",
     "city.Huizhou": "惠州",
     "city.Luoding": "罗定",
@@ -3153,7 +3153,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "addon.Round-trip flights": "来回机票",
     "addon.Travel insurance": "旅游保险",
     "servicePage.tour.step1.title": "选择目的地",
-    "servicePage.tour.step1.desc": "芭提雅、清迈、海南、珠海或惠州。",
+    "servicePage.tour.step1.desc": "芭堤雅、清迈、海南、珠海或惠州。",
     "servicePage.tour.step2.title": "选择行程",
     "servicePage.tour.step2.desc": "按目的地选 2 日 1 夜、3 日 2 夜或 4 日 3 夜。",
     "servicePage.tour.step3.title": "支付订金",
@@ -4140,8 +4140,8 @@ const tourDataTranslations = {
     "include.Lunch": "Lunch",
   },
   "zh-TW": {
-    "tour.name.Pattaya 3D2N Tour": "芭達雅 3 日 2 夜跳傘團",
-    "tour.name.Pattaya 4D3N Tour": "芭達雅 4 日 3 夜跳傘團",
+    "tour.name.Pattaya 3D2N Tour": "芭堤雅 3 日 2 夜跳傘團",
+    "tour.name.Pattaya 4D3N Tour": "芭堤雅 4 日 3 夜跳傘團",
     "tour.name.Chiang Mai 3D2N Tour": "清邁 3 日 2 夜跳傘團",
     "tour.name.Chiang Mai 4D3N Tour": "清邁 4 日 3 夜跳傘團",
     "tour.name.Hainan 3D2N Tour": "海南 3 日 2 夜跳傘團",
@@ -4155,7 +4155,7 @@ const tourDataTranslations = {
     "include.Certificate": "跳傘證書",
     "include.Short video": "跳傘短片",
     "include.Lunch": "午餐",
-    "tour.dayTitle.Arrival & Pattaya Beach": "抵達 & 芭達雅海灘",
+    "tour.dayTitle.Arrival & Pattaya Beach": "抵達 & 芭堤雅海灘",
     "tour.dayTitle.Tandem Skydive Day": "雙人跳傘日",
     "tour.dayTitle.Brunch & Departure": "早午餐 & 回程",
     "tour.dayTitle.Arrival": "抵達",
@@ -4197,8 +4197,8 @@ const tourDataTranslations = {
     "include.Dropzone transfers": "跳傘場接送",
   },
   "zh-CN": {
-    "tour.name.Pattaya 3D2N Tour": "芭提雅 3 天 2 夜跳伞团",
-    "tour.name.Pattaya 4D3N Tour": "芭提雅 4 天 3 夜跳伞团",
+    "tour.name.Pattaya 3D2N Tour": "芭堤雅 3 天 2 夜跳伞团",
+    "tour.name.Pattaya 4D3N Tour": "芭堤雅 4 天 3 夜跳伞团",
     "tour.name.Chiang Mai 3D2N Tour": "清迈 3 天 2 夜跳伞团",
     "tour.name.Chiang Mai 4D3N Tour": "清迈 4 天 3 夜跳伞团",
     "tour.name.Hainan 3D2N Tour": "海南 3 天 2 夜跳伞团",
@@ -4212,7 +4212,7 @@ const tourDataTranslations = {
     "include.Certificate": "跳伞证书",
     "include.Short video": "跳伞短片",
     "include.Lunch": "午餐",
-    "tour.dayTitle.Arrival & Pattaya Beach": "抵达 & 芭提雅海滩",
+    "tour.dayTitle.Arrival & Pattaya Beach": "抵达 & 芭堤雅海滩",
     "tour.dayTitle.Tandem Skydive Day": "双人跳伞日",
     "tour.dayTitle.Brunch & Departure": "早午餐 & 回程",
     "tour.dayTitle.Arrival": "抵达",

@@ -50,7 +50,7 @@ export const locationDataTranslations: Record<Lang, Record<string, string>> = {
     "From Hong Kong: take the high-speed train from West Kowloon to Zhaoqing East (about 1.5 hours), then a 1.5-hour taxi or coach transfer to Luoding. Alternatively, drive via the HZMB and G55 expressway (around 4 hours).":
       "由香港出發：於西九龍乘高鐵到肇慶東站（約1.5小時），再轉的士或巴士約1.5小時抵達羅定。或可經港珠澳大橋及G55高速自駕（約4小時）。",
     "Direct flights from Hong Kong (HKG) to Bangkok (BKK or DMK) take ~3 hours. From Bangkok, Pattaya is a 1.5-hour drive via private transfer (~700 THB) or bus (~150 THB). Total travel time door-to-door: about 6 hours.":
-      "由香港（HKG）直飛曼谷（BKK 或 DMK）約需3小時。由曼谷前往芭達雅約1.5小時車程，可選私家車接送（約700泰銖）或巴士（約150泰銖）。全程約6小時。",
+      "由香港（HKG）直飛曼谷（BKK 或 DMK）約需3小時。由曼谷前往芭堤雅約1.5小時車程，可選私家車接送（約700泰銖）或巴士（約150泰銖）。全程約6小時。",
 
     // ============ Travel tips: currency / language / visa / plug / tipping ============
     "Thai Baht (THB)": "泰銖 (THB)",
@@ -136,13 +136,13 @@ export const locationDataTranslations: Record<Lang, Record<string, string>> = {
     "Ji Hotel Sanya": "三亞全季酒店",
     "Modern, well-priced city hotel ideal for travellers prioritising convenience over luxury.":
       "現代化、高性價比的市區酒店，適合重視便利的旅客。",
-    "Hilton Pattaya": "芭達雅希爾頓酒店",
+    "Hilton Pattaya": "芭堤雅希爾頓酒店",
     "Luxury beachfront hotel with infinity pool, panoramic Gulf of Thailand views, and easy access to Walking Street.":
       "海濱奢華酒店，設無邊際泳池，可飽覽泰國灣全景，鄰近 Walking Street。",
-    "Centara Mirage Beach Resort": "芭達雅 Centara Mirage 海灘度假村",
+    "Centara Mirage Beach Resort": "芭堤雅 Centara Mirage 海灘度假村",
     "Family-friendly resort with lazy river, water park and direct beach access. Great for groups travelling together.":
       "親子度假村，設漂流河、水上樂園，並可直達沙灘，適合團體出遊。",
-    "Lub d Pattaya": "芭達雅 Lub d 旅舍",
+    "Lub d Pattaya": "芭堤雅 Lub d 旅舍",
     "Modern social hostel with private rooms and dorms. Pool, bar, and a vibrant backpacker community.":
       "現代化社交型旅舍，提供私人房及多人房，設有泳池、酒吧及活潑的背包客社區。",
 
@@ -557,7 +557,7 @@ export const locationDataTranslations: Record<Lang, Record<string, string>> = {
     "From Hong Kong: take the high-speed train from West Kowloon to Zhaoqing East (about 1.5 hours), then a 1.5-hour taxi or coach transfer to Luoding. Alternatively, drive via the HZMB and G55 expressway (around 4 hours).":
       "由香港出发：于西九龙乘高铁到肇庆东站（约1.5小时），再转出租车或巴士约1.5小时抵达罗定。或可经港珠澳大桥及G55高速自驾（约4小时）。",
     "Direct flights from Hong Kong (HKG) to Bangkok (BKK or DMK) take ~3 hours. From Bangkok, Pattaya is a 1.5-hour drive via private transfer (~700 THB) or bus (~150 THB). Total travel time door-to-door: about 6 hours.":
-      "由香港（HKG）直飞曼谷（BKK 或 DMK）约需3小时。由曼谷前往芭提雅约1.5小时车程，可选私家车接送（约700泰铢）或巴士（约150泰铢）。全程约6小时。",
+      "由香港（HKG）直飞曼谷（BKK 或 DMK）约需3小时。由曼谷前往芭堤雅约1.5小时车程，可选私家车接送（约700泰铢）或巴士（约150泰铢）。全程约6小时。",
 
     // ============ Travel tips ============
     "Thai Baht (THB)": "泰铢 (THB)",
@@ -643,13 +643,13 @@ export const locationDataTranslations: Record<Lang, Record<string, string>> = {
     "Ji Hotel Sanya": "三亚全季酒店",
     "Modern, well-priced city hotel ideal for travellers prioritising convenience over luxury.":
       "现代化、高性价比的市区酒店，适合重视便利的旅客。",
-    "Hilton Pattaya": "芭提雅希尔顿酒店",
+    "Hilton Pattaya": "芭堤雅希尔顿酒店",
     "Luxury beachfront hotel with infinity pool, panoramic Gulf of Thailand views, and easy access to Walking Street.":
       "海滨奢华酒店，设无边际泳池，可饱览泰国湾全景，邻近 Walking Street。",
-    "Centara Mirage Beach Resort": "芭提雅 Centara Mirage 海滩度假村",
+    "Centara Mirage Beach Resort": "芭堤雅 Centara Mirage 海滩度假村",
     "Family-friendly resort with lazy river, water park and direct beach access. Great for groups travelling together.":
       "亲子度假村，设漂流河、水上乐园，并可直达沙滩，适合团体出游。",
-    "Lub d Pattaya": "芭提雅 Lub d 旅舍",
+    "Lub d Pattaya": "芭堤雅 Lub d 旅舍",
     "Modern social hostel with private rooms and dorms. Pool, bar, and a vibrant backpacker community.":
       "现代化社交型旅舍，提供私人房及多人房，设有泳池、酒吧及活泼的背包客社区。",
 
