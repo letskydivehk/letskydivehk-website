@@ -2864,7 +2864,8 @@ const dataTranslations: Record<Language, Record<string, string>> = {
   "zh-TW": {
     // Location names
     "location.chiang-mai": "清邁 (Wefly)",
-    "location.pattaya": "芭堤雅",
+    "location.pattaya": "芭堤雅 (DZT)",
+    "location.pattaya-tsa": "芭堤雅 (TSA)",
     "location.hainan": "海南 (蔚藍)",
     "location.huizhou": "惠州 (鷹飛)",
     "location.luoding": "羅定 (鷹飛)",
