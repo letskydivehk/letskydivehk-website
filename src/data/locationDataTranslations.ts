@@ -20,6 +20,8 @@ export const locationDataTranslations: Record<Lang, Record<string, string>> = {
 
     "Grab (~THB 1000)": "Grab（約1000泰銖）",
     "Grab (~THB 2500)": "Grab（約2500泰銖）",
+    "Private transfer included: designated pick-up point in Bangkok; free pick-up from any hotel in Pattaya.":
+      "已包專車接送：曼谷設指定上車地點；芭堤雅可任選酒店免費接送。",
     "Taxi (~RMB 100)": "的士（約100人民幣）",
     "Taxi (~RMB 250) OR Reserved pick up service": "的士（約250人民幣）或預約接送服務",
     "Mixed transport (Train + taxi)": "混合交通（高鐵 + 的士）",
