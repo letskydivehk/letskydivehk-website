@@ -3033,6 +3033,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Location descriptions
     "location.chiang-mai.desc": "在泰国北部壮丽的山脉和寺庙上空跳伞。",
     "location.pattaya.desc": "在芭堤雅体验泰国湾的壮丽景色。",
+    "location.pattaya-tsa.desc": "位于芭堤雅 Na Kluea 的海岸跳伞基地，曼谷指定地点及芭堤雅任选酒店专车接送。",
     "location.hainan.desc": "在热带天堂跳伞，享受清澈的海景。",
     "location.huizhou.desc": "全年优美的海岸景色和完美的天气条件。",
     "location.luoding.desc": "广东省的新探险目的地。",
