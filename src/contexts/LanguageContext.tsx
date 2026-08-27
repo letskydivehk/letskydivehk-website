@@ -2874,6 +2874,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Location descriptions
     "location.chiang-mai.desc": "在泰國北部壯麗的山脈和寺廟上空跳傘。",
     "location.pattaya.desc": "在芭堤雅體驗泰國灣的壯麗景色。",
+    "location.pattaya-tsa.desc": "位於芭堤雅 Na Kluea 的海岸跳傘基地，曼谷指定地點及芭堤雅任選酒店專車接送。",
     "location.hainan.desc": "在熱帶天堂跳傘，享受清澈的海景。",
     "location.huizhou.desc": "全年優美的海岸景色和完美的天氣條件。",
     "location.luoding.desc": "廣東省的新探險目的地。",
