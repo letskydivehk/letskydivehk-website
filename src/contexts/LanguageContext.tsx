@@ -2712,6 +2712,7 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     // Location descriptions
     "location.chiang-mai.desc": "Jump over the stunning mountains and temples of Northern Thailand.",
     "location.pattaya.desc": "Experience breathtaking views of the Gulf of Thailand in Pattaya.",
+    "location.pattaya-tsa.desc": "Coastal dropzone in Na Kluea, Pattaya with private transfers from Bangkok and any Pattaya hotel.",
     "location.hainan.desc": "Tropical paradise skydiving with crystal clear ocean views.",
     "location.huizhou.desc": "Scenic coastal views and perfect weather conditions year-round.",
     "location.luoding.desc": "A new adventure destination in Guangdong province.",
