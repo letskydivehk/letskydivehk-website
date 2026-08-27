@@ -2702,7 +2702,8 @@ const dataTranslations: Record<Language, Record<string, string>> = {
   en: {
     // Location names (keep English as-is)
     "location.chiang-mai": "Chiang Mai (Wefly)",
-    "location.pattaya": "Pattaya",
+    "location.pattaya": "Pattaya (DZT)",
+    "location.pattaya-tsa": "Pattaya (TSA)",
     "location.hainan": "Hainan (Weland)",
     "location.huizhou": "Huizhou (Yingfei)",
     "location.luoding": "Luoding (Yingfei)",
