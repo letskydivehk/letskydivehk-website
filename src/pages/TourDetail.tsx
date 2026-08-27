@@ -14,7 +14,7 @@ import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { TourItinerary } from "@/components/tour/TourItinerary";
 import { SEO } from "@/components/SEO";
 
-const ALLOWED_SLUGS = new Set(["pattaya", "huizhou", "hainan", "zhuhai"]);
+const ALLOWED_SLUGS = new Set(["pattaya", "pattaya-tsa", "huizhou", "hainan", "zhuhai"]);
 
 function useTourService(serviceId?: string) {
   return useQuery({
