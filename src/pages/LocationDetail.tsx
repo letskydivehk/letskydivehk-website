@@ -53,7 +53,7 @@ export default function LocationDetail() {
     }
   };
 
-  const TOUR_DETAIL_SLUGS = new Set(["pattaya", "huizhou", "hainan", "zhuhai"]);
+  const TOUR_DETAIL_SLUGS = new Set(["pattaya", "pattaya-tsa", "huizhou", "hainan", "zhuhai"]);
 
   const parsePriceNum = (s?: string | null) => {
     if (!s) return null;

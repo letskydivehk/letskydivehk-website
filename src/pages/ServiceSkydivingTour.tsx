@@ -268,7 +268,7 @@ function TourCard({
   translateData: (key: string, fallback: string) => string
 }) {
   const navigate = useNavigate()
-  const TOUR_DETAIL_SLUGS = new Set(['pattaya', 'huizhou', 'hainan', 'zhuhai'])
+  const TOUR_DETAIL_SLUGS = new Set(['pattaya', 'pattaya-tsa', 'huizhou', 'hainan', 'zhuhai'])
   const hasDetailPage = TOUR_DETAIL_SLUGS.has(locationSlug)
 
   const [photoIdx, setPhotoIdx] = useState(0)

@@ -28,6 +28,7 @@ export interface Recommendation {
 
 const LOCATION_PROFILE: Record<string, { proximity: number; scenery: number; budget: number }> = {
   pattaya: { proximity: 0, scenery: 3, budget: 0 },
+  "pattaya-tsa": { proximity: 0, scenery: 3, budget: 0 },
   "chiang-mai": { proximity: 0, scenery: 3, budget: 1 },
   huizhou: { proximity: 3, scenery: 1, budget: 3 },
   luoding: { proximity: 3, scenery: 2, budget: 3 },
