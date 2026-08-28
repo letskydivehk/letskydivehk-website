@@ -2745,6 +2745,13 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "service.Group Events": "Group Events",
     "service.Package Tour": "Skydiving Tour",
     "service.Skydiving Tour": "Skydiving Tour",
+    "service.Pattaya 3D2N Tour": "Pattaya 3-Day 2-Night Tour",
+    "service.Pattaya 4D3N Tour": "Pattaya 4-Day 3-Night Tour",
+    "service.Chiang Mai 3D2N Tour": "Chiang Mai 3-Day 2-Night Tour",
+    "service.Chiang Mai 4D3N Tour": "Chiang Mai 4-Day 3-Night Tour",
+    "service.Hainan 3D2N Tour": "Hainan 3-Day 2-Night Tour",
+    "service.Hainan 4D3N Tour": "Hainan 4-Day 3-Night Tour",
+    "service.Huizhou 2D1N Tour": "Huizhou 2-Day 1-Night Tour",
 
     // Service types
     "serviceType.tandem": "Tandem Skydive",
