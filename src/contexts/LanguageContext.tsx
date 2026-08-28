@@ -2957,6 +2957,8 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "price.Custom Quote": "專屬報價",
     "price.Contact for pricing": "請聯絡查詢價錢",
     "price.From $5699": "$5,699起",
+    "price.$6,799起": "$6,799起",
+    "price.$5,899起": "$5,899起",
     "pricing.off": "會員 -20%",
     "pricing.addons": "+ 可加購：保險、機票",
     "common.enquireNow": "查詢",
