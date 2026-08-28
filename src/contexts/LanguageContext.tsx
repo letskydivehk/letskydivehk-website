@@ -2905,6 +2905,13 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "service.Group Events": "團體活動",
     "service.Package Tour": "跳傘團",
     "service.Skydiving Tour": "跳傘團",
+    "service.Pattaya 3D2N Tour": "芭堤雅 3 日 2 夜跳傘團",
+    "service.Pattaya 4D3N Tour": "芭堤雅 4 日 3 夜跳傘團",
+    "service.Chiang Mai 3D2N Tour": "清邁 3 日 2 夜跳傘團",
+    "service.Chiang Mai 4D3N Tour": "清邁 4 日 3 夜跳傘團",
+    "service.Hainan 3D2N Tour": "海南 3 日 2 夜跳傘團",
+    "service.Hainan 4D3N Tour": "海南 4 日 3 夜跳傘團",
+    "service.Huizhou 2D1N Tour": "惠州 2 日 1 夜跳傘團",
 
     // Service types
     "serviceType.tandem": "雙人跳傘",
