@@ -3064,6 +3064,13 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "service.Group Events": "团体活动",
     "service.Package Tour": "跳伞团",
     "service.Skydiving Tour": "跳伞团",
+    "service.Pattaya 3D2N Tour": "芭堤雅 3 天 2 夜跳伞团",
+    "service.Pattaya 4D3N Tour": "芭堤雅 4 天 3 夜跳伞团",
+    "service.Chiang Mai 3D2N Tour": "清迈 3 天 2 夜跳伞团",
+    "service.Chiang Mai 4D3N Tour": "清迈 4 天 3 夜跳伞团",
+    "service.Hainan 3D2N Tour": "海南 3 天 2 夜跳伞团",
+    "service.Hainan 4D3N Tour": "海南 4 天 3 夜跳伞团",
+    "service.Huizhou 2D1N Tour": "惠州 2 天 1 夜跳伞团",
 
     // Service types
     "serviceType.tandem": "双人跳伞",
