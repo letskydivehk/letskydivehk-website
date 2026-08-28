@@ -3116,6 +3116,8 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "price.Custom Quote": "专属报价",
     "price.Contact for pricing": "请联络查询价钱",
     "price.From $5699": "$5,699起",
+    "price.$6,799起": "$6,799起",
+    "price.$5,899起": "$5,899起",
     "pricing.off": "会员 -20%",
     "pricing.addons": "+ 可加购：保险、机票",
     "common.enquireNow": "查询",
