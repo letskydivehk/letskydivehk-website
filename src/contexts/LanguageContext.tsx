@@ -2795,6 +2795,8 @@ const dataTranslations: Record<Language, Record<string, string>> = {
     "price.Custom Quote": "Custom Quote",
     "price.Contact for pricing": "Contact for pricing",
     "price.From $5699": "From $5,699",
+    "price.$6,799起": "From $6,799",
+    "price.$5,899起": "From $5,899",
     "pricing.off": "Member -20%",
     "pricing.addons": "+ Add-ons available: Insurance, Flight ticket",
     "common.enquireNow": "Enquire",
