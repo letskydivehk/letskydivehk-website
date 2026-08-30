@@ -152,7 +152,7 @@ export default function QuizResult() {
                 <div className="inline-flex items-center gap-2 text-white/95 text-lg sm:text-xl font-semibold">
                   <MapPin className="w-5 h-5" />
                   {translateData(
-                    `location.${primaryLocation.slug}.name`,
+                    `location.${primaryLocation.slug}`,
                     primaryLocation.Name || "",
                   )}
                 </div>
@@ -188,13 +188,13 @@ export default function QuizResult() {
                   </div>
                   <h2 className="text-xl font-bold mb-2">
                     {translateData(
-                      `location.${primaryLocation.slug}.name`,
+                      `location.${primaryLocation.slug}`,
                       primaryLocation.Name || "",
                     )}
                   </h2>
                   <p className="text-sm text-muted-foreground line-clamp-3 mb-4">
                     {translateData(
-                      `location.${primaryLocation.slug}.description`,
+                      `location.${primaryLocation.slug}.desc`,
                       primaryLocation.description || "",
                     )}
                   </p>
@@ -271,7 +271,7 @@ export default function QuizResult() {
                     )}
                     <div className="min-w-0 flex-1">
                       <div className="font-semibold text-sm truncate">
-                        {translateData(`location.${loc.slug}.name`, loc.Name || "")}
+                        {translateData(`location.${loc.slug}`, loc.Name || "")}
                       </div>
                       <div className="text-xs text-muted-foreground">{loc.country}</div>
                     </div>

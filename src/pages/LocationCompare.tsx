@@ -44,7 +44,7 @@ export default function LocationCompare() {
                   <tr key={loc.id} className="border-t border-border">
                     <td className="px-5 py-4">
                       <div className="font-bold text-foreground">
-                        {translateData(loc.Name, loc.Name)}
+                        {translateData(`location.${loc.slug}`, loc.Name)}
                       </div>
                       <div className="text-xs text-muted-foreground">
                         {translateData(loc.country, loc.country)}
@@ -64,7 +64,7 @@ export default function LocationCompare() {
                       {Array.isArray(loc.highlights) && loc.highlights.length
                         ? translateData(loc.highlights[0], loc.highlights[0])
                         : loc.description
-                          ? translateData(loc.description, loc.description).slice(0, 80) + "…"
+                          ? translateData(`location.${loc.slug}.desc`, loc.description).slice(0, 80) + "…"
                           : "—"}
                     </td>
                     <td className="px-5 py-4">
@@ -86,7 +86,7 @@ export default function LocationCompare() {
             {active.map((loc: any) => (
               <div key={loc.id} className="bg-card border border-border rounded-2xl p-5">
                 <div className="font-bold text-lg text-foreground">
-                  {translateData(loc.Name, loc.Name)}
+                  {translateData(`location.${loc.slug}`, loc.Name)}
                 </div>
                 <div className="text-xs text-muted-foreground mb-3">
                   {translateData(loc.country, loc.country)}
