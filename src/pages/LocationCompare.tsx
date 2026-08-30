@@ -47,7 +47,7 @@ export default function LocationCompare() {
                         {translateData(`location.${loc.slug}`, loc.Name)}
                       </div>
                       <div className="text-xs text-muted-foreground">
-                        {translateData(loc.country, loc.country)}
+                        {translateData(`country.${loc.country}`, loc.country)}
                       </div>
                     </td>
                     <td className="px-5 py-4 text-sm text-muted-foreground">
@@ -89,7 +89,7 @@ export default function LocationCompare() {
                   {translateData(`location.${loc.slug}`, loc.Name)}
                 </div>
                 <div className="text-xs text-muted-foreground mb-3">
-                  {translateData(loc.country, loc.country)}
+                  {translateData(`country.${loc.country}`, loc.country)}
                 </div>
                 <dl className="text-sm space-y-2">
                   <div className="flex justify-between gap-4">
