@@ -135,12 +135,16 @@ async function callAI(topic: string, facts: any, includeEn: boolean) {
 
   const context = [
     facts.departureLines.length ? `未來出團：\n${facts.departureLines.join("\n")}` : "",
-    facts.weatherLines.length
-      ? `${facts.weatherSpotName} 未來天氣：\n${facts.weatherLines.join("\n")}`
+    facts.weatherBlocks?.length
+      ? "各基地未來天氣：\n" +
+        facts.weatherBlocks
+          .map((b: any) => `${b.name}\n${b.lines.join("\n")}`)
+          .join("\n")
       : "",
   ]
     .filter(Boolean)
     .join("\n\n");
+
 
   const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
     method: "POST",
