@@ -105,7 +105,7 @@ async function collectFacts() {
       .neq("status", "cancelled");
     const taken = (booked ?? []).reduce((s: number, b: any) => s + (b.participants || 0), 0);
     const left = Math.max(0, ((d as any).capacity ?? 0) - taken);
-    const where = loc?.City || loc?.Name || "";
+    const where = zhCity(loc?.City || loc?.Name || "");
     departureLines.push(
       `• ${(d as any).departure_date}｜${where} ${svc?.service_name ?? ""}｜餘 ${left} 位`,
     );
