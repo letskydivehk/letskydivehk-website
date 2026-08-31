@@ -203,12 +203,15 @@ function compose(main: string, facts: any, lang: "zh" | "en") {
         facts.departureLines.join("\n"),
     );
   }
-  if (facts.weatherLines.length) {
+  if (facts.weatherBlocks?.length) {
     parts.push(
-      (lang === "zh" ? `*🌤️ ${facts.weatherSpotName} 天氣*\n` : `*🌤️ ${facts.weatherSpotName} weather*\n`) +
-        facts.weatherLines.join("\n"),
+      (lang === "zh" ? "*🌤️ 各基地天氣*\n" : "*🌤️ Weather at all dropzones*\n") +
+        facts.weatherBlocks
+          .map((b: any) => `*${b.name}*\n${b.lines.join("\n")}`)
+          .join("\n\n"),
     );
   }
+
   parts.push(
     lang === "zh"
       ? `*🎁 會員著數*\n新會員即送 $200 現金券，推薦朋友再賺 $100。\n\n立即預約 👉 ${SITE}`
