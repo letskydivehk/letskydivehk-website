@@ -105,9 +105,16 @@ async function collectFacts() {
     .order("display_order", { ascending: true });
 
   const weatherBlocks: { name: string; lines: string[] }[] = [];
+  const seen = new Set<string>();
   for (const l of locs ?? []) {
-    const name = (l as any).City || (l as any).Name || "";
-    const w = await fetchWeather(Number((l as any).weather_lat), Number((l as any).weather_lon));
+    const lat = Number((l as any).weather_lat);
+    const lon = Number((l as any).weather_lon);
+    const key = `${lat.toFixed(2)},${lon.toFixed(2)}`;
+    if (seen.has(key)) continue; // same city / shared coordinates (e.g. Pattaya DZT & TSA)
+    seen.add(key);
+    const raw = (l as any).City || (l as any).Name || "";
+    const name = zhCity(raw);
+    const w = await fetchWeather(lat, lon);
     if (!w) continue;
     weatherBlocks.push({
       name,
@@ -117,6 +124,7 @@ async function collectFacts() {
       ),
     });
   }
+
 
   return {
     departureLines,
