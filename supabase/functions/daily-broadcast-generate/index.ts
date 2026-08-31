@@ -61,7 +61,23 @@ async function fetchWeather(lat: number, lon: number) {
   }
 }
 
-/** Live facts pulled from the site's own data. */
+const CITY_ZH: Record<string, string> = {
+  shenzhen: "深圳",
+  zhuhai: "珠海",
+  hainan: "海南",
+  huizhou: "惠州",
+  luoding: "羅定",
+  pattaya: "芭堤雅",
+  "chiang mai": "清邁",
+  bangkok: "曼谷",
+};
+
+function zhCity(raw: string): string {
+  const key = raw.trim().toLowerCase();
+  return CITY_ZH[key] ?? raw.trim();
+}
+
+
 async function collectFacts() {
   const today = hkToday();
 
