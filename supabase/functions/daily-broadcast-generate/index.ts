@@ -69,7 +69,7 @@ async function collectFacts() {
   const { data: departures } = await admin
     .from("service_departures")
     .select(
-      "departure_date, capacity, status, location_service_id, location_services(service_name, location_id, locations(Name, City, weather_lat, weather_lon))",
+      "departure_date, capacity, status, location_service_id, location_services(service_name, location_id, locations(Name, City))",
     )
     .gte("departure_date", today)
     .eq("status", "open")
@@ -77,7 +77,6 @@ async function collectFacts() {
     .limit(3);
 
   const departureLines: string[] = [];
-  let weatherSpot: { name: string; lat: number; lon: number } | null = null;
 
   for (const d of departures ?? []) {
     const svc: any = (d as any).location_services;
@@ -94,46 +93,37 @@ async function collectFacts() {
     departureLines.push(
       `• ${(d as any).departure_date}｜${where} ${svc?.service_name ?? ""}｜餘 ${left} 位`,
     );
-    if (!weatherSpot && loc?.weather_lat != null && loc?.weather_lon != null) {
-      weatherSpot = { name: where, lat: Number(loc.weather_lat), lon: Number(loc.weather_lon) };
-    }
   }
 
-  if (!weatherSpot) {
-    const { data: loc } = await admin
-      .from("locations")
-      .select("Name, City, weather_lat, weather_lon")
-      .eq("is_active", true)
-      .not("weather_lat", "is", null)
-      .order("display_order", { ascending: true })
-      .limit(1)
-      .maybeSingle();
-    if (loc) {
-      weatherSpot = {
-        name: (loc as any).City || (loc as any).Name,
-        lat: Number((loc as any).weather_lat),
-        lon: Number((loc as any).weather_lon),
-      };
-    }
-  }
+  // Weather for EVERY active location that has coordinates
+  const { data: locs } = await admin
+    .from("locations")
+    .select("Name, City, weather_lat, weather_lon, display_order")
+    .eq("is_active", true)
+    .not("weather_lat", "is", null)
+    .not("weather_lon", "is", null)
+    .order("display_order", { ascending: true });
 
-  let weatherLines: string[] = [];
-  if (weatherSpot) {
-    const w = await fetchWeather(weatherSpot.lat, weatherSpot.lon);
-    if (w) {
-      weatherLines = w.map(
+  const weatherBlocks: { name: string; lines: string[] }[] = [];
+  for (const l of locs ?? []) {
+    const name = (l as any).City || (l as any).Name || "";
+    const w = await fetchWeather(Number((l as any).weather_lat), Number((l as any).weather_lon));
+    if (!w) continue;
+    weatherBlocks.push({
+      name,
+      lines: w.map(
         (x: any) =>
           `• ${x.date.slice(5)}｜${weatherLabel(x.code)} ${x.tmin}-${x.tmax}°C｜風 ${x.wind}km/h｜降雨 ${x.rain}%`,
-      );
-    }
+      ),
+    });
   }
 
   return {
     departureLines,
-    weatherSpotName: weatherSpot?.name ?? "",
-    weatherLines,
+    weatherBlocks,
   };
 }
+
 
 async function callAI(topic: string, facts: any, includeEn: boolean) {
   const system =
