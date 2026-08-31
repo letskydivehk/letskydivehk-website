@@ -61,7 +61,23 @@ async function fetchWeather(lat: number, lon: number) {
   }
 }
 
-/** Live facts pulled from the site's own data. */
+const CITY_ZH: Record<string, string> = {
+  shenzhen: "深圳",
+  zhuhai: "珠海",
+  hainan: "海南",
+  huizhou: "惠州",
+  luoding: "羅定",
+  pattaya: "芭堤雅",
+  "chiang mai": "清邁",
+  bangkok: "曼谷",
+};
+
+function zhCity(raw: string): string {
+  const key = raw.trim().toLowerCase();
+  return CITY_ZH[key] ?? raw.trim();
+}
+
+
 async function collectFacts() {
   const today = hkToday();
 
@@ -69,7 +85,7 @@ async function collectFacts() {
   const { data: departures } = await admin
     .from("service_departures")
     .select(
-      "departure_date, capacity, status, location_service_id, location_services(service_name, location_id, locations(Name, City, weather_lat, weather_lon))",
+      "departure_date, capacity, status, location_service_id, location_services(service_name, location_id, locations(Name, City))",
     )
     .gte("departure_date", today)
     .eq("status", "open")
@@ -77,7 +93,6 @@ async function collectFacts() {
     .limit(3);
 
   const departureLines: string[] = [];
-  let weatherSpot: { name: string; lat: number; lon: number } | null = null;
 
   for (const d of departures ?? []) {
     const svc: any = (d as any).location_services;
@@ -90,50 +105,49 @@ async function collectFacts() {
       .neq("status", "cancelled");
     const taken = (booked ?? []).reduce((s: number, b: any) => s + (b.participants || 0), 0);
     const left = Math.max(0, ((d as any).capacity ?? 0) - taken);
-    const where = loc?.City || loc?.Name || "";
+    const where = zhCity(loc?.City || loc?.Name || "");
     departureLines.push(
       `• ${(d as any).departure_date}｜${where} ${svc?.service_name ?? ""}｜餘 ${left} 位`,
     );
-    if (!weatherSpot && loc?.weather_lat != null && loc?.weather_lon != null) {
-      weatherSpot = { name: where, lat: Number(loc.weather_lat), lon: Number(loc.weather_lon) };
-    }
   }
 
-  if (!weatherSpot) {
-    const { data: loc } = await admin
-      .from("locations")
-      .select("Name, City, weather_lat, weather_lon")
-      .eq("is_active", true)
-      .not("weather_lat", "is", null)
-      .order("display_order", { ascending: true })
-      .limit(1)
-      .maybeSingle();
-    if (loc) {
-      weatherSpot = {
-        name: (loc as any).City || (loc as any).Name,
-        lat: Number((loc as any).weather_lat),
-        lon: Number((loc as any).weather_lon),
-      };
-    }
-  }
+  // Weather for EVERY active location that has coordinates
+  const { data: locs } = await admin
+    .from("locations")
+    .select("Name, City, weather_lat, weather_lon, display_order")
+    .eq("is_active", true)
+    .not("weather_lat", "is", null)
+    .not("weather_lon", "is", null)
+    .order("display_order", { ascending: true });
 
-  let weatherLines: string[] = [];
-  if (weatherSpot) {
-    const w = await fetchWeather(weatherSpot.lat, weatherSpot.lon);
-    if (w) {
-      weatherLines = w.map(
+  const weatherBlocks: { name: string; lines: string[] }[] = [];
+  const seen = new Set<string>();
+  for (const l of locs ?? []) {
+    const lat = Number((l as any).weather_lat);
+    const lon = Number((l as any).weather_lon);
+    const key = `${lat.toFixed(2)},${lon.toFixed(2)}`;
+    if (seen.has(key)) continue; // same city / shared coordinates (e.g. Pattaya DZT & TSA)
+    seen.add(key);
+    const raw = (l as any).City || (l as any).Name || "";
+    const name = zhCity(raw);
+    const w = await fetchWeather(lat, lon);
+    if (!w) continue;
+    weatherBlocks.push({
+      name,
+      lines: w.map(
         (x: any) =>
           `• ${x.date.slice(5)}｜${weatherLabel(x.code)} ${x.tmin}-${x.tmax}°C｜風 ${x.wind}km/h｜降雨 ${x.rain}%`,
-      );
-    }
+      ),
+    });
   }
+
 
   return {
     departureLines,
-    weatherSpotName: weatherSpot?.name ?? "",
-    weatherLines,
+    weatherBlocks,
   };
 }
+
 
 async function callAI(topic: string, facts: any, includeEn: boolean) {
   const system =
@@ -145,12 +159,16 @@ async function callAI(topic: string, facts: any, includeEn: boolean) {
 
   const context = [
     facts.departureLines.length ? `未來出團：\n${facts.departureLines.join("\n")}` : "",
-    facts.weatherLines.length
-      ? `${facts.weatherSpotName} 未來天氣：\n${facts.weatherLines.join("\n")}`
+    facts.weatherBlocks?.length
+      ? "各基地未來天氣：\n" +
+        facts.weatherBlocks
+          .map((b: any) => `${b.name}\n${b.lines.join("\n")}`)
+          .join("\n")
       : "",
   ]
     .filter(Boolean)
     .join("\n\n");
+
 
   const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
     method: "POST",
@@ -209,12 +227,15 @@ function compose(main: string, facts: any, lang: "zh" | "en") {
         facts.departureLines.join("\n"),
     );
   }
-  if (facts.weatherLines.length) {
+  if (facts.weatherBlocks?.length) {
     parts.push(
-      (lang === "zh" ? `*🌤️ ${facts.weatherSpotName} 天氣*\n` : `*🌤️ ${facts.weatherSpotName} weather*\n`) +
-        facts.weatherLines.join("\n"),
+      (lang === "zh" ? "*🌤️ 各基地天氣*\n" : "*🌤️ Weather at all dropzones*\n") +
+        facts.weatherBlocks
+          .map((b: any) => `*${b.name}*\n${b.lines.join("\n")}`)
+          .join("\n\n"),
     );
   }
+
   parts.push(
     lang === "zh"
       ? `*🎁 會員著數*\n新會員即送 $200 現金券，推薦朋友再賺 $100。\n\n立即預約 👉 ${SITE}`
