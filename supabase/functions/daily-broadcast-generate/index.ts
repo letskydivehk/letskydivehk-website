@@ -260,21 +260,35 @@ async function callAI(topic: string, facts: any, includeEn: boolean) {
 }
 
 function compose(main: string, facts: any, lang: "zh" | "en") {
-  const parts: string[] = [];
+  const parts: string[];
+  parts = [];
   parts.push(main.trim());
 
-  if (facts.departureLines.length) {
+  if (facts.departuresList?.length) {
+    const departureLines = facts.departuresList.map((d: any) => {
+      const city = lang === "zh" ? d.cityZh : d.cityEn;
+      const seatsLabel = lang === "zh" ? "餘" : "seats";
+      return `• ${d.date}｜${city} ${d.serviceName}｜${seatsLabel} ${d.seatsLeft}`;
+    });
     parts.push(
       (lang === "zh" ? "*🗓️ 最近出團*\n" : "*🗓️ Upcoming departures*\n") +
-        facts.departureLines.join("\n"),
+        departureLines.join("\n"),
     );
   }
   if (facts.weatherBlocks?.length) {
+    const weatherLines = facts.weatherBlocks.map((b: any) => {
+      const name = lang === "zh" ? b.nameZh : b.nameEn;
+      const lines = b.forecasts.map(
+        (x: any) =>
+          `• ${x.date.slice(5)}｜${weatherLabel(x.code, lang)} ${x.tmin}-${x.tmax}°C｜${
+            lang === "zh" ? "風" : "Wind"
+          } ${x.wind}km/h｜${lang === "zh" ? "降雨" : "Rain"} ${x.rain}%`,
+      );
+      return `*${name}*\n${lines.join("\n")}`;
+    });
     parts.push(
       (lang === "zh" ? "*🌤️ 各基地天氣*\n" : "*🌤️ Weather at all dropzones*\n") +
-        facts.weatherBlocks
-          .map((b: any) => `*${b.name}*\n${b.lines.join("\n")}`)
-          .join("\n\n"),
+        weatherLines.join("\n\n"),
     );
   }
 
@@ -286,6 +300,7 @@ function compose(main: string, facts: any, lang: "zh" | "en") {
 
   return parts.join("\n\n");
 }
+
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
