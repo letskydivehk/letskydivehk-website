@@ -25,7 +25,18 @@ function hkToday(): string {
   return now.toISOString().slice(0, 10);
 }
 
-function weatherLabel(code: number): string {
+function weatherLabel(code: number, lang: "zh" | "en" = "zh"): string {
+  if (lang === "en") {
+    if (code === 0) return "☀️ Clear";
+    if (code <= 2) return "🌤️ Mostly clear";
+    if (code === 3) return "☁️ Overcast";
+    if (code <= 48) return "🌫️ Foggy";
+    if (code <= 55) return "🌦️ Drizzle";
+    if (code <= 65) return "🌧️ Rain";
+    if (code <= 82) return "🌧️ Showers";
+    if (code >= 95) return "⛈️ Thunderstorm";
+    return "🌤️";
+  }
   if (code === 0) return "☀️ 晴朗";
   if (code <= 2) return "🌤️ 大致晴朗";
   if (code === 3) return "☁️ 陰天";
@@ -36,6 +47,7 @@ function weatherLabel(code: number): string {
   if (code >= 95) return "⛈️ 雷暴";
   return "🌤️";
 }
+
 
 async function fetchWeather(lat: number, lon: number) {
   try {
@@ -92,7 +104,13 @@ async function collectFacts() {
     .order("departure_date", { ascending: true })
     .limit(3);
 
-  const departureLines: string[] = [];
+  const departuresList: {
+    date: string;
+    cityEn: string;
+    cityZh: string;
+    serviceName: string;
+    seatsLeft: number;
+  }[] = [];
 
   for (const d of departures ?? []) {
     const svc: any = (d as any).location_services;
@@ -105,10 +123,14 @@ async function collectFacts() {
       .neq("status", "cancelled");
     const taken = (booked ?? []).reduce((s: number, b: any) => s + (b.participants || 0), 0);
     const left = Math.max(0, ((d as any).capacity ?? 0) - taken);
-    const where = zhCity(loc?.City || loc?.Name || "");
-    departureLines.push(
-      `• ${(d as any).departure_date}｜${where} ${svc?.service_name ?? ""}｜餘 ${left} 位`,
-    );
+    const raw = (loc?.City || loc?.Name || "").trim();
+    departuresList.push({
+      date: (d as any).departure_date,
+      cityEn: raw,
+      cityZh: zhCity(raw),
+      serviceName: svc?.service_name ?? "",
+      seatsLeft: left,
+    });
   }
 
   // Weather for EVERY active location that has coordinates
@@ -120,7 +142,11 @@ async function collectFacts() {
     .not("weather_lon", "is", null)
     .order("display_order", { ascending: true });
 
-  const weatherBlocks: { name: string; lines: string[] }[] = [];
+  const weatherBlocks: {
+    nameEn: string;
+    nameZh: string;
+    forecasts: { date: string; code: number; tmin: number; tmax: number; wind: number; rain: number }[];
+  }[] = [];
   const seen = new Set<string>();
   for (const l of locs ?? []) {
     const lat = Number((l as any).weather_lat);
@@ -129,24 +155,22 @@ async function collectFacts() {
     if (seen.has(key)) continue; // same city / shared coordinates (e.g. Pattaya DZT & TSA)
     seen.add(key);
     const raw = (l as any).City || (l as any).Name || "";
-    const name = zhCity(raw);
     const w = await fetchWeather(lat, lon);
     if (!w) continue;
     weatherBlocks.push({
-      name,
-      lines: w.map(
-        (x: any) =>
-          `• ${x.date.slice(5)}｜${weatherLabel(x.code)} ${x.tmin}-${x.tmax}°C｜風 ${x.wind}km/h｜降雨 ${x.rain}%`,
-      ),
+      nameEn: raw.trim(),
+      nameZh: zhCity(raw.trim()),
+      forecasts: w,
     });
   }
 
 
   return {
-    departureLines,
+    departuresList,
     weatherBlocks,
   };
 }
+
 
 
 async function callAI(topic: string, facts: any, includeEn: boolean) {
@@ -158,16 +182,34 @@ async function callAI(topic: string, facts: any, includeEn: boolean) {
     (includeEn ? "同時提供一個同樣長度的英文版本。" : "英文版本可留空字串。");
 
   const context = [
-    facts.departureLines.length ? `未來出團：\n${facts.departureLines.join("\n")}` : "",
+    facts.departuresList?.length
+      ? "未來出團：\n" +
+        facts.departuresList
+          .map(
+            (d: any) =>
+              `• ${d.date}｜${d.cityZh} ${d.serviceName}｜餘 ${d.seatsLeft} 位`,
+          )
+          .join("\n")
+      : "",
     facts.weatherBlocks?.length
       ? "各基地未來天氣：\n" +
         facts.weatherBlocks
-          .map((b: any) => `${b.name}\n${b.lines.join("\n")}`)
+          .map(
+            (b: any) =>
+              `${b.nameZh}\n` +
+              b.forecasts
+                .map(
+                  (x: any) =>
+                    `• ${x.date.slice(5)}｜${weatherLabel(x.code, "zh")} ${x.tmin}-${x.tmax}°C｜風 ${x.wind}km/h｜降雨 ${x.rain}%`,
+                )
+                .join("\n"),
+          )
           .join("\n")
       : "",
   ]
     .filter(Boolean)
     .join("\n\n");
+
 
 
   const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
@@ -219,20 +261,34 @@ async function callAI(topic: string, facts: any, includeEn: boolean) {
 
 function compose(main: string, facts: any, lang: "zh" | "en") {
   const parts: string[] = [];
+
   parts.push(main.trim());
 
-  if (facts.departureLines.length) {
+  if (facts.departuresList?.length) {
+    const departureLines = facts.departuresList.map((d: any) => {
+      const city = lang === "zh" ? d.cityZh : d.cityEn;
+      const seatsLabel = lang === "zh" ? "餘" : "seats";
+      return `• ${d.date}｜${city} ${d.serviceName}｜${seatsLabel} ${d.seatsLeft}`;
+    });
     parts.push(
       (lang === "zh" ? "*🗓️ 最近出團*\n" : "*🗓️ Upcoming departures*\n") +
-        facts.departureLines.join("\n"),
+        departureLines.join("\n"),
     );
   }
   if (facts.weatherBlocks?.length) {
+    const weatherLines = facts.weatherBlocks.map((b: any) => {
+      const name = lang === "zh" ? b.nameZh : b.nameEn;
+      const lines = b.forecasts.map(
+        (x: any) =>
+          `• ${x.date.slice(5)}｜${weatherLabel(x.code, lang)} ${x.tmin}-${x.tmax}°C｜${
+            lang === "zh" ? "風" : "Wind"
+          } ${x.wind}km/h｜${lang === "zh" ? "降雨" : "Rain"} ${x.rain}%`,
+      );
+      return `*${name}*\n${lines.join("\n")}`;
+    });
     parts.push(
       (lang === "zh" ? "*🌤️ 各基地天氣*\n" : "*🌤️ Weather at all dropzones*\n") +
-        facts.weatherBlocks
-          .map((b: any) => `*${b.name}*\n${b.lines.join("\n")}`)
-          .join("\n\n"),
+        weatherLines.join("\n\n"),
     );
   }
 
@@ -244,6 +300,7 @@ function compose(main: string, facts: any, lang: "zh" | "en") {
 
   return parts.join("\n\n");
 }
+
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: corsHeaders });
