@@ -182,16 +182,34 @@ async function callAI(topic: string, facts: any, includeEn: boolean) {
     (includeEn ? "同時提供一個同樣長度的英文版本。" : "英文版本可留空字串。");
 
   const context = [
-    facts.departureLines.length ? `未來出團：\n${facts.departureLines.join("\n")}` : "",
+    facts.departuresList?.length
+      ? "未來出團：\n" +
+        facts.departuresList
+          .map(
+            (d: any) =>
+              `• ${d.date}｜${d.cityZh} ${d.serviceName}｜餘 ${d.seatsLeft} 位`,
+          )
+          .join("\n")
+      : "",
     facts.weatherBlocks?.length
       ? "各基地未來天氣：\n" +
         facts.weatherBlocks
-          .map((b: any) => `${b.name}\n${b.lines.join("\n")}`)
+          .map(
+            (b: any) =>
+              `${b.nameZh}\n` +
+              b.forecasts
+                .map(
+                  (x: any) =>
+                    `• ${x.date.slice(5)}｜${weatherLabel(x.code, "zh")} ${x.tmin}-${x.tmax}°C｜風 ${x.wind}km/h｜降雨 ${x.rain}%`,
+                )
+                .join("\n"),
+          )
           .join("\n")
       : "",
   ]
     .filter(Boolean)
     .join("\n\n");
+
 
 
   const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
