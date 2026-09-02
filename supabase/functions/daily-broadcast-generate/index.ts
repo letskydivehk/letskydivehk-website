@@ -260,8 +260,8 @@ async function callAI(topic: string, facts: any, includeEn: boolean) {
 }
 
 function compose(main: string, facts: any, lang: "zh" | "en") {
-  const parts: string[];
-  parts = [];
+  const parts: string[] = [];
+
   parts.push(main.trim());
 
   if (facts.departuresList?.length) {
