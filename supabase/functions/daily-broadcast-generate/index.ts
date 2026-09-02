@@ -25,7 +25,18 @@ function hkToday(): string {
   return now.toISOString().slice(0, 10);
 }
 
-function weatherLabel(code: number): string {
+function weatherLabel(code: number, lang: "zh" | "en" = "zh"): string {
+  if (lang === "en") {
+    if (code === 0) return "☀️ Clear";
+    if (code <= 2) return "🌤️ Mostly clear";
+    if (code === 3) return "☁️ Overcast";
+    if (code <= 48) return "🌫️ Foggy";
+    if (code <= 55) return "🌦️ Drizzle";
+    if (code <= 65) return "🌧️ Rain";
+    if (code <= 82) return "🌧️ Showers";
+    if (code >= 95) return "⛈️ Thunderstorm";
+    return "🌤️";
+  }
   if (code === 0) return "☀️ 晴朗";
   if (code <= 2) return "🌤️ 大致晴朗";
   if (code === 3) return "☁️ 陰天";
@@ -36,6 +47,7 @@ function weatherLabel(code: number): string {
   if (code >= 95) return "⛈️ 雷暴";
   return "🌤️";
 }
+
 
 async function fetchWeather(lat: number, lon: number) {
   try {
