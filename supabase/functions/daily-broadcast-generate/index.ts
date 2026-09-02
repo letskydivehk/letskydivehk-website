@@ -104,7 +104,13 @@ async function collectFacts() {
     .order("departure_date", { ascending: true })
     .limit(3);
 
-  const departureLines: string[] = [];
+  const departuresList: {
+    date: string;
+    cityEn: string;
+    cityZh: string;
+    serviceName: string;
+    seatsLeft: number;
+  }[] = [];
 
   for (const d of departures ?? []) {
     const svc: any = (d as any).location_services;
@@ -117,10 +123,14 @@ async function collectFacts() {
       .neq("status", "cancelled");
     const taken = (booked ?? []).reduce((s: number, b: any) => s + (b.participants || 0), 0);
     const left = Math.max(0, ((d as any).capacity ?? 0) - taken);
-    const where = zhCity(loc?.City || loc?.Name || "");
-    departureLines.push(
-      `• ${(d as any).departure_date}｜${where} ${svc?.service_name ?? ""}｜餘 ${left} 位`,
-    );
+    const raw = (loc?.City || loc?.Name || "").trim();
+    departuresList.push({
+      date: (d as any).departure_date,
+      cityEn: raw,
+      cityZh: zhCity(raw),
+      serviceName: svc?.service_name ?? "",
+      seatsLeft: left,
+    });
   }
 
   // Weather for EVERY active location that has coordinates
@@ -132,7 +142,11 @@ async function collectFacts() {
     .not("weather_lon", "is", null)
     .order("display_order", { ascending: true });
 
-  const weatherBlocks: { name: string; lines: string[] }[] = [];
+  const weatherBlocks: {
+    nameEn: string;
+    nameZh: string;
+    forecasts: { date: string; code: number; tmin: number; tmax: number; wind: number; rain: number }[];
+  }[] = [];
   const seen = new Set<string>();
   for (const l of locs ?? []) {
     const lat = Number((l as any).weather_lat);
@@ -141,24 +155,22 @@ async function collectFacts() {
     if (seen.has(key)) continue; // same city / shared coordinates (e.g. Pattaya DZT & TSA)
     seen.add(key);
     const raw = (l as any).City || (l as any).Name || "";
-    const name = zhCity(raw);
     const w = await fetchWeather(lat, lon);
     if (!w) continue;
     weatherBlocks.push({
-      name,
-      lines: w.map(
-        (x: any) =>
-          `• ${x.date.slice(5)}｜${weatherLabel(x.code)} ${x.tmin}-${x.tmax}°C｜風 ${x.wind}km/h｜降雨 ${x.rain}%`,
-      ),
+      nameEn: raw.trim(),
+      nameZh: zhCity(raw.trim()),
+      forecasts: w,
     });
   }
 
 
   return {
-    departureLines,
+    departuresList,
     weatherBlocks,
   };
 }
+
 
 
 async function callAI(topic: string, facts: any, includeEn: boolean) {
