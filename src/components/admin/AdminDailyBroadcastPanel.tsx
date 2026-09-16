@@ -381,6 +381,141 @@ export function AdminDailyBroadcastPanel() {
         </CardContent>
       </Card>
 
+      {/* Auto-send */}
+      {settings && (
+        <Card className="mobile-transparent-card">
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
+              <Send className="w-4 h-4" />
+              {t("admin.broadcast.sending")}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between gap-4">
+              <Label htmlFor="bc-auto-send" className="text-sm">
+                {t("admin.broadcast.autoSend")}
+              </Label>
+              <Switch
+                id="bc-auto-send"
+                checked={!!settings.auto_send}
+                onCheckedChange={(v) => updateSettings({ auto_send: v } as any)}
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">{t("admin.broadcast.autoSendHint")}</p>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div>
+                <Label className="text-xs">{t("admin.broadcast.templateName")}</Label>
+                <Input
+                  defaultValue={settings.template_name ?? ""}
+                  placeholder="daily_update"
+                  onBlur={(e) => {
+                    if (e.target.value !== (settings.template_name ?? "")) {
+                      updateSettings({ template_name: e.target.value } as any);
+                    }
+                  }}
+                />
+              </div>
+              <div>
+                <Label className="text-xs">{t("admin.broadcast.templateLanguage")}</Label>
+                <Input
+                  defaultValue={settings.template_language ?? "zh_HK"}
+                  placeholder="zh_HK"
+                  onBlur={(e) => {
+                    if (e.target.value !== (settings.template_language ?? "")) {
+                      updateSettings({ template_language: e.target.value } as any);
+                    }
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-sm">{t("admin.broadcast.recipients")}</Label>
+              {recipients.map((r, i) => (
+                <div key={i} className="grid gap-2 sm:grid-cols-[1fr_1fr_90px_auto]">
+                  <Input
+                    defaultValue={r.phone}
+                    placeholder={t("admin.broadcast.phone")}
+                    onBlur={(e) => {
+                      if (e.target.value !== r.phone) {
+                        const next = [...recipients];
+                        next[i] = { ...r, phone: e.target.value };
+                        updateRecipients(next);
+                      }
+                    }}
+                  />
+                  <Input
+                    defaultValue={r.label ?? ""}
+                    placeholder={t("admin.broadcast.recipientLabel")}
+                    onBlur={(e) => {
+                      if (e.target.value !== (r.label ?? "")) {
+                        const next = [...recipients];
+                        next[i] = { ...r, label: e.target.value };
+                        updateRecipients(next);
+                      }
+                    }}
+                  />
+                  <Input
+                    defaultValue={r.lang ?? "zh"}
+                    placeholder={t("admin.broadcast.recipientLang")}
+                    onBlur={(e) => {
+                      if (e.target.value !== (r.lang ?? "")) {
+                        const next = [...recipients];
+                        next[i] = { ...r, lang: e.target.value };
+                        updateRecipients(next);
+                      }
+                    }}
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label={t("admin.broadcast.remove")}
+                    onClick={() => updateRecipients(recipients.filter((_, j) => j !== i))}
+                  >
+                    <Trash2 className="w-4 h-4 text-destructive" />
+                  </Button>
+                </div>
+              ))}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => updateRecipients([...recipients, { phone: "", label: "", lang: "zh" }])}
+              >
+                <Plus className="w-4 h-4 mr-1.5" />
+                {t("admin.broadcast.addRecipient")}
+              </Button>
+            </div>
+
+            <div className="space-y-1">
+              <Label className="text-sm">{t("admin.broadcast.sendLog")}</Label>
+              {sendLog.length === 0 ? (
+                <p className="text-xs text-muted-foreground">{t("admin.broadcast.noSendLog")}</p>
+              ) : (
+                <div className="space-y-1">
+                  {sendLog.map((s) => (
+                    <div key={s.id} className="flex flex-wrap items-center gap-2 text-xs">
+                      <span className="text-muted-foreground">
+                        {new Date(s.sent_at).toLocaleString()}
+                      </span>
+                      <span className="font-medium">{s.label || s.phone}</span>
+                      {s.status === "sent" ? (
+                        <Badge variant="secondary">{t("admin.broadcast.statusSent")}</Badge>
+                      ) : (
+                        <Badge variant="destructive">{t("admin.broadcast.statusFailed")}</Badge>
+                      )}
+                      {s.error && (
+                        <span className="text-destructive/80 truncate max-w-[280px]">{s.error}</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
       {/* Settings */}
       {settings && (
         <Card className="mobile-transparent-card">
