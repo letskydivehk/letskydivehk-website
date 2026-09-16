@@ -9,6 +9,9 @@ import {
   Settings2,
   History,
   RefreshCw,
+  Send,
+  Trash2,
+  Plus,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -31,12 +34,32 @@ interface Broadcast {
   posted_at: string | null;
 }
 
+interface Recipient {
+  phone: string;
+  label?: string;
+  lang?: string;
+}
+
+interface SendLogRow {
+  id: string;
+  broadcast_id: string;
+  phone: string;
+  label: string | null;
+  status: string;
+  error: string | null;
+  sent_at: string;
+}
+
 interface Settings {
   id: number;
   weekday_topics: Record<string, string>;
   enabled: boolean;
   include_en: boolean;
   send_hour: number;
+  auto_send: boolean;
+  recipients: Recipient[];
+  template_name: string | null;
+  template_language: string | null;
 }
 
 const WEEKDAYS = [
@@ -64,20 +87,28 @@ export function AdminDailyBroadcastPanel() {
   const [topicHint, setTopicHint] = useState("");
   const [draftZh, setDraftZh] = useState<string | null>(null);
   const [draftEn, setDraftEn] = useState<string | null>(null);
+  const [sendLog, setSendLog] = useState<SendLogRow[]>([]);
+  const [sending, setSending] = useState(false);
 
   const today = hkToday();
 
   const load = useCallback(async () => {
-    const [bRes, sRes] = await Promise.all([
+    const [bRes, sRes, lRes] = await Promise.all([
       (supabase as any)
         .from("daily_broadcasts")
         .select("*")
         .order("broadcast_date", { ascending: false })
         .limit(30),
       (supabase as any).from("daily_broadcast_settings").select("*").eq("id", 1).maybeSingle(),
+      (supabase as any)
+        .from("daily_broadcast_sends")
+        .select("*")
+        .order("sent_at", { ascending: false })
+        .limit(50),
     ]);
     if (bRes.data) setRows(bRes.data as Broadcast[]);
     if (sRes.data) setSettings(sRes.data as Settings);
+    if (lRes.data) setSendLog(lRes.data as SendLogRow[]);
     setLoading(false);
   }, []);
 
@@ -161,6 +192,48 @@ export function AdminDailyBroadcastPanel() {
     }
     await load();
   };
+
+  const recipients: Recipient[] = settings?.recipients ?? [];
+
+  const updateRecipients = (next: Recipient[]) => updateSettings({ recipients: next } as any);
+
+  const sendNow = async () => {
+    setSending(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("daily-broadcast-send", { body: {} });
+      if (error) {
+        let detail = error.message;
+        try {
+          const raw = await (error as any).context?.text?.();
+          if (raw) detail = JSON.parse(raw)?.error ?? raw;
+        } catch {
+          // keep the generic message
+        }
+        throw new Error(detail);
+      }
+      const res = data as any;
+      if (res?.error) throw new Error(res.error);
+      if (res?.skipped) {
+        toast.info(String(res.skipped));
+      } else if (res?.failed) {
+        toast.warning(
+          t("admin.broadcast.sendPartial")
+            .replace("{sent}", String(res.sent))
+            .replace("{failed}", String(res.failed)),
+        );
+      } else {
+        toast.success(t("admin.broadcast.sendSuccess").replace("{sent}", String(res?.sent ?? 0)));
+      }
+      await load();
+    } catch (e: any) {
+      if (import.meta.env.DEV) console.error("broadcast send failed", e);
+      toast.error(e.message || t("admin.broadcast.sendFailed"));
+    } finally {
+      setSending(false);
+    }
+  };
+
+
 
   if (loading) {
     return (
@@ -266,6 +339,18 @@ export function AdminDailyBroadcastPanel() {
                   <MessageCircle className="w-4 h-4 mr-2" />
                   {t("admin.broadcast.openWhatsapp")}
                 </Button>
+                <Button
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                  onClick={sendNow}
+                  disabled={sending || dirty}
+                >
+                  {sending ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Send className="w-4 h-4 mr-2" />
+                  )}
+                  {t("admin.broadcast.sendNow")}
+                </Button>
                 <Button size="default" variant="secondary" onClick={saveEdits} disabled={!dirty || busy}>
                   {t("admin.broadcast.save")}
                 </Button>
@@ -295,6 +380,141 @@ export function AdminDailyBroadcastPanel() {
           )}
         </CardContent>
       </Card>
+
+      {/* Auto-send */}
+      {settings && (
+        <Card className="mobile-transparent-card">
+          <CardHeader>
+            <CardTitle className="text-base flex items-center gap-2">
+              <Send className="w-4 h-4" />
+              {t("admin.broadcast.sending")}
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex items-center justify-between gap-4">
+              <Label htmlFor="bc-auto-send" className="text-sm">
+                {t("admin.broadcast.autoSend")}
+              </Label>
+              <Switch
+                id="bc-auto-send"
+                checked={!!settings.auto_send}
+                onCheckedChange={(v) => updateSettings({ auto_send: v } as any)}
+              />
+            </div>
+            <p className="text-xs text-muted-foreground">{t("admin.broadcast.autoSendHint")}</p>
+
+            <div className="grid gap-3 sm:grid-cols-2">
+              <div>
+                <Label className="text-xs">{t("admin.broadcast.templateName")}</Label>
+                <Input
+                  defaultValue={settings.template_name ?? ""}
+                  placeholder="daily_update"
+                  onBlur={(e) => {
+                    if (e.target.value !== (settings.template_name ?? "")) {
+                      updateSettings({ template_name: e.target.value } as any);
+                    }
+                  }}
+                />
+              </div>
+              <div>
+                <Label className="text-xs">{t("admin.broadcast.templateLanguage")}</Label>
+                <Input
+                  defaultValue={settings.template_language ?? "zh_HK"}
+                  placeholder="zh_HK"
+                  onBlur={(e) => {
+                    if (e.target.value !== (settings.template_language ?? "")) {
+                      updateSettings({ template_language: e.target.value } as any);
+                    }
+                  }}
+                />
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label className="text-sm">{t("admin.broadcast.recipients")}</Label>
+              {recipients.map((r, i) => (
+                <div key={i} className="grid gap-2 sm:grid-cols-[1fr_1fr_90px_auto]">
+                  <Input
+                    defaultValue={r.phone}
+                    placeholder={t("admin.broadcast.phone")}
+                    onBlur={(e) => {
+                      if (e.target.value !== r.phone) {
+                        const next = [...recipients];
+                        next[i] = { ...r, phone: e.target.value };
+                        updateRecipients(next);
+                      }
+                    }}
+                  />
+                  <Input
+                    defaultValue={r.label ?? ""}
+                    placeholder={t("admin.broadcast.recipientLabel")}
+                    onBlur={(e) => {
+                      if (e.target.value !== (r.label ?? "")) {
+                        const next = [...recipients];
+                        next[i] = { ...r, label: e.target.value };
+                        updateRecipients(next);
+                      }
+                    }}
+                  />
+                  <Input
+                    defaultValue={r.lang ?? "zh"}
+                    placeholder={t("admin.broadcast.recipientLang")}
+                    onBlur={(e) => {
+                      if (e.target.value !== (r.lang ?? "")) {
+                        const next = [...recipients];
+                        next[i] = { ...r, lang: e.target.value };
+                        updateRecipients(next);
+                      }
+                    }}
+                  />
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    aria-label={t("admin.broadcast.remove")}
+                    onClick={() => updateRecipients(recipients.filter((_, j) => j !== i))}
+                  >
+                    <Trash2 className="w-4 h-4 text-destructive" />
+                  </Button>
+                </div>
+              ))}
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => updateRecipients([...recipients, { phone: "", label: "", lang: "zh" }])}
+              >
+                <Plus className="w-4 h-4 mr-1.5" />
+                {t("admin.broadcast.addRecipient")}
+              </Button>
+            </div>
+
+            <div className="space-y-1">
+              <Label className="text-sm">{t("admin.broadcast.sendLog")}</Label>
+              {sendLog.length === 0 ? (
+                <p className="text-xs text-muted-foreground">{t("admin.broadcast.noSendLog")}</p>
+              ) : (
+                <div className="space-y-1">
+                  {sendLog.map((s) => (
+                    <div key={s.id} className="flex flex-wrap items-center gap-2 text-xs">
+                      <span className="text-muted-foreground">
+                        {new Date(s.sent_at).toLocaleString()}
+                      </span>
+                      <span className="font-medium">{s.label || s.phone}</span>
+                      {s.status === "sent" ? (
+                        <Badge variant="secondary">{t("admin.broadcast.statusSent")}</Badge>
+                      ) : (
+                        <Badge variant="destructive">{t("admin.broadcast.statusFailed")}</Badge>
+                      )}
+                      {s.error && (
+                        <span className="text-destructive/80 truncate max-w-[280px]">{s.error}</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Settings */}
       {settings && (
