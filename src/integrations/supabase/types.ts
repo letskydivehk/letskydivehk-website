@@ -215,31 +215,87 @@ export type Database = {
         }
         Relationships: []
       }
+      daily_broadcast_sends: {
+        Row: {
+          broadcast_id: string
+          created_at: string
+          error: string | null
+          id: string
+          label: string | null
+          phone: string
+          provider_message_id: string | null
+          sent_at: string
+          status: string
+        }
+        Insert: {
+          broadcast_id: string
+          created_at?: string
+          error?: string | null
+          id?: string
+          label?: string | null
+          phone: string
+          provider_message_id?: string | null
+          sent_at?: string
+          status?: string
+        }
+        Update: {
+          broadcast_id?: string
+          created_at?: string
+          error?: string | null
+          id?: string
+          label?: string | null
+          phone?: string
+          provider_message_id?: string | null
+          sent_at?: string
+          status?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_broadcast_sends_broadcast_id_fkey"
+            columns: ["broadcast_id"]
+            isOneToOne: false
+            referencedRelation: "daily_broadcasts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       daily_broadcast_settings: {
         Row: {
+          auto_send: boolean
           created_at: string
           enabled: boolean
           id: number
           include_en: boolean
+          recipients: Json
           send_hour: number
+          template_language: string
+          template_name: string | null
           updated_at: string
           weekday_topics: Json
         }
         Insert: {
+          auto_send?: boolean
           created_at?: string
           enabled?: boolean
           id?: number
           include_en?: boolean
+          recipients?: Json
           send_hour?: number
+          template_language?: string
+          template_name?: string | null
           updated_at?: string
           weekday_topics?: Json
         }
         Update: {
+          auto_send?: boolean
           created_at?: string
           enabled?: boolean
           id?: number
           include_en?: boolean
+          recipients?: Json
           send_hour?: number
+          template_language?: string
+          template_name?: string | null
           updated_at?: string
           weekday_topics?: Json
         }
