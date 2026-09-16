@@ -201,7 +201,16 @@ export function AdminDailyBroadcastPanel() {
     setSending(true);
     try {
       const { data, error } = await supabase.functions.invoke("daily-broadcast-send", { body: {} });
-      if (error) throw error;
+      if (error) {
+        let detail = error.message;
+        try {
+          const raw = await (error as any).context?.text?.();
+          if (raw) detail = JSON.parse(raw)?.error ?? raw;
+        } catch {
+          // keep the generic message
+        }
+        throw new Error(detail);
+      }
       const res = data as any;
       if (res?.error) throw new Error(res.error);
       if (res?.skipped) {
