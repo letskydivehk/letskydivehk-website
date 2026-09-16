@@ -9,6 +9,9 @@ import {
   Settings2,
   History,
   RefreshCw,
+  Send,
+  Trash2,
+  Plus,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -31,12 +34,32 @@ interface Broadcast {
   posted_at: string | null;
 }
 
+interface Recipient {
+  phone: string;
+  label?: string;
+  lang?: string;
+}
+
+interface SendLogRow {
+  id: string;
+  broadcast_id: string;
+  phone: string;
+  label: string | null;
+  status: string;
+  error: string | null;
+  sent_at: string;
+}
+
 interface Settings {
   id: number;
   weekday_topics: Record<string, string>;
   enabled: boolean;
   include_en: boolean;
   send_hour: number;
+  auto_send: boolean;
+  recipients: Recipient[];
+  template_name: string | null;
+  template_language: string | null;
 }
 
 const WEEKDAYS = [
