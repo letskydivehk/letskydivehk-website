@@ -87,20 +87,28 @@ export function AdminDailyBroadcastPanel() {
   const [topicHint, setTopicHint] = useState("");
   const [draftZh, setDraftZh] = useState<string | null>(null);
   const [draftEn, setDraftEn] = useState<string | null>(null);
+  const [sendLog, setSendLog] = useState<SendLogRow[]>([]);
+  const [sending, setSending] = useState(false);
 
   const today = hkToday();
 
   const load = useCallback(async () => {
-    const [bRes, sRes] = await Promise.all([
+    const [bRes, sRes, lRes] = await Promise.all([
       (supabase as any)
         .from("daily_broadcasts")
         .select("*")
         .order("broadcast_date", { ascending: false })
         .limit(30),
       (supabase as any).from("daily_broadcast_settings").select("*").eq("id", 1).maybeSingle(),
+      (supabase as any)
+        .from("daily_broadcast_sends")
+        .select("*")
+        .order("sent_at", { ascending: false })
+        .limit(50),
     ]);
     if (bRes.data) setRows(bRes.data as Broadcast[]);
     if (sRes.data) setSettings(sRes.data as Settings);
+    if (lRes.data) setSendLog(lRes.data as SendLogRow[]);
     setLoading(false);
   }, []);
 
