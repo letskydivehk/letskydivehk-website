@@ -193,6 +193,39 @@ export function AdminDailyBroadcastPanel() {
     await load();
   };
 
+  const recipients: Recipient[] = settings?.recipients ?? [];
+
+  const updateRecipients = (next: Recipient[]) => updateSettings({ recipients: next } as any);
+
+  const sendNow = async () => {
+    setSending(true);
+    try {
+      const { data, error } = await supabase.functions.invoke("daily-broadcast-send", { body: {} });
+      if (error) throw error;
+      const res = data as any;
+      if (res?.error) throw new Error(res.error);
+      if (res?.skipped) {
+        toast.info(String(res.skipped));
+      } else if (res?.failed) {
+        toast.warning(
+          t("admin.broadcast.sendPartial")
+            .replace("{sent}", String(res.sent))
+            .replace("{failed}", String(res.failed)),
+        );
+      } else {
+        toast.success(t("admin.broadcast.sendSuccess").replace("{sent}", String(res?.sent ?? 0)));
+      }
+      await load();
+    } catch (e: any) {
+      if (import.meta.env.DEV) console.error("broadcast send failed", e);
+      toast.error(e.message || t("admin.broadcast.sendFailed"));
+    } finally {
+      setSending(false);
+    }
+  };
+
+
+
   if (loading) {
     return (
       <div className="flex justify-center py-16">
