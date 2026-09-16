@@ -339,6 +339,18 @@ export function AdminDailyBroadcastPanel() {
                   <MessageCircle className="w-4 h-4 mr-2" />
                   {t("admin.broadcast.openWhatsapp")}
                 </Button>
+                <Button
+                  className="bg-emerald-600 hover:bg-emerald-700 text-white"
+                  onClick={sendNow}
+                  disabled={sending || dirty}
+                >
+                  {sending ? (
+                    <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                  ) : (
+                    <Send className="w-4 h-4 mr-2" />
+                  )}
+                  {t("admin.broadcast.sendNow")}
+                </Button>
                 <Button size="default" variant="secondary" onClick={saveEdits} disabled={!dirty || busy}>
                   {t("admin.broadcast.save")}
                 </Button>
