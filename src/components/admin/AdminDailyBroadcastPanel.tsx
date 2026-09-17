@@ -433,40 +433,38 @@ export function AdminDailyBroadcastPanel() {
             <div className="space-y-2">
               <Label className="text-sm">{t("admin.broadcast.recipients")}</Label>
               {recipients.map((r, i) => (
-                <div key={i} className="grid gap-2 sm:grid-cols-[1fr_1fr_90px_auto]">
+                <div key={`${i}-${r.phone}`} className="grid gap-2 sm:grid-cols-[1fr_1fr_90px_auto]">
                   <Input
-                    defaultValue={r.phone}
+                    value={r.phone}
                     placeholder={t("admin.broadcast.phone")}
-                    onBlur={(e) => {
-                      if (e.target.value !== r.phone) {
-                        const next = [...recipients];
-                        next[i] = { ...r, phone: e.target.value };
-                        updateRecipients(next);
-                      }
+                    onChange={(e) => {
+                      const next = [...recipients];
+                      next[i] = { ...r, phone: e.target.value };
+                      setSettings((s) => (s ? { ...s, recipients: next } : s));
                     }}
+                    onBlur={() => updateRecipients(recipients)}
                   />
                   <Input
-                    defaultValue={r.label ?? ""}
+                    value={r.label ?? ""}
                     placeholder={t("admin.broadcast.recipientLabel")}
-                    onBlur={(e) => {
-                      if (e.target.value !== (r.label ?? "")) {
-                        const next = [...recipients];
-                        next[i] = { ...r, label: e.target.value };
-                        updateRecipients(next);
-                      }
+                    onChange={(e) => {
+                      const next = [...recipients];
+                      next[i] = { ...r, label: e.target.value };
+                      setSettings((s) => (s ? { ...s, recipients: next } : s));
                     }}
+                    onBlur={() => updateRecipients(recipients)}
                   />
                   <Input
-                    defaultValue={r.lang ?? "zh"}
+                    value={r.lang ?? "zh"}
                     placeholder={t("admin.broadcast.recipientLang")}
-                    onBlur={(e) => {
-                      if (e.target.value !== (r.lang ?? "")) {
-                        const next = [...recipients];
-                        next[i] = { ...r, lang: e.target.value };
-                        updateRecipients(next);
-                      }
+                    onChange={(e) => {
+                      const next = [...recipients];
+                      next[i] = { ...r, lang: e.target.value };
+                      setSettings((s) => (s ? { ...s, recipients: next } : s));
                     }}
+                    onBlur={() => updateRecipients(recipients)}
                   />
+
                   <Button
                     variant="ghost"
                     size="icon"
