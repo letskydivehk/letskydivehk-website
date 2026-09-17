@@ -101,7 +101,7 @@ export function DepartureSchedule({ serviceId, locationName, onBook, limit }: De
                     </button>
                   ) : (
                     <a
-                      href={`https://wa.me/85269391570?text=${encodeURIComponent(
+                      href={`https://wa.me/85256153271?text=${encodeURIComponent(
                         `${t('whatsapp.quick.indoor')}${locationName ? ` (${locationName})` : ''}`,
                       )}`}
                       target="_blank"

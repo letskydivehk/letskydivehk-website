@@ -378,7 +378,7 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.form.email": "Email *",
     "contact.form.emailPlaceholder": "your@email.com",
     "contact.form.phone": "Phone (Optional)",
-    "contact.form.phonePlaceholder": "+852 6939 1570",
+    "contact.form.phonePlaceholder": "+852 5615 3271",
     "contact.form.subject": "Subject *",
     "contact.form.message": "Message *",
     "contact.form.messagePlaceholder": "Tell us about your inquiry...",
@@ -716,7 +716,7 @@ const translations: Record<Language, Record<string, string>> = {
     "privacy.section9.content":
       "If you have any questions, requests, or complaints regarding this Privacy Policy, our handling of personal data, or wish to exercise your personal data rights, please contact our Privacy Officer via:",
     "privacy.section9.email": "Email: letskydivehk@gmail.com",
-    "privacy.section9.phone": "Phone: (852) 69391570",
+    "privacy.section9.phone": "Phone: (852) 56153271",
 
     "privacy.finalNote":
       "(Note: For the avoidance of doubt, the latest update date of this policy is **1 January 2026**.)<br><br>**(This Privacy Policy Statement shall be governed by the Tradional Chinese version.)**",
@@ -1293,7 +1293,7 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.form.email": "電子郵件 *",
     "contact.form.emailPlaceholder": "your@email.com",
     "contact.form.phone": "電話（選填）",
-    "contact.form.phonePlaceholder": "+852 6939 1570",
+    "contact.form.phonePlaceholder": "+852 5615 3271",
     "contact.form.subject": "主題 *",
     "contact.form.message": "訊息 *",
     "contact.form.messagePlaceholder": "請告訴我們您的查詢內容...",
@@ -1608,7 +1608,7 @@ const translations: Record<Language, Record<string, string>> = {
     "privacy.section9.content":
       "如您對本私隱政策、我們處理個人資料的方式，或欲行使您的個人資料權利有任何疑問、要求或投訴，請透過以下方式聯絡我們的私隱主任：",
     "privacy.section9.email": "電郵：letskydivehk@gmail.com",
-    "privacy.section9.phone": "電話：(852) 69391570",
+    "privacy.section9.phone": "電話：(852) 56153271",
 
     "privacy.finalNote":
       "（註：為免生疑問，本政策之最新更新日期為 **2026年1月1日**。）<br><br>**（本私隱政策聲明以中文版本為準。）**",
@@ -2167,7 +2167,7 @@ const translations: Record<Language, Record<string, string>> = {
     "contact.form.email": "电子邮件 *",
     "contact.form.emailPlaceholder": "your@email.com",
     "contact.form.phone": "电话（选填）",
-    "contact.form.phonePlaceholder": "+852 6939 1570",
+    "contact.form.phonePlaceholder": "+852 5615 3271",
     "contact.form.subject": "主题 *",
     "contact.form.message": "消息 *",
     "contact.form.messagePlaceholder": "请告诉我们您的查询内容...",
@@ -2482,7 +2482,7 @@ const translations: Record<Language, Record<string, string>> = {
     "privacy.section9.content":
       "如您对本隐私政策、我们处理个人资料的方式，或欲行使您的个人资料权利有任何疑问、要求或投诉，请通过以下方式联络我们的隐私主任：",
     "privacy.section9.email": "电邮：letskydivehk@gmail.com",
-    "privacy.section9.phone": "电话：(852) 69391570",
+    "privacy.section9.phone": "电话：(852) 56153271",
 
     "privacy.finalNote":
       "（注：为免生疑问，本政策之最新更新日期为 **2026年1月1日**。）<br><br>**（本隐私政策声明以中文版本为准。）**",

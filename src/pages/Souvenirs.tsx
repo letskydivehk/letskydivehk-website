@@ -18,7 +18,7 @@ import magnetFridgeMosaic from "@/assets/magnet-fridge-mosaic.jpg";
 import { SouvenirTestimonials } from "@/components/souvenirs/SouvenirTestimonials";
 import { SouvenirBundles } from "@/components/souvenirs/SouvenirBundles";
 
-const WHATSAPP_NUMBER = "85269391570";
+const WHATSAPP_NUMBER = "85256153271";
 
 function getName(item: Souvenir, lang: string) {
   if (lang === "zh-TW") return item.name_zh_tw || item.name_en;

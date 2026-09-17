@@ -6,7 +6,7 @@ import { X, Send } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const WHATSAPP_NUMBER = "85269391570";
+const WHATSAPP_NUMBER = "85256153271";
 
 const defaultQuickMessages = [
   { key: "whatsapp.quick.tandem", icon: "🪂" },

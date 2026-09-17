@@ -4,7 +4,7 @@ import { Calendar, MapPin, User, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const WHATSAPP_URL = "https://wa.me/85269391570";
+const WHATSAPP_URL = "https://wa.me/85256153271";
 
 /**
  * Mobile-only persistent bottom tab bar.
