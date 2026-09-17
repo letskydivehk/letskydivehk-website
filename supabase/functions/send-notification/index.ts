@@ -316,7 +316,7 @@ const handler = async (req: Request): Promise<Response> => {
 
             <p style="font-size: 14px; color: #555; line-height: 1.6;">
               Have questions? Reply to this email or reach us on 
-              <a href="https://wa.me/85269391570" style="color: #2563eb;">WhatsApp</a>. 
+              <a href="https://wa.me/85256153271" style="color: #2563eb;">WhatsApp</a>. 
               We're always happy to help!
             </p>
             <p style="font-size: 14px; color: #333; margin-top: 24px;">

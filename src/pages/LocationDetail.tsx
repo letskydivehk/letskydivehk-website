@@ -80,7 +80,7 @@ export default function LocationDetail() {
       .replace("{location}", translatedName)
       .replace("{price}", buildPriceText(service.price_display, service.original_price_display));
     window.open(
-      `https://wa.me/85269391570?text=${encodeURIComponent(message)}`,
+      `https://wa.me/85256153271?text=${encodeURIComponent(message)}`,
       "_blank",
       "noopener,noreferrer",
     );

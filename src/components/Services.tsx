@@ -253,7 +253,7 @@ export function Services() {
                       if (isContact) {
                         const msgKey = service.type === 'group' ? 'whatsapp.quick.group' : 'whatsapp.quick.tour'
                         const text = encodeURIComponent(t(msgKey))
-                        window.open(`https://wa.me/85269391570?text=${text}`, '_blank', 'noopener,noreferrer')
+                        window.open(`https://wa.me/85256153271?text=${text}`, '_blank', 'noopener,noreferrer')
                       } else {
                         scrollToBookingWithServiceType(service.type)
                       }

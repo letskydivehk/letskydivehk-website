@@ -4,7 +4,7 @@ import { Gift, ShoppingBag, Sparkles, Users } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import type { Souvenir } from "@/hooks/useSouvenirs";
 
-const WHATSAPP_NUMBER = "85269391570";
+const WHATSAPP_NUMBER = "85256153271";
 
 interface BundleLine {
   item: Souvenir;
