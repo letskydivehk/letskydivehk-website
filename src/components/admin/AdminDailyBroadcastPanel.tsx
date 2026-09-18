@@ -35,6 +35,7 @@ interface Broadcast {
 }
 
 interface Recipient {
+  id?: string;
   phone: string;
   label?: string;
   lang?: string;
@@ -107,7 +108,12 @@ export function AdminDailyBroadcastPanel() {
         .limit(50),
     ]);
     if (bRes.data) setRows(bRes.data as Broadcast[]);
-    if (sRes.data) setSettings(sRes.data as Settings);
+    if (sRes.data) {
+      const s = sRes.data as Settings;
+      // Give every recipient a stable id so React keys never change while typing.
+      s.recipients = (s.recipients ?? []).map((r) => ({ ...r, id: r.id ?? crypto.randomUUID() }));
+      setSettings(s);
+    }
     if (lRes.data) setSendLog(lRes.data as SendLogRow[]);
     setLoading(false);
   }, []);
@@ -433,7 +439,7 @@ export function AdminDailyBroadcastPanel() {
             <div className="space-y-2">
               <Label className="text-sm">{t("admin.broadcast.recipients")}</Label>
               {recipients.map((r, i) => (
-                <div key={`${i}-${r.phone}`} className="grid gap-2 sm:grid-cols-[1fr_1fr_90px_auto]">
+                <div key={r.id ?? `idx-${i}`} className="grid gap-2 sm:grid-cols-[1fr_1fr_90px_auto]">
                   <Input
                     value={r.phone}
                     placeholder={t("admin.broadcast.phone")}
@@ -478,7 +484,9 @@ export function AdminDailyBroadcastPanel() {
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => updateRecipients([...recipients, { phone: "", label: "", lang: "zh" }])}
+                onClick={() =>
+                  updateRecipients([...recipients, { id: crypto.randomUUID(), phone: "", label: "", lang: "zh" }])
+                }
               >
                 <Plus className="w-4 h-4 mr-1.5" />
                 {t("admin.broadcast.addRecipient")}
