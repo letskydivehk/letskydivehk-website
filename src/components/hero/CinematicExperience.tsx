@@ -113,7 +113,7 @@ export function CinematicExperience({ onBook, onWatchVideo }: CinematicExperienc
   }
 
   return (
-    <section ref={trackRef} className="relative h-[240vh] md:h-[300vh] bg-experience text-experience-foreground">
+    <section ref={trackRef} className="relative h-[100svh] min-h-[42rem] bg-experience text-experience-foreground md:h-[300vh] md:min-h-0">
       <div className="sticky top-0 h-screen overflow-hidden">
         <div className="absolute inset-0 bg-experience">
           {HERO_CLIPS.map((src, index) => (
@@ -141,8 +141,8 @@ export function CinematicExperience({ onBook, onWatchVideo }: CinematicExperienc
             {stories.map((story, index) => (
               <motion.article
                 key={story.title}
-                style={{ opacity: story.opacity, scale: story.scale }}
-                className={`absolute inset-0 flex flex-col justify-center ${index === 1 ? "items-center text-center" : index === 2 ? "items-end text-right" : "items-start text-left"}`}
+                style={isMobile ? { opacity: index === 0 ? 1 : 0, scale: 1 } : { opacity: story.opacity, scale: story.scale }}
+                className={`absolute inset-0 flex flex-col justify-center ${index === 1 ? "items-center text-center" : index === 2 ? "items-end text-right" : "items-start text-left"} ${index > 0 ? "pointer-events-none md:pointer-events-auto" : ""}`}
               >
                 <div className="max-w-3xl">
                   <p className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-experience-cyan">
