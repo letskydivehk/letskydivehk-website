@@ -1,9 +1,12 @@
-import { motion } from "framer-motion";
-import { ShieldCheck, Layers, CloudSun, BookOpenCheck, ArrowRight } from "lucide-react";
+import { useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { ShieldCheck, Layers, CloudSun, BookOpenCheck, ArrowRight, ChevronDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export function SafetySection() {
   const { t } = useLanguage();
+  const [expanded, setExpanded] = useState<number | null>(null);
   const pillars = [
     { icon: ShieldCheck, title: "safety.pillar1.title", body: "safety.pillar1.body" },
     { icon: Layers, title: "safety.pillar2.title", body: "safety.pillar2.body" },
@@ -38,24 +41,50 @@ export function SafetySection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: i * 0.08 }}
-              className="bg-card border border-border rounded-2xl p-6 mobile-transparent-card"
+              className="bg-card border border-border rounded-lg p-6 mobile-transparent-card"
             >
               <div className="w-11 h-11 rounded-xl bg-accent-orange/10 text-accent-orange flex items-center justify-center mb-4">
                 <Icon className="w-5 h-5" />
               </div>
               <h3 className="font-bold text-lg mb-2 text-foreground">{t(title)}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{t(body)}</p>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                onClick={() => setExpanded(expanded === i ? null : i)}
+                aria-expanded={expanded === i}
+                className="mt-4 w-full justify-between px-0 text-accent-orange hover:bg-transparent hover:text-accent-orange/80"
+              >
+                {t("safety.breakdown")}
+                <ChevronDown className={`h-4 w-4 transition-transform ${expanded === i ? "rotate-180" : ""}`} />
+              </Button>
+              <AnimatePresence initial={false}>
+                {expanded === i && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden"
+                  >
+                    <p className="border-t border-border pt-3 text-xs leading-relaxed text-muted-foreground">
+                      {t(`safety.pillar${i + 1}.detail`)}
+                    </p>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
           ))}
         </div>
 
         <div className="text-center">
-          <button
+          <Button
+            variant="ghost"
             onClick={scrollToTimeline}
             className="inline-flex items-center gap-2 text-accent-orange font-semibold hover:gap-3 transition-all"
           >
             {t("safety.cta")} <ArrowRight className="w-4 h-4" />
-          </button>
+          </Button>
         </div>
       </div>
     </section>

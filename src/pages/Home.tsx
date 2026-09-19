@@ -23,8 +23,6 @@ import { SafetySection } from "@/components/SafetySection";
 import { JumpDayTimeline } from "@/components/JumpDayTimeline";
 import { LazySection } from "@/components/LazySection";
 import { MobileTabBar } from "@/components/MobileTabBar";
-import { TrustBar } from "@/components/TrustBar";
-import { EligibilityChips } from "@/components/EligibilityChips";
 import { ExploreMoreStrip } from "@/components/home/ExploreMoreStrip";
 import { JumpDayStrip } from "@/components/home/JumpDayStrip";
 import { NextDepartureBanner } from "@/components/home/NextDepartureBanner";
@@ -40,14 +38,6 @@ export default function Home() {
       <main className="relative z-10 pb-20 md:pb-0" role="main">
         <section id="hero" aria-label="Hero section">
           <Hero />
-        </section>
-
-        {/* Trust + eligibility */}
-        <section aria-label="Trust signals" className="bg-gradient-to-b from-sky-900/90 to-background pt-5 pb-4 px-4">
-          <div className="max-w-5xl mx-auto flex flex-col items-center gap-2">
-            <TrustBar />
-            <EligibilityChips />
-          </div>
         </section>
 
         {/* Slim Promotion Ribbon */}
