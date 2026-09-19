@@ -49,6 +49,21 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     "hero.cta.quiz": "30-sec quiz: find your jump",
     "hero.cta.watchVideo": "Watch video",
     "hero.scrollToExplore": "Scroll to explore",
+    "hero.experience.story1.eyebrow": "The ascent",
+    "hero.experience.story1.title": "Step to the Edge.",
+    "hero.experience.story1.body": "Rise to as high as 14,000 feet, with the landscape unfolding far below.",
+    "hero.experience.story2.eyebrow": "The freefall",
+    "hero.experience.story2.title": "200 KPH Terminal Velocity.",
+    "hero.experience.story2.body": "Up to 60 seconds of pure freefall on eligible jump packages.",
+    "hero.experience.story3.eyebrow": "The glide",
+    "hero.experience.story3.title": "Soft Touchdown.",
+    "hero.experience.story3.body": "Glide smoothly under canopy and take in a panoramic landing approach.",
+    "hero.experience.altitude": "Altitude",
+    "hero.experience.speed": "Speed",
+    "hero.experience.phase.exit": "Aircraft exit",
+    "hero.experience.phase.freefall": "Freefall",
+    "hero.experience.phase.canopy": "Canopy flight",
+    "hero.experience.simulation": "Experience visualization",
 
     // Member
     "member.bookNowCta": "Book your jump now →",
@@ -243,6 +258,22 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
   },
 
   "zh-TW": {
+    // 沉浸式首頁體驗
+    "hero.experience.story1.eyebrow": "升空",
+    "hero.experience.story1.title": "踏出機艙邊緣。",
+    "hero.experience.story1.body": "升至最高 14,000 呎，壯麗景色在腳下逐步展開。",
+    "hero.experience.story2.eyebrow": "自由落體",
+    "hero.experience.story2.title": "時速 200 公里極速飛翔。",
+    "hero.experience.story2.body": "指定跳傘體驗可享受長達約 60 秒的自由落體。",
+    "hero.experience.story3.eyebrow": "滑翔",
+    "hero.experience.story3.title": "平穩著陸。",
+    "hero.experience.story3.body": "張傘後在空中平穩滑翔，以全景視野迎接著陸。",
+    "hero.experience.altitude": "高度",
+    "hero.experience.speed": "速度",
+    "hero.experience.phase.exit": "離開機艙",
+    "hero.experience.phase.freefall": "自由落體",
+    "hero.experience.phase.canopy": "降落傘滑翔",
+    "hero.experience.simulation": "體驗情境示意",
     // Admin panels
     "admin.addCredit": "增加積分",
     "admin.adjustCredit": "調整積分",
@@ -325,6 +356,22 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
   },
 
   "zh-CN": {
+    // 沉浸式首页体验
+    "hero.experience.story1.eyebrow": "升空",
+    "hero.experience.story1.title": "踏出机舱边缘。",
+    "hero.experience.story1.body": "升至最高 14,000 英尺，壮丽景色在脚下逐步展开。",
+    "hero.experience.story2.eyebrow": "自由落体",
+    "hero.experience.story2.title": "时速 200 公里极速飞翔。",
+    "hero.experience.story2.body": "指定跳伞体验可享受长达约 60 秒的自由落体。",
+    "hero.experience.story3.eyebrow": "滑翔",
+    "hero.experience.story3.title": "平稳着陆。",
+    "hero.experience.story3.body": "开伞后在空中平稳滑翔，以全景视野迎接着陆。",
+    "hero.experience.altitude": "高度",
+    "hero.experience.speed": "速度",
+    "hero.experience.phase.exit": "离开机舱",
+    "hero.experience.phase.freefall": "自由落体",
+    "hero.experience.phase.canopy": "降落伞滑翔",
+    "hero.experience.simulation": "体验情境示意",
     // Admin panels
     "admin.addCredit": "增加积分",
     "admin.adjustCredit": "调整积分",

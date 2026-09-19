@@ -22,7 +22,7 @@ export function CinematicExperience({ onBook, onWatchVideo }: CinematicExperienc
   const { t } = useLanguage();
   const trackRef = useRef<HTMLDivElement>(null);
   const videoRefs = useRef<Array<HTMLVideoElement | null>>([]);
-  const frameRef = useRef<number>();
+  const frameRef = useRef<number | null>(null);
   const targetProgressRef = useRef(0);
   const smoothProgressRef = useRef(0);
   const [isMobile, setIsMobile] = useState(false);
@@ -70,9 +70,15 @@ export function CinematicExperience({ onBook, onWatchVideo }: CinematicExperienc
     };
     frameRef.current = window.requestAnimationFrame(updateVideo);
     return () => {
-      if (frameRef.current) window.cancelAnimationFrame(frameRef.current);
+      if (frameRef.current !== null) window.cancelAnimationFrame(frameRef.current);
     };
   }, [isMobile, reducedMotion]);
+
+  useEffect(() => {
+    if (!isMobile || reducedMotion) return;
+    const activeVideo = videoRefs.current[activeClip];
+    activeVideo?.play().catch(() => undefined);
+  }, [activeClip, isMobile, reducedMotion]);
 
   const headlineOneOpacity = useTransform(smoothProgress, [0, 0.08, 0.25, 0.31], [1, 1, 1, 0]);
   const headlineTwoOpacity = useTransform(smoothProgress, [0.27, 0.36, 0.58, 0.67], [0, 1, 1, 0]);
