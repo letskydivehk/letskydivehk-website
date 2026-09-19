@@ -153,7 +153,7 @@ export function Services() {
           </div>
           
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground">
-            {t('services.title')}
+            {t('services.chooseTitle')}
           </h2>
           
           <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">
@@ -359,7 +359,7 @@ function TiltCard({
       onMouseEnter={onMouseEnter}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformPerspective: 800 }}
-      className={`relative bg-card rounded-2xl p-8 clean-border transition-all duration-300 mobile-transparent-card ${
+      className={`relative bg-card/80 backdrop-blur-xl rounded-lg p-8 clean-border transition-all duration-300 mobile-transparent-card ${
         isHovered ? 'elevated-shadow' : 'subtle-shadow'
       } ${isPopular ? 'ring-2 ring-accent-orange' : ''}`}
     >

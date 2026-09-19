@@ -148,7 +148,11 @@ export function CinematicExperience({ onBook, onWatchVideo }: CinematicExperienc
                   <p className="mb-4 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-experience-cyan">
                     <span className="h-px w-8 bg-experience-cyan" />{t(story.eyebrow)}
                   </p>
-                  <h1 className="text-4xl font-black leading-none sm:text-6xl lg:text-8xl">{t(story.title)}</h1>
+                  {index === 0 ? (
+                    <h1 className="text-4xl font-black leading-none sm:text-6xl lg:text-8xl">{t(story.title)}</h1>
+                  ) : (
+                    <h2 className="text-4xl font-black leading-none sm:text-6xl lg:text-8xl">{t(story.title)}</h2>
+                  )}
                   <p className="mt-5 max-w-2xl text-base leading-relaxed text-experience-muted sm:text-xl lg:text-2xl">{t(story.body)}</p>
                   {index === 0 && <HeroActions onBook={onBook} onWatchVideo={onWatchVideo} t={t} />}
                   {index === 2 && (
@@ -171,7 +175,7 @@ export function CinematicExperience({ onBook, onWatchVideo }: CinematicExperienc
             <HudMetric icon={Gauge} label={t("hero.experience.speed")} value={`${speed} KPH`} />
             <div className="col-span-3 sm:col-span-1">
               <div className="mb-2 flex items-center justify-between text-[10px] font-bold uppercase text-experience-muted">
-                <span>{t(phaseKey)}</span><span>{displayProgress}%</span>
+                <span>{t(phaseKey)} · {t("hero.experience.simulation")}</span><span>{displayProgress}%</span>
               </div>
               <div className="h-1 overflow-hidden rounded-full bg-experience-border">
                 <div className="h-full bg-experience-cyan transition-[width] duration-100" style={{ width: `${displayProgress}%` }} />

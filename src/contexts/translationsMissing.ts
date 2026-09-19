@@ -64,6 +64,12 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     "hero.experience.phase.freefall": "Freefall",
     "hero.experience.phase.canopy": "Canopy flight",
     "hero.experience.simulation": "Experience visualization",
+    "services.chooseTitle": "Choose Your Jump",
+    "safety.breakdown": "Explore the safety system",
+    "safety.pillar1.detail": "Your instructor manages the jump from exit to landing, with certification and recurrent training checked by the operating dropzone.",
+    "safety.pillar2.detail": "The main and reserve canopies are supported by an automatic activation device designed to deploy the reserve when required.",
+    "safety.pillar3.detail": "Wind, cloud and visibility are assessed before operations. A safe delay is always preferred over forcing a jump.",
+    "safety.pillar4.detail": "Every tandem begins with a clear briefing covering body position, communication, exit and the landing sequence.",
 
     // Member
     "member.bookNowCta": "Book your jump now →",
@@ -274,6 +280,12 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     "hero.experience.phase.freefall": "自由落體",
     "hero.experience.phase.canopy": "降落傘滑翔",
     "hero.experience.simulation": "體驗情境示意",
+    "services.chooseTitle": "選擇你的飛行體驗",
+    "safety.breakdown": "了解安全系統",
+    "safety.pillar1.detail": "教練由離機至著陸全程掌控跳傘流程；營運基地亦會核實教練資格及定期訓練紀錄。",
+    "safety.pillar2.detail": "主傘與備用傘配合自動啟傘裝置，在有需要時協助啟動備用降落傘。",
+    "safety.pillar3.detail": "每次運作前均會評估風速、雲層及能見度；安全延遲永遠比勉強起跳更重要。",
+    "safety.pillar4.detail": "每次雙人跳傘均由清晰講解開始，包括身體姿勢、溝通、離機及著陸程序。",
     // Admin panels
     "admin.addCredit": "增加積分",
     "admin.adjustCredit": "調整積分",
@@ -372,6 +384,12 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     "hero.experience.phase.freefall": "自由落体",
     "hero.experience.phase.canopy": "降落伞滑翔",
     "hero.experience.simulation": "体验情境示意",
+    "services.chooseTitle": "选择你的飞行体验",
+    "safety.breakdown": "了解安全系统",
+    "safety.pillar1.detail": "教练由离机至着陆全程掌控跳伞流程；运营基地也会核实教练资格及定期训练记录。",
+    "safety.pillar2.detail": "主伞与备用伞配合自动开伞装置，在有需要时协助启动备用降落伞。",
+    "safety.pillar3.detail": "每次运营前均会评估风速、云层及能见度；安全延迟永远比勉强起跳更重要。",
+    "safety.pillar4.detail": "每次双人跳伞均由清晰讲解开始，包括身体姿势、沟通、离机及着陆程序。",
     // Admin panels
     "admin.addCredit": "增加积分",
     "admin.adjustCredit": "调整积分",
