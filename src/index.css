@@ -1005,6 +1005,113 @@ html {
 }
 /* ===== Premium Motion Utilities (Apple-style) ===== */
 
+/* Homepage cinematic system — intentionally begins below the original hero. */
+.cinematic-home {
+  --background: hsl(216 35% 7%);
+  --foreground: hsl(195 25% 96%);
+  --card: hsl(216 28% 11%);
+  --card-foreground: hsl(195 25% 96%);
+  --popover: hsl(216 28% 11%);
+  --popover-foreground: hsl(195 25% 96%);
+  --muted: hsl(214 24% 16%);
+  --muted-foreground: hsl(202 15% 69%);
+  --border: hsl(196 30% 82% / 0.16);
+  --input: hsl(214 23% 18%);
+  --input-background: hsl(216 28% 10%);
+  --accent: hsl(187 100% 58%);
+  --accent-foreground: hsl(216 35% 7%);
+  --secondary: hsl(187 100% 58%);
+  --secondary-foreground: hsl(216 35% 7%);
+  --ring: hsl(187 100% 58%);
+  position: relative;
+  isolation: isolate;
+  color: var(--foreground);
+  background:
+    linear-gradient(180deg, hsl(216 35% 7%), hsl(213 33% 9%) 42%, hsl(216 35% 6%));
+}
+
+.cinematic-home::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(90deg, transparent calc(50% - 0.5px), hsl(187 100% 58% / 0.06) 50%, transparent calc(50% + 0.5px));
+  background-size: min(100%, 80rem) 100%;
+  background-position: top center;
+  background-repeat: no-repeat;
+}
+
+.cinematic-home > section,
+.cinematic-home main > section,
+.cinematic-home [id="locations"],
+.cinematic-home [id="services"],
+.cinematic-home [id="booking"],
+.cinematic-home [id="weather"],
+.cinematic-home [id="testimonials"],
+.cinematic-home [id="faq"],
+.cinematic-home [id="safety"],
+.cinematic-home [id="jump-day"],
+.cinematic-home [id="about"],
+.cinematic-home [id="contact"] {
+  border-top: 1px solid hsl(196 30% 82% / 0.1);
+}
+
+.cinematic-home h2 {
+  letter-spacing: 0;
+  text-wrap: balance;
+}
+
+.cinematic-home .clean-border {
+  border-color: var(--border);
+}
+
+.cinematic-home .elevated-shadow,
+.cinematic-home .hover\:elevated-shadow:hover {
+  box-shadow: 0 24px 70px -36px hsl(187 100% 58% / 0.35);
+}
+
+.cinematic-home .bg-card,
+.cinematic-home .bg-card\/30,
+.cinematic-home .bg-card\/50,
+.cinematic-home .bg-card\/70 {
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+.cinematic-home footer {
+  background: hsl(216 38% 4%);
+  color: var(--foreground);
+  border-top: 1px solid var(--border);
+}
+
+.cinematic-home footer .text-background,
+.cinematic-home footer .text-background\/70 {
+  color: var(--foreground);
+}
+
+.cinematic-home footer .bg-background\/10 {
+  background-color: hsl(195 25% 96% / 0.1);
+}
+
+.cinematic-home footer .hover\:bg-background\/20:hover {
+  background-color: hsl(195 25% 96% / 0.2);
+}
+
+.cinematic-home footer .border-background\/20 {
+  border-color: hsl(195 25% 96% / 0.18);
+}
+
+@media (max-width: 639px) {
+  .cinematic-home .mobile-transparent-card {
+    background: hsl(216 28% 11% / 0.82) !important;
+    border-color: var(--border) !important;
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+  }
+}
+
 /* Shimmer sheen sweep across primary CTAs */
 @keyframes lv-shimmer {
   0% { transform: translateX(-150%) skewX(-12deg); }
