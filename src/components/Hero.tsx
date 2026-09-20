@@ -1,18 +1,412 @@
-import { useState } from "react";
-import { VideoModal } from "./VideoModal";
-import { CinematicExperience } from "./hero/CinematicExperience";
-import { HeroNavigation } from "./hero/HeroNavigation";
+import { motion, useScroll, useTransform } from 'framer-motion';
+import { Menu, X, ChevronDown, Play, Sparkles } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Link } from 'react-router-dom';
+import { AuthButton } from './AuthButton';
+import { CreditPill } from './CreditPill';
+import { LanguageSwitcher } from './LanguageSwitcher';
+import { useLanguage } from '@/contexts/LanguageContext';
+import { VideoModal } from './VideoModal';
+import heroSkydiverVideo from '@/assets/hero-skydiver.mp4.asset.json';
+import heroSkydiverVideo2 from '@/assets/hero-skydiver-2.mp4.asset.json';
+import heroSkydiverVideo3 from '@/assets/hero-skydiver-3.mp4.asset.json';
+
+const HERO_CLIPS = [heroSkydiverVideo.url, heroSkydiverVideo2.url, heroSkydiverVideo3.url];
+
+const HERO_POSTER = 'https://images.unsplash.com/photo-1601024445121-e5b82f020549?w=1920&h=1080&fit=crop';
 
 export function Hero() {
+  const { t, language } = useLanguage();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isVideoOpen, setIsVideoOpen] = useState(false);
-  const scrollToBooking = () => {
-    document.getElementById("booking")?.scrollIntoView({ behavior: "smooth" });
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+  const [activeLayer, setActiveLayer] = useState<0 | 1>(0);
+  const [layerSrcs, setLayerSrcs] = useState<[string, string]>([HERO_CLIPS[0], HERO_CLIPS[1 % HERO_CLIPS.length]]);
+  const clipIndexRef = useRef(0);
+  const videoRefs = [useRef<HTMLVideoElement>(null), useRef<HTMLVideoElement>(null)] as const;
+  const heroRef = useRef<HTMLDivElement>(null);
+  const { scrollY } = useScroll();
+  const bgY = useTransform(scrollY, [0, 800], [0, 300]);
+  const overlayOpacity = useTransform(scrollY, [0, 600], [0.4, 0.8]);
+  const contentY = useTransform(scrollY, [0, 500], [0, 100]);
+  const contentOpacity = useTransform(scrollY, [0, 400], [1, 0]);
+
+  // Crossfade to the next preloaded clip when the active one ends
+  const handleClipEnded = (layer: 0 | 1) => {
+    const nextIdx = (clipIndexRef.current + 1) % HERO_CLIPS.length;
+    const followingIdx = (nextIdx + 1) % HERO_CLIPS.length;
+    clipIndexRef.current = nextIdx;
+    const nextLayer: 0 | 1 = layer === 0 ? 1 : 0;
+    // Ensure the incoming layer is playing from the start
+    const incoming = videoRefs[nextLayer].current;
+    if (incoming) {
+      try { incoming.currentTime = 0; incoming.play().catch(() => {}); } catch { /* noop */ }
+    }
+    setActiveLayer(nextLayer);
+    // Queue the clip that will play *after* the incoming one on the layer we just left
+    setLayerSrcs((prev) => {
+      const copy: [string, string] = [prev[0], prev[1]];
+      copy[layer] = HERO_CLIPS[followingIdx];
+      return copy;
+    });
   };
 
+  // Safeguard: keep the active video playing (autoplay recovery for mobile / tab refocus)
+  useEffect(() => {
+    if (prefersReducedMotion) return;
+    const tryPlay = () => {
+      const v = videoRefs[activeLayer].current;
+      if (v && v.paused) v.play().catch(() => {});
+    };
+    tryPlay();
+    const interval = window.setInterval(tryPlay, 1500);
+    const onVisibility = () => { if (!document.hidden) tryPlay(); };
+    document.addEventListener('visibilitychange', onVisibility);
+    return () => {
+      window.clearInterval(interval);
+      document.removeEventListener('visibilitychange', onVisibility);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [activeLayer, prefersReducedMotion, layerSrcs]);
+
+  // Scroll detection
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollTop = window.scrollY;
+      setIsScrolled(scrollTop > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  // Handle body scroll lock when mobile menu is open
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMobileMenuOpen]);
+
+  // Close mobile menu on scroll
+  useEffect(() => {
+    const handleScroll = () => {
+      if (isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    if (isMobileMenuOpen) {
+      window.addEventListener('scroll', handleScroll);
+    }
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, [isMobileMenuOpen]);
+
+  // Detect prefers-reduced-motion to skip autoplay video
+  useEffect(() => {
+    const mql = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setPrefersReducedMotion(mql.matches);
+    const onChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
+    mql.addEventListener('change', onChange);
+    return () => mql.removeEventListener('change', onChange);
+  }, []);
+
+  const scrollToLocations = () => {
+    const locationsSection = document.getElementById('locations');
+    locationsSection?.scrollIntoView({
+      behavior: 'smooth'
+    });
+  };
   return (
-    <div className="relative">
-      <HeroNavigation onBook={scrollToBooking} />
-      <CinematicExperience onBook={scrollToBooking} onWatchVideo={() => setIsVideoOpen(true)} />
+    <div ref={heroRef} className="relative h-screen w-full overflow-hidden">
+      {/* Parallax Background: skydiver video (with poster fallback) */}
+      <motion.div
+        className="absolute inset-0 scale-110"
+        style={{ y: bgY }}
+      >
+        {prefersReducedMotion ? (
+          <img
+            src={HERO_POSTER}
+            alt=""
+            aria-hidden
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+        ) : (
+          <>
+            {[0, 1].map((i) => (
+              <video
+                key={i}
+                ref={videoRefs[i as 0 | 1]}
+                src={layerSrcs[i]}
+                poster={HERO_POSTER}
+                autoPlay
+                muted
+                playsInline
+                preload="auto"
+                aria-hidden
+                tabIndex={-1}
+                onEnded={() => handleClipEnded(i as 0 | 1)}
+                style={{ opacity: activeLayer === i ? 1 : 0, transition: 'opacity 600ms ease-in-out' }}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
+            ))}
+          </>
+        )}
+        {/* Dynamic Gradient Overlay */}
+        <motion.div
+          className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"
+          style={{ opacity: overlayOpacity }}
+        />
+      </motion.div>
+
+      {/* Full-Width Navbar */}
+      <motion.nav initial={{
+        opacity: 0,
+        y: -30
+      }} animate={{
+        opacity: 1,
+        y: 0
+      }} transition={{
+        duration: 0.8,
+        delay: 0.3
+      }} className="fixed top-0 left-0 right-0 w-full z-[110]">
+        <div className={`w-full px-6 sm:px-8 lg:px-12 py-4 transition-all duration-300 ease-out ${isScrolled ? 'bg-black/80 backdrop-blur-xl border-b border-white/10' : 'bg-transparent'}`}>
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <motion.div whileHover={{
+              scale: 1.05
+            }} className="flex items-center cursor-pointer" onClick={() => {
+              window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+              });
+            }}>
+              <span className="font-bagel text-white text-xl tracking-wider">LET'S SKYDIVE HK</span>
+            </motion.div>
+
+            {/* Navigation Menu */}
+            <div className="hidden lg:flex items-center space-x-8">
+              <a href="#services" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
+                {t('nav.services')}
+              </a>
+              <a href="#locations" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
+                {t('nav.locations')}
+              </a>
+              <Link to="/gallery" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
+                {t('nav.gallery')}
+              </Link>
+              <Link to="/blog" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
+                {t('nav.blog')}
+              </Link>
+              <Link to="/promotions" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
+                {t('nav.promotions')}
+              </Link>
+              <Link to="/souvenirs" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
+                {t('nav.souvenirs')}
+              </Link>
+              <a href="#about" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
+                {t('nav.about')}
+              </a>
+              <a href="#faq" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
+                {t('nav.faq')}
+              </a>
+              <a href="#contact" className="text-white hover:text-white/80 font-medium gentle-animation hover:scale-105">
+                {t('nav.contact')}
+              </a>
+            </div>
+
+            {/* Right Side - Language + Auth + CTA + Mobile Menu */}
+            <div className="flex items-center space-x-2 sm:space-x-3 relative">
+              {/* Language Switcher */}
+              <LanguageSwitcher />
+
+              {/* Credit balance pill */}
+              <CreditPill />
+
+              {/* Auth Button */}
+              <AuthButton />
+
+              {/* Mobile Hamburger Menu Button */}
+              <button onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label={isMobileMenuOpen ? "Close navigation menu" : "Open navigation menu"} aria-expanded={isMobileMenuOpen} className="lg:hidden glass-effect p-3 rounded-full text-white hover:bg-white/20 active:bg-white/30 gentle-animation cursor-pointer z-[120] relative">
+                {isMobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
+        </div>
+      </motion.nav>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <motion.div initial={{
+          opacity: 0
+        }} animate={{
+          opacity: 1
+        }} exit={{
+          opacity: 0
+        }} transition={{
+          duration: 0.3
+        }} className="lg:hidden fixed inset-0 bg-black/50 backdrop-blur-md z-[80] cursor-pointer" onClick={() => setIsMobileMenuOpen(false)} />
+      )}
+
+      {/* Mobile Menu Panel */}
+      <motion.div initial={{
+        x: '100%'
+      }} animate={{
+        x: isMobileMenuOpen ? '0%' : '100%'
+      }} transition={{
+        type: 'spring',
+        damping: 25,
+        stiffness: 200
+      }} className="lg:hidden fixed top-0 right-0 h-full w-72 max-w-[85vw] bg-black/90 backdrop-blur-xl border-l border-white/10 z-[90] mobile-menu-panel pointer-events-auto" onClick={e => e.stopPropagation()}>
+        <div className="flex flex-col h-full">
+          {/* Close Button at the top */}
+          <div className="flex justify-end p-4">
+            <button onClick={() => setIsMobileMenuOpen(false)} aria-label="Close navigation menu" className="glass-effect p-3 rounded-full text-white hover:bg-white/20 active:bg-white/30 gentle-animation cursor-pointer">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
+          
+          <div className="flex flex-col px-6 pb-6 h-full">
+            {/* Mobile Navigation Links */}
+            <div className="flex flex-col space-y-4 text-white">
+              <a href="#services" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
+                {t('nav.services')}
+              </a>
+              <a href="#locations" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
+                {t('nav.locations')}
+              </a>
+              <Link to="/gallery" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
+                {t('nav.gallery')}
+              </Link>
+              <Link to="/blog" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
+                {t('nav.blog')}
+              </Link>
+              <Link to="/promotions" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
+                {t('nav.promotions')}
+              </Link>
+              <Link to="/souvenirs" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
+                {t('nav.souvenirs')}
+              </Link>
+              <a href="#about" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
+                {t('nav.about')}
+              </a>
+              <a href="#faq" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
+                {t('nav.faq')}
+              </a>
+              <a href="#contact" className="mobile-menu-link px-4 py-3 hover:text-white/80 hover:bg-white/10 rounded-lg gentle-animation font-medium text-lg active:bg-white/20" onClick={() => setIsMobileMenuOpen(false)}>
+                {t('nav.contact')}
+              </a>
+            </div>
+
+            {/* Mobile CTA Button */}
+            <motion.button whileHover={{
+              scale: 1.05
+            }} whileTap={{
+              scale: 0.95
+            }} onClick={() => {
+              scrollToLocations();
+              setIsMobileMenuOpen(false);
+            }} className="bg-accent-orange text-white font-semibold px-6 py-3 rounded-lg hover:bg-accent-orange/90 active:bg-accent-orange/80 gentle-animation mt-8 cursor-pointer">
+              {t('hero.cta.book')}
+            </motion.button>
+          </div>
+        </div>
+      </motion.div>
+
+      {/* Hero Content with Parallax */}
+      <motion.div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6" style={{ y: contentY, opacity: contentOpacity }}>
+        <motion.div initial={{
+          opacity: 0,
+          y: 30
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          duration: 1,
+          delay: 0.5
+        }} className="max-w-4xl">
+          {/* Main Heading */}
+          <h1 className="text-3xl sm:text-5xl lg:text-7xl font-black text-white leading-tight mb-4 sm:mb-6" style={{ textShadow: '0 4px 20px rgba(0,0,0,0.6)' }}>
+            {language === 'zh-TW' ? (
+              <span className="block">{t('hero.experienceThe')}<span className="text-accent-orange">{t('hero.ultimateThrill')}</span></span>
+            ) : (
+              <>
+                <span className="block">{t('hero.experienceThe')}</span>
+                <span className="block text-accent-orange">{t('hero.ultimateThrill')}</span>
+              </>
+            )}
+          </h1>
+
+          {/* Subtitle */}
+          <p
+            className="text-base sm:text-xl lg:text-2xl text-white/90 max-w-2xl mx-auto mb-6 sm:mb-8 leading-relaxed whitespace-pre-line"
+            style={{ textShadow: '0 2px 12px rgba(0,0,0,0.7)' }}
+          >
+            {t('hero.subtitle')}
+          </p>
+
+          {/* CTA Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <motion.button whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} onClick={scrollToLocations} className="relative bg-accent-orange text-white font-bold px-8 py-4 rounded-lg text-lg hover:bg-accent-orange/90 gentle-animation cursor-pointer w-full sm:w-auto shadow-lg shadow-accent-orange/30">
+              <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+                <span className="relative inline-flex rounded-full h-3 w-3 bg-white" />
+              </span>
+              {t('hero.cta.book')}
+            </motion.button>
+            <Link to="/quiz" className="w-full sm:w-auto">
+              <motion.div
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center justify-center gap-2 bg-white/10 backdrop-blur-sm text-white font-semibold px-8 py-4 rounded-lg text-lg border border-white/20 hover:bg-white/20 gentle-animation cursor-pointer w-full"
+              >
+                <Sparkles className="w-5 h-5 text-accent-orange" />
+                {t('hero.cta.quiz')}
+              </motion.div>
+            </Link>
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={() => setIsVideoOpen(true)}
+              className="flex items-center gap-2 text-white/80 hover:text-white font-semibold text-lg cursor-pointer transition-colors"
+            >
+              <div className="w-12 h-12 rounded-full bg-white/20 backdrop-blur-sm border border-white/30 flex items-center justify-center">
+                <Play className="w-5 h-5 ml-0.5" />
+              </div>
+              {t('hero.cta.watchVideo')}
+            </motion.button>
+          </div>
+        </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.div initial={{
+          opacity: 0
+        }} animate={{
+          opacity: 1
+        }} transition={{
+          delay: 2
+        }} className="absolute bottom-8 left-1/2 -translate-x-1/2">
+          <motion.div animate={{
+            y: [0, 10, 0]
+          }} transition={{
+            repeat: Infinity,
+            duration: 2
+          }} className="flex flex-col items-center text-white/60 cursor-pointer" onClick={() => {
+            const servicesSection = document.getElementById('services');
+            servicesSection?.scrollIntoView({
+              behavior: 'smooth'
+            });
+          }}>
+            <span className="text-sm mb-2">{t('hero.scrollToExplore')}</span>
+            <ChevronDown className="w-6 h-6" />
+          </motion.div>
+        </motion.div>
+      </motion.div>
       <VideoModal open={isVideoOpen} onOpenChange={setIsVideoOpen} />
     </div>
   );

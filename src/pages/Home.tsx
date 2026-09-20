@@ -10,7 +10,6 @@ import { About } from "@/components/About";
 import { FAQ } from "@/components/FAQ";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
-import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 import { SEO } from "@/components/SEO";
 import { OrganizationJsonLd } from "@/components/JsonLd";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -34,12 +33,12 @@ export default function Home() {
     <div className="min-h-screen bg-background text-foreground relative">
       <SEO path="/" />
       <OrganizationJsonLd />
-      <BackgroundDecorations />
-      <main className="relative z-10 pb-20 md:pb-0" role="main">
+      <main className="relative z-10" role="main">
         <section id="hero" aria-label="Hero section">
           <Hero />
         </section>
 
+        <div className="cinematic-home pb-20 md:pb-0">
         {/* Slim Promotion Ribbon */}
         <Link
           to="/promotions"
@@ -114,8 +113,11 @@ export default function Home() {
         <LazySection minHeight={400} id="contact" aria-label="Contact section">
           <Contact />
         </LazySection>
+        </div>
       </main>
-      <Footer />
+      <div className="cinematic-home">
+        <Footer />
+      </div>
       <StickyBookingBar />
       <BackToTopButton />
       <SectionNav />
