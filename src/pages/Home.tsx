@@ -25,6 +25,8 @@ import { MobileTabBar } from "@/components/MobileTabBar";
 import { ExploreMoreStrip } from "@/components/home/ExploreMoreStrip";
 import { JumpDayStrip } from "@/components/home/JumpDayStrip";
 import { NextDepartureBanner } from "@/components/home/NextDepartureBanner";
+import { TrustBar } from "@/components/TrustBar";
+import { EligibilityChips } from "@/components/EligibilityChips";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -39,6 +41,13 @@ export default function Home() {
         </section>
 
         <div className="cinematic-home pb-20 md:pb-0">
+        <section className="border-b border-border px-4 py-5 sm:py-6" aria-label="Trust and eligibility">
+          <div className="mx-auto max-w-5xl">
+            <TrustBar />
+            <EligibilityChips />
+          </div>
+        </section>
+
         {/* Slim Promotion Ribbon */}
         <Link
           to="/promotions"
