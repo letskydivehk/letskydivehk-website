@@ -56,16 +56,7 @@ export default {
   				'monospace'
   			]
   		},
-  		colors: {
-			experience: {
-				DEFAULT: 'var(--experience)',
-				foreground: 'var(--experience-foreground)',
-				muted: 'var(--experience-muted)',
-				panel: 'var(--experience-panel)',
-				border: 'var(--experience-border)',
-				cyan: 'var(--experience-cyan)',
-				orange: 'var(--experience-orange)'
-			},
+		colors: {
   			border: 'var(--border)',
   			input: 'var(--input)',
   			ring: 'var(--ring)',
