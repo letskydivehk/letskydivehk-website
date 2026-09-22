@@ -1005,110 +1005,109 @@ html {
 }
 /* ===== Premium Motion Utilities (Apple-style) ===== */
 
-/* Homepage cinematic system — intentionally begins below the original hero. */
-.cinematic-home {
-  --background: hsl(216 35% 7%);
-  --foreground: hsl(195 25% 96%);
-  --card: hsl(216 28% 11%);
-  --card-foreground: hsl(195 25% 96%);
-  --popover: hsl(216 28% 11%);
-  --popover-foreground: hsl(195 25% 96%);
-  --muted: hsl(214 24% 16%);
-  --muted-foreground: hsl(202 15% 69%);
-  --border: hsl(196 30% 82% / 0.16);
-  --input: hsl(214 23% 18%);
-  --input-background: hsl(216 28% 10%);
-  --accent: hsl(187 100% 58%);
-  --accent-foreground: hsl(216 35% 7%);
-  --secondary: hsl(187 100% 58%);
-  --secondary-foreground: hsl(216 35% 7%);
-  --ring: hsl(187 100% 58%);
+/* Homepage sky-reflection system — intentionally begins below the original hero. */
+.sky-reflection-home {
+  --background: hsl(204 70% 97%);
+  --foreground: hsl(211 48% 16%);
+  --card: hsl(0 0% 100% / 0.76);
+  --card-foreground: hsl(211 48% 16%);
+  --popover: hsl(0 0% 100% / 0.96);
+  --popover-foreground: hsl(211 48% 16%);
+  --muted: hsl(202 52% 92%);
+  --muted-foreground: hsl(211 20% 42%);
+  --border: hsl(202 42% 78% / 0.52);
+  --input: hsl(202 42% 86%);
+  --input-background: hsl(0 0% 100% / 0.82);
+  --accent: hsl(199 89% 48%);
+  --accent-foreground: hsl(0 0% 100%);
+  --secondary: hsl(199 89% 48%);
+  --secondary-foreground: hsl(0 0% 100%);
+  --ring: hsl(199 89% 48%);
   position: relative;
   isolation: isolate;
   color: var(--foreground);
   background:
-    linear-gradient(180deg, hsl(216 35% 7%), hsl(213 33% 9%) 42%, hsl(216 35% 6%));
+    linear-gradient(180deg, hsl(203 88% 94%) 0%, hsl(204 70% 97%) 16%, hsl(0 0% 100%) 45%, hsl(202 58% 96%) 72%, hsl(0 0% 100%) 100%);
 }
 
-.cinematic-home::before {
+.sky-reflection-home::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: -1;
   pointer-events: none;
   background-image:
-    linear-gradient(90deg, transparent calc(50% - 0.5px), hsl(187 100% 58% / 0.06) 50%, transparent calc(50% + 0.5px));
-  background-size: min(100%, 80rem) 100%;
-  background-position: top center;
-  background-repeat: no-repeat;
+    linear-gradient(115deg, transparent 0 18%, hsl(0 0% 100% / 0.42) 31%, transparent 48%),
+    linear-gradient(180deg, hsl(0 0% 100% / 0.38), transparent 14%);
 }
 
-.cinematic-home > section,
-.cinematic-home main > section,
-.cinematic-home [id="locations"],
-.cinematic-home [id="services"],
-.cinematic-home [id="booking"],
-.cinematic-home [id="weather"],
-.cinematic-home [id="testimonials"],
-.cinematic-home [id="faq"],
-.cinematic-home [id="safety"],
-.cinematic-home [id="jump-day"],
-.cinematic-home [id="about"],
-.cinematic-home [id="contact"] {
-  border-top: 1px solid hsl(196 30% 82% / 0.1);
+.sky-reflection-home > section,
+.sky-reflection-home main > section,
+.sky-reflection-home [id="locations"],
+.sky-reflection-home [id="services"],
+.sky-reflection-home [id="booking"],
+.sky-reflection-home [id="weather"],
+.sky-reflection-home [id="testimonials"],
+.sky-reflection-home [id="faq"],
+.sky-reflection-home [id="safety"],
+.sky-reflection-home [id="jump-day"],
+.sky-reflection-home [id="about"],
+.sky-reflection-home [id="contact"] {
+  border-top: 1px solid hsl(202 42% 78% / 0.32);
 }
 
-.cinematic-home h2 {
+.sky-reflection-home h2 {
   letter-spacing: 0;
   text-wrap: balance;
 }
 
-.cinematic-home .clean-border {
+.sky-reflection-home .clean-border {
   border-color: var(--border);
 }
 
-.cinematic-home .elevated-shadow,
-.cinematic-home .hover\:elevated-shadow:hover {
-  box-shadow: 0 24px 70px -36px hsl(187 100% 58% / 0.35);
+.sky-reflection-home .elevated-shadow,
+.sky-reflection-home .hover\:elevated-shadow:hover {
+  box-shadow: 0 28px 70px -42px hsl(202 72% 42% / 0.38), 0 8px 24px -18px hsl(211 48% 16% / 0.2);
 }
 
-.cinematic-home .bg-card,
-.cinematic-home .bg-card\/30,
-.cinematic-home .bg-card\/50,
-.cinematic-home .bg-card\/70 {
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+.sky-reflection-home .bg-card,
+.sky-reflection-home .bg-card\/30,
+.sky-reflection-home .bg-card\/50,
+.sky-reflection-home .bg-card\/70,
+.sky-reflection-home .bg-card\/80 {
+  backdrop-filter: blur(24px) saturate(125%);
+  -webkit-backdrop-filter: blur(24px) saturate(125%);
 }
 
-.cinematic-home footer {
-  background: hsl(216 38% 4%);
+.sky-reflection-home footer {
+  background: hsl(207 54% 95%);
   color: var(--foreground);
   border-top: 1px solid var(--border);
 }
 
-.cinematic-home footer .text-background,
-.cinematic-home footer .text-background\/70 {
+.sky-reflection-home footer .text-background,
+.sky-reflection-home footer .text-background\/70 {
   color: var(--foreground);
 }
 
-.cinematic-home footer .bg-background\/10 {
-  background-color: hsl(195 25% 96% / 0.1);
+.sky-reflection-home footer .bg-background\/10 {
+  background-color: hsl(0 0% 100% / 0.56);
 }
 
-.cinematic-home footer .hover\:bg-background\/20:hover {
-  background-color: hsl(195 25% 96% / 0.2);
+.sky-reflection-home footer .hover\:bg-background\/20:hover {
+  background-color: hsl(0 0% 100% / 0.82);
 }
 
-.cinematic-home footer .border-background\/20 {
-  border-color: hsl(195 25% 96% / 0.18);
+.sky-reflection-home footer .border-background\/20 {
+  border-color: var(--border);
 }
 
 @media (max-width: 639px) {
-  .cinematic-home .mobile-transparent-card {
-    background: hsl(216 28% 11% / 0.82) !important;
+  .sky-reflection-home .mobile-transparent-card {
+    background: hsl(0 0% 100% / 0.72) !important;
     border-color: var(--border) !important;
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(20px) saturate(125%);
+    -webkit-backdrop-filter: blur(20px) saturate(125%);
   }
 }
 
