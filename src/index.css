@@ -40,15 +40,6 @@ html {
   --accent-orange: hsl(24 95% 53%);
   --accent-emerald: hsl(160 84% 39%);
 
-  /* Cinematic opening — scoped semantic palette */
-  --experience: hsl(215 42% 7%);
-  --experience-foreground: hsl(0 0% 100%);
-  --experience-muted: hsl(200 24% 82%);
-  --experience-panel: hsl(215 34% 12% / 0.72);
-  --experience-border: hsl(190 45% 82% / 0.22);
-  --experience-cyan: hsl(187 100% 58%);
-  --experience-orange: hsl(24 95% 53%);
-
   /* Sky depth gradients */
   --sky-gradient-top: hsl(200 90% 85%);
   --sky-gradient-mid: hsl(200 80% 92%);
