@@ -13,7 +13,7 @@ export function TrustBar() {
       {items.map(({ icon: Icon, key }) => (
         <div
           key={key}
-          className="inline-flex items-center gap-2 text-white/90 text-sm sm:text-base font-medium bg-white/10 backdrop-blur-sm border border-white/20 rounded-full px-3 py-1.5"
+          className="inline-flex items-center gap-2 text-foreground/80 text-sm sm:text-base font-medium bg-card/70 backdrop-blur-xl border border-border rounded-full px-3 py-1.5 shadow-sm"
         >
           <Icon className="w-4 h-4 text-accent-orange" />
           <span>{t(key)}</span>

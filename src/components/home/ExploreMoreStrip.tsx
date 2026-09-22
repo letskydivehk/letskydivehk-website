@@ -11,32 +11,32 @@ export function ExploreMoreStrip() {
       icon: Compass,
       title: t("quiz.cta.title"),
       sub: t("quiz.cta.badge"),
-      accent: "from-sky-500/20 to-sky-400/5",
-      iconColor: "text-sky-400",
+      accent: "from-accent-blue/10 to-card/80",
+      iconColor: "text-accent-blue",
     },
     {
       to: "/promotions",
       icon: Users,
       title: t("referral.banner.title"),
       sub: t("referral.banner.cta"),
-      accent: "from-emerald-500/20 to-emerald-400/5",
-      iconColor: "text-emerald-400",
+      accent: "from-accent-emerald/10 to-card/80",
+      iconColor: "text-accent-emerald",
     },
     {
       to: "/membership/tiers",
       icon: Gift,
       title: language === "en" ? "Rewards & Tiers" : language === "zh-CN" ? "会员奖励" : "會員獎勵",
       sub: language === "en" ? "Unlock magnets & discounts" : language === "zh-CN" ? "解锁磁石贴与折扣" : "解鎖磁石貼與折扣",
-      accent: "from-amber-500/20 to-amber-400/5",
-      iconColor: "text-amber-400",
+      accent: "from-accent-orange/10 to-card/80",
+      iconColor: "text-accent-orange",
     },
     {
       to: "/souvenirs",
       icon: Sparkles,
       title: t("souvenirs.teaser.title"),
       sub: t("souvenirs.teaser.badge"),
-      accent: "from-fuchsia-500/20 to-fuchsia-400/5",
-      iconColor: "text-fuchsia-400",
+      accent: "from-secondary/10 to-card/80",
+      iconColor: "text-secondary",
     },
   ];
 
@@ -48,7 +48,7 @@ export function ExploreMoreStrip() {
             <Link
               key={to}
               to={to}
-              className={`group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br ${accent} backdrop-blur-sm p-4 hover:border-white/25 hover:-translate-y-0.5 transition-all`}
+              className={`group relative overflow-hidden rounded-lg border border-border bg-gradient-to-br ${accent} backdrop-blur-xl p-4 shadow-sm hover:border-accent-blue/30 hover:shadow-lg hover:-translate-y-0.5 transition-all`}
             >
               <div className="flex items-center justify-between mb-3">
                 <Icon className={`w-6 h-6 ${iconColor}`} />

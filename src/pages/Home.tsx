@@ -40,7 +40,7 @@ export default function Home() {
           <Hero />
         </section>
 
-        <div className="cinematic-home pb-20 md:pb-0">
+        <div className="sky-reflection-home pb-20 md:pb-0">
         <section className="border-b border-border px-4 py-5 sm:py-6" aria-label="Trust and eligibility">
           <div className="mx-auto max-w-5xl">
             <TrustBar />
@@ -124,7 +124,7 @@ export default function Home() {
         </LazySection>
         </div>
       </main>
-      <div className="cinematic-home">
+      <div className="sky-reflection-home">
         <Footer />
       </div>
       <StickyBookingBar />

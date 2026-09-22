@@ -11,16 +11,16 @@ export function JumpDayStrip() {
       icon: ShieldCheck,
       title: t("safety.title"),
       sub: t("safety.badge"),
-      accent: "from-emerald-500/20 to-emerald-400/5",
-      iconColor: "text-emerald-400",
+      accent: "from-accent-emerald/10 to-card/80",
+      iconColor: "text-accent-emerald",
     },
     {
       to: "/#timeline",
       icon: Clock,
       title: t("timeline.title"),
       sub: t("timeline.badge"),
-      accent: "from-sky-500/20 to-sky-400/5",
-      iconColor: "text-sky-400",
+      accent: "from-accent-blue/10 to-card/80",
+      iconColor: "text-accent-blue",
     },
   ];
 
@@ -31,7 +31,7 @@ export function JumpDayStrip() {
           <Link
             key={to}
             to={to}
-            className={`group text-left relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br ${accent} backdrop-blur-sm p-5 hover:border-white/25 hover:-translate-y-0.5 transition-all`}
+            className={`group text-left relative overflow-hidden rounded-lg border border-border bg-gradient-to-br ${accent} backdrop-blur-xl p-5 shadow-sm hover:border-accent-blue/30 hover:shadow-lg hover:-translate-y-0.5 transition-all`}
           >
             <div className="flex items-center justify-between mb-3">
               <Icon className={`w-7 h-7 ${iconColor}`} />
