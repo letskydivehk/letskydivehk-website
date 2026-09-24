@@ -34,6 +34,8 @@ export function Hero() {
 
   // Crossfade to the next preloaded clip when the active one ends
   const handleClipEnded = (layer: 0 | 1) => {
+    if (layer !== activeLayer) return;
+
     const nextIdx = (clipIndexRef.current + 1) % HERO_CLIPS.length;
     const followingIdx = (nextIdx + 1) % HERO_CLIPS.length;
     clipIndexRef.current = nextIdx;
@@ -56,8 +58,10 @@ export function Hero() {
   useEffect(() => {
     if (prefersReducedMotion) return;
     const tryPlay = () => {
-      const v = videoRefs[activeLayer].current;
-      if (v && v.paused) v.play().catch(() => {});
+      const activeVideo = videoRefs[activeLayer].current;
+      const inactiveVideo = videoRefs[activeLayer === 0 ? 1 : 0].current;
+      inactiveVideo?.pause();
+      if (activeVideo && activeVideo.paused) activeVideo.play().catch(() => {});
     };
     tryPlay();
     const interval = window.setInterval(tryPlay, 1500);
@@ -144,7 +148,7 @@ export function Hero() {
                 ref={videoRefs[i as 0 | 1]}
                 src={layerSrcs[i]}
                 poster={HERO_POSTER}
-                autoPlay
+                autoPlay={activeLayer === i}
                 muted
                 playsInline
                 preload="auto"

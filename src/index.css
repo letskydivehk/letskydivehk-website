@@ -1081,6 +1081,10 @@ html {
   color: var(--foreground);
 }
 
+.sky-reflection-home footer .hover\:text-background:hover {
+  color: var(--accent);
+}
+
 .sky-reflection-home footer .bg-background\/10 {
   background-color: hsl(0 0% 100% / 0.56);
 }
