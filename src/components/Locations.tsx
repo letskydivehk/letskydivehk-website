@@ -183,12 +183,12 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
       transition={{ duration: 0.5 }}
       whileHover={{ y: -4, transition: { duration: 0.35 } }}
       onClick={onViewDetails}
-      className={`relative h-full min-h-[30rem] w-full flex flex-col bg-card rounded-[2rem] overflow-hidden clean-border group hover:elevated-shadow transition-all duration-500 mobile-transparent-card cursor-pointer lg:col-span-2 lg:row-span-2 ${index === 0 ? "lg:col-span-2 lg:row-span-2" : ""} ${
+      className={`relative h-full min-h-[30rem] w-full flex flex-col bg-card rounded-[2rem] overflow-hidden clean-border group hover:elevated-shadow transition-all duration-500 mobile-transparent-card cursor-pointer lg:col-span-2 ${index === 0 ? "lg:col-span-4 lg:flex-row lg:min-h-[28rem]" : ""} ${
         comingSoon ? "opacity-75" : ""
       }`}
     >
       {/* Image */}
-      <div className="relative h-56 lg:h-[55%] shrink-0 overflow-hidden">
+      <div className={`relative h-56 shrink-0 overflow-hidden ${index === 0 ? "lg:h-auto lg:w-3/5" : "lg:h-[55%]"}`}>
         <img
           src={location.image_url || "/placeholder.svg"}
           alt={translatedLocation.Name}
