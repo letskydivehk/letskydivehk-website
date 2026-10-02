@@ -41,7 +41,7 @@ export default function Home() {
         </section>
 
         <div className="sky-reflection-home pb-20 md:pb-0">
-        <section className="border-b border-border px-4 py-5 sm:py-6" aria-label="Trust and eligibility">
+        <section className="home-confidence-band px-4 py-8 sm:py-10" aria-label="Trust and eligibility">
           <div className="mx-auto max-w-5xl">
             <TrustBar />
             <EligibilityChips />
@@ -51,7 +51,7 @@ export default function Home() {
         {/* Slim Promotion Ribbon */}
         <Link
           to="/promotions"
-          className="block bg-accent-orange text-white py-2.5 px-4 text-center font-medium hover:bg-accent-orange/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+          className="home-promotion-ribbon block bg-accent-orange text-accent-foreground py-3 px-4 text-center font-semibold hover:bg-accent-orange/90 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
           aria-label={`${t("promo.homeBanner")} — ${t("promo.homeBannerCta")}`}
         >
           <div className="max-w-5xl mx-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-0.5 text-sm sm:text-base">

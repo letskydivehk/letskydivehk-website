@@ -1,5 +1,5 @@
-import { useState, useMemo, useRef } from 'react'
-import { motion, useMotionValue, useTransform, useSpring } from 'framer-motion'
+import { useState, useMemo } from 'react'
+import { motion } from 'framer-motion'
 import { Plane, GraduationCap, Users, Check, ArrowRight, Eye, Compass, Wind } from 'lucide-react'
 import { CardGridSkeleton } from './skeletons/CardSkeleton'
 
@@ -138,21 +138,21 @@ export function Services() {
   }
 
   return (
-    <section id="services" className="relative py-24 bg-background overflow-hidden">
+    <section id="services" className="home-editorial-section relative py-24 sm:py-32 bg-background overflow-hidden">
       <SectionDecorations />
       <div className="container mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
         
         {/* Header */}
         <div className="text-center mb-16">
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-3 h-3 bg-accent-orange rounded-full animate-pulse" />
+            <div className="w-8 h-px bg-accent-orange" />
             <span className="text-sm font-semibold text-muted-foreground">
               {t('services.badge')}
             </span>
-            <div className="w-3 h-3 bg-accent-blue rounded-full animate-pulse" />
+            <div className="w-8 h-px bg-accent-blue" />
           </div>
           
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground">
+          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-6 text-foreground">
             {t('services.chooseTitle')}
           </h2>
           
@@ -312,7 +312,6 @@ export function Services() {
   )
 }
 
-// 3D Tilt Card wrapper for service cards
 function TiltCard({
   children,
   index,
@@ -328,38 +327,16 @@ function TiltCard({
   onMouseEnter: () => void
   onMouseLeave: () => void
 }) {
-  const cardRef = useRef<HTMLDivElement>(null)
-  const mouseX = useMotionValue(0)
-  const mouseY = useMotionValue(0)
-  const rotateX = useSpring(useTransform(mouseY, [-0.5, 0.5], [8, -8]), { stiffness: 200, damping: 20 })
-  const rotateY = useSpring(useTransform(mouseX, [-0.5, 0.5], [-8, 8]), { stiffness: 200, damping: 20 })
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    const rect = cardRef.current?.getBoundingClientRect()
-    if (!rect) return
-    mouseX.set((e.clientX - rect.left) / rect.width - 0.5)
-    mouseY.set((e.clientY - rect.top) / rect.height - 0.5)
-  }
-
-  const handleMouseLeave = () => {
-    mouseX.set(0)
-    mouseY.set(0)
-    onMouseLeave()
-  }
-
   return (
     <motion.div
-      ref={cardRef}
       initial={{ opacity: 0, y: 30 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      whileHover={{ y: -8, transition: { duration: 0.3 } }}
-      onMouseMove={handleMouseMove}
+      whileHover={{ y: -4, transition: { duration: 0.35 } }}
       onMouseEnter={onMouseEnter}
-      onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformPerspective: 800 }}
-      className={`relative bg-card/80 backdrop-blur-xl rounded-lg p-8 clean-border transition-all duration-300 mobile-transparent-card ${
+      onMouseLeave={onMouseLeave}
+      className={`relative bg-card/80 backdrop-blur-xl rounded-[2rem] p-8 clean-border transition-all duration-500 mobile-transparent-card ${
         isHovered ? 'elevated-shadow' : 'subtle-shadow'
       } ${isPopular ? 'ring-2 ring-accent-orange' : ''}`}
     >

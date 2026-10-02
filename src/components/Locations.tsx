@@ -65,7 +65,7 @@ export function Locations() {
   };
 
   return (
-    <section id="locations" className="relative py-24 bg-card/30">
+    <section id="locations" className="home-editorial-section relative py-24 sm:py-32 bg-card/30">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         {/* Header */}
         <motion.div 
@@ -76,12 +76,12 @@ export function Locations() {
           className="text-center mb-12"
         >
           <div className="inline-flex items-center gap-3 mb-6">
-            <div className="w-3 h-3 bg-accent-blue rounded-full animate-pulse" />
+            <div className="w-8 h-px bg-accent-blue" />
             <span className="text-sm font-semibold text-muted-foreground">{t("locations.badge")}</span>
-            <div className="w-3 h-3 bg-accent-orange rounded-full animate-pulse" />
+            <div className="w-8 h-px bg-accent-orange" />
           </div>
 
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6 text-foreground">
+          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-6 text-foreground">
             {t("locations.title")}
           </h2>
 
@@ -90,7 +90,7 @@ export function Locations() {
 
         {/* Country Tabs */}
         <div className="flex justify-center mb-12">
-          <div className="inline-flex bg-card rounded-full p-1 clean-border mobile-transparent-card">
+          <div className="inline-flex bg-card rounded-full p-1.5 clean-border shadow-sm mobile-transparent-card">
             {(["China", "Thailand"] as Country[]).map((country) => (
               <button
                 key={country}
@@ -129,9 +129,9 @@ export function Locations() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto justify-items-stretch items-stretch"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto justify-items-stretch items-stretch"
             >
-              {currentLocations.map((location) => (
+              {currentLocations.map((location, index) => (
                 <LocationCard
                   key={location.id}
                   location={location}
@@ -139,6 +139,7 @@ export function Locations() {
                   onBookClick={() => scrollToBookingWithLocation(location.id)}
                   onViewDetails={() => navigate(`/location/${location.slug}`)}
                   t={t}
+                  index={index}
                 />
               ))}
               {currentLocations.length === 0 && (
@@ -168,9 +169,10 @@ interface LocationCardProps {
   onBookClick: (locationId: string) => void;
   onViewDetails: () => void;
   t: (key: string) => string;
+  index: number;
 }
 
-function LocationCard({ location, translatedLocation, onBookClick, onViewDetails, t }: LocationCardProps) {
+function LocationCard({ location, translatedLocation, onBookClick, onViewDetails, t, index }: LocationCardProps) {
   const comingSoon = isEffectivelyComingSoon(location);
   const showClosingBadge = !comingSoon && getLocationNotice(location.slug)?.type === "closing";
   return (
@@ -179,20 +181,20 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5 }}
-      whileHover={{ y: -8, transition: { duration: 0.3 } }}
+      whileHover={{ y: -4, transition: { duration: 0.35 } }}
       onClick={onViewDetails}
-      className={`relative h-full w-full flex flex-col bg-card rounded-2xl overflow-hidden clean-border group hover:elevated-shadow transition-all duration-300 mobile-transparent-card cursor-pointer ${
+      className={`relative h-full min-h-[30rem] w-full flex flex-col bg-card rounded-[2rem] overflow-hidden clean-border group hover:elevated-shadow transition-all duration-500 mobile-transparent-card cursor-pointer lg:col-span-2 ${index === 0 ? "lg:col-span-4 lg:flex-row lg:min-h-[28rem]" : ""} ${
         comingSoon ? "opacity-75" : ""
       }`}
     >
       {/* Image */}
-      <div className="relative h-48 shrink-0 overflow-hidden">
+      <div className={`relative h-56 shrink-0 overflow-hidden ${index === 0 ? "lg:h-auto lg:w-3/5" : "lg:h-[55%]"}`}>
         <img
           src={location.image_url || "/placeholder.svg"}
           alt={translatedLocation.Name}
           loading="lazy"
           decoding="async"
-          className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+          className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
 
@@ -222,7 +224,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
               {translatedLocation.City}, {translatedLocation.country}
             </span>
           </div>
-          <h3 className="text-xl font-bold text-white">{translatedLocation.Name}</h3>
+          <h3 className="text-2xl font-bold text-white">{translatedLocation.Name}</h3>
         </div>
       </div>
 
