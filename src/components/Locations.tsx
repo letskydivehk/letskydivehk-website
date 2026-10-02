@@ -129,7 +129,7 @@ export function Locations() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 lg:auto-rows-[16rem] gap-5 max-w-6xl mx-auto justify-items-stretch items-stretch"
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto justify-items-stretch items-stretch"
             >
               {currentLocations.map((location, index) => (
                 <LocationCard
