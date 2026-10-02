@@ -41,25 +41,25 @@ export function ExploreMoreStrip() {
   ];
 
   return (
-    <section aria-label="Explore more" className="py-8 px-4">
+    <section aria-label="Explore more" className="home-explore-nav py-6 sm:py-10 px-4">
       <div className="max-w-6xl mx-auto">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 border-y border-border">
           {cards.map(({ to, icon: Icon, title, sub, accent, iconColor }) => (
             <Link
               key={to}
               to={to}
-              className={`group relative overflow-hidden rounded-lg border border-border bg-gradient-to-br ${accent} backdrop-blur-xl p-4 shadow-sm hover:border-accent-blue/30 hover:shadow-lg hover:-translate-y-0.5 transition-all`}
+              className={`group relative overflow-hidden bg-gradient-to-br ${accent} p-5 sm:p-6 lg:border-r lg:last:border-r-0 border-border hover:bg-card transition-all`}
             >
-              <div className="flex items-center justify-between mb-3">
-                <Icon className={`w-6 h-6 ${iconColor}`} />
-                <ArrowRight className="w-4 h-4 text-foreground/50 group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
+              <div className="flex items-center gap-4">
+                <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-card shadow-sm">
+                  <Icon className={`w-5 h-5 ${iconColor}`} />
+                </div>
+                <div className="min-w-0 flex-1">
+                  <h3 className="text-sm md:text-base font-bold text-foreground leading-snug line-clamp-2">{title}</h3>
+                  {sub && <p className="text-xs text-muted-foreground mt-1 line-clamp-1">{sub}</p>}
+                </div>
+                <ArrowRight className="w-4 h-4 shrink-0 text-muted-foreground group-hover:text-accent-blue group-hover:translate-x-1 transition-all" />
               </div>
-              <h3 className="text-sm md:text-base font-bold text-foreground leading-snug line-clamp-2">
-                {title}
-              </h3>
-              {sub && (
-                <p className="text-xs text-foreground/60 mt-1 line-clamp-1">{sub}</p>
-              )}
             </Link>
           ))}
         </div>

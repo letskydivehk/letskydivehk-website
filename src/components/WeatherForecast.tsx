@@ -192,7 +192,7 @@ export function WeatherForecast() {
   }, []);
 
   return (
-    <section id="weather" className="relative py-20 bg-card/20">
+    <section id="weather" className="home-editorial-section relative py-24 sm:py-32 bg-card/20">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -205,7 +205,7 @@ export function WeatherForecast() {
             <Cloud className="w-6 h-6 text-accent-blue" />
             <span className="text-sm font-semibold text-muted-foreground">{t("weather.updatedDaily")}</span>
           </div>
-          <h2 className="text-4xl sm:text-5xl font-black mb-4 text-foreground">{t("weather.forecastTitle")}</h2>
+          <h2 className="text-4xl sm:text-6xl font-bold mb-4 text-foreground">{t("weather.forecastTitle")}</h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">{t("weather.forecastSubtitle")}</p>
         </motion.div>
 
@@ -263,8 +263,8 @@ export function WeatherForecast() {
             onTouchStart={onTouchStart}
             onTouchEnd={onTouchEnd}
           >
-            <div className="max-w-5xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-6">
-              <div className="bg-card rounded-2xl p-6 clean-border mobile-transparent-card lg:col-span-1">
+            <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-5 gap-6">
+              <div className="bg-card rounded-[2rem] p-6 sm:p-8 clean-border elevated-shadow mobile-transparent-card lg:col-span-2">
                 <div className="flex items-center justify-between mb-4">
                   <h3 className="text-lg font-bold text-foreground flex items-center gap-2">
                     <span className="text-xl">{countryFlag[active.country]}</span>
@@ -372,7 +372,7 @@ export function WeatherForecast() {
                 </a>
               </div>
 
-              <div className="bg-card rounded-2xl overflow-hidden clean-border mobile-transparent-card lg:col-span-2">
+              <div className="bg-card rounded-[2rem] overflow-hidden clean-border mobile-transparent-card lg:col-span-3">
                 <div className="flex gap-1 p-2 border-b border-border/50">
                   {(["wind", "rain"] as const).map((o) => (
                     <button
