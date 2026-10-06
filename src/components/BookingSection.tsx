@@ -1469,7 +1469,7 @@ export function BookingSection() {
                       : "bg-muted text-muted-foreground cursor-not-allowed"
                   }`}
                 >
-                  {t("booking.next")}
+                  {currentStep === "preview" ? t("booking.confirmSpot") : t("booking.next")}
                   <ArrowRight className="w-4 h-4" />
                 </button>
               ) : (
