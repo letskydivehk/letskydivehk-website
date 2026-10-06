@@ -245,7 +245,7 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     // Tour service page steps
     "servicePage.tour.step1.title": "Pick your tour",
     "servicePage.tour.step1.desc": "Choose a destination and date that works for you.",
-    "servicePage.tour.step2.title": "Pay the deposit",
+    "servicePage.tour.step2.title": "Pay deposit to secure your spot",
     "servicePage.tour.step2.desc": "Secure your slot with a $500 HKD deposit.",
     "servicePage.tour.step3.title": "Get your itinerary",
     "servicePage.tour.step3.desc": "We send you the full schedule, packing list and meeting point.",
@@ -349,7 +349,7 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     // Tour service page steps
     "servicePage.tour.step1.title": "選擇行程",
     "servicePage.tour.step1.desc": "揀選適合你的目的地及日期。",
-    "servicePage.tour.step2.title": "支付訂金",
+    "servicePage.tour.step2.title": "繳付訂金鎖定名額",
     "servicePage.tour.step2.desc": "以 $500 HKD 訂金鎖定名額。",
     "servicePage.tour.step3.title": "收取行程表",
     "servicePage.tour.step3.desc": "我們會寄出完整行程、行李清單及集合地點。",
@@ -453,7 +453,7 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     // Tour service page steps
     "servicePage.tour.step1.title": "选择行程",
     "servicePage.tour.step1.desc": "挑选适合你的目的地及日期。",
-    "servicePage.tour.step2.title": "支付订金",
+    "servicePage.tour.step2.title": "缴付订金锁定名额",
     "servicePage.tour.step2.desc": "以 $500 HKD 订金锁定名额。",
     "servicePage.tour.step3.title": "收取行程表",
     "servicePage.tour.step3.desc": "我们会发出完整行程、行李清单及集合地点。",
