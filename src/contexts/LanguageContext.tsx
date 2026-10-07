@@ -3509,12 +3509,12 @@ translations["zh-CN"]["whatsapp.quick.souvenirTshirt"] = "我想订购 Let's Sky
 translations["zh-CN"]["whatsapp.placeholder"] = "输入消息...";
 
 // ===== Sticky Booking Bar =====
-translations.en["sticky.message"] = "Ready to jump? Limited slots available this weekend!";
-translations.en["sticky.messageMobile"] = "Book your jump now!";
-translations["zh-TW"]["sticky.message"] = "準備好飛翔了嗎？本週末名額有限！";
-translations["zh-TW"]["sticky.messageMobile"] = "立即預約！";
-translations["zh-CN"]["sticky.message"] = "准备好飞翔了吗？本周末名额有限！";
-translations["zh-CN"]["sticky.messageMobile"] = "立即预约！";
+translations.en["sticky.message"] = "Ready to jump? Secure your spot with a HKD $500 deposit.";
+translations.en["sticky.messageMobile"] = "Secure your spot!";
+translations["zh-TW"]["sticky.message"] = "準備好飛翔了嗎？HKD $500 訂金即可鎖定名額。";
+translations["zh-TW"]["sticky.messageMobile"] = "立即鎖定名額！";
+translations["zh-CN"]["sticky.message"] = "准备好飞翔了吗？HKD $500 订金即可锁定名额。";
+translations["zh-CN"]["sticky.messageMobile"] = "立即锁定名额！";
 
 // ===== Social Proof Ticker =====
 translations.en["social.booked"] = "{name} just booked a Tandem Skydive! 🪂";

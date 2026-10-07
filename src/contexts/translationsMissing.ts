@@ -72,7 +72,7 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     "safety.pillar4.detail": "Every tandem begins with a clear briefing covering body position, communication, exit and the landing sequence.",
 
     // Member
-    "member.bookNowCta": "Book your jump now →",
+    "member.bookNowCta": "Book Your Spot →",
 
     // Alumni pathway
     "pathway.badge": "After your first jump",
@@ -145,8 +145,8 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     "social.slotsLeft": "Only {count} slots left this Saturday! ⏰",
 
     // Sticky bar
-    "sticky.message": "Ready to fly? Limited slots this weekend!",
-    "sticky.messageMobile": "Book now!",
+    "sticky.message": "Ready to jump? Secure your spot with a HKD $500 deposit.",
+    "sticky.messageMobile": "Secure your spot!",
 
     // Testimonials
     "testimonials.badge": "Jumper stories",
