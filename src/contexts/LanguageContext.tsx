@@ -538,7 +538,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.hero.chip.alumni": "For our skydiver alumni",
     "souvenirs.hero.chip.minOrder": "Order from 1 piece",
     "souvenirs.hero.chip.ship": "Ships from Hong Kong in 7 days",
-    "souvenirs.hero.ctaBanner": "Haven't jumped yet? Book your skydive first",
+    "souvenirs.hero.ctaBanner": "Book a Skydive · Unlock Exclusive Souvenirs",
     "souvenirs.card.jumpCta": "Want your own photo on this magnet? Book your jump →",
     "souvenirs.testimonials.title": "On fridges across Hong Kong",
     "souvenirs.testimonials.subtitle": "Real magnets, real jumpers.",
@@ -1448,7 +1448,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.hero.chip.alumni": "跳傘學員專屬",
     "souvenirs.hero.chip.minOrder": "1 件起訂",
     "souvenirs.hero.chip.ship": "香港寄出．7 日送達",
-    "souvenirs.hero.ctaBanner": "未跳過？先預約你的第一跳",
+    "souvenirs.hero.ctaBanner": "預約跳傘・解鎖專屬紀念品",
     "souvenirs.card.jumpCta": "想把自己的跳傘照片做成磁石？先預約跳傘 →",
     "souvenirs.testimonials.title": "貼在香港家家戶戶的雪櫃上",
     "souvenirs.testimonials.subtitle": "真實磁石．真實跳傘者。",
@@ -2323,7 +2323,7 @@ const translations: Record<Language, Record<string, string>> = {
     "souvenirs.hero.chip.alumni": "跳伞学员专属",
     "souvenirs.hero.chip.minOrder": "1 件起订",
     "souvenirs.hero.chip.ship": "香港寄出．7 日送达",
-    "souvenirs.hero.ctaBanner": "还没跳过？先预约你的第一跳",
+    "souvenirs.hero.ctaBanner": "预约跳伞・解锁专属纪念品",
     "souvenirs.card.jumpCta": "想把自己的跳伞照片做成磁贴？先预约跳伞 →",
     "souvenirs.testimonials.title": "贴在香港家家户户的冰箱上",
     "souvenirs.testimonials.subtitle": "真实磁贴．真实跳伞者。",
@@ -4072,9 +4072,9 @@ translations["zh-CN"]["exit.primary"] = "立即测验";
 translations["zh-CN"]["exit.secondary"] = "下次再说";
 
 // Member profile booking CTA
-translations.en["member.bookNowCta"] = "Book My Skydive Now →";
-translations["zh-TW"]["member.bookNowCta"] = "立即預約跳傘 →";
-translations["zh-CN"]["member.bookNowCta"] = "立即预约跳伞 →";
+translations.en["member.bookNowCta"] = "Book My Spot →";
+translations["zh-TW"]["member.bookNowCta"] = "立即預約名額 →";
+translations["zh-CN"]["member.bookNowCta"] = "立即预约名额 →";
 
 // Location compare page
 translations.en["compare.title"] = "Compare skydive locations";
