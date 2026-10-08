@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { ArrowLeft, Coins, FileText, Loader2, HelpCircle, Plane, GitCompare, ShoppingBag, CalendarDays, Mail, MessageCircle } from "lucide-react";
+import { ArrowLeft, Coins, FileText, Loader2, HelpCircle, Plane, GitCompare, ShoppingBag, CalendarDays, Mail, MessageCircle, ClipboardList } from "lucide-react";
+import { AdminBookingsPanel } from "@/components/admin/AdminBookingsPanel";
 import { useAuth } from "@/contexts/AuthContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { supabase } from "@/integrations/supabase/client";
@@ -72,6 +73,10 @@ export default function AdminCredits() {
 
           <Tabs defaultValue="credits" className="w-full">
             <TabsList className="mb-6 flex flex-wrap h-auto w-full justify-start gap-1">
+              <TabsTrigger value="bookings" className="gap-2">
+                <ClipboardList className="w-4 h-4" />
+                預約管理
+              </TabsTrigger>
               <TabsTrigger value="credits" className="gap-2">
                 <Coins className="w-4 h-4" />
                 {t("admin.title") || "Credits"}
@@ -145,6 +150,10 @@ export default function AdminCredits() {
 
             <TabsContent value="broadcast">
               {isAdmin && <AdminDailyBroadcastPanel />}
+            </TabsContent>
+
+            <TabsContent value="bookings">
+              {isAdmin && <AdminBookingsPanel />}
             </TabsContent>
           </Tabs>
         </div>
