@@ -1276,11 +1276,13 @@ html {
   --home-dial-track: hsl(202 42% 85%);
   letter-spacing: 0;
 }
-.sky-reflection-home.home-opening { background: var(--background); }
+.sky-reflection-home.home-opening { background: var(--background); isolation: auto; }
 .sky-reflection-home .home-opening-visual { transform-origin: 50% 30%; box-shadow: var(--home-cinema-shadow); }
-.sky-reflection-home.home-nav-scope { position: static; }
+.sky-reflection-home.home-nav-scope { position: fixed; inset: 0; z-index: 105; pointer-events: none; background: none; }
+.sky-reflection-home.home-nav-scope::before { display: none; }
 .sky-reflection-home .home-floating-nav {
   position: fixed; top: 88px; left: 50%; translate: -50% 0; z-index: 105;
+  pointer-events: auto;
   display: flex; align-items: center; gap: 4px; padding: 7px;
   max-width: calc(100% - 24px); border-radius: 999px;
   background: var(--home-glass); border: 1px solid var(--border);

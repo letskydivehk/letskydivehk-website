@@ -123,12 +123,12 @@ export default function Home() {
           <Contact />
         </LazySection>
         </div>
+        <div className="sky-reflection-home home-nav-scope"><SectionNav /></div>
       </main>
       <div className="sky-reflection-home">
         <Footer />
       </div>
       <BackToTopButton />
-      <div className="sky-reflection-home home-nav-scope"><SectionNav /></div>
       <MobileTabBar />
     </div>
   );
