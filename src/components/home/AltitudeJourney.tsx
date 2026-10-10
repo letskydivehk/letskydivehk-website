@@ -15,7 +15,7 @@ const altitudes = [14000, 8000, 4000, 0];
 function JourneyImage({ index, progress, title }: { index: number; progress: MotionValue<number>; title: string }) {
   const opacity = useTransform(progress, (p) => {
     const position = p * 3;
-    return Math.max(0, 1 - Math.abs(position - index));
+    return Math.max(0, Math.min(1, (0.6 - Math.abs(position - index)) / 0.2));
   });
   const scale = useTransform(progress, [0, 1], [1.04, 1]);
   return <motion.img src={images[index]} alt={title} loading="lazy" width={1536} height={1024}
