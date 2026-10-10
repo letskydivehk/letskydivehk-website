@@ -1294,6 +1294,7 @@ html:has(.home-opening), body:has(.home-opening) { overflow-x: clip !important; 
 .sky-reflection-home .home-nav-book { border-radius: 999px; font-size: 13px; }
 .sky-reflection-home [id] { scroll-margin-top: 160px; }
 .sky-reflection-home .home-altitude-journey { padding: 64px 24px; }
+.sky-reflection-home .home-altitude-journey, .sky-reflection-home .home-locations-section { overflow: visible; }
 .sky-reflection-home .home-altitude-journey.is-cinematic { height: 320svh; padding: 0 24px; }
 .sky-reflection-home .home-journey-sticky { max-width: 1200px; margin: auto; }
 .sky-reflection-home .is-cinematic .home-journey-sticky { position: sticky; top: 0; height: 100svh; padding: 160px 0 28px; display: flex; flex-direction: column; justify-content: center; }
