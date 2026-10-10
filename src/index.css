@@ -1268,6 +1268,7 @@ html {
 }
 
 /* Cinematic homepage: native scroll, isolated visual tokens. */
+html:has(.home-opening), body:has(.home-opening) { overflow-x: clip !important; }
 .sky-reflection-home {
   --home-glass: hsl(0 0% 100% / 0.88);
   --home-photo-shade: linear-gradient(180deg, transparent 35%, hsl(211 48% 8% / 0.85));

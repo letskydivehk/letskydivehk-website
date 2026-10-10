@@ -48,7 +48,8 @@ function AnimatedRoutes() {
     </Routes>
   );
 
-  if (reduce) return routes;
+  // A transformed route wrapper captures fixed navigation and breaks sticky scenes.
+  if (reduce || location.pathname === "/") return routes;
 
   return (
     <AnimatePresence mode="wait" initial={false}>
