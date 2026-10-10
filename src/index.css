@@ -1267,6 +1267,118 @@ html {
   }
 }
 
+/* Cinematic homepage: native scroll, isolated visual tokens. */
+.sky-reflection-home {
+  --home-glass: hsl(0 0% 100% / 0.88);
+  --home-photo-shade: linear-gradient(180deg, transparent 35%, hsl(211 48% 8% / 0.85));
+  --home-cinema-shadow: 0 20px 60px -28px hsl(211 48% 16% / 0.32);
+  --home-nav-shadow: 0 8px 28px -12px hsl(211 48% 16% / 0.22);
+  --home-dial-track: hsl(202 42% 85%);
+  letter-spacing: 0;
+}
+.sky-reflection-home.home-opening { background: var(--background); }
+.sky-reflection-home .home-opening-visual { transform-origin: 50% 30%; box-shadow: var(--home-cinema-shadow); }
+.sky-reflection-home.home-nav-scope { position: static; }
+.sky-reflection-home .home-floating-nav {
+  position: fixed; top: 88px; left: 50%; translate: -50% 0; z-index: 105;
+  display: flex; align-items: center; gap: 4px; padding: 7px;
+  max-width: calc(100% - 24px); border-radius: 999px;
+  background: var(--home-glass); border: 1px solid var(--border);
+  backdrop-filter: blur(20px); box-shadow: var(--home-nav-shadow);
+}
+.sky-reflection-home .home-nav-item { border-radius: 999px; color: var(--muted-foreground); font-size: 13px; }
+.sky-reflection-home .home-nav-item.is-active { background: var(--muted); color: var(--foreground); }
+.sky-reflection-home .home-nav-book { border-radius: 999px; font-size: 13px; }
+.sky-reflection-home [id] { scroll-margin-top: 160px; }
+.sky-reflection-home .home-altitude-journey { padding: 64px 24px; }
+.sky-reflection-home .home-altitude-journey.is-cinematic { height: 320svh; padding: 0 24px; }
+.sky-reflection-home .home-journey-sticky { max-width: 1200px; margin: auto; }
+.sky-reflection-home .is-cinematic .home-journey-sticky { position: sticky; top: 0; height: 100svh; padding: 160px 0 28px; display: flex; flex-direction: column; justify-content: center; }
+.sky-reflection-home .home-journey-heading { max-width: 900px; margin-bottom: 28px; }
+.sky-reflection-home .home-journey-scene { display: grid; grid-template-columns: minmax(240px, 0.7fr) minmax(0, 1.6fr); gap: 40px; align-items: center; min-height: 0; }
+.sky-reflection-home .home-altimeter { display: flex; flex-direction: column; gap: 20px; align-items: center; }
+.sky-reflection-home .home-altimeter-dial { width: 216px; aspect-ratio: 1; position: relative; }
+.sky-reflection-home .home-dial-svg { width: 100%; height: 100%; rotate: -90deg; }
+.sky-reflection-home .home-dial-track { fill: none; stroke: var(--home-dial-track); stroke-width: 3; }
+.sky-reflection-home .home-dial-progress { fill: none; stroke: var(--accent-blue); stroke-width: 4; stroke-linecap: round; }
+.sky-reflection-home .home-dial-tick { stroke: var(--muted-foreground); stroke-width: 1; }
+.sky-reflection-home .home-dial-reading { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 8px; }
+.sky-reflection-home .home-altitude-number { font-size: 40px; font-weight: 700; font-variant-numeric: tabular-nums; line-height: 1; }
+.sky-reflection-home .home-stage-copy { min-height: 160px; width: 100%; max-width: 310px; }
+.sky-reflection-home .home-journey-visual { position: relative; aspect-ratio: 3 / 2; max-height: 50svh; overflow: hidden; border-radius: 8px; box-shadow: var(--home-cinema-shadow); }
+.sky-reflection-home .home-journey-image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.sky-reflection-home .home-journey-stage-controls { position: absolute; bottom: 16px; right: 16px; display: flex; gap: 8px; }
+.sky-reflection-home .home-stage-button { background: var(--home-glass); color: var(--foreground); border-radius: 50%; }
+.sky-reflection-home .home-stage-button.is-active { background: var(--accent-blue); color: var(--accent-foreground); }
+.sky-reflection-home .home-journey-footer { display: flex; justify-content: space-between; align-items: center; gap: 16px; margin-top: 24px; }
+.sky-reflection-home .home-journey-linear-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+.sky-reflection-home .home-journey-linear-step img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; border-radius: 8px; }
+.sky-reflection-home .home-location-sticky { padding: 80px 0 40px; }
+.sky-reflection-home .home-location-scroll.is-cinematic .home-location-sticky { position: sticky; top: 0; height: 100svh; padding-top: 160px; display: flex; flex-direction: column; justify-content: center; }
+.sky-reflection-home .home-location-heading { padding: 0 24px; }
+.sky-reflection-home .home-location-viewport { width: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; position: relative; }
+.sky-reflection-home .is-cinematic .home-location-viewport { overflow: hidden; }
+.sky-reflection-home .home-location-track { display: flex; gap: 24px; padding: 0 max(24px, calc((100% - 1152px) / 2)); width: max-content; min-width: 100%; align-items: stretch; }
+.sky-reflection-home .home-location-poster { width: 460px; flex: 0 0 460px; border-radius: 8px; scroll-snap-align: center; }
+.sky-reflection-home .home-location-photo { height: 260px; }
+.sky-reflection-home .home-photo-shade { background: var(--home-photo-shade); }
+.sky-reflection-home .home-location-copy { min-height: 220px; }
+.sky-reflection-home .home-location-description { font-size: 14px; }
+.sky-reflection-home .home-location-controls { display: flex; justify-content: space-between; align-items: center; max-width: 1152px; width: calc(100% - 48px); margin: 20px auto 0; }
+.sky-reflection-home .home-safety-statements { max-width: 960px; margin-left: auto; margin-right: auto; }
+.sky-reflection-home .home-safety-statement { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: 40px; border-top: 1px solid var(--border); padding: 48px 0; }
+.sky-reflection-home .home-safety-icon { width: 72px; height: 72px; border-radius: 50%; }
+.sky-reflection-home .home-safety-copy { max-width: 700px; }
+.sky-reflection-home .home-safety-copy p { font-size: 16px; }
+@media (min-width: 1024px) and (max-height: 950px) {
+  .sky-reflection-home .is-cinematic .home-journey-sticky { padding-top: 145px; }
+  .sky-reflection-home .home-journey-heading { margin-bottom: 18px; }
+  .sky-reflection-home .home-journey-heading h2 { font-size: 32px; }
+  .sky-reflection-home .home-location-scroll.is-cinematic .home-location-sticky { padding-top: 145px; }
+  .sky-reflection-home .home-location-photo { height: 200px; }
+  .sky-reflection-home .home-location-copy { min-height: 200px; padding: 16px; }
+}
+@media (max-width: 1023px) {
+  .sky-reflection-home .home-floating-nav { top: 82px; padding: 5px; gap: 0; }
+  .sky-reflection-home .home-nav-item { padding: 0 10px; }
+  .sky-reflection-home .home-nav-item svg { display: none; }
+  .sky-reflection-home .home-nav-book { display: none; }
+  .sky-reflection-home .home-location-poster { width: 360px; flex-basis: 360px; }
+}
+@media (max-width: 639px) {
+  .sky-reflection-home .home-altitude-journey { padding-left: 20px; padding-right: 20px; }
+  .sky-reflection-home .home-altitude-journey.is-cinematic { height: 270svh; }
+  .sky-reflection-home .is-cinematic .home-journey-sticky { padding-top: 140px; padding-bottom: 20px; }
+  .sky-reflection-home .home-journey-heading { margin-bottom: 16px; }
+  .sky-reflection-home .home-journey-heading h2 { font-size: 24px; }
+  .sky-reflection-home .home-journey-heading > p:last-child { font-size: 14px; }
+  .sky-reflection-home .home-journey-scene { display: flex; flex-direction: column-reverse; gap: 16px; }
+  .sky-reflection-home .home-journey-visual { width: 100%; aspect-ratio: 16 / 9; max-height: 28svh; }
+  .sky-reflection-home .home-altimeter { flex-direction: row; width: 100%; gap: 16px; }
+  .sky-reflection-home .home-altimeter-dial { width: 104px; flex: 0 0 104px; }
+  .sky-reflection-home .home-altitude-number { font-size: 22px; }
+  .sky-reflection-home .home-dial-reading { gap: 4px; }
+  .sky-reflection-home .home-dial-reading > span:first-child { font-size: 9px; }
+  .sky-reflection-home .home-stage-copy { min-height: 130px; flex: 1; }
+  .sky-reflection-home .home-stage-copy h3 { font-size: 18px; }
+  .sky-reflection-home .home-stage-copy p { font-size: 13px; }
+  .sky-reflection-home .home-journey-footer { margin-top: 12px; align-items: flex-start; flex-direction: column; gap: 4px; }
+  .sky-reflection-home .home-journey-footer > p { font-size: 10px; }
+  .sky-reflection-home .home-journey-footer > button { padding-left: 0; font-size: 12px; height: 30px; }
+  .sky-reflection-home .home-journey-stage-controls { bottom: 10px; right: 10px; gap: 6px; }
+  .sky-reflection-home .home-stage-button { width: 30px; height: 30px; font-size: 11px; }
+  .sky-reflection-home .home-journey-linear-grid { grid-template-columns: minmax(0, 1fr); }
+  .sky-reflection-home .home-location-poster { width: min(340px, calc(100vw - 48px)); flex-basis: min(340px, calc(100vw - 48px)); }
+  .sky-reflection-home .home-location-photo { height: 220px; }
+  .sky-reflection-home .home-location-copy { min-height: 240px; }
+  .sky-reflection-home .home-safety-statement { grid-template-columns: 40px minmax(0, 1fr); gap: 16px; padding: 32px 0; }
+  .sky-reflection-home .home-safety-icon { width: 40px; height: 40px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:has(.home-opening) { scroll-behavior: auto; }
+  .sky-reflection-home .home-safety-statement { opacity: 1 !important; transform: none !important; }
+}
+
 /* iOS safe-area helpers */
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
 .safe-top { padding-top: env(safe-area-inset-top); }
