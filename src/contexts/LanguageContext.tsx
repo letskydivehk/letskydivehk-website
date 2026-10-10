@@ -4,6 +4,7 @@ import { missingTranslations } from "@/contexts/translationsMissing";
 import { departureTranslations } from "@/contexts/translationsDepartures";
 import { newsletterTranslations } from "@/contexts/translationsNewsletter";
 import { broadcastTranslations } from "@/contexts/translationsBroadcast";
+import { scrollTranslations } from "@/contexts/translationsScroll";
 
 export type Language = "en" | "zh-TW" | "zh-CN";
 
@@ -4139,6 +4140,10 @@ translations["zh-CN"]["compare.metaTitle"] = "比较跳伞地点 | Let's Skydive
 });
 
 
+
+(Object.keys(scrollTranslations) as Language[]).forEach((lang) => {
+  Object.assign(translations[lang], scrollTranslations[lang]);
+});
 
 // Dev-only parity check so the three languages never drift apart again.
 if (import.meta.env.DEV) {

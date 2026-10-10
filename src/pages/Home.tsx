@@ -13,7 +13,6 @@ import { Footer } from "@/components/Footer";
 import { SEO } from "@/components/SEO";
 import { OrganizationJsonLd } from "@/components/JsonLd";
 import { useLanguage } from "@/contexts/LanguageContext";
-import { StickyBookingBar } from "@/components/StickyBookingBar";
 import { SocialProofTicker } from "@/components/SocialProofTicker";
 import { CountdownTimer } from "@/components/CountdownTimer";
 import { BackToTopButton } from "@/components/BackToTopButton";
@@ -27,6 +26,7 @@ import { JumpDayStrip } from "@/components/home/JumpDayStrip";
 import { NextDepartureBanner } from "@/components/home/NextDepartureBanner";
 import { TrustBar } from "@/components/TrustBar";
 import { EligibilityChips } from "@/components/EligibilityChips";
+import { AltitudeJourney } from "@/components/home/AltitudeJourney";
 
 export default function Home() {
   const { t } = useLanguage();
@@ -36,7 +36,7 @@ export default function Home() {
       <SEO path="/" />
       <OrganizationJsonLd />
       <main className="relative z-10" role="main">
-        <section id="hero" aria-label="Hero section">
+        <section id="hero" className="sky-reflection-home home-opening" aria-label="Hero section">
           <Hero />
         </section>
 
@@ -82,10 +82,10 @@ export default function Home() {
         {/* Compact click-through strip — replaces Quiz / Referral / Rewards / Souvenir full sections */}
         <ExploreMoreStrip />
 
+        <AltitudeJourney />
+
         {/* Primary path: locations → services → book */}
-        <section id="locations" aria-label="Locations section">
-          <Locations />
-        </section>
+        <Locations />
         <section id="services" aria-label="Services section">
           <Services />
         </section>
@@ -109,7 +109,7 @@ export default function Home() {
         </LazySection>
 
         {/* Deep-content anchors kept mounted so strip cards can scroll to them */}
-        <LazySection minHeight={400} id="safety" aria-label="Safety section">
+        <LazySection minHeight={400} aria-label="Safety section">
           <SafetySection />
         </LazySection>
         <LazySection minHeight={400} id="timeline" aria-label="Jump day timeline section">
@@ -123,13 +123,12 @@ export default function Home() {
           <Contact />
         </LazySection>
         </div>
+        <div className="sky-reflection-home home-nav-scope"><SectionNav /></div>
       </main>
       <div className="sky-reflection-home">
         <Footer />
       </div>
-      <StickyBookingBar />
       <BackToTopButton />
-      <SectionNav />
       <MobileTabBar />
     </div>
   );

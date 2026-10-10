@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { MapPin, Users, GraduationCap, Eye } from "lucide-react";
 import { CardGridSkeleton } from "./skeletons/CardSkeleton";
 
@@ -11,6 +11,8 @@ import { useBooking } from "@/contexts/BookingContext";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 import { getLocationNotice, isEffectivelyComingSoon } from "@/data/locationNotices";
+import { Button } from "@/components/ui/button";
+import { HorizontalLocationTrack } from "@/components/home/HorizontalLocationTrack";
 
 type Country = "Thailand" | "China";
 
@@ -65,47 +67,48 @@ export function Locations() {
   };
 
   return (
-    <section id="locations" className="home-editorial-section relative py-24 sm:py-32 bg-card/30">
-      <div className="container mx-auto px-6 sm:px-8 lg:px-12">
+    <section id="locations" className="home-editorial-section home-locations-section relative">
+      <HorizontalLocationTrack key={activeCountry} country={activeCountry} count={currentLocations.length} heading={<div className="home-location-heading">
         {/* Header */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-5"
         >
-          <div className="inline-flex items-center gap-3 mb-6">
+          <div className="inline-flex items-center gap-3 mb-3">
             <div className="w-8 h-px bg-accent-blue" />
             <span className="text-sm font-semibold text-muted-foreground">{t("locations.badge")}</span>
             <div className="w-8 h-px bg-accent-orange" />
           </div>
 
-          <h2 className="text-4xl sm:text-6xl lg:text-7xl font-bold leading-tight mb-6 text-foreground">
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight mb-3 text-foreground">
             {t("locations.title")}
           </h2>
 
-          <p className="text-xl text-muted-foreground leading-relaxed max-w-3xl mx-auto">{t("locations.subtitle")}</p>
+          <p className="text-base text-muted-foreground leading-relaxed max-w-3xl mx-auto">{t("locations.subtitle")}</p>
         </motion.div>
 
         {/* Country Tabs */}
-        <div className="flex justify-center mb-12">
+        <div className="flex justify-center mb-5">
           <div className="inline-flex bg-card rounded-full p-1.5 clean-border shadow-sm mobile-transparent-card">
             {(["China", "Thailand"] as Country[]).map((country) => (
-              <button
+              <Button variant="ghost" aria-pressed={activeCountry === country}
                 key={country}
                 onClick={() => setActiveCountry(country)}
                 className={`px-8 py-3 rounded-full font-semibold transition-all duration-300 cursor-pointer ${
                   activeCountry === country
-                    ? "bg-accent-orange text-white"
+                     ? "bg-accent-orange text-accent-foreground hover:bg-accent-orange/90"
                     : "text-muted-foreground hover:text-foreground"
                 }`}
               >
                 {country === "Thailand" ? t("locations.thailand") : t("locations.china")}
-              </button>
+              </Button>
             ))}
           </div>
         </div>
+      </div>}>
 
         {/* Loading State */}
         {isLoading && (
@@ -122,15 +125,7 @@ export function Locations() {
 
         {/* Locations Grid */}
         {!isLoading && !error && (
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeCountry}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 max-w-6xl mx-auto justify-items-stretch items-stretch"
-            >
+          <>
               {currentLocations.map((location, index) => (
                 <LocationCard
                   key={location.id}
@@ -147,10 +142,9 @@ export function Locations() {
                   <p className="text-muted-foreground">No locations available in {activeCountry} yet.</p>
                 </div>
               )}
-            </motion.div>
-          </AnimatePresence>
+          </>
         )}
-      </div>
+      </HorizontalLocationTrack>
     </section>
 
   );
@@ -182,13 +176,12 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
       viewport={{ once: true, margin: "-50px" }}
       transition={{ duration: 0.5 }}
       whileHover={{ y: -4, transition: { duration: 0.35 } }}
-      onClick={onViewDetails}
-      className={`relative h-full min-h-[30rem] w-full flex flex-col bg-card rounded-[2rem] overflow-hidden clean-border group hover:elevated-shadow transition-all duration-500 mobile-transparent-card cursor-pointer lg:col-span-2 ${index === 0 ? "lg:col-span-4 lg:flex-row lg:min-h-[28rem]" : ""} ${
+      className={`home-location-poster relative flex flex-col bg-card overflow-hidden clean-border group transition-all duration-500 ${
         comingSoon ? "opacity-75" : ""
       }`}
     >
       {/* Image */}
-      <div className={`relative h-56 shrink-0 overflow-hidden ${index === 0 ? "lg:h-auto lg:w-3/5" : "lg:h-[55%]"}`}>
+      <div className="home-location-photo relative shrink-0 overflow-hidden">
         <img
           src={location.image_url || "/placeholder.svg"}
           alt={translatedLocation.Name}
@@ -196,12 +189,12 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
           decoding="async"
           className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+        <div className="home-photo-shade absolute inset-0" />
 
         {/* Coming Soon Badge */}
         {comingSoon && (
           <div className="absolute top-4 right-4">
-            <span className="bg-accent-blue text-white text-xs font-bold px-3 py-1 rounded-full">
+            <span className="bg-accent-blue text-accent-foreground text-xs font-bold px-3 py-1 rounded-full">
               {t("common.comingSoon").toUpperCase()}
             </span>
           </div>
@@ -210,7 +203,7 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
         {/* Closing Soon Badge */}
         {showClosingBadge && (
           <div className="absolute top-4 right-4">
-            <span className="bg-accent-orange text-white text-xs font-bold px-3 py-1 rounded-full shadow-lg">
+            <span className="bg-accent-orange text-accent-foreground text-xs font-bold px-3 py-1 rounded-full shadow-lg">
               {t("location.closing.badge").toUpperCase()}
             </span>
           </div>
@@ -218,27 +211,27 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
 
         {/* Location Name Overlay */}
         <div className="absolute bottom-4 left-4 right-4">
-          <div className="flex items-center gap-2 text-white/80 text-sm mb-1">
+          <div className="flex items-center gap-2 text-accent-foreground text-sm mb-1">
             <MapPin className="w-4 h-4" />
             <span>
               {translatedLocation.City}, {translatedLocation.country}
             </span>
           </div>
-          <h3 className="text-2xl font-bold text-white">{translatedLocation.Name}</h3>
+          <h3 className="text-2xl font-bold text-accent-foreground">{translatedLocation.Name}</h3>
         </div>
       </div>
 
       {/* Content */}
-      <div className="p-6 flex flex-col flex-1">
+      <div className="home-location-copy p-5 flex flex-col flex-1">
         {showClosingBadge && (
           <div className="mb-3 px-3 py-2 rounded-lg bg-accent-orange/10 border border-accent-orange/30 text-accent-orange text-xs font-semibold">
             {t("location.closing.lastJumps")}
           </div>
         )}
-        <p className="text-muted-foreground mb-4 leading-relaxed">{translatedLocation.description}</p>
+        <p className="home-location-description text-muted-foreground mb-4 leading-relaxed">{translatedLocation.description}</p>
 
         {/* Features */}
-        <div className="flex flex-wrap gap-2 mb-6 mt-auto">
+        <div className="flex flex-wrap gap-2 mb-4 mt-auto">
           <span className="inline-flex items-center gap-1 text-xs font-medium bg-accent-orange/10 text-accent-orange px-3 py-1 rounded-full">
             <Users className="w-3 h-3" />
             {t("locations.tandem")}
@@ -260,24 +253,24 @@ function LocationCard({ location, translatedLocation, onBookClick, onViewDetails
         {/* CTAs */}
         {!comingSoon ? (
           <div className="flex gap-3">
-            <button
+            <Button
               onClick={(e) => {
                 e.stopPropagation();
                 onViewDetails();
               }}
-              className="flex-1 py-3 bg-accent-orange text-white font-semibold rounded-lg hover:bg-accent-orange/90 transition-colors cursor-pointer flex items-center justify-center gap-2"
+              className="flex-1 bg-accent-orange text-accent-foreground font-semibold hover:bg-accent-orange/90"
             >
               <Eye className="w-4 h-4" />
               {t("locations.viewDetails")}
-            </button>
+            </Button>
           </div>
         ) : (
-          <button
+          <Button
             disabled
             className="w-full py-3 bg-muted text-muted-foreground font-semibold rounded-lg cursor-not-allowed"
           >
             {t("common.comingSoon")}
-          </button>
+          </Button>
         )}
       </div>
     </motion.div>

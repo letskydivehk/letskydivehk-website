@@ -10,6 +10,7 @@ import { VideoModal } from './VideoModal';
 import heroSkydiverVideo from '@/assets/hero-skydiver.mp4.asset.json';
 import heroSkydiverVideo2 from '@/assets/hero-skydiver-2.mp4.asset.json';
 import heroSkydiverVideo3 from '@/assets/hero-skydiver-3.mp4.asset.json';
+import { useCinematicScroll } from '@/hooks/useCinematicScroll';
 
 const HERO_CLIPS = [heroSkydiverVideo.url, heroSkydiverVideo2.url, heroSkydiverVideo3.url];
 
@@ -27,7 +28,10 @@ export function Hero() {
   const videoRefs = [useRef<HTMLVideoElement>(null), useRef<HTMLVideoElement>(null)] as const;
   const heroRef = useRef<HTMLDivElement>(null);
   const { scrollY } = useScroll();
-  const bgY = useTransform(scrollY, [0, 800], [0, 300]);
+  const cinematic = useCinematicScroll();
+  const openingScale = useTransform(scrollY, [0, 600], [1, 0.92]);
+  const openingRadius = useTransform(scrollY, [0, 600], [0, 32]);
+  const bgY = useTransform(scrollY, [0, 800], [0, 60]);
   const overlayOpacity = useTransform(scrollY, [0, 600], [0.4, 0.8]);
   const contentY = useTransform(scrollY, [0, 500], [0, 100]);
   const contentOpacity = useTransform(scrollY, [0, 400], [1, 0]);
@@ -130,8 +134,8 @@ export function Hero() {
     <div ref={heroRef} className="relative h-screen w-full overflow-hidden">
       {/* Parallax Background: skydiver video (with poster fallback) */}
       <motion.div
-        className="absolute inset-0 scale-110"
-        style={{ y: bgY }}
+        className="home-opening-visual absolute inset-0 overflow-hidden"
+        style={cinematic ? { y: bgY, scale: openingScale, borderRadius: openingRadius } : undefined}
       >
         {prefersReducedMotion ? (
           <img
@@ -323,7 +327,7 @@ export function Hero() {
       </motion.div>
 
       {/* Hero Content with Parallax */}
-      <motion.div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6" style={{ y: contentY, opacity: contentOpacity }}>
+      <motion.div className="relative z-10 h-full flex flex-col items-center justify-center text-center px-6" style={cinematic ? { y: contentY, opacity: contentOpacity, scale: openingScale } : undefined}>
         <motion.div initial={{
           opacity: 0,
           y: 30

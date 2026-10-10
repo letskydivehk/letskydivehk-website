@@ -1,8 +1,17 @@
-import { useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
+import { useRef, useState } from "react";
+import { AnimatePresence, motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ShieldCheck, Layers, CloudSun, BookOpenCheck, ArrowRight, ChevronDown } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLanguage } from "@/contexts/LanguageContext";
+
+function SafetyStatement({ children }: { children: React.ReactNode }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const reducedMotion = useReducedMotion();
+  const { scrollYProgress } = useScroll({ target: ref, offset: ["start 85%", "start 45%"] });
+  const opacity = useTransform(scrollYProgress, [0, 1], [0.45, 1]);
+  const y = useTransform(scrollYProgress, [0, 1], [16, 0]);
+  return <motion.div ref={ref} style={reducedMotion ? undefined : { opacity, y }} className="home-safety-statement">{children}</motion.div>;
+}
 
 export function SafetySection() {
   const { t } = useLanguage();
@@ -19,7 +28,7 @@ export function SafetySection() {
   };
 
   return (
-    <section id="safety" className="relative py-20 sm:py-24 bg-background">
+    <section id="safety" className="home-safety-section relative py-20 sm:py-24 bg-background">
       <div className="container mx-auto px-6 sm:px-8 lg:px-12">
         <div className="text-center max-w-3xl mx-auto mb-14">
           <span className="inline-block bg-accent-orange/10 text-accent-orange text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-4">
@@ -33,20 +42,15 @@ export function SafetySection() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-10">
+        <div className="home-safety-statements mb-10">
           {pillars.map(({ icon: Icon, title, body }, i) => (
-            <motion.div
-              key={title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: i * 0.08 }}
-              className="bg-card border border-border rounded-lg p-6 mobile-transparent-card"
-            >
-              <div className="w-11 h-11 rounded-xl bg-accent-orange/10 text-accent-orange flex items-center justify-center mb-4">
+            <SafetyStatement key={title}>
+              <div className="home-safety-icon bg-accent-blue/10 text-accent-blue flex items-center justify-center">
                 <Icon className="w-5 h-5" />
               </div>
-              <h3 className="font-bold text-lg mb-2 text-foreground">{t(title)}</h3>
+              <div className="home-safety-copy">
+              <p className="text-accent-blue text-xs font-semibold mb-3">0{i + 1}</p>
+              <h3 className="font-bold text-2xl sm:text-3xl lg:text-4xl mb-4 text-foreground">{t(title)}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{t(body)}</p>
               <Button
                 type="button"
@@ -73,7 +77,8 @@ export function SafetySection() {
                   </motion.div>
                 )}
               </AnimatePresence>
-            </motion.div>
+              </div>
+            </SafetyStatement>
           ))}
         </div>
 
