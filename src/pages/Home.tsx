@@ -109,7 +109,7 @@ export default function Home() {
         </LazySection>
 
         {/* Deep-content anchors kept mounted so strip cards can scroll to them */}
-        <LazySection minHeight={400} aria-label="Safety section">
+        <LazySection minHeight={400} id="safety" aria-label="Safety section">
           <SafetySection />
         </LazySection>
         <LazySection minHeight={400} id="timeline" aria-label="Jump day timeline section">
