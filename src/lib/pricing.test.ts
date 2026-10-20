@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect } from 'bun:test'
 import { markupOriginal, originalPriceDisplay } from './pricing'
 describe('markup original price', () => {
   it('adds 20% and rounds up to next 99', () => {
