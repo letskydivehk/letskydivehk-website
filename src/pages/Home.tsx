@@ -1,3 +1,4 @@
+import { LeapClubTeaser } from "@/components/leap/LeapClubStatus";
 import { Link } from "react-router-dom";
 import { ChevronRight } from "lucide-react";
 import { Hero } from "@/components/Hero";
@@ -89,6 +90,7 @@ export default function Home() {
         <section id="services" aria-label="Services section">
           <Services />
         </section>
+        <LeapClubTeaser />
         <section id="booking" aria-label="Booking section">
           <BookingSection />
         </section>

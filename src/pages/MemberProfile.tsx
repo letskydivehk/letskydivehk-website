@@ -1,3 +1,4 @@
+import { LeapClubStatus } from "@/components/leap/LeapClubStatus";
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -638,6 +639,8 @@ export default function MemberProfile() {
                   )}
                 </CardContent>
               </Card>
+
+              <LeapClubStatus totalJumps={(profile as any)?.total_jumps || 0} />
 
               {/* Magnet showcase */}
               <MagnetShowcase totalJumps={(profile as any)?.total_jumps || 0} />
