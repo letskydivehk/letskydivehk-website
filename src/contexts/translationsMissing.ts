@@ -213,6 +213,7 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
 
     // Pricing / credits
     "pricing.off": "OFF",
+    "pricing.onSale": "On Sale",
     "credits.label": "Credit",
 
     // Souvenirs
@@ -317,6 +318,7 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
 
     // Pricing / credits
     "pricing.off": "折扣",
+    "pricing.onSale": "減價中",
     "credits.label": "積分",
 
     // Souvenirs
@@ -421,6 +423,7 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
 
     // Pricing / credits
     "pricing.off": "折扣",
+    "pricing.onSale": "减价中",
     "credits.label": "积分",
 
     // Souvenirs
