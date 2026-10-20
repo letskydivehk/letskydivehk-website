@@ -1,3 +1,4 @@
+import { withMarkupOriginal } from '@/lib/pricing'
 import { useQuery } from '@tanstack/react-query'
 import { supabase } from '@/integrations/supabase/client'
 
@@ -67,7 +68,7 @@ export function useLocationServices(locationId?: string) {
       const { data, error } = await query
 
       if (error) throw error
-      return data as unknown as LocationService[]
+      return (data as unknown as LocationService[]).map(withMarkupOriginal)
     },
     enabled: locationId !== undefined
   })
@@ -83,7 +84,7 @@ export function useAllLocationServices() {
         .order('display_order', { ascending: true })
 
       if (error) throw error
-      return data as unknown as LocationService[]
+      return (data as unknown as LocationService[]).map(withMarkupOriginal)
     },
     staleTime: 1000 * 60 * 10, // 10 minutes - services rarely change
   })

@@ -1,3 +1,4 @@
+import { originalPriceDisplay } from '@/lib/pricing'
 "use client";
 
 import { useState, useMemo, useEffect, useRef } from "react";
@@ -907,12 +908,11 @@ export function BookingSection() {
                                 {(() => {
                                   const cleaned = service.price_display?.replace(/[^0-9.]/g, '') || ''
                                   const current = parseFloat(cleaned)
-                                  if (service.service_type === 'tandem' && Number.isFinite(current) && current > 0) {
-                                    const original = Math.round(current * 1.25)
-                                    const prefix = service.price_display.match(/^[^\d]+/)?.[0] || '$'
+                                  const orig = originalPriceDisplay(service.price_display)
+                                  if (orig && Number.isFinite(current) && current > 0) {
                                     return (
                                       <div className="flex items-baseline gap-2 mb-2">
-                                        <span className="text-sm text-muted-foreground line-through">{prefix}{original.toLocaleString()}</span>
+                                        <span className="text-sm text-muted-foreground line-through">{orig}</span>
                                         <span className="text-2xl font-black text-foreground">{service.price_display}</span>
                                         <span className="text-[10px] font-bold bg-accent-orange text-white px-1.5 py-0.5 rounded">{t('pricing.off')}</span>
                                       </div>

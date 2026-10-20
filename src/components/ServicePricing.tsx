@@ -136,7 +136,7 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
                       <span className="text-sm text-foreground font-medium flex-1">
                         {translateData(`service.${service.service_name}`, service.service_name)}
                       </span>
-                      {service.service_type === 'tandem' ? (
+                      {service.original_price_display ? (
                         <TandemPriceDisplay priceDisplay={service.price_display} originalPriceDisplay={service.original_price_display} offLabel={t('pricing.off')} />
                       ) : (
                         <span className="text-lg font-bold text-accent-orange whitespace-nowrap">{translateData(`price.${service.price_display}`, service.price_display)}</span>

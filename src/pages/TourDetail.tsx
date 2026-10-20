@@ -1,3 +1,4 @@
+import { withMarkupOriginal } from "@/lib/pricing";
 import { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -27,7 +28,7 @@ function useTourService(serviceId?: string) {
         .eq("id", serviceId!)
         .maybeSingle();
       if (error) throw error;
-      return data as unknown as LocationService | null;
+      return data ? withMarkupOriginal(data as unknown as LocationService) : null;
     },
   });
 }
