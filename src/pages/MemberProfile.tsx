@@ -389,7 +389,7 @@ export default function MemberProfile() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
-      <SEO title="My Profile" description="Manage your skydiving profile, bookings, and credits." path="/membership" />
+      <SEO title="My Profile" description="Manage your skydiving profile, bookings, and credits." path="/member/profile" />
       <BackgroundDecorations />
 
       <main className="relative z-10 pt-8 pb-20">

@@ -71,7 +71,7 @@ export default function AuthCallback() {
               return;
             }
             setTimeout(() => {
-              navigate("/membership", { replace: true });
+              navigate("/member/profile", { replace: true });
             }, 100);
             return;
           }
@@ -96,7 +96,7 @@ export default function AuthCallback() {
             return;
           }
           setTimeout(() => {
-            navigate("/membership", { replace: true });
+            navigate("/member/profile", { replace: true });
           }, 100);
           return;
         }
@@ -127,7 +127,7 @@ export default function AuthCallback() {
               return;
             }
             setTimeout(() => {
-              navigate("/membership", { replace: true });
+              navigate("/member/profile", { replace: true });
             }, 100);
             return;
           }

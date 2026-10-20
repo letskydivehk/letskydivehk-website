@@ -36,7 +36,7 @@ export default function AdminCredits() {
     const checkRole = async () => {
       const { data } = await supabase.rpc("has_role", { _user_id: user.id, _role: "admin" });
       if (!data) {
-        navigate("/membership", { replace: true });
+        navigate("/member/profile", { replace: true });
         return;
       }
       setIsAdmin(true);
@@ -61,7 +61,7 @@ export default function AdminCredits() {
         <div className="container max-w-6xl mx-auto px-4">
           {/* Header */}
           <div className="flex items-center gap-4 mb-8">
-            <Link to="/membership">
+            <Link to="/member/profile">
               <Button variant="ghost" size="icon" className="rounded-full">
                 <ArrowLeft className="w-5 h-5" />
               </Button>

@@ -28,7 +28,8 @@ function AnimatedRoutes() {
       <Route path="/location/:slug" element={<LocationDetail />} />
       <Route path="/tour/:locationSlug/:serviceId" element={<TourDetail />} />
       <Route path="/auth/callback" element={<AuthCallback />} />
-      <Route path="/membership" element={<MemberProfile />} />
+      <Route path="/member/profile" element={<MemberProfile />} />
+      <Route path="/membership" element={<LeapClub />} />
       <Route path="/gallery" element={<Gallery />} />
       <Route path="/promotions" element={<Promotions />} />
       <Route path="/admin/credits" element={<AdminCredits />} />
@@ -68,6 +69,7 @@ function AnimatedRoutes() {
 }
 
 const MemberProfile = lazyWithRetry(() => import('./pages/MemberProfile'));
+const LeapClub = lazyWithRetry(() => import('./pages/LeapClub'));
 const Gallery = lazyWithRetry(() => import('./pages/Gallery'));
 const LocationDetail = lazyWithRetry(() => import('./pages/LocationDetail'));
 const AuthCallback = lazyWithRetry(() => import('./pages/AuthCallback'));
