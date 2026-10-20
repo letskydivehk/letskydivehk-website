@@ -21,7 +21,7 @@ function TandemPriceDisplay({ priceDisplay, originalPriceDisplay, offLabel }: { 
   const prefix = prefixMatch ? prefixMatch[0] : '$'
   const originalDisplay = originalPriceDisplay && explicitOriginal ? originalPriceDisplay : `${prefix}${original.toLocaleString()}`
   const pct = original > current ? Math.round((1 - current / original) * 100) : null
-  const badge = explicitOriginal && pct ? `-${pct}%` : offLabel
+  const badge = offLabel
   return (
     <span className="flex flex-col items-end leading-tight whitespace-nowrap">
       <span className="flex items-center gap-1.5">
@@ -137,7 +137,7 @@ export function ServicePricing({ serviceType }: ServicePricingProps) {
                         {translateData(`service.${service.service_name}`, service.service_name)}
                       </span>
                       {service.original_price_display ? (
-                        <TandemPriceDisplay priceDisplay={service.price_display} originalPriceDisplay={service.original_price_display} offLabel={t('pricing.off')} />
+                        <TandemPriceDisplay priceDisplay={service.price_display} originalPriceDisplay={service.original_price_display} offLabel={t('pricing.onSale')} />
                       ) : (
                         <span className="text-lg font-bold text-accent-orange whitespace-nowrap">{translateData(`price.${service.price_display}`, service.price_display)}</span>
                       )}
