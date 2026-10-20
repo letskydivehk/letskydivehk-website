@@ -1,3 +1,4 @@
+import { LeapClubNote } from "@/components/leap/LeapClubStatus";
 import { SEO } from "@/components/SEO";
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
@@ -229,6 +230,7 @@ export default function Promotions() {
             );
           })}
         </div>
+        <div className="container mx-auto px-4 mt-8 max-w-3xl"><LeapClubNote kind="promo" /></div>
       </main>
       <Footer />
       <AuthModal isOpen={showAuth} onClose={() => setShowAuth(false)} />

@@ -51,7 +51,7 @@ export function MobileTabBar() {
   const items: Item[] = [
     { key: "book", labelKey: "common.bookNow", icon: Calendar, href: bookHref, primary: true },
     { key: "loc", labelKey: "nav.locations", icon: MapPin, href: locHref },
-    { key: "me", labelKey: "profile.title", icon: User, href: "/membership" },
+    { key: "me", labelKey: "profile.title", icon: User, href: "/member/profile" },
     { key: "chat", labelKey: "whatsapp.title", icon: MessageCircle, href: WHATSAPP_URL, external: true },
   ];
 
@@ -71,7 +71,7 @@ export function MobileTabBar() {
           <ul className="grid grid-cols-4 gap-1 px-2 pt-1.5">
             {items.map(({ key, labelKey, icon: Icon, href, primary, external }) => {
               const isActive =
-                (key === "me" && location.pathname.startsWith("/membership")) ||
+                (key === "me" && location.pathname.startsWith("/member/profile")) ||
                 (key === "loc" && (location.hash === "#locations" || location.pathname.startsWith("/locations"))) ||
                 (key === "book" && location.hash === "#booking");
               const inner = (

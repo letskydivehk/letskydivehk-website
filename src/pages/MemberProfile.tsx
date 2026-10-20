@@ -1,3 +1,4 @@
+import { LeapClubStatus } from "@/components/leap/LeapClubStatus";
 import { useState, useEffect, useCallback } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
@@ -389,7 +390,7 @@ export default function MemberProfile() {
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
-      <SEO title="My Profile" description="Manage your skydiving profile, bookings, and credits." path="/membership" />
+      <SEO title="My Profile" description="Manage your skydiving profile, bookings, and credits." path="/member/profile" />
       <BackgroundDecorations />
 
       <main className="relative z-10 pt-8 pb-20">
@@ -638,6 +639,8 @@ export default function MemberProfile() {
                   )}
                 </CardContent>
               </Card>
+
+              <LeapClubStatus totalJumps={(profile as any)?.total_jumps || 0} />
 
               {/* Magnet showcase */}
               <MagnetShowcase totalJumps={(profile as any)?.total_jumps || 0} />

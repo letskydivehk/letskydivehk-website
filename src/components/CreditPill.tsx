@@ -37,7 +37,7 @@ export function CreditPill() {
   if (!user || balance === null) return null;
 
   return (
-    <Link to="/membership" aria-label={`Credit balance: $${balance}`}>
+    <Link to="/member/profile" aria-label={`Credit balance: $${balance}`}>
       <motion.div
         whileHover={{ scale: 1.06, y: -1 }}
         whileTap={{ scale: 0.94 }}

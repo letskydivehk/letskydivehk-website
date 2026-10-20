@@ -18,7 +18,7 @@ export function ReferralBanner() {
             <p className="text-white/90 leading-relaxed">{t("referral.banner.body")}</p>
           </div>
           <Link
-            to="/membership"
+            to="/member/profile"
             className="inline-flex items-center gap-2 bg-white text-accent-blue font-bold px-5 py-3 rounded-xl hover:bg-white/90 transition-colors shrink-0"
           >
             {t("referral.banner.cta")} <ArrowRight className="w-4 h-4" />
