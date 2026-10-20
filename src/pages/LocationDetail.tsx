@@ -340,7 +340,7 @@ export default function LocationDetail() {
                                 <span className="text-sm text-muted-foreground line-through">{service.original_price_display}</span>
                               )}
                               {pct !== null && (
-                                <span className="text-xs font-bold bg-accent-orange text-white px-2 py-0.5 rounded">-{pct}%</span>
+                                <span className="text-xs font-bold bg-accent-orange text-white px-2 py-0.5 rounded">{t("pricing.onSale")}</span>
                               )}
                             </div>
                           );
