@@ -43,7 +43,7 @@ Deno.serve(async (req) => {
 
     const rawOrigin = req.headers.get("origin") || "";
     const origin = ALLOWED_ORIGINS.has(rawOrigin) ? rawOrigin : "https://letskydivehk.com";
-    const membershipLink = `${origin}/membership`;
+    const membershipLink = `${origin}/member/profile`;
 
     const isZh = (language || "").startsWith("zh");
     const name = full_name?.trim() || (isZh ? "跳傘朋友" : "there");
