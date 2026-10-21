@@ -38,7 +38,7 @@ function renderExpiryEmail(opts: { fullName?: string | null; amount: number; exp
           </p>
         </td></tr>
         <tr><td align="center" style="padding:8px 24px 28px 24px;">
-          <a href="${SITE_URL}/membership" style="display:inline-block;background:#0f6fff;color:#ffffff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 28px;border-radius:8px;">按此登入帳戶</a>
+          <a href="${SITE_URL}/member/profile" style="display:inline-block;background:#0f6fff;color:#ffffff;text-decoration:none;font-weight:700;font-size:16px;padding:14px 28px;border-radius:8px;">按此登入帳戶</a>
         </td></tr>
         <tr><td style="padding:16px 32px 28px 32px;border-top:1px solid #eef1f5;">
           <p style="margin:0;font-size:12px;color:#8792a4;text-align:center;">Let's Skydive HK · <a href="${SITE_URL}" style="color:#8792a4;text-decoration:none;">letskydivehk.com</a></p>
