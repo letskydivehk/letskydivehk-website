@@ -1,8 +1,8 @@
 // Shared branded HTML template for the bi-weekly knowledge newsletter (TC + EN in one email).
 
 export const SITE_URL = "https://letskydivehk.com";
-export const LOGO_URL = `${SITE_URL}/__l5e/assets-v1/5262a898-3cb8-4025-8445-2e1cb0ea6103/skydive-hk-logo.png`;
-export const HERO_URL = `${SITE_URL}/__l5e/assets-v1/69053dd0-8d61-45d5-a033-903cc2385a64/email-hero-skydive.jpg`;
+export const LOGO_URL = `${SITE_URL}/__l5e/assets-v1/28916514-55a7-4c0b-a54f-7036cc851df3/newsletter-logo.jpg`;
+export const HERO_URL = `${SITE_URL}/__l5e/assets-v1/13c2dacd-4cd5-4d1a-9a62-7555cede6dd6/email-hero-tandem.jpg`;
 
 function escapeHtml(s: string) {
   return s
