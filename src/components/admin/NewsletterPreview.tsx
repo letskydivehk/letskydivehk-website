@@ -4,8 +4,8 @@
  */
 
 const SITE_URL = "https://letskydivehk.com";
-const LOGO_URL = `${SITE_URL}/__l5e/assets-v1/5262a898-3cb8-4025-8445-2e1cb0ea6103/skydive-hk-logo.png`;
-const HERO_URL = `${SITE_URL}/__l5e/assets-v1/69053dd0-8d61-45d5-a033-903cc2385a64/email-hero-skydive.jpg`;
+const LOGO_URL = `${SITE_URL}/__l5e/assets-v1/28916514-55a7-4c0b-a54f-7036cc851df3/newsletter-logo.jpg`;
+const HERO_URL = `${SITE_URL}/__l5e/assets-v1/13c2dacd-4cd5-4d1a-9a62-7555cede6dd6/email-hero-tandem.jpg`;
 
 function Inline({ text }: { text: string }) {
   const parts = text.split(/\*\*(.+?)\*\*/g);
@@ -95,7 +95,7 @@ export function NewsletterPreview({
           <img
             src={LOGO_URL}
             alt="Let's Skydive HK"
-            style={{ width: "100%", maxWidth: 276, height: "auto", display: "block", margin: "0 auto" }}
+            style={{ width: "100%", maxWidth: 220, height: "auto", display: "block", margin: "0 auto" }}
           />
         </div>
         <div style={{ padding: "12px 24px 0" }}>
