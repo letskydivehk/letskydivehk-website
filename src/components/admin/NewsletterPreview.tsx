@@ -95,7 +95,7 @@ export function NewsletterPreview({
           <img
             src={LOGO_URL}
             alt="Let's Skydive HK"
-            style={{ width: "100%", maxWidth: 276, height: "auto", display: "block", margin: "0 auto" }}
+            style={{ width: "100%", maxWidth: 220, height: "auto", display: "block", margin: "0 auto" }}
           />
         </div>
         <div style={{ padding: "12px 24px 0" }}>
