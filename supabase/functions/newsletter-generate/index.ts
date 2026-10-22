@@ -9,26 +9,31 @@ const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 const admin = createClient(SUPABASE_URL, SERVICE_KEY);
 
 const TOPICS = [
-  "跳傘安全：雙人跳傘的安全紀錄與程序",
-  "跳傘裝備解構：主傘、備用傘與 AAD 自動開傘器",
-  "第一次跳傘會有甚麼感覺？從登機到落地",
-  "跳傘前一晚應該做甚麼準備？衣著、飲食、睡眠",
-  "為甚麼跳傘不會「失重嘔吐」？自由落體的科學",
-  "天氣如何影響跳傘？風速、雲層與能見度",
-  "A-Licence 考證之路：由 AFF 到單人跳傘",
-  "跳傘常見迷思大破解：耳朵、心跳、呼吸",
-  "如何拍出最好的跳傘照片與影片",
-  "深圳 iFLY 室內跳傘 vs 高空跳傘：分別在哪？",
-  "跳傘後的身體感覺與恢復小貼士",
-  "帶家人朋友一齊跳傘：如何說服身邊人",
+  "30 歲生日，送自己一個「離地」的勇氣",
+  "那 60 秒，我終於聽不到手機的聲音",
+  "和最好的朋友一起，在 4000 米高空許願",
+  "給一直說「下次先」的你",
+  "媽媽第一次跳傘之後說的那句話",
+  "由驚到飛：怕高的人為甚麼更應該跳一次",
+  "芭堤雅日落下的降落，是我見過最溫柔的風景",
+  "失戀、轉工、畢業後，用一跳重新開始",
+  "深圳 iFLY：不用坐飛機，也能體驗飛的自由",
+  "離地日：一群陌生人變成一班飛友",
+  "海南的藍：從高空望落海岸線的一刻",
+  "求婚、紀念日、蜜月：把最重要的時刻留在天空",
+  "給自己一個不用解釋的決定",
+  "落地之後，世界好像變得不一樣",
+  "一張跳傘相，提醒我原來可以咁勇敢",
+  "工作再忙，也要有一天屬於天空",
 ];
 
 async function callAI(topic: string) {
   const system =
-    "You write short, friendly, factual email newsletters for a Hong Kong skydiving company (Let's Skydive HK). " +
-    "Tone: warm, encouraging, Cantonese-flavoured Traditional Chinese for the zh-TW fields, natural English for the en fields. " +
-    "Each article: 200-320 words per language, 3-5 short paragraphs or bullet points, educational first, then a gentle invitation to book a jump. " +
-    "Do not invent prices, dates or safety statistics you are not sure of. No markdown headings; you may use '- ' bullets and **bold**.";
+    "You write short, emotionally warm email newsletters for a Hong Kong skydiving company (Let's Skydive HK). " +
+    "Purpose: deliver emotional value — freedom, courage, release, connection with loved ones, self-breakthrough, a sense of achievement and life meaning. About 80% of the article is feeling and story; only about 20% is light skydiving knowledge. " +
+    "Structure: open with a vivid scene or moment the reader can step into; develop the emotion and what the jump means in life; include exactly ONE short paragraph starting with '你知道嗎？' (en: 'Did you know?') sharing one light, positive skydiving fact; close with warm encouragement and a soft, non-pushy invitation to book. " +
+    "Tone: sincere, heartfelt, Cantonese-flavoured Traditional Chinese for the zh-TW fields, natural English for the en fields. 200-320 words per language, 3-5 short paragraphs. " +
+    "Never mention accidents, injuries, death, safety statistics, or dwell on fear. Do not invent prices, dates, or real customer names. No markdown headings; you may use **bold** sparingly.";
 
   const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
     method: "POST",
