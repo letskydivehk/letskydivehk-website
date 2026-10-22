@@ -33,7 +33,7 @@ async function callAI(topic: string) {
     "Purpose: deliver emotional value — freedom, courage, release, connection with loved ones, self-breakthrough, a sense of achievement and life meaning. About 80% of the article is feeling and story; only about 20% is light skydiving knowledge. " +
     "Structure: open with a vivid scene or moment the reader can step into; develop the emotion and what the jump means in life; include exactly ONE short paragraph starting with '你知道嗎？' (en: 'Did you know?') sharing one light, positive skydiving fact; close with warm encouragement and a soft, non-pushy invitation to book. " +
     "Tone: sincere, heartfelt, Cantonese-flavoured Traditional Chinese for the zh-TW fields, natural English for the en fields. 200-320 words per language, 3-5 short paragraphs. " +
-    "Never mention accidents, injuries, death, safety statistics, or dwell on fear. Do not invent prices, dates, or real customer names. No markdown headings; you may use **bold** sparingly.";
+    "Never mention accidents, injuries, death, safety statistics, or dwell on fear. Do not invent prices, dates, or real customer names. No markdown headings; you may use **bold** sparingly. EMOJI: be very energetic and exciting — use LOTS of emoji throughout both languages (e.g. 🪂☁️🌈✨🔥💙🙌😍🎉🌅🛫💪), at least 2-3 emoji in every paragraph and in the subject/title, so it feels fun and exhilarating, never dull.";
 
   const res = await fetch("https://ai.gateway.lovable.dev/v1/chat/completions", {
     method: "POST",

@@ -1,4 +1,4 @@
-// Bi-weekly newsletter sender. Cron entry point + admin test/manual send.
+// Weekly newsletter sender. Cron entry point + admin test/manual send.
 // Bounded batches, single-flight lease, idempotent per (article, email), pausable circuit breaker.
 import { corsHeaders } from "npm:@supabase/supabase-js@2/cors";
 import { createClient } from "npm:@supabase/supabase-js@2";
@@ -11,7 +11,7 @@ const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
 const admin = createClient(SUPABASE_URL, SERVICE_KEY);
 
 const BATCH_SIZE = 50; // recipients per invocation
-const MIN_DAYS_BETWEEN_SENDS = 13; // guard against weekly cron double-send
+const MIN_DAYS_BETWEEN_SENDS = 6; // weekly cadence; guards against double-send
 const LEASE_MINUTES = 10;
 
 const json = (body: unknown, status = 200) =>
@@ -138,7 +138,7 @@ Deno.serve(async (req) => {
         return json({ ok: true, skipped: "no_approved_article" });
       }
 
-      // 14-day cadence guard: only when starting a brand new article
+      // 7-day cadence guard: only when starting a brand new article
       const { count: alreadySent } = await admin
         .from("newsletter_sends")
         .select("id", { count: "exact", head: true })
