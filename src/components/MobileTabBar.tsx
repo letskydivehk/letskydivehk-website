@@ -4,14 +4,14 @@ import { Calendar, MapPin, User, MessageCircle } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
 
-const WHATSAPP_URL = "https://wa.me/85256153271";
+import { waUrl, pageBrowseMessage, pageLabel } from "@/lib/whatsappTemplates";
 
 /**
  * Mobile-only persistent bottom tab bar.
  * Auto-hides on scroll-down, reveals on scroll-up. Respects iOS safe area.
  */
 export function MobileTabBar() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const location = useLocation();
   const [visible, setVisible] = useState(true);
 
@@ -52,7 +52,7 @@ export function MobileTabBar() {
     { key: "book", labelKey: "common.bookNow", icon: Calendar, href: bookHref, primary: true },
     { key: "loc", labelKey: "nav.locations", icon: MapPin, href: locHref },
     { key: "me", labelKey: "profile.title", icon: User, href: "/member/profile" },
-    { key: "chat", labelKey: "whatsapp.title", icon: MessageCircle, href: WHATSAPP_URL, external: true },
+    { key: "chat", labelKey: "whatsapp.title", icon: MessageCircle, href: waUrl(pageBrowseMessage(language, pageLabel(location.pathname, language))), external: true },
   ];
 
 

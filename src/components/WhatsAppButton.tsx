@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { X, Send } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { quickOptionsFor, tr } from "@/lib/whatsappTemplates";
 
 const WHATSAPP_NUMBER = "85256153271";
 
@@ -29,16 +30,20 @@ export function WhatsAppButton() {
   const [badgeCount, setBadgeCount] = useState(0);
   const panelRef = useRef<HTMLDivElement>(null);
   const idleTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [pathname, setPathname] = useState(typeof window !== "undefined" ? window.location.pathname : "");
   useEffect(() => {
     const update = () => setPathname(window.location.pathname);
     window.addEventListener("popstate", update);
     return () => window.removeEventListener("popstate", update);
   }, []);
-  const quickMessages = pathname.startsWith("/souvenirs")
-    ? souvenirQuickMessages
-    : defaultQuickMessages;
+  // Re-read path when panel opens (SPA navigation doesn't fire popstate)
+  useEffect(() => { if (isOpen) setPathname(window.location.pathname); }, [isOpen]);
+  const pageOptions = quickOptionsFor(pathname);
+  const quickMessages = pageOptions
+    ? pageOptions.map((o) => ({ key: tr(o.label, language), icon: o.icon, msg: tr(o.message, language) }))
+    : souvenirQuickMessages.map((m) => ({ key: m.key, icon: m.icon, msg: t(m.key) }));
+  void defaultQuickMessages;
 
   // Idle attention animation — bounce after 60s of inactivity
   useEffect(() => {
@@ -140,11 +145,11 @@ export function WhatsAppButton() {
                 {quickMessages.map((msg) => (
                   <button
                     key={msg.key}
-                    onClick={() => sendMessage(t(msg.key))}
+                    onClick={() => sendMessage(msg.msg)}
                     className="w-full text-left px-4 py-2.5 rounded-xl border border-border hover:bg-muted/50 hover:border-accent-orange/30 transition-all duration-200 cursor-pointer group"
                   >
                     <span className="text-sm text-foreground group-hover:text-accent-orange transition-colors">
-                      {msg.icon} {t(msg.key)}
+                      {msg.icon} {pageOptions ? msg.key : t(msg.key)}
                     </span>
                   </button>
                 ))}
