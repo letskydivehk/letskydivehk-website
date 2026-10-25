@@ -1,3 +1,6 @@
+import { useEffect, useState } from "react";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/integrations/supabase/client";
 import { Link } from "react-router-dom";
 import { Progress } from "@/components/ui/progress";
 import { Card, CardContent } from "@/components/ui/card";
@@ -14,12 +17,22 @@ export function LeapClubStatus({ totalJumps }: { totalJumps: number }) {
     <Card className="mobile-transparent-card">
       <CardContent className="p-5 space-y-3">
         <div className="flex items-center justify-between">
-          <p className="text-sm text-muted-foreground">{lp(leapCopy.myStatus, language)}</p>
+          <p className="text-sm font-semibold text-primary tracking-wide">{lp(leapCopy.progressTitle, language)}</p>
           <Link to="/membership" className="text-sm text-primary hover:underline">{lp(leapCopy.learn, language)} →</Link>
         </div>
-        <p className="text-xl font-bold text-foreground">
-          {idx >= 0 ? `${lp(leapCopy.name, language)}・${lp(leapTiers[idx].name, language)}` : lp(leapCopy.notMember, language)}
-        </p>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="rounded-xl bg-muted/60 p-3">
+            <p className="text-xs text-muted-foreground">{lp(leapCopy.jumpsDone, language)}</p>
+            <p className="text-3xl font-bold text-foreground">{totalJumps}</p>
+          </div>
+          <div className="rounded-xl bg-muted/60 p-3">
+            <p className="text-xs text-muted-foreground">{lp(leapCopy.currentTitle, language)}</p>
+            <p className="text-lg font-bold text-foreground leading-tight mt-1">
+              {idx >= 0 ? lp(leapTiers[idx].title, language) : lp(leapCopy.noTitle, language)}
+            </p>
+          </div>
+        </div>
+        {idx < 0 && <p className="text-xs text-muted-foreground">{lp(leapCopy.notMember, language)}</p>}
         <div className="flex gap-2">
           {leapTiers.map((t, i) => (
             <span key={t.key} className={`flex-1 rounded-full px-2 py-1 text-center text-xs ${i <= idx ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>
@@ -47,6 +60,18 @@ export function LeapClubNote({ kind }: { kind: "location" | "promo" }) {
 
 export function LeapClubTeaser() {
   const { language } = useLanguage();
+  const { user } = useAuth();
+  const [jumps, setJumps] = useState<number | null>(null);
+  useEffect(() => {
+    if (!user) { setJumps(null); return; }
+    supabase.from("profiles").select("total_jumps").eq("user_id", user.id).maybeSingle()
+      .then(({ data }) => setJumps(data?.total_jumps ?? 0));
+  }, [user]);
+  if (user && jumps !== null) return (
+    <section aria-label="Skywalkers Club progress" className="container mx-auto px-4 py-16">
+      <div className="max-w-xl mx-auto"><LeapClubStatus totalJumps={jumps} /></div>
+    </section>
+  );
   return (
     <section aria-label="Skywalkers Club" className="container mx-auto px-4 py-16">
       <div className="rounded-3xl bg-card border border-border p-8 md:p-12 text-center shadow-lg">
