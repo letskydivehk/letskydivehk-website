@@ -27,8 +27,8 @@ export default function LeapClub() {
   return (
     <div className="min-h-screen bg-background text-foreground relative">
       <SEO
-        title="離地會籍｜Skydive Hong Kong｜E人帶你由驚到飛"
-        description="專為驚但想試嘅香港人而設嘅跳傘會籍。完成第1跳自動成為銀級會員，儲磁石貼、賺積分、每季一齊離地。"
+        title="萬呎俱樂部｜Skydive Hong Kong｜E人帶你由驚到飛"
+        description="專為驚但想試嘅香港人而設嘅跳傘會籍。完成第1跳自動成為銀級會員，儲磁石貼、賺積分、每季一齊衝上萬呎。"
         path="/membership"
       />
       <BackgroundDecorations />

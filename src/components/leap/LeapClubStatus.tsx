@@ -48,7 +48,7 @@ export function LeapClubNote({ kind }: { kind: "location" | "promo" }) {
 export function LeapClubTeaser() {
   const { language } = useLanguage();
   return (
-    <section aria-label="Leap Club" className="container mx-auto px-4 py-16">
+    <section aria-label="Skywalkers Club" className="container mx-auto px-4 py-16">
       <div className="rounded-3xl bg-card border border-border p-8 md:p-12 text-center shadow-lg">
         <p className="text-sm font-semibold text-primary tracking-widest">{lp(leapCopy.name, language)}</p>
         <h2 className="mt-2 text-3xl md:text-4xl font-bold text-foreground">{lp(leapCopy.teaserTitle, language)}</h2>
