@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Mail, Send, Clock, Instagram, Phone } from "lucide-react";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { waUrl, contactMessage } from "@/lib/whatsappTemplates";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
@@ -17,7 +18,7 @@ interface ContactFormData {
 }
 
 export function Contact() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [formData, setFormData] = useState<ContactFormData>({
     name: "",
     email: "",
@@ -161,7 +162,7 @@ export function Contact() {
                       <h3 className="font-semibold text-foreground mb-1">{t("contact.whatsapp.label")}</h3>
                       <p className="text-muted-foreground text-sm mb-2">{t("contact.whatsapp.desc")}</p>
                       <a
-                        href="https://wa.me/85256153271"
+                        href={waUrl(contactMessage(language))}
                         target="_blank"
                         rel="noopener noreferrer"
                         className="text-accent-purple hover:underline inline-flex items-center gap-1"

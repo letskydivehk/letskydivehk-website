@@ -260,7 +260,7 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     // Location service cards — WhatsApp booking
     "locationDetail.whatsappBook": "Book via WhatsApp",
     "locationDetail.whatsappBookMsg":
-      "Hi! I'd like to book \"{service}\" at {location}. Price: {price}. Which dates are available?",
+      "Hi! I'd like to book \"{service}\" at {location} (Special offer {price}). Which dates are available? 🪂",
     "locationDetail.viewItinerary": "View itinerary",
   },
 
@@ -365,7 +365,7 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     // 基地服務卡 — WhatsApp 預約
     "locationDetail.whatsappBook": "WhatsApp 預約",
     "locationDetail.whatsappBookMsg":
-      "你好！我想預約 {location} 的「{service}」，價格 {price}，請問可以安排哪些日期？",
+      "你好！我想預約【{location}】的「{service}」（特惠價 {price}），請問近期可以安排哪些日期？🪂",
     "locationDetail.viewItinerary": "查看行程",
   },
 
