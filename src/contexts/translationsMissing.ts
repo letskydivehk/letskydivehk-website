@@ -470,7 +470,7 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     // 基地服务卡 — WhatsApp 预约
     "locationDetail.whatsappBook": "WhatsApp 预约",
     "locationDetail.whatsappBookMsg":
-      "你好！我想预约 {location} 的「{service}」，价格 {price}，请问可以安排哪些日期？",
+      "你好！我想预约【{location}】的“{service}”（特惠价 {price}），请问近期可以安排哪些日期？🪂",
     "locationDetail.viewItinerary": "查看行程",
   },
 };
