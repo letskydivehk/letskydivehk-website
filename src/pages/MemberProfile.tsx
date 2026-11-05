@@ -1,6 +1,6 @@
 import { LeapClubStatus } from "@/components/leap/LeapClubStatus";
 import { useState, useEffect, useCallback } from "react";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import { ArrowLeft, User, Phone, Mail, UserPlus, Save, Loader2, Calendar, MapPin, Coins, TrendingUp, TrendingDown, Shield, Copy, Clock, Award, Star, Crown, Gem, Check } from "lucide-react";
 import { SEO } from "@/components/SEO";
@@ -87,6 +87,12 @@ export default function MemberProfile() {
   const { user, loading: authLoading } = useAuth();
   const { t, language } = useLanguage();
   const navigate = useNavigate();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const showWelcome = searchParams.get("welcome") === "1";
+  const dismissWelcome = () => {
+    searchParams.delete("welcome");
+    setSearchParams(searchParams, { replace: true });
+  };
 
   const [profile, setProfile] = useState<Profile | null>(null);
   const [bookings, setBookings] = useState<Booking[]>([]);
@@ -404,6 +410,42 @@ export default function MemberProfile() {
             </Link>
             <h1 className="text-2xl md:text-3xl font-bold text-foreground">{t("profile.title") || "My Profile"}</h1>
           </div>
+
+          {/* Welcome credit banner — shown once right after signup */}
+          {showWelcome && (
+            <motion.div
+              initial={{ opacity: 0, y: -12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="mb-6"
+            >
+              <Card className="mobile-transparent-card border-primary/40 overflow-hidden relative">
+                <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-accent to-primary" />
+                <CardContent className="pt-6 pb-6 text-center space-y-3">
+                  <p className="text-xl md:text-2xl font-bold text-foreground">
+                    {t("profile.welcomeTitle")}
+                  </p>
+                  <div className="flex items-center justify-center gap-2">
+                    <Coins className="w-7 h-7 text-primary" />
+                    <span className="text-3xl md:text-4xl font-extrabold text-primary">
+                      HK$ {(creditTransactions.find((tx) => tx.type === "signup_bonus")?.amount ?? creditBalance).toLocaleString()}
+                    </span>
+                  </div>
+                  <p className="text-sm font-medium text-muted-foreground">
+                    {t("profile.welcomeCreditLabel")} · {t("profile.welcomeBody")}
+                  </p>
+                  <div className="flex flex-col sm:flex-row items-center justify-center gap-3 pt-2">
+                    <Button asChild>
+                      <Link to="/#locations">{t("profile.welcomeCta")}</Link>
+                    </Button>
+                    <Button variant="ghost" onClick={dismissWelcome}>
+                      {t("profile.welcomeDismiss")}
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          )}
 
           <div className="grid gap-6 md:grid-cols-3">
             {/* Profile Card */}
