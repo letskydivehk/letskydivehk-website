@@ -4,6 +4,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { Loader2 } from "lucide-react";
 import { BackgroundDecorations } from "@/components/BackgroundDecorations";
 
+// Treat accounts created within the last 10 minutes as brand-new signups,
+// so they land on the member page with the welcome credit banner.
+const profilePathFor = (createdAt?: string) => {
+  const isNew = createdAt
+    ? Date.now() - new Date(createdAt).getTime() < 10 * 60 * 1000
+    : false;
+  return isNew ? "/member/profile?welcome=1" : "/member/profile";
+};
+
 export default function AuthCallback() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -71,7 +80,7 @@ export default function AuthCallback() {
               return;
             }
             setTimeout(() => {
-              navigate("/member/profile", { replace: true });
+              navigate(profilePathFor(data.session.user.created_at), { replace: true });
             }, 100);
             return;
           }
@@ -96,7 +105,7 @@ export default function AuthCallback() {
             return;
           }
           setTimeout(() => {
-            navigate("/member/profile", { replace: true });
+            navigate(profilePathFor(sessionData.session.user.created_at), { replace: true });
           }, 100);
           return;
         }
@@ -127,7 +136,7 @@ export default function AuthCallback() {
               return;
             }
             setTimeout(() => {
-              navigate("/member/profile", { replace: true });
+              navigate(profilePathFor(data.session.user.created_at), { replace: true });
             }, 100);
             return;
           }
