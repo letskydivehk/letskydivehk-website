@@ -214,6 +214,13 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     // Pricing / credits
     "pricing.off": "OFF",
     "pricing.onSale": "On Sale",
+
+    // Welcome credit banner (new signup)
+    "profile.welcomeTitle": "Welcome to Let's Skydive HK! 🎉",
+    "profile.welcomeCreditLabel": "Welcome credit",
+    "profile.welcomeBody": "Your account is ready — this credit is yours to use on your first jump.",
+    "profile.welcomeCta": "Pick your first jump",
+    "profile.welcomeDismiss": "Got it",
     "credits.label": "Credit",
 
     // Souvenirs
@@ -319,6 +326,13 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     // Pricing / credits
     "pricing.off": "折扣",
     "pricing.onSale": "減價中",
+
+    // Welcome credit banner (new signup)
+    "profile.welcomeTitle": "歡迎加入 Let's Skydive HK！🎉",
+    "profile.welcomeCreditLabel": "迎新信用額",
+    "profile.welcomeBody": "你嘅帳戶已經準備好，呢筆信用額可以用喺你嘅第一跳。",
+    "profile.welcomeCta": "揀你嘅第一跳",
+    "profile.welcomeDismiss": "知道啦",
     "credits.label": "積分",
 
     // Souvenirs
@@ -424,6 +438,13 @@ export const missingTranslations: Record<"en" | "zh-TW" | "zh-CN", Record<string
     // Pricing / credits
     "pricing.off": "折扣",
     "pricing.onSale": "减价中",
+
+    // Welcome credit banner (new signup)
+    "profile.welcomeTitle": "欢迎加入 Let's Skydive HK！🎉",
+    "profile.welcomeCreditLabel": "迎新信用额",
+    "profile.welcomeBody": "你的账户已经准备好，这笔信用额可用于你的第一跳。",
+    "profile.welcomeCta": "选择你的第一跳",
+    "profile.welcomeDismiss": "知道了",
     "credits.label": "积分",
 
     // Souvenirs
