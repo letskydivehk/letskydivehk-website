@@ -1406,8 +1406,8 @@ html:has(.home-opening), body:has(.home-opening) { overflow-x: clip !important; 
   background: var(--accent-orange); color: var(--primary-foreground); text-align: center; }
 .altimeter-hud.is-landed .altimeter-readout { box-shadow: 0 0 0 2px var(--accent-orange), 0 10px 30px -12px hsl(24 95% 53% / .6); }
 @media (max-width: 767px) {
-  .altimeter-hud { right: .5rem; top: auto; bottom: 5.5rem; transform: translateY(150%); }
-  .altimeter-hud.is-visible { transform: translateY(0); }
+  .altimeter-hud { right: .5rem; top: 8.75rem; transform: translateX(130%); }
+  .altimeter-hud.is-visible { transform: translateX(0); }
   .altimeter-track { display: none; }
   .altimeter-readout { padding: .4rem .7rem; min-width: 0; }
   .altimeter-alt { font-size: 1rem; } .altimeter-speed { display: none; }
