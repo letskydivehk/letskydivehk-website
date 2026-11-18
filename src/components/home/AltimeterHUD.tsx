@@ -25,7 +25,10 @@ export function AltimeterHUD() {
       const end = booking ? booking.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.4 : document.body.scrollHeight - window.innerHeight;
       const value = Math.max(0, Math.min(1, (window.scrollY - start) / Math.max(1, end - start)));
       setP(value);
-      setVisible(window.scrollY > start);
+      // Step aside while the dropzone cards slide past so they are never covered.
+      const loc = document.getElementById("locations")?.getBoundingClientRect();
+      const overCards = !!loc && loc.top < window.innerHeight * 0.6 && loc.bottom > window.innerHeight * 0.4;
+      setVisible(window.scrollY > start && !overCards);
     };
     const onScroll = () => { if (!raf.current) raf.current = requestAnimationFrame(update); };
     window.addEventListener("scroll", onScroll, { passive: true });
