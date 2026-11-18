@@ -28,9 +28,12 @@ import { NextDepartureBanner } from "@/components/home/NextDepartureBanner";
 import { TrustBar } from "@/components/TrustBar";
 import { EligibilityChips } from "@/components/EligibilityChips";
 import { AltitudeJourney } from "@/components/home/AltitudeJourney";
+import { AltimeterHUD } from "@/components/home/AltimeterHUD";
+import { useScrollReveal } from "@/hooks/useScrollReveal";
 
 export default function Home() {
   const { t } = useLanguage();
+  useScrollReveal();
 
   return (
     <div className="min-h-screen bg-background text-foreground relative">
@@ -125,7 +128,7 @@ export default function Home() {
           <Contact />
         </LazySection>
         </div>
-        <div className="sky-reflection-home home-nav-scope"><SectionNav /></div>
+        <div className="sky-reflection-home home-nav-scope"><SectionNav /><AltimeterHUD /></div>
       </main>
       <div className="sky-reflection-home">
         <Footer />

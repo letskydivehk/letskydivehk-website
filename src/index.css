@@ -1386,3 +1386,32 @@ html:has(.home-opening), body:has(.home-opening) { overflow-x: clip !important; 
 /* iOS safe-area helpers */
 .safe-bottom { padding-bottom: env(safe-area-inset-bottom); }
 .safe-top { padding-top: env(safe-area-inset-top); }
+
+/* Altimeter HUD + scroll reveal (homepage) */
+.altimeter-hud { position: fixed; right: 1rem; top: 50%; z-index: 40; display: flex; gap: .6rem; align-items: center;
+  transform: translate(120%, -50%); opacity: 0; transition: transform .5s cubic-bezier(.2,.8,.2,1), opacity .4s; pointer-events: none; }
+.altimeter-hud.is-visible { transform: translate(0, -50%); opacity: 1; }
+.altimeter-track { position: relative; width: 4px; height: 220px; border-radius: 9999px; background: hsl(210 50% 15% / .12); }
+.altimeter-fill { position: absolute; inset: 0; transform-origin: top; border-radius: inherit;
+  background: linear-gradient(180deg, hsl(200 90% 55%), var(--accent-orange)); box-shadow: 0 0 12px hsl(200 90% 55% / .6); }
+.altimeter-chute { position: absolute; left: 50%; transform: translate(-50%, -50%); font-size: 1.1rem; transition: top .15s linear; }
+.altimeter-readout { display: flex; flex-direction: column; justify-content: center; gap: .15rem; padding: .7rem .9rem; border-radius: 1rem;
+  background: hsl(0 0% 100% / .55); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid hsl(0 0% 100% / .7);
+  box-shadow: 0 10px 30px -12px hsl(210 50% 15% / .35); color: var(--foreground); min-width: 7.5rem; }
+.altimeter-stage { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; opacity: .7; }
+.altimeter-alt { font-size: 1.35rem; font-weight: 800; font-variant-numeric: tabular-nums; line-height: 1.1; }
+.altimeter-alt small { font-size: .65rem; opacity: .6; }
+.altimeter-speed { font-size: .75rem; font-variant-numeric: tabular-nums; opacity: .75; }
+.altimeter-cta { pointer-events: auto; margin-top: .35rem; font-size: .75rem; font-weight: 700; padding: .3rem .6rem; border-radius: 9999px;
+  background: var(--accent-orange); color: var(--primary-foreground); text-align: center; }
+.altimeter-hud.is-landed .altimeter-readout { box-shadow: 0 0 0 2px var(--accent-orange), 0 10px 30px -12px hsl(24 95% 53% / .6); }
+@media (max-width: 767px) {
+  .altimeter-hud { right: .5rem; top: auto; bottom: 5.5rem; transform: translateY(150%); }
+  .altimeter-hud.is-visible { transform: translateY(0); }
+  .altimeter-track { display: none; }
+  .altimeter-readout { padding: .4rem .7rem; min-width: 0; }
+  .altimeter-alt { font-size: 1rem; } .altimeter-speed { display: none; }
+}
+.scroll-reveal { opacity: 0; transform: translateY(28px) scale(.985); transition: opacity .8s ease, transform .9s cubic-bezier(.2,.8,.2,1); }
+.scroll-reveal.is-revealed { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .scroll-reveal { opacity: 1; transform: none; transition: none; } .altimeter-chute { transition: none; } }
